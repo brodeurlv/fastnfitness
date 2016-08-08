@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <android.support.v7.preference.PreferenceCategory android:title="@string/pref_ui_setting" >
+        <android.support.v7.preference.CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefShowMP3"
+            android:summary="@string/pref_show_mp3_player_summary"
+            android:title="@string/pref_show_mp3_player" >
+        </android.support.v7.preference.CheckBoxPreference>
+
+  		<!--<android.support.v7.preference.ListPreference
+  		    		android:title="Default weight unit"
+                      android:summary="Select kg or lbs"
+                      android:key="defaultUnit"
+                      android:defaultValue="1"
+                      android:entries="@array/fonte_units"
+                      android:entryValues="@array/fonte_unitsValues" />-->
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

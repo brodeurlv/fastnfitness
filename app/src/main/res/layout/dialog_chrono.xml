@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#3E80B4"
+    android:orientation="vertical" >
+
+     <gr.antoniom.chronometer.Chronometer
+         android:id="@+id/chronoValue"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:text="00:00"
+         android:keepScreenOn="true"
+         android:textSize="@dimen/abc_text_size_display_3_material" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#3E80B4"
+        android:orientation="horizontal" >
+
+
+
+        <Button
+            android:id="@+id/btn_startstop"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Start"
+            android:textColor="#5DBCD2"
+            android:textStyle="bold" />
+        
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Reset"
+            android:textColor="#5DBCD2"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Exit"
+            android:textColor="#5DBCD2"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

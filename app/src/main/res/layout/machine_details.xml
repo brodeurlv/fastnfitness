@@ -1,0 +1,109 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="@color/background">    
+
+<LinearLayout
+    android:id="@+id/tab_machine_details"
+    android:name="tab_machine_details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp" 
+    android:focusable="true" 
+    android:focusableInTouchMode="true">
+    
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/actionToolbarMachine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar_background"
+            android:minHeight="?attr/actionBarSize" />    
+
+	<LinearLayout
+    android:id="@+id/topMachineDetails"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="0dip" >
+    
+    <ImageView
+        android:id="@+id/machine_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="@color/background_even"
+        android:contentDescription=""
+        android:cropToPadding="false"
+        android:maxHeight="200dp"
+        android:minHeight="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_machine" />
+    
+    </LinearLayout>
+    
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="6dip" 
+	    android:orientation="vertical">    
+
+     <TextView
+        android:id="@+id/machine_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Name"
+        android:textSize="12sp" />
+     
+    <EditText
+        android:id="@+id/machine_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:inputType="text"
+        android:maxLines="1"
+        android:text="Machine Name"
+        android:textSize="14sp" />
+    
+     <TextView
+        android:id="@+id/machine_description_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Description"
+        android:textSize="12sp" />
+    
+    
+    <EditText
+        android:id="@+id/machine_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="14sp" />
+    
+     <TextView
+        android:id="@+id/machine_muscles_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Muscles"
+        android:textSize="12sp" />    
+    
+    <EditText
+        android:id="@+id/machine_muscles"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:text=""
+        android:textSize="14sp" />
+
+</LinearLayout> 
+
+</LinearLayout>
+</ScrollView>

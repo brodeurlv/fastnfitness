@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_version">0.11</string>
+    <string name="database_version_label">Database version : </string>
+    <string name="author_label">Author : </string>
+    <string name="author">Charles Combes</string>    
+    <string name="revision_history_label">Revision History : </string>
+    <string name="revision_history">\n
+        							V0.11 : 07/11/2015 \n
+									\t - Enhancement : Get machine image from gallery \n
+									\t - Enhancement : Possibility to hide the player bar \n
+									\t - Enhancement : Rename profile capability \n
+        							\t - Enhancement : Languages corrections \n
+        							\t - Enhancement : Database optimization \n
+        							V0.10 : 26/09/2015 \n
+        							\t - Enhancement : Changed name \n 
+        							\t - Enhancement : Associate a photo to a machine \n 
+        							\t - Enhancement : Add table for profile weight \n
+        							\t - Enhancement : Zoom button for graph \n
+        							\t - Enhancement : MP3 player lisibility and more extension supported \n
+        							\t - Bug : Impossible to rename machine \n        							
+        							V0.9 : 03/08/2015 \n
+        							\t - Bug : Crash on 0.8 upgrade \n
+        							\t - Bug : Cardio date picker does not work \n
+        							\t - Enhancement : Mp3 player listview more readable\n
+        							V0.8 : 01/08/2015 \n
+        							\t - Enhancement : Rework machine page\n
+        							\t - Enhancement : CVS profile weight export\n
+        							\t - Enhancement : Graphics automatic zoom\n
+        							\t - Enhancement : Music player icon modification\n
+        							\t - Enhancement : Application icon modificaiton\n
+        							\t - Bug : empty profile not allowed \n
+        							\t - Bug : crash on player stop \n
+        							V0.7 : 07/06/2015 \n
+        							\t - Enhancement : Add functions to weight lifting graph \n
+        							\t - Enhancement : Pause music when headphone unplugged \n
+        							\t - Enhancement : New icons for navigation drawer \n
+        							\t - Bug : Crash at the end of the playlist \n
+        							V0.6 : 15/03/2015 \n
+        							\t - Enhancement : Add music player \n
+        							\t - Enhancement : Add chronometer \n
+        							\t - Enhancement : Capability to rename a machine \n
+        							\t - Enhancement : Add unit selection \n
+        							\t - Enhancement : Some UI enhancement \n	
+        							\t - Enhancement : Add date selection in profile view \n
+        			 				\t - Bug : Wrong values in Graph view \n	
+        							\t - Bug : View overlap on restore \n			
+        							V0.5 : 28/12/2014 \n
+        							\t - Enhancement : Application Navigation modified \n
+        							\t - Enhancement : Import/Export CSV (Beta) \n
+        							\t - Enhancement : Keep selected machine in History and Graph \n
+        							\t - Performance : Limit to 10 records in Records panel \n
+        							V0.4 : 10/12/2014 \n
+        							\t - Enhancement : Removed API7 support \n
+        							\t - Enhancement : Filter Machine by profile \n
+        							\t - Bug : Fix crash when entering empty weight \n
+        							\t - Bug : Fix Dates on profile weight graph \n
+        							V0.3 : 26/11/2014 \n
+        							\t - Enhancement : Update of Cardio Fragment \n        							
+        							\t - Bug : Fix crash when restoring app \n
+        							V0.2 : 22/11/2014 \n
+        							\t - Enhancement : Add profile management \n
+        							\t - Bug : Fix few bugs \n
+        							V0.1 : 20/10/2014 \n
+        							\t - Beta version \n
+	</string>    
+	<string name="thanks_label">Thanks : </string>
+    <string name="thanks_content"> \t MPAndroidChart for the graph library\n
+        						   \t CVSManager for Import/Export function \n
+        						   \t StackOverflow for its global support \n
+  </string>    
+</resources>

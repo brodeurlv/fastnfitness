@@ -1,0 +1,44 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+        <item android:id="@+id/action_chrono"
+          android:icon="@drawable/ic_chrono"
+          android:title="Launch chrono"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/action_profil"
+          android:icon="@drawable/ic_profile_black"
+          android:title="Profil"
+          app:showAsAction="always">
+        
+        <menu>
+            <item android:id="@+id/create_newprofil"
+                  android:title="@string/profil_create_new" />
+            <item android:id="@+id/change_profil"
+                  android:title="@string/profil_change" />
+        	<item android:id="@+id/rename_profil" 
+                  android:title="@string/renameProfilTitle" />
+            <item android:id="@+id/delete_profil"
+                  android:title="@string/profil_delete" />
+        </menu>       
+    </item>
+    
+
+    
+    <item android:id="@+id/action_deleteDB"
+          android:title="Reset application"
+          app:showAsAction="never|withText"/>
+    
+    <item android:id="@+id/export_database"
+          android:title="@string/export_database"
+          app:showAsAction="never|withText"/>    
+    <item android:id="@+id/import_database"
+          android:title="@string/import_database"
+          app:showAsAction="never|withText"/>            
+    
+    <item android:id="@+id/action_apropos"
+          android:title="About"
+          app:showAsAction="never|withText"/>
+
+</menu>

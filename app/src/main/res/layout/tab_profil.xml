@@ -1,0 +1,131 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout 
+    android:id="@+id/tab_profil"
+    android:name="tab_profil"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp">
+    
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" >
+        
+        <ImageView
+            android:id="@+id/imageProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="false"
+            android:src="@drawable/ic_profile_black" />
+        
+        <TextView
+            android:id="@+id/textProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_toRightOf="@id/imageProfil"
+            android:text="Default user"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/textResume"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@id/imageProfil"
+            android:layout_centerVertical="false"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Last session : "
+            android:visibility="gone" />
+
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="40"
+            android:text="@string/DateLabel" />
+
+        <EditText
+            android:id="@+id/profilEditDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="10"
+            android:inputType="none"
+            android:nextFocusDown="@+id/editWeight" >
+        </EditText>
+    </LinearLayout>
+
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="40"
+            android:text="@string/weightLabel" />
+        
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_weight="10" >
+
+	        <EditText
+	            android:id="@+id/editWeight"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="10"
+	            android:inputType="numberDecimal">"
+	         </EditText>
+	
+	        <Button
+	            android:id="@+id/buttonAddWeight"
+	            style="?android:attr/buttonStyleSmall"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="40"
+	            android:text="+"
+	            android:background="@android:color/white"
+	            android:textSize="@dimen/abc_text_size_body_1_material" />
+
+ 		</LinearLayout>
+    </LinearLayout>
+    
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/weightChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dip"
+        android:layout_marginRight="5dp"  />
+    
+     <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/weightTableLabel" />
+    
+    <com.easyfitness.utils.ExpandedListView
+        android:id="@+id/listWeightProfil"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content">
+    </com.easyfitness.utils.ExpandedListView>
+    
+</LinearLayout>
+</ScrollView>

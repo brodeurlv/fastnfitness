@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_history"
+    android:name="tab_history"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp" >
+    
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:stretchColumns="1" >
+
+    <TableRow
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical" >
+
+		<TextView
+		    android:id="@+id/textviewfilterDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/DateLabel" />
+
+        <Spinner
+            android:id="@+id/filterDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="0dp" />
+
+    </TableRow>
+
+    <TableRow
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/textviewfilterMachine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/MachineLabel" />
+        
+       <Spinner
+           android:id="@+id/filterMachine"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content" />
+
+    </TableRow>
+	</TableLayout>
+
+    <ListView
+        android:id="@+id/listFilterRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

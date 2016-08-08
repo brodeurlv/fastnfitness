@@ -1,0 +1,185 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.easyfitness"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/actionToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar_background"
+            android:minHeight="?attr/actionBarSize" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/musicToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/toolbar_background"
+            app:contentInsetStart="0dp"
+            app:titleMargins="0dp" 
+            android:minHeight="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+                <RelativeLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:orientation="horizontal" >
+                
+	                <ProgressBar
+	                    android:id="@+id/playerProgressBar"
+	                    style="?android:attr/progressBarStyleHorizontal"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="2dp"
+	                    android:background="@color/background_even" />   
+	                
+	                <TextView
+	                    android:id="@+id/playerSongTitle"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_gravity="start"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_toLeftOf="@+id/playerSongProgress"
+	                    android:text="" />
+	                
+	                 <TextView
+	                    android:id="@+id/playerSongProgress"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_below="@id/playerProgressBar"
+	                    android:text="" />
+                 </RelativeLayout>
+                
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/playerPrevious"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_skip_previous_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/playerStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_stop_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/playerPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_play_arrow_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/playerNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_skip_next_black_36dp" />
+                
+                <ImageButton
+                    android:id="@+id/playerLoop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false" 
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_replay_blue_36dp" />
+
+                <ImageButton
+                    android:id="@+id/playerList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_library_music_black_36dp" />  
+                    
+            </LinearLayout>
+                        </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/musicToolbar"
+            android:layout_below="@id/actionToolbar"
+            android:orientation="vertical"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                android:orientation="vertical">
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

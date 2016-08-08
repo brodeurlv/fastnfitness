@@ -1,0 +1,39 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+       <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style> 
+    
+    <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+    <item name="android:minWidth">0dp</item>
+    <item name="android:padding">0dp</item>
+    <item name="android:scaleType">centerInside</item>
+	</style>
+	
+	<style name="myToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+	    <item name="android:paddingRight">10dp</item>
+	</style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <!--<item name="toolbarStyle">@style/myToolbarStyle</item>-->
+	    <!--<item name="toolbarNavigationButtonStyle">@style/myToolbarNavigationButtonStyle</item>-->
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+       <!-- <item name="android:numberPickerStyle">@style/Theme</item> -->
+    </style>  
+    
+
+
+
+</resources>
