@@ -18,13 +18,28 @@ public class ExpandedListView extends ListView
     @Override
     protected void onDraw(Canvas canvas)
     {
-        if (getCount() != oldCount)
+        if (getCount() != oldCount && getCount()!=0)
         {
-            int height = getChildAt(0).getHeight() + 1 ;
+            /*int height = getChildAt(0).getHeight() + 1 ;
             oldCount = getCount();
             params = getLayoutParams();
             params.height = getCount() * height;
-            setLayoutParams(params);
+            setLayoutParams(params);*/
+            if (getCount() != oldCount) {
+                params = getLayoutParams();
+                oldCount = getCount();
+                int totalHeight = 0;
+                for (int i = 0; i < getCount(); i++) {
+                    this.measure(0, 0);
+                    totalHeight += getMeasuredHeight();
+                }
+
+                params = getLayoutParams();
+                params.height = totalHeight + (getDividerHeight() * (getCount() - 1));
+                setLayoutParams(params);
+            }
+
+            super.onDraw(canvas);
         }
 
         super.onDraw(canvas);
