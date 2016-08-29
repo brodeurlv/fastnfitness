@@ -16,7 +16,8 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    android:scrollbars="vertical" >
+    android:scrollbars="vertical"
+    android:background="#EEEEEE">
 
     <android.support.v7.widget.CardView
         style="@style/CardViewStyle"
