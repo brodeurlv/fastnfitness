@@ -50,7 +50,7 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 			e.printStackTrace();
 		}
 
-	      TextView t2 = (TextView) view.findViewById(R.id.MACHINE_CELL);
+	      TextView t2 = (TextView) view.findViewById(R.id.WEIGHT_CELL);
 	      //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
 	      t2.setText(cursor.getString(2));
 	 
@@ -58,7 +58,7 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 	 
 	 @Override
 	 public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		 return mInflater.inflate(R.layout.row_fonte, parent, false);
+		 return mInflater.inflate(R.layout.row_profilweight, parent, false);
 	 }	 
 	 
 	 /*

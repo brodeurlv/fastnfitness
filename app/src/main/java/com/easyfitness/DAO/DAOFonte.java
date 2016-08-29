@@ -21,6 +21,7 @@ public class DAOFonte extends DAOBase {
 
 	public static final String KEY = "_id";
 	public static final String DATE = "date";
+	public static final String TIME = "time";
 	public static final String MACHINE = "machine";
 	public static final String SERIE = "serie";
 	public static final String REPETITION = "repetition";
@@ -34,9 +35,9 @@ public class DAOFonte extends DAOBase {
 			+ " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
 			+ " DATE, " + MACHINE + " TEXT, " + SERIE + " INTEGER, "
 			+ REPETITION + " INTEGER, " + POIDS + " INTEGER, " + PROFIL_KEY
-			+ " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY + " INTEGER);";
+			+ " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY + " INTEGER," + TIME + " TEXT);";
 	
-	private static final String TABLE_ARCHI = KEY +","+ DATE+","+MACHINE+","+SERIE+","+REPETITION+","+POIDS+","+UNIT+","+PROFIL_KEY+","+NOTES+","+MACHINE_KEY;
+	private static final String TABLE_ARCHI = KEY +","+ DATE+","+MACHINE+","+SERIE+","+REPETITION+","+POIDS+","+UNIT+","+PROFIL_KEY+","+NOTES+","+MACHINE_KEY+","+TIME;
 
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
@@ -60,10 +61,11 @@ public class DAOFonte extends DAOBase {
 	}
 
 	/**
-	 * @param m
-	 *            le Record a ajouter a la base
+	 * @param pDate Date
+	 * @param pMachine Machine name
+	 * Le Record a ajouter a la base
 	 */
-	public long addRecord(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profil pProfil, int pUnit, String pNote) {
+	public long addRecord(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profil pProfil, int pUnit, String pNote, String pTime) {
 
 		ContentValues value = new ContentValues();
 		long new_id = -1;
@@ -88,6 +90,7 @@ public class DAOFonte extends DAOBase {
 		value.put(DAOFonte.UNIT, pUnit);
 		value.put(DAOFonte.NOTES, pNote);
 		value.put(DAOFonte.MACHINE_KEY, machine_key);
+		value.put(DAOFonte.TIME, pTime);
 		
 		SQLiteDatabase db = open();
 		new_id = db.insert(DAOFonte.TABLE_NAME, null, value);		
@@ -102,7 +105,7 @@ public class DAOFonte extends DAOBase {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
 		mCursor = db.query(TABLE_NAME, new String[] { KEY, DATE, MACHINE,
-				SERIE, REPETITION, POIDS, UNIT, PROFIL_KEY, NOTES, MACHINE_KEY }, KEY + "=?",
+				SERIE, REPETITION, POIDS, UNIT, PROFIL_KEY, NOTES, MACHINE_KEY, TIME }, KEY + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (mCursor != null && mCursor.getCount() > 0)
 			mCursor.moveToFirst();
@@ -129,7 +132,8 @@ public class DAOFonte extends DAOBase {
 				lProfil,
 				mCursor.getInt(6),
 				mCursor.getString(8), 
-				mCursor.getLong(9));
+				mCursor.getLong(9),
+				mCursor.getString(10));
 
 		value.setId(mCursor.getLong(0));
 		// return value
@@ -182,7 +186,8 @@ public class DAOFonte extends DAOBase {
 						lProfil,
 						mCursor.getInt(6),
 						mCursor.getString(8),
-						machine_key);
+						machine_key,
+						mCursor.getString(10));
 				
 				value.setId(mCursor.getLong(0));
 
@@ -606,7 +611,7 @@ public class DAOFonte extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Biceps";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfil, 0, "");
+			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfil, 0, "", "12:34:56");
 		}
 
 		date = new Date();
@@ -615,7 +620,7 @@ public class DAOFonte extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Dev Couche";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfil, 0, "");
+			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfil, 0, "", "12:34:56");
 		}
 	}
 

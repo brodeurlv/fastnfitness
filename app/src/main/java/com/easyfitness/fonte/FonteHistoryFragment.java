@@ -35,7 +35,7 @@ public class FonteHistoryFragment extends Fragment {
 	Button paramButton = null;
 	ListView filterList = null;
 	
-	AppCompatActivity mActivity = null;
+	MainActivity mActivity = null;
 
 
     /**
@@ -87,7 +87,7 @@ public class FonteHistoryFragment extends Fragment {
 	public void onAttach(Activity activity)
 	{
 		super.onAttach(activity);
-		this.mActivity = (AppCompatActivity) activity;
+		this.mActivity = (MainActivity) activity;
 	}
 
 	private static String[] prepend(String[] a, String el) {
@@ -141,8 +141,8 @@ public class FonteHistoryFragment extends Fragment {
 
 	private DAOFonte mDb = null;
 
-	public DAOFonte getDB() {
-		return mDb;
+	public MainActivity getMainActivity() {
+		return this.mActivity;
 	}
 
 	/*  */
@@ -186,12 +186,15 @@ public class FonteHistoryFragment extends Fragment {
 		
 					// Initialisation de la date
 					String[] lDateArray = mDb.getAllDatesAsString(getProfil());
-					lDateArray = prepend(lDateArray, getView().getResources().getText(R.string.all).toString());
+					lDateArray = prepend(lDateArray, getView().getResources().getText(R.string.all).toString()); // Rajoute "ALL" dans la liste
 					ArrayAdapter<String> adapterDate = new ArrayAdapter<String>(
 							getView().getContext(), android.R.layout.simple_spinner_item,
 							lDateArray);
 					adapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					dateList.setAdapter(adapterDate);
+					if (lDateArray.length > 1){
+						dateList.setSelection(1);
+					}
 					mDb.closeCursor();				
 
 					if ( adapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
@@ -205,10 +208,14 @@ public class FonteHistoryFragment extends Fragment {
 	}
 
 	private Profil getProfil()	{
-		return ((MainActivity)mActivity).getCurrentProfil();
+		return mActivity.getCurrentProfil();
 	}
 	
 	private String getFontesMachine()	{
+
+		return getMainActivity().getCurrentMachine();
+
+		/*
 		String temp = null;
 		try {
 			FontesPagerFragment temp2 = (FontesPagerFragment)(mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.FONTESPAGER));
@@ -217,7 +224,7 @@ public class FonteHistoryFragment extends Fragment {
 		}catch (NullPointerException e) {
 			temp = "";
 		}
-		return temp;
+		return temp;*/
 	}
 	
 	@Override

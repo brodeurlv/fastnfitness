@@ -18,6 +18,14 @@
     android:paddingTop="0dp"
     android:scrollbars="vertical" >
 
+    <android.support.v7.widget.CardView
+        style="@style/CardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -28,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="40"
+            android:layout_marginLeft="8dp"
             android:text="@string/DateLabel" />
 
         <EditText
@@ -41,6 +50,7 @@
         </EditText>
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -51,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="40"
+            android:layout_marginLeft="8dp"
             android:text="@string/MachineLabel" />
 
         <LinearLayout
@@ -81,6 +92,8 @@
                 android:src="@drawable/list" />
         </LinearLayout>
     </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -88,10 +101,15 @@
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="40">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
             android:background="@drawable/border"
             android:orientation="vertical" >
 
@@ -109,17 +127,22 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:minEms="3"
-                android:nextFocusDown="@+id/editRepetition" >
+                android:nextFocusDown="@+id/editRepetition"
+                android:text="2">
             </EditText>
         </LinearLayout>
-
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="40">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
             android:background="@drawable/border"
             android:orientation="vertical" >
-
+            <!--android:layout_weight="40"-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -134,10 +157,17 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:minEms="3"
-                android:nextFocusDown="@+id/editPoids" >
+                android:nextFocusDown="@+id/editPoids"
+                android:text="10">
             </EditText>
-        </LinearLayout>
 
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="40">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -145,35 +175,42 @@
             android:background="@drawable/border"
             android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/PoidsLabel" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <EditText
-                    android:id="@+id/editPoids"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:inputType="number"
-                    android:minEms="3" >
-                </EditText>
+                    android:text="@string/PoidsLabel" />
 
-                <Spinner
-                    android:id="@+id/spinnerUnit"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-             		android:entries="@array/fonte_units"
-                    android:gravity="center" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/editPoids"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:inputType="number"
+
+                        android:minEms="3"
+                        android:text="10">
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spinnerUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/fonte_units"
+
+                        android:minEms="3"
+                        android:gravity="center" />
+                </LinearLayout>
+
+    </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
     
     <LinearLayout
@@ -189,7 +226,8 @@
     android:layout_gravity="top"
     android:orientation="horizontal" >
 
-        <TextView
+
+        <TextView
             android:id="@+id/textFonteNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -243,7 +281,6 @@
             android:text="@string/AddLabel" />
         
         <TextView
-            android:id="@+id/textFonteNote"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

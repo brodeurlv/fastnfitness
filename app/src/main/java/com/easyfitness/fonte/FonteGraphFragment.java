@@ -120,6 +120,10 @@ public class FonteGraphFragment extends Fragment {
         // Save Shared Preferences
     }
 
+    public MainActivity getMainActivity() {
+        return this.mActivity;
+    }
+
 	private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
 		@Override
@@ -199,12 +203,7 @@ public class FonteGraphFragment extends Fragment {
 
 		// Draw second graph
 		for (long i = minDate; i<=maxDate;i=i+86400000) {
-			/*Date d = new Date(i*86400000);
-			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");     
-			dt1.setTimeZone(TimeZone.getTimeZone("GMT"));
-			xVals.add(dt1.format(d));*/
 			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
-			//dt1.setTimeZone(TimeZone.getTimeZone("GMT")); // On se recalle sur le GMT car le GetTime est en GMT.
 			xVals.add(dt1.format(i));
 		}
 
@@ -212,8 +211,6 @@ public class FonteGraphFragment extends Fragment {
 			Entry value = new Entry((float)valueList.get(i).getY(), (int)((valueList.get(i).getX()-minDate)/86400000));
 			yVals.add(value);		
 		}
-		
-		//mGraph.
 		
 		mGraph.draw(xVals, yVals);
 	}
@@ -265,10 +262,16 @@ public class FonteGraphFragment extends Fragment {
   
 	private Profil getProfil()
 	{
-		return ((MainActivity)mActivity).getCurrentProfil();
+		return mActivity.getCurrentProfil();
 	}  
 
+	// TODO: 13/08/2016 : ne fonctionne pas correctement surtout la restauration apres longtemps.
+    // ISSUE#1
 	private String getFontesMachine()	{
+
+        return getMainActivity().getCurrentMachine(); // ISSUE#1
+
+        /*
 		String temp = null;
 		try {
 			FontesPagerFragment temp2 = (FontesPagerFragment)(mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.FONTESPAGER));
@@ -277,21 +280,9 @@ public class FonteGraphFragment extends Fragment {
 		}catch (NullPointerException e) {
 			temp = "";
 		}
-		return temp;
+		return temp;*/
 	}
-	
-	private boolean isUserVisible()	{
-		boolean temp = false;
-		try {
-			FontesPagerFragment temp2 = (FontesPagerFragment)(mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.FONTESPAGER));
-			if (temp2.getViewPagerAdapter().getItem(temp2.getViewPager().getCurrentItem()) == this)
-				temp = true;		
-		}catch (NullPointerException e) {
-			temp = false;
-		}
-		return temp;
-	}
-  
+
   @Override
   public void onHiddenChanged (boolean hidden) {
 	  //machineList

@@ -16,6 +16,10 @@
         "source": "C:\\Dev\\fastnfitness\\app\\build\\intermediates\\exploded-aar\\com.android.support\\preference-v14\\23.1.0\\res\\layout\\preference_widget_switch.xml"
     },
     {
+        "merged": "C:\\Dev\\fastnfitness\\app\\build\\intermediates\\res\\merged\\debug\\layout\\row_profilweight.xml",
+        "source": "C:\\Dev\\fastnfitness\\app\\src\\main\\res\\layout\\row_profilweight.xml"
+    },
+    {
         "merged": "C:\\Dev\\fastnfitness\\app\\build\\intermediates\\res\\merged\\debug\\layout\\preference_dialog_edittext.xml",
         "source": "C:\\Dev\\fastnfitness\\app\\build\\intermediates\\exploded-aar\\com.android.support\\preference-v7\\23.1.0\\res\\layout\\preference_dialog_edittext.xml"
     },

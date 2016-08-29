@@ -12,8 +12,16 @@ android {
 
     signingConfigs {
         release {
+            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
+            storePassword "5d1f5s2f"
+            keyAlias "brodeur"
+            keyPassword "5d1f5s2f"
         }
         debug {
+            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
+            storePassword "5d1f5s2f"
+            keyAlias "brodeur"
+            keyPassword "5d1f5s2f"
         }
     }
 
@@ -25,6 +33,7 @@ android {
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -37,4 +46,5 @@ dependencies {
     compile files('libs/GraphView-3.1.3.jar')
     compile files('libs/javacsv-2.0.jar')
     compile files('libs/mpandroidchartlibrary.jar')
+    compile 'com.android.support:cardview-v7:24.1.1'
 }

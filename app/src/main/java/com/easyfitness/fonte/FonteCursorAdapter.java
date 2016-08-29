@@ -52,6 +52,9 @@ public class FonteCursorAdapter extends CursorAdapter {
 			e.printStackTrace();
 		}
 
+		 TextView t10 = (TextView) view.findViewById(R.id.TIME_CELL);
+		 t10.setText(cursor.getString(10));
+
 
       TextView t2 = (TextView) view.findViewById(R.id.MACHINE_CELL);
       //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));

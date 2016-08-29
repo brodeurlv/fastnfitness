@@ -221,7 +221,7 @@ public class CVSManager {
 			
 			while (csvRecords.readRecord())
 			{
-				if (csvRecords.get(this.TABLE_HEAD).equals(DAOFonte.TABLE_NAME)) {
+				if (csvRecords.get(TABLE_HEAD).equals(DAOFonte.TABLE_NAME)) {
 					DAOFonte dbcFonte = new DAOFonte(mContext);
 					dbcFonte.open();
 					Date date;
@@ -236,13 +236,14 @@ public class CVSManager {
 						int unit = 0;
 						if (!csvRecords.get(DAOFonte.UNIT).isEmpty()) { unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT)); }
 						String notes = csvRecords.get(DAOFonte.NOTES);
-						dbcFonte.addRecord(date, machine, serie, repetition, poids, pProfil, unit, notes);
+						String time = csvRecords.get(DAOFonte.TIME);
+						dbcFonte.addRecord(date, machine, serie, repetition, poids, pProfil, unit, notes, time);
 						dbcFonte.close();
 					} catch (ParseException e) {
 						e.printStackTrace();
 						ret = false;
 					}
-				} else if (csvRecords.get(this.TABLE_HEAD).equals(DAOCardio.TABLE_NAME)) {
+				} else if (csvRecords.get(TABLE_HEAD).equals(DAOCardio.TABLE_NAME)) {
 					DAOCardio dbcCardio = new DAOCardio(mContext);
 					dbcCardio.open();
 					Date date;
@@ -260,7 +261,7 @@ public class CVSManager {
 						e.printStackTrace();
 						ret = false;
 					}
-				} else if (csvRecords.get(this.TABLE_HEAD).equals(DAOWeight.TABLE_NAME)) {
+				} else if (csvRecords.get(TABLE_HEAD).equals(DAOWeight.TABLE_NAME)) {
 					DAOWeight dbcWeight = new DAOWeight(mContext);
 					dbcWeight.open(); 
 					Date date;
@@ -274,7 +275,7 @@ public class CVSManager {
 						e.printStackTrace();
 						ret = false;
 					}
-				} else if (csvRecords.get(this.TABLE_HEAD).equals(DAOProfil.TABLE_NAME)) {
+				} else if (csvRecords.get(TABLE_HEAD).equals(DAOProfil.TABLE_NAME)) {
 					// TODO : Export des profils
 				}
 

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">0.11</string>
+    <string name="app_version">0.12 Beta</string>
     <string name="database_version_label">Database version : </string>
     <string name="author_label">Author : </string>
     <string name="author">Charles Combes</string>    
     <string name="revision_history_label">Revision History : </string>
     <string name="revision_history">\n
+									V0.12 BETA : 14/08/2015 \n
+									\t - Enhancement : Added time to records \n
+									\t - Enhancement : Added \'all\' button to graph page \n
+									\t - Bug : Crash on Profiles and other fixes \n
         							V0.11 : 07/11/2015 \n
 									\t - Enhancement : Get machine image from gallery \n
 									\t - Enhancement : Possibility to hide the player bar \n
@@ -66,8 +70,8 @@
         							\t - Beta version \n
 	</string>    
 	<string name="thanks_label">Thanks : </string>
-    <string name="thanks_content"> \t MPAndroidChart for the graph library\n
-        						   \t CVSManager for Import/Export function \n
+    <string name="thanks_content"> \t MPAndroidChart for the graph library (Apache 2.0)\n
+        						   \t javaCVS CVSManager for Import/Export function (LGPL)\n
         						   \t StackOverflow for its global support \n
   </string>    
 </resources>

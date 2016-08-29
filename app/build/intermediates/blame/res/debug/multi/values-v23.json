@@ -195,6 +195,27 @@
                         "endOffset": 2514
                     }
                 }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 2519,
+                    "endLine": 38,
+                    "endColumn": 12,
+                    "endOffset": 2664
+                },
+                "from": {
+                    "file": "C:\\Dev\\fastnfitness\\app\\build\\intermediates\\exploded-aar\\com.android.support\\cardview-v7\\24.1.1\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 200
+                    }
+                }
             }
         ]
     }

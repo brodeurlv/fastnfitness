@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-	public static final int DATABASE_VERSION = 7;
+	public static final int DATABASE_VERSION = 8;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -71,6 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     case 7: // Easyfitness 0.10
                     		db.execSQL("ALTER TABLE "+ DAOMachine.TABLE_NAME + " ADD COLUMN " + DAOMachine.PICTURE + " TEXT");
                     	break;
+					case 8: // Easyfitness 0.12
+						db.execSQL("ALTER TABLE "+ DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.TIME + " TEXT");
+						break;
                 }
                 upgradeTo++;
             }
@@ -132,8 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	   
 	    return isExist;
 	}
-	
-	
+
 	public static void renameOldDatabase(Activity activity)
 	{
 	    File oldDatabaseFile = activity.getDatabasePath(OLD09_DATABASE_NAME);
@@ -141,6 +143,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		    File newDatabaseFile = new File(oldDatabaseFile.getParentFile(), DATABASE_NAME);	
 		    oldDatabaseFile.renameTo(newDatabaseFile);
 	    }
-	    
 	}
 }

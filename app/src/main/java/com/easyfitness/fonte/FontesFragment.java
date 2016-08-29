@@ -190,7 +190,8 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 					tmpPoids, 
 					getProfil(),
 					0, // Store always in Kg
-					notesEdit.getText().toString()
+					notesEdit.getText().toString(),
+					DateConverter.currentTime()
 					);
 			
 			getActivity().findViewById(R.id.drawer_layout).requestFocus();
@@ -233,14 +234,19 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 				public void onClick(DialogInterface dialog, int which) {
 					machineEdit.setText(machineListArray[which]); // Met a jour le text
 					FillRecordTable(machineListArray[which]); // Met a jour le tableau
-					getActivity().findViewById(R.id.drawer_layout).requestFocus();
+					getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
+
 					//((ViewGroup)machineEdit.getParent()).requestFocus(); //Permet de reactiver le clavier lors du focus sur l'editText
 				}
 			});
 			//builder.create();
 			builder.show();
 		}
-	};  
+	};
+
+	public MainActivity getMainActivity() {
+		return this.mActivity;
+	}
 
 	private OnClickListener clickDateEdit = new View.OnClickListener() {
 		@Override
@@ -363,7 +369,8 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 			return true;*/
 		}
 	};
-	
+
+	// Share your performances with friends
 	public boolean shareRecord(String text) {
 		AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
 
@@ -432,6 +439,9 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 
 		List<Fonte> records = null;
 		Cursor newCursor = null, oldCursor = null;
+
+		// Informe l'activité de la machine courante
+		this.getMainActivity().setCurrentMachine(pMachines);
 
 		// Recupere les valeurs
 		if (pMachines==null || pMachines.isEmpty()) {
@@ -523,10 +533,6 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 		return ret;
 	}
 
-	public String getCurrentMachine() {
-		return machineEdit.getText().toString();
-	}
-	
 	@Override
 	public void onHiddenChanged (boolean hidden) {
 		if (!hidden) refreshData();

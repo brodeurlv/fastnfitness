@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
     List<DrawerItem> dataList;
     
-    private MusicController musicController =new MusicController(this);    
+    private MusicController musicController =new MusicController(this);
+
+	private String mCurrentMachine="";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {       
@@ -201,14 +203,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         
         musicController.initView();
-
-		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-		boolean bShowMP3 = SP.getBoolean("prefShowMP3", true);
-
-		this.showMP3Toolbar(bShowMP3);
-
-	} 
+	}
 	
 	@Override
 	protected void onStart() {
@@ -239,8 +234,19 @@ public class MainActivity extends AppCompatActivity {
     			lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
     		}
     	}
+
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		boolean bShowMP3 = SP.getBoolean("prefShowMP3", true);
+		this.showMP3Toolbar(bShowMP3);
 	}
-	
+
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Always call the superclass so it can restore the view hierarchy
+		super.onRestoreInstanceState(savedInstanceState);
+
+		// Restore state members from saved instance
+		// Example mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -260,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
    
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		/*case R.id.action_settings:
+		/*case R.id.action_settings: // Menu setting supprimé du menu. Raison inconnue
 			// Display the fragment as the main content.
 			FragmentManager fragmentManager=getSupportFragmentManager();
 			FragmentTransaction ft=fragmentManager.beginTransaction();
@@ -613,11 +619,6 @@ public class MainActivity extends AppCompatActivity {
 	    mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-/*
-	@Override 
-	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-		showFragment(tab.getText().toString(), ft);
-	} */
 	
 	private void showFragment(String pFragmentName, FragmentTransaction ft) {
 		
@@ -692,33 +693,6 @@ public class MainActivity extends AppCompatActivity {
 		
 	}
 
-	private void showFragment2(String pFragmentName, FragmentTransaction ft) {
-		
-		// Then show the fragments
-		if(pFragmentName.equals(FONTESPAGER)){
-			ft.replace(R.id.fragment_container,getFontesPagerFragment());
-			currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(CARDIO)){
-			ft.replace(R.id.fragment_container,getCardioFragment());
-			currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(PROFIL)){
-			ft.replace(R.id.fragment_container,getProfilFragment());
-			currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(SETTINGS)){
-			//ft.show(mpSettingFrag);
-			//ft.add(R.id.fragment_container, mpSettingFrag, SETTINGS);
-			//currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(MACHINES)){
-			ft.replace(R.id.fragment_container,getMachineFragment());
-			currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(ABOUT)){ 
-			ft.replace(R.id.fragment_container,getAboutFragment());
-			currentFragmentName = pFragmentName;
-		}
-	}	
-	
-	
-	
 	@Override
 	protected void onStop(){
 		super.onStop();		
@@ -752,8 +726,16 @@ public class MainActivity extends AppCompatActivity {
 		setDrawerTitle(mCurrentProfil.getName());
 		
 		savePreferences();
-	}   
-	
+	}
+
+	public String getCurrentMachine() {
+		return mCurrentMachine;
+	}
+
+	public void setCurrentMachine(String newMachine) {
+		mCurrentMachine=newMachine;
+	}
+
 	public MainActivity getActivity() {
 		return this;
 	}

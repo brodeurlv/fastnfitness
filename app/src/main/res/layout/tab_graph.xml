@@ -57,49 +57,53 @@
             android:id="@+id/allbutton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dip"
+            android:layout_marginRight="3dip"
+            android:layout_marginBottom="3dip"
             android:layout_weight="40"
             android:background="@android:color/white"
             android:text="@string/graph_all"
-            android:textSize="@dimen/abc_text_size_small_material" />
+            android:textSize="@dimen/abc_text_size_button_material"
+            android:layout_gravity="center_vertical" />
 
        <Button
            android:id="@+id/lastyearbutton"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="5dip"
-           android:layout_marginRight="5dip"
-           android:layout_marginBottom="5dp"
+           android:layout_marginLeft="3dip"
+           android:layout_marginRight="3dip"
+           android:layout_marginBottom="3dip"
            android:layout_weight="40"
            android:background="@android:color/white"
            android:text="@string/graph_lastyear"
-           android:textSize="@dimen/abc_text_size_small_material" />
+           android:textSize="@dimen/abc_text_size_button_material"
+           android:layout_gravity="center_vertical" />
 
        <Button
            android:id="@+id/lastmonthbutton"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="5dip"
-           android:layout_marginRight="5dip"
-           android:layout_marginBottom="5dp"
+           android:layout_marginLeft="3dip"
+           android:layout_marginRight="3dip"
+           android:layout_marginBottom="3dip"
            android:layout_weight="40"
            android:background="@android:color/white"
            android:text="@string/graph_lastmonth"
-           android:textSize="@dimen/abc_text_size_small_material" />
+           android:textSize="@dimen/abc_text_size_button_material"
+           android:layout_gravity="center_vertical" />
        
        <Button
            android:id="@+id/lastweekbutton"
            android:layout_width="0dp"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="5dip"
-           android:layout_marginRight="5dip"
-           android:layout_marginBottom="5dp"
+           android:layout_marginLeft="3dip"
+           android:layout_marginRight="3dip"
+           android:layout_marginBottom="3dip"
            android:layout_weight="40"
            android:background="@android:color/white"
            android:text="@string/graph_lastweek"
-           android:textSize="@dimen/abc_text_size_small_material" />
+           android:textSize="@dimen/abc_text_size_button_material"
+           android:layout_gravity="center_vertical" />
        
     </LinearLayout>
     
