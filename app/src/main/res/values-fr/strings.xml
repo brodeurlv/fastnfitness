@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="global_confirm">Confirm</string>
-    <string name="global_warning">Warning</string> 
-    <string name="global_error">Error</string>
-    <string name="global_cancel">Cancel</string>            
+    <string name="global_confirm">Confirmer</string>
+    <string name="global_warning">Attention</string>
+    <string name="global_error">Erreur</string>
+    <string name="global_cancel">Annuler</string>
     <string name="global_ok">Ok</string> 
-    <string name="global_yes">Yes</string> 
-    <string name="global_no">No</string> 
+    <string name="global_yes">Oui</string>
+    <string name="global_no">Non</string>
     
-    <string name="removedid">Removed id</string> 
-    <string name="failedtocreatefolder">Failed to create folder</string> 
+    <string name="removedid">id supprimé</string>
+    <string name="failedtocreatefolder">Echec de creation du repertoire</string>
     
     
     <string name="app_name">Fast n Fitness</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
     
 	<string name="FunctionLabel">Fonctions</string>
-    <string name="HistoryLabel">History</string>
-    <string name="RecordsLabel">Records</string>
-    <string name="GraphLabel">Graphs</string>
-    <string name="AddLabel">Add</string>
-    <string name="DeleteLabel">Delete</string>
-    <string name="ShareLabel">Share</string>
-    <string name="EditLabel">Edit</string>
+    <string name="HistoryLabel">Historic</string>
+    <string name="RecordsLabel">Enregistrement</string>
+    <string name="GraphLabel">Graphiques</string>
+    <string name="AddLabel">Ajouter</string>
+    <string name="DeleteLabel">Supprimer</string>
+    <string name="ShareLabel">Partager</string>
+    <string name="EditLabel">Editer</string>
     
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Series</string>
     <string name="RepetitionLabel">Repetitions</string> 
     <string name="MachineLabel">Machine</string>
-    <string name="PoidsLabel">Weight</string>
+    <string name="PoidsLabel">Poids</string>
     <string name="KgUnitLabel">Kg</string>
     <string name="LbsUnitLabel">Lbs</string>
     <string name="NotesLabel">Notes</string>
-    <string name="TopTenLabel">Last 10 records:</string>
+    <string name="TopTenLabel">10 derniers enregistrements:</string>
     
     <!-- Share text -->
-    <string name="ShareText">Share</string>
-    <string name="ShareTitle">Share your perf</string>
-    <string name="ShareInstruction">Edit your text before sending:</string>
-    <string name="ShareTextDefault">I have lifted __WEIGHT__ Kg on __MACHINE__ !</string> 
+    <string name="ShareText">Partager</string>
+    <string name="ShareTitle">Partager ta performance</string>
+    <string name="ShareInstruction">Edites ton texte avant de l\'envoyer:</string>
+    <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ Kg sur __MACHINE__ !</string>
     <string name="ShareParamName">__NAME__</string> 
     <string name="ShareParamWeight">__WEIGHT__</string>  
     <string name="ShareParamMachine">__MACHINE__</string> 
@@ -51,23 +51,23 @@
     <string name="DistanceLabel">Distance (Km)</string>
     <string name="KmUnitLabel">Km</string>
     <string name="MilesUnitLabel">Miles</string>
-    <string name="DurationLabel">Duration</string>   
-    <string name="ExerciceLabel">Exercise</string>
+    <string name="DurationLabel">Durée</string>
+    <string name="ExerciceLabel">Exercice</string>
     
     <!-- Profil Fragment -->
-    <string name="ProfilLabel">Profile</string>   
-    <string name="weightLabel">Weight</string>
-    <string name="weightTableLabel">Weight records : </string>
-    <string name="createProfilTitle">Create new profile</string>
-    <string name="createProfilQuestion">Choose your profile name ?</string>
-    <string name="userChanged">User Changed</string>
-    <string name="renameProfilTitle">Rename profile</string>
-    <string name="renameProfilQuestion">Choose your new profile name ?</string>
+    <string name="ProfilLabel">Profil</string>
+    <string name="weightLabel">Poids</string>
+    <string name="weightTableLabel">Enregistrements : </string>
+    <string name="createProfilTitle">Créer un nouveau profil</string>
+    <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
+    <string name="userChanged">Utilisateur changé</string>
+    <string name="renameProfilTitle">Renommer le profil</string>
+    <string name="renameProfilQuestion">Choisis un nouveau nomde profil ?</string>
     
      
 	<!-- Pour le menu settings -->
-	<string name="SettingLabel">Settings</string>
-    <string name="menu_settings">Settings</string>
+	<string name="SettingLabel">Paramètres</string>
+    <string name="menu_settings">Paramètres</string>
     <string name="export_database">Export Records</string>    
     <string name="export_question">Do you want to export database ?</string>
     <string name="export_success">Database exported</string>
