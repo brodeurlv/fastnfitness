@@ -174,11 +174,11 @@ public class FonteGraphFragment extends Fragment {
 		pMachine = machineList.getSelectedItem().toString();
 		pFunction = functionList.getSelectedItem().toString();
 		
-		if (pFunction==mActivity.getResources().getString(R.string.maxRep1)) {
+		if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
 			pDAOFunction = DAOFonte.MAX1_FCT;
-		} else if (pFunction==mActivity.getResources().getString(R.string.maxRep5)) {
+		} else if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep5))) {
 			pDAOFunction = DAOFonte.MAX5_FCT;
-		} else if (pFunction==mActivity.getResources().getString(R.string.sum)) {
+		} else if (pFunction.equals(mActivity.getResources().getString(R.string.sum))) {
 			pDAOFunction = DAOFonte.SUM_FCT;
 		}
 
