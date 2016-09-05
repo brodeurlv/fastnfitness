@@ -134,7 +134,7 @@ public class DAOWeight extends DAOBase {
 	    // Getting All Measures
 	    public List<Weight> getWeightList(Profil pProfil) {
 	        // Select All Query
-	        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfil.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") ASC";
+	        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfil.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 	 
 	        // return value list
 	        return getMeasuresList(selectQuery);
