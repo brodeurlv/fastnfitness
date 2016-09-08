@@ -2,15 +2,21 @@
 <resources>
 
     <string name="app_version">0.12 Beta</string>
-    <string name="database_version_label">Database version : </string>
-    <string name="author_label">Author : </string>
-    <string name="author">Charles Combes</string>    
-    <string name="revision_history_label">Revision History : </string>
-    <string name="revision_history">\n
+    <string name="database_version_label">Database version: </string>
+    <string name="author_label">Author: </string>
+    <string name="author">Charles Combes</string>
+	<string name="opensource_label">Open source URL: </string>
+	<string name="opensource_url">https://github.com/brodeurlv/fastnfitness</string>
+	<string name="revision_history_label">Revision History: </string>
+	<string name="revision_history">\n
 									V0.12 BETA : 14/08/2015 \n
+									\t - Enhancement : Open sourcized on GITHUB \n
 									\t - Enhancement : Added time to records \n
 									\t - Enhancement : Added \'all\' button to graph page \n
-									\t - Bug : Crash on Profiles and other fixes \n
+									\t - Enhancement : UI Enhancement \n
+									\t - Bug : Fixed graph that was blocked on SUM filter \n
+									\t - Bug : Fixed MP3 player reappeareance \n
+									\t - Bug : Crash on Profiles switch\n
         							V0.11 : 07/11/2015 \n
 									\t - Enhancement : Get machine image from gallery \n
 									\t - Enhancement : Possibility to hide the player bar \n
@@ -69,9 +75,8 @@
         							V0.1 : 20/10/2014 \n
         							\t - Beta version \n
 	</string>    
-	<string name="thanks_label">Thanks : </string>
-    <string name="thanks_content"> \t MPAndroidChart for the graph library (Apache 2.0)\n
-        						   \t javaCVS CVSManager for Import/Export function (LGPL)\n
-        						   \t StackOverflow for its global support \n
-  </string>    
+	<string name="thanks_label">Libraries : </string>
+    <string name="MPAndroidChart_content">MPAndroidChart (Apache 2.0)</string>
+	<string name="javaCSV_content">JavaCSV (LGPL)</string>
+	<string name="LicensesDialog_content">LicensesDialog (Apache 2.0)</string>
 </resources>

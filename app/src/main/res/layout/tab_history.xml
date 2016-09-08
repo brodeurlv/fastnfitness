@@ -7,13 +7,20 @@
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    android:paddingTop="0dp" >
-    
+    android:paddingTop="0dp"
+    android:background="#EEEEEE">
+
+    <android.support.v7.widget.CardView
+        style="@style/CardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
         android:stretchColumns="1" >
 
     <TableRow
@@ -50,6 +57,7 @@
 
     </TableRow>
 	</TableLayout>
+    </android.support.v7.widget.CardView>
 
     <ListView
         android:id="@+id/listFilterRecord"

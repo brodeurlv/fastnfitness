@@ -1,197 +1,215 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-<LinearLayout 
-    android:id="@+id/tab_cardio"
-    android:name="tab_cardio"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:background="#EEEEEE">
-    
-    <!-- 
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="under construction"
-            android:textColor="#ff0000" /> -->
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/tab_cardio"
+        android:name="tab_cardio"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:background="#EEEEEE"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp">
 
-        <TextView
-            android:layout_width="fill_parent"
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:text="@string/DateLabel" />
+
+                    <EditText
+                        android:id="@+id/editCardioDate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:inputType="none"
+                        android:nextFocusDown="@+id/editMachine"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="40"
+                        android:text="@string/ExerciceLabel" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:orientation="horizontal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editExercice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="45"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textAutoComplete"
+                            android:nextFocusForward="@+id/editSerie" />
+
+                        <ImageButton
+                            android:id="@+id/buttonListExercice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="7dp"
+                            android:layout_marginRight="7dp"
+                            android:layout_weight="5"
+                            android:adjustViewBounds="false"
+                            android:background="@android:color/transparent"
+                            android:baselineAlignBottom="false"
+                            android:cropToPadding="false"
+                            android:src="@drawable/list" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:text="@string/DateLabel" />
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editCardioDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:inputType="none"
-            android:nextFocusDown="@+id/editMachine" >
-        </EditText>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="40"
-            android:text="@string/ExerciceLabel" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.CardView
+                        style="@style/CardViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textDistance"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/DistanceLabel" />
+
+                    <EditText
+                        android:id="@+id/editDistance"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textDistance"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:nextFocusDown="@+id/editDuration"/>
+            </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30">
+
+                    <android.support.v7.widget.CardView
+                        style="@style/CardViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/textDuration"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/DurationLabel" />
+
+                    <EditText
+                        android:id="@+id/editDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textDuration"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:inputType="time">
+
+                    </EditText>
+                    </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="50"
+                android:visibility="gone">
+
+                <ImageButton
+                    android:id="@+id/buttonLaunchChrono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="false"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/chrono" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/editExercice"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/addExercice"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="45"
-                android:imeOptions="actionNext"
-                android:inputType="text|textAutoComplete"
-                android:nextFocusForward="@+id/editSerie" />
-
-            <ImageButton
-                android:id="@+id/buttonListExercice"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:layout_weight="5"
-                android:adjustViewBounds="false"
-                android:background="@android:color/transparent"
-                android:baselineAlignBottom="false"
-                android:cropToPadding="false"
-                android:src="@drawable/list" />
-
+                android:layout_margin="8dp"
+                android:layout_weight="40"
+                android:background="@android:color/white"
+                android:text="@string/AddLabel" />
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listCardioRecord"
+            android:layout_width="match_parent"
+            android:layout_height="500dp" />
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textDistance"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/DistanceLabel" />
-
-            <EditText
-                android:id="@+id/editDistance"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textDistance"
-                android:ems="10"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:nextFocusDown="@+id/editDuration" >
-            </EditText>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="30" >
-
-            <TextView
-                android:id="@+id/textDuration"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/DurationLabel" />
-           
-            <EditText
-                android:id="@+id/editDuration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textDuration"
-                android:ems="5"
-                android:gravity="center"
-                android:inputType="time" >
-
-		    </EditText>
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="50" 
-             android:visibility="gone">
-
-		          <ImageButton
-		              android:id="@+id/buttonLaunchChrono"
-		              android:layout_width="wrap_content"
-		              android:layout_height="wrap_content"
-		              android:layout_alignParentLeft="false"
-		              android:layout_alignParentRight="true"
-		              android:layout_centerHorizontal="false"
-		              android:layout_centerVertical="true"
-		              android:layout_gravity="center_vertical"
-		              android:adjustViewBounds="false"
-		              android:background="@android:color/transparent"
-		              android:baselineAlignBottom="false"
-		              android:cropToPadding="false"
-		              android:src="@drawable/chrono"
-		              />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/addExercice"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dip"
-            android:layout_marginRight="0dip"
-            android:layout_weight="40"
-            android:background="@android:color/white"
-            android:text="@string/AddLabel" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listCardioRecord"
-        android:layout_width="match_parent"
-        android:layout_height="300dip"
-        android:drawSelectorOnTop="false"
-        android:minHeight="300dip" >
-    </ListView>
-
-</LinearLayout>
 </ScrollView>
