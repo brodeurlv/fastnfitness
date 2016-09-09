@@ -1,3 +1,2 @@
-# Welcome to fastnfitness wiki !
-
+# Welcome to FastnFitness wiki !
 
