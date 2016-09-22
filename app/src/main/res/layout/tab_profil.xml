@@ -10,12 +10,18 @@
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    android:paddingTop="0dp">
+    android:paddingTop="0dp"
+	android:background="#EEEEEE">
     
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" >
+
+		<android.support.v7.widget.CardView
+			style="@style/CardViewStyle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
         
         <ImageView
             android:id="@+id/imageProfil"
@@ -45,12 +51,29 @@
             android:text="Last session : "
             android:visibility="gone" />
 
+		</android.support.v7.widget.CardView>
+
     </RelativeLayout>
+
+	<android.support.v7.widget.CardView
+		style="@style/CardViewStyle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginBottom="5dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="8dp">
     
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+		<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+
+
 
         <TextView
             android:layout_width="fill_parent"
@@ -104,16 +127,23 @@
 	            android:layout_weight="40"
 	            android:text="+"
 	            android:background="@android:color/white"
-	            android:textSize="@dimen/abc_text_size_body_1_material" />
+	            android:textSize="18dp"
+				android:layout_marginLeft="5dp"
+				android:layout_marginTop="1dp"
+				android:layout_marginRight="5dp"
+				android:layout_marginBottom="1dp" />
 
  		</LinearLayout>
     </LinearLayout>
-    
+		</LinearLayout>
+    </android.support.v7.widget.CardView>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/weightChart"
         android:layout_width="match_parent"
         android:layout_height="300dip"
-        android:layout_marginRight="5dp"  />
+        android:layout_marginRight="5dp"
+		android:background="#FFFFFF"/>
     
      <TextView
             android:layout_width="fill_parent"

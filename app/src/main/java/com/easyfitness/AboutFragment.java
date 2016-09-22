@@ -102,6 +102,12 @@ public class AboutFragment extends Fragment {
 					copyright = "";
 					license = new GnuLesserGeneralPublicLicense21();
 					break;
+				case R.id.antoniomChronometer:
+					name = "Millisecond-Chronometer";
+					url = "https://github.com/antoniom/Millisecond-Chronometer";
+					copyright = "";
+					license = new ApacheSoftwareLicense20();
+					break;
 				case R.id.LicensesDialog:
 					name = "LicensesDialog";
 					url = "http://psdev.de";

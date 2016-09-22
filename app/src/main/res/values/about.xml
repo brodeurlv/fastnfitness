@@ -78,5 +78,6 @@
 	<string name="thanks_label">Libraries : </string>
     <string name="MPAndroidChart_content">MPAndroidChart (Apache 2.0)</string>
 	<string name="javaCSV_content">JavaCSV (LGPL)</string>
+	<string name="antoniomChronometer_content">Millisecond-Chronometer (Apache 2.0)</string>
 	<string name="LicensesDialog_content">LicensesDialog (Apache 2.0)</string>
 </resources>
