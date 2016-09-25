@@ -1,18 +1,18 @@
 package com.easyfitness;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+@SuppressLint("ValidFragment")
 public class TimePickerDialogFragment extends DialogFragment implements OnTimeSetListener {
-    private Fragment mFragment;
 
     /*public TimePickerDialogFragment(Fragment callback) {
         mFragment = callback;
@@ -25,7 +25,7 @@ public class TimePickerDialogFragment extends DialogFragment implements OnTimeSe
          int minute = c.get(Calendar.MINUTE);
 
          // Create a new instance of TimePickerDialog and return it
-         return new TimePickerDialog(getActivity(), (OnTimeSetListener) mFragment, hour, minute,
+         return new TimePickerDialog(getActivity(), this, hour, minute,
                  DateFormat.is24HourFormat(getActivity()));
      }
 

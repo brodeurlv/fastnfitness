@@ -1,5 +1,13 @@
 package com.easyfitness.DAO;
 
+import android.content.Context;
+import android.os.Environment;
+
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+import com.easyfitness.DAO.cardio.Cardio;
+import com.easyfitness.DAO.cardio.DAOCardio;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,14 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import android.content.Context;
-import android.os.Environment;
-
-import com.csvreader.CsvReader;
-import com.csvreader.CsvWriter;
-import com.easyfitness.DAO.cardio.Cardio;
-import com.easyfitness.DAO.cardio.DAOCardio;
 
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
@@ -276,7 +276,7 @@ public class CVSManager {
 						ret = false;
 					}
 				} else if (csvRecords.get(TABLE_HEAD).equals(DAOProfil.TABLE_NAME)) {
-					// TODO : Export des profils
+					// TODO : import des profils
 				}
 
 			}

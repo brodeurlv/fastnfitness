@@ -1,9 +1,5 @@
 package com.easyfitness.fonte;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,17 +13,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.Profil;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.Profil;
 import com.easyfitness.graph.Graph;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FonteGraphFragment extends Fragment {
 	private String name;
@@ -265,22 +264,8 @@ public class FonteGraphFragment extends Fragment {
 		return mActivity.getCurrentProfil();
 	}  
 
-	// TODO: 13/08/2016 : ne fonctionne pas correctement surtout la restauration apres longtemps.
-    // ISSUE#1
 	private String getFontesMachine()	{
-
-        return getMainActivity().getCurrentMachine(); // ISSUE#1
-
-        /*
-		String temp = null;
-		try {
-			FontesPagerFragment temp2 = (FontesPagerFragment)(mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.FONTESPAGER));
-			FontesFragment temp3 = ((FontesFragment)(temp2.getViewPagerAdapter().getItem(0)));
-			temp = temp3.getMachine();
-		}catch (NullPointerException e) {
-			temp = "";
-		}
-		return temp;*/
+		return getMainActivity().getCurrentMachine();
 	}
 
   @Override

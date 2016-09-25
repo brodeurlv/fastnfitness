@@ -1,7 +1,5 @@
 package com.easyfitness;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,6 +25,8 @@ import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profil;
 import com.easyfitness.machines.MachineCursorAdapter;
+
+import java.util.List;
 
 public class MachineFragment extends Fragment {
 	private String name;
@@ -123,7 +123,7 @@ public class MachineFragment extends Fragment {
 		AlertDialog.Builder renameBuilder = new AlertDialog.Builder(mActivity);
 		
 		renameBuilder.setTitle("Rename Machine " + machineList.getSelectedItem().toString()); //TODO change static string
-		renameBuilder.setMessage("WARNING: if this name already exists, records will be merged with the other machine."); //TODO change static string
+		renameBuilder.setMessage(getView().getContext().getString(R.string.renameMachine_warning_text));
 
 		// Set an EditText view to get user input
 		final EditText input = new EditText(mActivity);

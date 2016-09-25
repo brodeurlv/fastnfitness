@@ -1,17 +1,17 @@
 package com.easyfitness;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
 
+@SuppressLint("ValidFragment")
 public class DatePickerDialogFragment extends DialogFragment implements OnDateSetListener {
-    private Fragment mFragment;
 
     /*public DatePickerDialogFragment(Fragment callback) {
         mFragment = callback;

@@ -1,8 +1,8 @@
 package com.easyfitness.DAO.cardio;
 
-import java.util.Date;
-
 import com.easyfitness.DAO.Profil;
+
+import java.util.Date;
 
 /* DataBase Object */
 public class Cardio {
@@ -16,8 +16,8 @@ public class Cardio {
 	  
 	  public Cardio(Date pDate, String pExercice, float pDistance, long pDuration, Profil pProfil) {
 	    super();
-	    this.mDate = pDate; /*@TODO si la date est null => mettre la date courante */
-	    this.mExercice = pExercice;
+		  this.mDate = pDate;
+		  this.mExercice = pExercice;
 	    this.mDistance = pDistance;
 	    this.mDuration = pDuration;
 	    this.mProfil = pProfil;

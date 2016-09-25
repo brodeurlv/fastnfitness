@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="app_version">0.12 BETA</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+	<string name="app_version">0.12</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author">Charles Combes</string>

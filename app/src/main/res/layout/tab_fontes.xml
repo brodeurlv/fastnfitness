@@ -1,302 +1,301 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-<LinearLayout 
-    android:id="@+id/tab_fontes"
-    android:name="tab_fontes"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:gravity="top"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:scrollbars="vertical"
-    android:background="#EEEEEE">
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
+    <LinearLayout
+        android:id="@+id/tab_fontes"
+        android:name="tab_fontes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-    <LinearLayout
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="40"
-            android:layout_marginLeft="8dp"
-            android:text="@string/DateLabel" />
-
-        <EditText
-            android:id="@+id/editDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="10"
-            android:inputType="none"
-            android:nextFocusDown="@+id/editMachine" >
-        </EditText>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="40"
-            android:layout_marginLeft="8dp"
-            android:text="@string/MachineLabel"
-            android:singleLine="true" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:orientation="horizontal" >
-
-            <AutoCompleteTextView
-                android:id="@+id/editMachine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="45"
-                android:imeOptions="actionNext"
-                android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                android:nextFocusForward="@+id/editSerie" />
-
-            <ImageButton
-                android:id="@+id/buttonListMachine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="5"
-                android:adjustViewBounds="false"
-                android:background="@android:color/transparent"
-                android:baselineAlignBottom="false"
-                android:cropToPadding="false"
-                android:src="@drawable/list" />
-        </LinearLayout>
-    </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:layout_marginBottom="10dp"
+        android:background="#EEEEEE"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:scrollbars="vertical">
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:orientation="vertical" >
-
-            <TextView
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/SerieLabel" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editSerie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:inputType="number"
-                android:minEms="3"
-                android:nextFocusDown="@+id/editRepetition"
-                android:text="2">
-            </EditText>
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="40"
+                        android:text="@string/DateLabel" />
+
+                    <EditText
+                        android:id="@+id/editDate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="10"
+                        android:inputType="none"
+                        android:nextFocusDown="@+id/editMachine"></EditText>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="40"
+                        android:singleLine="true"
+                        android:text="@string/MachineLabel" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:orientation="horizontal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editMachine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="45"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
+                            android:nextFocusForward="@+id/editSerie" />
+
+                        <ImageButton
+                            android:id="@+id/buttonListMachine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="5"
+                            android:adjustViewBounds="false"
+                            android:background="@android:color/transparent"
+                            android:baselineAlignBottom="false"
+                            android:cropToPadding="false"
+                            android:src="@drawable/list" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            style="@style/CardViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:orientation="vertical" >
-            <!--android:layout_weight="40"-->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/RepetitionLabel" />
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editRepetition"
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:inputType="number"
-                android:minEms="3"
-                android:nextFocusDown="@+id/editPoids"
-                android:text="10">
-            </EditText>
+                android:layout_weight="40">
 
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/SerieLabel" />
+
+                    <EditText
+                        android:id="@+id/editSerie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:minEms="3"
+                        android:nextFocusDown="@+id/editRepetition"
+                        android:text="2"></EditText>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="40">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:orientation="vertical">
+                    <!--android:layout_weight="40"-->
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/RepetitionLabel" />
+
+                    <EditText
+                        android:id="@+id/editRepetition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:minEms="3"
+                        android:nextFocusDown="@+id/editPoids"
+                        android:text="10"></EditText>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="40">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:background="@drawable/border"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/PoidsLabel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editPoids"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:minEms="3"
+                            android:text="10"></EditText>
+
+                        <Spinner
+                            android:id="@+id/spinnerUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/fonte_units"
+
+                            android:gravity="center"
+                            android:minEms="3" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            style="@style/CardViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="40">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:background="@drawable/border"
-            android:orientation="vertical" >
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="horizontal">
 
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:id="@+id/textFonteNote"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/PoidsLabel" />
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:text="@string/NotesLabel" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
+                <ImageButton
+                    android:id="@+id/textFonteNoteArrow"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="start"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/arrow_up" />
 
-                    <EditText
-                        android:id="@+id/editPoids"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:inputType="number"
+            </LinearLayout>
 
-                        android:minEms="3"
-                        android:text="10">
-                    </EditText>
 
-                    <Spinner
-                        android:id="@+id/spinnerUnit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/fonte_units"
+            <EditText
+                android:id="@+id/editFonteNote"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:height="40dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="5"
+                android:minHeight="40dp"
+                android:minLines="2"></EditText>
+        </LinearLayout>
 
-                        android:minEms="3"
-                        android:gravity="center" />
-                </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/addperff"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@android:color/white"
+                android:text="@string/AddLabel" />
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/TopTenLabel" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listRecord"
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+
+        </ListView>
 
     </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:orientation="horizontal" >
-
-
-        <TextView
-            android:id="@+id/textFonteNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="start"
-            android:text="@string/NotesLabel" />
-        
-             <ImageButton
-                 android:id="@+id/textFonteNoteArrow"
-                 android:layout_width="100dp"
-                 android:layout_height="20dp"
-                 android:layout_gravity="start"
-                 android:adjustViewBounds="false"
-                 android:background="@android:color/transparent"
-                 android:baselineAlignBottom="false"
-                 android:cropToPadding="false"
-                 android:scaleType="fitStart"
-                 android:src="@drawable/arrow_up" />
-
-    </LinearLayout>   
-                  
-
-        <EditText
-            android:id="@+id/editFonteNote"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:ems="10"
-            android:height="40dp"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:maxLines="5"
-            android:minHeight="40dp"
-            android:minLines="2" >
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-
-
-        <Button
-            android:id="@+id/addperff"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@android:color/white"
-            android:text="@string/AddLabel" />
-
-        
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="@string/TopTenLabel" />
-
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listRecord"
-        android:layout_width="match_parent"
-        android:layout_height="500dp" >
-
-    </ListView>
-
-</LinearLayout>
 </ScrollView>

@@ -1,12 +1,7 @@
 package com.easyfitness;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +33,10 @@ import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.MusicController;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -500,36 +498,6 @@ public class MainActivity extends AppCompatActivity {
 		
 		return true;
 	}
-	
-
-	/*@Override
-	public void onBackPressed(){
-		if ( mpSettingFrag.isVisible() || getAboutFragment().isVisible()) {
-			FragmentManager fragmentManager=getSupportFragmentManager();
-			FragmentTransaction ft=fragmentManager.beginTransaction();
-			if (mpSettingFrag.isVisible() ) {
-				//ft.hide(mpSettingFrag);
-				//ft.remove(mpSettingFrag);
-			} 
-			if (getAboutFragment().isVisible()) {
-				ft.hide(getAboutFragment());
-				//ft.remove(getAboutFragment());
-			}
-			
-			//getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-			//getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			//Tab tab;
-			//tab = getActionBar().getSelectedTab();
-			//showFragment(tab.getText().toString(), ft);
-			
-			ft.commit();
-			getSupportActionBar().show();
-			getSupportActionBar().setDisplayShowCustomEnabled(true);
-		} else 
-		{
-			super.onBackPressed();
-		}
-	}*/
 	
 	private void setDrawerTitle(String pProfilName) {
 		DrawerAdapter.getItem(0).setTitle(getString(R.string.app_name)+" - " +pProfilName);

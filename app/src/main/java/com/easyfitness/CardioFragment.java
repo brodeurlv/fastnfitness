@@ -1,5 +1,6 @@
 package com.easyfitness;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@SuppressLint("ValidFragment")
 public class CardioFragment extends Fragment {
 	private String name; 
 	private int id;
@@ -340,7 +342,7 @@ public class CardioFragment extends Fragment {
 	
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
-			TimePickerDialogFragment mDateFrag = new TimePickerDialogFragment() {
+			TimePickerDialogFragment mDurationFrag = new TimePickerDialogFragment() {
 				@Override
 				public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 					// Do something with the time chosen by the user
@@ -356,7 +358,7 @@ public class CardioFragment extends Fragment {
 					durationEdit.setText(date);
 				}
 			}; //TODO eviter de recreer le DatePicker a chaque fois.
-			mDateFrag.show(getFragmentManager().beginTransaction(), "dialog_time");	
+			mDurationFrag.show(getFragmentManager().beginTransaction(), "dialog_time");
 		} else {
 			if (!mDurationFrag.isVisible())
 				mDurationFrag.show(getFragmentManager().beginTransaction(), "dialog_time");

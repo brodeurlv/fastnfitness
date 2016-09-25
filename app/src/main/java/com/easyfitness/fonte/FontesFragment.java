@@ -1,5 +1,6 @@
 package com.easyfitness.fonte;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@SuppressLint("ValidFragment")
 public class FontesFragment extends Fragment {
 	private String name; 
 	private int id;     

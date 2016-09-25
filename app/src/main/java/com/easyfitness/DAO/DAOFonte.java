@@ -1,11 +1,5 @@
 package com.easyfitness.DAO;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DateGraphData;
 import com.easyfitness.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DAOFonte extends DAOBase {
 
@@ -281,8 +281,8 @@ public class DAOFonte extends DAOBase {
 			int pFunction) {
 
 		String selectQuery = null;
-		
-		// TODO attention aux units de poids. Elle ne sont pas encore prise en compte ici.
+
+		// TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
 		if (pFunction == DAOFonte.SUM_FCT) {
 			selectQuery = "SELECT SUM(" + SERIE + "*" + REPETITION + "*"
 					+ POIDS + "), " + DATE + " FROM " + TABLE_NAME 
