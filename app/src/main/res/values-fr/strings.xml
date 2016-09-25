@@ -9,7 +9,7 @@
     <string name="global_no">Non</string>
     
     <string name="removedid">id supprimé</string>
-    <string name="failedtocreatefolder">Echec de creation du repertoire</string>
+    <string name="failedtocreatefolder">Echec de création du repertoire</string>
     
     
     <string name="app_name">Fast n Fitness</string>
@@ -17,8 +17,8 @@
     <string name="DateLabel">Date</string>
     
 	<string name="FunctionLabel">Fonctions</string>
-    <string name="HistoryLabel">Historic</string>
-    <string name="RecordsLabel">Enregistrement</string>
+    <string name="HistoryLabel">Historique</string>
+    <string name="RecordsLabel">Enregistrements</string>
     <string name="GraphLabel">Graphiques</string>
     <string name="AddLabel">Ajouter</string>
     <string name="DeleteLabel">Supprimer</string>
@@ -28,7 +28,7 @@
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Series</string>
-    <string name="RepetitionLabel">Repetitions</string> 
+    <string name="RepetitionLabel">Répétitions</string>
     <string name="MachineLabel">Machine</string>
     <string name="PoidsLabel">Poids</string>
     <string name="KgUnitLabel">Kg</string>
@@ -68,38 +68,39 @@
 	<!-- Pour le menu settings -->
 	<string name="SettingLabel">Paramètres</string>
     <string name="menu_settings">Paramètres</string>
-    <string name="export_database">Export Records</string>    
-    <string name="export_question">Do you want to export database ?</string>
-    <string name="export_success">Database exported</string>
-    <string name="export_failed">Database export failed</string>
-    <string name="import_database">Import Records</string>    
+    <string name="export_database">Exporter la base de données</string>
+    <string name="export_question">Voulez-vous exporter la base de données?</string>
+    <string name="export_success">Base de données exportée</string>
+    <string name="export_failed">Erreur dans l\'export de la base de données</string>
+    <string name="import_database">Importer des données</string>
+    <string name="ResetAppLabel">Remise à zero de l\'application</string>
     <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
      
 	<!-- Machine Fragment -->
 	<string name="MachinesLabel">Machines</string>
     <string name="DescriptionLabel">Description</string>
-    
-    <string name="pref_show_mp3_player">Show MP3 Player</string>
-    <string name="pref_show_mp3_player_summary">Show/Hide the MP3 player toolbar</string>
+
+    <string name="pref_show_mp3_player">Afficher le lecteur MP3</string>
+    <string name="pref_show_mp3_player_summary">Affiche ou Cache la barre du lecteur MP3</string>
     
     <string name="pref_sync_frequency">Sync frequency</string>
     <string name="pref_sync_frequency_summary">Set the sync frequency</string>
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
-    
-    <string name="pref_user_profile">User Profile</string>
-    <string name="pref_ui_setting">UI Settings</string>
-    
-    <string name="profil_create_new">Create new profile</string>  
-    
-    <string name="profil_change">Change profile</string>
-    <string name="profil_select_profil">Select a profile</string>
-    <string name="profil_edit">Edit profile</string>
-    <string name="profil_delete">Delete a profile</string>  
-    <string name="profil_select_profil_to_delete">Select a profile to delete</string>
+
+    <string name="pref_user_profile">Profil utilisateur</string>
+    <string name="pref_ui_setting">Paramètre d\'affichage</string>
+
+    <string name="profil_create_new">Créer un nouveau profil</string>
+
+    <string name="profil_change">Change de profil</string>
+    <string name="profil_select_profil">Selectionner un profil</string>
+    <string name="profil_edit">Editer un profil</string>
+    <string name="profil_delete">Supprimer un profil</string>
+    <string name="profil_select_profil_to_delete">Selectionner un profil à supprimer</string>
     
     <!-- About Fragment  -->
-	<string name="AboutLabel">About</string>
+    <string name="AboutLabel">A propos</string>
     
     <!-- Navigation Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
@@ -115,9 +116,9 @@
 	    <item>2</item>
 	</string-array>
     
-    <string name="maxRep1">Maximum (Reps >= 1)</string>	
-    <string name="maxRep5">Maximum (Reps >= 5)</string>	
-    <string name="sum">Sum</string>	
+    <string name="maxRep1">Maximum (Reps >= 1)</string>
+    <string name="maxRep5">Maximum (Reps >= 5)</string>
+    <string name="sum">Somme</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5</item>
@@ -129,35 +130,38 @@
     <!-- Muscles -->
     <string name="biceps">Biceps</string>
     <string name="triceps">Triceps</string>
-    <string name="pectoraux">Chest</string>
+    <string name="pectoraux">Pectoraux</string>
     <string name="deltoids">Deltoids</string>
-    
-    <string name="dorseaux">Back</string>
-    <string name="abdominaux">Abdominals</string>	
+
+    <string name="dorseaux">Dos</string>
+    <string name="abdominaux">Abdominaux</string>
     
     <string name="quadriceps">Quadriceps</string>
-    <string name="ischio_jambiers">Hamstrings</string>
-    <string name="adducteurs">Thighs</string>
-    <string name="mollets">Calves</string>
-    
-    <string name="selectMuscles">Select Muscles</string>
-    
-    
-    <string name="backDialog_confirm_text">Do you want to save before exit ?</string>
-    <string name="deleteMachine_confirm_text">Do you want to delete this machine ? All associated records will be deleted</string>
+    <string name="ischio_jambiers">Ischio Jambiers</string>
+    <string name="adducteurs">Adducteurs</string>
+    <string name="mollets">Mollets</string>
+
+    <string name="selectMuscles">Selectionnez les muscles concernés</string>
+
+
+    <string name="backDialog_confirm_text">Voulez-vous sauver avant de quitter ?</string>
+    <string name="deleteMachine_confirm_text">Voulez-vous supprimer cette machine ? Tous les enregistrements associés seront supprimés</string>
     <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine ? All associated records will be deleted</string>
-    <string name="renameMachine_warning_text">WARNING: this machine name already exists. Records will be merged with the other machine.</string>
-	<string name="renameMachine_error_text">This name already exists, please select an other name.</string>
-    
-	
-<!-- Photo -->	
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
+    <string name="renameMachine_warning_text">ATTENTION: Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
+    <string name="renameMachine_error_text">Ce nom existe déjà, merci d\'en selectionner un autre.</string>
+
+
+    <!-- Photo -->
+    <string name="camera">Appareil Photo</string>
+    <string name="gallery">Galerie</string>
 
 <!-- Graph -->
-    <string name="graph_all">All</string>
-    <string name="graph_lastyear">Last year</string>
-    <string name="graph_lastmonth">Last Month</string>
-    <string name="graph_lastweek">Last Week</string>
+    <string name="graph_all">Tout</string>
+    <string name="graph_lastyear">Cette année</string>
+    <string name="graph_lastmonth">Ce Mois</string>
+    <string name="graph_lastweek">Cette semaine</string>
+
+    <!-- Chronometer -->
+    <string name="ChronometerLabel">Chronomètre</string>
     
 </resources>

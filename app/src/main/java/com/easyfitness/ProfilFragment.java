@@ -1,13 +1,7 @@
 package com.easyfitness;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,7 +17,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +30,13 @@ import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class ProfilFragment extends Fragment  implements OnDateSetListener {
+
+public class ProfilFragment extends Fragment {
 	private String name;
 	private int id;
 
@@ -142,7 +140,12 @@ public class ProfilFragment extends Fragment  implements OnDateSetListener {
 		@Override
 		public void onClick(View v) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment(getFragment());
+			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int month, int day) {
+					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+				}
+			};
 				mDateFrag.show(ft, "dialog");			
 		}
 	}; 
@@ -152,7 +155,13 @@ public class ProfilFragment extends Fragment  implements OnDateSetListener {
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus == true) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment(getFragment());
+				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int month, int day) {
+
+						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+					}
+				};
 				mDateFrag.show(ft, "dialog");			
 			}
 		}
@@ -256,12 +265,6 @@ public class ProfilFragment extends Fragment  implements OnDateSetListener {
 			return true;
 		}
 	};
-	
-	public void onDateSet(DatePicker view, int year,
-			int month, int day) {
-		// Do something with the date chosen by the user
-		dateEdit.setText(DateConverter.dateToString(year, month+1, day));
-	}
 
 	public String getName() { 
 		return getArguments().getString("name");

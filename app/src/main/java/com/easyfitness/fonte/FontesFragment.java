@@ -1,14 +1,6 @@
 package com.easyfitness.fonte;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,16 +28,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easyfitness.DatePickerDialogFragment;
-import com.easyfitness.MainActivity;
-import com.easyfitness.R;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Profil;
+import com.easyfitness.DatePickerDialogFragment;
+import com.easyfitness.MainActivity;
+import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
-public class FontesFragment extends Fragment implements OnDateSetListener { 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+public class FontesFragment extends Fragment {
 	private String name; 
 	private int id;     
 	MainActivity mActivity = null;
@@ -249,7 +247,12 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 			switch(v.getId()) {
 			case R.id.editDate:
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment(getFragment());
+				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int month, int day) {
+						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+					}
+				};
 				mDateFrag.show(ft, "dialog");			
 				break;
 			case R.id.editMachine:
@@ -269,7 +272,12 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 				switch(v.getId()) {
 				case R.id.editDate:
 					FragmentTransaction ft = getFragmentManager().beginTransaction();
-					DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment(getFragment());
+					DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int month, int day) {
+							dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+						}
+					};
 					mDateFrag.show(ft, "dialog");			
 					break;
 				case R.id.editSerie:
@@ -465,11 +473,11 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 		}
 	}
 
-	public void onDateSet(DatePicker view, int year,
+	/*public void onDateSet(DatePicker view, int year,
 			int month, int day) {
 		// Do something with the date chosen by the user
 		dateEdit.setText(DateConverter.dateToString(year, month+1, day));
-	}
+	}*/
 
 
 	private void refreshData(){

@@ -1,16 +1,15 @@
 package com.easyfitness.DAO;
 
-import java.io.File;
-
-import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.cardio.DAOCardio;
-
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.easyfitness.DAO.cardio.DAOCardio;
+
+import java.io.File;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -72,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     		db.execSQL("ALTER TABLE "+ DAOMachine.TABLE_NAME + " ADD COLUMN " + DAOMachine.PICTURE + " TEXT");
                     	break;
 					case 8: // Easyfitness 0.12
-						db.execSQL("ALTER TABLE "+ DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.TIME + " TEXT");
+						db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.TIME + " TEXT");
 						break;
                 }
                 upgradeTo++;

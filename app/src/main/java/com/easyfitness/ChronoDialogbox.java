@@ -1,13 +1,14 @@
 package com.easyfitness;
 
-import gr.antoniom.chronometer.Chronometer;
-import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+
+import gr.antoniom.chronometer.Chronometer;
+import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 //import android.widget.Chronometer;
 //import android.widget.Chronometer.OnChronometerTickListener;
 
@@ -33,7 +34,7 @@ public class ChronoDialogbox extends Dialog implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     //requestWindowFeature(Window.FEATURE_NO_TITLE);
-    setTitle("Chronometer");
+      setTitle(c.getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
     setContentView(R.layout.dialog_chrono);
     this.setCanceledOnTouchOutside(false); // make it modal
     

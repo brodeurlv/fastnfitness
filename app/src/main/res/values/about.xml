@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_version">0.12 Beta</string>
+	<string name="app_version">0.12 BETA</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author">Charles Combes</string>
@@ -9,14 +8,14 @@
 	<string name="opensource_url">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history">\n
-									V0.12 BETA : 14/08/2015 \n
+									V0.12 : 25/09/2016 \n
 									\t - Enhancement : Open sourcized on GITHUB \n
 									\t - Enhancement : New tab display \n
 									\t - Enhancement : Added time to records \n
 									\t - Enhancement : Added \'all\' button to graph page \n
 									\t - Enhancement : UI Enhancement \n
 									\t - Bug : Fixed graph fragment that was blocked on SUM filter \n
-									\t - Bug : Fixed MP3 player reappeareance \n
+									\t - Bug : Fixed MP3 player reappearance \n
 									\t - Bug : Crash on Profiles switch\n
         							V0.11 : 07/11/2015 \n
 									\t - Enhancement : Get machine image from gallery \n
@@ -29,18 +28,18 @@
         							\t - Enhancement : Associate a photo to a machine \n 
         							\t - Enhancement : Add table for profile weight \n
         							\t - Enhancement : Zoom button for graph \n
-        							\t - Enhancement : MP3 player lisibility and more extension supported \n
+        							\t - Enhancement : MP3 player UI and more file format supported \n
         							\t - Bug : Impossible to rename machine \n        							
         							V0.9 : 03/08/2015 \n
         							\t - Bug : Crash on 0.8 upgrade \n
         							\t - Bug : Cardio date picker does not work \n
-        							\t - Enhancement : Mp3 player listview more readable\n
+        							\t - Enhancement : MP3 player listview more readable\n
         							V0.8 : 01/08/2015 \n
         							\t - Enhancement : Rework machine page\n
         							\t - Enhancement : CVS profile weight export\n
         							\t - Enhancement : Graphics automatic zoom\n
         							\t - Enhancement : Music player icon modification\n
-        							\t - Enhancement : Application icon modificaiton\n
+        							\t - Enhancement : Application icon modification\n
         							\t - Bug : empty profile not allowed \n
         							\t - Bug : crash on player stop \n
         							V0.7 : 07/06/2015 \n

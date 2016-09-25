@@ -1,15 +1,7 @@
 package com.easyfitness;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +27,13 @@ import com.easyfitness.DAO.Profil;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
 
-public class CardioFragment extends Fragment implements OnDateSetListener, OnTimeSetListener { 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+public class CardioFragment extends Fragment {
 	private String name; 
 	private int id;
 	MainActivity mActivity = null;
@@ -298,7 +296,7 @@ public class CardioFragment extends Fragment implements OnDateSetListener, OnTim
 
 	private Profil getProfil()
 	{
-		return ((MainActivity)mActivity).getCurrentProfil();
+		return mActivity.getCurrentProfil();
 	}
 
 	/*  */
@@ -322,10 +320,17 @@ public class CardioFragment extends Fragment implements OnDateSetListener, OnTim
 			recordList.setAdapter(mTableAdapter);
 		}
 	}
-	
+
 	private void showDatePicker() {
 		if (mDateFrag==null) {
-			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment(getFragment()); //TODO eviter de recreer le DatePicker a chaque fois.
+			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int month, int day) {
+					// Do something with the date chosen by the user
+					String date = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
+					dateEdit.setText(date);
+				}
+			}; //TODO eviter de recreer le DatePicker a chaque fois.
 			mDateFrag.show(getFragmentManager().beginTransaction(), "dialog_date");	
 		} else {
 			if (!mDateFrag.isVisible())
@@ -335,21 +340,28 @@ public class CardioFragment extends Fragment implements OnDateSetListener, OnTim
 	
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
-			TimePickerDialogFragment mDateFrag = new TimePickerDialogFragment(getFragment()); //TODO eviter de recreer le DatePicker a chaque fois.
+			TimePickerDialogFragment mDateFrag = new TimePickerDialogFragment() {
+				@Override
+				public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+					// Do something with the time chosen by the user
+					String strMinute = "00";
+					String strHour = "00";
+
+					if (minute < 10) strMinute = "0" + Integer.toString(minute);
+					else strMinute = Integer.toString(minute);
+					if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+					else strHour = Integer.toString(hourOfDay);
+
+					String date = strHour + ":" + strMinute;
+					durationEdit.setText(date);
+				}
+			}; //TODO eviter de recreer le DatePicker a chaque fois.
 			mDateFrag.show(getFragmentManager().beginTransaction(), "dialog_time");	
 		} else {
 			if (!mDurationFrag.isVisible())
 				mDurationFrag.show(getFragmentManager().beginTransaction(), "dialog_time");
 		}
 	}
-
-	public void onDateSet(DatePicker view, int year,
-			int month, int day) {
-		// Do something with the date chosen by the user
-		String date = Integer.toString(day) + "/" + Integer.toString(month+1) + "/" + Integer.toString(year);
-		dateEdit.setText(date);
-	}
-
 
 	private void refreshData(){
 		View fragmentView = getView();
@@ -392,21 +404,6 @@ public class CardioFragment extends Fragment implements OnDateSetListener, OnTim
 	@Override
 	public void onHiddenChanged (boolean hidden) {
 		if (!hidden) refreshData();
-	}
-
-	@Override
-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		// Do something with the date chosen by the user
-		String strMinute = "00";
-		String strHour = "00";
-
-		if (minute < 10) strMinute = "0"+Integer.toString(minute);
-		else strMinute = Integer.toString(minute);
-		if (hourOfDay < 10) strHour = "0"+Integer.toString(hourOfDay);
-		else strHour = Integer.toString(hourOfDay);		
-
-		String date = strHour + ":" + strMinute;
-		durationEdit.setText(date);		
 	}
 
 } 

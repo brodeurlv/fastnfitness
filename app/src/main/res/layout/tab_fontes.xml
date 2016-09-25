@@ -63,7 +63,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="40"
             android:layout_marginLeft="8dp"
-            android:text="@string/MachineLabel" />
+            android:text="@string/MachineLabel"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="fill_parent"

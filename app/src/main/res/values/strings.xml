@@ -74,8 +74,9 @@
     <string name="export_failed">Database export failed</string>
     <string name="import_database">Import Records</string>    
     <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
-     
-	<!-- Machine Fragment -->
+    <string name="ResetAppLabel">Reset application</string>
+
+    <!-- Machine Fragment -->
 	<string name="MachinesLabel">Machines</string>
     <string name="DescriptionLabel">Description</string>
     
@@ -159,5 +160,9 @@
     <string name="graph_lastyear">Last year</string>
     <string name="graph_lastmonth">Last Month</string>
     <string name="graph_lastweek">Last Week</string>
+
+
+    <!-- Chronometer -->
+    <string name="ChronometerLabel">Chronometer</string>
     
 </resources>
