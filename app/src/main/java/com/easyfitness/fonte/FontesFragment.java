@@ -87,12 +87,7 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
         return f;
     }
 
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		this.mActivity = (MainActivity) activity;
-	}
+
 
 	@Override 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
@@ -141,7 +136,7 @@ public class FontesFragment extends Fragment implements OnDateSetListener {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+		this.mActivity = (MainActivity) this.getActivity();
 		refreshData();
 	}     
 

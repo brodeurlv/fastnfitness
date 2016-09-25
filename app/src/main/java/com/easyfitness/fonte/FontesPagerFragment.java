@@ -8,12 +8,15 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.astuetz.PagerSlidingTabStrip;
 
 import com.easyfitness.R;
 
 public class FontesPagerFragment extends Fragment {
 	private String name; 
-	private int id;    
+	private int id;
+
+
 	
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -46,23 +49,28 @@ public class FontesPagerFragment extends Fragment {
 		
 			// Set the ViewPagerAdapter into ViewPager
 			viewPager.setAdapter(new FontesViewPagerAdapter(getActivity().getSupportFragmentManager(), getActivity().getApplicationContext()));
+
+			// Bind the tabs to the ViewPager
+			PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+			tabs.setViewPager(viewPager);
+
+			tabs.setOnPageChangeListener(new OnPageChangeListener() {
+				@Override
+				public void onPageSelected(int position) {
+					// N'update pas le fragment principal car c'est lui qui dirige les autres.
+					if (position != 0) getViewPagerAdapter().getItem(position).onHiddenChanged(false);
+				}
+
+				@Override
+				public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+				}
+
+				@Override
+				public void onPageScrollStateChanged(int state) {
+				}
+			});
+
 		}
-		
-		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-		    @Override
-		    public void onPageSelected(int position) {
-		    	// N'update pas le fragment principal car c'est lui qui dirige les autres. 
-		    	if (position != 0) getViewPagerAdapter().getItem(position).onHiddenChanged(false); 
-		    }
-
-		    @Override
-		    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		    }
-
-		    @Override
-		    public void onPageScrollStateChanged(int state) {
-		    }
-		});
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -87,7 +95,7 @@ public class FontesPagerFragment extends Fragment {
 				// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit. 
 				// Il faut donc que cela soit pris en compte dans le refresh des fragments. 
 				for (int i = 0; i < 3; i++) {
-					((FontesViewPagerAdapter)getViewPagerAdapter()).getItem(i).onHiddenChanged(false);
+					getViewPagerAdapter().getItem(i).onHiddenChanged(false);
 				}
 			}
 		}			

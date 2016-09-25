@@ -29,6 +29,9 @@ public class AboutFragment extends Fragment {
 	private TextView mpMPAndroidChartTextView = null;
 	private TextView mpjavaCVSTextView = null;
 	private TextView mpLicenseDialogTextView = null;
+	private TextView mpChronometerTextView = null;
+	private TextView mpPagerSlidingTabStripTextView = null;
+
 
 	
     /**
@@ -66,10 +69,14 @@ public class AboutFragment extends Fragment {
 		mpMPAndroidChartTextView = (TextView) view.findViewById(R.id.MPAndroidChart);
 		mpjavaCVSTextView = (TextView) view.findViewById(R.id.javaCSV);
 		mpLicenseDialogTextView = (TextView) view.findViewById(R.id.LicensesDialog);
+		mpChronometerTextView = (TextView) view.findViewById(R.id.antoniomChronometer);
+		mpPagerSlidingTabStripTextView = (TextView) view.findViewById(R.id.PagerSlidingTabStrip);
 
 		mpMPAndroidChartTextView.setOnClickListener(clickLicense);
 		mpjavaCVSTextView.setOnClickListener(clickLicense);
 		mpLicenseDialogTextView.setOnClickListener(clickLicense);
+		mpChronometerTextView.setOnClickListener(clickLicense);
+		mpPagerSlidingTabStripTextView.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -112,6 +119,12 @@ public class AboutFragment extends Fragment {
 					name = "LicensesDialog";
 					url = "http://psdev.de";
 					copyright = "Copyright 2013 Philip Schiffer <admin@psdev.de>";
+					license = new ApacheSoftwareLicense20();
+					break;
+				case R.id.PagerSlidingTabStrip:
+					name = "PagerSlidingTabStrip";
+					url = "https://github.com/astuetz/PagerSlidingTabStrip";
+					copyright = "Andreas Stuetz - andreas.stuetz@gmail.com";
 					license = new ApacheSoftwareLicense20();
 					break;
 			}

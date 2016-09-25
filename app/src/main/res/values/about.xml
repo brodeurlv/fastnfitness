@@ -11,10 +11,11 @@
 	<string name="revision_history">\n
 									V0.12 BETA : 14/08/2015 \n
 									\t - Enhancement : Open sourcized on GITHUB \n
+									\t - Enhancement : New tab display \n
 									\t - Enhancement : Added time to records \n
 									\t - Enhancement : Added \'all\' button to graph page \n
 									\t - Enhancement : UI Enhancement \n
-									\t - Bug : Fixed graph that was blocked on SUM filter \n
+									\t - Bug : Fixed graph fragment that was blocked on SUM filter \n
 									\t - Bug : Fixed MP3 player reappeareance \n
 									\t - Bug : Crash on Profiles switch\n
         							V0.11 : 07/11/2015 \n
@@ -79,5 +80,6 @@
     <string name="MPAndroidChart_content">MPAndroidChart (Apache 2.0)</string>
 	<string name="javaCSV_content">JavaCSV (LGPL)</string>
 	<string name="antoniomChronometer_content">Millisecond-Chronometer (Apache 2.0)</string>
+	<string name="PagerSlidingTabStrip_content">PagerSlidingTabStrip (Apache 2.0)</string>
 	<string name="LicensesDialog_content">LicensesDialog (Apache 2.0)</string>
 </resources>
