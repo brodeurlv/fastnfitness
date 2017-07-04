@@ -1,12 +1,14 @@
 package com.easyfitness.graph;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.easyfitness.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 public class Graph {
 	
@@ -33,14 +35,15 @@ public class Graph {
         set1.setCircleSize(6f);
         set1.setFillAlpha(65);
 
-		ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+		List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
 		dataSets.add(set1); // add the datasets
 
 		// Create a data object with the datasets
 		LineData data = new LineData(xVals, dataSets);
 
 		// Set data
-		mChart.setData(data);		
+        mChart.setData(data);
+        mChart.invalidate();
 	}
 		
 	public LineChart getLineChart() {

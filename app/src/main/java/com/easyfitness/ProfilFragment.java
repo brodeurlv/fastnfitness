@@ -98,7 +98,7 @@ public class ProfilFragment extends Fragment {
 
 		// Add the other graph
 		mChart = (LineChart) view.findViewById(R.id.weightChart);
-		mChart.setDescription("");
+		mChart.setDescription(null);
 		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 		mWeightDb = new DAOWeight(view.getContext());
 		
@@ -139,7 +139,7 @@ public class ProfilFragment extends Fragment {
 	private OnClickListener clickDateEdit = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -188,12 +188,14 @@ public class ProfilFragment extends Fragment {
 			if (tmpDate > maxDate) maxDate = tmpDate;
 			if (tmpDate < minDate) minDate = tmpDate;
 		}
-		
+
+		// Crée toutes les dates, meme si il n'y a pas de poids associé
 		for (long i = minDate; i<=maxDate;i=i+86400000) {
 			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
 			//dt1.setTimeZone(TimeZone.getTimeZone("GMT")); // On se recalle sur le GMT car le GetTime est en GMT.
 			xVals.add(dt1.format(i));
 		}
+
 
 		for (int i = 0; i<valueList.size();i++) {
 			Entry value = new Entry(valueList.get(i).getWeight(), (int)((valueList.get(i).getDate().getTime()-minDate)/86400000));

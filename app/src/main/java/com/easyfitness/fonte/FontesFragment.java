@@ -68,6 +68,8 @@ public class FontesFragment extends Fragment {
 	ImageButton machineListButton = null;
 	Spinner unitSpinner = null;
 	ImageButton textFonteNoteArrow = null;
+
+	public static DatePickerDialogFragment mDateFrag = null;
 	
 	int lTableColor = 1;
 	
@@ -248,14 +250,15 @@ public class FontesFragment extends Fragment {
 		public void onClick(View v) {
 			switch(v.getId()) {
 			case R.id.editDate:
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+				showDatePickerFragment();
+				/*FragmentTransaction ft = getFragmentManager().beginTransaction();
+				mDateFrag = new DatePickerDialogFragment() {
 					@Override
 					public void onDateSet(DatePicker view, int year, int month, int day) {
 						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
 					}
 				};
-				mDateFrag.show(ft, "dialog");			
+				mDateFrag.show(ft, "dialog");	*/
 				break;
 			case R.id.editMachine:
 				//InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -273,14 +276,14 @@ public class FontesFragment extends Fragment {
 			if (hasFocus == true) {
 				switch(v.getId()) {
 				case R.id.editDate:
-					FragmentTransaction ft = getFragmentManager().beginTransaction();
-					DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+					/*getFragment().mDateFrag = new DatePickerDialogFragment() {
 						@Override
 						public void onDateSet(DatePicker view, int year, int month, int day) {
 							dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
 						}
-					};
-					mDateFrag.show(ft, "dialog");			
+					};*/
+					showDatePickerFragment();
+
 					break;
 				case R.id.editSerie:
 					serieEdit.setText("");
@@ -307,6 +310,20 @@ public class FontesFragment extends Fragment {
 			}
 		}
 	};
+
+	private void showDatePickerFragment() {
+		if ( mDateFrag == null ) {
+			mDateFrag = new DatePickerDialogFragment() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int month, int day) {
+					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+				}
+			};
+		}
+
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		mDateFrag.show(ft, "dialog");
+	}
 	
 	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
 		@Override
@@ -423,7 +440,7 @@ public class FontesFragment extends Fragment {
 		return mDb;
 	}
 
-	public Fragment getFragment() {
+	public FontesFragment getFragment() {
 		return this;
 	}
 	
