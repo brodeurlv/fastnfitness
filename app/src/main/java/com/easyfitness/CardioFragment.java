@@ -53,9 +53,9 @@ public class CardioFragment extends Fragment {
 	String[] exerciceListArray = null;
 	ImageButton exerciceListButton = null;
 	ImageButton launchChronoButton = null;
-	
-	DatePickerDialogFragment mDateFrag = null;
-	TimePickerDialogFragment mDurationFrag = null;
+
+	public static DatePickerDialogFragment mDateFrag = null;
+	public static TimePickerDialogFragment mDurationFrag = null;
 	
 
 	/**
@@ -325,7 +325,7 @@ public class CardioFragment extends Fragment {
 
 	private void showDatePicker() {
 		if (mDateFrag==null) {
-			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+			mDateFrag = new DatePickerDialogFragment() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int month, int day) {
 					// Do something with the date chosen by the user
@@ -342,7 +342,7 @@ public class CardioFragment extends Fragment {
 	
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
-			TimePickerDialogFragment mDurationFrag = new TimePickerDialogFragment() {
+			mDurationFrag = new TimePickerDialogFragment() {
 				@Override
 				public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 					// Do something with the time chosen by the user

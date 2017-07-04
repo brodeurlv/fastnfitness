@@ -2,102 +2,202 @@
 <items version="2" >
 
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\8dd837ac46e0d001ce00683fabac9ec9c7f230db\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_f91ffa38818dad43648cdfa0e17251b2f386350b.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8f994ff372a338587967b5214a4088ef7426e5e8\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_711ddbdd8c8c2bdf2bc0ac66f40b27dae1bb369b.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_b922cfb7cf85c0c6c25264edc1e1950db6a59081\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\3a7cef9c2fb6b29b7e6f8ca196c78c3cf106569c\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.0_d801ddc87052915084db3ca7c64f028745607992.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6a29b2e44e29e0bf6297c7eb43b0f04c0296d50b\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\libs\javacsv-2.0.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\04a7255602d8ad5fd85104ce1f43351498bcf67f\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
+        optimize="true"
+        revision="25.0.3"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9c9f6d72929111aed83a097ae70fe73138d09950\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\e117da34103d9e3fd3dad52018563ad1a33f3fd8\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="536228b2496030d983d01856aa56b4d71b57d0db">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_feb08857e0fd5cef5399da66e580c1f00f2c273b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\StudioProjects\fastnfitness\app\libs\javacsv-2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
         sha1="8092b1ba2d4929f2ec27e58cd240502afdd6a9a7">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\javacsv-2.0_5a0620b18108fc09bbff30b79475f57117e1e9cb.jar" />
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\2\javacsv-2.0_614867aae3d2de0ef80bf3dcfc75942133c66e25\classes.dex" />
     </item>
     <item
-        jar="C:\Users\charl\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.1\f7be08ec23c21485b9b5a1cf1654c2ec8c58168d\jsr305-3.0.1.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_5ab6519216601a280811c0a89f87629a2d138679.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="f7be08ec23c21485b9b5a1cf1654c2ec8c58168d">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\jsr305-3.0.1_6ad8859f8a851d36e56d7596951f14cfb753a961\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\libs\GraphView-3.1.3.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\a3b21b04cceaa9920c33fd52d4648d48a60b6618\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
+        optimize="true"
+        revision="25.0.3"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c5049d22e7b6452ac0812db56251f4fd3c6ccd70\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.gradle\caches\modules-2\files-2.1\com.github.philjay\MPAndroidChart\v2.2.5\eab32d7da5dd648e470eec6ccf51a7860734559c\MPAndroidChart-v2.2.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="eab32d7da5dd648e470eec6ccf51a7860734559c">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v2.2.5_b4c20f723b4ddb966c04b8fd0cd453bcd234bfb9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\c845242b48fad443fbcc41390edc622a8eaeca9b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2516692fcdaf20b55447d533ba08ce4ea9f78ce1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\7197a78df80064eb779e1a4e9b686909b9eea0db\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3a19bf7dee1dff2d92d2c209b00ef8d3c55d75d3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\dd297f768c39625500db0bbbdb4841404411b44c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a1527e42bac1ea119be77a716dd18c35f4414edc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\2196a1121c3381130780af517f4782c0de401247\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bfcd25279f55277bfbcd58fc9178b77d91c7bfc1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\c274eff9bc57d41f4ae100720e6a48319eed57c5\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="314eddf77281187272037224c55ba673aabee57c">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ddaa486d799216cc735679ced070442a860859e2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2ae76e396f73460ff6f3743730917171faa240bb">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_d8eaef85b2701c6b845142eebc3abdf26e0e8340\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ccombes\StudioProjects\fastnfitness\app\libs\GraphView-3.1.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
         sha1="672e4a5d8906ab21665dcc08c1f7edb6efd6f903">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\GraphView-3.1.3_e2d29e53e68973b300c8223e2df171f74742d5c9.jar" />
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\2\GraphView-3.1.3_37e6fd573e219dd5445ca4ed866c938b341b071f\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\libs\mpandroidchartlibrary.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\d2c6563354f4f9d5ee40e566582b1dcdaff0c4c5\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="f58cc07df07ce418ae9b0336659ee1a69dd21fb3">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\mpandroidchartlibrary_f4a2507518d15493524d2d7ca8ff708c39cbfb30.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="7912610ed96381c25c36d986eba422731b9641b6">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_39210eaf902a6de27862cb6ecd78bf36613743b9\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\a7c80b6b63e8e8ee1953f5110eb77873d3955077\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="e457d90a9555b0a4c1f28996564a2642309ef22d">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\instant-run_0e3bf6d78cf1c483ba1a42475ee143b22376fd5c.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_62d49cab72573a8c3e807dcf44331f50f9074fbe\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_0dc1de2f99099dd603774af688cfe4d841d07131.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_3a673ddc620afeedbee06b708dac6ad3702ea132\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\preference-v7\23.1.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\12d680b54268ec879925af845c5ecd12c1707004\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="f6710ac076a15f4a754fc86783ff5ba447064a9e">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-preference-v7-23.1.0_9f21b104ada80a6a98ca7ea17fb718b5008fda13.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_de788f995193e5acc6ee8ba52447f249388e7ebd\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\8e5f54ff572d8680c7e7f26890e74f97a29f86c7\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_3b9ef3ac84538916791ba0538dedd38c99fbe7fb.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_27d54983299658c65cb82754a2c55e1b36a797a8\classes.dex" />
     </item>
     <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\preference-v14\23.1.0\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\ccombes\.android\build-cache\febba9230ccb884f8372afe14d539cf7509bf6b3\output\jars\classes.jar"
         jumboMode="true"
-        revision="21.1.2"
-        sha1="6cedf49b18ccd3288d70b18a071356168033b74c">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-preference-v14-23.1.0_5b55357c224da3f790c4f67f5868d67d58d32b98.jar" />
-    </item>
-    <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_2dde7689f16c7fd6dbc80f07662bab5e066415e5.jar" />
-    </item>
-    <item
-        jar="C:\Dev\fastnfitness\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="b12cffe534a238ab297b7e9a8dc802d70f300c07">
-        <dex dex="C:\Dev\fastnfitness\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_dd02aef0f18132849e36890fdf06fb06ebf6a506.jar" />
+        optimize="true"
+        revision="25.0.3"
+        sha1="2e46d498b78635da65dc4a0e4c26de85e5c45c83">
+        <dex dex="C:\Users\ccombes\StudioProjects\fastnfitness\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d5ebd9b253522ebcab7ca6ed570aace4235c2447\classes.dex" />
     </item>
 
 </items>

@@ -13,9 +13,9 @@ import java.util.Calendar;
 @SuppressLint("ValidFragment")
 public class DatePickerDialogFragment extends DialogFragment implements OnDateSetListener {
 
-    /*public DatePickerDialogFragment(Fragment callback) {
-        mFragment = callback;
-    }*/
+    public DatePickerDialogFragment() {
+        // nothing
+    }
 
      public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Use the current date as the default date in the picker
