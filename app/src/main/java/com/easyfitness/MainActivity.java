@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 	public static String MACHINES = "Machines";	
 
 	public static String PREFS_NAME = "prefsfile";
-
+	CustomDrawerAdapter DrawerAdapter;
+	List<DrawerItem> dataList;
 	//private FontesFragment mpFontesFrag = FontesFragment.newInstance(FONTES, 1);
 	private FontesPagerFragment mpFontesPagerFrag = null;
 	private CardioFragment mpCardioFrag = null;
@@ -59,33 +60,20 @@ public class MainActivity extends AppCompatActivity {
 	//private GraphFragment mpGraphFrag = null;
 	private ProfilFragment mpProfilFrag = null;
 	private MachineFragment mpMachineFrag = null;
-	
 	private SettingsFragment mpSettingFrag = null;
-	
 	private AboutFragment mpAboutFrag = null;
-	
 	private String currentFragmentName = "";
-
 	private DAOProfil mDbProfils = null;
-
-	private Profil mCurrentProfil = null;   
+	private Profil mCurrentProfil = null;
 	private long mCurrentProfilID = 0;
-	
     private String m_importCVSchosenDir = "";
-    
     private Toolbar top_toolbar = null;
-    
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
-
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    CustomDrawerAdapter DrawerAdapter;
-
-    List<DrawerItem> dataList;
-    
     private MusicController musicController =new MusicController(this);
 
 	private String mCurrentMachine="";
@@ -102,15 +90,23 @@ public class MainActivity extends AppCompatActivity {
 		
 		if (savedInstanceState==null) {
 			//private FontesFragment mpFontesFrag = FontesFragment.newInstance(FONTES, 1);
-			if (mpFontesPagerFrag==null) 	mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6); 
-			if (mpCardioFrag==null)			mpCardioFrag = CardioFragment.newInstance(CARDIO, 2); 
+			if (mpFontesPagerFrag == null)
+				mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+			if (mpCardioFrag == null) mpCardioFrag = CardioFragment.newInstance(CARDIO, 4);
 			//private HistoryFragment mpHistoryFrag = HistoryFragment.newInstance(HISTORY, 3);    
 			//private GraphFragment mpGraphFrag = GraphFragment.newInstance(GRAPHIC, 4); 
 			if (mpProfilFrag==null)			mpProfilFrag = ProfilFragment.newInstance(PROFIL, 5); 
             if (mpSettingFrag==null)		mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
 			//private SettingsFragment    mpSettingFrag = new SettingsFragment();
-			if (mpAboutFrag==null)			mpAboutFrag = AboutFragment.newInstance(ABOUT, 6); 
-			if (mpMachineFrag==null)		mpMachineFrag = MachineFragment.newInstance(MACHINES, 7); 
+			if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
+			if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
+		} else {
+			mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
+			mpCardioFrag = (CardioFragment) getSupportFragmentManager().getFragment(savedInstanceState, CARDIO);
+			mpProfilFrag = (ProfilFragment) getSupportFragmentManager().getFragment(savedInstanceState, PROFIL);
+			mpSettingFrag = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, SETTINGS);
+			mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, ABOUT);
+			mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
 		}
 		/*else {
 			mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
@@ -150,10 +146,6 @@ public class MainActivity extends AppCompatActivity {
 		}*/
 			
 		if ( savedInstanceState == null) {
-			//getFontesPagerFragment().setRetainInstance(true);
-			//getCardioFragment().setRetainInstance(true);
-			//getProfilFragment().setRetainInstance(true);
-			//getAboutFragment().setRetainInstance(true);
 			FragmentManager fragmentManager=getSupportFragmentManager();
 			FragmentTransaction ft=fragmentManager.beginTransaction();
 			showFragment(FONTESPAGER,ft);
@@ -247,6 +239,27 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		//Save the fragment's instance
+		if (getFontesPagerFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, FONTESPAGER, mpFontesPagerFrag);
+		if (getCardioFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, CARDIO, mpCardioFrag);
+		if (getProfilFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, PROFIL, mpProfilFrag);
+		if (getMachineFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, MACHINES, mpMachineFrag);
+		if (getAboutFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, ABOUT, mpAboutFrag);
+		if (getSettingsFragment().isAdded())
+			getSupportFragmentManager().putFragment(outState, SETTINGS, mpSettingFrag);
+
+
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
@@ -325,9 +338,9 @@ public class MainActivity extends AppCompatActivity {
 		        public void onClick(DialogInterface dialog, int which) {
 					CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
 					if ( cvsMan.exportDatabase(getCurrentProfil()) ) {
-						Toast.makeText(getActivity().getBaseContext(), getActivity().getResources().getText(R.string.export_success), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity().getBaseContext(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Toast.LENGTH_SHORT).show();
 					} else {
-						Toast.makeText(getActivity().getBaseContext(), getActivity().getResources().getText(R.string.export_failed), Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity().getBaseContext(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Toast.LENGTH_LONG).show();
 					}
 						
 		            // Do nothing but close the dialog
@@ -505,61 +518,6 @@ public class MainActivity extends AppCompatActivity {
 		mDrawerLayout.invalidate();		
 	}
 	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-	    @Override
-	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	        selectItem(position);
-	        
-		    // Insert the fragment by replacing any existing fragment
-		    FragmentManager fragmentManager = getSupportFragmentManager();
-		    FragmentTransaction ft = fragmentManager.beginTransaction();
-		    
-		    switch(position){
-		    case 0:
-		    	// Title with Profil		    	
-		    	break;
-		    case 1:
-			    showFragment(FONTESPAGER, ft);
-			    setTitle(getResources().getText(R.string.FonteLabel));
-			    ft.commit();  
-		    	break;
-		    case 2:
-		    	showFragment(CARDIO, ft);
-			    setTitle(getResources().getText(R.string.CardioLabel));
-			    ft.commit();  
-		    	break;
-		    case 3:
-		    	showFragment(MACHINES, ft);
-			    setTitle(getResources().getText(R.string.MachinesLabel));
-			    ft.commit();  
-		    	break;		    	
-		    case 4:
-		    	showFragment(PROFIL, ft);
-			    setTitle(getResources().getText(R.string.ProfilLabel));
-			    ft.commit();  
-		    	break;
-		    case 5:
-		    	//Intent i = new Intent(getActivity(), SettingsActivity.class);
-		    	//startActivity(i);
-		    	showFragment(SETTINGS, ft);
-			    setTitle(getResources().getText(R.string.SettingLabel));
-				ft.commit();
-				break;
-		    case 6:
-		    	showFragment(ABOUT, ft);
-			    setTitle(getResources().getText(R.string.AboutLabel));
-			    ft.commit();  
-		    	break;
-		    default:
-		    	showFragment(FONTESPAGER, ft);
-			    setTitle(getResources().getText(R.string.FonteLabel));
-			    ft.commit();  
-		    }		    
-
-      
-	    }
-	}
-
 	/** Swaps fragments in the main content view */
 	private void selectItem(int position) {
 	    // Highlight the selected item, update the title, and close the drawer
@@ -573,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
 		CharSequence mTitle = title;
 	    getSupportActionBar().setTitle(mTitle);
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 	    super.onPostCreate(savedInstanceState);
@@ -587,14 +545,13 @@ public class MainActivity extends AppCompatActivity {
 	    mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	
 	private void showFragment(String pFragmentName, FragmentTransaction ft) {
-		
+
 		// Then show the fragments
 		if(pFragmentName.equals(FONTESPAGER)){
-			if (getFontesPagerFragment().isAdded()) 
+			if (getFontesPagerFragment().isAdded())
 				ft.show(getFontesPagerFragment());
-			else 
+			else
 				ft.add(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
 			if ( getCardioFragment().isAdded() ) ft.hide(getCardioFragment());
 			if ( getProfilFragment().isAdded() ) ft.hide(getProfilFragment());
@@ -646,7 +603,7 @@ public class MainActivity extends AppCompatActivity {
 			if ( getProfilFragment().isAdded() ) ft.hide(getProfilFragment());
             if ( getSettingsFragment().isAdded() ) ft.hide(getSettingsFragment());
 			currentFragmentName = pFragmentName;
-		}else if(pFragmentName.equals(ABOUT)){ 
+		} else if (pFragmentName.equals(ABOUT)) {
 			if ( getAboutFragment().isAdded() )
 				ft.show(getAboutFragment());
 			else
@@ -658,15 +615,15 @@ public class MainActivity extends AppCompatActivity {
             if ( getSettingsFragment().isAdded() ) ft.hide(getSettingsFragment());
 			currentFragmentName = pFragmentName;
 		}
-		
+
 	}
 
 	@Override
 	protected void onStop(){
-		super.onStop();		
-		savePreferences();      
+		super.onStop();
+		savePreferences();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -675,24 +632,24 @@ public class MainActivity extends AppCompatActivity {
 	public Profil getCurrentProfil() {
 		return mCurrentProfil;
 	}
-	
-	public void setCurrentProfil(String newProfilName) {   
+
+	public void setCurrentProfil(String newProfilName) {
 		mCurrentProfil = this.mDbProfils.getProfil(newProfilName);
 		mCurrentProfilID = mCurrentProfil.getId();
-		
+
 		// rafraichit le fragment courant
 		FragmentManager fragmentManager=getSupportFragmentManager();
 		//FragmentTransaction ft=fragmentManager.beginTransaction();
 		//showFragment(PROFIL, ft);
-		
-		// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit. 
-		// Il faut donc que cela soit pris en compte dans le refresh des fragments. 
+
+		// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
+		// Il faut donc que cela soit pris en compte dans le refresh des fragments.
 		for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
 			fragmentManager.getFragments().get(i).onHiddenChanged(false);
 		}
-		
+
 		setDrawerTitle(mCurrentProfil.getName());
-		
+
 		savePreferences();
 	}
 
@@ -711,58 +668,59 @@ public class MainActivity extends AppCompatActivity {
 	private void loadPreferences() {
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		mCurrentProfilID = settings.getLong("currentProfil", -1);
+		mCurrentProfilID = settings.getLong("currentProfil", -1); // return - if it doesn't exist
 	}
 
 	private void savePreferences() {
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putLong("currentProfil", mCurrentProfil.getId());
+		if (mCurrentProfil != null) editor.putLong("currentProfil", mCurrentProfil.getId());
 		editor.commit();
-	}  
-	
+	}
+
 	private FontesPagerFragment getFontesPagerFragment() {
 		if (mpFontesPagerFrag==null) 	mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
-		if (mpFontesPagerFrag==null) 	mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6); 
-		
+		if (mpFontesPagerFrag == null)
+			mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+
 		return mpFontesPagerFrag;
 	}
 	
 	private CardioFragment getCardioFragment() {
-		if (mpCardioFrag==null)			mpCardioFrag = (CardioFragment) getSupportFragmentManager().findFragmentByTag(CARDIO); 
-		if (mpCardioFrag==null)			mpCardioFrag = CardioFragment.newInstance(CARDIO, 2); 
-		
+		if (mpCardioFrag == null)
+			mpCardioFrag = (CardioFragment) getSupportFragmentManager().findFragmentByTag(CARDIO);
+		if (mpCardioFrag == null) mpCardioFrag = CardioFragment.newInstance(CARDIO, 2);
+
 		return mpCardioFrag;
 	}
 	
 	private ProfilFragment getProfilFragment() {
 		if (mpProfilFrag==null)			mpProfilFrag = (ProfilFragment) getSupportFragmentManager().findFragmentByTag(PROFIL);
-		if (mpProfilFrag==null)			mpProfilFrag = ProfilFragment.newInstance(PROFIL, 5); 
-		
+		if (mpProfilFrag == null) mpProfilFrag = ProfilFragment.newInstance(PROFIL, 5);
+
 		return mpProfilFrag;
 	}
 	
 	private MachineFragment getMachineFragment() {
 		if (mpMachineFrag==null)		mpMachineFrag = (MachineFragment) getSupportFragmentManager().findFragmentByTag(MACHINES);
-		if (mpMachineFrag==null)		mpMachineFrag = MachineFragment.newInstance(MACHINES, 7); 
+		if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
 		return mpMachineFrag;
 	}
 	
 	private AboutFragment getAboutFragment() {
 		if (mpAboutFrag==null)			mpAboutFrag = (AboutFragment) getSupportFragmentManager().findFragmentByTag(ABOUT);
-		if (mpAboutFrag==null)			mpAboutFrag = AboutFragment.newInstance(ABOUT, 6); 
-		
+		if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
+
 		return mpAboutFrag;
 	}
 
-    private SettingsFragment getSettingsFragment() {
-        if (mpSettingFrag==null)			mpSettingFrag = (SettingsFragment) getSupportFragmentManager().findFragmentByTag(SETTINGS);
+	private SettingsFragment getSettingsFragment() {
+		if (mpSettingFrag==null)			mpSettingFrag = (SettingsFragment) getSupportFragmentManager().findFragmentByTag(SETTINGS);
         if (mpSettingFrag==null)			mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
 
         return mpSettingFrag;
     }
-
 
 	public void showMP3Toolbar(boolean show) {
 		Toolbar mp3toolbar = (Toolbar) this.findViewById(R.id.musicToolbar);
@@ -770,6 +728,61 @@ public class MainActivity extends AppCompatActivity {
 			mp3toolbar.setVisibility(View.GONE);
 		} else {
 			mp3toolbar.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView parent, View view, int position, long id) {
+			selectItem(position);
+
+			// Insert the fragment by replacing any existing fragment
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+
+			switch (position) {
+				case 0:
+					// Title with Profil
+					break;
+				case 1:
+					showFragment(FONTESPAGER, ft);
+					setTitle(getResources().getText(R.string.FonteLabel));
+					ft.commit();
+					break;
+				case 2:
+					showFragment(CARDIO, ft);
+					setTitle(getResources().getText(R.string.CardioLabel));
+					ft.commit();
+					break;
+				case 3:
+					showFragment(MACHINES, ft);
+					setTitle(getResources().getText(R.string.MachinesLabel));
+					ft.commit();
+					break;
+				case 4:
+					showFragment(PROFIL, ft);
+					setTitle(getResources().getText(R.string.ProfilLabel));
+					ft.commit();
+					break;
+				case 5:
+					//Intent i = new Intent(getActivity(), SettingsActivity.class);
+					//startActivity(i);
+					showFragment(SETTINGS, ft);
+					setTitle(getResources().getText(R.string.SettingLabel));
+					ft.commit();
+					break;
+				case 6:
+					showFragment(ABOUT, ft);
+					setTitle(getResources().getText(R.string.AboutLabel));
+					ft.commit();
+					break;
+				default:
+					showFragment(FONTESPAGER, ft);
+					setTitle(getResources().getText(R.string.FonteLabel));
+					ft.commit();
+			}
+
+
 		}
 	}
 

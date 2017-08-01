@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-	<string name="app_version">0.12</string>
+	<string name="app_version" translatable="false">0.13BETA</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
-    <string name="author">Charles Combes</string>
+	<string name="author" translatable="false">Charles Combes</string>
 	<string name="opensource_label">Open source URL: </string>
-	<string name="opensource_url">https://github.com/brodeurlv/fastnfitness</string>
+	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history">\n
+									V0.13 BETA : 28/05/2017 \n
+									\t - Enhancement : Change audio time when clicking on the progress bar \n
+									\t - Enhancement : Rest time option after adding record
+									\t - Enhancement : Simplified UI
+									\t - Fix crash when no profil is entered
 									V0.12 : 25/09/2016 \n
 									\t - Enhancement : Open sourcized on GITHUB \n
 									\t - Enhancement : New tab display \n
@@ -76,9 +81,9 @@
         							\t - Beta version \n
 	</string>    
 	<string name="thanks_label">Libraries : </string>
-    <string name="MPAndroidChart_content">MPAndroidChart (Apache 2.0)</string>
-	<string name="javaCSV_content">JavaCSV (LGPL)</string>
-	<string name="antoniomChronometer_content">Millisecond-Chronometer (Apache 2.0)</string>
-	<string name="PagerSlidingTabStrip_content">PagerSlidingTabStrip (Apache 2.0)</string>
-	<string name="LicensesDialog_content">LicensesDialog (Apache 2.0)</string>
+	<string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
+	<string name="javaCSV_content" translatable="false">JavaCSV (LGPL)</string>
+	<string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
+	<string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
+	<string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
 </resources>

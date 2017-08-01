@@ -11,16 +11,14 @@ import com.easyfitness.R;
 public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 
 	final int PAGE_COUNT = 3;
+	Context context;
+	FragmentManager lFm = null;
 	// Tab Titles
 	private String tabtitles[] = new String[3]; // { "Records", "Graphics", "History" };
-	Context context;
-	
-	private FontesFragment mpFontesFrag = null;   
-	private FonteHistoryFragment mpHistoryFrag = null;  
-	private FonteGraphFragment mpGraphFrag = null; 
-	
-	FragmentManager lFm = null;
-	
+	private FontesFragment mpFontesFrag = null;
+	private FonteHistoryFragment mpHistoryFrag = null;
+	private FonteGraphFragment mpGraphFrag = null;
+
 	public FontesViewPagerAdapter(FragmentManager fm, Context ct) {
 		super(fm);
 		lFm = fm;
@@ -57,24 +55,41 @@ public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 	public CharSequence getPageTitle(int position) {
 		return tabtitles[position];
 	}
-	
-	private FontesFragment getFontesFragment() {
-		if (mpFontesFrag==null) 	mpFontesFrag= (FontesFragment) lFm.findFragmentByTag(MainActivity.FONTES);
+
+	public FontesFragment getFontesFragment() {
+		if (mpFontesFrag == null)
+			mpFontesFrag = (FontesFragment) lFm.findFragmentByTag(MainActivity.FONTES);
 		if (mpFontesFrag==null) 	mpFontesFrag= FontesFragment.newInstance(MainActivity.FONTES, 1); 
 		
 		return mpFontesFrag;
 	}
-	private FonteGraphFragment getGraphFragment() {
-		if (mpGraphFrag==null) 	mpGraphFrag= (FonteGraphFragment) lFm.findFragmentByTag(MainActivity.GRAPHIC);
+
+	public FonteGraphFragment getGraphFragment() {
+		if (mpGraphFrag == null)
+			mpGraphFrag = (FonteGraphFragment) lFm.findFragmentByTag(MainActivity.GRAPHIC);
 		if (mpGraphFrag==null) 	mpGraphFrag= FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2); 
 		
 		return mpGraphFrag;
 	}
-	private FonteHistoryFragment getHistoricFragment() {
-		if (mpHistoryFrag==null) 	mpHistoryFrag= (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
+
+	public FonteHistoryFragment getHistoricFragment() {
+		if (mpHistoryFrag == null)
+			mpHistoryFrag = (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
 		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3); 
 		
 		return mpHistoryFrag;
+	}
+
+	public void restoreFontesFragment(FontesFragment mpFrag) {
+		mpFontesFrag = mpFrag;
+	}
+
+	public void restoreGraphFragment(FonteGraphFragment mpFrag) {
+		mpGraphFrag = mpFrag;
+	}
+
+	public void restoreHistoricFragment(FonteHistoryFragment mpFrag) {
+		mpHistoryFrag = mpFrag;
 	}
 	
 }

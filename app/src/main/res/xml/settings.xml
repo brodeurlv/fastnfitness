@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_bodybuilding_setting">
 
-    <android.support.v7.preference.PreferenceCategory android:title="@string/pref_ui_setting" >
-        <android.support.v7.preference.CheckBoxPreference
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefShowRestTime"
+            android:summary="Automatically launch rest countdown after adding a record"
+            android:title="Activate Rest time"></CheckBoxPreference>
+
+        <ListPreference
+            android:defaultValue="60"
+            android:entries="@array/restTimeValues"
+            android:entryValues="@array/restTimeValues"
+            android:key="prefRestTimeValue"
+            android:summary="In Seconds"
+            android:title="Rest time value"></ListPreference>
+
+
+        <!--<android.support.v7.preference.ListPreference
+                    android:title="Default weight unit"
+                    android:summary="Select kg or lbs"
+                    android:key="defaultUnit"
+                    android:defaultValue="1"
+                    android:entries="@array/fonte_units"
+                    android:entryValues="@array/fonte_unitsValues" />-->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_ui_setting">
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="prefShowMP3"
             android:summary="@string/pref_show_mp3_player_summary"
-            android:title="@string/pref_show_mp3_player" >
-        </android.support.v7.preference.CheckBoxPreference>
+            android:title="@string/pref_show_mp3_player"></CheckBoxPreference>
 
   		<!--<android.support.v7.preference.ListPreference
   		    		android:title="Default weight unit"
@@ -16,6 +41,6 @@
                       android:defaultValue="1"
                       android:entries="@array/fonte_units"
                       android:entryValues="@array/fonte_unitsValues" />-->
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</PreferenceScreen>
