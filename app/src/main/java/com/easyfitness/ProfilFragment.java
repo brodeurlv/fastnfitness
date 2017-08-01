@@ -2,11 +2,11 @@ package com.easyfitness;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,24 +37,103 @@ import java.util.List;
 
 
 public class ProfilFragment extends Fragment {
-	private String name;
-	private int id;
-
 	Button addWeightButton = null;
 	EditText weightEdit = null;
 	EditText dateEdit = null;
 	TextView resumeText = null;
 	TextView profilText = null;
 	ExpandedListView weightList = null;
-
+	MainActivity mActivity = null;
+	private String name;
+	private int id;
 	private LineChart mChart = null;
 	private Graph mGraph = null;
-
 	private DAOWeight mWeightDb = null;
 	private DAOProfil mDb = null;
+	private OnClickListener onClickAddWeight = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (!weightEdit.getText().toString().isEmpty()) {
 
-	MainActivity mActivity = null;
+				Date date = DateConverter.editToDate(dateEdit.getText().toString());
 
+				mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
+				refreshData();
+				weightEdit.setText("");
+			}
+		}
+	};
+	private OnClickListener clickDateEdit = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int month, int day) {
+					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+				}
+			};
+			mDateFrag.show(ft, "dialog");
+		}
+	};
+	private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus == true) {
+				FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int month, int day) {
+
+						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+					}
+				};
+				mDateFrag.show(ft, "dialog");
+			}
+		}
+	};
+	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
+		@Override
+		public boolean onItemLongClick(AdapterView<?> listView, View view,
+									   int position, long id) {
+
+			// Get the cursor, positioned to the corresponding row in the result set
+			//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+			final long selectedID = id;
+
+			String[] profilListArray = new String[2];
+			profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
+			profilListArray[1] = getActivity().getResources().getString(R.string.ShareLabel);
+
+
+			AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
+			itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+
+					switch (which) {
+						// Delete
+						case 0:
+							mWeightDb.deleteMeasure(selectedID);
+
+							refreshData();
+
+							Toast.makeText(getActivity(), "Removed weight id " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
+
+							break;
+						// Share
+						case 1:
+							Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();//TODO change static string
+							break;
+						default:
+					}
+				}
+			});
+			itemActionbuilder.show();
+
+			return true;
+		}
+	};
 
 	/**
 	 * Create a new instance of DetailsFragment, initialized to
@@ -101,7 +180,7 @@ public class ProfilFragment extends Fragment {
 		mChart.setDescription(null);
 		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 		mWeightDb = new DAOWeight(view.getContext());
-		
+
 		// Set Initial text
 		dateEdit.setText(DateConverter.currentDate());
 
@@ -111,7 +190,7 @@ public class ProfilFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+
 		refreshData();
 	}
 	
@@ -121,59 +200,14 @@ public class ProfilFragment extends Fragment {
 		super.onAttach(activity);
 		this.mActivity = (MainActivity) activity;
 	}
-
-	private OnClickListener onClickAddWeight = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if  (!weightEdit.getText().toString().isEmpty()) {
-				
-				Date date = DateConverter.editToDate(dateEdit.getText().toString());
-				
-				mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
-				refreshData();
-				weightEdit.setText("");
-			}
-		}
-	};
-	
-	private OnClickListener clickDateEdit = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
-				@Override
-				public void onDateSet(DatePicker view, int year, int month, int day) {
-					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-				}
-			};
-				mDateFrag.show(ft, "dialog");			
-		}
-	}; 
-	
-	private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus == true) {
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int month, int day) {
-
-						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-					}
-				};
-				mDateFrag.show(ft, "dialog");			
-			}
-		}
-	}; 
 	
 	private void DrawGraph(List<Weight> valueList) {
-		
+
 		// Recupere les enregistrements
 		if (valueList.size() < 1) { mChart.clear(); return; }
-		// TODO normalement, je devrais faire un getWeightList sur l'objet Profil. 
+		// TODO normalement, je devrais faire un getWeightList sur l'objet Profil.
 
-		ArrayList<String> xVals = new ArrayList<String>();	
+		ArrayList<String> xVals = new ArrayList<String>();
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Draw second graph
@@ -199,9 +233,9 @@ public class ProfilFragment extends Fragment {
 
 		for (int i = 0; i<valueList.size();i++) {
 			Entry value = new Entry(valueList.get(i).getWeight(), (int)((valueList.get(i).getDate().getTime()-minDate)/86400000));
-			yVals.add(value);		
+			yVals.add(value);
 		}
-		
+
 		mGraph.draw(xVals, yVals);
 	}
 	
@@ -210,7 +244,7 @@ public class ProfilFragment extends Fragment {
 		Cursor oldCursor = null;
 
 		if(valueList.isEmpty()) {
-			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
+			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
 			weightList.setAdapter(null);
 		} else {
 			// ...
@@ -224,49 +258,6 @@ public class ProfilFragment extends Fragment {
 			}
 		}
 	}
-	
-	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
-		@Override
-		public boolean onItemLongClick(AdapterView<?> listView, View view,
-				int position, long id) {
-
-			// Get the cursor, positioned to the corresponding row in the result set
-			//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-
-			final long selectedID = id;
-			
-			String[] profilListArray = new String[2];
-			profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
-			profilListArray[1] = getActivity().getResources().getString(R.string.ShareLabel);
-
-
-			AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-			itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					
-					switch (which) {
-					// Delete
-					case 0 : 
-						mWeightDb.deleteMeasure(selectedID);
-
-						refreshData();
-
-						Toast.makeText(getActivity(), "Removed weight id " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
-						
-						break;
-					// Share
-					case 1:
-						Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();//TODO change static string
-					break;
-					default:
-					}
-				}				
-			});
-			itemActionbuilder.show();
-			
-			return true;
-		}
-	};
 
 	public String getName() { 
 		return getArguments().getString("name");

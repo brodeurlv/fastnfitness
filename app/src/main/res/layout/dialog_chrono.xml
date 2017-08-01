@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#3E80B4"
     android:orientation="vertical" >
 
      <gr.antoniom.chronometer.Chronometer
@@ -10,8 +9,8 @@
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:gravity="center"
-         android:text="00:00"
          android:keepScreenOn="true"
+         android:text="00:00"
          android:textSize="@dimen/abc_text_size_display_3_material" />
 
     <LinearLayout

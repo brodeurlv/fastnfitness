@@ -36,112 +36,33 @@ import java.util.TimeZone;
 
 @SuppressLint("ValidFragment")
 public class CardioFragment extends Fragment {
-	private String name; 
-	private int id;
-	MainActivity mActivity = null;
-
-	private DAOCardio mDb = null;
-
-	EditText dateEdit = null;
+    public static DatePickerDialogFragment mDateFrag = null;
+    public static TimePickerDialogFragment mDurationFrag = null;
+    MainActivity mActivity = null;
+    EditText dateEdit = null;
 	AutoCompleteTextView exerciceEdit = null;
 	EditText distanceEdit = null;
 	EditText durationEdit = null;
 	Button addButton = null;
 	Button chronoButton = null;
 	Button paramButton = null;
-	ListView recordList = null; 
-	String[] exerciceListArray = null;
-	ImageButton exerciceListButton = null;
+    ListView recordList = null;
+    String[] exerciceListArray = null;
+    ImageButton exerciceListButton = null;
 	ImageButton launchChronoButton = null;
-
-	public static DatePickerDialogFragment mDateFrag = null;
-	public static TimePickerDialogFragment mDurationFrag = null;
-	
-
-	/**
-	 * Create a new instance of DetailsFragment, initialized to
-	 * show the text at 'index'.
-	 */
-	public static CardioFragment newInstance(String name, int id) {
-		CardioFragment f = new CardioFragment();
-
-		// Supply index input as an argument.
-		Bundle args = new Bundle();
-		args.putString("name", name);
-		args.putInt("id", id);
-		f.setArguments(args);
-
-		return f;
-	}
-
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		this.mActivity = (MainActivity)activity;
-	}
-
-	@Override 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
-			Bundle savedInstanceState) { 
-
-		View view = inflater.inflate(R.layout.tab_cardio, container, false); 
-
-		dateEdit = (EditText) view.findViewById(R.id.editCardioDate);
-		exerciceEdit = (AutoCompleteTextView) view.findViewById(R.id.editExercice);
-		distanceEdit = (EditText) view.findViewById(R.id.editDistance);
-		durationEdit = (EditText) view.findViewById(R.id.editDuration);
-		recordList = (ListView) view.findViewById(R.id.listCardioRecord);
-		exerciceListButton = (ImageButton) view.findViewById(R.id.buttonListExercice);
-		launchChronoButton = (ImageButton) view.findViewById(R.id.buttonLaunchChrono);
-		addButton = (Button) view.findViewById(R.id.addExercice);
-
-		/* Initialisation des boutons */		
-		addButton.setOnClickListener(clickAddButton);
-		exerciceListButton.setOnClickListener(onClickMachineList);
-		//launchChronoButton.setOnClickListener();
-
-		dateEdit.setOnClickListener(clickDateEdit);
-		dateEdit.setOnFocusChangeListener(touchRazEdit);
-		distanceEdit.setOnFocusChangeListener(touchRazEdit);
-		durationEdit.setOnClickListener(clickDateEdit);
-		durationEdit.setOnFocusChangeListener(touchRazEdit);
-		exerciceEdit.setOnFocusChangeListener(touchRazEdit);
-		exerciceEdit.setOnItemClickListener(onItemClickFilterList);
-		recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
-
-		// Initialisation de la base de donnee
-		mDb = new DAOCardio(view.getContext());		
-
-		// Inflate the layout for this fragment 
-		return view;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		//refreshData();
-	}     
-
-	public String getName() { 
-		return getArguments().getString("name");
-	}
-
-	public int getFragmentId() { 
-		return getArguments().getInt("id", 0);
-	}
-
-	private OnClickListener clickAddButton = new View.OnClickListener() {
-		@Override
+    private String name;
+    private int id;
+    private DAOCardio mDb = null;
+    private OnClickListener clickAddButton = new View.OnClickListener() {
+        @Override
 		public void onClick(View v) {
 			/* Reagir au clic pour les boutons 1 et 2*/
 
 			// Verifie que les infos sont completes
 			if (dateEdit.getText().toString().isEmpty() ||
-					exerciceEdit.getText().toString().isEmpty() || 
-					(distanceEdit.getText().toString().isEmpty() &&
-							durationEdit.getText().toString().isEmpty()) )	{
+                    exerciceEdit.getText().toString().isEmpty() ||
+                    (distanceEdit.getText().toString().isEmpty() &&
+                            durationEdit.getText().toString().isEmpty()) )	{
 				return;
 			}
 
@@ -162,19 +83,19 @@ public class CardioFragment extends Fragment {
 			} catch (ParseException e) {
 				e.printStackTrace();
 				duration = 0;
-			}	
+            }
 
 			float distance;
 			if ( distanceEdit.getText().toString().isEmpty() ) {
 				distance = 0;
 			} else {
 				distance = Float.parseFloat(distanceEdit.getText().toString());
-			}	
+            }
 
 			Cardio value = new Cardio(date,
-					exerciceEdit.getText().toString(), 
-					distance,
-					duration,
+                    exerciceEdit.getText().toString(),
+                    distance,
+                    duration,
 					getProfil());
 
 			mDb.addRecord(value);
@@ -189,11 +110,10 @@ public class CardioFragment extends Fragment {
 			exerciceEdit.setAdapter(adapter);
 		}
 	};
-
 	private OnClickListener onClickMachineList = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			exerciceListArray = mDb.getAllMachines(getProfil());    
+            exerciceListArray = mDb.getAllMachines(getProfil());
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Select a Machine")
@@ -207,34 +127,32 @@ public class CardioFragment extends Fragment {
 			//builder.create();
 			builder.show();
 		}
-	};  
-
-	private OnClickListener clickDateEdit = new View.OnClickListener() {
-		@Override
+    };
+    private OnClickListener clickDateEdit = new View.OnClickListener() {
+        @Override
 		public void onClick(View v) {
 			switch(v.getId()) {
 			case R.id.editCardioDate:
 				showDatePicker();
 				break;
 			case R.id.editDuration:
-				showTimePicker();			
-				break;
-			}
+                showTimePicker();
+                break;
+            }
 		}
-	};    	
-
-	private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
-		@Override
+    };
+    private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
+        @Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus == true) {
 				switch(v.getId()) {
 				case R.id.editCardioDate:
-					showDatePicker();		
-					break;
-				case R.id.editDuration:
-					showTimePicker();			
-					break;
-				case R.id.editSerie:
+                    showDatePicker();
+                    break;
+                    case R.id.editDuration:
+                    showTimePicker();
+                    break;
+                    case R.id.editSerie:
 					distanceEdit.setText("");
 					break;
 				case R.id.editPoids:
@@ -256,7 +174,6 @@ public class CardioFragment extends Fragment {
 			}
 		}
 	};
-
 	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> listView, View view,
@@ -278,15 +195,87 @@ public class CardioFragment extends Fragment {
 			return true;
 		}
 	};
-
 	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			FillRecordTable(exerciceEdit.getText().toString());			
-		}
-	};      
+            FillRecordTable(exerciceEdit.getText().toString());
+        }
+    };
+
+    /**
+     * Create a new instance of DetailsFragment, initialized to
+     * show the text at 'index'.
+     */
+    public static CardioFragment newInstance(String name, int id) {
+        CardioFragment f = new CardioFragment();
+
+        // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putString("name", name);
+        args.putInt("id", id);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mActivity = (MainActivity) activity;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.tab_cardio, container, false);
+
+        dateEdit = (EditText) view.findViewById(R.id.editCardioDate);
+        exerciceEdit = (AutoCompleteTextView) view.findViewById(R.id.editExercice);
+        distanceEdit = (EditText) view.findViewById(R.id.editDistance);
+        durationEdit = (EditText) view.findViewById(R.id.editDuration);
+        recordList = (ListView) view.findViewById(R.id.listCardioRecord);
+        exerciceListButton = (ImageButton) view.findViewById(R.id.buttonListExercice);
+        launchChronoButton = (ImageButton) view.findViewById(R.id.buttonLaunchChrono);
+        addButton = (Button) view.findViewById(R.id.addExercice);
+
+		/* Initialisation des boutons */
+        addButton.setOnClickListener(clickAddButton);
+        exerciceListButton.setOnClickListener(onClickMachineList);
+        //launchChronoButton.setOnClickListener();
+
+        dateEdit.setOnClickListener(clickDateEdit);
+        dateEdit.setOnFocusChangeListener(touchRazEdit);
+        distanceEdit.setOnFocusChangeListener(touchRazEdit);
+        durationEdit.setOnClickListener(clickDateEdit);
+        durationEdit.setOnFocusChangeListener(touchRazEdit);
+        exerciceEdit.setOnFocusChangeListener(touchRazEdit);
+        exerciceEdit.setOnItemClickListener(onItemClickFilterList);
+        recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
+
+        // Initialisation de la base de donnee
+        mDb = new DAOCardio(view.getContext());
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //refreshData();
+    }
+
+    public String getName() {
+        return getArguments().getString("name");
+    }
+
+    public int getFragmentId() {
+        return getArguments().getInt("id", 0);
+    }
 
 	public DAOCardio getDB(){
 		return mDb;
@@ -333,12 +322,12 @@ public class CardioFragment extends Fragment {
 					dateEdit.setText(date);
 				}
 			}; //TODO eviter de recreer le DatePicker a chaque fois.
-			mDateFrag.show(getFragmentManager().beginTransaction(), "dialog_date");	
-		} else {
-			if (!mDateFrag.isVisible())
-				mDateFrag.show(getFragmentManager().beginTransaction(), "dialog_date");
-		}
-	}
+            mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
+        } else {
+            if (!mDateFrag.isVisible())
+                mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
+        }
+    }
 	
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
@@ -358,12 +347,12 @@ public class CardioFragment extends Fragment {
 					durationEdit.setText(date);
 				}
 			}; //TODO eviter de recreer le DatePicker a chaque fois.
-			mDurationFrag.show(getFragmentManager().beginTransaction(), "dialog_time");
-		} else {
-			if (!mDurationFrag.isVisible())
-				mDurationFrag.show(getFragmentManager().beginTransaction(), "dialog_time");
-		}
-	}
+            mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+        } else {
+            if (!mDurationFrag.isVisible())
+                mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+        }
+    }
 
 	private void refreshData(){
 		View fragmentView = getView();

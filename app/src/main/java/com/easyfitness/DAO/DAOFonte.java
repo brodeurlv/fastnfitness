@@ -36,18 +36,15 @@ public class DAOFonte extends DAOBase {
 			+ " DATE, " + MACHINE + " TEXT, " + SERIE + " INTEGER, "
 			+ REPETITION + " INTEGER, " + POIDS + " INTEGER, " + PROFIL_KEY
 			+ " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY + " INTEGER," + TIME + " TEXT);";
-	
-	private static final String TABLE_ARCHI = KEY +","+ DATE+","+MACHINE+","+SERIE+","+REPETITION+","+POIDS+","+UNIT+","+PROFIL_KEY+","+NOTES+","+MACHINE_KEY+","+TIME;
-
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
-	
 	public static final int SUM_FCT = 0;
 	public static final int MAX1_FCT = 1;
 	public static final int MAX5_FCT = 2;
-	
-	private Profil mProfil = null;
-	private Cursor mCursor = null;
+    public static final int NBSERIE_FCT = 3;
+    private static final String TABLE_ARCHI = KEY + "," + DATE + "," + MACHINE + "," + SERIE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
+    private Profil mProfil = null;
+    private Cursor mCursor = null;
 	private Context mContext = null;
 
 	public DAOFonte(Context context) {
@@ -306,8 +303,15 @@ public class DAOFonte extends DAOBase {
 					+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
-		}
-		// case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
+        } else if (pFunction == DAOFonte.NBSERIE_FCT) {
+            selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
+                    + TABLE_NAME
+                    + " WHERE " + MACHINE + "=\"" + pMachine + "\""
+                    + " AND " + PROFIL_KEY + "=" + pProfil.getId()
+                    + " GROUP BY " + DATE
+                    + " ORDER BY date(" + DATE + ") ASC";
+        }
+        // case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
 		// "*" + POIDS +") FROM " + TABLE_NAME + " WHERE " + MACHINE + "=\"" +
 		// pMachine + "\" AND " + DATE + "=\"" + pDate + "\" ORDER BY " + KEY +
 		// " DESC";

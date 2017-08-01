@@ -90,7 +90,9 @@
     
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_ui_setting">UI Settings</string>
-    
+    <string name="pref_bodybuilding_setting">Body Building Settings</string>
+
+
     <string name="profil_create_new">Create new profile</string>  
     
     <string name="profil_change">Change profile</string>
@@ -164,5 +166,8 @@
 
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronometer</string>
-    
+    <string name="CountdownLabel">Rest time</string>
+    <string name="activate_rest_time">Activate Rest Countdown</string>
+    <string name="rest_time">Rest time (sec)</string>
+
 </resources>

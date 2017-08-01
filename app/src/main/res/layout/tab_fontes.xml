@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:animateLayoutChanges="true"
         android:background="#EEEEEE"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -28,30 +29,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="40"
-                        android:text="@string/DateLabel" />
-
-                    <EditText
-                        android:id="@+id/editDate"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_weight="10"
-                        android:inputType="none"
-                        android:nextFocusDown="@+id/editMachine"></EditText>
-                </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -216,56 +193,131 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:orientation="vertical"
-            android:visibility="gone">
+
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textFonteNote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:text="@string/NotesLabel" />
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/textFonteNoteArrow"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="start"
+                    android:id="@+id/buttonExpandArrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_vertical"
                     android:adjustViewBounds="false"
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:scaleType="fitStart"
                     android:src="@drawable/arrow_up" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/notesLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-
-            <EditText
-                android:id="@+id/editFonteNote"
+                    <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:height="40dp"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:maxLines="5"
-                android:minHeight="40dp"
-                android:minLines="2"></EditText>
-        </LinearLayout>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="100"
+                            android:text="@string/DateLabel" />
+
+                        <EditText
+                            android:id="@+id/editDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:ems="9"
+                            android:inputType="none"
+                            android:nextFocusDown="@+id/editMachine"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="100"
+                            android:text="@string/activate_rest_time" />
+
+                        <CheckBox
+                            android:id="@+id/restTimecheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:checked="true"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/restTimeLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="100"
+                            android:text="@string/rest_time" />
+
+                        <EditText
+                            android:id="@+id/editRestTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:ems="4"
+                            android:inputType="none|number"
+                            android:text="60"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textFonteNote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="start"
+                            android:text="@string/NotesLabel" />
+
+                        <EditText
+                            android:id="@+id/editFonteNote"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:height="40dp"
+                            android:ems="10"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
+                            android:maxLines="5"
+                            android:minHeight="40dp"
+                            android:minLines="2"></EditText>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"

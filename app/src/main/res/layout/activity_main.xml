@@ -30,46 +30,61 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/toolbar_background"
+            android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
-            app:titleMargins="0dp" 
-            android:minHeight="?attr/actionBarSize">
+            app:titleMargins="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
-                
+
                 <RelativeLayout
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:orientation="horizontal" >
-                
-	                <ProgressBar
-	                    android:id="@+id/playerProgressBar"
-	                    style="?android:attr/progressBarStyleHorizontal"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="2dp"
-	                    android:background="@color/background_even" />   
-	                
-	                <TextView
-	                    android:id="@+id/playerSongTitle"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:layout_gravity="start"
-	                    android:layout_alignParentLeft="true"
-	                    android:layout_toLeftOf="@+id/playerSongProgress"
-	                    android:text="" />
-	                
-	                 <TextView
-	                    android:id="@+id/playerSongProgress"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:layout_alignParentRight="true"
-	                    android:layout_below="@id/playerProgressBar"
-	                    android:text="" />
-                 </RelativeLayout>
-                
-            <LinearLayout
+                    android:id="@+id/playerTopLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp">
+
+                    <!--<ProgressBar
+                        android:id="@+id/playerProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@color/background_even" />
+                    -->
+                    <SeekBar
+                        android:id="@+id/playerSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="-5dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="-2dp" />
+
+                    <TextView
+                        android:id="@+id/playerSongTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/playerSeekBar"
+                        android:allowUndo="false"
+                        android:gravity="center"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/playerSongProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/playerSeekBar"
+                        android:text="" />
+                </RelativeLayout>
+
+                <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:orientation="horizontal" >
@@ -145,10 +160,10 @@
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:src="@drawable/ic_library_music_black_36dp" />  
-                    
+                    android:src="@drawable/ic_library_music_black_36dp" />
+
+                </LinearLayout>
             </LinearLayout>
-                        </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout

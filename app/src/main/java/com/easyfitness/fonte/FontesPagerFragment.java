@@ -8,19 +8,22 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.astuetz.PagerSlidingTabStrip;
 
+import com.astuetz.PagerSlidingTabStrip;
+import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
 public class FontesPagerFragment extends Fragment {
 	private String name; 
 	private int id;
 
+	private FontesFragment mpFontesFrag = null;
+	private FonteHistoryFragment mpHistoryFrag = null;
+	private FonteGraphFragment mpGraphFrag = null;
 
-	
-    /**
-     * Create a new instance of DetailsFragment, initialized to
-     * show the text at 'index'.
+	/**
+	 * Create a new instance of DetailsFragment, initialized to
+	 * show the text at 'index'.
      */
     public static FontesPagerFragment newInstance(String name, int id) {
     	FontesPagerFragment f = new FontesPagerFragment();
@@ -84,6 +87,35 @@ public class FontesPagerFragment extends Fragment {
 	public FontesViewPagerAdapter getViewPagerAdapter()
 	{
 		return (FontesViewPagerAdapter)((ViewPager)(getView().findViewById(R.id.pager))).getAdapter();
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (savedInstanceState != null) {
+			mpFontesFrag = (FontesFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.FONTES);
+			getViewPagerAdapter().restoreFontesFragment(mpFontesFrag);
+
+			mpGraphFrag = (FonteGraphFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.GRAPHIC);
+			getViewPagerAdapter().restoreGraphFragment(mpGraphFrag);
+
+			mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.HISTORY);
+			getViewPagerAdapter().restoreHistoricFragment(mpHistoryFrag);
+		}
+	}
+
+	// invoked when the activity may be temporarily destroyed, save the instance state here
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// call superclass to save any view hierarchy
+		super.onSaveInstanceState(outState);
+
+		if (getViewPagerAdapter().getFontesFragment() != null && getViewPagerAdapter().getFontesFragment().isAdded())
+			getChildFragmentManager().putFragment(outState, MainActivity.FONTES, getViewPagerAdapter().getFontesFragment());
+		if (getViewPagerAdapter().getGraphFragment() != null && getViewPagerAdapter().getGraphFragment().isAdded())
+			getChildFragmentManager().putFragment(outState, MainActivity.GRAPHIC, getViewPagerAdapter().getGraphFragment());
+		if (getViewPagerAdapter().getHistoricFragment() != null && getViewPagerAdapter().getHistoricFragment().isAdded())
+			getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
 	}
 	
 	@Override

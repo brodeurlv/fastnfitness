@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import gr.antoniom.chronometer.Chronometer;
-import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 //import android.widget.Chronometer;
 //import android.widget.Chronometer.OnChronometerTickListener;
 
@@ -19,11 +18,11 @@ public class ChronoDialogbox extends Dialog implements
   public Dialog d;
   public Button startstop, exit, reset;
   public Chronometer chrono;
-  private boolean chronoStarted=false;
-  private boolean chronoResetted=false;
   String strCurrentTime="";
   long startTime=0;
   long stopTime=0;
+    private boolean chronoStarted = false;
+    private boolean chronoResetted = false;
 
   public ChronoDialogbox(Activity a) {
     super(a);
@@ -46,15 +45,13 @@ public class ChronoDialogbox extends Dialog implements
     startstop.setOnClickListener(this);
     exit.setOnClickListener(this);
     reset.setOnClickListener(this);
-    chrono.setOnChronometerTickListener(onChronometerTick);
     chrono.setBase(SystemClock.elapsedRealtime());
     chrono.start();
     startTime=SystemClock.elapsedRealtime();
     chronoStarted=true;
     
     startstop.setText("Stop");
-    
-    //setOnDismissListener(onDismissChrono) ;
+
   }
 
   @Override
@@ -97,42 +94,4 @@ public class ChronoDialogbox extends Dialog implements
       break;
     }
   }
-  
-  /*
-  public OnDismissListener onDismissChrono = new OnDismissListener()
-  {
-	  @Override
-	  public void onDismiss(DialogInterface dialog) {
-		  getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	  }
-  };*/
-  
-  private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener(){
-
-		@Override
-		public void onChronometerTick(Chronometer chronometer) {
-			/*long minutes=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)/60;
-			long seconds=((SystemClock.elapsedRealtime()-chrono.getBase())/1000)%60;
-			long milliseconds=((SystemClock.elapsedRealtime()-chrono.getBase()))%100;
-			if (minutes<10) {
-				strCurrentTime="0"+String.valueOf(minutes)+":";
-			} else {
-				strCurrentTime=String.valueOf(minutes)+":";
-			}
-			if (seconds<10) {
-				strCurrentTime=strCurrentTime+"0"+String.valueOf(seconds)+":";
-			} else {
-				strCurrentTime=strCurrentTime+String.valueOf(seconds)+":";
-			}
-			if (milliseconds<10) {
-				strCurrentTime=strCurrentTime+"0"+String.valueOf(milliseconds);
-			} else {
-				strCurrentTime=strCurrentTime+String.valueOf(milliseconds);
-			}
-			chrono.setText(strCurrentTime);*/
-		}	
-	};
-	
-	
-	
 }
