@@ -51,7 +51,7 @@ public class FontesPagerFragment extends Fragment {
 			//ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
 		
 			// Set the ViewPagerAdapter into ViewPager
-			viewPager.setAdapter(new FontesViewPagerAdapter(getActivity().getSupportFragmentManager(), getActivity().getApplicationContext()));
+			viewPager.setAdapter(new FontesViewPagerAdapter(getChildFragmentManager(), getActivity().getApplicationContext()));
 
 			// Bind the tabs to the ViewPager
 			PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);

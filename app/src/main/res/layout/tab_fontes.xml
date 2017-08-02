@@ -282,6 +282,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
                             android:ems="4"
+                            android:nextFocusForward="@id/editMachine"
                             android:inputType="none|number"
                             android:text="60"></EditText>
                     </LinearLayout>
@@ -345,7 +346,8 @@
         <ListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
-            android:layout_height="500dp">
+            android:layout_height="500dp"
+            android:animateLayoutChanges="true">
 
         </ListView>
 

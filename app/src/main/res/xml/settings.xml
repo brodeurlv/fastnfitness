@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/pref_bodybuilding_setting">
+    <!--<PreferenceCategory android:title="@string/pref_bodybuilding_setting">
 
 
         <CheckBoxPreference
@@ -18,14 +18,14 @@
             android:title="Rest time value"></ListPreference>
 
 
-        <!--<android.support.v7.preference.ListPreference
+        <android.support.v7.preference.ListPreference
                     android:title="Default weight unit"
                     android:summary="Select kg or lbs"
                     android:key="defaultUnit"
                     android:defaultValue="1"
                     android:entries="@array/fonte_units"
-                    android:entryValues="@array/fonte_unitsValues" />-->
-    </PreferenceCategory>
+                    android:entryValues="@array/fonte_unitsValues" />
+    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/pref_ui_setting">
         <CheckBoxPreference

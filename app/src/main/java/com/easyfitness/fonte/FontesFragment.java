@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -127,7 +128,7 @@ public class FontesFragment extends Fragment {
 			//Rajoute le moment du dernier ajout dans le bouton Add
 			addButton.setText(getView().getContext().getString(R.string.AddLabel)+"\n("+DateConverter.currentTime()+")");
 
-			saveSharedParams(DateConverter.currentTime(), "LastRecordDate");
+			//saveSharedParams(DateConverter.currentTime(), "LastRecordDate");
 
 			// If setting prefShowRestTime is ON
 			//SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity.getBaseContext());
@@ -153,6 +154,7 @@ public class FontesFragment extends Fragment {
 		public void onClick(View v) {
 			detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
 			detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.arrow_up : R.drawable.arrow_down);
+			saveSharedParams();
 		}
 	};
 	private OnClickListener onClickMachineList = new View.OnClickListener() {
@@ -238,6 +240,22 @@ public class FontesFragment extends Fragment {
 					break;
 				}
 			}
+		}
+	};
+
+	private OnFocusChangeListener restTimeEditChange = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (!hasFocus) {
+				saveSharedParams();
+			}
+		}
+	};
+
+
+	private CompoundButton.OnCheckedChangeListener restTimeCheckChange = new CompoundButton.OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			saveSharedParams();
 		}
 	};
 	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
@@ -364,6 +382,10 @@ public class FontesFragment extends Fragment {
 		machineEdit.setOnItemClickListener(onItemClickFilterList);
 		recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
 		detailsExpandArrow.setOnClickListener(collapseDetailsClick);
+		restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
+		restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange); //.setOnFocusChangeListener(restTimeEditChange);
+
+		restoreSharedParams();
 
 		// Initialisation de la base de donnee
 		mDb = new DAOFonte(view.getContext());
@@ -382,15 +404,6 @@ public class FontesFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {
-			restTimeEdit.setText(savedInstanceState.getString("restTime"));
-			restTimeCheck.setChecked(savedInstanceState.getBoolean("restTimeCheckBox"));
-			if (savedInstanceState.getBoolean("detailsVisible")) {
-				detailsLayout.setVisibility(View.VISIBLE);
-			} else {
-				detailsLayout.setVisibility(View.GONE);
-			}
-		}
 	}
 
 	// invoked when the activity may be temporarily destroyed, save the instance state here
@@ -398,10 +411,6 @@ public class FontesFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		// call superclass to save any view hierarchy
 		super.onSaveInstanceState(outState);
-
-		outState.putBoolean("detailsVisible", detailsLayout.isShown());
-		outState.putBoolean("restTimeCheckBox", restTimeCheck.isChecked());
-		outState.putString("restTime", restTimeEdit.getText().toString());
 	}
 
 	public String getName() {
@@ -570,18 +579,27 @@ public class FontesFragment extends Fragment {
 			}
 		}
 	}
-	
-	public void saveSharedParams(String toSave, String paramName) {
-		SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
+
+	public void saveSharedParams() {
+		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString(toSave, paramName);
+		editor.putString("restTime", restTimeEdit.getText().toString());
+		editor.putBoolean("restCheck", restTimeCheck.isChecked());
+		editor.putBoolean("showDetails", this.detailsLayout.isShown());
 		editor.commit();
 	}
-	
-	public String getSharedParams(String paramName) {
-		SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
-		String ret = sharedPref.getString(paramName, "");
-		return ret;
+
+	public void restoreSharedParams() {
+		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+		restTimeEdit.setText(sharedPref.getString("restTime", ""));
+		restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
+
+		if (sharedPref.getBoolean("showDetails", false)) {
+			detailsLayout.setVisibility(View.VISIBLE);
+		} else {
+			detailsLayout.setVisibility(View.GONE);
+		}
+		detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.arrow_up : R.drawable.arrow_down);
 	}
 
 	@Override
