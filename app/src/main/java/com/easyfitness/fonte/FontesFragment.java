@@ -2,6 +2,7 @@ package com.easyfitness.fonte;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -427,17 +428,19 @@ public class FontesFragment extends Fragment {
 
 	private void showDatePickerFragment() {
 		if (mDateFrag == null) {
-			mDateFrag = new DatePickerDialogFragment() {
-				@Override
-				public void onDateSet(DatePicker view, int year, int month, int day) {
-					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-				}
-			};
+			mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
 		}
 
 		FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
 		mDateFrag.show(ft, "dialog");
 	}
+
+	private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+		}
+	};
 
 	// Share your performances with friends
 	public boolean shareRecord(String text) {

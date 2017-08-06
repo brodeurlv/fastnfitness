@@ -338,8 +338,7 @@ public class DAOFonte extends DAOBase {
 					date = new Date();
 				}
 
-				DateGraphData value = new DateGraphData(date.getTime(),
-						mCursor.getDouble(0));
+				DateGraphData value = new DateGraphData(date.getTime(), mCursor.getDouble(0));
 
 				// Adding value to list
 				valueList.add(value);
