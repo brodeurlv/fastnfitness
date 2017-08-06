@@ -20,11 +20,12 @@ import com.easyfitness.DAO.Profil;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.graph.CustomMarkerView;
 import com.easyfitness.graph.Graph;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.data.Entry;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,8 +91,12 @@ public class FonteGraphFragment extends Fragment {
 		
 		/* Initialise le graph */ 
 		mChart = (LineChart) view.findViewById(R.id.graphChart);
-        mChart.setDescription("");
+		//mChart.setDescription(""); @TODO: fix this
 		if ( mGraph == null ) mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+
+		//Define Marker
+		IMarker marker = new CustomMarkerView(getActivity(), R.layout.graph_markerview);
+		mGraph.getLineChart().setMarker(marker);
 
 		/* Initialisation de l'historique */
 		if (mDb ==null) mDb = new DAOFonte(view.getContext());
@@ -184,34 +189,34 @@ public class FonteGraphFragment extends Fragment {
 		// Recupere les enregistrements
 		List<DateGraphData> valueList = mDb.getFunctionRecords(getProfil(), pMachine, pDAOFunction);
 
-		ArrayList<String> xVals = new ArrayList<String>();	
+		//ArrayList<String> xVals = new ArrayList<String>();
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-		// Draw second graph
+		// Recherche le min et max des dates
 		long maxDate = -1;
 		long minDate = -1;
 
-		for (int i = 0; i<valueList.size();i++) {
+		/*for (int i = 0; i<valueList.size();i++) {
 			long tmpDate = (long)(valueList.get(i).getX());
 			if (maxDate == -1)  maxDate = tmpDate;
 			if (minDate == -1)  minDate = tmpDate;
 
 			if (tmpDate > maxDate) maxDate = tmpDate;
 			if (tmpDate < minDate) minDate = tmpDate;
-		}
+		}*/
 
-		// Draw second graph
-		for (long i = minDate; i<=maxDate;i=i+86400000) {
+		// Reformat l'X axis. Transforme le date de
+		/*for (long i = minDate; i<=maxDate;i=i+86400000) {
 			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
 			xVals.add(dt1.format(i));
-		}
+		}*/
 
 		for (int i = 0; i<valueList.size();i++) {
-			Entry value = new Entry((float)valueList.get(i).getY(), (int)((valueList.get(i).getX()-minDate)/86400000));
+			Entry value = new Entry((float) (valueList.get(i).getX()), (float) valueList.get(i).getY());//-minDate)/86400000));
 			yVals.add(value);		
 		}
-		
-		mGraph.draw(xVals, yVals);
+
+		mGraph.draw(yVals);
 	}
 
 	public String getName() { 

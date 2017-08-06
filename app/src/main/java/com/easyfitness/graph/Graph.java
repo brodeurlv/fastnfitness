@@ -1,14 +1,19 @@
 package com.easyfitness.graph;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.easyfitness.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Graph {
 	
@@ -23,23 +28,66 @@ public class Graph {
 		mChart.setDoubleTapToZoomEnabled(true);
         mChart.setHorizontalScrollBarEnabled(true);
         mChart.setVerticalScrollBarEnabled(true);
-        mChart.getAxisLeft().setStartAtZero(false);
-        mChart.getAxisRight().setStartAtZero(false);
-	}
-	
-	public void draw(ArrayList<String> xVals,	ArrayList<Entry> yVals) {
-		mChart.clear();
 
-		LineDataSet set1 = new LineDataSet(yVals, mChartName);
+
+        // get the legend (only possible after setting data)
+        Legend l = mChart.getLegend();
+        l.setEnabled(false);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+        //xAxis.setTypeface(mTfLight);
+        xAxis.setTextSize(10f);
+        //xAxis.setTextColor(Color.);
+        xAxis.setTextColor(ColorTemplate.getHoloBlue());
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(true);
+        //xAxis.setTextColor(Color.rgb(255, 192, 56));
+        xAxis.setCenterAxisLabels(false);
+        //xAxis.setGranularity(1f); // ?
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM-yy");
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                //long millis = TimeUnit.HOURS.toMillis((long) value);
+                return mFormat.format(new Date((long) value));
+            }
+        });
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        //leftAxis.setTypeface(mTfLight);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+        //leftAxis.setAxisMinimum(0f);
+        //leftAxis.setAxisMaximum(170f);
+        //leftAxis.setYOffset(0);
+        //leftAxis.setTextColor(Color.rgb(255, 192, 56));
+
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        mChart.getAxisLeft().setAxisMinValue(0f);
+        mChart.getAxisRight().setAxisMinValue(0f);
+    }
+
+    public void draw(ArrayList<Entry> entries) {
+        mChart.clear();
+
+        LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(4f);
         set1.setCircleSize(6f);
         set1.setFillAlpha(65);
 
-		List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-		dataSets.add(set1); // add the datasets
+		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets*/
 
 		// Create a data object with the datasets
-		LineData data = new LineData(xVals, dataSets);
+        LineData data = new LineData(set1);
 
 		// Set data
         mChart.setData(data);
@@ -59,21 +107,21 @@ public class Graph {
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum(7); // allow 20 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXValCount() - 7); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + 1 - 7); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_MONTH:
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum(30); // allow 20 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXValCount() - 30); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + 1 - 30); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_YEAR:
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                      mChart.setVisibleXRangeMaximum(365); // allow 20 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXValCount() - 365); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + 1 - 365); // set the left edge of the chart to x-index 10
                 }
                 break;
         }

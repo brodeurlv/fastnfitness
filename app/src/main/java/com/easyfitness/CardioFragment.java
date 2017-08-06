@@ -3,6 +3,7 @@ package com.easyfitness;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -314,21 +315,24 @@ public class CardioFragment extends Fragment {
 
 	private void showDatePicker() {
 		if (mDateFrag==null) {
-			mDateFrag = new DatePickerDialogFragment() {
-				@Override
-				public void onDateSet(DatePicker view, int year, int month, int day) {
-					// Do something with the date chosen by the user
-					String date = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
-					dateEdit.setText(date);
-				}
-			}; //TODO eviter de recreer le DatePicker a chaque fois.
-            mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
+			mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+			mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
         } else {
             if (!mDateFrag.isVisible())
                 mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
         }
     }
-	
+
+	private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			// Do something with the date chosen by the user
+			String date = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
+			dateEdit.setText(date);
+		}
+	};
+
+
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
 			mDurationFrag = new TimePickerDialogFragment() {

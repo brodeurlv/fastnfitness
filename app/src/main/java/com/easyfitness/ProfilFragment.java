@@ -2,6 +2,7 @@ package com.easyfitness;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -30,7 +31,6 @@ import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +50,25 @@ public class ProfilFragment extends Fragment {
 	private Graph mGraph = null;
 	private DAOWeight mWeightDb = null;
 	private DAOProfil mDb = null;
+
+	DatePickerDialogFragment mDateFrag = null;
+
+	private void showDatePickerFragment() {
+		if (mDateFrag == null) {
+			mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+		}
+
+		FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+		mDateFrag.show(ft, "dialog");
+	}
+
+	private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+		}
+	};
+
 	private OnClickListener onClickAddWeight = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -66,29 +85,14 @@ public class ProfilFragment extends Fragment {
 	private OnClickListener clickDateEdit = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-			DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
-				@Override
-				public void onDateSet(DatePicker view, int year, int month, int day) {
-					dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-				}
-			};
-			mDateFrag.show(ft, "dialog");
+			showDatePickerFragment();
 		}
 	};
 	private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus == true) {
-				FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-				DatePickerDialogFragment mDateFrag = new DatePickerDialogFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int month, int day) {
-
-						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-					}
-				};
-				mDateFrag.show(ft, "dialog");
+				showDatePickerFragment();
 			}
 		}
 	};
@@ -205,38 +209,36 @@ public class ProfilFragment extends Fragment {
 
 		// Recupere les enregistrements
 		if (valueList.size() < 1) { mChart.clear(); return; }
-		// TODO normalement, je devrais faire un getWeightList sur l'objet Profil.
 
-		ArrayList<String> xVals = new ArrayList<String>();
+		//ArrayList<String> xVals = new ArrayList<String>();
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Draw second graph
 		long maxDate = -1;
 		long minDate = -1;
 
-		for (int i = 0; i<valueList.size();i++) {
+		/*for (int i = 0; i<valueList.size();i++) {
 			long tmpDate = valueList.get(i).getDate().getTime();
 			if (maxDate == -1)  maxDate = tmpDate;
 			if (minDate == -1)  minDate = tmpDate;
 
 			if (tmpDate > maxDate) maxDate = tmpDate;
 			if (tmpDate < minDate) minDate = tmpDate;
-		}
+		}*/
 
 		// Crée toutes les dates, meme si il n'y a pas de poids associé
-		for (long i = minDate; i<=maxDate;i=i+86400000) {
+		/*for (long i = minDate; i<=maxDate;i=i+86400000) {
 			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
 			//dt1.setTimeZone(TimeZone.getTimeZone("GMT")); // On se recalle sur le GMT car le GetTime est en GMT.
 			xVals.add(dt1.format(i));
-		}
+		}*/
 
-
-		for (int i = 0; i<valueList.size();i++) {
-			Entry value = new Entry(valueList.get(i).getWeight(), (int)((valueList.get(i).getDate().getTime()-minDate)/86400000));
+		for (int i = valueList.size() - 1; i >= 0; i--) {
+			Entry value = new Entry((float) (valueList.get(i).getDate().getTime()), valueList.get(i).getWeight());
 			yVals.add(value);
 		}
 
-		mGraph.draw(xVals, yVals);
+		mGraph.draw(yVals);
 	}
 	
 	/*  */
