@@ -55,7 +55,7 @@
     <string name="ExerciceLabel">Exercice</string>
     
     <!-- Profil Fragment -->
-    <string name="ProfilLabel">Profil</string>
+    <string name="ProfilLabel">Suivi Corps</string>
     <string name="weightLabel">Poids</string>
     <string name="weightTableLabel">Enregistrements : </string>
     <string name="createProfilTitle">Créer un nouveau profil</string>

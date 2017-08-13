@@ -79,8 +79,12 @@ public class MainActivity extends AppCompatActivity {
 	private String mCurrentMachine="";
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {       
-		super.onCreate(savedInstanceState);             
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		//Fabric.with(this, new Crashlytics());
+
+
 		//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);       
 		setContentView(R.layout.activity_main); 
 		

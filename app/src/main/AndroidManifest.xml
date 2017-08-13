@@ -9,8 +9,8 @@
         android:targetSdkVersion="23" />
 	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 		<uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 	    <uses-feature android:name="android.hardware.camera" android:required="false" />
-	
 
     <application
         android:allowBackup="true"
@@ -31,7 +31,8 @@
                    android:configChanges="orientation|screenSize" >
         </activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" />
     </application>
-    
-
 </manifest>

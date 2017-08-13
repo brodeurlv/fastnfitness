@@ -107,8 +107,9 @@ public class FonteGraphFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		refreshData();
-	}
+        if (this.getUserVisibleHint() == true)
+            refreshData();
+    }
 	
 	@Override
 	public void onAttach(Activity activity)

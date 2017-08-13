@@ -1,7 +1,5 @@
 package com.easyfitness.machines;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,12 +16,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.easyfitness.MainActivity;
-import com.easyfitness.R;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profil;
+import com.easyfitness.MainActivity;
+import com.easyfitness.R;
+
+import java.util.List;
 
 public class MachineFragment extends Fragment {
 	private String name;
@@ -64,8 +64,8 @@ public class MachineFragment extends Fragment {
 
 		//typeList = (Spinner) view.findViewById(R.id.filterDate);
 		//machineList = (Spinner) view.findViewById(R.id.filterMachine);
-		renameMachineButton = (ImageButton) view.findViewById(R.id.imageMachineRename);
-		machineList = (ListView) view.findViewById(R.id.listMachine);
+        //renameMachineButton = (ImageButton) view.findViewById(R.id.imageMachineRename);
+        machineList = (ListView) view.findViewById(R.id.listMachine);
 		//musclesList = (Spinner) view.findViewById(R.id.listFilterRecord);
 		
 		machineList.setOnItemClickListener(onClickListItem);

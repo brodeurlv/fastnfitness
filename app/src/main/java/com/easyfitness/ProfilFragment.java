@@ -233,13 +233,19 @@ public class ProfilFragment extends Fragment {
 			xVals.add(dt1.format(i));
 		}*/
 
+        float minWeight = -1;
+
 		for (int i = valueList.size() - 1; i >= 0; i--) {
 			Entry value = new Entry((float) (valueList.get(i).getDate().getTime()), valueList.get(i).getWeight());
 			yVals.add(value);
-		}
+            if (minWeight == -1) minWeight = valueList.get(i).getWeight();
+            else if (valueList.get(i).getWeight() < minWeight)
+                minWeight = valueList.get(i).getWeight();
+        }
 
 		mGraph.draw(yVals);
-	}
+        //mGraph.getLineChart().
+    }
 	
 	/*  */
 	private void FillRecordTable(List<Weight> valueList) {
