@@ -10,8 +10,8 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"    >
-    
-    <FrameLayout
+
+    <!--<FrameLayout
         android:id="@+id/fragment_machine_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,7 +51,7 @@
         
 
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <RelativeLayout         
         android:layout_width="fill_parent"
