@@ -1,9 +1,10 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:background="@color/background">    
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
 
 <LinearLayout
     android:id="@+id/tab_machine_details"
@@ -106,4 +107,15 @@
 </LinearLayout> 
 
 </LinearLayout>
-</ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/actionCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_anchor="@id/machine_photo"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

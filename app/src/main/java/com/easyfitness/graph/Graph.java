@@ -32,6 +32,7 @@ public class Graph {
 		mChart.setDoubleTapToZoomEnabled(true);
         mChart.setHorizontalScrollBarEnabled(true);
         mChart.setVerticalScrollBarEnabled(true);
+        mChart.setAutoScaleMinMaxEnabled(true);
 
 
         // get the legend (only possible after setting data)
@@ -39,19 +40,19 @@ public class Graph {
         l.setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //xAxis.setTypeface(mTfLight);
-        xAxis.setTextSize(10f);
+        //xAxis.setTextSize(10f);
         //xAxis.setTextColor(Color.);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
         //xAxis.setTextColor(Color.rgb(255, 192, 56));
         xAxis.setCenterAxisLabels(false);
-        //xAxis.setGranularity(1f); // ?
+        xAxis.setGranularity(1000 * 60 * 60 * 24); // ?
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM-yy");
+            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MMM");
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -67,16 +68,16 @@ public class Graph {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-        leftAxis.setAxisMinimum(0f);
+        //leftAxis.setAxisMinimum(0f);
         //leftAxis.setAxisMaximum(170f);
         //leftAxis.setYOffset(0);
         //leftAxis.setTextColor(Color.rgb(255, 192, 56));
-
+        leftAxis.resetAxisMinimum();
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
 
-        mChart.getAxisLeft().setAxisMinValue(0f);
+        //mChart.getAxisLeft().setAxisMinValue(0f);
         //mChart.getAxisRight().setAxisMinValue(0f);
     }
 
@@ -88,9 +89,9 @@ public class Graph {
         Log.d("DEBUG", arrayToString(entries));
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
-        set1.setLineWidth(4f);
-        set1.setCircleSize(6f);
-        set1.setFillAlpha(65);
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(4f);
+        set1.setFillAlpha(150);
 
 		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets*/
@@ -103,7 +104,7 @@ public class Graph {
         //mChart.animateX(500, Easing.EasingOption.EaseInOutBack);    //refresh graph
 
         mChart.invalidate();
-        mChart.resetViewPortOffsets();
+        //mChart.resetViewPortOffsets();
     }
 
     private String arrayToString(ArrayList<Entry> entries) {
