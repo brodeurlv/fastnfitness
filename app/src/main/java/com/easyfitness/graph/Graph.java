@@ -1,9 +1,13 @@
 package com.easyfitness.graph;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.easyfitness.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -32,7 +36,7 @@ public class Graph {
 		mChart.setDoubleTapToZoomEnabled(true);
         mChart.setHorizontalScrollBarEnabled(true);
         mChart.setVerticalScrollBarEnabled(true);
-
+        mChart.setAutoScaleMinMaxEnabled(true);
 
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
@@ -71,7 +75,7 @@ public class Graph {
         //leftAxis.setAxisMaximum(170f);
         //leftAxis.setYOffset(0);
         //leftAxis.setTextColor(Color.rgb(255, 192, 56));
-
+    //leftAxis.setStartAtZero(false);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -89,8 +93,9 @@ public class Graph {
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(4f);
-        set1.setCircleSize(6f);
-        set1.setFillAlpha(65);
+        set1.setCircleRadius(3f);
+        set1.setFillColor(ContextCompat.getColor(this.getLineChart().getContext(), R.color.graph_fill));
+        set1.setFillAlpha(150);
 
 		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets*/
@@ -103,7 +108,7 @@ public class Graph {
         //mChart.animateX(500, Easing.EasingOption.EaseInOutBack);    //refresh graph
 
         mChart.invalidate();
-        mChart.resetViewPortOffsets();
+        //mChart.resetViewPortOffsets();
     }
 
     private String arrayToString(ArrayList<Entry> entries) {

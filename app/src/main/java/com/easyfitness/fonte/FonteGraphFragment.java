@@ -23,6 +23,7 @@ import com.easyfitness.R;
 import com.easyfitness.graph.CustomMarkerView;
 import com.easyfitness.graph.Graph;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.data.Entry;
 
@@ -217,6 +218,10 @@ public class FonteGraphFragment extends Fragment {
 			yVals.add(value);		
 		}
 
+		Description desc = new Description();
+		desc.setText(pMachine + "/" + pFunction);
+
+		mGraph.getLineChart().setDescription(desc);
 		mGraph.draw(yVals);
 	}
 
