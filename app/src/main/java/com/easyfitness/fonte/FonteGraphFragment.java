@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -33,7 +33,7 @@ import java.util.List;
 public class FonteGraphFragment extends Fragment {
 	private String name;
 	private int id;
-	//Profil mProfil = null;
+	//Profile mProfile = null;
 
 	private Spinner functionList = null;
 	private Spinner machineList = null;
@@ -270,7 +270,7 @@ public class FonteGraphFragment extends Fragment {
 		}
 	}
   
-	private Profil getProfil()
+	private Profile getProfil()
 	{
 		return mActivity.getCurrentProfil();
 	}  

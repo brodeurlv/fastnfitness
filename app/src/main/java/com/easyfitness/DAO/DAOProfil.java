@@ -34,11 +34,11 @@ public class DAOProfil extends DAOBase {
 	}
 	
 	  /**
-	   * @param m DBOProfil Profil a ajouter a la base
+	   * @param m DBOProfil Profile a ajouter a la base
 	   */
-	  public void addProfil(Profil m) {
+	  public void addProfil(Profile m) {
 		  // Check if profil already exists		  
-		  Profil check = getProfil(m.getName());
+		  Profile check = getProfil(m.getName());
 		  if (check != null) return;
 		  
 		  SQLiteDatabase db = this.getWritableDatabase();
@@ -60,7 +60,7 @@ public class DAOProfil extends DAOBase {
 	   */
 	  public void addProfil(String pName) {
 		  // Check if profil already exists		  
-		  Profil check = getProfil(pName);
+		  Profile check = getProfil(pName);
 		  if (check != null) return;
 		  
 		  SQLiteDatabase db = this.getWritableDatabase();
@@ -78,9 +78,9 @@ public class DAOProfil extends DAOBase {
 	  }	  
 
 	  /**
-	   * @param id long id of the Profil
+	   * @param id long id of the Profile
 	   */
-	  public Profil getProfil(long id) {
+	  public Profile getProfil(long id) {
 	        SQLiteDatabase db = this.getReadableDatabase();
 			if (mCursor!=null) mCursor.close();
 	        mCursor = null;
@@ -100,7 +100,7 @@ public class DAOProfil extends DAOBase {
 				date = new Date();
 			}
 	 
-	        Profil value = new Profil(mCursor.getLong(0),
+	        Profile value = new Profile(mCursor.getLong(0),
 	        		date,
 	        		mCursor.getString(2)
 	                );
@@ -120,9 +120,9 @@ public class DAOProfil extends DAOBase {
 	    }
 	  
 	  /**
-	   * @param name String name of the Profil
+	   * @param name String name of the Profile
 	   */
-	  public Profil getProfil(String name) {
+	  public Profile getProfil(String name) {
 	        SQLiteDatabase db = this.getReadableDatabase();
 			if (mCursor!=null) mCursor.close();
 	        mCursor = null;
@@ -142,7 +142,7 @@ public class DAOProfil extends DAOBase {
 				date = new Date();
 			}
 	 
-	        Profil value = new Profil(mCursor.getLong(0),
+	        Profile value = new Profile(mCursor.getLong(0),
 	        		date,
 	        		mCursor.getString(2)
 	                );
@@ -162,8 +162,8 @@ public class DAOProfil extends DAOBase {
 	    }
 	    
 	  	// Getting All Profils
-	    public List<Profil> getProfilsList(String pRequest) {
-	        List<Profil> valueList = new ArrayList<Profil>();
+	    public List<Profile> getProfilsList(String pRequest) {
+	        List<Profile> valueList = new ArrayList<Profile>();
 	        // Select All Query
 	        String selectQuery = pRequest;
 	 
@@ -182,7 +182,7 @@ public class DAOProfil extends DAOBase {
 	    				date = new Date();
 	    			}
 	    			
-	    	        Profil value = new Profil(mCursor.getLong(0),
+	    	        Profile value = new Profile(mCursor.getLong(0),
 	    	        		date,
 	    	        		mCursor.getString(2)
 	    	                );
@@ -203,7 +203,7 @@ public class DAOProfil extends DAOBase {
 	    }
 	     
 	    // Getting All Profils
-	    public List<Profil> getAllProfils() {
+	    public List<Profile> getAllProfils() {
 	        // Select All Query
 	        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + KEY + " DESC";
 	 
@@ -212,7 +212,7 @@ public class DAOProfil extends DAOBase {
 	    }
 	    
 	    // Getting Top 10 Profils
-	    public List<Profil> getTop10Profils() {
+	    public List<Profile> getTop10Profils() {
 	        // Select All Query
 	        String selectQuery = "SELECT TOP 10 * FROM " + TABLE_NAME + " ORDER BY " + KEY + " DESC";
 	 
@@ -251,7 +251,7 @@ public class DAOProfil extends DAOBase {
 	    }
  
 		 // Getting last record
-	    public Profil getLastProfil() {
+	    public Profile getLastProfil() {
 	
 	        SQLiteDatabase db = this.getReadableDatabase();
 	        mCursor = null;
@@ -264,7 +264,7 @@ public class DAOProfil extends DAOBase {
 	        mCursor.moveToFirst();
 	        long value = Long.parseLong(mCursor.getString(0));
 	        
-	        Profil prof = this.getProfil(value);
+	        Profile prof = this.getProfil(value);
 	        mCursor.close();
 	        close();
 	        
@@ -273,7 +273,7 @@ public class DAOProfil extends DAOBase {
 	    }
 	 
 	    // Updating single value
-	    public int updateProfil(Profil m) {
+	    public int updateProfil(Profile m) {
 	        SQLiteDatabase db = this.getWritableDatabase();
 	 
 	        ContentValues value = new ContentValues();
@@ -285,12 +285,12 @@ public class DAOProfil extends DAOBase {
 	                new String[] { String.valueOf(m.getId()) });
 	    }
 	 
-	    // Deleting single Profil
-	    public void deleteProfil(Profil m) {
+	    // Deleting single Profile
+	    public void deleteProfil(Profile m) {
 	    	deleteProfil(m.getId());
 	    }
 	    
-	    // Deleting single Profil
+	    // Deleting single Profile
 	    public void deleteProfil(long id) {
 	    	open();
 	        
@@ -328,9 +328,9 @@ public class DAOProfil extends DAOBase {
 	    /* DEBUG ONLY */
 	    public void populate() {
 			Date date = new Date();
-			Profil m = new Profil(0, date, "Champignon");
+			Profile m = new Profile(0, date, "Champignon");
 			this.addProfil(m);
-			m = new Profil(0, date, "Musclor");
+			m = new Profile(0, date, "Musclor");
 			this.addProfil(m);
 	    }
 	}

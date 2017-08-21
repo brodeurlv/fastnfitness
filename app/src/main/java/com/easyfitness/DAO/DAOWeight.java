@@ -24,24 +24,24 @@ public class DAOWeight extends DAOBase {
 	  public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + POIDS + " REAL , " + PROFIL_KEY + " INTEGER);";
 
 	  public static final String TABLE_DROP =  "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-	  private Profil mProfil = null;	  
+	  private Profile mProfile = null;
 	  private Cursor mCursor = null;
 	  
 	public DAOWeight(Context context) {
 		super(context);
 	}
 	
-	public void setProfil (Profil pProfil)
+	public void setProfil (Profile pProfile)
 	{
-		mProfil = pProfil;
+		mProfile = pProfile;
 	}
 
 	  /**
 	   * @param pDate date of the weight measure
 	   * @param pWeight weight
-	   * @param pProfil profil associated with the measure
+	   * @param pProfile profil associated with the measure
 	   */
-	  public void addWeight(Date pDate, float pWeight, Profil pProfil) {
+	  public void addWeight(Date pDate, float pWeight, Profile pProfile) {
 		  SQLiteDatabase db = this.getWritableDatabase();
 		  //TODO : verifier qu'on ne met pas deux poids sur la meme journee.
 		  
@@ -51,7 +51,7 @@ public class DAOWeight extends DAOBase {
 		  
 		  value.put(DAOWeight.DATE, dateFormat.format(pDate));
 		  value.put(DAOWeight.POIDS, pWeight);
-		  value.put(DAOWeight.PROFIL_KEY, pProfil.getId());
+		  value.put(DAOWeight.PROFIL_KEY, pProfile.getId());
 		  
 		  db.insert(DAOWeight.TABLE_NAME, null, value);
 		  db.close(); // Closing database connection
@@ -132,9 +132,9 @@ public class DAOWeight extends DAOBase {
 	    }
 	     
 	    // Getting All Measures
-	    public List<Weight> getWeightList(Profil pProfil) {
+	    public List<Weight> getWeightList(Profile pProfile) {
 	        // Select All Query
-	        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfil.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+	        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 	 
 	        // return value list
 	        return getMeasuresList(selectQuery);
@@ -188,7 +188,7 @@ public class DAOWeight extends DAOBase {
 			for (int i = 1; i<=5 ;i++ )
 			{
 				date.setTime(date.getTime()+i*1000*60*60*24*2);
-				addWeight(date, Float.valueOf(i), mProfil);
+				addWeight(date, Float.valueOf(i), mProfile);
 			}
 		}
 	}

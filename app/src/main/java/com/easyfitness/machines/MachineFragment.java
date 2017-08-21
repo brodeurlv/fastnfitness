@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
@@ -192,7 +192,7 @@ public class MachineFragment extends Fragment {
 		if (!hidden) refreshData();
 	}
 
-	private Profil getProfil()	{
+	private Profile getProfil()	{
 		return ((MainActivity)getActivity()).getCurrentProfil();
 	}
 

@@ -9,34 +9,36 @@
     android:background="@color/background_even">
 
      <LinearLayout
-         xmlns:android="http://schemas.android.com/apk/res/android"
-         android:layout_width="wrap_content"
+         android:layout_width="0dip"
          android:layout_height="wrap_content"
-         android:orientation="vertical"
-         android:layout_marginLeft="5dp">
+         android:layout_marginLeft="5dp"
+         android:layout_weight="30"
+         android:orientation="vertical">
 
-          <TextView android:id="@+id/DATE_CELL"
+          <TextView
+              android:id="@+id/DATE_CELL"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_weight="30"
-              android:layout_marginTop="1dp"
+              android:layout_gravity="top"
               android:layout_marginBottom="0dp"
-              android:text="12/34/2016"
+              android:layout_marginTop="1dp"
+              android:layout_weight="30"
               android:paddingTop="0dp"
-              android:layout_gravity="top" />
+              android:text="12/34/2016" />
 
-          <TextView android:id="@+id/TIME_CELL"
+          <TextView
+              android:id="@+id/TIME_CELL"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_weight="30"
-              android:layout_marginTop="-3dp"
               android:layout_marginBottom="1dp"
+              android:layout_marginTop="-3dp"
+              android:layout_weight="30"
+              android:paddingTop="0dp"
               android:text="00:00:00"
-              android:textSize="10sp"
-              android:paddingTop="0dp" />
+              android:textSize="10sp" />
 
      </LinearLayout>
- 
+
      <TextView android:id="@+id/MACHINE_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"

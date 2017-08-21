@@ -11,11 +11,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOUtils;
-import com.easyfitness.DAO.Profil;
 
 public class DAOCardio extends DAOBase {
 
@@ -46,7 +46,7 @@ public class DAOCardio extends DAOBase {
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
 	
-	private Profil mProfil = null;
+	private Profile mProfile = null;
 	private Cursor mCursor = null;
 	private Context mContext = null;
 
@@ -55,9 +55,9 @@ public class DAOCardio extends DAOBase {
 			mContext = context;
 	}
 	
-	public void setProfil (Profil pProfil)
+	public void setProfil (Profile pProfile)
 	{
-		mProfil = pProfil;
+		mProfile = pProfile;
 	}
 	
 	/**
@@ -100,15 +100,15 @@ public class DAOCardio extends DAOBase {
 			date = new Date();
 		}
 		
-		//Get Profil
+		//Get Profile
 		DAOProfil lDAOProfil = new DAOProfil(mContext);
-		Profil lProfil = lDAOProfil.getProfil(mCursor.getString(5));
+		Profile lProfile = lDAOProfil.getProfil(mCursor.getString(5));
 
 		Cardio value = new Cardio(date, 
 				mCursor.getString(2), 
 				mCursor.getFloat(3), 
-				mCursor.getLong(4), 
-				lProfil);
+				mCursor.getLong(4),
+                lProfile);
 
 		value.setId(mCursor.getLong(0));
 		// return value
@@ -138,15 +138,15 @@ public class DAOCardio extends DAOBase {
 					date = new Date();
 				}
 				
-				//Get Profil
+				//Get Profile
 				DAOProfil lDAOProfil = new DAOProfil(mContext);
-				Profil lProfil = lDAOProfil.getProfil(mCursor.getString(5));
+				Profile lProfile = lDAOProfil.getProfil(mCursor.getString(5));
 
 				Cardio value = new Cardio(date, 
 						mCursor.getString(2), 
 						mCursor.getFloat(3), 
-						mCursor.getLong(4), 
-						lProfil);
+						mCursor.getLong(4),
+                        lProfile);
 				
 				value.setId(Long.parseLong(mCursor.getString(0)));
 
@@ -173,10 +173,10 @@ public class DAOCardio extends DAOBase {
 	}
 	
 	// Getting All Records
-	public List<Cardio> getAllRecordsByProfil(Profil pProfil) {
+	public List<Cardio> getAllRecordsByProfil(Profile pProfile) {
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME + 
-				" WHERE " + PROFIL_KEY + "=" + pProfil.getId() + 
+				" WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
 				" ORDER BY " + KEY + " DESC";
 
 		// return value list
@@ -184,10 +184,10 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting Top 10 Records
-	public List<Cardio> getTop10Records(Profil pProfil) {
+	public List<Cardio> getTop10Records(Profile pProfile) {
 		// Select All Query
 		String selectQuery = "SELECT TOP 10 * FROM " + TABLE_NAME+ 
-				" WHERE " + PROFIL_KEY + "=" + pProfil.getId() 
+				" WHERE " + PROFIL_KEY + "=" + pProfile.getId()
 				+ " ORDER BY " + KEY + " DESC";
 
 		// return value list
@@ -195,7 +195,7 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting Filtered records
-	public List<Cardio> getFilteredRecords(Profil pProfil, String pMachine, String pDate) {
+	public List<Cardio> getFilteredRecords(Profile pProfile, String pMachine, String pDate) {
 
 		boolean lfilterMachine = true;
 		boolean lfilterDate = true;
@@ -227,21 +227,21 @@ public class DAOCardio extends DAOBase {
 			selectQuery = "SELECT * FROM " + TABLE_NAME 
 					+ " WHERE " + EXERCICE + "=\"" + pMachine 
 					+ "\" AND " + DATE + "=\"" + pDate 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfil.getId() 
+					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " ORDER BY " + KEY + " DESC";
 		} else if (!lfilterMachine && lfilterDate) {
 			selectQuery = "SELECT * FROM " + TABLE_NAME 
 					+ " WHERE " + DATE + "=\"" + pDate 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " ORDER BY " + KEY + " DESC";
 		} else if (lfilterMachine && !lfilterDate) {
 			selectQuery = "SELECT * FROM " + TABLE_NAME 
 					+ " WHERE " + EXERCICE	+ "=\"" + pMachine 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " ORDER BY " + KEY + " DESC";
 		} else if (!lfilterMachine && !lfilterDate) {
 			selectQuery = "SELECT * FROM " + TABLE_NAME 
-					+ " WHERE " + PROFIL_KEY + "=" + pProfil.getId()
+					+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " ORDER BY " + KEY
 					+ " DESC";
 		}
@@ -251,8 +251,8 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting Function records
-	public List<DateGraphData> getFunctionRecords(Profil pProfil, String pMachine,
-			String pFunction) {
+	public List<DateGraphData> getFunctionRecords(Profile pProfile, String pMachine,
+                                                  String pFunction) {
 
 		boolean lfilterMachine = true;
 		boolean lfilterFunction = true;
@@ -283,28 +283,28 @@ public class DAOCardio extends DAOBase {
 		if (pFunction.equals("SUM DISTANCE")) {
 			selectQuery = "SELECT SUM(" + DISTANCE + "), " + DATE + " FROM " + TABLE_NAME 
 					+ " WHERE "	+ EXERCICE + "=\"" + pMachine + "\"" 
-					+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE
 					+ " ORDER BY date(" + DATE + ") ASC";
 		} else if (pFunction.equals("SUM DURATION")) {
 			selectQuery = "SELECT MAX(" + DURATION + ") , " + DATE + " FROM "
 					+ TABLE_NAME 
 					+ " WHERE " + EXERCICE + "=\"" + pMachine + "\""
-					+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
 		} else if (pFunction.equals("MAX DISTANCE")) {
 			selectQuery = "SELECT SUM(" + DISTANCE + ") , " + DATE + " FROM "
 					+ TABLE_NAME 
 					+ " WHERE " + EXERCICE + "=\"" + pMachine + "\""
-					+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
 		} else if (pFunction.equals("MAX DURATION")) {
 			selectQuery = "SELECT MAX(" + DURATION + ") , " + DATE + " FROM "
 					+ TABLE_NAME 
 					+ " WHERE " + EXERCICE + "=\"" + pMachine + "\""
-					+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
 		}
@@ -347,13 +347,13 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting All Machines
-	public String[] getAllMachines(Profil pProfil) {
+	public String[] getAllMachines(Profile pProfile) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
 
 		// Select All Machines
 		String selectQuery = "SELECT DISTINCT  " + EXERCICE + " FROM "
-				+ TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfil.getId() + " ORDER BY " + EXERCICE + " ASC";
+				+ TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCICE + " ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();
@@ -375,7 +375,7 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting All Dates
-	public Date[] getAllDates(Profil pProfil) {
+	public Date[] getAllDates(Profile pProfile) {
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 		if (mCursor!=null) mCursor.close();
@@ -383,7 +383,7 @@ public class DAOCardio extends DAOBase {
 
 		// Select All Machines
 		String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME
-				+ " WHERE " + PROFIL_KEY + "=" + pProfil.getId()
+				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
 				+ " ORDER BY " + DATE + " ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 		int size = mCursor.getCount();
@@ -414,7 +414,7 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting All Dates
-	public String[] getAllDatesAsString(Profil pProfil) {
+	public String[] getAllDatesAsString(Profile pProfile) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		if (mCursor!=null) mCursor.close();
@@ -422,7 +422,7 @@ public class DAOCardio extends DAOBase {
 
 		// Select All Machines
 		String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME
-				+ " WHERE " + PROFIL_KEY + "=" + pProfil.getId()
+				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
 				+ " ORDER BY " + DATE + " ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -447,11 +447,11 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Get all record for one Machine
-	public List<Cardio> getAllRecordByMachines(Profil pProfil, String pMachines) {
+	public List<Cardio> getAllRecordByMachines(Profile pProfile, String pMachines) {
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_NAME 
 				+ " WHERE " + EXERCICE + "=\"" + pMachines + "\""
-				+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 				+ " ORDER BY " + KEY + " DESC";
 
 		// return value list
@@ -459,17 +459,17 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Get all record for one Date
-	public List<Cardio> getAllRecordByDate(Profil pProfil, Date pDate) {
+	public List<Cardio> getAllRecordByDate(Profile pProfile, Date pDate) {
 		// return value list
-		return getAllRecordByDate(pProfil, pDate.toString());
+		return getAllRecordByDate(pProfile, pDate.toString());
 	}
 
 	// Get all record for one Date
-	public List<Cardio> getAllRecordByDate(Profil pProfil, String pDate) {
+	public List<Cardio> getAllRecordByDate(Profile pProfile, String pDate) {
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_NAME 
 				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
-				+ " AND " + PROFIL_KEY + "=" + pProfil.getId()
+				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 				+ " ORDER BY " + KEY + " DESC";
 
 		// return value list
@@ -477,7 +477,7 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Getting last record
-	public Cardio getLastRecord(Profil pProfil) {
+	public Cardio getLastRecord(Profile pProfile) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
@@ -485,7 +485,7 @@ public class DAOCardio extends DAOBase {
 
 		// Select All Machines
 		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME 
-				+ " WHERE " + PROFIL_KEY + "=" + pProfil.getId();
+				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
 		mCursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
@@ -505,7 +505,7 @@ public class DAOCardio extends DAOBase {
 	}
 
 	// Updating single value
-	public int updateRecord(Profil pProfil, Cardio m) {
+	public int updateRecord(Profile pProfile, Cardio m) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues value = new ContentValues();
@@ -513,7 +513,7 @@ public class DAOCardio extends DAOBase {
 		value.put(DAOCardio.EXERCICE, m.getExercice());
 		value.put(DAOCardio.DISTANCE, m.getDistance());
 		value.put(DAOCardio.DURATION, m.getDuration());
-		value.put(DAOCardio.PROFIL_KEY, pProfil.getId());
+		value.put(DAOCardio.PROFIL_KEY, pProfile.getId());
 
 		// updating row
 		return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -559,7 +559,7 @@ public class DAOCardio extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Tapis";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(new Cardio(date, machine, (float)i * 20, 120000*i, mProfil));
+			addRecord(new Cardio(date, machine, (float)i * 20, 120000*i, mProfile));
 		}
 
 		date = new Date();
@@ -568,7 +568,7 @@ public class DAOCardio extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Rameur";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(new Cardio(date, machine, 0, 120000*i*3, mProfil));
+			addRecord(new Cardio(date, machine, 0, 120000*i*3, mProfile));
 		}
 	}
 

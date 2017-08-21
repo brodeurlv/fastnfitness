@@ -54,7 +54,7 @@
     <string name="DurationLabel">Durée</string>
     <string name="ExerciceLabel">Exercice</string>
     
-    <!-- Profil Fragment -->
+    <!-- Profile Fragment -->
     <string name="ProfilLabel">Suivi Corps</string>
     <string name="weightLabel">Poids</string>
     <string name="weightTableLabel">Enregistrements : </string>

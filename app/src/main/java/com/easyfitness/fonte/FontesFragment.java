@@ -35,7 +35,7 @@ import android.widget.Toast;
 import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.Fonte;
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -51,7 +51,7 @@ import java.util.TimeZone;
 @SuppressLint("ValidFragment")
 public class FontesFragment extends Fragment {
 	MainActivity mActivity = null;
-	Profil mProfil = null;
+	Profile mProfile = null;
 	EditText dateEdit = null;
 	AutoCompleteTextView machineEdit = null;
 	ArrayAdapter<String> machineEditAdapter = null;
@@ -485,7 +485,7 @@ public class FontesFragment extends Fragment {
 		return this;
 	}
 	
-	private Profil getProfil()
+	private Profile getProfil()
 	{
 		return mActivity.getCurrentProfil();
 	}
@@ -555,8 +555,8 @@ public class FontesFragment extends Fragment {
 			machineEdit.setAdapter(machineEditAdapter);	
 			
 			// Si on a change de profil
-			//if (mProfil != getProfil()) {
-				mProfil = getProfil();
+			//if (mProfile != getProfil()) {
+				mProfile = getProfil();
 				
 				/* Initialisation serie */ 
 				Fonte lLastRecord = mDb.getLastRecord(getProfil());

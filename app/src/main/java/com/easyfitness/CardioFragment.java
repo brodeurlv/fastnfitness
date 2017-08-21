@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
 
@@ -286,7 +286,7 @@ public class CardioFragment extends Fragment {
 		return this;
 	}
 
-	private Profil getProfil()
+	private Profile getProfil()
 	{
 		return mActivity.getCurrentProfil();
 	}

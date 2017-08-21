@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOWeight;
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Weight;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
@@ -160,7 +160,7 @@ public class ProfilFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.tab_profil, container, false);
+		View view = inflater.inflate(R.layout.tab_weight, container, false);
 
 		addWeightButton = (Button) view.findViewById(R.id.buttonAddWeight);
 		weightEdit = (EditText) view.findViewById(R.id.editWeight);
@@ -298,7 +298,7 @@ public class ProfilFragment extends Fragment {
 		}
 	}
 
-	private Profil getProfil()
+	private Profile getProfil()
 	{
 		return ((MainActivity)getActivity()).getCurrentProfil();
 	}
