@@ -1,6 +1,6 @@
 package com.easyfitness.DAO.cardio;
 
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
 
 import java.util.Date;
 
@@ -12,15 +12,15 @@ public class Cardio {
 	  private String mExercice;
 	  private float mDistance;
 	  private long mDuration;
-	  private Profil mProfil;
+	  private Profile mProfile;
 	  
-	  public Cardio(Date pDate, String pExercice, float pDistance, long pDuration, Profil pProfil) {
+	  public Cardio(Date pDate, String pExercice, float pDistance, long pDuration, Profile pProfile) {
 	    super();
 		  this.mDate = pDate;
 		  this.mExercice = pExercice;
 	    this.mDistance = pDistance;
 	    this.mDuration = pDuration;
-	    this.mProfil = pProfil;
+	    this.mProfile = pProfile;
 	  }
 
 	  public long getId() {
@@ -47,7 +47,7 @@ public class Cardio {
 		    return mDuration;
 		  }
 	  
-	  public Profil getProfil() {
-		    return mProfil;
+	  public Profile getProfil() {
+		    return mProfile;
 		  }
 	}

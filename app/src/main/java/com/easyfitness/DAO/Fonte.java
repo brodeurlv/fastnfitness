@@ -13,14 +13,14 @@ public class Fonte {
     private int mPoids;
     private int mUnit;
     private String mNote;
-    private Profil mProfil;
+    private Profile mProfile;
     private long mMachineKey;
     private String mTime; // Time in HH:MM:SS
 
     /*
-       * Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profil pProfil)
+       * Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile)
        */
-    public Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profil pProfil, int pUnit, String pNote, long pMachineKey, String pTime) {
+    public Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
         super();
         this.mDate = pDate;
         this.mMachine = pMachine;
@@ -29,7 +29,7 @@ public class Fonte {
         this.mPoids = pPoids;
         this.mUnit = pUnit;
         this.mNote = pNote;
-        this.mProfil = pProfil;
+        this.mProfile = pProfile;
         this.mMachineKey = pMachineKey;
         this.mTime = pTime;
     }
@@ -66,12 +66,12 @@ public class Fonte {
         return mPoids;
     }
 
-    public Profil getProfil() {
-        return mProfil;
+    public Profile getProfil() {
+        return mProfile;
     }
 
     public long getProfilKey() {
-        return mProfil.getId();
+        return mProfile.getId();
     }
 
     public int getUnit() {

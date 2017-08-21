@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.DAOCardio;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-	public static final int DATABASE_VERSION = 8;
+	public static final int DATABASE_VERSION = 9;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -32,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(DAOWeight.TABLE_CREATE);
 		db.execSQL(DAOCardio.TABLE_CREATE);
 		db.execSQL(DAOMachine.TABLE_CREATE);
+		db.execSQL(DAOBodyMeasure.TABLE_CREATE);
 		//onUpgrade(db, 0, DATABASE_VERSION);	
 	}
 
@@ -72,6 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     	break;
 					case 8: // Easyfitness 0.12
 						db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.TIME + " TEXT");
+						break;
+					case 9: // Easyfitness 0.13
+						db.execSQL(DAOBodyMeasure.TABLE_CREATE);
 						break;
                 }
                 upgradeTo++;

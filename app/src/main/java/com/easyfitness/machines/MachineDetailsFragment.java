@@ -1,7 +1,6 @@
 package com.easyfitness.machines;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,13 +45,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
-import com.easyfitness.DAO.Profil;
 import com.easyfitness.utils.RealPathUtil;
 
 public class MachineDetailsFragment extends Fragment {
@@ -620,12 +618,12 @@ public class MachineDetailsFragment extends Fragment {
 			        	// Rename all the records with that machine and rename them
 			        	DAOFonte lDbFonte = new DAOFonte(getThis().getView().getContext());
 			        	DAOProfil mDbProfil = new DAOProfil(getView().getContext());						
-			        	Profil lProfil = mDbProfil.getProfil(machineProfilIdArg);
+			        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 			        	String lMachineName = machineName.getText().toString();
 			        	Machine m = mDbMachine.getMachine(machineNameArg);
 			        	Machine m2 = mDbMachine.getMachine(lMachineName);
 			        	
-						List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfil, machineNameArg); // Recupere tous les records de la machine courante
+						List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 						for (Fonte record : listRecords) {
 							record.setMachine(lMachineName); // Change avec le nouveau nom
 							record.setMachineKey(m2.getId()); // Met l'ID de la nouvelle machine
@@ -662,8 +660,8 @@ public class MachineDetailsFragment extends Fragment {
 	        	// Rename all the records with that machine and rename them
 	        	DAOFonte lDbFonte = new DAOFonte(getThis().getView().getContext());
 	        	DAOProfil mDbProfil = new DAOProfil(getView().getContext());						
-	        	Profil lProfil = mDbProfil.getProfil(machineProfilIdArg);
-				List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfil, machineNameArg); // Recupere tous les records de la machine courante
+	        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+				List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 				for (Fonte record : listRecords) {
 					record.setMachine(lMachineName); // Change avec le nouveau nom (DEPRECTED)
 					//record.setMachineKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
@@ -725,9 +723,9 @@ public class MachineDetailsFragment extends Fragment {
 			DAOFonte mDbFonte = new DAOFonte(this.getView().getContext());
 			DAOProfil mDbProfil = new DAOProfil(this.getView().getContext());
 			
-			Profil lProfil = mDbProfil.getProfil(this.machineProfilIdArg);
+			Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
-			List<Fonte> listRecords = mDbFonte.getAllRecordByMachines(lProfil, this.machineNameArg);
+			List<Fonte> listRecords = mDbFonte.getAllRecordByMachines(lProfile, this.machineNameArg);
 			for (Fonte record : listRecords) {
 				mDbFonte.deleteRecord(record);
 			}						

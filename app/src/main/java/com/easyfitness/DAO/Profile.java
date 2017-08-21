@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 /* DataBase Object */
-public class Profil {
+public class Profile {
 	  // Notez que l'identifiant est un long
 	  private long id;
 	  private Date mCreationDate;
@@ -13,7 +13,7 @@ public class Profil {
 	  private List<Fonte> mListFonte = new ArrayList<Fonte>();
 	  private List<Weight> mListWeight = new ArrayList<Weight>();
 	  
-	  public Profil(long id, Date pDate, String pName) {
+	  public Profile(long id, Date pDate, String pName) {
 	    //super();
 	    this.id = id;
 	    this.mCreationDate = pDate;

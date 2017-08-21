@@ -343,6 +343,8 @@
 
         </LinearLayout>
 
+        <include layout="@layout/row_fonte_header"/>
+
         <ListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
