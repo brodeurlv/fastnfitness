@@ -76,7 +76,7 @@
      <TextView android:id="@+id/POIDS_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"  
-         android:layout_weight="15"
+         android:layout_weight="20"
          android:layout_gravity="top"
          android:gravity="start|center"
          android:text="3Lbs"
