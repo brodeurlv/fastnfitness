@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:paddingTop="2dp"
+     android:paddingBottom="2dp"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:orientation="horizontal"
+    android:background="@color/background">
+
+          <TextView android:id="@+id/DATE_CELL"
+              android:layout_width="0dip"
+              android:layout_height="wrap_content"
+              android:layout_weight="30"
+              android:layout_marginLeft="5dp"
+              android:layout_marginTop="0dp"
+              android:layout_marginBottom="0dp"
+              android:text="@string/DateLabel"
+              android:paddingTop="0dp"
+              android:layout_gravity="top" />
+
+ 
+     <TextView android:id="@+id/MACHINE_CELL"
+         android:layout_width="0dip"
+         android:layout_height="wrap_content"
+         android:layout_weight="40"
+         android:layout_marginRight="5dp"
+         android:layout_marginLeft="5dp"
+         android:text="@string/MachineLabel"
+         android:gravity="center|start"
+         android:paddingBottom="0dp"
+         android:paddingTop="0dp"
+         android:layout_gravity="top" />
+ 
+     <TextView
+         android:id="@+id/SERIE_CELL"
+         android:layout_width="0dip"
+         android:layout_height="wrap_content"
+         android:layout_gravity="top"
+         android:layout_weight="15"
+         android:gravity="start|center"
+         android:text="@string/SerieLabel"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp" />
+     
+     <TextView
+         android:id="@+id/REPETITION_CELL"
+         android:layout_width="0dip"
+         android:layout_height="wrap_content"
+         android:layout_weight="15"
+         android:layout_gravity="top"
+         android:gravity="start|center"
+         android:text="@string/RepetitionLabel_short"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp" />
+     
+     <TextView android:id="@+id/POIDS_CELL"
+         android:layout_width="0dip"
+         android:layout_height="wrap_content"  
+         android:layout_weight="20"
+         android:layout_gravity="top"
+         android:gravity="start|center"
+         android:text="@string/weightLabel"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp" />
+
+</LinearLayout>
