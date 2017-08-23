@@ -764,6 +764,12 @@ public class MainActivity extends AppCompatActivity {
         return mpSettingFrag;
     }
 
+    public Toolbar getActivityToolbar() {
+        return top_toolbar;
+    }
+
+    public void restoreToolbar() { if (top_toolbar != null) setSupportActionBar(top_toolbar); }
+
     public void showMP3Toolbar(boolean show) {
         Toolbar mp3toolbar = (Toolbar) this.findViewById(R.id.musicToolbar);
         if (!show) {
@@ -824,4 +830,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        getActivity().getSupportActionBar().show();
+    }
 }

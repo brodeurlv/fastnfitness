@@ -1,12 +1,22 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/tab_bodytracking_details"
     android:name="tab_bodytracking_details"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bodyTrackingDetailsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/toolbar_background"
+        android:minHeight="?attr/actionBarSize"
+        layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="0dp"
         android:paddingLeft="0dp"
@@ -14,10 +24,10 @@
         android:paddingTop="0dp"
         android:background="#EEEEEE">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"></RelativeLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
@@ -125,5 +135,6 @@
             android:layout_height="match_parent">
         </com.easyfitness.utils.ExpandedListView>
 
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

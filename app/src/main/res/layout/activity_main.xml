@@ -22,7 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/toolbar_background"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize"
+            android:visibility="visible"
+            android:elevation="4dp"/>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/musicToolbar"
@@ -32,7 +34,8 @@
             android:background="@color/toolbar_background"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
-            app:titleMargins="0dp">
+            app:titleMargins="0dp"
+            android:elevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,21 +169,15 @@
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/musicToolbar"
-            android:layout_below="@id/actionToolbar"
-            android:orientation="vertical"
-            android:scrollbars="vertical" >
-
             <LinearLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" 
+                android:layout_height="match_parent"
+                android:layout_above="@id/musicToolbar"
+                android:layout_below="@id/actionToolbar"
                 android:orientation="vertical">
             </LinearLayout>
-        </LinearLayout>
+
     </RelativeLayout>
 
     <!-- The navigation drawer -->
