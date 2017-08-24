@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
@@ -44,10 +45,11 @@ public class BodyPartDetailsFragment extends Fragment {
 	ExpandedListView measureList = null;
 	Toolbar bodyToolbar = null;
 	private String name;
-	private long mBodyPartID;
+	private int mBodyPartID;
 	private LineChart mChart = null;
 	private Graph mGraph = null;
 	private DAOBodyMeasure mBodyMeasureDb = null;
+	private BodyPart mBodyPart = null;
 
 	DatePickerDialogFragment mDateFrag = null;
 
@@ -132,12 +134,12 @@ public class BodyPartDetailsFragment extends Fragment {
 	 * Create a new instance of DetailsFragment, initialized to
 	 * show the text at 'index'.
 	 */
-	public static BodyPartDetailsFragment newInstance(long bodyPartID) {
+	public static BodyPartDetailsFragment newInstance(int bodyPartID) {
 		BodyPartDetailsFragment f = new BodyPartDetailsFragment();
 
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
-		args.putLong("bodyPartID", bodyPartID);
+		args.putInt("bodyPartID", bodyPartID);
 		f.setArguments(args);
 
 		return f;
@@ -158,6 +160,7 @@ public class BodyPartDetailsFragment extends Fragment {
 
 		/* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
+		mBodyPart = new BodyPart(mBodyPartID);
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(onClickAddMeasure);
@@ -183,6 +186,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		//((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 		//((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		//((MainActivity)getActivity()).getSupportActionBar().hide();
+		bodyToolbar.setTitle(getContext().getString(mBodyPart.getResourceNameID()));
 		bodyToolbar.setNavigationIcon(R.drawable.ic_back);
 		bodyToolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override

@@ -47,7 +47,7 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pMeasure        body measure
      * @param pProfile        profil associated with the measure
      */
-    public void addBodyMeasure(Date pDate, long pBodymeasure_id, float pMeasure, Profile pProfile) {
+    public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, Profile pProfile) {
         SQLiteDatabase db = this.getWritableDatabase();
         //TODO : verifier qu'on ne met pas deux poids sur la meme journee.
 
@@ -87,7 +87,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
                 date,
-                mCursor.getLong(2),
+                mCursor.getInt(2),
                 mCursor.getFloat(3),
                 mCursor.getLong(4)
         );
@@ -121,7 +121,7 @@ public class DAOBodyMeasure extends DAOBase {
 
                 BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
                         date,
-                        mCursor.getLong(2),
+                        mCursor.getInt(2),
                         mCursor.getFloat(3),
                         mCursor.getLong(4)
                 );
