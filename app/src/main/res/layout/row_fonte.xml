@@ -39,23 +39,24 @@
 
      </LinearLayout>
 
-     <TextView android:id="@+id/MACHINE_CELL"
+     <TextView
+         android:id="@+id/MACHINE_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"
-         android:layout_weight="40"
-         android:layout_marginRight="5dp"
+         android:layout_gravity="center_vertical"
          android:layout_marginLeft="5dp"
-         android:text="Machine"
+         android:layout_marginRight="5dp"
+         android:layout_weight="40"
          android:gravity="center|start"
          android:paddingBottom="0dp"
          android:paddingTop="0dp"
-         android:layout_gravity="top" />
+         android:text="Machine" />
  
      <TextView
          android:id="@+id/SERIE_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"
-         android:layout_gravity="top"
+         android:layout_gravity="center_vertical"
          android:layout_weight="15"
          android:gravity="start|center"
          android:text="1"
@@ -67,7 +68,7 @@
          android:layout_width="0dip"
          android:layout_height="wrap_content"
          android:layout_weight="15"
-         android:layout_gravity="top"
+         android:layout_gravity="center_vertical"
          android:gravity="start|center"
          android:text="2"
          android:layout_marginLeft="5dp"
@@ -77,7 +78,7 @@
          android:layout_width="0dip"
          android:layout_height="wrap_content"  
          android:layout_weight="20"
-         android:layout_gravity="top"
+         android:layout_gravity="center_vertical"
          android:gravity="start|center"
          android:text="3Lbs"
          android:layout_marginLeft="5dp"

@@ -673,7 +673,8 @@ public class MainActivity extends AppCompatActivity {
         // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
         // Il faut donc que cela soit pris en compte dans le refresh des fragments.
         for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-            fragmentManager.getFragments().get(i).onHiddenChanged(false);
+            if ( fragmentManager.getFragments().get(i) != null )
+                fragmentManager.getFragments().get(i).onHiddenChanged(false);
         }
 
         setDrawerTitle(mCurrentProfile.getName());

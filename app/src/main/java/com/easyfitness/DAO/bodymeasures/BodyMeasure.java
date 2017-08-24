@@ -7,11 +7,11 @@ public class BodyMeasure {
     // Notez que l'identifiant est un long
     private long id;
     private Date mDate;
-    private long mBodypart_id;
+    private int mBodypart_id;
     private float mMeasure;
     private long mProfil_id;
 
-    public BodyMeasure(long id, Date pDate, long pBodypart_id, float pMeasure, long pProfil_id) {
+    public BodyMeasure(long id, Date pDate, int pBodypart_id, float pMeasure, long pProfil_id) {
         super();
         this.id = id;
         this.mDate = pDate;
@@ -35,7 +35,7 @@ public class BodyMeasure {
     /**
      * @return long Body Part ID
      */
-    public long getBodyPartID() {
+    public int getBodyPartID() {
         return mBodypart_id;
     }
 

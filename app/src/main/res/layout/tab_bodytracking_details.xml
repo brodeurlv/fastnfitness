@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="40"
-                        android:text="@string/weightLabel" />
+                        android:text="@string/measureLabel" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -95,7 +95,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="40"
-                            android:text="@string/AddLabel"
+                            android:text="@string/AddSmallLabel"
                             android:background="@android:color/white"
                             android:textSize="14dp"
                             android:layout_marginLeft="5dp"
@@ -127,7 +127,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/weightTableLabel" />
+            android:text="@string/sizeTableLabel" />
+
+            <include layout="@layout/bodymeasure_rowheader"></include>
 
         <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listWeightProfil"

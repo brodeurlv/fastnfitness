@@ -14,6 +14,11 @@ import android.widget.TextView;
 import com.easyfitness.R;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 
@@ -30,9 +35,21 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 	 public void bindView(View view, Context context, Cursor cursor) {
 		  TextView t0 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_ID);
 	      t0.setText(cursor.getString(0));
-			 
-		  TextView t1 = (TextView) view.findViewById(R.id.LIST_BODYPART);
-		  t1.setText(cursor.getString(1));
+
+		 TextView t1 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_DATE);
+			 Date date;
+			 try {
+				 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+				 date = dateFormat.parse(cursor.getString(1));
+
+				 //SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+				 //dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
+				 t1.setText(DateFormat.getDateInstance().format(date));
+			 } catch (ParseException e) {
+				 t1.setText("");
+				 e.printStackTrace();
+			 }
 	
 	      TextView t2 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
 	      t2.setText(cursor.getString(2));

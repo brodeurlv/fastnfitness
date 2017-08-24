@@ -63,12 +63,12 @@ public class BodyPartListFragment extends Fragment {
 
 		dataModels= new ArrayList<>();
 
-		dataModels.add(new BodyPart(0, R.string.abdominaux, R.drawable.silhouette));
-		dataModels.add(new BodyPart(1, R.string.adducteurs, R.drawable.silhouette));
-		dataModels.add(new BodyPart(2, R.string.biceps, R.drawable.silhouette));
-		dataModels.add(new BodyPart(3, R.string.triceps, R.drawable.silhouette));
-		dataModels.add(new BodyPart(3, R.string.deltoids, R.drawable.silhouette));
-		dataModels.add(new BodyPart(4, R.string.mollets, R.drawable.silhouette));
+		dataModels.add(new BodyPart(0));
+		dataModels.add(new BodyPart(1));
+		dataModels.add(new BodyPart(2));
+		dataModels.add(new BodyPart(3));
+		dataModels.add(new BodyPart(3));
+		dataModels.add(new BodyPart(4));
 
 		adapter= new BodyPartListAdapter(dataModels,getContext());
 
@@ -114,7 +114,7 @@ public class BodyPartListFragment extends Fragment {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 			TextView textView = (TextView) view.findViewById(R.id.LIST_BODYPART_ID);
-			long bodyPartID = Long.parseLong(textView.getText().toString());
+			int bodyPartID = Integer.parseInt(textView.getText().toString());
 
 			BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID);
 			FragmentTransaction transaction =getThis().getActivity().getSupportFragmentManager().beginTransaction();

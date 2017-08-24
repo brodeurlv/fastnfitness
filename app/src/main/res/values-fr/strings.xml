@@ -18,9 +18,10 @@
     
 	<string name="FunctionLabel">Fonctions</string>
     <string name="HistoryLabel">Historique</string>
-    <string name="RecordsLabel">Enregistrements</string>
+    <string name="RecordsLabel">Notes</string>
     <string name="GraphLabel">Graphiques</string>
     <string name="AddLabel">Ajouter</string>
+    <string name="AddSmallLabel">+</string>
     <string name="DeleteLabel">Supprimer</string>
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Editer</string>
@@ -57,6 +58,8 @@
     <!-- Profile Fragment -->
     <string name="ProfilLabel">Suivi Corps</string>
     <string name="weightLabel">Poids</string>
+    <string name="sizeLabel">Taille</string>
+    <string name="measureLabel">Mesure</string>
     <string name="weightTableLabel">Enregistrements : </string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
@@ -165,11 +168,12 @@
     <string name="ChronometerLabel">Chronomètre</string>
     <string name="CountdownLabel">Temps de repos</string>
     <string name="author_label">Auteur:</string>
-    <string name="database_version_label">"Database version: "</string>
-    <string name="opensource_label">\"Open source Lien: \"</string>
-    <string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
+    <string name="database_version_label">Database version:</string>
+    <string name="opensource_label">Open source Lien:</string>
     <string name="rest_time">Temps de repos (sec)</string>
-    <string name="revision_history_label">\"Historique des modificiations: \"</string>
-    <string name="thanks_label">"Libraries : "</string>
+    <string name="revision_history_label">Historique des modificiations:</string>
+    <string name="thanks_label">Libraries :</string>
     <string name="activate_rest_time">Activer le Compteur de repos</string>
+    <string name="pref_bodybuilding_setting"></string>
+    <string name="sizeTableLabel">Historique</string>
 </resources>

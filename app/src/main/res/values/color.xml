@@ -5,4 +5,5 @@
    	<color name="background_even">#cceaf4</color>
 	<color name="graph_fill">#f2fbff</color>
    	<color name="background">#FFFFFF</color>
+	<color name="tableheader_background">#FFFFFF</color>
 </resources>

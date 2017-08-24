@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/background_even">
     
     <TextView
         android:id="@+id/LIST_BODYMEASURE_ID"
@@ -15,11 +18,11 @@
         android:singleLine="true"/>
 
     <TextView
-        android:id="@+id/LIST_BODYPART"
+        android:id="@+id/LIST_BODYMEASURE_DATE"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:text="Example Body Part"
+        android:text="24/08/2017"
         android:layout_weight="50"
         android:textSize="16sp" />
 
@@ -27,7 +30,7 @@
             android:id="@+id/LIST_BODYMEASURE_WEIGHT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:layout_weight="50"
             android:text="50"
             android:textSize="16sp" />
