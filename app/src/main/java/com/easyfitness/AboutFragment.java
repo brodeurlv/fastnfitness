@@ -127,6 +127,25 @@ public class AboutFragment extends Fragment {
 					copyright = "Andreas Stuetz - andreas.stuetz@gmail.com";
 					license = new ApacheSoftwareLicense20();
 					break;
+				case R.id.SmartTabLayout:
+					name = "SmartTabLayout";
+					url = "https://github.com/ogaclejapan/SmartTabLayout";
+					copyright = "";
+					license = new ApacheSoftwareLicense20();
+					break;
+				case R.id.flaticonCredits:
+					name = "Flaticon";
+					url = "https://www.flaticon.com/";
+					copyright = "Flaticon";
+					license = null;
+					break;
+				case R.id.freepikCredits:
+					name = "Freepik";
+					url = "http://www.freepik.com/";
+					copyright = "Freepik";
+					license = null;
+					break;
+
 			}
 
 
