@@ -1,6 +1,7 @@
 package com.easyfitness.graph;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.widget.TextView;
 
 import com.easyfitness.R;
@@ -9,15 +10,24 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.text.DateFormat;
+
 public class CustomMarkerView extends MarkerView {
 
     private TextView tvContent;
+    private TextView tvDate;
+    /**
+     * Screen width in pixels.
+     */
+    private int uiScreenWidth;
 
     public CustomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
 
         // find your layout components
         tvContent = (TextView) findViewById(R.id.tvContent);
+        tvDate = (TextView) findViewById(R.id.tvDate);
+        uiScreenWidth = getResources().getDisplayMetrics().widthPixels;
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -25,6 +35,9 @@ public class CustomMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
+        DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
+
+        tvDate.setText(dateFormat3.format(e.getX()));
         tvContent.setText("" + e.getY());
 
         // this will perform necessary layouting
@@ -43,4 +56,20 @@ public class CustomMarkerView extends MarkerView {
 
         return mOffset;
     }
+
+    /*
+    @Override
+    public void draw(Canvas canvas, float posx, float posy)
+    {
+        // Check marker position and update offsets.
+        int w = getWidth();
+        if((uiScreenWidth-posx-w) < w) {
+            posx -= w;
+        }
+
+        // translate to the correct position and draw
+        canvas.translate(posx, posy);
+        draw(canvas);
+        canvas.translate(-posx, -posy);
+    }*/
 }

@@ -1,19 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:background="@drawable/marker2">
+    android:layout_height="wrap_content"
+    android:background="@drawable/marker2" >
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="10/10/1000"
+        android:layout_marginTop="4dp"
+        android:textSize="10dp"
+        android:textColor="@android:color/white"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text=""
-        android:textSize="12dp"
+        android:layout_below="@id/tvDate"
+        android:layout_marginBottom="5dp"
+        android:text="70.0"
+        android:textSize="10dp"
         android:textColor="@android:color/white"
         android:ellipsize="end"
         android:singleLine="true"
-        android:layout_marginTop="15px"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
+
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/marker2">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10px"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="10/01/2017"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10px"
+        android:layout_below="@+id/tvDate"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="75.0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white"
+        android:textSize="10dp" />
+
+</RelativeLayout>-->

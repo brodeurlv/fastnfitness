@@ -48,7 +48,7 @@
     <string name="ShareParamExercise">__EXERCISE__</string>        
     
     <!-- Cardio Fragment -->
-    <string name="CardioLabel">Cardio</string>   
+    <string name="CardioLabel">Cardio (Beta)</string>
     <string name="DistanceLabel">Distance (Km)</string>
     <string name="KmUnitLabel">Km</string>
     <string name="MilesUnitLabel">Miles</string>
@@ -136,7 +136,7 @@
     <string name="pectoraux">Pectoraux</string>
     <string name="deltoids">Deltoids</string>
 
-    <string name="dorseaux">Dos</string>
+    <string name="dorseaux">Dorseaux</string>
     <string name="abdominaux">Abdominaux</string>
     
     <string name="quadriceps">Quadriceps</string>

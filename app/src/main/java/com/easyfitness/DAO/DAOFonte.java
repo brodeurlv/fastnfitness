@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class DAOFonte extends DAOBase {
 
@@ -348,7 +349,38 @@ public class DAOFonte extends DAOBase {
 		// return value list
 		return valueList;
 	}
-	
+
+	// Getting All Machines
+	public List<String> getAllMachinesList(Profile pProfile) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+
+		// Select All Machines
+		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
+		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
+		String selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+				+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
+		mCursor = db.rawQuery(selectQuery, null);
+
+		int size = mCursor.getCount();
+
+		List<String> valueList = new ArrayList<String>(size);
+
+		// looping through all rows and adding to list
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				String value = new String(mCursor.getString(0));
+				valueList.add(value);
+				i++;
+			} while (mCursor.moveToNext());
+		}
+		close();
+		// return value list
+		return valueList;
+	}
+
+
 	// Getting All Machines
 	public String[] getAllMachines(Profile pProfile) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -408,7 +440,7 @@ public class DAOFonte extends DAOBase {
 	}
 
 	// Getting All Dates
-	public Date[] getAllDates(Profile pProfile) {
+	public List<String> getAllDatesList(Profile pProfile) {
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 
@@ -421,21 +453,15 @@ public class DAOFonte extends DAOBase {
 		mCursor = db.rawQuery(selectQuery, null);
 		int size = mCursor.getCount();
 
-		Date[] valueList = new Date[size];
+		List<String> valueList = new ArrayList<String>(size);
 
 		// looping through all rows and adding to list
 		if (mCursor.moveToFirst()) {
 			do {
 				int i = 0;
-				Date date;
-				try {
-					date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-							.parse(mCursor.getString(1));
-				} catch (ParseException e) {
-					e.printStackTrace();
-					date = new Date();
-				}
-				valueList[i] = date;
+				String date;
+				date = mCursor.getString(0);
+				valueList.add(date);
 				i++;
 			} while (mCursor.moveToNext());
 		}

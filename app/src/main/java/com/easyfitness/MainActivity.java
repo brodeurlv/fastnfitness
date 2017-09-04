@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 		}*/
 
         if (savedInstanceState == null) {
-            showFragment(FONTESPAGER);
+            showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
             currentFragmentName = FONTESPAGER;
         }
 
@@ -550,7 +550,43 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void showFragment(String pFragmentName) {
+
+    private void showFragment(String pFragmentName)
+    {
+        showFragment(pFragmentName, true);
+    }
+
+    private void showFragment(String pFragmentName, boolean addToBackStack) {
+
+        if (currentFragmentName == pFragmentName) return; // If this is already the current fragment, do no replace.
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        // Then show the fragments
+        if (pFragmentName.equals(FONTESPAGER)) {
+            ft.replace(R.id.fragment_container,getFontesPagerFragment());
+        } else if (pFragmentName.equals(CARDIO)) {
+            ft.replace(R.id.fragment_container,getCardioFragment());
+        } else if (pFragmentName.equals(PROFIL)) {
+            ft.replace(R.id.fragment_container,getProfilFragment());
+        } else if (pFragmentName.equals(SETTINGS)) {
+            ft.replace(R.id.fragment_container,getSettingsFragment());
+        } else if (pFragmentName.equals(MACHINES)) {
+            ft.replace(R.id.fragment_container,getMachineFragment());
+        } else if (pFragmentName.equals(ABOUT)) {
+            ft.replace(R.id.fragment_container,getAboutFragment());
+        } else if (pFragmentName.equals(BODYTRACKING)) {
+            ft.replace(R.id.fragment_container,getBodyPartFragment());
+        }
+        currentFragmentName = pFragmentName;
+        if (addToBackStack)  ft.addToBackStack(null);
+        ft.commit();
+
+    }
+
+
+    private void showFragment2(String pFragmentName) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -659,6 +695,10 @@ public class MainActivity extends AppCompatActivity {
 
     public Profile getCurrentProfil() {
         return mCurrentProfile;
+    }
+
+    public long getCurrentProfilID() {
+        return mCurrentProfile.getId();
     }
 
     public void setCurrentProfil(String newProfilName) {
@@ -783,11 +823,10 @@ public class MainActivity extends AppCompatActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+
             selectItem(position);
 
             // Insert the fragment by replacing any existing fragment
-
-
             switch (position) {
                 case 0:
                     // Title with Profile
@@ -813,8 +852,6 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
-                    //Intent i = new Intent(getActivity(), SettingsActivity.class);
-                    //startActivity(i);
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
@@ -826,8 +863,6 @@ public class MainActivity extends AppCompatActivity {
                     showFragment(FONTESPAGER);
                     setTitle(getResources().getText(R.string.FonteLabel));
             }
-
-
         }
     }
 

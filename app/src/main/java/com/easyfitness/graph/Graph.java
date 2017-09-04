@@ -82,11 +82,11 @@ public class Graph {
     }
 
     public void draw(ArrayList<Entry> entries) {
-        mChart.clear();
+        //mChart.clear();
 
         Collections.sort(entries, new EntryXComparator());
 
-        Log.d("DEBUG", arrayToString(entries));
+        //log.d("DEBUG", arrayToString(entries));
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(3f);

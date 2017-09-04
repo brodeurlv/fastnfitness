@@ -1,5 +1,6 @@
 package com.easyfitness;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,10 +19,12 @@ import android.widget.TextView;
 public class CardioCursorAdapter extends CursorAdapter {
 	 
 	 private LayoutInflater mInflater;
+	 private Context mContext = null;
 	 
 	 public CardioCursorAdapter(Context context, Cursor c, int flags) {
 	  super(context, c, flags);
 	  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		 mContext = context;
 	 }
 	 
 	 @Override
@@ -40,10 +43,13 @@ public class CardioCursorAdapter extends CursorAdapter {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			date = dateFormat.parse(cursor.getString(1));
-			
-			SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+
+			DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+			t1.setText(dateFormat3.format(date));
+			/*SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
 			dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
-			t1.setText(dateFormat2.format(date));
+			t1.setText(dateFormat2.format(date));*/
+
 		} catch (ParseException e) {
 			t1.setText("");
 			e.printStackTrace();

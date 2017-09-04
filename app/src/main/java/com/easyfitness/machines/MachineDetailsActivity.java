@@ -16,9 +16,9 @@ public class MachineDetailsActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             // During initial setup, plug in the details fragment.
-        	MachineDetailsFragment details = MachineDetailsFragment.newInstance("Machine_Details", 90);
-            details.setArguments(getIntent().getExtras());
-            this.getSupportFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
+        	//MachineDetailsFragment details = MachineDetailsFragment.newInstance("Machine_Details", 90);
+            //details.setArguments(getIntent().getExtras());
+            //this.getSupportFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
         }
     }
     
