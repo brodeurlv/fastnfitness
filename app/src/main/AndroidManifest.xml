@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.easyfitness"
     android:versionCode="6"
-    android:versionName="0.12">
+    android:versionName="0.13Beta">
 
     <uses-sdk
         android:minSdkVersion="16"

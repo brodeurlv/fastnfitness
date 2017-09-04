@@ -59,16 +59,20 @@ public class BodyPartListFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_bodytracking, container, false);
 
+		DAOBodyMeasure mdbMeasure = new DAOBodyMeasure(this.getContext());
+
         measureList = (ListView) view.findViewById(R.id.listBodyMeasures);
 
 		dataModels= new ArrayList<>();
 
-		dataModels.add(new BodyPart(0));
-		dataModels.add(new BodyPart(1));
-		dataModels.add(new BodyPart(2));
-		dataModels.add(new BodyPart(3));
-		dataModels.add(new BodyPart(3));
-		dataModels.add(new BodyPart(4));
+		dataModels.add(new BodyPart(BodyPart.LEFTARM, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTARM, ((MainActivity)getActivity()).getCurrentProfil())));
+		dataModels.add(new BodyPart(BodyPart.RIGHTARM, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTARM, ((MainActivity)getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.PECTORAUX, mdbMeasure.getLastBodyMeasures(BodyPart.PECTORAUX, ((MainActivity)getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.WAIST, mdbMeasure.getLastBodyMeasures(BodyPart.WAIST, ((MainActivity)getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.LEFTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTTHIGH, ((MainActivity)getActivity()).getCurrentProfil())));
+		dataModels.add(new BodyPart(BodyPart.RIGHTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTTHIGH, ((MainActivity)getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.LEFTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTCALVES, ((MainActivity)getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.RIGHTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTCALVES, ((MainActivity)getActivity()).getCurrentProfil())));
 
 		adapter= new BodyPartListAdapter(dataModels,getContext());
 

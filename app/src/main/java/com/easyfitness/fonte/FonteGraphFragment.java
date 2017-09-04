@@ -50,7 +50,11 @@ public class FonteGraphFragment extends Fragment {
 
 	private DAOFonte mDb = null;
 
-	
+	private View mFragmentView = null;
+
+	ArrayAdapter<String> mAdapterMachine = null;
+	List<String> mMachinesArray = null;
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -73,7 +77,7 @@ public class FonteGraphFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_graph, container, false);
-		
+		mFragmentView = view;
 		functionList = (Spinner) view.findViewById(R.id.filterGraphFunction);
 		machineList = (Spinner) view.findViewById(R.id.filterGraphMachine);
 		allButton = (Button) view.findViewById(R.id.allbutton);
@@ -93,14 +97,32 @@ public class FonteGraphFragment extends Fragment {
 		/* Initialise le graph */ 
 		mChart = (LineChart) view.findViewById(R.id.graphChart);
 		//mChart.setDescription(""); @TODO: fix this
-		if ( mGraph == null ) mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
-
-		//Define Marker
-		IMarker marker = new CustomMarkerView(getActivity(), R.layout.graph_markerview);
-		mGraph.getLineChart().setMarker(marker);
+		//if ( mGraph == null ) {
+			mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+			//Define Marker
+			IMarker marker = new CustomMarkerView(getActivity(), R.layout.graph_markerview);
+			mGraph.getLineChart().setMarker(marker);
+		//}
 
 		/* Initialisation de l'historique */
 		if (mDb ==null) mDb = new DAOFonte(view.getContext());
+
+		ArrayAdapter<String> adapterFunction = new ArrayAdapter<String>(
+				getContext(), android.R.layout.simple_spinner_item,
+				mActivity.getResources().getStringArray(R.array.graph_functions));
+		adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		functionList.setAdapter(adapterFunction);
+
+		mMachinesArray = mDb.getAllMachinesList(getProfil());
+		// lMachinesArray = prepend(lMachinesArray, "All");
+		mAdapterMachine = new ArrayAdapter<String>(
+				getContext(), android.R.layout.simple_spinner_item,
+				mMachinesArray);
+		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		machineList.setAdapter(mAdapterMachine);
+		mDb.closeCursor();
+
+		//refreshData();
 		
 		return view;
 	}
@@ -174,8 +196,10 @@ public class FonteGraphFragment extends Fragment {
 		String pFunction = null;
 		int pDAOFunction = 0;
 
-		if (machineList.getSelectedItem() == null) { mChart.clear(); return; }// Evite les problemes au cas ou il n'y aurait aucune machine d'enregistree
-		if (functionList.getSelectedItem() == null) { mChart.clear(); return; }
+		if (machineList.getSelectedItem() == null) {
+			mChart.clear(); return; }// Evite les problemes au cas ou il n'y aurait aucune machine d'enregistree
+		if (functionList.getSelectedItem() == null) {
+			mChart.clear(); return; }
 		
 		pMachine = machineList.getSelectedItem().toString();
 		pFunction = functionList.getSelectedItem().toString();
@@ -238,32 +262,22 @@ public class FonteGraphFragment extends Fragment {
 	}
 	
 	private void refreshData(){
-		View fragmentView = getView();
-		if(fragmentView != null) {
+		//View fragmentView = getView();
+
+		if(mFragmentView != null) {
 			if (getProfil() != null) {
+				//functionList.setOnItemSelectedListener(onItemSelectedList);
+
 				/* Initialisation des machines */
-				String[] lMachinesArray = mDb.getAllMachines(getProfil());
-				
-				ArrayAdapter<String> adapterFunction = new ArrayAdapter<String>(
-						getView().getContext(), android.R.layout.simple_spinner_item,
-						mActivity.getResources().getStringArray(R.array.graph_functions));
-				adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				machineList.setAdapter(adapterFunction);
-				
-				machineList.setOnItemSelectedListener(null);
-				// lMachinesArray = prepend(lMachinesArray, "All");
-				ArrayAdapter<String> adapterMachine = new ArrayAdapter<String>(
-						getView().getContext(), android.R.layout.simple_spinner_item,
-						lMachinesArray);
-				adapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				machineList.setAdapter(adapterMachine);
+				mMachinesArray.clear();
+				mMachinesArray.addAll(mDb.getAllMachinesList(getProfil()));
+				mAdapterMachine.notifyDataSetChanged(); //@TODO FIX, doesn't work
 				mDb.closeCursor();
-				machineList.setOnItemSelectedListener(onItemSelectedList);
-				
-				if ( adapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-					machineList.setSelection(adapterMachine.getPosition(this.getFontesMachine()));
-					// Le setSelection lance automatiquement le DrawGraph dans le listener.
-				} else {				
+
+				if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+					machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
+					DrawGraph();
+				} else {
 					DrawGraph();
 				}
 			}

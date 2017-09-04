@@ -154,6 +154,26 @@ public class DAOBodyMeasure extends DAOBase {
         return getMeasuresList(selectQuery);
     }
 
+    /**
+     * Getting All Measures associated to a Body part for a specific Profile
+     *
+     * @param pBodyPartID
+     * @param pProfile
+     * @return List<BodyMeasure>
+     */
+    public BodyMeasure getLastBodyMeasures(long pBodyPartID, Profile pProfile) {
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_KEY + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+
+        List<BodyMeasure> array = getMeasuresList(selectQuery);
+        if (array.size() <= 0 ) {
+            return null;
+        }
+
+        // return value list
+        return getMeasuresList(selectQuery).get(0);
+    }
+
     // Updating single value
     public int updateMeasure(BodyMeasure m) {
         SQLiteDatabase db = this.getWritableDatabase();

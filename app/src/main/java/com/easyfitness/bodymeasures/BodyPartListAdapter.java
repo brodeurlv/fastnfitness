@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //
+
         // Get the data item for this position
         BodyPart dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -82,7 +85,10 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
         //lastPosition = position;
         viewHolder.txtID.setText(String.valueOf(dataModel.getId()));
         viewHolder.txtName.setText(this.getContext().getResources().getText(dataModel.getResourceNameID()));
-        viewHolder.txtLastMeasure.setText("TBD");
+        if (dataModel.getLastMeasure() != null )
+            viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
+        else
+            viewHolder.txtLastMeasure.setText("-");
         viewHolder.logo.setImageResource(dataModel.getResourceLogoID());
         // Return the completed view to render on screen
         return convertView;

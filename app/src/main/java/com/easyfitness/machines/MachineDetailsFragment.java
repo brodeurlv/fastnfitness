@@ -40,12 +40,14 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -63,6 +65,8 @@ public class MachineDetailsFragment extends Fragment {
 	EditText machineName = null;
 	EditText machineDescription = null;
 	ImageView machinePhoto = null;
+    ImageButton machineDelete = null;
+    ImageButton machineSave = null;
 	
 	Toolbar top_toolbar = null;
 	
@@ -87,13 +91,13 @@ public class MachineDetailsFragment extends Fragment {
 	 * Create a new instance of DetailsFragment, initialized to
 	 * show the text at 'index'.
 	 */
-	public static MachineDetailsFragment newInstance(String name, int id) {
+	public static MachineDetailsFragment newInstance(long machineId, long machineProfile) {
 		MachineDetailsFragment f = new MachineDetailsFragment();
 
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
-		args.putString("name", name);
-		args.putInt("id", id);
+		args.putLong("machineID", machineId);
+		args.putLong("machineProfile", machineProfile);
 		f.setArguments(args);
 
 		return f;
@@ -109,39 +113,32 @@ public class MachineDetailsFragment extends Fragment {
 
 		// Initialisation de l'historique
 		mDbMachine = new DAOMachine(view.getContext());
-		
-		top_toolbar = (Toolbar) view.findViewById(R.id.actionToolbarMachine);
-		((MachineDetailsActivity)getActivity()).setSupportActionBar(top_toolbar);
-		((MachineDetailsActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		((MachineDetailsActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-		top_toolbar.setTitle("");
+
+        ((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.GONE);
+        top_toolbar = (Toolbar) view.findViewById(R.id.actionToolbarMachine);
+		top_toolbar.setNavigationIcon(R.drawable.ic_back);
+		top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 		
 		machineName = (EditText) view.findViewById(R.id.machine_name);
 		machineDescription = (EditText) view.findViewById(R.id.machine_description);
 		musclesList = (EditText) view.findViewById(R.id.machine_muscles);
 		machinePhoto = (ImageView) view.findViewById(R.id.machine_photo);
-		
-		
+        machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
+        machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
+
+		machineSave.setVisibility(View.GONE); // Hide Save button by default
+
 		buildMusclesTable();
-				
-		// get Arguments
-		if (savedInstanceState == null) {
-		    Bundle args = this.getArguments();
-		    if(args == null) {
-		    	machineNameArg= null;
-		    } else {
-		    	machineNameArg= args.getString("machineName");
-		    	machineIdArg = args.getLong("machineId");
-		    	machineProfilIdArg= args.getLong("machineProfilId");
-		    }
-		} else {
-			machineNameArg= (String) savedInstanceState.getSerializable("machineName");
-			machineIdArg = (long) savedInstanceState.getLong("machineId");
-			machineProfilIdArg= (long) savedInstanceState.getLong("machineProfilId");
-		}
-		
+
+        Bundle args = this.getArguments();
+
+        machineIdArg = args.getLong("machineID");
+        machineProfilIdArg = args.getLong("machineProfile");
+
 		// set events
-		musclesList.setOnClickListener(onClickMachineList);
+        machineSave.setOnClickListener(onClickToolbarItem);
+        machineDelete.setOnClickListener(onClickToolbarItem);
+        musclesList.setOnClickListener(onClickMusclesList);
 		musclesList.setOnFocusChangeListener(onFocusMachineList);
 		machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
 		machinePhoto.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +177,8 @@ public class MachineDetailsFragment extends Fragment {
             }
         });
 		
-		Machine temp = mDbMachine.getMachine(machineIdArg); 
+		Machine temp = mDbMachine.getMachine(machineIdArg);
+		top_toolbar.setTitle(temp.getName());
 		machineName.setText(temp.getName());
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
@@ -218,7 +216,7 @@ public class MachineDetailsFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setHasOptionsMenu(true);
+	    //setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -262,8 +260,8 @@ public class MachineDetailsFragment extends Fragment {
 					boolean firstSelection = true;
 					// ( selectMuscleList.size() > 0 ) { // Si on a au moins selectionne un muscle
 					    for (i = 0; i < _selections.length; i++) {					     
-					    	if (_selections[i]==true && firstSelection == true)  { msg=_muscles[i].toString(); firstSelection = false;}
-					    	else if (_selections[i]==true && firstSelection == false)  { msg=msg+";" +_muscles[i]; }					    	
+					    	if (_selections[i] && firstSelection)  { msg=_muscles[i].toString(); firstSelection = false;}
+					    	else if (_selections[i]&& !firstSelection)  { msg=msg+";" +_muscles[i]; }
 					    }
 					//}
 				    setMuscleText(msg);
@@ -316,7 +314,7 @@ public class MachineDetailsFragment extends Fragment {
 				return true;
 	}	
 	
-	private OnClickListener onClickMachineList = new View.OnClickListener() {
+	private OnClickListener onClickMusclesList = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			CreateMuscleDialog();
@@ -525,76 +523,66 @@ public class MachineDetailsFragment extends Fragment {
 		
 		super.onCreateOptionsMenu(menu, inflater);  
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-  
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-			case R.id.action_machine_save:
-				saveMachine();
-				getActivity().findViewById(R.id.tab_machine_details).requestFocus();
-				return true;
-			case R.id.action_machine_delete:
-				deleteMachine();
-				return true;
-			case android.R.id.home:
-				 if (toBeSaved) {
-					// Afficher une boite de dialogue pour confirmer
-						AlertDialog.Builder backDialogBuilder = new AlertDialog.Builder(this.getActivity());
 
-						backDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
-						backDialogBuilder.setMessage(getActivity().getResources().getText(R.string.backDialog_confirm_text));
-						
-						// Si oui, supprimer la base de donnee et refaire un Start.
-						backDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
-							@Override
-					        public void onClick(DialogInterface dialog, int which) {
-					        	saveMachine();
-					        	((MachineDetailsActivity)getActivity()).onBackPressed();
-					        }
-					    });
-
-						backDialogBuilder.setNegativeButton(this.getResources().getString(R.string.global_no), new DialogInterface.OnClickListener() {
-
-					        @Override
-					        public void onClick(DialogInterface dialog, int which) {
-					            // Do nothing
-					        	((MachineDetailsActivity)getActivity()).onBackPressed();
-					        }
-					    });
-
-					    AlertDialog backDialog = backDialogBuilder.create();
-					    backDialog.show();
-
-				 } else {
-				     ((MachineDetailsActivity)getActivity()).onBackPressed();					 
-				 }				 
-
-			     return true;
-			default:
-				
-		}
-		
-		return true;
-	}
+    private OnClickListener onClickToolbarItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Handle presses on the action bar items
+            switch (v.getId()) {
+                case R.id.action_machine_save:
+                    saveMachine();
+                    getActivity().findViewById(R.id.tab_machine_details).requestFocus();
+                    break;
+                case R.id.action_machine_delete:
+                    deleteMachine();
+                    break;
+                default:
+                	saveMachineDialog();
+            }
+        }
+	};
 	
 	public void setMuscleText(String t) {
 		musclesList.setText(t);
 	}
 
-	public String getName() { 
-		return getArguments().getString("name");
-	}
-
-	public int getFragmentId() { 
-		return getArguments().getInt("id", 0);
-	}
-	
 	public MachineDetailsFragment getThis() {
 		return this;
 	}
-	
+
+	public void saveMachineDialog() {
+		if (toBeSaved) {
+			// Afficher une boite de dialogue pour confirmer
+			AlertDialog.Builder backDialogBuilder = new AlertDialog.Builder(getActivity());
+
+			backDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
+			backDialogBuilder.setMessage(getActivity().getResources().getText(R.string.backDialog_confirm_text));
+
+			// Si oui, supprimer la base de donnee et refaire un Start.
+			backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					saveMachine();
+					getActivity().onBackPressed();
+				}
+			});
+
+			backDialogBuilder.setNegativeButton(getResources().getString(R.string.global_no), new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					getActivity().onBackPressed();
+				}
+			});
+
+			AlertDialog backDialog = backDialogBuilder.create();
+			backDialog.show();
+
+		} else {
+			getActivity().onBackPressed();
+		}
+	}
+
 	private void saveMachine() {		
 		Machine m = this.mDbMachine.getMachine(machineIdArg); // machine d'origine
 		String lMachineName = this.machineName.getText().toString(); // Potentiel nouveau nom dans le EditText
@@ -633,8 +621,9 @@ public class MachineDetailsFragment extends Fragment {
 						mDbMachine.deleteRecord(m); // Supprime l'ancienne machine
 						
 						toBeSaved = false;
-						getThis().getActivity().invalidateOptionsMenu(); 		
-						((MachineDetailsActivity)getActivity()).onBackPressed();
+						//getThis().getActivity().invalidateOptionsMenu();
+						machineDelete.setVisibility(View.GONE);
+                        getActivity().onBackPressed();
 			        }	
 			    });
 				
@@ -654,7 +643,6 @@ public class MachineDetailsFragment extends Fragment {
 				m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 				m.setPicture(this.mCurrentPhotoPath);
 
-
 				this.mDbMachine.updateMachine(m);
 				
 	        	// Rename all the records with that machine and rename them
@@ -667,9 +655,10 @@ public class MachineDetailsFragment extends Fragment {
 					//record.setMachineKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
 					lDbFonte.updateRecord(record); // met a jour
 				}
-				
+
+				machineSave.setVisibility(View.GONE);
 				toBeSaved = false;
-				getThis().getActivity().invalidateOptionsMenu(); 
+				//getThis().getActivity().invalidateOptionsMenu();
 			}
 		} else {
 			// Si le nom n'a pas ete modifie.
@@ -680,9 +669,10 @@ public class MachineDetailsFragment extends Fragment {
 
 
 			this.mDbMachine.updateMachine(m);
-			
-			toBeSaved = false;
-			getThis().getActivity().invalidateOptionsMenu(); 
+
+            machineSave.setVisibility(View.GONE);
+            toBeSaved = false;
+			//getThis().getActivity().invalidateOptionsMenu();
 		}
 	}
 	
@@ -702,7 +692,7 @@ public class MachineDetailsFragment extends Fragment {
 				mDbMachine.deleteRecord(m);
 	        	// Suppress the associated Fontes records
 	        	deleteRecordsAssociatedToMachine();
-	        	((MachineDetailsActivity)getActivity()).onBackPressed();
+	        	getActivity().onBackPressed();
 
 	        }
 	    });
@@ -720,8 +710,8 @@ public class MachineDetailsFragment extends Fragment {
 	}
 	
 	private void deleteRecordsAssociatedToMachine() {
-			DAOFonte mDbFonte = new DAOFonte(this.getView().getContext());
-			DAOProfil mDbProfil = new DAOProfil(this.getView().getContext());
+			DAOFonte mDbFonte = new DAOFonte(getContext());
+			DAOProfil mDbProfil = new DAOProfil(getContext());
 			
 			Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
@@ -750,7 +740,8 @@ public class MachineDetailsFragment extends Fragment {
 	
 	private void requestForSave() {
 		toBeSaved = true; // setting state
-		getThis().getActivity().invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+		machineSave.setVisibility(View.VISIBLE);
+        //getThis().getActivity().invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
 	}
 	
 	

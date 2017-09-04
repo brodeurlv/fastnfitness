@@ -4,11 +4,38 @@ import com.easyfitness.R;
 
 /* DataBase Object */
 public class BodyPart {
-    private long id;    // Notez que l'identifiant est un long
+    private int id;    // Notez que l'identifiant est un long
+    private BodyMeasure mLastMeasure;
 
-    public BodyPart(long id) {
+    public static final int ABDOMINAUX = 0;
+    public static final int ADDUCTEURS = 1;
+    public static final int BICEPS = 2;
+    public static final int TRICEPS = 3;
+    public static final int DELTOIDS = 4;
+    public static final int MOLLETS = 5;
+    public static final int PECTORAUX = 6;
+    public static final int DORSEAUX = 7;
+    public static final int QUADRICEPS = 8;
+    public static final int ISCHIOJAMBIERS = 9;
+    public static final int LEFTARM = 10;
+    public static final int RIGHTARM = 11;
+    public static final int LEFTTHIGH = 12;
+    public static final int RIGHTTHIGH = 13;
+    public static final int LEFTCALVES = 14;
+    public static final int RIGHTCALVES = 15;
+    public static final int WAIST = 16;
+    public static final int NECK = 17;
+
+    public BodyPart(int id) {
         super();
         this.id = id;
+        this.mLastMeasure = null;
+    }
+
+    public BodyPart(int id, BodyMeasure lastmeasure) {
+        super();
+        this.id = id;
+        this.mLastMeasure = lastmeasure;
     }
 
     public long getId() {
@@ -31,31 +58,66 @@ public class BodyPart {
         return getBodyLogoID((int)id);
     }
 
-    private int getBodyResourceID(int pBodyID) {
+    private static int getBodyResourceID(int pBodyID) {
         switch(pBodyID){
-            case 0: return R.string.abdominaux;
-            case 1: return R.string.adducteurs;
-            case 2: return R.string.biceps;
-            case 3: return R.string.triceps;
-            case 4: return R.string.deltoids;
-            case 5: return R.string.mollets;
+            case ABDOMINAUX: return R.string.abdominaux;
+            case ADDUCTEURS: return R.string.adducteurs;
+            case BICEPS: return R.string.biceps;
+            case TRICEPS: return R.string.triceps;
+            case DELTOIDS: return R.string.deltoids;
+            case MOLLETS: return R.string.mollets;
+            case PECTORAUX: return R.string.pectoraux;
+            case DORSEAUX: return R.string.dorseaux;
+            case QUADRICEPS: return R.string.quadriceps;
+            case ISCHIOJAMBIERS: return R.string.ischio_jambiers;
+            case LEFTARM: return R.string.left_arm;
+            case RIGHTARM: return R.string.right_arm;
+            case LEFTTHIGH: return R.string.left_thigh;
+            case RIGHTTHIGH: return R.string.right_thigh;
+            case LEFTCALVES: return R.string.left_calves;
+            case RIGHTCALVES: return R.string.right_calves;
+            case WAIST: return R.string.waist;
+            case NECK: return R.string.neck;
         };
 
         return 0;
     }
 
-    private int getBodyLogoID(int pBodyID) {
+    private static int getBodyLogoID(int pBodyID) {
         switch(pBodyID){
-            case 0: return R.drawable.silhouette;
-            case 1: return R.drawable.silhouette;
-            case 2: return R.drawable.silhouette;
-            case 3: return R.drawable.silhouette;
-            case 4: return R.drawable.silhouette;
-            case 5: return R.drawable.silhouette;
+            case ABDOMINAUX: return R.drawable.ic_chest;
+            case ADDUCTEURS: return R.drawable.ic_leg;
+            case BICEPS: return R.drawable.ic_arm;
+            case TRICEPS: return R.drawable.ic_arm;
+            case DELTOIDS: return R.drawable.ic_chest;
+            case MOLLETS: return R.drawable.ic_leg;
+            case PECTORAUX: return R.drawable.ic_chest_measure;
+            case DORSEAUX: return R.drawable.ic_chest;
+            case QUADRICEPS: return R.drawable.ic_leg;
+            case ISCHIOJAMBIERS: return R.drawable.ic_leg;
+            case LEFTARM: return R.drawable.ic_arm_measure;
+            case RIGHTARM: return R.drawable.ic_arm_measure;
+            case LEFTTHIGH: return R.drawable.ic_tight_measure;
+            case RIGHTTHIGH: return R.drawable.ic_tight_measure;
+            case LEFTCALVES: return R.drawable.ic_calve_measure;
+            case RIGHTCALVES: return R.drawable.ic_calve_measure;
+            case WAIST: return R.drawable.ic_waist_measure;
+            case NECK: return R.drawable.ic_neck;
         };
 
         return 0;
     }
+
+    public void setLastMeasure(BodyMeasure lastmeasure) {
+        this.mLastMeasure = lastmeasure;
+    }
+
+    public BodyMeasure getLastMeasure() {
+        return this.mLastMeasure ;
+    }
+
+
+
 
 
 

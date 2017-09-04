@@ -45,9 +45,9 @@ public class FonteCursorAdapter extends CursorAdapter {
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			date = dateFormat.parse(cursor.getString(1));
 			
-			SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+			//SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
 			//dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
-			t1.setText(dateFormat2.format(date));
+			//t1.setText(dateFormat2.format(date));
 			DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
 			t1.setText(dateFormat3.format(date));
 		} catch (ParseException e) {

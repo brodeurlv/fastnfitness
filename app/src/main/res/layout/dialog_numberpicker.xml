@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/cardview_light_background"
     android:orientation="vertical">
@@ -9,35 +9,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
 
             <Button
-                android:id="@+id/btn_minusOne"
+                android:id="@+id/btn_plusQuarter"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:background="@android:color/white"
-                android:text="Button"
+                android:text="+0.25"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btn_minusFive"
-                android:layout_width="60dp"
+                android:id="@+id/btn_plusHalf"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
                 android:background="@android:color/white"
-                android:text="Button"
+                android:text="+0.5"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_plusOne"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="+1"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_plusFive"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="+5"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_plusTen"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="+10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -50,40 +78,74 @@
 
             <EditText
                 android:id="@+id/editText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:ems="3"
+                android:maxEms="5"
                 android:inputType="phone" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
 
             <Button
-                android:id="@+id/btn_plusOne"
+                android:id="@+id/btn_minusQuarter"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/white"
-                android:text="Button"
+                android:text="-0.25"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btn_plusFive"
-                android:layout_width="60dp"
+                android:id="@+id/btn_minusHalf"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/white"
-                android:text="Button"
+                android:text="-0.5"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_minusOne"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="-1"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_minusFive"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="-5"
+                android:textColor="#5DBCD2"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_minusTen"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/white"
+                android:text="-10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

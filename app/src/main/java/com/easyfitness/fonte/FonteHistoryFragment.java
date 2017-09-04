@@ -1,5 +1,6 @@
 package com.easyfitness.fonte;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -36,8 +37,13 @@ public class FonteHistoryFragment extends Fragment {
 	
 	MainActivity mActivity = null;
 
+	List<String> mMachineArray = null;
+	List<String> mDateArray = null;
 
-    /**
+	ArrayAdapter<String> mAdapterMachine = null;
+	ArrayAdapter<String> mAdapterDate = null;
+
+	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
@@ -71,7 +77,27 @@ public class FonteHistoryFragment extends Fragment {
 
 		// Initialisation de l'historique
 		mDb = new DAOFonte(view.getContext());
-		
+
+		mMachineArray = new ArrayList<String>();
+		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
+		mMachineArray.addAll(mDb.getAllMachinesList(getProfil()));
+		mAdapterMachine = new ArrayAdapter<String>(
+				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
+				mMachineArray);
+		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		machineList.setAdapter(mAdapterMachine);
+		mDb.closeCursor();
+
+		mDateArray = new ArrayList<String>();
+		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
+		mDateArray.addAll(mDb.getAllDatesList(getProfil()));
+		mAdapterDate = new ArrayAdapter<String>(
+				getContext(), android.R.layout.simple_spinner_item,
+				mDateArray);
+		mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		dateList.setAdapter(mAdapterDate);
+
+
 		return view;
 	}
 
@@ -110,8 +136,6 @@ public class FonteHistoryFragment extends Fragment {
 				int position, long id) {
 
 			mDb.deleteRecord(id);
-
-			// listView.removeViewInLayout(view);
 
 			FillRecordTable(machineList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
@@ -174,30 +198,24 @@ public class FonteHistoryFragment extends Fragment {
 			if (getProfil() != null) {
 				
 					// Initialisation des machines				
-					String[] lMachinesArray = mDb.getAllMachines(getProfil());
-					lMachinesArray = prepend(lMachinesArray, getView().getResources().getText(R.string.all).toString());
-					ArrayAdapter<String> adapterMachine = new ArrayAdapter<String>(
-							getView().getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
-							lMachinesArray);
-					adapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					machineList.setAdapter(adapterMachine);
+					mMachineArray.clear();
+					mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
+					mMachineArray.addAll(mDb.getAllMachinesList(getProfil()));
+					mAdapterMachine.notifyDataSetChanged();
 					mDb.closeCursor();
 		
 					// Initialisation de la date
-					String[] lDateArray = mDb.getAllDatesAsString(getProfil());
-					lDateArray = prepend(lDateArray, getView().getResources().getText(R.string.all).toString()); // Rajoute "ALL" dans la liste
-					ArrayAdapter<String> adapterDate = new ArrayAdapter<String>(
-							getView().getContext(), android.R.layout.simple_spinner_item,
-							lDateArray);
-					adapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					dateList.setAdapter(adapterDate);
-					if (lDateArray.length > 1){
+					mDateArray.clear();
+					mDateArray.add(getView().getResources().getText(R.string.all).toString());
+					mDateArray.addAll(mDb.getAllDatesList(getProfil()));
+					if (mDateArray.size() > 1){
 						dateList.setSelection(1);
 					}
+					mAdapterDate.notifyDataSetChanged();
 					mDb.closeCursor();				
 
-					if ( adapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-						machineList.setSelection(adapterMachine.getPosition(this.getFontesMachine()));
+					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+						machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
 					} 								
 
 					FillRecordTable(machineList.getSelectedItem().toString(), dateList
@@ -211,19 +229,7 @@ public class FonteHistoryFragment extends Fragment {
 	}
 	
 	private String getFontesMachine()	{
-
 		return getMainActivity().getCurrentMachine();
-
-		/*
-		String temp = null;
-		try {
-			FontesPagerFragment temp2 = (FontesPagerFragment)(mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.FONTESPAGER));
-			FontesFragment temp3 = ((FontesFragment)(temp2.getViewPagerAdapter().getItem(0)));
-			temp = temp3.getMachine();
-		}catch (NullPointerException e) {
-			temp = "";
-		}
-		return temp;*/
 	}
 	
 	@Override

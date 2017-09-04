@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import gr.antoniom.chronometer.Chronometer;
 import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 
@@ -19,6 +22,7 @@ public class CountdownDialogbox extends Dialog implements
     public Button exit;
     public Chronometer chrono;
     public ProgressBar progressBar;
+    public DonutProgress progressCircle;
 
     int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
@@ -29,6 +33,7 @@ public class CountdownDialogbox extends Dialog implements
             //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
             int secElapsed = (int) (chrono.getTimeElapsed() / 1000);
             progressBar.setProgress(iRestTime + secElapsed);
+            progressCircle.setProgress(iRestTime + secElapsed);
             if (iRestTime + secElapsed >= iRestTime) {
                 chrono.stop();
                 dismiss();
@@ -53,6 +58,9 @@ public class CountdownDialogbox extends Dialog implements
         exit = (Button) findViewById(R.id.btn_exit);
         progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
         chrono = (Chronometer) findViewById(R.id.chronoValue);
+        progressCircle = (DonutProgress) findViewById(R.id.donut_progress);
+
+        progressCircle.setMax(iRestTime);
 
         exit.setOnClickListener(this);
 

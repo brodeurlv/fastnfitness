@@ -1,14 +1,16 @@
 package com.easyfitness.fonte;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
-public class FontesViewPagerAdapter extends FragmentPagerAdapter {
+public class FontesViewPagerAdapter extends FragmentStatePagerAdapter {
 
 	final int PAGE_COUNT = 3;
 	Context context;
@@ -59,24 +61,27 @@ public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 	public FontesFragment getFontesFragment() {
 		if (mpFontesFrag == null)
 			mpFontesFrag = (FontesFragment) lFm.findFragmentByTag(MainActivity.FONTES);
-		if (mpFontesFrag==null) 	mpFontesFrag= FontesFragment.newInstance(MainActivity.FONTES, 1); 
-		
+		if (mpFontesFrag==null) 	mpFontesFrag= FontesFragment.newInstance(MainActivity.FONTES, 1);
+
+		//mpFontesFrag.onHiddenChanged(false);
 		return mpFontesFrag;
 	}
 
 	public FonteGraphFragment getGraphFragment() {
 		if (mpGraphFrag == null)
 			mpGraphFrag = (FonteGraphFragment) lFm.findFragmentByTag(MainActivity.GRAPHIC);
-		if (mpGraphFrag==null) 	mpGraphFrag= FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2); 
-		
+		if (mpGraphFrag==null) 	mpGraphFrag= FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2);
+
+		//mpGraphFrag.onHiddenChanged(false);
 		return mpGraphFrag;
 	}
 
 	public FonteHistoryFragment getHistoricFragment() {
 		if (mpHistoryFrag == null)
 			mpHistoryFrag = (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
-		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3); 
-		
+		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3);
+
+		//mpHistoryFrag.onHiddenChanged(false);
 		return mpHistoryFrag;
 	}
 
@@ -91,5 +96,4 @@ public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 	public void restoreHistoricFragment(FonteHistoryFragment mpFrag) {
 		mpHistoryFrag = mpFrag;
 	}
-	
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,34 +107,21 @@ public class MachineFragment extends Fragment {
 	private OnItemClickListener onClickListItem = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				/*AboutFragment about = AboutFragment.newInstance("test", 50);
-				FragmentTransaction transaction =getThis().getActivity().getSupportFragmentManager().beginTransaction();
-				// Replace whatever is in the fragment_container view with this fragment,
-				// and add the transaction to the back stack so the user can navigate back
-				transaction.add(R.id.fragment_container, about);
-				transaction.addToBackStack(null);
-
-				// Commit the transaction
-				transaction.commit();*/
-			
 			// Get Machine Name selected
 			TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
-            String machineName = textView.getText().toString(); 
-            
+			String machineName = textView.getText().toString();
 
 			TextView textViewID = (TextView) view.findViewById(R.id.LIST_MACHINE_ID);
-            long machineId = Long.valueOf(textViewID.getText().toString()); 
-			
-			// Create detailled machine Activity			
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), MachineDetailsActivity.class);
-            intent.putExtra("machineName", machineName);
-            intent.putExtra("machineId", machineId);
-            intent.putExtra("machineProfilId", ((MainActivity)getActivity()).getCurrentProfil().getId());
-            
-            getActivity().invalidateOptionsMenu();
-            
-            startActivity(intent);				
+			long machineId = Long.valueOf(textViewID.getText().toString());
+
+			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
+			FragmentTransaction transaction = getThis().getActivity().getSupportFragmentManager().beginTransaction();
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack so the user can navigate back
+			transaction.replace(R.id.fragment_container, machineDetailsFragment);
+			transaction.addToBackStack(null);
+			// Commit the transaction
+			transaction.commit();
 		}
 	};
 

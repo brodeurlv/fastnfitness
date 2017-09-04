@@ -1,11 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:background="@color/background">    
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab_machine_details"
     android:name="tab_machine_details"
     android:layout_width="match_parent"
@@ -16,16 +9,58 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp" 
     android:focusable="true" 
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:background="@color/background">
     
     <android.support.v7.widget.Toolbar
             android:id="@+id/actionToolbarMachine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/toolbar_background"
-            android:minHeight="?attr/actionBarSize" />    
+            android:minHeight="?attr/actionBarSize">
 
-	<LinearLayout
+        <ImageButton
+            android:id="@+id/action_machine_delete"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:layout_weight="5"
+            android:adjustViewBounds="false"
+            android:background="@android:color/transparent"
+            android:baselineAlignBottom="false"
+            android:cropToPadding="false"
+            android:src="@drawable/ic_delete_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/action_machine_save"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:layout_weight="5"
+            android:adjustViewBounds="false"
+            android:background="@android:color/transparent"
+            android:baselineAlignBottom="false"
+            android:cropToPadding="false"
+            android:src="@drawable/ic_save_black_24dp" />
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="0dip"
+            android:orientation="vertical">
+
+        <LinearLayout
     android:id="@+id/topMachineDetails"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -103,7 +138,10 @@
         android:text=""
         android:textSize="14sp" />
 
-</LinearLayout> 
+</LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>
-</ScrollView>
