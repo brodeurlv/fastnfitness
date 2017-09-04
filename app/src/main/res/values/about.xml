@@ -88,4 +88,11 @@
 	<string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
 	<string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
 	<string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
+	<string name="SmartTabLayout_content" translatable="false">LicensesDialog (Apache 2.0)</string>
+	<string name="freepik_content" translatable="false">Free license with attribution</string>
+	<string name="flaticon_content" translatable="false">Flaticon Basic License</string>
+
+
+
+
 </resources>
