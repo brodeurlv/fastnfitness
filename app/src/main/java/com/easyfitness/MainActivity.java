@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.ProfilLabel), R.drawable.ic_profile_white, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.silhouette, true)); // @TODO inverser les couleurs
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.silhouette_white, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
 
