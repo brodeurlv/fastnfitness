@@ -19,6 +19,7 @@ import de.psdev.licensesdialog.model.Notices;
 
 import com.easyfitness.R;
 import com.easyfitness.DAO.DatabaseHelper;
+import com.easyfitness.licenses.CustomLicense;
 
 public class AboutFragment extends Fragment {
 	private String name; 
@@ -31,6 +32,12 @@ public class AboutFragment extends Fragment {
 	private TextView mpLicenseDialogTextView = null;
 	private TextView mpChronometerTextView = null;
 	private TextView mpPagerSlidingTabStripTextView = null;
+	private TextView mpSmartTabLayoutTextView = null;
+	private TextView mpFlaticonTextView = null;
+	private TextView mpFreepikView = null;
+	private TextView mpCircleProgressView = null;
+
+
 
 
 	
@@ -72,11 +79,20 @@ public class AboutFragment extends Fragment {
 		mpChronometerTextView = (TextView) view.findViewById(R.id.antoniomChronometer);
 		mpPagerSlidingTabStripTextView = (TextView) view.findViewById(R.id.PagerSlidingTabStrip);
 
+		mpSmartTabLayoutTextView = (TextView) view.findViewById(R.id.SmartTabLayout);
+		mpFlaticonTextView = (TextView) view.findViewById(R.id.flaticonCredits);
+		mpFreepikView = (TextView) view.findViewById(R.id.freepikCredits);
+		mpCircleProgressView = (TextView) view.findViewById(R.id.CircleProgress);
+
 		mpMPAndroidChartTextView.setOnClickListener(clickLicense);
 		mpjavaCVSTextView.setOnClickListener(clickLicense);
 		mpLicenseDialogTextView.setOnClickListener(clickLicense);
 		mpChronometerTextView.setOnClickListener(clickLicense);
 		mpPagerSlidingTabStripTextView.setOnClickListener(clickLicense);
+		mpSmartTabLayoutTextView.setOnClickListener(clickLicense);
+		mpFlaticonTextView.setOnClickListener(clickLicense);
+		mpFreepikView.setOnClickListener(clickLicense);
+		mpCircleProgressView.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -117,7 +133,7 @@ public class AboutFragment extends Fragment {
 					break;
 				case R.id.LicensesDialog:
 					name = "LicensesDialog";
-					url = "http://psdev.de";
+					url = "https://psdev.de/LicensesDialog";
 					copyright = "Copyright 2013 Philip Schiffer <admin@psdev.de>";
 					license = new ApacheSoftwareLicense20();
 					break;
@@ -135,16 +151,23 @@ public class AboutFragment extends Fragment {
 					break;
 				case R.id.flaticonCredits:
 					name = "Flaticon";
-					url = "https://www.flaticon.com/";
+					url = "https://www.flaticon.com";
 					copyright = "Flaticon";
-					license = null;
+					license = new CustomLicense("Free License (with attribution)", "https://profile.flaticon.com/license/free", "");
 					break;
 				case R.id.freepikCredits:
 					name = "Freepik";
-					url = "http://www.freepik.com/";
+					url = "http://www.freepik.com";
 					copyright = "Freepik";
-					license = null;
+					license = new CustomLicense("Free License (with attribution)", "https://github.com/lzyzsd/CircleProgress", "");
 					break;
+				case R.id.CircleProgress:
+					name = "CircleProgress";
+					url = "https://github.com/lzyzsd/CircleProgress";
+					copyright = "lzyzsd";
+					license = new CustomLicense("Free License", "https://github.com/lzyzsd/CircleProgress", "");
+					break;
+
 
 			}
 

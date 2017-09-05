@@ -9,12 +9,13 @@
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history">\n
 									V0.13 BETA : 28/05/2017 \n
-									\t - Enhancement : Change audio time when clicking on the progress bar \n
-									\t - Enhancement : Rest time option after adding record \n
-									\t - Enhancement : Simplified UI \n
-									\t - Enhancement : Added Body measures feature \n
-									\t - Enhancement : Date modified to follow Local settings \n
-									\t - Bug : Fix crash when no profile is entered \n
+		\t - Enhancement : Added Body measures feature \n
+		\t - Enhancement : Rest time option after adding record \n
+		\t - Enhancement : Change audio time when clicking on the progress bar \n
+		\t - Enhancement : Date modified to follow Local settings \n
+		\t - Enhancement : Simplified UI \n
+		\t - Enhancement : New app icon \n
+		\t - Bug : Fix crash when no profile is entered \n
 									V0.12 : 25/09/2016 \n
 									\t - Enhancement : Open sourcized on GITHUB \n
 									\t - Enhancement : New tab display \n
@@ -88,9 +89,10 @@
 	<string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
 	<string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
 	<string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
-	<string name="SmartTabLayout_content" translatable="false">LicensesDialog (Apache 2.0)</string>
-	<string name="freepik_content" translatable="false">Free license with attribution</string>
-	<string name="flaticon_content" translatable="false">Flaticon Basic License</string>
+	<string name="SmartTabLayout_content" translatable="false">SmartTabLayout (Apache 2.0)</string>
+	<string name="freepik_content" translatable="false">Freepik (Free License with attribution)</string>
+	<string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>
+	<string name="circleprogress_content" translatable="false">Circle Progress (Public License)</string>
 
 
 
