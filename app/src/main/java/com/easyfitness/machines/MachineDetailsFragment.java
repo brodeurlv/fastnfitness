@@ -1,6 +1,7 @@
 package com.easyfitness.machines;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -46,15 +49,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.easyfitness.DAO.Profile;
-import com.easyfitness.MainActivity;
-import com.easyfitness.R;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
+import com.easyfitness.DAO.Profil;
+import com.easyfitness.R;
 import com.easyfitness.utils.RealPathUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MachineDetailsFragment extends Fragment {
 	private String name;
@@ -65,9 +76,10 @@ public class MachineDetailsFragment extends Fragment {
 	EditText machineName = null;
 	EditText machineDescription = null;
 	ImageView machinePhoto = null;
+	FloatingActionButton machineAction = null;
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
-	
+
 	Toolbar top_toolbar = null;
 	
 	String machineNameArg = null;
@@ -128,6 +140,9 @@ public class MachineDetailsFragment extends Fragment {
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
+		machineAction = (FloatingActionButton) view.findViewById(R.id.actionCamera);
+
+
 		buildMusclesTable();
 
         Bundle args = this.getArguments();
@@ -176,9 +191,9 @@ public class MachineDetailsFragment extends Fragment {
                 }
             }
         });
-		
-		Machine temp = mDbMachine.getMachine(machineIdArg);
-		top_toolbar.setTitle(temp.getName());
+		machineAction.setOnClickListener(onClickMachinePhoto);
+
+		Machine temp = mDbMachine.getMachine(machineIdArg); 
 		machineName.setText(temp.getName());
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
@@ -326,8 +341,16 @@ public class MachineDetailsFragment extends Fragment {
 		public boolean onLongClick(View v) {
 			return CreatePhotoSourceDialog();
 		}
-	};  
-	
+	};
+
+	private OnClickListener onClickMachinePhoto = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			CreatePhotoSourceDialog();
+		}
+	};
+
+
 	String mCurrentPhotoPath = null;
 
 	private File createImageFile() throws IOException {
@@ -541,7 +564,7 @@ public class MachineDetailsFragment extends Fragment {
             }
         }
 	};
-	
+
 	public void setMuscleText(String t) {
 		musclesList.setText(t);
 	}
@@ -622,7 +645,7 @@ public class MachineDetailsFragment extends Fragment {
 						
 						toBeSaved = false;
 						//getThis().getActivity().invalidateOptionsMenu();
-						machineDelete.setVisibility(View.GONE);
+						machineSave.setVisibility(View.GONE);
                         getActivity().onBackPressed();
 			        }	
 			    });
@@ -642,6 +665,7 @@ public class MachineDetailsFragment extends Fragment {
 				m.setDescription(this.machineDescription.getText().toString());
 				m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 				m.setPicture(this.mCurrentPhotoPath);
+
 
 				this.mDbMachine.updateMachine(m);
 				

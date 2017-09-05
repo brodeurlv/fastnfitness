@@ -1,4 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
+
+<LinearLayout
     android:id="@+id/tab_machine_details"
     android:name="tab_machine_details"
     android:layout_width="match_parent"
@@ -9,58 +17,16 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp" 
     android:focusable="true" 
-    android:focusableInTouchMode="true"
-    android:background="@color/background">
+    android:focusableInTouchMode="true">
     
     <android.support.v7.widget.Toolbar
             android:id="@+id/actionToolbarMachine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/toolbar_background"
-            android:minHeight="?attr/actionBarSize">
+            android:minHeight="?attr/actionBarSize" />    
 
-        <ImageButton
-            android:id="@+id/action_machine_delete"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:layout_weight="5"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:baselineAlignBottom="false"
-            android:cropToPadding="false"
-            android:src="@drawable/ic_delete_black_24dp" />
-
-        <ImageButton
-            android:id="@+id/action_machine_save"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:layout_weight="5"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:baselineAlignBottom="false"
-            android:cropToPadding="false"
-            android:src="@drawable/ic_save_black_24dp" />
-
-
-    </android.support.v7.widget.Toolbar>
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="0dip"
-            android:orientation="vertical">
-
-        <LinearLayout
+	<LinearLayout
     android:id="@+id/topMachineDetails"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -138,10 +104,18 @@
         android:text=""
         android:textSize="14sp" />
 
-</LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
+</LinearLayout> 
 
 </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/actionCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_anchor="@id/machine_photo"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

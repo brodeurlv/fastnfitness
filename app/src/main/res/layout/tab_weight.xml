@@ -142,12 +142,14 @@
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/weightChart"
-        android:layout_width="match_parent"
-        android:layout_height="300dip"
-        android:layout_marginRight="5dp"
-		android:background="#FFFFFF"/>
+
+
+		<com.github.mikephil.charting.charts.LineChart
+			android:id="@+id/weightChart"
+			android:layout_width="match_parent"
+			android:layout_height="300dip"
+			android:layout_marginRight="5dp"
+			android:background="#FFFFFF" />
 
     </android.support.v7.widget.CardView>
     
