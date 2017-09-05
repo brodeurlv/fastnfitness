@@ -1,17 +1,6 @@
 package com.easyfitness.machines;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,7 +43,8 @@ import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
-import com.easyfitness.DAO.Profil;
+import com.easyfitness.DAO.Profile;
+import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.RealPathUtil;
 
@@ -193,8 +183,9 @@ public class MachineDetailsFragment extends Fragment {
         });
 		machineAction.setOnClickListener(onClickMachinePhoto);
 
-		Machine temp = mDbMachine.getMachine(machineIdArg); 
-		machineName.setText(temp.getName());
+		Machine temp = mDbMachine.getMachine(machineIdArg);
+		machineNameArg = temp.getName();
+		machineName.setText(machineNameArg);
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
 		mCurrentPhotoPath = temp.getPicture();		
