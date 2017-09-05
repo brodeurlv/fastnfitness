@@ -18,7 +18,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOProfil;
@@ -40,8 +39,8 @@ public class ProfilFragment extends Fragment {
 	Button addWeightButton = null;
 	EditText weightEdit = null;
 	EditText dateEdit = null;
-	TextView resumeText = null;
-	TextView profilText = null;
+	//TextView resumeText = null;
+	//TextView profilText = null;
 	ExpandedListView weightList = null;
 	MainActivity mActivity = null;
 	private String name;
@@ -164,8 +163,8 @@ public class ProfilFragment extends Fragment {
 
 		addWeightButton = (Button) view.findViewById(R.id.buttonAddWeight);
 		weightEdit = (EditText) view.findViewById(R.id.editWeight);
-		resumeText = (TextView) view.findViewById(R.id.textResume);
-		profilText = (TextView) view.findViewById(R.id.textProfil);
+		//resumeText = (TextView) view.findViewById(R.id.textResume);
+		//profilText = (TextView) view.findViewById(R.id.textProfil);
 		dateEdit= (EditText) view.findViewById(R.id.profilEditDate);
 		weightList= (ExpandedListView) view.findViewById(R.id.listWeightProfil);
 
@@ -288,8 +287,8 @@ public class ProfilFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
-				this.profilText.setText(getProfil().getName());
-				this.resumeText.setText("");
+				//this.profilText.setText(getProfil().getName());
+				//this.resumeText.setText("");
 				List<Weight> valueList = mWeightDb.getWeightList(getProfil()); 
 				DrawGraph(valueList);
 				// update table

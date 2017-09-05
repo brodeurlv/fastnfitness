@@ -12,48 +12,6 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
 	android:background="#EEEEEE">
-    
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
-
-		<android.support.v7.widget.CardView
-			style="@style/CardViewStyle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-        
-        <ImageView
-            android:id="@+id/imageProfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="false"
-            android:src="@drawable/ic_profile_black" />
-        
-        <TextView
-            android:id="@+id/textProfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_toRightOf="@id/imageProfil"
-            android:text="Default user"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        <TextView
-            android:id="@+id/textResume"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_below="@id/imageProfil"
-            android:layout_centerVertical="false"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="Last session : "
-            android:visibility="gone" />
-
-		</android.support.v7.widget.CardView>
-
-    </RelativeLayout>
 
 	<android.support.v7.widget.CardView
 		style="@style/CardViewStyle"
