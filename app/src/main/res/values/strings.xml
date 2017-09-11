@@ -160,6 +160,7 @@
     <string name="left_calves">Left calves</string>
     <string name="right_calves">Right calves</string>
     <string name="waist">Waist</string>
+    <string name="behind">Behind</string>
     
     
     <string name="backDialog_confirm_text">Do you want to save before exit ?</string>
@@ -187,3 +188,4 @@
     <string name="rest_time">Rest time (sec)</string>
 
 </resources>
+

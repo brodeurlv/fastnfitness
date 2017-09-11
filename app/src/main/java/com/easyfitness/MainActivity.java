@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_launcher, true);
+        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_barbell, true);
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));

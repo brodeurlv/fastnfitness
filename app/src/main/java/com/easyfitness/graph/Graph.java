@@ -1,13 +1,9 @@
 package com.easyfitness.graph;
 
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.easyfitness.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -24,7 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 
 public class Graph {
-	
+
 	private LineChart mChart = null;
 	private String mChartName = null;
 
@@ -38,24 +34,25 @@ public class Graph {
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setAutoScaleMinMaxEnabled(true);
 
+
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //xAxis.setTypeface(mTfLight);
-        xAxis.setTextSize(10f);
+        //xAxis.setTextSize(10f);
         //xAxis.setTextColor(Color.);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
         //xAxis.setTextColor(Color.rgb(255, 192, 56));
         xAxis.setCenterAxisLabels(false);
-        //xAxis.setGranularity(1f); // ?
+        xAxis.setGranularity(1000 * 60 * 60 * 24); // ?
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM-yy");
+            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MMM");
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -71,30 +68,29 @@ public class Graph {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-        leftAxis.setAxisMinimum(0f);
+        //leftAxis.setAxisMinimum(0f);
         //leftAxis.setAxisMaximum(170f);
         //leftAxis.setYOffset(0);
         //leftAxis.setTextColor(Color.rgb(255, 192, 56));
-    //leftAxis.setStartAtZero(false);
+        leftAxis.resetAxisMinimum();
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
 
-        mChart.getAxisLeft().setAxisMinValue(0f);
+        //mChart.getAxisLeft().setAxisMinValue(0f);
         //mChart.getAxisRight().setAxisMinValue(0f);
     }
 
     public void draw(ArrayList<Entry> entries) {
-        //mChart.clear();
+        mChart.clear();
 
         Collections.sort(entries, new EntryXComparator());
 
-        //log.d("DEBUG", arrayToString(entries));
+        Log.d("DEBUG", arrayToString(entries));
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
-        set1.setLineWidth(4f);
-        set1.setCircleRadius(3f);
-        set1.setFillColor(ContextCompat.getColor(this.getLineChart().getContext(), R.color.graph_fill));
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(4f);
         set1.setFillAlpha(150);
 
 		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();

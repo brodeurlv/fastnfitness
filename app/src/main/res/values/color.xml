@@ -6,4 +6,5 @@
 	<color name="graph_fill">#f2fbff</color>
    	<color name="background">#FFFFFF</color>
 	<color name="tableheader_background">#FFFFFF</color>
+	<color name="launcher_background">#0DADF4</color>
 </resources>

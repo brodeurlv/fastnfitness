@@ -69,7 +69,8 @@ public class BodyPartListFragment extends Fragment {
 		dataModels.add(new BodyPart(BodyPart.RIGHTARM, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTARM, ((MainActivity)getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.PECTORAUX, mdbMeasure.getLastBodyMeasures(BodyPart.PECTORAUX, ((MainActivity)getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.WAIST, mdbMeasure.getLastBodyMeasures(BodyPart.WAIST, ((MainActivity)getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.LEFTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTTHIGH, ((MainActivity)getActivity()).getCurrentProfil())));
+		dataModels.add(new BodyPart(BodyPart.BEHIND, mdbMeasure.getLastBodyMeasures(BodyPart.BEHIND, ((MainActivity)getActivity()).getCurrentProfil())));
+		dataModels.add(new BodyPart(BodyPart.LEFTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTTHIGH, ((MainActivity)getActivity()).getCurrentProfil())));
 		dataModels.add(new BodyPart(BodyPart.RIGHTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTTHIGH, ((MainActivity)getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.LEFTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTCALVES, ((MainActivity)getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.RIGHTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTCALVES, ((MainActivity)getActivity()).getCurrentProfil())));
@@ -80,11 +81,7 @@ public class BodyPartListFragment extends Fragment {
 		measureList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 				BodyPart dataModel= dataModels.get(position);
-
-				/*Snackbar.make(view, dataModel.getName()+"\n"+dataModel.getType()+" API: "+dataModel.getVersion_number(), Snackbar.LENGTH_LONG)
-						.setAction("No action", null).show();*/
 			}
 		});
 
@@ -129,25 +126,6 @@ public class BodyPartListFragment extends Fragment {
 
 			// Commit the transaction
 			transaction.commit();
-			
-			/*// Get Machine Name selected
-			TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
-            String machineName = textView.getText().toString(); 
-            
-
-			TextView textViewID = (TextView) view.findViewById(R.id.LIST_MACHINE_ID);
-            long machineId = Long.valueOf(textViewID.getText().toString()); 
-			
-			// Create detailled machine Activity			
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), MachineDetailsActivity.class);
-            intent.putExtra("machineName", machineName);
-            intent.putExtra("machineId", machineId);
-            intent.putExtra("machineProfilId", ((MainActivity)getActivity()).getCurrentProfil().getId());
-            
-            getActivity().invalidateOptionsMenu();
-            
-            startActivity(intent);		*/
 		}
 	};
 		public BodyPartListFragment getThis() {

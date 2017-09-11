@@ -176,4 +176,14 @@
     <string name="activate_rest_time">Activer le Compteur de repos</string>
     <string name="pref_bodybuilding_setting"></string>
     <string name="sizeTableLabel">Historique</string>
+    <string name="neck">Cou</string>
+    <string name="left_arm">Bras gauche</string>
+    <string name="left_calves">Mollet gauche</string>
+    <string name="left_thigh">Cuisse gauche</string>
+    <string name="right_arm">Bras droit</string>
+    <string name="right_calves">Mollet droit</string>
+    <string name="right_thigh">Cuisse droite</string>
+    <string name="waist">Taille</string>
+    <string name="behind">Fessiers</string>
+    <string name="bodytracking">Suivi corporel</string>
 </resources>
