@@ -25,6 +25,7 @@ public class BodyPart {
     public static final int RIGHTCALVES = 15;
     public static final int WAIST = 16;
     public static final int NECK = 17;
+    public static final int BEHIND= 18;
 
     public BodyPart(int id) {
         super();
@@ -78,6 +79,7 @@ public class BodyPart {
             case RIGHTCALVES: return R.string.right_calves;
             case WAIST: return R.string.waist;
             case NECK: return R.string.neck;
+            case BEHIND: return R.string.behind;
         };
 
         return 0;
@@ -103,6 +105,7 @@ public class BodyPart {
             case RIGHTCALVES: return R.drawable.ic_calve_measure;
             case WAIST: return R.drawable.ic_waist_measure;
             case NECK: return R.drawable.ic_neck;
+            case BEHIND: return R.drawable.ic_waist_measure; // @TODO wrong icon. To be updated
         };
 
         return 0;

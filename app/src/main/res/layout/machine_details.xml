@@ -148,5 +148,6 @@
         android:clickable="true"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_anchor="@id/machine_photo"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end"
+        app:backgroundTint="@color/launcher_background"/>
 </android.support.design.widget.CoordinatorLayout>

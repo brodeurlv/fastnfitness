@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 
 public class Graph {
-	
+
 	private LineChart mChart = null;
 	private String mChartName = null;
 
@@ -82,11 +82,11 @@ public class Graph {
     }
 
     public void draw(ArrayList<Entry> entries) {
-        //mChart.clear();
+        mChart.clear();
 
         Collections.sort(entries, new EntryXComparator());
 
-        //log.d("DEBUG", arrayToString(entries));
+        Log.d("DEBUG", arrayToString(entries));
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(3f);
