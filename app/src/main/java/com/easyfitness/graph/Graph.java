@@ -1,7 +1,5 @@
 package com.easyfitness.graph;
 
-import android.util.Log;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -56,7 +54,6 @@ public class Graph {
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-
                 //long millis = TimeUnit.HOURS.toMillis((long) value);
                 return mFormat.format(new Date((long) value));
             }
@@ -86,7 +83,7 @@ public class Graph {
 
         Collections.sort(entries, new EntryXComparator());
 
-        Log.d("DEBUG", arrayToString(entries));
+        //Log.d("DEBUG", arrayToString(entries));
 
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(3f);

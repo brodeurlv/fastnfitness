@@ -96,7 +96,6 @@ public class FonteGraphFragment extends Fragment {
 		
 		/* Initialise le graph */ 
 		mChart = (LineChart) view.findViewById(R.id.graphChart);
-		//mChart.setDescription(""); @TODO: fix this
 		//if ( mGraph == null ) {
 			mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 			//Define Marker
@@ -273,7 +272,7 @@ public class FonteGraphFragment extends Fragment {
 				/* Initialisation des machines */
 				mMachinesArray.clear();
 				mMachinesArray.addAll(mDb.getAllMachinesList(getProfil()));
-				mAdapterMachine.notifyDataSetChanged(); //@TODO FIX, doesn't work
+				mAdapterMachine.notifyDataSetChanged();
 				mDb.closeCursor();
 
 				if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {

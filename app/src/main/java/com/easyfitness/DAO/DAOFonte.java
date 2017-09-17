@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 public class DAOFonte extends DAOBase {
 
@@ -332,8 +332,9 @@ public class DAOFonte extends DAOBase {
 			do {
 				Date date;
 				try {
-					date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-							.parse(mCursor.getString(1));
+					SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					date = dateFormat.parse(mCursor.getString(1));
 				} catch (ParseException e) {
 					e.printStackTrace();
 					date = new Date();
