@@ -186,4 +186,5 @@
     <string name="waist">Taille</string>
     <string name="behind">Fessiers</string>
     <string name="bodytracking">Suivi corporel</string>
+    <string name="RepetitionLabel_short">Reps</string>
 </resources>

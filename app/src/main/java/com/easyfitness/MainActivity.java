@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.easyfitness.DAO.CVSManager;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -38,6 +39,8 @@ import com.easyfitness.utils.MusicController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -85,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Fabric.with(this, new Crashlytics());
-
+        Fabric.with(this, new Crashlytics());
 
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
@@ -170,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.ProfilLabel), R.drawable.ic_profile_white, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.silhouette_white, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.ProfilLabel), R.drawable.ic_scale, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_measuring_tape, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
 
@@ -517,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDrawerTitle(String pProfilName) {
-        DrawerAdapter.getItem(0).setTitle(getString(R.string.app_name) + " - " + pProfilName);
+        DrawerAdapter.getItem(0).setTitle(pProfilName);
         DrawerAdapter.notifyDataSetChanged();
         mDrawerLayout.invalidate();
     }

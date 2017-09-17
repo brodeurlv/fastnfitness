@@ -105,7 +105,7 @@ public class BodyPart {
             case RIGHTCALVES: return R.drawable.ic_calve_measure;
             case WAIST: return R.drawable.ic_waist_measure;
             case NECK: return R.drawable.ic_neck;
-            case BEHIND: return R.drawable.ic_waist_measure; // @TODO wrong icon. To be updated
+            case BEHIND: return R.drawable.ic_buttock_measure;
         };
 
         return 0;

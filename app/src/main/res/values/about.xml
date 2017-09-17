@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-	<string name="app_version" translatable="false">0.13BETA</string>
+	<string name="app_version" translatable="false">0.13</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
 	<string name="author" translatable="false">Charles Combes</string>
@@ -8,7 +8,7 @@
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history">\n
-									V0.13 BETA : 28/05/2017 \n
+									V0.13 : 17/09/2017 \n
 		\t - Enhancement : Added Body measures feature \n
 		\t - Enhancement : Rest time option after adding record \n
 		\t - Enhancement : Change audio time when clicking on the progress bar \n

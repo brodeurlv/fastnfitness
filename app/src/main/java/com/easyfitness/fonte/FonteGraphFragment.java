@@ -113,14 +113,14 @@ public class FonteGraphFragment extends Fragment {
 		adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		functionList.setAdapter(adapterFunction);
 
-		mMachinesArray = mDb.getAllMachinesList(getProfil());
-		// lMachinesArray = prepend(lMachinesArray, "All");
-		mAdapterMachine = new ArrayAdapter<String>(
-				getContext(), android.R.layout.simple_spinner_item,
-				mMachinesArray);
-		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		machineList.setAdapter(mAdapterMachine);
-		mDb.closeCursor();
+			mMachinesArray = mDb.getAllMachinesList(getProfil());
+			// lMachinesArray = prepend(lMachinesArray, "All");
+			mAdapterMachine = new ArrayAdapter<String>(
+					getContext(), android.R.layout.simple_spinner_item,
+					mMachinesArray);
+			mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			machineList.setAdapter(mAdapterMachine);
+			mDb.closeCursor();
 
 		//refreshData();
 		
@@ -191,6 +191,8 @@ public class FonteGraphFragment extends Fragment {
 	
 
 	private void DrawGraph() {
+
+		if (getProfil()==null) return;
 
 		String pMachine = null;
 		String pFunction = null;

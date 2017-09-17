@@ -354,12 +354,17 @@ public class DAOFonte extends DAOBase {
 	public List<String> getAllMachinesList(Profile pProfile) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
-
+		String selectQuery = "";
+		if (pProfile==null) {
+			selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+					+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
+		else {
+			selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+					+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
+		}
 		// Select All Machines
 		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
 		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
-		String selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
-				+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();

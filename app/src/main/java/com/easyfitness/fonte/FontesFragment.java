@@ -78,13 +78,17 @@ public class FontesFragment extends Fragment {
 			/* Reagir au clic pour les boutons 1 et 2*/
 
 			// Verifie que les infos sont completes
-			if (dateEdit.getText().toString().isEmpty() ||
+			if (
 					machineEdit.getText().toString().isEmpty() ||
 					serieEdit.getText().toString().isEmpty() ||
 					repetitionEdit.getText().toString().isEmpty() ||
 					poidsEdit.getText().toString().isEmpty() )	{
 				return;
 			}
+
+			//if (dateEdit.getText().toString().isEmpty()) {
+
+			//}
 
 			Date date;
 			try {
@@ -390,6 +394,7 @@ public class FontesFragment extends Fragment {
 
 		// Initialisation de la base de donnee
 		mDb = new DAOFonte(view.getContext());
+		dateEdit.setText(DateConverter.currentDate());
 
 		// Inflate the layout for this fragment
 		return view;
