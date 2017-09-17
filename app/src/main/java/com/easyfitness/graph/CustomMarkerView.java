@@ -1,7 +1,6 @@
 package com.easyfitness.graph;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.widget.TextView;
 
 import com.easyfitness.R;
@@ -11,6 +10,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
+import java.util.TimeZone;
 
 public class CustomMarkerView extends MarkerView {
 
@@ -36,7 +36,7 @@ public class CustomMarkerView extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
 
         DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
-
+        dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
         tvDate.setText(dateFormat3.format(e.getX()));
         tvContent.setText("" + e.getY());
 
@@ -56,20 +56,4 @@ public class CustomMarkerView extends MarkerView {
 
         return mOffset;
     }
-
-    /*
-    @Override
-    public void draw(Canvas canvas, float posx, float posy)
-    {
-        // Check marker position and update offsets.
-        int w = getWidth();
-        if((uiScreenWidth-posx-w) < w) {
-            posx -= w;
-        }
-
-        // translate to the correct position and draw
-        canvas.translate(posx, posy);
-        draw(canvas);
-        canvas.translate(-posx, -posy);
-    }*/
 }
