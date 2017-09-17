@@ -188,7 +188,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#111"
-        android:choiceMode="singleChoice"
+        android:choiceMode="none"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
 

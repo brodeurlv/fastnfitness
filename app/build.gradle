@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 25
@@ -40,8 +40,8 @@ android {
 }
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
-    //testCompile 'junit:junit:4.12'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:preference-v7:25.3.1'
@@ -56,9 +56,9 @@ dependencies {
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
-    //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-    //    transitive = true;
-    //}
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 }
 
 repositories {
