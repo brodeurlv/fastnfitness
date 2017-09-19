@@ -97,7 +97,6 @@ public class FonteHistoryFragment extends Fragment {
 		mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dateList.setAdapter(mAdapterDate);
 
-
 		return view;
 	}
 

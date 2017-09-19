@@ -48,7 +48,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-@SuppressLint("ValidFragment")
 public class FontesFragment extends Fragment {
 	MainActivity mActivity = null;
 	Profile mProfile = null;
@@ -72,11 +71,10 @@ public class FontesFragment extends Fragment {
 	private String name;
 	private int id;
 	private DAOFonte mDb = null;
+
 	private OnClickListener clickAddButton = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			/* Reagir au clic pour les boutons 1 et 2*/
-
 			// Verifie que les infos sont completes
 			if (
 					machineEdit.getText().toString().isEmpty() ||
@@ -85,10 +83,6 @@ public class FontesFragment extends Fragment {
 					poidsEdit.getText().toString().isEmpty() )	{
 				return;
 			}
-
-			//if (dateEdit.getText().toString().isEmpty()) {
-
-			//}
 
 			Date date;
 			try {
@@ -189,14 +183,6 @@ public class FontesFragment extends Fragment {
 			switch(v.getId()) {
 			case R.id.editDate:
 				showDatePickerFragment();
-				/*FragmentTransaction ft = getFragmentManager().beginTransaction();
-				mDateFrag = new DatePickerDialogFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int month, int day) {
-						dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-					}
-				};
-				mDateFrag.show(ft, "dialog");	*/
 				break;
 			case R.id.editMachine:
 				//InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -24,10 +24,12 @@ import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOWeight;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Weight;
+import com.easyfitness.graph.CustomMarkerView;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -182,6 +184,7 @@ public class ProfilFragment extends Fragment {
 		mChart = (LineChart) view.findViewById(R.id.weightChart);
 		mChart.setDescription(null);
 		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+
 		mWeightDb = new DAOWeight(view.getContext());
 
 		// Set Initial text
@@ -235,7 +238,8 @@ public class ProfilFragment extends Fragment {
         float minWeight = -1;
 
 		for (int i = valueList.size() - 1; i >= 0; i--) {
-			Entry value = new Entry((float) (valueList.get(i).getDate().getTime()), valueList.get(i).getWeight());
+			float x = (float) DateConverter.nbDays(valueList.get(i).getDate().getTime());
+			Entry value = new Entry(x, valueList.get(i).getWeight());
 			yVals.add(value);
             if (minWeight == -1) minWeight = valueList.get(i).getWeight();
             else if (valueList.get(i).getWeight() < minWeight)

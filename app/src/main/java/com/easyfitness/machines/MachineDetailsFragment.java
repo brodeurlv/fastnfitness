@@ -57,6 +57,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.R.drawable.btn_star_big_off;
+
 public class MachineDetailsFragment extends Fragment {
 	private String name;
 	private int id;
@@ -69,17 +71,20 @@ public class MachineDetailsFragment extends Fragment {
 	FloatingActionButton machineAction = null;
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
+	ImageButton machineFavorite = null;
 
 	Toolbar top_toolbar = null;
 	
 	String machineNameArg = null;
 	long machineIdArg = 0;
 	long machineProfilIdArg = 0;
-	
+	boolean isFavorite = false;
+
 	boolean toBeSaved = false;
 	
 	boolean isImageFitToScreen = false;
-	
+
+
 	ArrayList<Integer> selectMuscleList=new ArrayList();
 	
 	// http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
@@ -127,6 +132,7 @@ public class MachineDetailsFragment extends Fragment {
 		machinePhoto = (ImageView) view.findViewById(R.id.machine_photo);
         machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
         machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
+		machineFavorite = (ImageButton) view.findViewById(R.id.favButton);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
@@ -143,7 +149,8 @@ public class MachineDetailsFragment extends Fragment {
 		// set events
         machineSave.setOnClickListener(onClickToolbarItem);
         machineDelete.setOnClickListener(onClickToolbarItem);
-        musclesList.setOnClickListener(onClickMusclesList);
+		machineFavorite.setOnClickListener(onClickFavoriteItem);
+		musclesList.setOnClickListener(onClickMusclesList);
 		musclesList.setOnFocusChangeListener(onFocusMachineList);
 		machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
 		machinePhoto.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +195,9 @@ public class MachineDetailsFragment extends Fragment {
 		machineName.setText(machineNameArg);
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
-		mCurrentPhotoPath = temp.getPicture();		
+		mCurrentPhotoPath = temp.getPicture();
+        isFavorite=temp.getFavorite();
+        setFavImage(isFavorite);
 		
 	    view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -553,6 +562,15 @@ public class MachineDetailsFragment extends Fragment {
                 default:
                 	saveMachineDialog();
             }
+ 	       }
+	};
+
+	private OnClickListener onClickFavoriteItem = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+                isFavorite=!isFavorite;
+                setFavImage(isFavorite);
+                requestForSave();
         }
 	};
 
@@ -656,7 +674,7 @@ public class MachineDetailsFragment extends Fragment {
 				m.setDescription(this.machineDescription.getText().toString());
 				m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 				m.setPicture(this.mCurrentPhotoPath);
-
+                m.setFavorite(isFavorite);
 
 				this.mDbMachine.updateMachine(m);
 				
@@ -681,7 +699,7 @@ public class MachineDetailsFragment extends Fragment {
 			m.setDescription(this.machineDescription.getText().toString());
 			m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 			m.setPicture(this.mCurrentPhotoPath);
-
+            m.setFavorite(isFavorite);
 
 			this.mDbMachine.updateMachine(m);
 
@@ -878,7 +896,14 @@ public class MachineDetailsFragment extends Fragment {
 	    return rotate;
 	}
 
-	
+	private void setFavImage(boolean fav)
+    {
+        if(fav) {
+            machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_on));
+        } else {
+            machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_off));
+        }
+    }
 	
 }
 

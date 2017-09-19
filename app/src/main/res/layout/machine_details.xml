@@ -1,5 +1,6 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,132 +11,141 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<LinearLayout
-    android:id="@+id/tab_machine_details"
-    android:name="tab_machine_details"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
-
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/actionToolbarMachine"
+        <LinearLayout
+            android:id="@+id/tab_machine_details"
+            android:name="tab_machine_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_background"
-        android:minHeight="?attr/actionBarSize">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp">
 
-        <ImageButton
-            android:id="@+id/action_machine_delete"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:layout_weight="5"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:baselineAlignBottom="false"
-            android:cropToPadding="false"
-            android:src="@drawable/ic_delete_black_24dp" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/actionToolbarMachine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar_background"
+                android:minHeight="?attr/actionBarSize">
 
-        <ImageButton
-            android:id="@+id/action_machine_save"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:layout_weight="5"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:baselineAlignBottom="false"
-            android:cropToPadding="false"
-            android:src="@drawable/ic_save_black_24dp" />
-    </android.support.v7.widget.Toolbar>
+                <ImageButton
+                    android:id="@+id/action_machine_delete"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="right"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_delete_black_24dp" />
 
-    <LinearLayout
-    android:id="@+id/topMachineDetails"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="0dip" >
+                <ImageButton
+                    android:id="@+id/action_machine_save"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="right"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_save_black_24dp" />
+            </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/machine_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:background="@color/background_even"
-        android:contentDescription=""
-        android:cropToPadding="false"
-        android:maxHeight="200dp"
-        android:minHeight="60dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_machine" />
+            <RelativeLayout
+                android:id="@+id/topMachineDetails"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dip">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/machine_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/background_even"
+                    android:contentDescription=""
+                    android:cropToPadding="false"
+                    android:maxHeight="200dp"
+                    android:minHeight="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_machine" />
 
-    <LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-        android:padding="6dip"
-        android:orientation="vertical">
-
-     <TextView
-        android:id="@+id/machine_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="Name"
-        android:textSize="12sp" />
-
-        <EditText
-        android:id="@+id/machine_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:lines="1"
-        android:inputType="text"
-        android:maxLines="1"
-        android:text="Machine Name"
-        android:textSize="14sp" />
-
-        <TextView
-        android:id="@+id/machine_description_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="Description"
-        android:textSize="12sp" />
+                <ImageButton
+                    android:id="@+id/favButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@android:drawable/btn_star_big_off" />
 
 
-        <EditText
-        android:id="@+id/machine_description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:textSize="14sp" />
 
-        <TextView
-        android:id="@+id/machine_muscles_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="Muscles"
-            android:textSize="12sp" />
+            </RelativeLayout>
 
-        <EditText
-        android:id="@+id/machine_muscles"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="none"
-        android:text=""
-        android:textSize="14sp" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dip">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/machine_name_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Name"
+                    android:textSize="12sp" />
 
-</LinearLayout>
+                <EditText
+                    android:id="@+id/machine_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Machine Name"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/machine_description_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Description"
+                    android:textSize="12sp" />
+
+
+                <EditText
+                    android:id="@+id/machine_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/machine_muscles_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Muscles"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/machine_muscles"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text=""
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
 
     </ScrollView>
@@ -147,7 +157,7 @@
         android:layout_margin="32dp"
         android:clickable="true"
         android:src="@android:drawable/ic_menu_camera"
+        app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/machine_photo"
-        app:layout_anchorGravity="bottom|right|end"
-        app:backgroundTint="@color/launcher_background"/>
+        app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

@@ -25,7 +25,7 @@ public class FontesPagerFragment extends Fragment {
 	private FonteHistoryFragment mpHistoryFrag = null;
 	private FonteGraphFragment mpGraphFrag = null;
 
-    FragmentStatePagerItemAdapter pagerAdapter = null;
+	FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
 
     /**
@@ -55,7 +55,7 @@ public class FontesPagerFragment extends Fragment {
 		
 		if (mViewPager.getAdapter()==null) {
 
-			pagerAdapter = new FragmentStatePagerItemAdapter(
+			pagerAdapter = new FragmentPagerItemAdapter(
                     getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
                     .add(R.string.FonteLabel, FontesFragment.class)
                     .add(R.string.GraphLabel, FonteGraphFragment.class)

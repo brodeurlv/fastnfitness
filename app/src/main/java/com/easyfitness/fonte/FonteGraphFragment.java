@@ -96,12 +96,7 @@ public class FonteGraphFragment extends Fragment {
 		
 		/* Initialise le graph */ 
 		mChart = (LineChart) view.findViewById(R.id.graphChart);
-		//if ( mGraph == null ) {
-			mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
-			//Define Marker
-			IMarker marker = new CustomMarkerView(getActivity(), R.layout.graph_markerview);
-			mGraph.getLineChart().setMarker(marker);
-		//}
+		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 
 		/* Initialisation de l'historique */
 		if (mDb ==null) mDb = new DAOFonte(view.getContext());

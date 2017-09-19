@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-	public static final int DATABASE_VERSION = 9;
+	public static final int DATABASE_VERSION = 10;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -78,7 +78,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					case 9: // Easyfitness 0.13
 						db.execSQL(DAOBodyMeasure.TABLE_CREATE);
 						break;
-                }
+					case 10: // Easyfitness 0.13 BIS
+						db.execSQL("ALTER TABLE " + DAOMachine.TABLE_NAME + " ADD COLUMN " + DAOMachine.FAVORITES + " INTEGER");
+						break;
+				}
                 upgradeTo++;
             }
         }

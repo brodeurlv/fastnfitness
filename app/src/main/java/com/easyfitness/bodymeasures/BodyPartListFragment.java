@@ -118,10 +118,10 @@ public class BodyPartListFragment extends Fragment {
 			int bodyPartID = Integer.parseInt(textView.getText().toString());
 
 			BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID);
-			FragmentTransaction transaction =getThis().getActivity().getSupportFragmentManager().beginTransaction();
+			FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack so the user can navigate back
-			transaction.replace(R.id.fragment_container, fragment);
+			transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
 			transaction.addToBackStack(null);
 
 			// Commit the transaction

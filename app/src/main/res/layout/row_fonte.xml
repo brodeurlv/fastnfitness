@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
-     android:paddingTop="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="2dp"
      android:paddingBottom="2dp"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
@@ -12,17 +13,16 @@
          android:layout_width="0dip"
          android:layout_height="wrap_content"
          android:layout_marginLeft="5dp"
-         android:layout_weight="30"
+         android:layout_weight="35"
          android:orientation="vertical">
 
           <TextView
               android:id="@+id/DATE_CELL"
-              android:layout_width="match_parent"
+              android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="top"
               android:layout_marginBottom="0dp"
               android:layout_marginTop="1dp"
-              android:layout_weight="30"
               android:paddingTop="0dp"
               android:text="12/34/2016" />
 
@@ -50,39 +50,56 @@
          android:gravity="center|start"
          android:paddingBottom="0dp"
          android:paddingTop="0dp"
+         android:maxLines="1"
          android:text="Machine" />
- 
+
      <TextView
          android:id="@+id/SERIE_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"
          android:layout_gravity="center_vertical"
-         android:layout_weight="15"
-         android:gravity="start|center"
-         android:text="1"
          android:layout_marginLeft="5dp"
-         android:layout_marginRight="5dp" />
-     
+         android:layout_marginRight="5dp"
+         android:layout_weight="20"
+         android:gravity="start|center"
+         android:maxLines="1"
+         android:text="1" />
+
      <TextView
          android:id="@+id/REPETITION_CELL"
          android:layout_width="0dip"
          android:layout_height="wrap_content"
+         android:layout_gravity="center_vertical"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
          android:layout_weight="15"
-         android:layout_gravity="center_vertical"
          android:gravity="start|center"
+         android:maxLines="1"
          android:text="2"
-         android:layout_marginLeft="5dp"
-         android:layout_marginRight="5dp" />
-     
-     <TextView android:id="@+id/POIDS_CELL"
+         android:textAlignment="center" />
+
+     <TextView
+         android:id="@+id/POIDS_CELL"
          android:layout_width="0dip"
-         android:layout_height="wrap_content"  
-         android:layout_weight="20"
+         android:layout_height="wrap_content"
          android:layout_gravity="center_vertical"
-         android:gravity="start|center"
-         android:text="3Lbs"
          android:layout_marginLeft="5dp"
-         android:layout_marginRight="5dp" />
-         
+         android:layout_marginRight="5dp"
+         android:layout_weight="20"
+         android:gravity="start|center"
+         android:maxLines="1"
+         android:text="3Lbs"
+         android:textAlignment="center" />
+
+     <ImageButton
+         android:id="@+id/deleteButton"
+         android:layout_width="20dp"
+         android:layout_height="20dp"
+         android:layout_gravity="right|center_vertical"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
+         android:elevation="0dp"
+         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
 
 </LinearLayout>

@@ -9,17 +9,19 @@ public class Machine {
 	private String mPicture;
 	private String mDescription;
 	private String mBodyParts;
+	private Boolean mFavorite;
 
 	/*
 	 * 
 	 */
-	public Machine(String pName, String pDescription, int pType, String pBodyParts, String pPicture) {
+	public Machine(String pName, String pDescription, int pType, String pBodyParts, String pPicture, Boolean pFavorite) {
 		super();
 		this.mName = pName; 
 		this.mDescription = pDescription;
 		this.mType = pType;
 		this.mPicture = pPicture;
 		this.mBodyParts = pBodyParts;
+		this.mFavorite = pFavorite;
 	}
 
 	public long getId() {
@@ -50,9 +52,6 @@ public class Machine {
 		return mType;
 	}
 
-	/*
-	 * 
-	 */
 	public void setType(int type) {
 		this.mType= type ;
 	}
@@ -73,4 +72,13 @@ public class Machine {
 	public void setBodyParts(String bodyParts) {
 		mBodyParts = bodyParts;
 	}
+
+	public Boolean getFavorite() {
+		return mFavorite;
+	}
+
+	public void setFavorite(Boolean favorite) {
+		mFavorite= favorite;
+	}
+
 }
