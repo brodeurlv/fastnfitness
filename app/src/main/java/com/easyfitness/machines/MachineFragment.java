@@ -70,7 +70,6 @@ public class MachineFragment extends Fragment {
 		//musclesList = (Spinner) view.findViewById(R.id.listFilterRecord);
 		
 		machineList.setOnItemClickListener(onClickListItem);
-		
 
 		// Initialisation de l'historique
 		mDbFonte = new DAOFonte(view.getContext());
@@ -115,11 +114,11 @@ public class MachineFragment extends Fragment {
 			long machineId = Long.valueOf(textViewID.getText().toString());
 
 			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
-			FragmentTransaction transaction = getThis().getActivity().getSupportFragmentManager().beginTransaction();
+			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack so the user can navigate back
-			transaction.replace(R.id.fragment_container, machineDetailsFragment);
-			transaction.addToBackStack(null);
+			transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+            transaction.addToBackStack(null);
 			// Commit the transaction
 			transaction.commit();
 		}

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
+//import com.crashlytics.android.Crashlytics;
 import com.easyfitness.DAO.CVSManager;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -40,7 +41,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.fabric.sdk.android.Fabric;
+//import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
     public static String CARDIO = "Cardio";
     public static String PROFIL = "Profile";
     public static String BODYTRACKING = "BodyTracking";
+    public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
     public static String SETTINGS = "Settings";
     public static String MACHINES = "Machines";
+    public static String MACHINESDETAILS = "MachinesDetails";
 
     public static String PREFS_NAME = "prefsfile";
     CustomDrawerAdapter DrawerAdapter;
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
@@ -567,26 +570,25 @@ public class MainActivity extends AppCompatActivity {
 
         // Then show the fragments
         if (pFragmentName.equals(FONTESPAGER)) {
-            ft.replace(R.id.fragment_container,getFontesPagerFragment());
+            ft.replace(R.id.fragment_container,getFontesPagerFragment(), FONTESPAGER);
         } else if (pFragmentName.equals(CARDIO)) {
-            ft.replace(R.id.fragment_container,getCardioFragment());
+            ft.replace(R.id.fragment_container,getCardioFragment(), CARDIO);
         } else if (pFragmentName.equals(PROFIL)) {
-            ft.replace(R.id.fragment_container,getProfilFragment());
+            ft.replace(R.id.fragment_container,getProfilFragment(), PROFIL );
         } else if (pFragmentName.equals(SETTINGS)) {
-            ft.replace(R.id.fragment_container,getSettingsFragment());
+            ft.replace(R.id.fragment_container,getSettingsFragment(), SETTINGS);
         } else if (pFragmentName.equals(MACHINES)) {
-            ft.replace(R.id.fragment_container,getMachineFragment());
+            ft.replace(R.id.fragment_container,getMachineFragment(), MACHINES);
         } else if (pFragmentName.equals(ABOUT)) {
-            ft.replace(R.id.fragment_container,getAboutFragment());
+            ft.replace(R.id.fragment_container,getAboutFragment(), ABOUT);
         } else if (pFragmentName.equals(BODYTRACKING)) {
-            ft.replace(R.id.fragment_container,getBodyPartFragment());
+            ft.replace(R.id.fragment_container,getBodyPartFragment(), BODYTRACKING);
         }
         currentFragmentName = pFragmentName;
-        if (addToBackStack)  ft.addToBackStack(null);
+        //if (addToBackStack)  ft.addToBackStack(null);
         ft.commit();
 
     }
-
 
     private void showFragment2(String pFragmentName) {
 
@@ -870,6 +872,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Get last backstack entry
+        //FragmentManager.BackStackEntry fr = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount());
+        //if (fr.)
+
+        int index = getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1;
+        if (index >= 0) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+            String tag = backEntry.getName();
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        }
         super.onBackPressed();
 
         getActivity().getSupportActionBar().show();

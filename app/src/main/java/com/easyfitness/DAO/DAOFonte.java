@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DateGraphData;
 import com.easyfitness.R;
+import com.easyfitness.utils.DateConverter;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -340,7 +343,7 @@ public class DAOFonte extends DAOBase {
 					date = new Date();
 				}
 
-				DateGraphData value = new DateGraphData(date.getTime(), mCursor.getDouble(0));
+				DateGraphData value = new DateGraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
 
 				// Adding value to list
 				valueList.add(value);
@@ -465,9 +468,23 @@ public class DAOFonte extends DAOBase {
 		if (mCursor.moveToFirst()) {
 			do {
 				int i = 0;
-				String date;
-				date = mCursor.getString(0);
-				valueList.add(date);
+				//String date;
+				//date = mCursor.getString(0);
+				// Change Date format
+				//date = date.substring(0, 3) + "-" + date.substring(5, 6) + "-"
+
+				Date date;
+				try {
+					SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					date = dateFormat.parse(mCursor.getString(0));
+    			} catch (ParseException e) {
+					e.printStackTrace();
+					date = new Date();
+				}
+
+				DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+				valueList.add(dateFormat3.format(date));
 				i++;
 			} while (mCursor.moveToNext());
 		}

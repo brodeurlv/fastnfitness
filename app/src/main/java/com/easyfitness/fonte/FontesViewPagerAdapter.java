@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
-public class FontesViewPagerAdapter extends FragmentStatePagerAdapter {
+public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 
 	final int PAGE_COUNT = 3;
 	Context context;

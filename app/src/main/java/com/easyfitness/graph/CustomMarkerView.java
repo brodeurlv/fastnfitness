@@ -3,13 +3,17 @@ package com.easyfitness.graph;
 import android.content.Context;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.R;
+import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class CustomMarkerView extends MarkerView {
@@ -35,9 +39,12 @@ public class CustomMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
+        //DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
         DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
         dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
-        tvDate.setText(dateFormat3.format(e.getX()));
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:SS");
+        //dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        tvDate.setText(dateFormat3.format(new Date((long) DateConverter.nbMilliseconds(e.getX()))));
         tvContent.setText("" + e.getY());
 
         // this will perform necessary layouting

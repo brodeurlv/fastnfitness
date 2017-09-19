@@ -18,7 +18,9 @@ public class DAOMachine extends DAOBase {
 	public static final String TYPE = "type";
 	public static final String PICTURE= "picture";
 	public static final String BODYPARTS= "bodyparts";
-	
+	public static final String FAVORITES= "favorites";
+
+
 	public static final int TYPE_FONTE = 0;
 	public static final int TYPE_CARDIO = 1;
 	
@@ -28,7 +30,7 @@ public class DAOMachine extends DAOBase {
 
 	public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
 			+ " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT);"; //", " + PICTURE + " INTEGER);";
+			+ " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT, " + FAVORITES + " INTEGER);"; //", " + PICTURE + " INTEGER);";
 
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
@@ -74,15 +76,15 @@ public class DAOMachine extends DAOBase {
 	public Machine getMachine(long id) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
-		mCursor = db.query(TABLE_NAME, new String[] { KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE}, KEY + "=?",
+		mCursor = db.query(TABLE_NAME, new String[] { KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE, FAVORITES}, KEY + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (mCursor != null)
 			mCursor.moveToFirst();
 
 		if (mCursor.getCount() == 0)
-			return null; 
+			return null;
 
-		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5));
+		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6) == 1);
 
 		value.setId(mCursor.getLong(0));
 		// return value
@@ -95,7 +97,7 @@ public class DAOMachine extends DAOBase {
 	public Machine getMachine(String pName) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
-		mCursor = db.query(TABLE_NAME, new String[] { KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE}, NAME + "=?",
+		mCursor = db.query(TABLE_NAME, new String[] { KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE, FAVORITES}, NAME + "=?",
 				new String[] { pName }, null, null, null, null);
 		if (mCursor != null)
 			mCursor.moveToFirst();
@@ -103,7 +105,7 @@ public class DAOMachine extends DAOBase {
 		if (mCursor.getCount() == 0)
 			return null; 
 
-		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5));
+		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6)==1);
 
 		value.setId(mCursor.getLong(0));
 		// return value
@@ -133,7 +135,7 @@ public class DAOMachine extends DAOBase {
 		if (mCursor.moveToFirst()) {
 			do {
 				Machine value = new Machine (mCursor.getString(1), 
-						mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5));
+						mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6) == 1);
 				
 				value.setId(mCursor.getLong(0));
 
@@ -204,7 +206,9 @@ public class DAOMachine extends DAOBase {
 		value.put(DAOMachine.TYPE, m.getType());
 		value.put(DAOMachine.BODYPARTS, m.getBodyParts());
 		value.put(DAOMachine.PICTURE, m.getPicture());
-		
+        if(m.getFavorite()) value.put(DAOMachine.FAVORITES, 1);
+        else value.put(DAOMachine.FAVORITES, 0);
+
 		// updating row
 		return db.update(TABLE_NAME, value, KEY + " = ?",
 				new String[] { String.valueOf(m.getId()) });

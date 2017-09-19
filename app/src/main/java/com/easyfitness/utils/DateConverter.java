@@ -13,7 +13,18 @@ public class DateConverter {
 
 	public DateConverter() {
 	}
-	
+
+	static final int MILLISECONDINDAY = 60 * 60 * 24 * 1000;
+
+	static public double nbDays(double millisecondes){
+		return (int)(millisecondes / MILLISECONDINDAY);
+	}
+
+	static public double nbMilliseconds(double days){
+		return days * MILLISECONDINDAY;
+	}
+
+
 	static public Date getNewDate() {
 		return new Date();
 	}
@@ -77,5 +88,7 @@ public class DateConverter {
 		String date = df.format(day) + "/" + df.format(month) + "/" + df.format(year);
 		return date;
 	}
+
+
 
 }

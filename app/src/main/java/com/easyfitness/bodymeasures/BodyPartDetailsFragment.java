@@ -218,7 +218,7 @@ public class BodyPartDetailsFragment extends Fragment {
         float minBodyMeasure = -1;
 
 		for (int i = valueList.size() - 1; i >= 0; i--) {
-			Entry value = new Entry((float) (valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
+			Entry value = new Entry((float)DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
 			yVals.add(value);
             if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
             else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
