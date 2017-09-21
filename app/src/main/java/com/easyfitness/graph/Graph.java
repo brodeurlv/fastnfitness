@@ -45,13 +45,9 @@ public class Graph {
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //xAxis.setTypeface(mTfLight);
-        //xAxis.setTextSize(10f);
-        //xAxis.setTextColor(Color.);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
-        //xAxis.setTextColor(Color.rgb(255, 192, 56));
         xAxis.setCenterAxisLabels(false);
         xAxis.setGranularity(1); // 1 jour
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -69,22 +65,14 @@ public class Graph {
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        //leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
         leftAxis.setGranularity((float)0.5);
-        //leftAxis.setAxisMinimum(0f);
-        //leftAxis.setAxisMaximum(170f);
-        //leftAxis.setYOffset(0);
-        //leftAxis.setTextColor(Color.rgb(255, 192, 56));
         leftAxis.resetAxisMinimum();
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
-
-        //mChart.getAxisLeft().setAxisMinValue(0f);
-        //mChart.getAxisRight().setAxisMinValue(0f);
     }
 
     public void draw(ArrayList<Entry> entries) {

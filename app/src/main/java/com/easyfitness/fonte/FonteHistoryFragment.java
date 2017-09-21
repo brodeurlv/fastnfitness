@@ -1,9 +1,16 @@
 package com.easyfitness.fonte;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +26,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -146,6 +154,13 @@ public class FonteHistoryFragment extends Fragment {
 		}
 	};
 
+    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+        @Override
+        public void onBtnClick(long id) {
+			showDeleteDialog(id);
+        }
+    };
+
 	private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
 		@Override
@@ -172,6 +187,23 @@ public class FonteHistoryFragment extends Fragment {
 		List<Fonte> records = null;
 		Cursor oldCursor = null;
 
+        // Retransform date filter value in SQLLite date format
+        if (!pDate.equals(getContext().getResources().getText(R.string.all).toString())) {
+			Date date;
+			try {
+				DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
+				dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
+				date = dateFormat3.parse(pDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				date = new Date();
+			}
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			pDate = dateFormat.format(date);
+		}
+
 		// Recupere les valeurs
 		records = mDb.getFilteredRecords(getProfil(), pMachine, pDate);  		
 
@@ -181,7 +213,7 @@ public class FonteHistoryFragment extends Fragment {
 		} else {
 			// ...
 			if ( filterList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.GetCursor(), 0);
+				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), mDb.GetCursor(), 0, itemClickDeleteRecord);
 				filterList.setAdapter(mTableAdapter);
 			} else {
 				oldCursor = ((FonteCursorAdapter)filterList.getAdapter()).swapCursor(mDb.GetCursor());
@@ -237,4 +269,33 @@ public class FonteHistoryFragment extends Fragment {
 			refreshData();
 		}
 	}
+
+	private void showDeleteDialog(final long idToDelete) {
+
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+					case DialogInterface.BUTTON_POSITIVE:
+						mDb.deleteRecord(idToDelete);
+
+						FillRecordTable(machineList.getSelectedItem().toString(), dateList
+								.getSelectedItem().toString());
+
+						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+                .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+
+    }
 }

@@ -7,7 +7,7 @@
 	<string name="opensource_label">Open source URL: </string>
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
-	<string name="revision_history">\n
+	<string name="revision_history" translatable="false">\n
 									V0.13 : 17/09/2017 \n
 		\t - Enhancement : Added Body measures feature \n
 		\t - Enhancement : Rest time option after adding record \n

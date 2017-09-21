@@ -81,6 +81,7 @@ public class DAOFonte extends DAOBase {
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		value.put(DAOFonte.DATE, dateFormat.format(pDate));
 		value.put(DAOFonte.MACHINE, pMachine);
@@ -115,8 +116,10 @@ public class DAOFonte extends DAOBase {
 
 		Date date;
 		try {
-			date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor
-					.getString(1));
+
+			SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+			dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					date = dateformat.parse(mCursor.getString(1));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			date = new Date();
@@ -158,8 +161,9 @@ public class DAOFonte extends DAOBase {
 				//Get Date
 				Date date;
 				try {
-					date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-							.parse(mCursor.getString(1));
+					SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+					dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					date = dateformat.parse(mCursor.getString(1));
 				} catch (ParseException e) {
 
 					e.printStackTrace();
@@ -484,6 +488,7 @@ public class DAOFonte extends DAOBase {
 				}
 
 				DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+				dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
 				valueList.add(dateFormat3.format(date));
 				i++;
 			} while (mCursor.moveToNext());
@@ -600,6 +605,7 @@ public class DAOFonte extends DAOBase {
 		ContentValues value = new ContentValues();
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));		
 		value.put(DAOFonte.MACHINE, m.getMachine());
 		value.put(DAOFonte.SERIE, m.getSerie());
