@@ -25,7 +25,9 @@
     <string name="DeleteLabel">Delete</string>
     <string name="ShareLabel">Share</string>
     <string name="EditLabel">Edit</string>
-    
+    <string name="DeleteRecordDialog">Do you really want to remove this record ?</string>
+
+
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Series</string>

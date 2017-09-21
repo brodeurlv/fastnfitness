@@ -254,32 +254,50 @@ public class FontesFragment extends Fragment {
 		public boolean onItemLongClick(AdapterView<?> listView, View view,
 				int position, long id) {
 
-			// Get the cursor, positioned to the corresponding row in the result set
-			//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+			showRecordListMenu(id);
 
-			final long selectedID = id;
+			return true;
+		}
+	};
 
-			String[] profilListArray = new String[3];
-			profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
-			profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
-			profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
+	private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+		@Override
+		public void onBtnClick(long id) {
+			showDeleteDialog(id);
+		}
+	};
+
+	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+								long id) {
+			FillRecordTable(machineEdit.getText().toString());
+		}
+	};
+
+	private void showRecordListMenu(final long id) {
+		// Get the cursor, positioned to the corresponding row in the result set
+		//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+		final long selectedID = id;
+
+		String[] profilListArray = new String[3];
+		profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
+		profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
+		profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
 
 
-			AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
-			itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					ListView lv = ((AlertDialog)dialog).getListView();
+		AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
+		itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				ListView lv = ((AlertDialog)dialog).getListView();
 
-					switch (which) {
+				switch (which) {
 					// Delete
-						case 0:
-							mDb.deleteRecord(selectedID);
-
-						FillRecordTable(machineEdit.getText().toString());
-
-						Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + selectedID, Toast.LENGTH_SHORT).show();
-
-							break;
+					case 0:
+						showDeleteDialog(id);
+						break;
 					// Edit
 					case 1:
 						Toast.makeText(getActivity(), "Edit soon available", Toast.LENGTH_SHORT).show();//TODO change static string
@@ -294,35 +312,38 @@ public class FontesFragment extends Fragment {
 						text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
 						text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getMachine());
 						shareRecord(text);
-					break;
+						break;
 					default:
-					}
 				}
-			});
-			itemActionbuilder.show();
+			}
+		});
+		itemActionbuilder.show();
+	}
 
-			return true;
+	private void showDeleteDialog(final long idToDelete){
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which){
+					case DialogInterface.BUTTON_POSITIVE:
+						mDb.deleteRecord(idToDelete);
 
-			/*
-			mDb.deleteRecord(id);
+						FillRecordTable(machineEdit.getText().toString());
 
-			//listView.removeViewInLayout(view);
+						Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+						break;
 
-			FillRecordTable(machineEdit.getText().toString());
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		};
 
-			Toast.makeText(getActivity(), "Removed id" + id, Toast.LENGTH_SHORT).show();
-
-			return true;*/
-		}
-	};
-	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-								long id) {
-			FillRecordTable(machineEdit.getText().toString());
-		}
-	};
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+	}
 
 	/**
 	 * Create a new instance of DetailsFragment, initialized to
@@ -511,7 +532,7 @@ public class FontesFragment extends Fragment {
 		} else {
 			// ...
 			if ( recordList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.GetCursor(), 0);
+				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.GetCursor(), 0, itemClickDeleteRecord);
 				mTableAdapter.setFirstColorOdd(lTableColor);
 				recordList.setAdapter(mTableAdapter);
 			} else {				

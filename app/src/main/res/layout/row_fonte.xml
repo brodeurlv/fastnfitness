@@ -91,7 +91,7 @@
          android:text="3Lbs"
          android:textAlignment="center" />
 
-     <ImageButton
+     <ImageView
          android:id="@+id/deleteButton"
          android:layout_width="20dp"
          android:layout_height="20dp"
@@ -99,6 +99,7 @@
          android:layout_marginLeft="5dp"
          android:layout_marginRight="5dp"
          android:elevation="0dp"
+         android:clickable="true"
          app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 
