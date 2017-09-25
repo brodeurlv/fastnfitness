@@ -1,6 +1,7 @@
 package com.easyfitness.fonte;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -112,6 +114,7 @@ public class FontesFragment extends Fragment {
 					);
 
 			getActivity().findViewById(R.id.drawer_layout).requestFocus();
+			hideKeyboard(v);
 
 			lTableColor = (lTableColor+1)%2; // Change la couleur a chaque ajout de donnees
 
@@ -163,13 +166,14 @@ public class FontesFragment extends Fragment {
 			mDb.closeCursor();
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getView().getContext());
-			builder.setTitle("Select a Machine")
-			.setItems(machineListArray, new DialogInterface.OnClickListener() {
+			builder.setTitle("Select a Machine");
+			builder.setItems(machineListArray, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					machineEdit.setText(machineListArray[which]); // Met a jour le text
 					FillRecordTable(machineListArray[which]); // Met a jour le tableau
 					getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
 
+					hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
 					//((ViewGroup)machineEdit.getParent()).requestFocus(); //Permet de reactiver le clavier lors du focus sur l'editText
 				}
 			});
@@ -451,6 +455,7 @@ public class FontesFragment extends Fragment {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+            hideKeyboard(dateEdit);
 		}
 	};
 
@@ -622,6 +627,10 @@ public class FontesFragment extends Fragment {
 		if (!hidden) refreshData();
 	}
 
+	public void hideKeyboard(View view) {
+		InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
 
 }
 

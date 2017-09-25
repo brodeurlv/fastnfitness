@@ -24,7 +24,7 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
     private static class ViewHolder {
         TextView txtID;
         TextView txtName;
-        ImageButton btFavorite;
+        ImageView btFavorite;
     }
 
     public MachineArrayAdapter(ArrayList<Machine> data, Context context) {
@@ -62,15 +62,12 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
         final View result;
 
         if (convertView == null) {
-
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.bodypart_row, parent, false);
-            viewHolder.txtID = (TextView) convertView.findViewById(R.id.LIST_BODYPART_ID);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.LIST_BODYPART);
-            //viewHolder.btFavorite = (ImageButton) convertView.findViewById(R.id.LIST_BODYPART_LOGO);
-
-            result=convertView;
+            convertView = inflater.inflate(R.layout.simplemachinelist_row, parent, false);
+            viewHolder.txtID = (TextView) convertView.findViewById(R.id.LIST_MACHINE_ID);
+            viewHolder.txtName = (TextView) convertView.findViewById(R.id.LIST_MACHINE_NAME);
+            viewHolder.btFavorite = (ImageView) convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
 
             convertView.setTag(viewHolder);
         } else {
@@ -78,17 +75,6 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
             result=convertView;
         }
 
-        //Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
-        //result.startAnimation(animation);
-        //lastPosition = position;
-        /*viewHolder.txtID.setText(String.valueOf(dataModel.getId()));
-        viewHolder.txtName.setText(this.getContext().getResources().getText(dataModel.getResourceNameID()));
-        if (dataModel.getLastMeasure() != null )
-            viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
-        else
-            viewHolder.txtLastMeasure.setText("-");
-        viewHolder.logo.setImageResource(dataModel.getResourceLogoID());
-        // Return the completed view to render on screen*/
         return convertView;
     }
 }

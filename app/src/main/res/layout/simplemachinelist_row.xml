@@ -44,7 +44,7 @@
         android:textSize="16sp" />
 
     <ImageButton
-        android:id="@+id/deleteButton"
+        android:id="@+id/LIST_MACHINE_FAVORITE"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_weight="0"

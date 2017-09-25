@@ -44,16 +44,12 @@ public class FonteHistoryDateArrayAdapter extends ArrayAdapter<String>{
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
-            // @TODO trouver ou changer le text
             viewHolder.txtDate = (TextView) convertView.findViewById(android.R.id.text1);
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
 
-        //SimpleDateFormat dateFormat = new SimpleDateFormat()
-        //viewHolder.txtDate =
 
         return convertView;
     }

@@ -358,16 +358,50 @@ public class DAOFonte extends DAOBase {
 		return valueList;
 	}
 
+    // Getting All Machines
+    public List<String> getAllMachinesStrList(Profile pProfile) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        String selectQuery = "";
+        if (pProfile==null) {
+            selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
+                    + TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
+        else {
+            selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+                    + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
+        }
+        // Select All Machines
+        //String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
+        ///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
+        mCursor = db.rawQuery(selectQuery, null);
+
+        int size = mCursor.getCount();
+
+        List<String> valueList = new ArrayList<String>(size);
+
+        // looping through all rows and adding to list
+        if (mCursor.moveToFirst()) {
+            int i = 0;
+            do {
+                valueList.add(mCursor.getString(0));
+                i++;
+            } while (mCursor.moveToNext());
+        }
+        close();
+        // return value list
+        return valueList;
+    }
+
 	// Getting All Machines
-	public List<String> getAllMachinesList(Profile pProfile) {
+	public List<Machine> getAllMachinesList(Profile pProfile) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
 		String selectQuery = "";
 		if (pProfile==null) {
-			selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
 					+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
 		else {
-			selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
+			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
 					+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
 		}
 		// Select All Machines
@@ -377,14 +411,14 @@ public class DAOFonte extends DAOBase {
 
 		int size = mCursor.getCount();
 
-		List<String> valueList = new ArrayList<String>(size);
+		List<Machine> valueList = new ArrayList<Machine>(size);
+		DAOMachine lDAOMachine = new DAOMachine(mContext);
 
 		// looping through all rows and adding to list
 		if (mCursor.moveToFirst()) {
 			int i = 0;
 			do {
-				String value = new String(mCursor.getString(0));
-				valueList.add(value);
+				valueList.add(lDAOMachine.getMachine(mCursor.getLong(0)));
 				i++;
 			} while (mCursor.moveToNext());
 		}
@@ -392,7 +426,6 @@ public class DAOFonte extends DAOBase {
 		// return value list
 		return valueList;
 	}
-
 
 	// Getting All Machines
 	public String[] getAllMachines(Profile pProfile) {
