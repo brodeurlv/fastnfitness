@@ -107,7 +107,7 @@ public class FonteGraphFragment extends Fragment {
 		adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		functionList.setAdapter(adapterFunction);
 
-			mMachinesArray = mDb.getAllMachinesList(getProfil());
+			mMachinesArray = mDb.getAllMachinesStrList(getProfil());
 			// lMachinesArray = prepend(lMachinesArray, "All");
 			mAdapterMachine = new ArrayAdapter<String>(
 					getContext(), android.R.layout.simple_spinner_item,
@@ -266,7 +266,7 @@ public class FonteGraphFragment extends Fragment {
 
 				/* Initialisation des machines */
 				mMachinesArray.clear();
-				mMachinesArray.addAll(mDb.getAllMachinesList(getProfil()));
+				mMachinesArray.addAll(mDb.getAllMachinesStrList(getProfil()));
 				mAdapterMachine.notifyDataSetChanged();
 				mDb.closeCursor();
 

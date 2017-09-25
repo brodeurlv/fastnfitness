@@ -1,5 +1,8 @@
 package com.easyfitness.utils;
 
+import android.content.Context;
+
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,17 +45,38 @@ public class DateConverter {
 		
 		return date;
 	}
-	
-	static public String dateToDatabase(Date date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-		return dateFormat.format(date);		
-	}
-	
-	static public Date databaseToDate(String dateFromDatabase) {
+
+	static public Date localDateStrToDate(String dateStr, Context pContext) {
 		Date date;
 		try {
-			date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-					.parse(dateFromDatabase);
+			DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(pContext.getApplicationContext());
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			date = dateFormat.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			date = new Date();
+		}
+		return date;
+	}
+
+	static public String dateToLocalDateStr(Date date, Context pContext) {
+		DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(pContext.getApplicationContext());
+		dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return dateFormat3.format(date);
+	}
+	
+	static public String dateToDBDateStr(Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return dateFormat.format(date);
+	}
+	
+	static public Date DBDateStrToDate(String dateStr) {
+		Date date;
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			date = dateFormat.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			date = new Date();

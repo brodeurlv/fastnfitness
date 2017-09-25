@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -88,7 +89,7 @@ public class FonteHistoryFragment extends Fragment {
 
 		mMachineArray = new ArrayList<String>();
 		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-		mMachineArray.addAll(mDb.getAllMachinesList(getProfil()));
+		mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
 		mAdapterMachine = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
 				mMachineArray);
@@ -231,7 +232,7 @@ public class FonteHistoryFragment extends Fragment {
 					// Initialisation des machines				
 					mMachineArray.clear();
 					mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-					mMachineArray.addAll(mDb.getAllMachinesList(getProfil()));
+					mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
 					mAdapterMachine.notifyDataSetChanged();
 					mDb.closeCursor();
 		

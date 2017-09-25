@@ -11,49 +11,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"    >
 
-    <!--<FrameLayout
-        android:id="@+id/fragment_machine_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" >
-    </FrameLayout>
-
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/tabMachineTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/MachineLabel" />
-        
-        <ImageButton
-            android:id="@+id/imageMachineRename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/edit" />
-
-        <Spinner
-            android:id="@+id/filterMachine"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/imageMachineRename"
-            android:layout_toRightOf="@id/tabMachineTV" />
-        
-
-
-    </RelativeLayout>-->
-
-    <RelativeLayout         
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >

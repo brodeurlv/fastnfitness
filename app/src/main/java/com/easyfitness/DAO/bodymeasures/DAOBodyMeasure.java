@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DAOBodyMeasure extends DAOBase {
 
@@ -49,11 +50,11 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, Profile pProfile) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //TODO : verifier qu'on ne met pas deux poids sur la meme journee.
 
         ContentValues value = new ContentValues();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         value.put(DAOBodyMeasure.DATE, dateFormat.format(pDate));
         value.put(DAOBodyMeasure.BODYPART_KEY, pBodymeasure_id);
@@ -79,7 +80,9 @@ public class DAOBodyMeasure extends DAOBase {
 
         Date date;
         try {
-            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(1));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            date = dateFormat.parse(mCursor.getString(1));
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
@@ -113,7 +116,9 @@ public class DAOBodyMeasure extends DAOBase {
             do {
                 Date date;
                 try {
-                    date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(1));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateFormat.parse(mCursor.getString(1));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();
@@ -179,7 +184,10 @@ public class DAOBodyMeasure extends DAOBase {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(DAOBodyMeasure.DATE, m.getDate().toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String dateString = dateFormat.format(m.getDate());
+        value.put(DAOBodyMeasure.DATE, dateString);
         value.put(DAOBodyMeasure.BODYPART_KEY, m.getBodyPartID());
         value.put(DAOBodyMeasure.MEASURE, m.getBodyMeasure());
         value.put(DAOBodyMeasure.PROFIL_KEY, m.getProfileID());

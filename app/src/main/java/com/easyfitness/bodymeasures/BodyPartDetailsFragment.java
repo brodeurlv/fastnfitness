@@ -179,22 +179,13 @@ public class BodyPartDetailsFragment extends Fragment {
 		// Set Initial text
 		dateEdit.setText(DateConverter.currentDate());
 
-		//((MainActivity)getActivity()).getSupportActionBar().hide();
-		//((MainActivity)getActivity()).setSupportActionBar(bodyToolbar);
-		//((MainActivity)getActivity()).getActivityToolbar()
 		((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.GONE);
-		//((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-		//((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		//((MainActivity)getActivity()).getSupportActionBar().hide();
 		bodyToolbar.setTitle(getContext().getString(mBodyPart.getResourceNameID()));
 		bodyToolbar.setNavigationIcon(R.drawable.ic_back);
 		bodyToolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				getActivity().onBackPressed();
-				//((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.VISIBLE);
-				//((MainActivity)getActivity()).restoreToolbar();
-				//((MainActivity) getActivity()).getSupportActionBar().show();
 			}
 		});
 

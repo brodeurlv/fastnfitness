@@ -16,7 +16,7 @@
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
     
-	<string name="FunctionLabel">Fonctions</string>
+	<string name="FunctionLabel">Functions</string>
     <string name="HistoryLabel">History</string>
     <string name="RecordsLabel">Records</string>
     <string name="GraphLabel">Graphs</string>
