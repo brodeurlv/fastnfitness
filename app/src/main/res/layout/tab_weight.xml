@@ -69,13 +69,13 @@
         android:orientation="horizontal" 
         android:layout_weight="10" >
 
-	        <EditText
-	            android:id="@+id/editWeight"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="10"
-	            android:inputType="numberDecimal">"
-	         </EditText>
+			<EditText
+				android:id="@+id/editWeight"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="10"
+				android:hint="@string/WeightHint"
+				android:inputType="numberDecimal">"</EditText>
 	
 	        <Button
 	            android:id="@+id/buttonAddWeight"
