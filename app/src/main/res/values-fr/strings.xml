@@ -56,7 +56,7 @@
     <string name="ExerciceLabel">Exercice</string>
     
     <!-- Profile Fragment -->
-    <string name="ProfilLabel">Suivi Corps</string>
+    <string name="ProfilLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
     <string name="sizeLabel">Taille</string>
     <string name="measureLabel">Mesure</string>
@@ -177,15 +177,18 @@
     <string name="pref_bodybuilding_setting">Body Building - Paramètres</string>
     <string name="sizeTableLabel">Historique</string>
     <string name="neck">Cou</string>
-    <string name="left_arm">Bras gauche</string>
+    <string name="left_arm">Biceps gauche</string>
     <string name="left_calves">Mollet gauche</string>
     <string name="left_thigh">Cuisse gauche</string>
-    <string name="right_arm">Bras droit</string>
+    <string name="right_arm">Biceps droit</string>
     <string name="right_calves">Mollet droit</string>
     <string name="right_thigh">Cuisse droite</string>
     <string name="waist">Taille</string>
-    <string name="behind">Fessiers</string>
+    <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
     <string name="RepetitionLabel_short">Reps</string>
     <string name="DeleteRecordDialog">Voulez-vous vraiment supprimer cette enregistrement ?</string>
+    <string name="lastRecordLabel">Dernière mesure</string>
+    <string name="MachineHint">Ecrire le nom de la machine</string>
+    <string name="WeightHint">Entrer son poids ici</string>
 </resources>

@@ -55,6 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="45"
+                            android:hint="@string/MachineHint"
                             android:imeOptions="actionNext"
                             android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
                             android:nextFocusForward="@+id/editSerie" />

@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Last record"
+            android:text="@string/lastRecordLabel"
             android:textSize="10sp" />
 
         <TextView

@@ -154,15 +154,15 @@
     <string name="mollets">Calves</string>
 
     <!-- Body Parts -->
-    <string name="left_arm">Left arm</string>
-    <string name="right_arm">Right arm</string>
+    <string name="left_arm">Left biceps</string>
+    <string name="right_arm">Right biceps</string>
     <string name="neck">Neck</string>
     <string name="left_thigh">Left thigh</string>
     <string name="right_thigh">Right thigh</string>
     <string name="left_calves">Left calves</string>
     <string name="right_calves">Right calves</string>
     <string name="waist">Waist</string>
-    <string name="behind">Behind</string>
+    <string name="behind">Hips</string>
     
     
     <string name="backDialog_confirm_text">Do you want to save before exit ?</string>
@@ -188,6 +188,9 @@
     <string name="CountdownLabel">Rest time</string>
     <string name="activate_rest_time">Activate Rest Countdown</string>
     <string name="rest_time">Rest time (sec)</string>
+    <string name="lastRecordLabel">Last record</string>
+    <string name="MachineHint">Enter machine name here</string>
+    <string name="WeightHint">Enter your weight here</string>
 
 </resources>
 
