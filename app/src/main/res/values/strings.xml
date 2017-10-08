@@ -66,6 +66,8 @@
     <string name="weightTableLabel">Weight records : </string>
     <string name="sizeTableLabel">Measures history : </string>
     <string name="createProfilTitle">Create new profile</string>
+    <string name="profileSelected">Profile selected</string>
+    <string name="profileDeleteImpossible">Impossible to delete current profile</string>
     <string name="createProfilQuestion">Choose your profile name ?</string>
     <string name="userChanged">User Changed</string>
     <string name="renameProfilTitle">Rename profile</string>

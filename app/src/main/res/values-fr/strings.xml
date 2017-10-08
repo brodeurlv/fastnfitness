@@ -191,4 +191,6 @@
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="MachineHint">Ecrire le nom de la machine</string>
     <string name="WeightHint">Entrer son poids ici</string>
+    <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
+    <string name="profileSelected">Profil slectionné</string>
 </resources>
