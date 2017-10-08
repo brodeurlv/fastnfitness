@@ -39,6 +39,7 @@ public class Graph {
         IMarker marker = new CustomMarkerView(mChart.getContext(), R.layout.graph_markerview);
         mChart.setMarker(marker);
 
+
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
@@ -85,7 +86,8 @@ public class Graph {
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(3f);
         set1.setCircleRadius(4f);
-        set1.setFillAlpha(150);
+        set1.setDrawFilled(true);
+        set1.setFillAlpha(100);
 
 		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets*/

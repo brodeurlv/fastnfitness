@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-//import com.crashlytics.android.Crashlytics;
 import com.easyfitness.DAO.CVSManager;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -40,6 +39,8 @@ import com.easyfitness.utils.MusicController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.crashlytics.android.Crashlytics;
 
 //import io.fabric.sdk.android.Fabric;
 
@@ -311,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                                 ListView lv = ((AlertDialog) dialog).getListView();
                                 Object checkedItem = lv.getAdapter().getItem(which);
                                 setCurrentProfil(checkedItem.toString());
-                                Toast.makeText(getApplicationContext(), "Profile selected : " + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
+                                Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
                             }
                         });
                 changeProfilbuilder.show();

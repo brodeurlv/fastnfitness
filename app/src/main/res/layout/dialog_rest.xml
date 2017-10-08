@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Rest Time"
+        android:text="@string/CountdownLabel"
         android:textColor="#5DBCD2"
         android:textSize="20dp" />
 
