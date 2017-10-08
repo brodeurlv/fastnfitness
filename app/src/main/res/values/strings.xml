@@ -165,8 +165,9 @@
     <string name="right_calves">Right calves</string>
     <string name="waist">Waist</string>
     <string name="behind">Hips</string>
-    
-    
+    <string name="MesureHint">Enter size here</string>
+
+
     <string name="backDialog_confirm_text">Do you want to save before exit ?</string>
     <string name="deleteMachine_confirm_text">Do you want to delete this machine ? All associated records will be deleted</string>
     <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine ? All associated records will be deleted</string>

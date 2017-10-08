@@ -153,7 +153,6 @@
     <string name="renameMachine_warning_text">ATTENTION: Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
     <string name="renameMachine_error_text">Ce nom existe déjà, merci d\'en selectionner un autre.</string>
 
-
     <!-- Photo -->
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
@@ -189,8 +188,9 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="DeleteRecordDialog">Voulez-vous vraiment supprimer cette enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
-    <string name="MachineHint">Ecrire le nom de la machine</string>
-    <string name="WeightHint">Entrer son poids ici</string>
+    <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
-    <string name="profileSelected">Profil slectionné</string>
+    <string name="profileSelected">Profil selectionné</string>
+    <string name="MachineHint">Entre le nom de la machine ici</string>
+    <string name="MesureHint">Entre ta mesure ici</string>
 </resources>
