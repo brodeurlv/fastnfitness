@@ -10,7 +10,7 @@
 	<string name="revision_history" translatable="false">\n
 		V0.13.2 : 14/10/2017 \n
 		\t - Bug : Fixed issue on photo association for machines \n
-
+        \t - Bug : Removed Internet permission \n
 		V0.13.1 : 08/10/2017 \n
 		\t - Enhancement : Added fill color to graph \n
 		\t - Bug : Fixed typo \n
