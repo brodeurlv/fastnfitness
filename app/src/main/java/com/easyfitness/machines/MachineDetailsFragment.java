@@ -1,22 +1,25 @@
 package com.easyfitness.machines;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,6 +39,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
@@ -57,11 +61,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.R.drawable.btn_star_big_off;
+
 
 public class MachineDetailsFragment extends Fragment {
 	private String name;
 	private int id;
+
+	public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
 
 	Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
 	EditText musclesList = null;
@@ -305,6 +311,7 @@ public class MachineDetailsFragment extends Fragment {
 				profilListArray[0] = getResources().getString(R.string.camera); 
 				profilListArray[1] = getResources().getString(R.string.gallery);
 
+		requestPermissionForWriting();
 
 				AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
 				itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
@@ -413,19 +420,8 @@ public class MachineDetailsFragment extends Fragment {
 	             InputStream imageStream;
 					
 					String realPath;
-		            // SDK < API11
-		            if (Build.VERSION.SDK_INT < 11)
-		                realPath = RealPathUtil.getRealPathFromURI_BelowAPI11(this.getActivity().getBaseContext(), data.getData());
-		            
-		            // SDK >= 11 && SDK < 19
-		            else if (Build.VERSION.SDK_INT < 19)
-		                realPath = RealPathUtil.getRealPathFromURI_API11to18(this.getActivity().getBaseContext(), data.getData());
-		            
-		            // SDK > 19 (Android 4.4)
-		            else
-		                realPath = RealPathUtil.getRealPathFromURI_API19(this.getActivity().getBaseContext(), data.getData());
-		                
-					
+				 realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+
 					//imageStream = getActivity().getBaseContext().getContentResolver().openInputStream(selectedImage);
 					//Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
 	 	    		setPic(machinePhoto, realPath);//.setImageBitmap(imageBitmap);
@@ -479,8 +475,8 @@ public class MachineDetailsFragment extends Fragment {
 
 			Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
 			mImageView.setImageBitmap(bitmap);
-			
-			mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+			mImageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 			mImageView.setAdjustViewBounds(true);
 			mImageView.setMaxHeight((int)(getView().getHeight()*0.2));
 			mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -520,6 +516,35 @@ public class MachineDetailsFragment extends Fragment {
 	    {
 	        Log.e("Image", e.getMessage(), e);
 	    }
+	}
+
+	private void requestPermissionForWriting() {
+		// Here, thisActivity is the current activity
+		if (ContextCompat.checkSelfPermission(this.getActivity(),
+				Manifest.permission.READ_CONTACTS)
+				!= PackageManager.PERMISSION_GRANTED) {
+
+			// Should we show an explanation?
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+					Manifest.permission.READ_CONTACTS)) {
+
+				// Show an explanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+
+			} else {
+
+				// No explanation needed, we can request the permission.
+
+				ActivityCompat.requestPermissions(this.getActivity(),
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+				// app-defined int constant. The callback method gets the
+				// result of the request.
+			}
+		}
 	}
 	
 	private OnFocusChangeListener onFocusMachineList = new View.OnFocusChangeListener() {
