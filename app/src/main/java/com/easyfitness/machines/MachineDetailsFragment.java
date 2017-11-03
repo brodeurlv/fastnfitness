@@ -37,7 +37,6 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -164,7 +163,7 @@ public class MachineDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if(isImageFitToScreen) {
                     isImageFitToScreen=false;
-                    machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
                     machinePhoto.setAdjustViewBounds(true);
                     machinePhoto.setMaxHeight((int)(getView().getHeight()*0.2));
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -184,7 +183,7 @@ public class MachineDetailsFragment extends Fragment {
 		        			
 		        			// Determine how much to scale down the image
 		        			int scaleFactor = (int)(photoW/(machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);
-		        			machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+		        			machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 		                    machinePhoto.setAdjustViewBounds(true);
 		                    machinePhoto.setMaxHeight((int)(photoH/scaleFactor));
 		                         			
