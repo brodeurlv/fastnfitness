@@ -194,6 +194,11 @@
     <string name="lastRecordLabel">Last record</string>
     <string name="MachineHint">Enter machine name here</string>
     <string name="WeightHint">Enter your weight here</string>
+    <string name="total_weight">Total weight</string>
+    <string name="total_session">Total session</string>
+    <string name="total_machine">Total Machine</string>
+    <string name="nb_serie">Nb Serie</string>
+    <string name="exit">Exit</string>
 
 </resources>
 

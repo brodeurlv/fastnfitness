@@ -8,7 +8,8 @@
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
-		V0.13.3 : 03/11/2017 \n
+		V0.13.3 : BETA \n
+			\t - Enhancement : Added summary to the rest dialog box\n
 			\t - Bug : Fixed crash on machine photo click\n
 		V0.13.2 : 14/10/2017 \n
 			\t - Bug : Fixed issue on photo association for machines \n

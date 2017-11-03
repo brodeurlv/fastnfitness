@@ -631,6 +631,110 @@ public class DAOFonte extends DAOBase {
 		return lReturn;
 	}
 
+	// @return the number of series done for this machine for this day
+	public int getNbSeries(Date pDate, String pMachine) {
+
+
+		int lReturn=0;
+
+		//Test is Machine exists. If not create it.
+		DAOMachine lDAOMachine = new DAOMachine(mContext);
+		long machine_key = lDAOMachine.getMachine(pMachine).getId();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String lDate = dateFormat.format(pDate);
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+
+		// Select All Machines
+		String selectQuery = "SELECT SUM(" + SERIE + ") FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=\"" + lDate + "\" AND " + MACHINE_KEY + "=" + machine_key;
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		mCursor.moveToFirst();
+		try {
+			lReturn = mCursor.getInt(0);
+		} catch (NumberFormatException e) {
+			//Date date = new Date();
+			lReturn = 0; // Return une valeur
+		}
+
+		close();
+
+		// return value
+		return lReturn;
+	}
+
+	// @return the number of series done for this machine for this day
+	public int getTotalWeightMachine(Date pDate, String pMachine) {
+
+		int lReturn=0;
+
+		//Test is Machine exists. If not create it.
+		DAOMachine lDAOMachine = new DAOMachine(mContext);
+		long machine_key = lDAOMachine.getMachine(pMachine).getId();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String lDate = dateFormat.format(pDate);
+
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		// Select All Machines
+		String selectQuery = "SELECT SUM(" + this.POIDS+ ") FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=\"" + lDate + "\" AND " + MACHINE_KEY + "=" + machine_key;
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		mCursor.moveToFirst();
+		try {
+			lReturn = mCursor.getInt(0);
+		} catch (NumberFormatException e) {
+			//Date date = new Date();
+			lReturn = 0; // Return une valeur
+		}
+
+		close();
+
+		// return value
+		return lReturn;
+	}
+
+	// @return the number of series done for this machine for this day
+	public int getTotalWeightSession(Date pDate) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		int lReturn=0;
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String lDate = dateFormat.format(pDate);
+
+		// Select All Machines
+		String selectQuery = "SELECT SUM(" + this.POIDS + ") FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=\"" + lDate + "\"";
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		mCursor.moveToFirst();
+		try {
+			lReturn = mCursor.getInt(0);
+		} catch (NumberFormatException e) {
+			//Date date = new Date();
+			lReturn = 0; // Return une valeur
+		}
+
+		close();
+
+		// return value
+		return lReturn;
+	}
+
 	// Updating single value
 	public int updateRecord(Fonte m) {
 		SQLiteDatabase db = this.getWritableDatabase();

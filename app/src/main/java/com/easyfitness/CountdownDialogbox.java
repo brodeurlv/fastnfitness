@@ -7,6 +7,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -23,6 +24,14 @@ public class CountdownDialogbox extends Dialog implements
     public Chronometer chrono;
     public ProgressBar progressBar;
     public DonutProgress progressCircle;
+    public TextView nbSeries;
+    public TextView totalSession;
+    public TextView totalMachine;
+
+    int lNbSerie=0;
+    int lTotalSession=0;
+    int lTotalMachine=0;
+
 
     int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
@@ -58,6 +67,10 @@ public class CountdownDialogbox extends Dialog implements
         exit = (Button) findViewById(R.id.btn_exit);
         progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
         chrono = (Chronometer) findViewById(R.id.chronoValue);
+        nbSeries = (TextView) findViewById(R.id.idNbSeries);
+        totalSession = (TextView) findViewById(R.id.idTotalSession);
+        totalMachine = (TextView) findViewById(R.id.idTotalWeightMachine);
+
         progressCircle = (DonutProgress) findViewById(R.id.donut_progress);
 
         progressCircle.setMax(iRestTime);
@@ -68,6 +81,10 @@ public class CountdownDialogbox extends Dialog implements
         /*SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(c.getBaseContext());
         iRestTime = Integer.valueOf(SP.getString("prefRestTimeValue", "60"));*/
         progressBar.setMax(iRestTime);
+
+        totalMachine.setText(Integer.toString(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
+        totalSession.setText(Integer.toString(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
+        nbSeries.setText(Integer.toString(lNbSerie));
 
         chrono.setOnChronometerTickListener(onChronometerTick);
         chrono.setBase(SystemClock.elapsedRealtime() + iRestTime * 1000);
@@ -89,7 +106,7 @@ public class CountdownDialogbox extends Dialog implements
         switch (v.getId()) {
             case R.id.btn_exit:
                 chrono.stop();
-                chrono.setText("00:00:0");
+                chrono.setText("00:00");
                 dismiss();
                 break;
             default:
@@ -97,5 +114,16 @@ public class CountdownDialogbox extends Dialog implements
         }
     }
 
+    public void setTotalWeightSession(int pTotalWeight) {
+        lTotalSession=pTotalWeight;
+    }
+
+    public void setTotalWeightMachine(int pTotalWeight) {
+        lTotalMachine=pTotalWeight;
+    }
+
+    public void setNbSeries(int pNbSeries) {
+        lNbSerie=pNbSeries;
+    }
 
 }

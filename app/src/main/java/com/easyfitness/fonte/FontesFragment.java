@@ -125,16 +125,11 @@ public class FontesFragment extends Fragment {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getView().getContext(),
 					android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
 			machineEdit.setAdapter(adapter);
-			mDb.closeCursor();
 
 			//Rajoute le moment du dernier ajout dans le bouton Add
 			addButton.setText(getView().getContext().getString(R.string.AddLabel)+"\n("+DateConverter.currentTime()+")");
 
-			//saveSharedParams(DateConverter.currentTime(), "LastRecordDate");
-
-			// If setting prefShowRestTime is ON
-			//SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity.getBaseContext());
-			//boolean bLaunchRest = SP.getBoolean("prefShowRestTime", true);
+			//--Launch Rest Dialog
 			boolean bLaunchRest = restTimeCheck.isChecked();
 			int restTime = 60;
 			try {
@@ -143,11 +138,21 @@ public class FontesFragment extends Fragment {
 				restTime = 60;
 				restTimeEdit.setText("60");
 			}
+
+			int iTotalWeightSession = mDb.getTotalWeightSession(date);
+			int iTotalWeight = mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
+			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
+
 			// Launch Countdown
 			if (bLaunchRest) {
 				CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+				cdd.setNbSeries(iNbSeries);
+				cdd.setTotalWeightMachine(iTotalWeight);
+				cdd.setTotalWeightSession(iTotalWeightSession);
 				cdd.show();
 			}
+
+			mDb.closeCursor();
 
 		}
 	};
