@@ -38,8 +38,9 @@ public class DAOFonte extends DAOBase {
 	public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
 			+ " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
 			+ " DATE, " + MACHINE + " TEXT, " + SERIE + " INTEGER, "
-			+ REPETITION + " INTEGER, " + POIDS + " INTEGER, " + PROFIL_KEY
+			+ REPETITION + " INTEGER, " + POIDS + " REAL, " + PROFIL_KEY
 			+ " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY + " INTEGER," + TIME + " TEXT);";
+
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
 	public static final int SUM_FCT = 0;
@@ -68,7 +69,7 @@ public class DAOFonte extends DAOBase {
 	 * @param pMachine Machine name
 	 * Le Record a ajouter a la base
 	 */
-	public long addRecord(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
+	public long addRecord(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
 
 		ContentValues value = new ContentValues();
 		long new_id = -1;
@@ -131,10 +132,10 @@ public class DAOFonte extends DAOBase {
 		DAOProfil lDAOProfil = new DAOProfil(mContext);
 		Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(7));
 
-		Fonte value = new Fonte(date, mCursor.getString(2), 
+		Fonte value = new Fonte(date, mCursor.getString(2),
 				mCursor.getInt(3), 
 				mCursor.getInt(4), 
-				mCursor.getInt(5),
+				mCursor.getFloat(5),
                 lProfile,
 				mCursor.getInt(6),
 				mCursor.getString(8), 
@@ -189,7 +190,7 @@ public class DAOFonte extends DAOBase {
 				Fonte value = new Fonte(date, mCursor.getString(2), 
 						mCursor.getInt(3), 
 						mCursor.getInt(4), 
-						mCursor.getInt(5),
+						mCursor.getFloat(5),
                         lProfile,
 						mCursor.getInt(6),
 						mCursor.getString(8),
@@ -671,9 +672,9 @@ public class DAOFonte extends DAOBase {
 	}
 
 	// @return the number of series done for this machine for this day
-	public int getTotalWeightMachine(Date pDate, String pMachine) {
+	public float getTotalWeightMachine(Date pDate, String pMachine) {
 
-		int lReturn=0;
+		float lReturn=0;
 
 		//Test is Machine exists. If not create it.
 		DAOMachine lDAOMachine = new DAOMachine(mContext);
@@ -694,7 +695,7 @@ public class DAOFonte extends DAOBase {
 		// looping through all rows and adding to list
 		mCursor.moveToFirst();
 		try {
-			lReturn = mCursor.getInt(0);
+			lReturn = mCursor.getFloat(0);
 		} catch (NumberFormatException e) {
 			//Date date = new Date();
 			lReturn = 0; // Return une valeur
@@ -707,11 +708,11 @@ public class DAOFonte extends DAOBase {
 	}
 
 	// @return the number of series done for this machine for this day
-	public int getTotalWeightSession(Date pDate) {
+	public float getTotalWeightSession(Date pDate) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
-		int lReturn=0;
+		float lReturn=0;
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -725,7 +726,7 @@ public class DAOFonte extends DAOBase {
 		// looping through all rows and adding to list
 		mCursor.moveToFirst();
 		try {
-			lReturn = mCursor.getInt(0);
+			lReturn = mCursor.getFloat(0);
 		} catch (NumberFormatException e) {
 			//Date date = new Date();
 			lReturn = 0; // Return une valeur

@@ -207,6 +207,7 @@
     <string name="total_machine">Total on machine</string>
     <string name="nb_serie">Nb Serie</string>
     <string name="exit">Exit</string>
+    <string name="selectMachineDialogLabel">Select an existing Machine</string>
 
 </resources>
 

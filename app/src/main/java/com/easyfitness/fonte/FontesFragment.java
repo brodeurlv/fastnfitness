@@ -97,10 +97,10 @@ public class FontesFragment extends Fragment {
 			}
 
 			/* Convertion du poid */
-			int tmpPoids=Integer.parseInt(poidsEdit.getText().toString());
+			float tmpPoids=Float.parseFloat(poidsEdit.getText().toString());
 			int unitPoids= DAOFonte.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
-				tmpPoids=Math.round(UnitConverter.LbstoKg((float)tmpPoids)); // Always convert to KG
+				tmpPoids=UnitConverter.LbstoKg((float)tmpPoids); // Always convert to KG
 				unitPoids = DAOFonte.UNIT_LBS; // LBS
 			}
 
@@ -173,7 +173,7 @@ public class FontesFragment extends Fragment {
 			mDb.closeCursor();
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getView().getContext());
-			builder.setTitle("Select a Machine");
+			builder.setTitle(R.string.selectMachineDialogLabel);
 			builder.setItems(machineListArray, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					machineEdit.setText(machineListArray[which]); // Met a jour le text

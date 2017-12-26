@@ -101,7 +101,7 @@ public class CVSManager {
 				
 					csvOutputFonte.write(dateFormatcsv.format(dateRecord));
 					csvOutputFonte.write(records.get(i).getMachine());
-					csvOutputFonte.write(Integer.toString(records.get(i).getPoids()));
+					csvOutputFonte.write(Float.toString(records.get(i).getPoids()));
 					csvOutputFonte.write(Integer.toString(records.get(i).getRepetition()));
 					csvOutputFonte.write(Integer.toString(records.get(i).getSerie()));
 					if ( records.get(i).getProfil()  != null) csvOutputFonte.write(Long.toString(records.get(i).getProfil().getId()));
@@ -189,8 +189,6 @@ public class CVSManager {
 				}
 				csvOutputWeight.close();
 				dbcWeight.close();
-					
-				
 			}
 
 			catch(Exception e) {
@@ -230,7 +228,7 @@ public class CVSManager {
 								.parse( csvRecords.get(DAOFonte.DATE));
 						
 						String machine = csvRecords.get(DAOFonte.MACHINE);
-						int poids = Integer.valueOf(csvRecords.get(DAOFonte.POIDS));
+						float poids = Float.valueOf(csvRecords.get(DAOFonte.POIDS));
 						int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
 						int serie = Integer.valueOf(csvRecords.get(DAOFonte.SERIE));
 						int unit = 0;

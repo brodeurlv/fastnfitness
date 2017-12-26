@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tab_fontes"
     android:name="tab_fontes"
     android:layout_width="match_parent"
@@ -176,7 +177,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:inputType="number"
+                            android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
                             android:text="10"></EditText>
 

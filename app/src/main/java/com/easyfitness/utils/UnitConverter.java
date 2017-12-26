@@ -10,14 +10,14 @@ public class UnitConverter {
 	 * convert Kg to Lbs 
 	 */
 	static public float KgtoLbs(float pKg) {
-		return pKg*(float)2.2046;
+		return pKg/(float)0.45359237;
 	}
 
 	/* 
 	 * convert Lbs to Kg
 	 */
 	static public float LbstoKg(float pLbs) {
-		return pLbs*(float)0.4536;
+		return pLbs*(float)0.45359237;
 	}
 
 	/**
