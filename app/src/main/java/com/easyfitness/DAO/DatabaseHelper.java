@@ -81,6 +81,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					case 10: // Easyfitness 0.13 BIS
 						db.execSQL("ALTER TABLE " + DAOMachine.TABLE_NAME + " ADD COLUMN " + DAOMachine.FAVORITES + " INTEGER");
 						break;
+					case 11: // FastnFitness 0.13.3
+
+
 				}
                 upgradeTo++;
             }

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -45,8 +46,7 @@ public class MusicController {
     private TextView barSongTitle = null;
     private TextView barSongTime = null;
     private SeekBar seekProgressBar = null;
-    private RelativeLayout playerTopLayout = null;
-    
+
     private UnitConverter utils=new UnitConverter();
     
     private boolean isStopped = true;
@@ -235,12 +235,13 @@ public class MusicController {
         musicPrevious = (ImageButton) mActivity.findViewById(R.id.playerPrevious);
         musicList = (ImageButton) mActivity.findViewById(R.id.playerList);
         musicReplay = (ImageButton) mActivity.findViewById(R.id.playerLoop);
-        playerTopLayout = (RelativeLayout) mActivity.findViewById(R.id.playerTopLayout);
+        //playerTopLayout = (LinearLayout) mActivity.findViewById(R.id.playerTopLayout);
 
         barSongTitle = (TextView)mActivity.findViewById(R.id.playerSongTitle);
         barSongTitle.setSingleLine(true);
-        barSongTitle.setEllipsize(TextUtils.TruncateAt.END);
+        barSongTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         barSongTitle.setHorizontallyScrolling(true);
+        barSongTitle.setSelected(true);
 
         seekProgressBar = (SeekBar) mActivity.findViewById(R.id.playerSeekBar);
         seekProgressBar.setMax(100);

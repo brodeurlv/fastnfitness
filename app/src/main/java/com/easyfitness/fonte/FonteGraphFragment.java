@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.CustomMarkerView;
 import com.easyfitness.graph.Graph;
+import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
@@ -233,9 +236,23 @@ public class FonteGraphFragment extends Fragment {
 			xVals.add(dt1.format(i));
 		}*/
 
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		int defaultUnit = 0;
+		try {
+			defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
+		}catch (NumberFormatException e) {
+			defaultUnit = 0;
+		}
+
+
 		for (int i = 0; i<valueList.size();i++) {
-			Entry value = new Entry((float) (valueList.get(i).getX()), (float) valueList.get(i).getY());//-minDate)/86400000));
-			yVals.add(value);		
+			Entry value = null;
+			if (defaultUnit == DAOFonte.UNIT_LBS) {
+				value = new Entry((float)valueList.get(i).getX(), UnitConverter.KgtoLbs((float) valueList.get(i).getY()));//-minDate)/86400000));
+			} else {
+				value = new Entry((float)valueList.get(i).getX(), (float) valueList.get(i).getY());//-minDate)/86400000));
+			}
+			yVals.add(value);
 		}
 
 		Description desc = new Description();

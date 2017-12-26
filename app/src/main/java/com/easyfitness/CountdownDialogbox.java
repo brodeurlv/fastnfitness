@@ -2,15 +2,21 @@ package com.easyfitness;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.utils.UnitConverter;
 import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+
+import java.text.DecimalFormat;
 
 import gr.antoniom.chronometer.Chronometer;
 import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
@@ -22,15 +28,15 @@ public class CountdownDialogbox extends Dialog implements
     public Dialog d;
     public Button exit;
     public Chronometer chrono;
-    public ProgressBar progressBar;
+    //public ProgressBar progressBar;
     public DonutProgress progressCircle;
     public TextView nbSeries;
     public TextView totalSession;
     public TextView totalMachine;
 
     int lNbSerie=0;
-    int lTotalSession=0;
-    int lTotalMachine=0;
+    float lTotalSession=0;
+    float lTotalMachine=0;
 
 
     int iRestTime = 60;
@@ -41,7 +47,7 @@ public class CountdownDialogbox extends Dialog implements
             // Update progressbar
             //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
             int secElapsed = (int) (chrono.getTimeElapsed() / 1000);
-            progressBar.setProgress(iRestTime + secElapsed);
+            //progressBar.setProgress(iRestTime + secElapsed);
             progressCircle.setProgress(iRestTime + secElapsed);
             if (iRestTime + secElapsed >= iRestTime) {
                 chrono.stop();
@@ -65,7 +71,7 @@ public class CountdownDialogbox extends Dialog implements
         this.setCanceledOnTouchOutside(true); // make it not modal
 
         exit = (Button) findViewById(R.id.btn_exit);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
+        //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
         chrono = (Chronometer) findViewById(R.id.chronoValue);
         nbSeries = (TextView) findViewById(R.id.idNbSeries);
         totalSession = (TextView) findViewById(R.id.idTotalSession);
@@ -80,10 +86,23 @@ public class CountdownDialogbox extends Dialog implements
         // If setting prefShowRestTime is ON
         /*SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(c.getBaseContext());
         iRestTime = Integer.valueOf(SP.getString("prefRestTimeValue", "60"));*/
-        progressBar.setMax(iRestTime);
+        //progressBar.setMax(iRestTime);
 
-        totalMachine.setText(Integer.toString(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
-        totalSession.setText(Integer.toString(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int defaultUnit= Integer.valueOf(SP.getString("defaultUnit", "0"));
+
+        DecimalFormat numberFormat = new DecimalFormat("#.##");
+
+        if (defaultUnit == DAOFonte.UNIT_KG) {
+            totalMachine.setText(numberFormat.format(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
+            totalSession.setText(numberFormat.format(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
+        }
+        else if (defaultUnit == DAOFonte.UNIT_LBS)
+        {
+            totalMachine.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalMachine)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
+            totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
+        }
+
         nbSeries.setText(Integer.toString(lNbSerie));
 
         chrono.setOnChronometerTickListener(onChronometerTick);
@@ -114,11 +133,11 @@ public class CountdownDialogbox extends Dialog implements
         }
     }
 
-    public void setTotalWeightSession(int pTotalWeight) {
+    public void setTotalWeightSession(float pTotalWeight) {
         lTotalSession=pTotalWeight;
     }
 
-    public void setTotalWeightMachine(int pTotalWeight) {
+    public void setTotalWeightMachine(float pTotalWeight) {
         lTotalMachine=pTotalWeight;
     }
 

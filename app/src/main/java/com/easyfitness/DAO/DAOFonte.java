@@ -46,7 +46,9 @@ public class DAOFonte extends DAOBase {
 	public static final int MAX1_FCT = 1;
 	public static final int MAX5_FCT = 2;
     public static final int NBSERIE_FCT = 3;
-    private static final String TABLE_ARCHI = KEY + "," + DATE + "," + MACHINE + "," + SERIE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
+	public static final int UNIT_KG = 0;
+	public static final int UNIT_LBS = 1;
+	private static final String TABLE_ARCHI = KEY + "," + DATE + "," + MACHINE + "," + SERIE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
     private Profile mProfile = null;
     private Cursor mCursor = null;
 	private Context mContext = null;

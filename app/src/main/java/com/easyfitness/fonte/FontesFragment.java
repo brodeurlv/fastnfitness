@@ -98,17 +98,19 @@ public class FontesFragment extends Fragment {
 
 			/* Convertion du poid */
 			int tmpPoids=Integer.parseInt(poidsEdit.getText().toString());
+			int unitPoids= DAOFonte.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
-				tmpPoids=Math.round(UnitConverter.LbstoKg((float)tmpPoids));
+				tmpPoids=Math.round(UnitConverter.LbstoKg((float)tmpPoids)); // Always convert to KG
+				unitPoids = DAOFonte.UNIT_LBS; // LBS
 			}
 
 			mDb.addRecord(date,
 					machineEdit.getText().toString(),
 					Integer.parseInt(serieEdit.getText().toString()),
 					Integer.parseInt(repetitionEdit.getText().toString()),
-					tmpPoids,
+					tmpPoids, // Always save in KG
 					getProfil(),
-					0, // Store always in Kg
+					unitPoids, // Store Unit for future display
 					"", //Notes
 					DateConverter.currentTime()
 					);
@@ -139,8 +141,8 @@ public class FontesFragment extends Fragment {
 				restTimeEdit.setText("60");
 			}
 
-			int iTotalWeightSession = mDb.getTotalWeightSession(date);
-			int iTotalWeight = mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
+			float iTotalWeightSession = (float) mDb.getTotalWeightSession(date);
+			float iTotalWeight = (float) mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
 			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
 
 			// Launch Countdown

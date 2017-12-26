@@ -16,7 +16,7 @@
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
     
-	<string name="FunctionLabel">Functions</string>
+	<string name="FunctionLabel">Display</string>
     <string name="HistoryLabel">History</string>
     <string name="RecordsLabel">Records</string>
     <string name="GraphLabel">Graphs</string>
@@ -33,7 +33,7 @@
     <string name="SerieLabel">Series</string>
     <string name="RepetitionLabel">Repetitions</string>
     <string name="RepetitionLabel_short">Reps</string>
-    <string name="MachineLabel">Machine</string>
+    <string name="MachineLabel">Exercise</string>
     <string name="PoidsLabel">Weight</string>
     <string name="KgUnitLabel">Kg</string>
     <string name="LbsUnitLabel">Lbs</string>
@@ -86,20 +86,22 @@
     <string name="ResetAppLabel">Reset application</string>
 
     <!-- Machine Fragment -->
-	<string name="MachinesLabel">Machines</string>
+	<string name="MachinesLabel">Exercises</string>
     <string name="DescriptionLabel">Description</string>
-    
+
+
+    <!-- Preferences -->
+    <string name="pref_ui_setting">UI Settings</string>
     <string name="pref_show_mp3_player">Show MP3 Player</string>
     <string name="pref_show_mp3_player_summary">Show/Hide the MP3 player toolbar</string>
-    
-    <string name="pref_sync_frequency">Sync frequency</string>
-    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+
+    <string name="pref_bodybuilding_setting">Body Building Settings</string>
+    <string name="pref_preferredUnitSummary">Preferred unit:</string>
+    <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
+
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
-    
     <string name="pref_user_profile">User Profile</string>
-    <string name="pref_ui_setting">UI Settings</string>
-    <string name="pref_bodybuilding_setting">Body Building Settings</string>
 
 
     <string name="profil_create_new">Create new profile</string>  
@@ -123,10 +125,16 @@
     </string-array>
     
     <string-array name="fonte_unitsValues">
-	    <item>1</item>
-	    <item>2</item>
+	    <item>test0</item>
+	    <item>test1</item>
 	</string-array>
-    
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+
     <string name="maxRep1">Maximum (Reps >= 1)</string>	
     <string name="maxRep5">Maximum (Reps >= 5)</string>	
     <string name="sum">Sum</string>	
@@ -192,11 +200,11 @@
     <string name="activate_rest_time">Activate Rest Countdown</string>
     <string name="rest_time">Rest time (sec)</string>
     <string name="lastRecordLabel">Last record</string>
-    <string name="MachineHint">Enter machine name here</string>
+    <string name="MachineHint">Enter exercise name here</string>
     <string name="WeightHint">Enter your weight here</string>
     <string name="total_weight">Total weight</string>
-    <string name="total_session">Total session</string>
-    <string name="total_machine">Total Machine</string>
+    <string name="total_session">Total during session</string>
+    <string name="total_machine">Total on machine</string>
     <string name="nb_serie">Nb Serie</string>
     <string name="exit">Exit</string>
 

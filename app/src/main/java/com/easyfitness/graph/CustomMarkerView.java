@@ -12,6 +12,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -20,6 +21,7 @@ public class CustomMarkerView extends MarkerView {
 
     private TextView tvContent;
     private TextView tvDate;
+    private DecimalFormat mFormat = new DecimalFormat("#.##");
     /**
      * Screen width in pixels.
      */
@@ -45,7 +47,7 @@ public class CustomMarkerView extends MarkerView {
         //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:SS");
         //dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         tvDate.setText(dateFormat3.format(new Date((long) DateConverter.nbMilliseconds(e.getX()))));
-        tvContent.setText("" + e.getY());
+        tvContent.setText(mFormat.format(e.getY()));
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);

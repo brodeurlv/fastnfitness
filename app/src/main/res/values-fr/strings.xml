@@ -16,7 +16,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
     
-	<string name="FunctionLabel">Fonctions</string>
+	<string name="FunctionLabel">Affichage</string>
     <string name="HistoryLabel">Historique</string>
     <string name="RecordsLabel">Notes</string>
     <string name="GraphLabel">Graphiques</string>
@@ -30,7 +30,7 @@
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Series</string>
     <string name="RepetitionLabel">Répétitions</string>
-    <string name="MachineLabel">Machine</string>
+    <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
     <string name="KgUnitLabel">Kg</string>
     <string name="LbsUnitLabel">Lbs</string>
@@ -39,8 +39,8 @@
     
     <!-- Share text -->
     <string name="ShareText">Partager</string>
-    <string name="ShareTitle">Partager ta performance</string>
-    <string name="ShareInstruction">Edites ton texte avant de l\'envoyer:</string>
+    <string name="ShareTitle">Partage ta performance</string>
+    <string name="ShareInstruction">Edite ton texte avant de l\'envoyer:</string>
     <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ Kg sur __MACHINE__ !</string>
     <string name="ShareParamName">__NAME__</string> 
     <string name="ShareParamWeight">__WEIGHT__</string>  
@@ -80,14 +80,12 @@
     <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
      
 	<!-- Machine Fragment -->
-	<string name="MachinesLabel">Machines</string>
+	<string name="MachinesLabel">Exercices</string>
     <string name="DescriptionLabel">Description</string>
 
-    <string name="pref_show_mp3_player">Afficher le lecteur MP3</string>
+    <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
     <string name="pref_show_mp3_player_summary">Affiche ou Cache la barre du lecteur MP3</string>
-    
-    <string name="pref_sync_frequency">Sync frequency</string>
-    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
 
@@ -186,11 +184,18 @@
     <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
     <string name="RepetitionLabel_short">Reps</string>
-    <string name="DeleteRecordDialog">Voulez-vous vraiment supprimer cette enregistrement ?</string>
+    <string name="DeleteRecordDialog">Veux-tu vraiment supprimer cette enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
     <string name="profileSelected">Profil selectionné</string>
-    <string name="MachineHint">Entre le nom de la machine ici</string>
+    <string name="MachineHint">Entre le nom de l\'exercice ici</string>
     <string name="MesureHint">Entre ta mesure ici</string>
+    <string name="exit">Quitter</string>
+    <string name="nb_serie">Nb Série</string>
+    <string name="total_machine">Total sur la machine</string>
+    <string name="total_session">Total sur la session</string>
+    <string name="total_weight">Poids total</string>
+    <string name="pref_preferredUnitSummary">"Unité préférée : "</string>
+    <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
 </resources>
