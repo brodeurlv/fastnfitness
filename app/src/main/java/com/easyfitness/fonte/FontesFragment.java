@@ -216,6 +216,7 @@ public class FontesFragment extends Fragment {
 							dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
 						}
 					};*/
+
 					showDatePickerFragment();
 
 					break;

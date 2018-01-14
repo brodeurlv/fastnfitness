@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-	public static final int DATABASE_VERSION = 12;
+	public static final int DATABASE_VERSION = 13;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -93,6 +93,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					case 12:
 						// Delete old table table
 						db.execSQL("DROP TABLE IF EXISTS tmp_table_name");
+						break;
+					case 13:
+						// Update profile database
+						db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.SIZE + " INTEGER");
+						db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.BIRTHDAY + " DATE");
 						break;
 				}
                 upgradeTo++;

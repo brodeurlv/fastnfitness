@@ -2,6 +2,7 @@ package com.easyfitness;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
 import com.easyfitness.fonte.FontesPagerFragment;
+import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.FileChooserDialog;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentFragmentName = "";
     private DAOProfil mDbProfils = null;
     private Profile mCurrentProfile = null;
-    private long mCurrentProfilID = 0;
+    private long mCurrentProfilID = -1;
     private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
     /* Navigation Drawer */
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private MusicController musicController = new MusicController(this);
 
     private String mCurrentMachine = "";
+
+    private boolean mIntro013Launched = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -205,6 +209,15 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         musicController.initView();
+
+        // Lance l'intro
+        // Tester si l'intro a déjà été lancé
+        //if (!mIntro013Launched) {
+            Intent intent = new Intent(this, MainIntroActivity.class);
+            startActivity(intent);
+            mIntro013Launched = true;
+            this.savePreferences();
+        //}
     }
 
     @Override
@@ -220,8 +233,10 @@ public class MainActivity extends AppCompatActivity {
             this.CreateNewProfil();
         } else {
             mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
-            //if (mCurrentProfile==null) { // au cas ou il y aurait un probleme de synchro
-            //List<Profile> lList = mDbProfils.getAllProfils();
+            if (mCurrentProfile==null) { // au cas ou il y aurait un probleme de synchro
+                List<Profile> lList = mDbProfils.getAllProfils();
+                mCurrentProfile = lList.get(0);
+            }
             setCurrentProfil(mCurrentProfile.getName());
         }
 
@@ -742,7 +757,8 @@ public class MainActivity extends AppCompatActivity {
     private void loadPreferences() {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        mCurrentProfilID = settings.getLong("currentProfil", -1); // return - if it doesn't exist
+        mCurrentProfilID = settings.getLong("currentProfil", -1); // return -1 if it doesn't exist
+        mIntro013Launched = settings.getBoolean("intro013Launched", false);
     }
 
     private void savePreferences() {
@@ -750,6 +766,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
+        editor.putBoolean("intro013Launched", true);
         editor.commit();
     }
 

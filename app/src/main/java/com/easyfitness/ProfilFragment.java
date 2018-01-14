@@ -41,8 +41,6 @@ public class ProfilFragment extends Fragment {
 	Button addWeightButton = null;
 	EditText weightEdit = null;
 	EditText dateEdit = null;
-	//TextView resumeText = null;
-	//TextView profilText = null;
 	ExpandedListView weightList = null;
 	MainActivity mActivity = null;
 	private String name;
