@@ -124,14 +124,14 @@ public class NewProfileFragment extends SlideFragment {
             // Initialisation des objets DB
             DAOProfil mDbProfils = new DAOProfil(v.getContext());
 
-            Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
-
-            // Create the new profil
-            mDbProfils.addProfil(p);
-
-            mProfilCreated=true;
-            // Make it the current.
-            ///setCurrentProfil(value);
+            if (mName.getText().toString().isEmpty() || mSize.getText().toString().isEmpty() || mBirthday.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
+            } else {
+                Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
+                // Create the new profil
+                mDbProfils.addProfil(p);
+                mProfilCreated=true;
+            }
         }
     };
 

@@ -65,7 +65,7 @@
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
     <string name="userChanged">Utilisateur changé</string>
     <string name="renameProfilTitle">Renommer le profil</string>
-    <string name="renameProfilQuestion">Choisis un nouveau nomde profil ?</string>
+    <string name="renameProfilQuestion">Choisis un nouveau nom de profil ?</string>
     
      
 	<!-- Pour le menu settings -->
@@ -163,7 +163,7 @@
 
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
-    <string name="CountdownLabel">Temps de repos</string>
+    <string name="CountdownLabel">Repos</string>
     <string name="author_label">Auteur:</string>
     <string name="database_version_label">Database version:</string>
     <string name="opensource_label">Open source Lien:</string>
@@ -199,4 +199,16 @@
     <string name="pref_preferredUnitSummary">"Unité préférée : "</string>
     <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
     <string name="selectMachineDialogLabel">Selectionne une machine existante</string>
+    <string name="introSlide2Title">Facile et Rapide</string>
+    <string name="introSlide2Text">Ecrivez le nom de votre exercice et les details de votre série et la machine s\'enregistre automatiquement. Retrouvez la ensuite plus facilement dans la liste déroulante.</string>
+    <string name="introSlide1Text">Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l\'évolution de votre corps.</string>
+    <string name="introSlide3Title">Autorisation nécessaire</string>
+    <string name="introSlide3Text">Pour prendre des photos de vos machines, il me faut l\'autorisation d\'utiliser votre camera ainsi que d\'écrire dans la mémoire de votre téléphone.</string>
+    <string name="birthday">Date de naissance</string>
+    <string name="create">Créer</string>
+    <string name="create_a_profile">Créer un profil</string>
+    <string name="fillAllFields">Tous les champs sont nécessaires</string>
+    <string name="introSlide1Title">Bonjour</string>
+    <string name="name_or_pseudo">Nom ou Pseudo</string>
+    <string name="size_cm">Taille (cm)</string>
 </resources>

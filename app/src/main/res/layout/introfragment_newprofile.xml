@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Create a Profile"
+            android:text="@string/create_a_profile"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <android.support.design.widget.TextInputLayout
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mi_baseline"
-            android:hint="Name or Pseudo" />
+            android:hint="@string/name_or_pseudo" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -68,7 +68,7 @@
                 android:id="@+id/profileBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Birthday"
+                android:hint="@string/birthday"
                 android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
 
@@ -83,7 +83,7 @@
                 android:id="@+id/profileSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Size (cm)"
+                android:hint="@string/size_cm"
                 android:inputType="numberSigned" />
         </android.support.design.widget.TextInputLayout>
 
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mi_baseline"
-            android:text="Create" />
+            android:text="@string/create" />
 
     </LinearLayout>
 

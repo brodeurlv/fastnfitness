@@ -54,40 +54,29 @@ public class MainIntroActivity extends IntroActivity {
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         addSlide(new SimpleSlide.Builder()
-                .title("Hello")
-                .description("Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l'évolution de votre corps.")
-                .image(R.drawable.ic_profile_black)
+                .title(R.string.introSlide1Title)
+                .description(R.string.introSlide1Text)
+                .image(R.drawable.web_hi_res_512)
                 .background(R.color.launcher_background)
                 .backgroundDark(R.color.background_even)
                 .scrollable(scrollable)
                 .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title("Facile et Rapide")
-                .description("Ecrivez le nom de votre machine et les details de votre serie et la machine s'enregistre automatiquement. " +
-                        "Retrouvez la ensuite plus facilement dans la liste déroulante.")
-                .image(R.mipmap.ic_launcher)
+                .title(R.string.introSlide2Title)
+                .description(R.string.introSlide2Text)
+                .image(R.drawable.ic_machine)
                 .background(R.color.background_even)
                 .backgroundDark(R.color.background_odd)
                 .scrollable(scrollable)
-                .buttonCtaClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast toast = Toast
-                                .makeText(MainIntroActivity.this, "Hello pressé", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-
-                        nextSlide();
-                    }
-                })
                 .build());
 
         final Slide permissionsSlide;
         if (permissions) {
             permissionsSlide = new SimpleSlide.Builder()
-                    .title("Autorisation nécessaire")
-                    .description("Pour prendre des photos de vos machines, il me faut l'autorisation d'utiliser votre camera ainsi que d'écrire dans la mémoire de votre téléphone.")
+                    .title(R.string.introSlide3Title)
+                    .description(R.string.introSlide3Text)
+                    .image(R.drawable.ic_settings_black_48dp)
                     .background(R.color.tableheader_background)
                     .backgroundDark(R.color.background_odd)
                     .scrollable(scrollable)
@@ -103,7 +92,7 @@ public class MainIntroActivity extends IntroActivity {
         DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        //if (mDbProfils.getCount() == 0) {
+        if (mDbProfils.getCount() == 0) {
             final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
             profileSlide = new FragmentSlide.Builder()
@@ -112,7 +101,7 @@ public class MainIntroActivity extends IntroActivity {
                     .fragment(NewProfileFragment.newInstance())
                     .build();
             addSlide(profileSlide);
-        //}
+        }
 
         //Feel free to add a navigation policy to define when users can go forward/backward
         /*

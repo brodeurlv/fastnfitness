@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,7 +147,7 @@ public class FontesFragment extends Fragment {
 			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
 
 			// Launch Countdown
-			if (bLaunchRest) {
+			if (bLaunchRest && (date.compareTo(new Date()) == 0) ) { // Only launch Countdown if date is today.
 				CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
 				cdd.setNbSeries(iNbSeries);
 				cdd.setTotalWeightMachine(iTotalWeight);
@@ -410,6 +411,15 @@ public class FontesFragment extends Fragment {
 		restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange); //.setOnFocusChangeListener(restTimeEditChange);
 
 		restoreSharedParams();
+
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		int defaultUnit = 0;
+		try {
+			defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
+		}catch (NumberFormatException e) {
+			defaultUnit = 0;
+		}
+		unitSpinner.setSelection(defaultUnit);
 
 		// Initialisation de la base de donnee
 		mDb = new DAOFonte(view.getContext());

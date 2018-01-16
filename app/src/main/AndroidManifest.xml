@@ -9,6 +9,7 @@
         android:targetSdkVersion="23" />
 	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 		<uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
+        <uses-permission android:name="android.permission.CAMERA" />
 	    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
@@ -29,6 +30,9 @@
          <activity android:name="com.easyfitness.machines.MachineDetailsActivity" 
                    android:configChanges="orientation|screenSize" >
         </activity>
+        <activity android:name="com.easyfitness.intro.MainIntroActivity"
+            android:theme="@style/Theme.Intro"/>
+
 
         <meta-data
             android:name="io.fabric.ApiKey"

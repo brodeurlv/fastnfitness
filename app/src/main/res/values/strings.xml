@@ -134,6 +134,12 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="morphology">
+        <item>Thin</item>
+        <item>Straight</item>
+        <item>Bold</item>
+    </string-array>
+
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>	
     <string name="maxRep5">Maximum (Reps >= 5)</string>	
@@ -208,6 +214,20 @@
     <string name="nb_serie">Nb Serie</string>
     <string name="exit">Exit</string>
     <string name="selectMachineDialogLabel">Select an existing Machine</string>
+
+    <!-- Intro slides -->
+    <string name="fillAllFields">Please fill all the fields</string>
+    <string name="introSlide1Title">Hello</string>
+    <string name="size_cm">Size (cm)</string>
+    <string name="create">Create</string>
+    <string name="birthday">Birthday</string>
+    <string name="name_or_pseudo">Name or Pseudo</string>
+    <string name="create_a_profile">Create a Profile</string>
+    <string name="introSlide1Text">Welcome in Fast n Fitness, the application just quick and simple to record your workout and to follow your progression and the evolution of your body.</string>
+    <string name="introSlide2Text">Write the name of the exercise and the details and it is created automatically. Then, find it back easily in the list.</string>
+    <string name="introSlide2Title">Easy and Quick</string>
+    <string name="introSlide3Text">To take pictures of your machines, I need some authorization to use your camera and the memory of your phone.</string>
+    <string name="introSlide3Title">Required access</string>
 
 </resources>
 

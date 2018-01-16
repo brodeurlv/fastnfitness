@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String mCurrentMachine = "";
 
-    private boolean mIntro013Launched = false;
+    private boolean mIntro014Launched = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -212,10 +212,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Lance l'intro
         // Tester si l'intro a déjà été lancé
-        //if (!mIntro013Launched) {
+        //if (!mIntro014Launched) {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivity(intent);
-            mIntro013Launched = true;
+            mIntro014Launched = true;
             this.savePreferences();
         //}
     }
@@ -758,7 +758,7 @@ public class MainActivity extends AppCompatActivity {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         mCurrentProfilID = settings.getLong("currentProfil", -1); // return -1 if it doesn't exist
-        mIntro013Launched = settings.getBoolean("intro013Launched", false);
+        mIntro014Launched = settings.getBoolean("intro014Launched", false);
     }
 
     private void savePreferences() {
@@ -766,7 +766,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
-        editor.putBoolean("intro013Launched", true);
+        editor.putBoolean("intro014Launched", true);
         editor.commit();
     }
 
