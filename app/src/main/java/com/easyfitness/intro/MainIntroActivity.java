@@ -71,6 +71,15 @@ public class MainIntroActivity extends IntroActivity {
                 .scrollable(scrollable)
                 .build());
 
+        addSlide(new SimpleSlide.Builder()
+                .title("No useless exercise created")
+                .description("You create your own exercises depending on the name of the machine you have in your fitness place.")
+                .image(R.drawable.ic_machine)
+                .background(R.color.background_even)
+                .backgroundDark(R.color.background_odd)
+                .scrollable(scrollable)
+                .build());
+
         final Slide permissionsSlide;
         if (permissions) {
             permissionsSlide = new SimpleSlide.Builder()

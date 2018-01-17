@@ -1,6 +1,7 @@
 package com.easyfitness.graph;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.DAOUtils;
@@ -65,4 +66,28 @@ public class CustomMarkerView extends MarkerView {
 
         return mOffset;
     }
+
+
+    /*@Override
+    public void draw(Canvas canvas, float posX, float posY) {
+        // take offsets into consideration
+        int lineChartWidth = 0;
+        float offsetX = getOffset().getX();
+        posY=0;//fix at top
+        float width = getWidth();
+
+        if(lineChart != null) {
+            lineChartWidth = lineChart.getWidth();
+        }
+        if(posX + offsetX < 0) {
+            offsetX = - posX;
+        } else if(posX + width + offsetX > lineChartWidth) {
+            offsetX = lineChartWidth - posX - width;
+        }
+        posX += offsetX;
+        // translate to the correct position and draw
+        canvas.translate(posX, posY);
+        draw(canvas);
+        canvas.translate(-posX, -posY);
+    }*/
 }
