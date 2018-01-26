@@ -76,7 +76,7 @@ public class FonteCursorAdapter extends CursorAdapter {
         TextView t5 = (TextView) view.findViewById(R.id.POIDS_CELL);
         String unit= mContext.getString(R.string.KgUnitLabel);
         float poids = cursor.getFloat(5);
-        if (cursor.getInt(6) == DAOFonte.UNIT_LBS)  {
+        if (cursor.getInt(6) == UnitConverter.UNIT_LBS)  {
             poids = UnitConverter.KgtoLbs(poids);
             unit = mContext.getString(R.string.LbsUnitLabel);
         }

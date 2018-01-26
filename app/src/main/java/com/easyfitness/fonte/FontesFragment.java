@@ -45,6 +45,7 @@ import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -99,10 +100,10 @@ public class FontesFragment extends Fragment {
 
 			/* Convertion du poid */
 			float tmpPoids=Float.parseFloat(poidsEdit.getText().toString());
-			int unitPoids= DAOFonte.UNIT_KG; // Kg
+			int unitPoids= UnitConverter.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
 				tmpPoids=UnitConverter.LbstoKg((float)tmpPoids); // Always convert to KG
-				unitPoids = DAOFonte.UNIT_LBS; // LBS
+				unitPoids = UnitConverter.UNIT_LBS; // LBS
 			}
 
 			mDb.addRecord(date,
@@ -596,11 +597,16 @@ public class FontesFragment extends Fragment {
 				/* Initialisation serie */ 
 				Fonte lLastRecord = mDb.getLastRecord(getProfil());
 				if (lLastRecord != null ) {
-					machineEdit.setText(lLastRecord.getMachine());
-					serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
-					repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
-					poidsEdit.setText(String.valueOf(lLastRecord.getPoids()));
-				} else {
+                    machineEdit.setText(lLastRecord.getMachine());
+                    serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+                    repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
+                    unitSpinner.setSelection(lLastRecord.getUnit());
+					DecimalFormat numberFormat = new DecimalFormat("#.##");
+					if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+                        poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
+                    else
+                        poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+                } else {
 					// valeur par defaut
 					machineEdit.setText(""); //@TODO recuperer une valeur par defaut. 
 					serieEdit.setText("1");

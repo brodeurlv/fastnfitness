@@ -247,7 +247,7 @@ public class FonteGraphFragment extends Fragment {
 
 		for (int i = 0; i<valueList.size();i++) {
 			Entry value = null;
-			if (defaultUnit == DAOFonte.UNIT_LBS) {
+			if (defaultUnit == UnitConverter.UNIT_LBS) {
 				value = new Entry((float)valueList.get(i).getX(), UnitConverter.KgtoLbs((float) valueList.get(i).getY()));//-minDate)/86400000));
 			} else {
 				value = new Entry((float)valueList.get(i).getX(), (float) valueList.get(i).getY());//-minDate)/86400000));

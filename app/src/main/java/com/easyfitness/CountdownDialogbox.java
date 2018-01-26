@@ -93,11 +93,11 @@ public class CountdownDialogbox extends Dialog implements
 
         DecimalFormat numberFormat = new DecimalFormat("#.##");
 
-        if (defaultUnit == DAOFonte.UNIT_KG) {
+        if (defaultUnit == UnitConverter.UNIT_KG) {
             totalMachine.setText(numberFormat.format(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
             totalSession.setText(numberFormat.format(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
         }
-        else if (defaultUnit == DAOFonte.UNIT_LBS)
+        else if (defaultUnit == UnitConverter.UNIT_LBS)
         {
             totalMachine.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalMachine)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
             totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
