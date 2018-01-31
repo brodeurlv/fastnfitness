@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -48,6 +49,7 @@ public class DAOWeight extends DAOBase {
 		  ContentValues value = new ContentValues();
 		  
 		  SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+		  dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		  
 		  value.put(DAOWeight.DATE, dateFormat.format(pDate));
 		  value.put(DAOWeight.POIDS, pWeight);
@@ -72,7 +74,9 @@ public class DAOWeight extends DAOBase {
 	        
 	        Date date;
 			try {
-				date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(1));
+				SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+				dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+				date = dateFormat.parse(mCursor.getString(1));
 			} catch (ParseException e) {
 				e.printStackTrace();
 				date = new Date();
@@ -105,7 +109,9 @@ public class DAOWeight extends DAOBase {
 	            do {
 	    	        Date date;
 	    			try {
-	    				date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(1));
+						SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+						dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+						date = dateFormat.parse(mCursor.getString(1));
 	    			} catch (ParseException e) {
 	    				e.printStackTrace();
 	    				date = new Date();

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.R;
 
 import android.content.Context;
@@ -40,11 +42,12 @@ public class CardioCursorAdapter extends CursorAdapter {
 	  TextView t1 = (TextView) view.findViewById(R.id.DATE_CELL);
 	  Date date;
 		try {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			date = dateFormat.parse(cursor.getString(1));
 
 			DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+			dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
 			t1.setText(dateFormat3.format(date));
 			/*SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
 			dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -68,10 +71,10 @@ public class CardioCursorAdapter extends CursorAdapter {
       
 	  Date date2 = new Date();
 
-	SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-	dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-	date2.setTime(Long.parseLong(cursor.getString(4)));
-	t5.setText(dateFormat.format(date2));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		date2.setTime(Long.parseLong(cursor.getString(4)));
+		t5.setText(dateFormat.format(date2));
 	 
 	 }
 	 

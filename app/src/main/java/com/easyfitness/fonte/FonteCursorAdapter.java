@@ -1,6 +1,7 @@
 package com.easyfitness.fonte;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.TimeZone;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.R;
+import com.easyfitness.utils.UnitConverter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -72,9 +74,14 @@ public class FonteCursorAdapter extends CursorAdapter {
         t4.setText(cursor.getString(4));
 
         TextView t5 = (TextView) view.findViewById(R.id.POIDS_CELL);
-        String poids = mContext.getString(R.string.KgUnitLabel);
-        if (cursor.getString(6).equals("1")) poids = mContext.getString(R.string.LbsUnitLabel);
-        t5.setText(cursor.getString(5) + poids);
+        String unit= mContext.getString(R.string.KgUnitLabel);
+        float poids = cursor.getFloat(5);
+        if (cursor.getInt(6) == UnitConverter.UNIT_LBS)  {
+            poids = UnitConverter.KgtoLbs(poids);
+            unit = mContext.getString(R.string.LbsUnitLabel);
+        }
+        DecimalFormat numberFormat = new DecimalFormat("#.##");
+        t5.setText(numberFormat.format(poids)+ unit);
 
         ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));

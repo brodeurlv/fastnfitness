@@ -396,6 +396,34 @@ public class CardioFragment extends Fragment {
 		}
 	}
 
+	/*private void showDeleteDialog(final long idToDelete) {
+
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+					case DialogInterface.BUTTON_POSITIVE:
+						mDb.deleteRecord(idToDelete);
+
+						FillRecordTable();
+
+						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+
+	}*/
+
 	@Override
 	public void onHiddenChanged (boolean hidden) {
 		if (!hidden) refreshData();

@@ -10,6 +10,11 @@ public class DateGraphData {
         this.y = y;
     }
 
+    public DateGraphData(double x, double y,int y_unit) {
+        this.x = x;
+        this.y = y;
+    }
+
     public double getX() {
         return this.x;
     } // in days

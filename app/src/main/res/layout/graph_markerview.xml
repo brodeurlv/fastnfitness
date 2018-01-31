@@ -12,9 +12,8 @@
         android:text="10/10/1000"
         android:layout_marginTop="4dp"
         android:textSize="10dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:ellipsize="end"
-        android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
@@ -26,8 +25,8 @@
         android:layout_below="@id/tvDate"
         android:layout_marginBottom="5dp"
         android:text="70.0"
-        android:textSize="10dp"
-        android:textColor="@android:color/white"
+        android:textSize="11dp"
+        android:textColor="@android:color/black"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />

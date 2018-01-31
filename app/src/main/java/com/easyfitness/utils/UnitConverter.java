@@ -2,22 +2,51 @@ package com.easyfitness.utils;
 
 public class UnitConverter {
 
+	public static final int UNIT_KG = 0;
+	public static final int UNIT_LBS = 1;
+
 	public UnitConverter() {
 
+	}
+
+	/*
+	 * convert Kg to Lbs
+	 */
+	static public float weightConverter(float pWeight, int pUnitIn, int pUnitOut) {
+		switch(pUnitIn) {
+			case UNIT_KG:
+				switch(pUnitOut) {
+					case UNIT_LBS:
+						return KgtoLbs(pWeight);
+					case UNIT_KG:
+					default:
+						return pWeight;
+				}
+			case UNIT_LBS:
+				switch(pUnitOut) {
+					case UNIT_KG:
+						return LbstoKg(pWeight);
+					case UNIT_LBS:
+					default:
+						return pWeight;
+				}
+			default:
+				return pWeight;
+		}
 	}
 
 	/* 
 	 * convert Kg to Lbs 
 	 */
 	static public float KgtoLbs(float pKg) {
-		return pKg*(float)2.2046;
+		return pKg/(float)0.45359237;
 	}
 
 	/* 
 	 * convert Lbs to Kg
 	 */
 	static public float LbstoKg(float pLbs) {
-		return pLbs*(float)0.4536;
+		return pLbs*(float)0.45359237;
 	}
 
 	/**

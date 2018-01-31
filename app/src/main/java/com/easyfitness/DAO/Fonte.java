@@ -10,7 +10,7 @@ public class Fonte {
     private String mMachine;
     private int mSerie;
     private int mRepetition;
-    private int mPoids;
+    private float mPoids;
     private int mUnit;
     private String mNote;
     private Profile mProfile;
@@ -20,7 +20,7 @@ public class Fonte {
     /*
        * Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile)
        */
-    public Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
+    public Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
         super();
         this.mDate = pDate;
         this.mMachine = pMachine;
@@ -62,7 +62,7 @@ public class Fonte {
         return mRepetition;
     }
 
-    public int getPoids() {
+    public float getPoids() {
         return mPoids;
     }
 

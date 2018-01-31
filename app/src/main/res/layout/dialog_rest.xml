@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:background="@color/cardview_light_background"
@@ -15,7 +14,7 @@
         android:gravity="center"
         android:text="@string/CountdownLabel"
         android:textColor="#5DBCD2"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,85 +35,127 @@
             android:gravity="center"
             android:keepScreenOn="true"
             android:text="00:00"
-            android:textSize="@dimen/abc_text_size_display_3_material" />
+            android:textSize="60sp"/>
     </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBarCountdown"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:minHeight="20dp"
-        android:visibility="gone" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="vertical"
+        android:visibility="visible">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:gravity="center"
+            android:text="@string/total_machine"
+            android:textColor="#3E80B4"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/nbSeriesLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textSize="15dp"
-                tools:text="Nb Serie" />
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/SUMLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="TextView"
-                android:textSize="15dp"
-                tools:text="SUM" />
+                android:gravity="right"
+                android:text="@string/total_weight"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/idTotalWeightMachine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="X"
+                android:textColor="#5DBCD2"
+                android:textSize="15sp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="TextView"
-                android:textColor="#5DBCD2"
-                android:textSize="15dp"
-                tools:text="X" />
+                android:gravity="right"
+                android:text="@string/nb_serie"
+                android:textSize="15sp" />
+
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/idNbSeries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="X"
                 android:textColor="#5DBCD2"
-                android:textSize="15dp"
-                tools:text="X" />
+                android:textSize="15sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:gravity="center"
+            android:text="@string/total_session"
+            android:textColor="#3E80B4"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/total_weight"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/idTotalSession"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="X"
+                android:textColor="#5DBCD2"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -137,7 +178,7 @@
 
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Exit"
+            android:text="@string/exit"
             android:textColor="#5DBCD2"
             android:textSize="18sp"
             android:textStyle="bold" />

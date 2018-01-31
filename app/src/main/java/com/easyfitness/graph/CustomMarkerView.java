@@ -1,6 +1,7 @@
 package com.easyfitness.graph;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.DAOUtils;
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -20,6 +22,7 @@ public class CustomMarkerView extends MarkerView {
 
     private TextView tvContent;
     private TextView tvDate;
+    private DecimalFormat mFormat = new DecimalFormat("#.##");
     /**
      * Screen width in pixels.
      */
@@ -45,7 +48,7 @@ public class CustomMarkerView extends MarkerView {
         //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM HH:mm:SS");
         //dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         tvDate.setText(dateFormat3.format(new Date((long) DateConverter.nbMilliseconds(e.getX()))));
-        tvContent.setText("" + e.getY());
+        tvContent.setText(mFormat.format(e.getY()));
 
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
@@ -63,4 +66,28 @@ public class CustomMarkerView extends MarkerView {
 
         return mOffset;
     }
+
+
+    /*@Override
+    public void draw(Canvas canvas, float posX, float posY) {
+        // take offsets into consideration
+        int lineChartWidth = 0;
+        float offsetX = getOffset().getX();
+        posY=0;//fix at top
+        float width = getWidth();
+
+        if(lineChart != null) {
+            lineChartWidth = lineChart.getWidth();
+        }
+        if(posX + offsetX < 0) {
+            offsetX = - posX;
+        } else if(posX + width + offsetX > lineChartWidth) {
+            offsetX = lineChartWidth - posX - width;
+        }
+        posX += offsetX;
+        // translate to the correct position and draw
+        canvas.translate(posX, posY);
+        draw(canvas);
+        canvas.translate(-posX, -posY);
+    }*/
 }

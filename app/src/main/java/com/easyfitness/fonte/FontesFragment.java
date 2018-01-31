@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,18 +99,20 @@ public class FontesFragment extends Fragment {
 			}
 
 			/* Convertion du poid */
-			int tmpPoids=Integer.parseInt(poidsEdit.getText().toString());
+			float tmpPoids=Float.parseFloat(poidsEdit.getText().toString());
+			int unitPoids= UnitConverter.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
-				tmpPoids=Math.round(UnitConverter.LbstoKg((float)tmpPoids));
+				tmpPoids=UnitConverter.LbstoKg((float)tmpPoids); // Always convert to KG
+				unitPoids = UnitConverter.UNIT_LBS; // LBS
 			}
 
 			mDb.addRecord(date,
 					machineEdit.getText().toString(),
 					Integer.parseInt(serieEdit.getText().toString()),
 					Integer.parseInt(repetitionEdit.getText().toString()),
-					tmpPoids,
+					tmpPoids, // Always save in KG
 					getProfil(),
-					0, // Store always in Kg
+					unitPoids, // Store Unit for future display
 					"", //Notes
 					DateConverter.currentTime()
 					);
@@ -125,16 +129,11 @@ public class FontesFragment extends Fragment {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getView().getContext(),
 					android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
 			machineEdit.setAdapter(adapter);
-			mDb.closeCursor();
 
 			//Rajoute le moment du dernier ajout dans le bouton Add
 			addButton.setText(getView().getContext().getString(R.string.AddLabel)+"\n("+DateConverter.currentTime()+")");
 
-			//saveSharedParams(DateConverter.currentTime(), "LastRecordDate");
-
-			// If setting prefShowRestTime is ON
-			//SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity.getBaseContext());
-			//boolean bLaunchRest = SP.getBoolean("prefShowRestTime", true);
+			//--Launch Rest Dialog
 			boolean bLaunchRest = restTimeCheck.isChecked();
 			int restTime = 60;
 			try {
@@ -143,11 +142,21 @@ public class FontesFragment extends Fragment {
 				restTime = 60;
 				restTimeEdit.setText("60");
 			}
+
+			float iTotalWeightSession = (float) mDb.getTotalWeightSession(date);
+			float iTotalWeight = (float) mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
+			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
+
 			// Launch Countdown
-			if (bLaunchRest) {
+			if (bLaunchRest && (date.compareTo(new Date()) == 0) ) { // Only launch Countdown if date is today.
 				CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+				cdd.setNbSeries(iNbSeries);
+				cdd.setTotalWeightMachine(iTotalWeight);
+				cdd.setTotalWeightSession(iTotalWeightSession);
 				cdd.show();
 			}
+
+			mDb.closeCursor();
 
 		}
 	};
@@ -166,7 +175,7 @@ public class FontesFragment extends Fragment {
 			mDb.closeCursor();
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getView().getContext());
-			builder.setTitle("Select a Machine");
+			builder.setTitle(R.string.selectMachineDialogLabel);
 			builder.setItems(machineListArray, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					machineEdit.setText(machineListArray[which]); // Met a jour le text
@@ -209,6 +218,7 @@ public class FontesFragment extends Fragment {
 							dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
 						}
 					};*/
+
 					showDatePickerFragment();
 
 					break;
@@ -403,6 +413,15 @@ public class FontesFragment extends Fragment {
 
 		restoreSharedParams();
 
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		int defaultUnit = 0;
+		try {
+			defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
+		}catch (NumberFormatException e) {
+			defaultUnit = 0;
+		}
+		unitSpinner.setSelection(defaultUnit);
+
 		// Initialisation de la base de donnee
 		mDb = new DAOFonte(view.getContext());
 		dateEdit.setText(DateConverter.currentDate());
@@ -578,11 +597,16 @@ public class FontesFragment extends Fragment {
 				/* Initialisation serie */ 
 				Fonte lLastRecord = mDb.getLastRecord(getProfil());
 				if (lLastRecord != null ) {
-					machineEdit.setText(lLastRecord.getMachine());
-					serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
-					repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
-					poidsEdit.setText(String.valueOf(lLastRecord.getPoids()));
-				} else {
+                    machineEdit.setText(lLastRecord.getMachine());
+                    serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+                    repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
+                    unitSpinner.setSelection(lLastRecord.getUnit());
+					DecimalFormat numberFormat = new DecimalFormat("#.##");
+					if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+                        poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
+                    else
+                        poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+                } else {
 					// valeur par defaut
 					machineEdit.setText(""); //@TODO recuperer une valeur par defaut. 
 					serieEdit.setText("1");

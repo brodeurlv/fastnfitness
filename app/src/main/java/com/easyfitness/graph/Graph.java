@@ -12,9 +12,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,6 +98,16 @@ public class Graph {
 		// Create a data object with the datasets
         LineData data = new LineData(set1);
 
+        data.setValueFormatter(new IValueFormatter() {
+            private DecimalFormat mFormat = new DecimalFormat("#.##");
+
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return mFormat.format(value);
+            }
+        });
+
+
 		// Set data
         mChart.setData(data);
         //mChart.animateX(500, Easing.EasingOption.EaseInOutBack);    //refresh graph
@@ -148,7 +161,4 @@ public class Graph {
         // refresh
         mChart.invalidate();
     }
-	
-	
-
 }

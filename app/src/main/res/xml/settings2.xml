@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_bodybuilding_setting">
+        <android.support.v7.preference.ListPreference
+            android:title="@string/pref_preferredUnitTitle"
+            android:summary=""
+            android:key="defaultUnit"
+            android:defaultValue="0"
+            android:entries="@array/fonte_units"
+            android:entryValues="@array/fonte_unitsEnum" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_ui_setting">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefShowMP3"
+            android:summary="@string/pref_show_mp3_player_summary"
+            android:title="@string/pref_show_mp3_player"></CheckBoxPreference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

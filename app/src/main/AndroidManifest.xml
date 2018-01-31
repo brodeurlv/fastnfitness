@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.easyfitness"
-    android:versionCode="8"
-    android:versionName="0.13.1">
+    android:versionCode="10"
+    android:versionName="0.13.3">
 
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="23" />
 	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 		<uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
-        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.CAMERA" />
 	    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
@@ -30,6 +30,9 @@
          <activity android:name="com.easyfitness.machines.MachineDetailsActivity" 
                    android:configChanges="orientation|screenSize" >
         </activity>
+        <activity android:name="com.easyfitness.intro.MainIntroActivity"
+            android:theme="@style/Theme.Intro"/>
+
 
         <meta-data
             android:name="io.fabric.ApiKey"
