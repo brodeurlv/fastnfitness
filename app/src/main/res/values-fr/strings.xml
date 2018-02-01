@@ -63,7 +63,7 @@
     <string name="weightTableLabel">Enregistrements : </string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
-    <string name="userChanged">Utilisateur changé</string>
+    <string name="userChanged">Profil changé</string>
     <string name="renameProfilTitle">Renommer le profil</string>
     <string name="renameProfilQuestion">Choisis un nouveau nom de profil ?</string>
     
@@ -94,7 +94,7 @@
 
     <string name="profil_create_new">Créer un nouveau profil</string>
 
-    <string name="profil_change">Change de profil</string>
+    <string name="profil_change">Changer de profil</string>
     <string name="profil_select_profil">Selectionner un profil</string>
     <string name="profil_edit">Editer un profil</string>
     <string name="profil_delete">Supprimer un profil</string>
@@ -211,4 +211,6 @@
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
     <string name="size_cm">Taille (cm)</string>
+    <string name="titleSlideEssential">Allez à l\'essentiel</string>
+    <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
 </resources>
