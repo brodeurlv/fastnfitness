@@ -184,7 +184,7 @@
     <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
     <string name="RepetitionLabel_short">Reps</string>
-    <string name="DeleteRecordDialog">Veux-tu vraiment supprimer cette enregistrement ?</string>
+    <string name="DeleteRecordDialog">Voulez-vous vraiment supprimer cet enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
@@ -213,4 +213,5 @@
     <string name="size_cm">Taille (cm)</string>
     <string name="titleSlideEssential">Allez à l\'essentiel</string>
     <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
+    <string name="pressBackAgain">Pressez à nouveau pour quitter</string>
 </resources>

@@ -28,23 +28,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
@@ -130,6 +122,8 @@ public class NewProfileFragment extends SlideFragment {
                 Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
                 // Create the new profil
                 mDbProfils.addProfil(p);
+                Toast.makeText(getActivity().getBaseContext(), "Profile created", Toast.LENGTH_SHORT).show();
+
                 mProfilCreated=true;
             }
         }

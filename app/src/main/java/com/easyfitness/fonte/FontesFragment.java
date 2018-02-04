@@ -1,6 +1,5 @@
 package com.easyfitness.fonte;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -99,7 +98,7 @@ public class FontesFragment extends Fragment {
 			}
 
 			/* Convertion du poid */
-			float tmpPoids=Float.parseFloat(poidsEdit.getText().toString());
+			float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
 			int unitPoids= UnitConverter.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
 				tmpPoids=UnitConverter.LbstoKg((float)tmpPoids); // Always convert to KG

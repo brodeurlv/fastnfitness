@@ -1,5 +1,6 @@
 package com.easyfitness;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentMachine = "";
 
     private boolean mIntro014Launched = false;
+
+    private static int REQUEST_CODE_INTRO = 111;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -212,44 +215,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Lance l'intro
         // Tester si l'intro a déjà été lancé
-        //if (!mIntro014Launched) {
+        if (!mIntro014Launched) {
             Intent intent = new Intent(this, MainIntroActivity.class);
-            startActivity(intent);
-            mIntro014Launched = true;
-            this.savePreferences();
-        //}
+            startActivityForResult(intent, REQUEST_CODE_INTRO);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();  // Always call the superclass method first
 
-        // Initialisation des objets DB
-        mDbProfils = new DAOProfil(this.getApplicationContext());
-
-        // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        if (mDbProfils.getCount() == 0 || mCurrentProfilID == -1) {
-            // Ouvre la fenetre de creation de profil
-            this.CreateNewProfil();
-        } else {
-            mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
-            if (mCurrentProfile==null) { // au cas ou il y aurait un probleme de synchro
-                List<Profile> lList = mDbProfils.getAllProfils();
-                mCurrentProfile = lList.get(0);
-            }
-            setCurrentProfil(mCurrentProfile.getName());
-        }
-
-        // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
-        DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());
-        String[] machineListArray = lDAOFonte.getAllMachines();
-
-        for (int i = 0; i < machineListArray.length; i++) {
-            //Test is Machine exists. If not create it.
-            DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
-            if (!lDAOMachine.machineExists(machineListArray[i])) {
-                lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
-            }
+        if (mIntro014Launched) {
+            initActivity();
         }
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -721,6 +698,7 @@ public class MainActivity extends AppCompatActivity {
         return mCurrentProfile.getId();
     }
 
+    @SuppressLint("RestrictedApi")
     public void setCurrentProfil(String newProfilName) {
         mCurrentProfile = this.mDbProfils.getProfil(newProfilName);
         mCurrentProfilID = mCurrentProfile.getId();
@@ -888,20 +866,73 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
     @Override
     public void onBackPressed() {
-        // Get last backstack entry
-        //FragmentManager.BackStackEntry fr = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount());
-        //if (fr.)
-
         int index = getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1;
-        if (index >= 0) {
+        if (index >= 0) { // Si on est dans une sous activité
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
             String tag = backEntry.getName();
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-        }
-        super.onBackPressed();
+            super.onBackPressed();
+            getActivity().getSupportActionBar().show();
+        } else { // Si on est la racine, avec il faut cliquer deux fois
+            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                super.onBackPressed();
+                return;
+            } else {
+                Toast.makeText(getBaseContext(), R.string.pressBackAgain, Toast.LENGTH_SHORT).show();
+            }
 
-        getActivity().getSupportActionBar().show();
+            mBackPressed = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_INTRO) {
+            if (resultCode == RESULT_OK) {
+                initActivity();
+                mIntro014Launched = true;
+                this.savePreferences();
+            } else {
+                // Cancelled the intro. You can then e.g. finish this activity too.
+                finish();
+            }
+        }
+    }
+
+    public void initActivity() {
+        // Initialisation des objets DB
+        mDbProfils = new DAOProfil(this.getApplicationContext());
+
+        // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
+        /*if (mDbProfils.getCount() == 0 || mCurrentProfilID == -1) {
+            // Ouvre la fenetre de creation de profil
+            this.CreateNewProfil();
+        } else {*/
+        mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
+        if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
+            List<Profile> lList = mDbProfils.getAllProfils();
+            mCurrentProfile = lList.get(0);
+        }
+        setCurrentProfil(mCurrentProfile.getName());
+        //}
+
+        // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
+        DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());
+        String[] machineListArray = lDAOFonte.getAllMachines();
+
+        for (int i = 0; i < machineListArray.length; i++) {
+            //Test is Machine exists. If not create it.
+            DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
+            if (!lDAOMachine.machineExists(machineListArray[i])) {
+                lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
+            }
+        }
+
     }
 }

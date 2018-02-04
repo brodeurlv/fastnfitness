@@ -12,8 +12,9 @@
 			\t - Enhancement : App introduction for new user\n
 			\t - Enhancement : Added summary to the rest dialog box\n
 			\t - Enhancement : Possibility to define default weight Unit\n
-			\t - Bug : Fixed issue in Body weight graph date\n
-			\t - Bug : Minor UI fixes and changes\n
+			\t - Enhancement : Weight on exercise can now be a float\n
+			\t - Bug : Fixed issue in Body weight graph date being one day late\n
+			\t - Bug : Minor UI fixes and typo\n
 			\t - Bug : Fixed crash on machine photo click\n
 		V0.13.2 : 14/10/2017 \n
 			\t - Bug : Fixed issue on photo association for machines \n
