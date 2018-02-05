@@ -216,4 +216,5 @@
     <string name="pressBackAgain">Pressez à nouveau pour quitter</string>
     <string name="titleSlideOpenSource">C\'est Open Source !</string>
     <string name="textSlideOpenSource">Rejoins la communauté et ensemble, construisons la meilleure application fitness ! https://github.com/brodeurlv/fastnfitnes</string>
+    <string name="profileCreated">Profil créé</string>
 </resources>

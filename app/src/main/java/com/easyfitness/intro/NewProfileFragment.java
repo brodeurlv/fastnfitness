@@ -122,7 +122,7 @@ public class NewProfileFragment extends SlideFragment {
                 Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
                 // Create the new profil
                 mDbProfils.addProfil(p);
-                Toast.makeText(getActivity().getBaseContext(), "Profile created", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
                 mProfilCreated=true;
             }
