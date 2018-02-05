@@ -75,6 +75,15 @@ public class MainIntroActivity extends IntroActivity {
                 .scrollable(scrollable)
                 .build());
 
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.titleSlideOpenSource)
+                .description(R.string.textSlideOpenSource)
+                .image(R.drawable.group_hi_res_512)
+                .background(R.color.background_even)
+                .backgroundDark(R.color.background_odd)
+                .scrollable(scrollable)
+                .build());
+
         final Slide permissionsSlide;
         if (permissions) {
             permissionsSlide = new SimpleSlide.Builder()

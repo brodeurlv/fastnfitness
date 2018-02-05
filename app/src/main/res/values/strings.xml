@@ -231,6 +231,8 @@
     <string name="titleSlideEssential">Go to the essential</string>
     <string name="textSlideEssential">No useless exercise are pre-created. You create your own exercises very simply depending on the name of the machine you have in your fitness place.</string>
     <string name="pressBackAgain">Click BACK again to exit</string>
+    <string name="titleSlideOpenSource">It\'s Open Source !</string>
+    <string name="textSlideOpenSource">Join the community and together, let\'s build the best fitness app ever ! Visit us at https://github.com/brodeurlv/fastnfitness</string>
 
 </resources>
 

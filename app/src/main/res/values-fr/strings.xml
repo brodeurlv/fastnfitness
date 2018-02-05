@@ -200,7 +200,7 @@
     <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
     <string name="selectMachineDialogLabel">Selectionne une machine existante</string>
     <string name="introSlide2Title">Facile et Rapide</string>
-    <string name="introSlide2Text">Ecrivez le nom de votre exercice et les details de votre série et la machine s\'enregistre automatiquement. Retrouvez la ensuite plus facilement dans la liste déroulante.</string>
+    <string name="introSlide2Text">Ecris le nom de ton exercice et les details de ta série et la machine s\'enregistre automatiquement quand tu cliques sur \"ajouter\". Retrouve la ensuite facilement dans la liste déroulante.</string>
     <string name="introSlide1Text">Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l\'évolution de votre corps.</string>
     <string name="introSlide3Title">Autorisation nécessaire</string>
     <string name="introSlide3Text">Pour prendre des photos de vos machines, il me faut l\'autorisation d\'utiliser votre camera ainsi que d\'écrire dans la mémoire de votre téléphone.</string>
@@ -214,4 +214,6 @@
     <string name="titleSlideEssential">Allez à l\'essentiel</string>
     <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
     <string name="pressBackAgain">Pressez à nouveau pour quitter</string>
+    <string name="titleSlideOpenSource">C\'est Open Source !</string>
+    <string name="textSlideOpenSource">Rejoins la communauté et ensemble, construisons la meilleure application fitness ! https://github.com/brodeurlv/fastnfitnes</string>
 </resources>
