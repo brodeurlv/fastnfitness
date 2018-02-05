@@ -147,7 +147,7 @@ public class FontesFragment extends Fragment {
 			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
 
 			// Launch Countdown
-			if (bLaunchRest && (date.compareTo(new Date()) == 0) ) { // Only launch Countdown if date is today.
+			if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext())) ) { // Only launch Countdown if date is today.
 				CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
 				cdd.setNbSeries(iNbSeries);
 				cdd.setTotalWeightMachine(iTotalWeight);
