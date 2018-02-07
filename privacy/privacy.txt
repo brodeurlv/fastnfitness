@@ -8,7 +8,7 @@ Bonne journée.
 
 Privacy rules of Fast n Fitness
 
-Fast n fitness does access to the Worlwide Web. Your personnal data stay on your device.
+Fast n fitness doesn't access to the Worlwide Web. Your personnal data stay on your device.
 Pictures taken with the camera by the app are stored localy on your device.
 Have a good day.
 
