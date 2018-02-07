@@ -116,6 +116,17 @@
 	    <item>1</item>
 	    <item>2</item>
 	</string-array>
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="morphology">
+        <item>Fin</item>
+        <item>Normal</item>
+        <item>Large</item>
+    </string-array>
     
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5">Maximum (Reps >= 5)</string>
