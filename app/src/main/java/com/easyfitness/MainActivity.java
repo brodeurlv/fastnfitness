@@ -916,10 +916,15 @@ public class MainActivity extends AppCompatActivity {
         } else {*/
         mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
         if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
-            List<Profile> lList = mDbProfils.getAllProfils();
-            mCurrentProfile = lList.get(0);
+            try {
+                List<Profile> lList = mDbProfils.getAllProfils();
+                mCurrentProfile = lList.get(0);
+                setCurrentProfil(mCurrentProfile.getName());
+            } catch (IndexOutOfBoundsException e) {
+                this.CreateNewProfil();
+            }
         }
-        setCurrentProfil(mCurrentProfile.getName());
+
         //}
 
         // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
@@ -933,6 +938,5 @@ public class MainActivity extends AppCompatActivity {
                 lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
             }
         }
-
     }
 }
