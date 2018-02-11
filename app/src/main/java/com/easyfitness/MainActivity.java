@@ -744,7 +744,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
-        editor.putBoolean("intro014Launched", true);
+        editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.commit();
     }
 
