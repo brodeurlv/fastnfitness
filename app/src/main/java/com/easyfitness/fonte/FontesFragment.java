@@ -84,7 +84,8 @@ public class FontesFragment extends Fragment {
 					serieEdit.getText().toString().isEmpty() ||
 					repetitionEdit.getText().toString().isEmpty() ||
 					poidsEdit.getText().toString().isEmpty() )	{
-				return;
+                Toast.makeText(getActivity(), R.string.missinginfo, Toast.LENGTH_SHORT).show();
+                return;
 			}
 
 			Date date;

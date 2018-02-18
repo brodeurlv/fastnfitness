@@ -919,13 +919,12 @@ public class MainActivity extends AppCompatActivity {
             try {
                 List<Profile> lList = mDbProfils.getAllProfils();
                 mCurrentProfile = lList.get(0);
-                setCurrentProfil(mCurrentProfile.getName());
             } catch (IndexOutOfBoundsException e) {
                 this.CreateNewProfil();
             }
         }
 
-        //}
+        if (mCurrentProfile != null) setCurrentProfil(mCurrentProfile.getName());
 
         // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
         DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());

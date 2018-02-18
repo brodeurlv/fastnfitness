@@ -224,8 +224,9 @@
     <string name="size_cm">Taille (cm)</string>
     <string name="titleSlideEssential">Allez à l\'essentiel</string>
     <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
-    <string name="pressBackAgain">Pressez à nouveau pour quitter</string>
+    <string name="pressBackAgain">Appuyer à nouveau pour quitter</string>
     <string name="titleSlideOpenSource">C\'est Open Source !</string>
     <string name="textSlideOpenSource">Rejoins la communauté et ensemble, construisons la meilleure application fitness ! https://github.com/brodeurlv/fastnfitnes</string>
     <string name="profileCreated">Profil créé</string>
+    <string name="missinginfo">Info manquante</string>
 </resources>
