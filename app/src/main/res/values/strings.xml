@@ -234,6 +234,7 @@
     <string name="titleSlideOpenSource">It\'s Open Source !</string>
     <string name="textSlideOpenSource">Join the community and together, let\'s build the best fitness app ever ! Visit us at https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Profile created</string>
+    <string name="missinginfo">Missing info</string>
 
 </resources>
 

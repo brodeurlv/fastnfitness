@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-	<string name="app_version" translatable="false">0.14.1</string>
+	<string name="app_version" translatable="false">0.14.2</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
 	<string name="author" translatable="false">Charles Combes</string>
@@ -8,6 +8,8 @@
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
+		V0.14.2 : 18/02/2018 \n
+			\t - Bug : Fixed init of profile\n
 		V0.14.1 : 11/02/2018 \n
 			\t - Bug : Fixed crash on init\n
 		V0.14 : 06/02/2018 \n
