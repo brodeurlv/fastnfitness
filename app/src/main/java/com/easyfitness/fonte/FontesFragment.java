@@ -201,11 +201,6 @@ public class FontesFragment extends Fragment {
 
 			DAOMachine mDbMachine;
 			mDbMachine = new DAOMachine(v.getContext());
-
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-			builder.setTitle(R.string.selectMachineDialogLabel);
-
 			Cursor oldCursor = null;
 			List<Machine> records = null;
 
@@ -213,8 +208,9 @@ public class FontesFragment extends Fragment {
 
 			// Version avec table Machine
 			records = mDbMachine.getAllMachines();
+
 			if(records.isEmpty()) {
-				//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
 				machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
@@ -225,32 +221,34 @@ public class FontesFragment extends Fragment {
 					oldCursor = mTableAdapter.swapCursor(mDbMachine.getCursor());
 					if (oldCursor!=null) oldCursor.close();
 				}
+
+				machineList.setOnItemClickListener(new OnItemClickListener(){
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
+						String machineName = textView.getText().toString();
+
+						machineEdit.setText(machineName); // Met a jour le text
+						FillRecordTable(machineName); // Met a jour le tableau
+						getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
+
+						hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
+
+						if(machineListDialog.isShowing())
+						{
+							machineListDialog.dismiss();
+						}
+					}
+				});
 			}
 
-			machineList.setOnItemClickListener(new OnItemClickListener(){
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
-					String machineName = textView.getText().toString();
-
-					machineEdit.setText(machineName); // Met a jour le text
-					FillRecordTable(machineName); // Met a jour le tableau
-					getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
-
-					hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
-
-					if(machineListDialog.isShowing())
-					{
-						machineListDialog.dismiss();
-					}
-				}
-
-			});
-
-			builder.setView(machineList);
-			machineListDialog=builder.create();
-			machineListDialog.show();
+			if ( ! records.isEmpty() ) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+				builder.setTitle(R.string.selectMachineDialogLabel);
+				builder.setView(machineList);
+				machineListDialog = builder.create();
+				machineListDialog.show();
+			}
 		}
 	};
 	private OnClickListener clickDateEdit = new View.OnClickListener() {

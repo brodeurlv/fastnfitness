@@ -30,6 +30,7 @@ import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DatabaseHelper;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
 import com.easyfitness.fonte.FontesPagerFragment;
@@ -400,6 +401,13 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < lList.size(); i++) {
                             Profile mTempProfile = lList.get(i);
                             mDbProfils.deleteProfil(mTempProfile.getId());
+                        }
+                        DAOMachine mDbMachines = new DAOMachine(getActivity());
+                        // recupere le premier ID de la liste.
+                        List<Machine> lList2 = mDbMachines.getAllMachines();
+                        for (int i = 0; i < lList2.size(); i++) {
+                            Machine mTemp = lList2.get(i);
+                            mDbMachines.deleteRecord(mTemp.getId());
                         }
                         // Do nothing but close the dialog
                         dialog.dismiss();

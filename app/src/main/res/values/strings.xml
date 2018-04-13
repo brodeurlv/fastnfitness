@@ -12,7 +12,7 @@
     <string name="failedtocreatefolder">Failed to create folder</string> 
     
     
-    <string name="app_name">Fast n Fitness</string>
+    <string name="app_name">Fast N Fitness</string>
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
     
@@ -235,6 +235,7 @@
     <string name="textSlideOpenSource">Join the community and together, let\'s build the best fitness app ever ! Visit us at https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Profile created</string>
     <string name="missinginfo">Missing info</string>
+    <string name="createExerciseFirst">You must create exercise first</string>
 
 </resources>
 
