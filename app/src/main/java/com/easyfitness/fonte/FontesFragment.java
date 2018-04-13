@@ -30,17 +30,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Fonte;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
@@ -74,6 +79,7 @@ public class FontesFragment extends Fragment {
 	private String name;
 	private int id;
 	private DAOFonte mDb = null;
+	AlertDialog machineListDialog;
 
 	private OnClickListener clickAddButton = new View.OnClickListener() {
 		@Override
@@ -157,7 +163,6 @@ public class FontesFragment extends Fragment {
 			}
 
 			mDb.closeCursor();
-
 		}
 	};
 	private OnClickListener collapseDetailsClick = new View.OnClickListener() {
@@ -188,6 +193,64 @@ public class FontesFragment extends Fragment {
 			});
 			//builder.create();
 			builder.show();
+		}
+	};
+	private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+			DAOMachine mDbMachine;
+			mDbMachine = new DAOMachine(v.getContext());
+
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+			builder.setTitle(R.string.selectMachineDialogLabel);
+
+			Cursor oldCursor = null;
+			List<Machine> records = null;
+
+			ListView machineList = new ListView(v.getContext());
+
+			// Version avec table Machine
+			records = mDbMachine.getAllMachines();
+			if(records.isEmpty()) {
+				//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
+				machineList.setAdapter(null);
+			} else {
+				if ( machineList.getAdapter() == null ) {
+					MachineCursorAdapter mTableAdapter = new MachineCursorAdapter (v.getContext(), mDbMachine.getCursor(), 0);
+					machineList.setAdapter(mTableAdapter);
+				} else {
+					MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+					oldCursor = mTableAdapter.swapCursor(mDbMachine.getCursor());
+					if (oldCursor!=null) oldCursor.close();
+				}
+			}
+
+			machineList.setOnItemClickListener(new OnItemClickListener(){
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
+					String machineName = textView.getText().toString();
+
+					machineEdit.setText(machineName); // Met a jour le text
+					FillRecordTable(machineName); // Met a jour le tableau
+					getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
+
+					hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
+
+					if(machineListDialog.isShowing())
+					{
+						machineListDialog.dismiss();
+					}
+				}
+
+			});
+
+			builder.setView(machineList);
+			machineListDialog=builder.create();
+			machineListDialog.show();
 		}
 	};
 	private OnClickListener clickDateEdit = new View.OnClickListener() {
@@ -397,7 +460,7 @@ public class FontesFragment extends Fragment {
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(clickAddButton);
-		machineListButton.setOnClickListener(onClickMachineList);
+		machineListButton.setOnClickListener(onClickMachineListWithIcons); //onClickMachineList
 
 		dateEdit.setOnClickListener(clickDateEdit);
 		dateEdit.setOnFocusChangeListener(touchRazEdit);
