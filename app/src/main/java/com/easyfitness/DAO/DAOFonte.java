@@ -682,23 +682,22 @@ public class DAOFonte extends DAOBase {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		String lDate = dateFormat.format(pDate);
 
-
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
 		// Select All Machines
-		String selectQuery = "SELECT SUM(" + this.POIDS+ ") FROM " + TABLE_NAME
+		String selectQuery = "SELECT " + this.SERIE + ", " + this.POIDS + ", " + this.REPETITION + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + lDate + "\" AND " + MACHINE_KEY + "=" + machine_key;
 		mCursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
-		mCursor.moveToFirst();
-		try {
-			lReturn = mCursor.getFloat(0);
-		} catch (NumberFormatException e) {
-			//Date date = new Date();
-			lReturn = 0; // Return une valeur
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				float value = mCursor.getInt(0) *  mCursor.getFloat(1) * mCursor.getInt(2);
+				lReturn += value;
+				i++;
+			} while (mCursor.moveToNext());
 		}
-
 		close();
 
 		// return value
@@ -717,19 +716,19 @@ public class DAOFonte extends DAOBase {
 		String lDate = dateFormat.format(pDate);
 
 		// Select All Machines
-		String selectQuery = "SELECT SUM(" + this.POIDS + ") FROM " + TABLE_NAME
+		String selectQuery = "SELECT " + this.SERIE + ", " + this.POIDS + ", " + this.REPETITION + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + lDate + "\"";
 		mCursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
-		mCursor.moveToFirst();
-		try {
-			lReturn = mCursor.getFloat(0);
-		} catch (NumberFormatException e) {
-			//Date date = new Date();
-			lReturn = 0; // Return une valeur
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				float value = mCursor.getInt(0) *  mCursor.getFloat(1) * mCursor.getInt(2);
+				lReturn += value;
+				i++;
+			} while (mCursor.moveToNext());
 		}
-
 		close();
 
 		// return value
