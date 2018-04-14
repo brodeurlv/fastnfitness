@@ -36,12 +36,14 @@ public class AboutFragment extends Fragment {
 	private TextView mpFlaticonTextView = null;
 	private TextView mpFreepikView = null;
 	private TextView mpCircleProgressView = null;
+	private TextView mpCircularImageView = null;
 
 
 
 
-	
-    /**
+
+
+	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
@@ -83,6 +85,7 @@ public class AboutFragment extends Fragment {
 		mpFlaticonTextView = (TextView) view.findViewById(R.id.flaticonCredits);
 		mpFreepikView = (TextView) view.findViewById(R.id.freepikCredits);
 		mpCircleProgressView = (TextView) view.findViewById(R.id.CircleProgress);
+		mpCircularImageView = (TextView) view.findViewById(R.id.CircularImageView);
 
 		mpMPAndroidChartTextView.setOnClickListener(clickLicense);
 		mpjavaCVSTextView.setOnClickListener(clickLicense);
@@ -93,6 +96,7 @@ public class AboutFragment extends Fragment {
 		mpFlaticonTextView.setOnClickListener(clickLicense);
 		mpFreepikView.setOnClickListener(clickLicense);
 		mpCircleProgressView.setOnClickListener(clickLicense);
+		mpCircularImageView.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
