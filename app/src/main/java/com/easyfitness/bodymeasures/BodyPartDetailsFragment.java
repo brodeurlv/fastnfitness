@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
@@ -230,7 +231,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		} else {
 			// ...
 			if ( measureList.getAdapter() == null ) {
-				BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter (this.getView().getContext(), mBodyMeasureDb.getCursor(), 0);
+				BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter (this.getView().getContext(), mBodyMeasureDb.getCursor(), 0, itemClickDeleteRecord);
 				measureList.setAdapter(mTableAdapter);
 			} else {
 				oldCursor = ((BodyMeasureCursorAdapter) measureList.getAdapter()).swapCursor(mBodyMeasureDb.getCursor());
@@ -254,6 +255,39 @@ public class BodyPartDetailsFragment extends Fragment {
 				FillRecordTable(valueList);
 			}
 		}
+	}
+
+	private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+		@Override
+		public void onBtnClick(long id) {
+			showDeleteDialog(id);
+		}
+	};
+
+	private void showDeleteDialog(final long idToDelete) {
+
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+					case DialogInterface.BUTTON_POSITIVE:
+						mBodyMeasureDb.deleteMeasure(idToDelete);
+						refreshData();
+						Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+
 	}
 
 	private Profile getProfile()

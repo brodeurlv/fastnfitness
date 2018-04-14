@@ -29,8 +29,12 @@ public class Chronometer extends android.support.v7.widget.AppCompatTextView {
             if (mRunning) {
                 updateText(SystemClock.elapsedRealtime());
                 dispatchChronometerTick();
-                sendMessageDelayed(Message.obtain(this, TICK_WHAT),
-                        100);
+                if (mPreciseClock)
+                    mHandler.sendMessageDelayed(Message.obtain(mHandler,
+                            TICK_WHAT), 100);
+                else
+                    mHandler.sendMessageDelayed(Message.obtain(mHandler,
+                            TICK_WHAT), 1000);
             }
         }
     };
@@ -146,8 +150,12 @@ public class Chronometer extends android.support.v7.widget.AppCompatTextView {
             if (running) {
                 updateText(SystemClock.elapsedRealtime());
                 dispatchChronometerTick();
-                mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                        TICK_WHAT), 100);
+                if (mPreciseClock)
+                    mHandler.sendMessageDelayed(Message.obtain(mHandler,
+                            TICK_WHAT), 100);
+                else
+                    mHandler.sendMessageDelayed(Message.obtain(mHandler,
+                            TICK_WHAT), 1000);
             } else {
                 mHandler.removeMessages(TICK_WHAT);
             }

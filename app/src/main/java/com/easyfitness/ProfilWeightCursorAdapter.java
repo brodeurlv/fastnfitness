@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProfilWeightCursorAdapter extends CursorAdapter {
@@ -21,11 +22,13 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 	 private LayoutInflater mInflater;
 	 private int mFirstColorOdd = 0;
 	 private Context mContext = null;
+	 BtnClickListener mDeleteClickListener = null;
 	 
-	 public ProfilWeightCursorAdapter(Context context, Cursor c, int flags) {
-	  super(context, c, flags);
-	  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		 mContext = context;
+	 public ProfilWeightCursorAdapter(Context context, Cursor c, int flags, BtnClickListener deleteFunction) {
+	  	 super(context, c, flags);
+	  	 mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	  	 mContext = context;
+		 mDeleteClickListener = deleteFunction;
 	 }
 	 
 	 @Override
@@ -59,6 +62,16 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 	      TextView t2 = (TextView) view.findViewById(R.id.WEIGHT_CELL);
 	      //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
 	      t2.setText(cursor.getString(2));
+
+		 ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
+		 deletImg.setTag(cursor.getLong(0));
+		 deletImg.setOnClickListener(new View.OnClickListener() {
+			 @Override
+			 public void onClick(View v) {
+				 if(mDeleteClickListener != null)
+					 mDeleteClickListener.onBtnClick((long)v.getTag());
+			 }
+		 });
 	 
 	 }
 	 

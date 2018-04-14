@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.easyfitness"
-    android:versionCode="13"
-    android:versionName="0.14.2">
+    android:versionCode="14"
+    android:versionName="0.14.3">
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="23" />
-	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        android:targetSdkVersion="26" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 		<uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
         <uses-permission android:name="android.permission.CAMERA" />
 	    <uses-feature android:name="android.hardware.camera" android:required="false" />

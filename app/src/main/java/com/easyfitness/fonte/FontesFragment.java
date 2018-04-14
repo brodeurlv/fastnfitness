@@ -30,12 +30,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -47,7 +47,9 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -75,10 +77,12 @@ public class FontesFragment extends Fragment {
 	EditText restTimeEdit = null;
 	CheckBox restTimeCheck = null;
 	DatePickerDialogFragment mDateFrag = null;
+	CircularImageView machineImage = null;
 	int lTableColor = 1;
 	private String name;
 	private int id;
 	private DAOFonte mDb = null;
+	private DAOMachine mDbMachine = null;
 	AlertDialog machineListDialog;
 
 	private OnClickListener clickAddButton = new View.OnClickListener() {
@@ -199,8 +203,6 @@ public class FontesFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 
-			DAOMachine mDbMachine;
-			mDbMachine = new DAOMachine(v.getContext());
 			Cursor oldCursor = null;
 			List<Machine> records = null;
 
@@ -227,6 +229,10 @@ public class FontesFragment extends Fragment {
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
 						String machineName = textView.getText().toString();
+
+						DAOMachine lMachineDb = new DAOMachine(getContext());
+						Machine lMachine = lMachineDb.getMachine(machineName);
+						ImageUtil.setThumb(machineImage, lMachine.getPicture());
 
 						machineEdit.setText(machineName); // Met a jour le text
 						FillRecordTable(machineName); // Met a jour le tableau
@@ -273,15 +279,7 @@ public class FontesFragment extends Fragment {
 			if (hasFocus == true) {
 				switch(v.getId()) {
 				case R.id.editDate:
-					/*getFragment().mDateFrag = new DatePickerDialogFragment() {
-						@Override
-						public void onDateSet(DatePicker view, int year, int month, int day) {
-							dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-						}
-					};*/
-
 					showDatePickerFragment();
-
 					break;
 				case R.id.editSerie:
 					serieEdit.setText("");
@@ -293,15 +291,15 @@ public class FontesFragment extends Fragment {
 					poidsEdit.setText("");
 					break;
 				case R.id.editMachine:
-					////InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					//imm.showSoftInput(machineEdit, InputMethodManager.SHOW_IMPLICIT);
 					machineEdit.setText("");
-					//machineEdit.set.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+					machineImage.setImageResource(R.drawable.ic_machine);
 					break;
 				}
 			}else if (hasFocus == false) {
 				switch(v.getId()) {
 				case R.id.editMachine:
+					Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
+					ImageUtil.setThumb(machineImage, lMachine.getPicture());
 					FillRecordTable(machineEdit.getText().toString());
 					break;
 				}
@@ -317,7 +315,6 @@ public class FontesFragment extends Fragment {
 			}
 		}
 	};
-
 
 	private CompoundButton.OnCheckedChangeListener restTimeCheckChange = new CompoundButton.OnCheckedChangeListener() {
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -455,6 +452,7 @@ public class FontesFragment extends Fragment {
 		detailsExpandArrow = (ImageButton) view.findViewById(R.id.buttonExpandArrow);
 		restTimeEdit = (EditText) view.findViewById(R.id.editRestTime);
 		restTimeCheck = (CheckBox) view.findViewById(R.id.restTimecheckBox);
+		machineImage = (CircularImageView) view.findViewById(R.id.imageMachine);
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(clickAddButton);
@@ -484,7 +482,8 @@ public class FontesFragment extends Fragment {
 		unitSpinner.setSelection(defaultUnit);
 
 		// Initialisation de la base de donnee
-		mDb = new DAOFonte(view.getContext());
+		mDb = new DAOFonte(getContext());
+		mDbMachine = new DAOMachine (getContext());
 		dateEdit.setText(DateConverter.currentDate());
 
 		// Inflate the layout for this fragment
@@ -630,13 +629,6 @@ public class FontesFragment extends Fragment {
 		}
 	}
 
-	/*public void onDateSet(DatePicker view, int year,
-			int month, int day) {
-		// Do something with the date chosen by the user
-		dateEdit.setText(DateConverter.dateToString(year, month+1, day));
-	}*/
-
-
 	private void refreshData(){
 		View fragmentView = getView();
 		if(fragmentView != null) {
@@ -659,7 +651,9 @@ public class FontesFragment extends Fragment {
 				Fonte lLastRecord = mDb.getLastRecord(getProfil());
 				if (lLastRecord != null ) {
                     machineEdit.setText(lLastRecord.getMachine());
-                    serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+					Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
+					ImageUtil.setThumb(machineImage, lMachine.getPicture());
+					serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
                     repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
                     unitSpinner.setSelection(lLastRecord.getUnit());
 					DecimalFormat numberFormat = new DecimalFormat("#.##");

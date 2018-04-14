@@ -1,4 +1,4 @@
-package com.easyfitness.fonte;
+package com.easyfitness;
 
 /**
  * Created by ccombes on 17/09/20.

@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -27,6 +26,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;

@@ -167,6 +167,12 @@ public class AboutFragment extends Fragment {
 					copyright = "lzyzsd";
 					license = new CustomLicense("Free License", "https://github.com/lzyzsd/CircleProgress", "");
 					break;
+				case R.id.CircularImageView:
+					name = "CircularImageView";
+					url = "https://github.com/lopspower/CircularImageView";
+					copyright = "Lopez Mikhael";
+					license = new ApacheSoftwareLicense20();
+					break;
 
 
 			}

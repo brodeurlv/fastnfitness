@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tab_fontes"
     android:name="tab_fontes"
@@ -36,14 +37,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="8dp"
                         android:layout_weight="40"
                         android:singleLine="true"
-                        android:text="@string/MachineLabel" />
+                        android:text="@string/MachineLabel" />-->
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/imageMachine"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_machine"
+                        app:civ_border_color="#EEEEEE"
+                        app:civ_border_width="0dp"
+                        app:civ_shadow="false"
+                        app:civ_shadow_color="#8BC34A"
+                        app:civ_shadow_radius="0" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"

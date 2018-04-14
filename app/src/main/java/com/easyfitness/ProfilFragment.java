@@ -258,7 +258,7 @@ public class ProfilFragment extends Fragment {
 		} else {
 			// ...
 			if ( weightList.getAdapter() == null ) {
-				ProfilWeightCursorAdapter mTableAdapter = new ProfilWeightCursorAdapter (this.getView().getContext(), mWeightDb.GetCursor(), 0);
+				ProfilWeightCursorAdapter mTableAdapter = new ProfilWeightCursorAdapter (this.getView().getContext(), mWeightDb.GetCursor(), 0, itemClickDeleteRecord);
 				weightList.setAdapter(mTableAdapter);
 			} else {
 				oldCursor = ((ProfilWeightCursorAdapter)weightList.getAdapter()).swapCursor(mWeightDb.GetCursor());
@@ -280,7 +280,6 @@ public class ProfilFragment extends Fragment {
 		return mWeightDb;
 	}
 
-
 	private DAOProfil getDB() {
 		return mDb;
 	}
@@ -297,6 +296,39 @@ public class ProfilFragment extends Fragment {
 				FillRecordTable(valueList);
 			}
 		}
+	}
+
+	private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+		@Override
+		public void onBtnClick(long id) {
+			showDeleteDialog(id);
+		}
+	};
+
+	private void showDeleteDialog(final long idToDelete) {
+
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+					case DialogInterface.BUTTON_POSITIVE:
+						mWeightDb.deleteMeasure(idToDelete);
+						refreshData();
+						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+								.show();
+						break;
+
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+
 	}
 
 	private Profile getProfil()

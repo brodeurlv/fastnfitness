@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.R;
 import com.easyfitness.utils.UnitConverter;

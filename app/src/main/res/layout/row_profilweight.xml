@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
-     android:paddingTop="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="2dp"
      android:paddingBottom="2dp"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
@@ -29,6 +30,18 @@
          android:paddingBottom="0dp"
          android:paddingTop="0dp"
          android:layout_gravity="top" />
-         
+
+     <ImageView
+         android:id="@+id/deleteButton"
+         android:layout_width="10dp"
+         android:layout_height="20dp"
+         android:layout_gravity="right|center_horizontal|end"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
+         android:layout_weight="5"
+         android:clickable="true"
+         android:elevation="0dp"
+         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
 
 </LinearLayout>

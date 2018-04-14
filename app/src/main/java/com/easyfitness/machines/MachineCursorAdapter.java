@@ -87,7 +87,7 @@ public class MachineCursorAdapter extends CursorAdapter {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+	 }
 	 
 	 @Override
 	 public View newView(Context context, Cursor cursor, ViewGroup parent) {

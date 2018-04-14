@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
     }
 
     signingConfigs {
@@ -44,20 +44,21 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:preference-v7:25.3.1'
-    compile 'com.android.support:preference-v14:25.3.1'
+    compile 'com.android.support:support-v4:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:preference-v7:26.0.2'
+    compile 'com.android.support:preference-v14:26.0.2'
+    compile 'com.android.support:cardview-v7:26.0.2'
+    compile 'com.android.support:design:26.0.2'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     compile files('libs/javacsv-2.0.jar')
     compile 'com.github.philjay:MPAndroidChart:v3.0.3'
-    compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile 'com.android.support:design:25.3.1'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
     //    transitive = true;
     //}

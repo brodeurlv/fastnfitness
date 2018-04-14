@@ -10,7 +10,10 @@
 	<string name="revision_history" translatable="false">\n
 		V0.14.3 BETA: \n
 			\t - Bug : Fixed sum of weight during rest time \n
-			\t - Enhancement : Machine list with Icons and Details
+			\t - Enhancement : Rest countdown vibrates 2 sec before the end \n
+			\t - Enhancement : Added cross in table to delete Weight and Body measures \n
+			\t - Enhancement : Exercise list with icons and details \n
+			\t - Enhancement : Current exercise with icons \n
 		V0.14.2 : 18/02/2018 \n
 			\t - Bug : Fixed init of profile\n
 		V0.14.1 : 11/02/2018 \n
@@ -114,6 +117,7 @@
 	<string name="freepik_content" translatable="false">Freepik (Free License with attribution)</string>
 	<string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>
 	<string name="circleprogress_content" translatable="false">Circle Progress (Public License)</string>
+	<string name="circularImageView_content" translatable="false">CircularImageView (Apache 2.0)</string>
 
 
 

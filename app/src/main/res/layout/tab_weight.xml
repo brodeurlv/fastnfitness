@@ -122,7 +122,7 @@
     <com.easyfitness.utils.ExpandedListView
         android:id="@+id/listWeightProfil"
         android:layout_width="match_parent" 
-        android:layout_height="wrap_content">
+        android:layout_height="500px">
     </com.easyfitness.utils.ExpandedListView>
     
 </LinearLayout>
