@@ -177,8 +177,6 @@ public class AboutFragment extends Fragment {
 					copyright = "Lopez Mikhael";
 					license = new ApacheSoftwareLicense20();
 					break;
-
-
 			}
 
 
