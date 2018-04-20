@@ -164,6 +164,21 @@ public class DAOMachine extends DAOBase {
 		// return value list
 		return getMachineList(selectQuery);
 	}
+
+	// Getting All Records
+	public List<Machine> getAllMachines(List<Long> array) {
+
+		String ids = array.toString();
+		ids = ids.replace('[', '(');
+		ids = ids.replace(']', ')');
+
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
+				+ NAME + " ASC";
+
+		// return value list
+		return getMachineList(selectQuery);
+	}
 	
 	// Getting All Machines
 	public String[] getAllMachinesName() {

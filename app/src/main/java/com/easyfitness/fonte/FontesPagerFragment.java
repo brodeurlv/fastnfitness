@@ -166,7 +166,7 @@ public class FontesPagerFragment extends Fragment {
 			getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
 		*/
 	}
-	
+
 	@Override
 	public void onHiddenChanged (boolean hidden) {
 		/*if (!hidden) {
@@ -179,10 +179,7 @@ public class FontesPagerFragment extends Fragment {
 					getViewPagerAdapter().getItem(i).onHiddenChanged(false);
 				}
 			}
-		}		*/
-
-
-
+		}*/
 	}
 }
 

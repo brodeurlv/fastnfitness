@@ -214,10 +214,10 @@ public class FonteHistoryFragment extends Fragment {
 		} else {
 			// ...
 			if ( filterList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), mDb.GetCursor(), 0, itemClickDeleteRecord);
+				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
 				filterList.setAdapter(mTableAdapter);
 			} else {
-				oldCursor = ((FonteCursorAdapter)filterList.getAdapter()).swapCursor(mDb.GetCursor());
+				oldCursor = ((FonteCursorAdapter)filterList.getAdapter()).swapCursor(mDb.getCursor());
 				if (oldCursor!=null)
 					oldCursor.close();
 			}

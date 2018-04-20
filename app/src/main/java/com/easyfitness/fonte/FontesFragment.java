@@ -45,6 +45,7 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ImageUtil;
@@ -54,6 +55,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -205,11 +207,13 @@ public class FontesFragment extends Fragment {
 
 			Cursor oldCursor = null;
 			List<Machine> records = null;
+			List<Long> machineIds = null;
 
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-			records = mDbMachine.getAllMachines();
+			machineIds = mDb.getAllMachinesIds(getProfil());
+			records = mDbMachine.getAllMachines(machineIds);
 
 			if(records.isEmpty()) {
 				Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -227,15 +231,16 @@ public class FontesFragment extends Fragment {
 				machineList.setOnItemClickListener(new OnItemClickListener(){
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
-						String machineName = textView.getText().toString();
+						TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_ID);
+						long machineID = Long.parseLong(textView.getText().toString());
 
 						DAOMachine lMachineDb = new DAOMachine(getContext());
-						Machine lMachine = lMachineDb.getMachine(machineName);
+						Machine lMachine = lMachineDb.getMachine(machineID);
+						machineImage.setImageResource(R.drawable.ic_machine); // Default image
 						ImageUtil.setThumb(machineImage, lMachine.getPicture());
 
-						machineEdit.setText(machineName); // Met a jour le text
-						FillRecordTable(machineName); // Met a jour le tableau
+						machineEdit.setText(lMachine.getName()); // Met a jour le text
+						FillRecordTable(lMachine.getName()); // Met a jour le tableau
 						getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
 
 						hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
@@ -299,7 +304,7 @@ public class FontesFragment extends Fragment {
 				switch(v.getId()) {
 				case R.id.editMachine:
 					Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
-					ImageUtil.setThumb(machineImage, lMachine.getPicture());
+					if(lMachine!=null) ImageUtil.setThumb(machineImage, lMachine.getPicture());
 					FillRecordTable(machineEdit.getText().toString());
 					break;
 				}
@@ -597,18 +602,17 @@ public class FontesFragment extends Fragment {
 	private void FillRecordTable (String pMachines) {
 
 		List<Fonte> records = null;
-		Cursor newCursor = null, oldCursor = null;
+		Cursor oldCursor = null;
 
 		// Informe l'activité de la machine courante
 		this.getMainActivity().setCurrentMachine(pMachines);
 
 		// Recupere les valeurs
 		if (pMachines==null || pMachines.isEmpty()) {
-			records = mDb.getAllRecordsByProfil(getProfil(), 10); // TODO Pourrait etre un parametre   	
+			records = mDb.getAllRecordsByProfil(getProfil(), 10);
 		} else {
-			records = mDb.getAllRecordByMachines(getProfil(), pMachines, 10); // TODO Pourrait etre un parametre   
+			records = mDb.getAllRecordByMachines(getProfil(), pMachines, 10);
 		}
-		newCursor = mDb.GetCursor();
 
 		if(records.isEmpty()) {
 			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
@@ -616,13 +620,13 @@ public class FontesFragment extends Fragment {
 		} else {
 			// ...
 			if ( recordList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.GetCursor(), 0, itemClickDeleteRecord);
+				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
 				mTableAdapter.setFirstColorOdd(lTableColor);
 				recordList.setAdapter(mTableAdapter);
 			} else {				
 				FonteCursorAdapter mTableAdapter = ((FonteCursorAdapter)recordList.getAdapter());
 				mTableAdapter.setFirstColorOdd(lTableColor);
-				oldCursor = mTableAdapter.swapCursor(mDb.GetCursor());
+				oldCursor = mTableAdapter.swapCursor(mDb.getCursor());
 				if (oldCursor!=null) oldCursor.close();
 				//mTableAdapter.notifyDataSetChanged();
 			}
@@ -652,7 +656,8 @@ public class FontesFragment extends Fragment {
 				if (lLastRecord != null ) {
                     machineEdit.setText(lLastRecord.getMachine());
 					Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
-					ImageUtil.setThumb(machineImage, lMachine.getPicture());
+					machineImage.setImageResource(R.drawable.ic_machine); // Default image
+					ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
 					serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
                     repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
                     unitSpinner.setSelection(lLastRecord.getUnit());

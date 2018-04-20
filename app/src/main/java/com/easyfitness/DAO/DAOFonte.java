@@ -205,7 +205,7 @@ public class DAOFonte extends DAOBase {
 		return valueList;
 	}
 
-	public Cursor GetCursor() {
+	public Cursor getCursor() {
 		return mCursor;
 	}
 
@@ -393,7 +393,7 @@ public class DAOFonte extends DAOBase {
         return valueList;
     }
 
-	// Getting All Machines
+	// Getting All Machines as Machine Object
 	public List<Machine> getAllMachinesList(Profile pProfile) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
@@ -420,6 +420,40 @@ public class DAOFonte extends DAOBase {
 			int i = 0;
 			do {
 				valueList.add(lDAOMachine.getMachine(mCursor.getLong(0)));
+				i++;
+			} while (mCursor.moveToNext());
+		}
+		close();
+		// return value list
+		return valueList;
+	}
+
+	// Getting All Machines as Machine Object
+	public List<Long> getAllMachinesIds(Profile pProfile) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		String selectQuery = "";
+		if (pProfile==null) {
+			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
+					+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
+		else {
+			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
+					+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
+		}
+		// Select All Machines
+		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
+		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
+		mCursor = db.rawQuery(selectQuery, null);
+
+		int size = mCursor.getCount();
+
+		List<Long> valueList = new ArrayList<Long>(size);
+
+		// looping through all rows and adding to list
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				valueList.add(mCursor.getLong(0));
 				i++;
 			} while (mCursor.moveToNext());
 		}
@@ -587,17 +621,24 @@ public class DAOFonte extends DAOBase {
 	}
 
 	// Get all record for one Date
-	public List<Fonte> getAllRecordByDate(Profile pProfile, Date pDate) {
+	public List<Fonte> getAllRecordByDate(Profile pProfile, String pDate) {
+		// Select All Query
+		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
+				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+
 		// return value list
-		return getAllRecordByDate(pProfile, pDate.toString());
+		return getRecordsList(selectQuery);
 	}
 
 	// Get all record for one Date
-	public List<Fonte> getAllRecordByDate(Profile pProfile, String pDate) {
+	public List<Fonte> getSummaryByDateByProfile(Profile pProfile, String pDate) {
 		// Select All Query
-		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME 
-				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
+		String selectQuery = "SELECT " + KEY + "," + DATE + "," + MACHINE + ", SUM(" + SERIE + ")," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME + " FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=\"" + pDate + "\""
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+				+ " GROUP BY " + DATE + "," + MACHINE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY
 				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list

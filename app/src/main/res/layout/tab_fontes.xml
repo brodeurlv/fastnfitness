@@ -257,7 +257,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
                             android:ems="9"
-                            android:inputType="none"
+                            android:inputType="none|date"
+                            android:maxLines="1"
                             android:nextFocusDown="@+id/editMachine"></EditText>
                     </LinearLayout>
 

@@ -1,134 +1,144 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab_graph"
     android:name="tab_graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp">
-
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="5dp"
-            android:stretchColumns="1">
-
-            <TableRow android:gravity="center_vertical">
-                <TextView
-                    android:id="@+id/textviewGraphMachine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/MachineLabel" />
-
-                <Spinner
-                    android:id="@+id/filterGraphMachine"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-
-            <TableRow
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/textviewGraphFunction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FunctionLabel" />
-
-                <Spinner
-                    android:id="@+id/filterGraphFunction"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/graph_functions" />
-            </TableRow>
-
-        </TableLayout>
-    </android.support.v7.widget.CardView>
+    android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/allbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="0dip"
-            android:layout_marginLeft="3dip"
-            android:layout_marginRight="3dip"
-            android:layout_weight="40"
-            android:background="@android:color/white"
-            android:text="@string/graph_all"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/lastyearbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="0dip"
-            android:layout_marginLeft="3dip"
-            android:layout_marginRight="3dip"
-            android:layout_weight="40"
-            android:background="@android:color/white"
-            android:text="@string/graph_lastyear"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/lastmonthbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="0dip"
-            android:layout_marginLeft="3dip"
-            android:layout_marginRight="3dip"
-            android:layout_weight="40"
-            android:background="@android:color/white"
-            android:text="@string/graph_lastmonth"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/lastweekbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="0dip"
-            android:layout_marginLeft="3dip"
-            android:layout_marginRight="3dip"
-            android:layout_weight="40"
-            android:background="@android:color/white"
-            android:text="@string/graph_lastweek"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graphChart"
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="0dp"
-            android:background="#FFFFFF" />
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:stretchColumns="1">
+
+                <TableRow android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textviewGraphMachine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/MachineLabel" />
+
+                    <Spinner
+                        android:id="@+id/filterGraphMachine"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textviewGraphFunction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FunctionLabel" />
+
+                    <Spinner
+                        android:id="@+id/filterGraphFunction"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/graph_functions" />
+                </TableRow>
+
+            </TableLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/allbutton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0dip"
+                android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"
+                android:layout_weight="40"
+                android:background="@android:color/white"
+                android:text="@string/graph_all"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/lastyearbutton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0dip"
+                android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"
+                android:layout_weight="40"
+                android:background="@android:color/white"
+                android:text="@string/graph_lastyear"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/lastmonthbutton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0dip"
+                android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"
+                android:layout_weight="40"
+                android:background="@android:color/white"
+                android:text="@string/graph_lastmonth"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/lastweekbutton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0dip"
+                android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"
+                android:layout_weight="40"
+                android:background="@android:color/white"
+                android:text="@string/graph_lastweek"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/graphChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="0dp"
+                android:background="#FFFFFF"
+                android:minHeight="150dp" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>
