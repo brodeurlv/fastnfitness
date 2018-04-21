@@ -48,6 +48,7 @@ import com.easyfitness.R;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -71,7 +72,7 @@ public class FontesFragment extends Fragment {
 	EditText poidsEdit = null;
 	LinearLayout detailsLayout = null;
 	Button addButton = null;
-	ListView recordList = null;
+	ExpandedListView recordList = null;
 	String[] machineListArray = null;
 	ImageButton machineListButton = null;
 	Spinner unitSpinner = null;
@@ -449,7 +450,7 @@ public class FontesFragment extends Fragment {
 		serieEdit = (EditText) view.findViewById(R.id.editSerie);
 		repetitionEdit = (EditText) view.findViewById(R.id.editRepetition);
 		poidsEdit = (EditText) view.findViewById(R.id.editPoids);
-		recordList = (ListView) view.findViewById(R.id.listRecord);
+		recordList = (ExpandedListView) view.findViewById(R.id.listRecord);
 		machineListButton = (ImageButton) view.findViewById(R.id.buttonListMachine);
 		addButton = (Button) view.findViewById(R.id.addperff);
 		unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnit);

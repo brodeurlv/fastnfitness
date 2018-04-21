@@ -4,7 +4,9 @@
     android:id="@+id/tab_fontes"
     android:name="tab_fontes"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -239,8 +241,8 @@
                     android:visibility="visible">
 
                     <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -298,8 +300,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
                             android:ems="4"
-                            android:nextFocusForward="@id/editMachine"
                             android:inputType="none|number"
+                            android:nextFocusForward="@id/editMachine"
                             android:text="60"></EditText>
                     </LinearLayout>
 
@@ -359,15 +361,18 @@
 
         </LinearLayout>
 
-        <include layout="@layout/row_fonte_header"/>
+        <include layout="@layout/row_fonte_header" />
 
-        <ListView
+        <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:animateLayoutChanges="true">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:fastScrollEnabled="false"
+            android:isScrollContainer="false"
+            android:scrollbars="none">
 
-        </ListView>
+        </com.easyfitness.utils.ExpandedListView>
 
     </LinearLayout>
 </ScrollView>
