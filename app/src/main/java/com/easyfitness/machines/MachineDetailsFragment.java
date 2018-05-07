@@ -49,6 +49,7 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
 
 import java.io.File;
@@ -98,6 +99,8 @@ public class MachineDetailsFragment extends Fragment {
 	DAOMachine mDbMachine = null;
 	
 	View fragmentView = null;
+
+	ImageUtil imgUtil = null;
 	
 	/**
 	 * Create a new instance of DetailsFragment, initialized to
@@ -218,7 +221,7 @@ public class MachineDetailsFragment extends Fragment {
 	            // Here you can get the size :)
 	            
 	    		if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
-	        		setPic(machinePhoto, mCurrentPhotoPath);
+	        		ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
 	        	} else {
 	        		machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 	        	}
@@ -304,37 +307,12 @@ public class MachineDetailsFragment extends Fragment {
 	//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
 	private boolean CreatePhotoSourceDialog() {
-				final long selectedID = id;
-				
-				String[] profilListArray = new String[2];
-				profilListArray[0] = getResources().getString(R.string.camera); 
-				profilListArray[1] = getResources().getString(R.string.gallery);
+		if (imgUtil==null)
+			imgUtil = new ImageUtil();
 
-		requestPermissionForWriting();
+		return imgUtil.CreatePhotoSourceDialog(this);
+	}
 
-				AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-				itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						ListView lv = ((AlertDialog)dialog).getListView();
-					
-						switch (which) {
-						// Galery
-						case 1 : 
-							getGaleryPict();
-							break;
-						// Camera
-						case 0:
-							dispatchTakePictureIntent();
-							break;						
-						default:
-						}
-					}				
-				});
-				itemActionbuilder.show();
-				
-				return true;
-	}	
-	
 	private OnClickListener onClickMusclesList = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -359,193 +337,33 @@ public class MachineDetailsFragment extends Fragment {
 
 	String mCurrentPhotoPath = null;
 
-	private File createImageFile() throws IOException {
-	    // Create an image file name
-	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-	    String imageFileName = "JPEG_" + timeStamp + "_";
-	    File storageDir = this.getActivity().getExternalFilesDir(
-	            Environment.DIRECTORY_DCIM);
-	    File image = File.createTempFile(
-	        imageFileName,  /* prefix */
-	        ".jpg",         /* suffix */
-	        storageDir      /* directory */
-	    );
-
-	    // Save a file: path for use with ACTION_VIEW intents
-	    mCurrentPhotoPath = image.getAbsolutePath();
-	    return image;
-	}
-	
-	
-	static final int REQUEST_TAKE_PHOTO = 1;
-	static final int REQUEST_PICK_GALERY_PHOTO = 2;
-
-	private void dispatchTakePictureIntent() {
-	    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	    // Ensure that there's a camera activity to handle the intent
-	    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-	        // Create the File where the photo should go
-	        File photoFile = null;
-	        try {
-	            photoFile = createImageFile();
-	        } catch (IOException ex) {
-	            // Error occurred while creating the File
-	        }
-	        // Continue only if the File was successfully created
-	        if (photoFile != null) {
-	            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-	            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-	        }
-	    }
-	}
-	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		switch(requestCode) { 
-	    case REQUEST_TAKE_PHOTO:
-	    	 if(resultCode == Activity.RESULT_OK){  
-	 	        //Bundle extras = data.getExtras();
-	 	        //Bitmap imageBitmap = (Bitmap) extras.get("data")	
-	 	    		setPic(machinePhoto, mCurrentPhotoPath);//.setImageBitmap(imageBitmap);
-	 	    		saveThumb(mCurrentPhotoPath);
-	 				galleryAddPic(mCurrentPhotoPath);
-	 				requestForSave();
-	    	 }
-	    	 break;
-	    case REQUEST_PICK_GALERY_PHOTO:
-	    	 if(resultCode == Activity.RESULT_OK){  
-	    		 Uri selectedImage = data.getData();
-	             InputStream imageStream;
-					
-					String realPath;
-				 realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
-					//imageStream = getActivity().getBaseContext().getContentResolver().openInputStream(selectedImage);
-					//Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-	 	    		setPic(machinePhoto, realPath);//.setImageBitmap(imageBitmap);
-	 	    		saveThumb(realPath);
-	 	    		mCurrentPhotoPath=realPath;
+		switch (requestCode) {
+			case ImageUtil.REQUEST_TAKE_PHOTO:
+				if (resultCode == Activity.RESULT_OK) {
+					mCurrentPhotoPath = imgUtil.getFilePath();
+					imgUtil.setPic(machinePhoto, mCurrentPhotoPath);
+					imgUtil.saveThumb(mCurrentPhotoPath);
+					imgUtil.galleryAddPic(this, mCurrentPhotoPath);
 					requestForSave();
-	    	 }
-	    	 break;
-		}
+				}
+				break;
+			case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
+				if (resultCode == Activity.RESULT_OK) {
+					String realPath;
+					realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
-	}
-	
-	private void getGaleryPict() {
-		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-		photoPickerIntent.setType("image/*");
-		startActivityForResult(photoPickerIntent, REQUEST_PICK_GALERY_PHOTO);    
-	}
-	
-	public void galleryAddPic(String file) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(file);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.getActivity().sendBroadcast(mediaScanIntent);
-    }
-	
-	private void setPic(ImageView mImageView, String pPath) {
-	    try {
-	    	if (pPath == null) return;
-	    	File f = new File(pPath);
-	    	if(!f.exists() || f.isDirectory()) return;
-	    	
-			// Get the dimensions of the View
-			int targetW = mImageView.getWidth();
-			int targetH = mImageView.getHeight();
-
-			// Get the dimensions of the bitmap
-			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-			bmOptions.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(pPath, bmOptions);
-			int photoW = bmOptions.outWidth;
-			int photoH = bmOptions.outHeight;
-
-			// Determine how much to scale down the image
-			int scaleFactor = photoW/targetW; //Math.min(photoW/targetW, photoH/targetH);
-
-			// Decode the image file into a Bitmap sized to fill the View
-			bmOptions.inJustDecodeBounds = false;
-			bmOptions.inSampleSize = scaleFactor;
-			bmOptions.inPurgeable = true;
-
-			Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-			mImageView.setImageBitmap(bitmap);
-
-			mImageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-			mImageView.setAdjustViewBounds(true);
-			mImageView.setMaxHeight((int)(getView().getHeight()*0.2));
-			mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			
-		} catch (Exception e) {
-			mCurrentPhotoPath = null;
-			e.printStackTrace();
+					imgUtil.setPic(machinePhoto, realPath);
+					imgUtil.saveThumb(realPath);
+					mCurrentPhotoPath = realPath;
+					requestForSave();
+				}
+				break;
 		}
 	}
-	
-	private void saveThumb(String pPath) {
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(pPath, bmOptions);
-		float photoW = bmOptions.outWidth;
-		float photoH = bmOptions.outHeight;
 
-		// Determine how much to scale down the image
-		float scaleFactor = photoW/photoH; //Math.min(photoW/targetW, photoH/targetH);		
-		
-		Bitmap ThumbImage =null;
-		//if (photoW < photoH)
-			ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), 128, (int)(128/scaleFactor));
-		//else 
-		//	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
-		
-		// extract path without the .jpg
-		String pathOfOutputImage = "";
-		pathOfOutputImage = pPath.substring(0, pPath.lastIndexOf('.')) + "_TH.jpg";		
-		
-		try
-	    {
-	        FileOutputStream out = new FileOutputStream(pathOfOutputImage);
-	        ThumbImage.compress(Bitmap.CompressFormat.JPEG, 80, out);
-	    }
-	    catch (Exception e)
-	    {
-	        Log.e("Image", e.getMessage(), e);
-	    }
-	}
-
-	private void requestPermissionForWriting() {
-		// Here, thisActivity is the current activity
-		if (ContextCompat.checkSelfPermission(this.getActivity(),
-				Manifest.permission.READ_CONTACTS)
-				!= PackageManager.PERMISSION_GRANTED) {
-
-			// Should we show an explanation?
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-					Manifest.permission.READ_CONTACTS)) {
-
-				// Show an explanation to the user *asynchronously* -- don't block
-				// this thread waiting for the user's response! After the user
-				// sees the explanation, try again to request the permission.
-
-			} else {
-
-				// No explanation needed, we can request the permission.
-
-				ActivityCompat.requestPermissions(this.getActivity(),
-						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-						MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-				// app-defined int constant. The callback method gets the
-				// result of the request.
-			}
-		}
-	}
-	
 	private OnFocusChangeListener onFocusMachineList = new View.OnFocusChangeListener() {
 
 		@Override
@@ -553,7 +371,6 @@ public class MachineDetailsFragment extends Fragment {
 			if (arg1==true) {
 				CreateMuscleDialog();
 			}
-			
 		}
 	};  
 	
@@ -798,8 +615,7 @@ public class MachineDetailsFragment extends Fragment {
 	private void requestForSave() {
 		toBeSaved = true; // setting state
 		machineSave.setVisibility(View.VISIBLE);
-        //getThis().getActivity().invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-	}
+ 	}
 	
 	
 	public void buildMusclesTable()	{

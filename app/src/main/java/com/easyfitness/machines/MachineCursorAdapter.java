@@ -54,7 +54,14 @@ public class MachineCursorAdapter extends CursorAdapter {
 	      } else {
 	    	  i0.setImageResource(R.drawable.ic_machine);
 	      }
-      
+
+		 ImageView iFav = (ImageView) view.findViewById(R.id.LIST_MACHINE_FAVORITE);
+		 boolean bFav = cursor.getInt(6)== 1;
+		 if(bFav) {
+			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
+		 } else {
+			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_off));
+		 }
 	 }
 
 	 @Override

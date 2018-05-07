@@ -44,8 +44,7 @@ public class DAOWeight extends DAOBase {
 	   */
 	  public void addWeight(Date pDate, float pWeight, Profile pProfile) {
 		  SQLiteDatabase db = this.getWritableDatabase();
-		  //TODO : verifier qu'on ne met pas deux poids sur la meme journee.
-		  
+
 		  ContentValues value = new ContentValues();
 		  
 		  SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);

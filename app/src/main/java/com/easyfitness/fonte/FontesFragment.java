@@ -207,14 +207,13 @@ public class FontesFragment extends Fragment {
 		public void onClick(View v) {
 
 			Cursor oldCursor = null;
+			Integer[] favoriteMachine = null;
 			List<Machine> records = null;
-			List<Long> machineIds = null;
 
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-			machineIds = mDb.getAllMachinesIds(getProfil());
-			records = mDbMachine.getAllMachines(machineIds);
+			records = mDbMachine.getAllMachines();
 
 			if(records.isEmpty()) {
 				Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();

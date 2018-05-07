@@ -291,8 +291,9 @@ public class ProfilFragment extends Fragment {
 				//this.profilText.setText(getProfil().getName());
 				//this.resumeText.setText("");
 				List<Weight> valueList = mWeightDb.getWeightList(getProfil()); 
-				DrawGraph(valueList);
+
 				// update table
+				DrawGraph(valueList);
 				FillRecordTable(valueList);
 			}
 		}

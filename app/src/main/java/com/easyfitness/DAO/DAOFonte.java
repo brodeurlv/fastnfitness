@@ -645,7 +645,9 @@ public class DAOFonte extends DAOBase {
 		return getRecordsList(selectQuery);
 	}
 
-	// Getting last record
+	/**
+	 * @return the last record for a profile p
+	 */
 	public Fonte getLastRecord(Profile pProfile) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -673,7 +675,9 @@ public class DAOFonte extends DAOBase {
 		return lReturn;
 	}
 
-	// @return the number of series done for this machine for this day
+	/**
+	 * @return the number of series for this machine for this day
+	 */
 	public int getNbSeries(Date pDate, String pMachine) {
 
 
@@ -710,7 +714,9 @@ public class DAOFonte extends DAOBase {
 		return lReturn;
 	}
 
-	// @return the number of series done for this machine for this day
+	/**
+	 * @return the total weight for this machine for this day
+	 */
 	public float getTotalWeightMachine(Date pDate, String pMachine) {
 
 		float lReturn=0;
@@ -745,7 +751,10 @@ public class DAOFonte extends DAOBase {
 		return lReturn;
 	}
 
-	// @return the number of series done for this machine for this day
+
+	/**
+	 * @return the total weight for this day
+	 */
 	public float getTotalWeightSession(Date pDate) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -767,6 +776,93 @@ public class DAOFonte extends DAOBase {
 			do {
 				float value = mCursor.getInt(0) *  mCursor.getFloat(1) * mCursor.getInt(2);
 				lReturn += value;
+				i++;
+			} while (mCursor.moveToNext());
+		}
+		close();
+
+		// return value
+		return lReturn;
+	}
+
+	/**
+	 * @return Max weight for a profile p and a machine m
+	 */
+	public float getMax(Profile p, Machine m) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		float lReturn=0;
+
+		// Select All Machines
+		String selectQuery = "SELECT MAX(" + this.POIDS + ") FROM " + TABLE_NAME
+				+ " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				float value = mCursor.getFloat(0);
+				lReturn = value;
+				i++;
+			} while (mCursor.moveToNext());
+		}
+		close();
+
+		// return value
+		return lReturn;
+	}
+
+	/**
+	 * @return Max weight for a profile p and a machine m
+	 */
+	public float getLastSessionMax(Profile p, Machine m) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		float lReturn=0;
+
+		// Select All Machines
+		String selectQuery = "SELECT MAX(" + this.POIDS + ") FROM " + TABLE_NAME
+				+ " WHERE " + DATE + "=MAX(" + DATE + ") " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				float value = mCursor.getFloat(0);
+				lReturn = value;
+				i++;
+			} while (mCursor.moveToNext());
+		}
+		close();
+
+		// return value
+		return lReturn;
+	}
+
+	/**
+	 * @return Min weight for a profile p and a machine m
+	 */
+	public float getMin(Profile p, Machine m) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		float lReturn=0;
+
+		// Select All Machines
+		String selectQuery = "SELECT MIN(" + this.POIDS + ") FROM " + TABLE_NAME
+				+ " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (mCursor.moveToFirst()) {
+			int i = 0;
+			do {
+				float value = mCursor.getFloat(0);
+				lReturn = value;
 				i++;
 			} while (mCursor.moveToNext());
 		}

@@ -44,10 +44,10 @@ public class DAOMachine extends DAOBase {
 			mContext = context;
 	}
 	
-	public void setProfil (Profile pProfile)
+	/*public void setProfil (Profile pProfile)
 	{
 		mProfile = pProfile;
-	}
+	}*/
 
 	/**
 	 * @param pName le Record a ajouter a la base
@@ -71,7 +71,6 @@ public class DAOMachine extends DAOBase {
 		return new_id;
 	}
 
-	
 	// Getting single value
 	public Machine getMachine(long id) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -155,26 +154,31 @@ public class DAOMachine extends DAOBase {
 		mCursor.close();
 	}
 
-	// Getting All Records
+	/**
+	 * @return List of Machine object ordered by Favorite and Name
+	 */
 	public List<Machine> getAllMachines() {
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-				+ NAME + " ASC";
+				+ FAVORITES + " DESC," + NAME + " ASC";
 
 		// return value list
 		return getMachineList(selectQuery);
 	}
 
-	// Getting All Records
-	public List<Machine> getAllMachines(List<Long> array) {
+	/**
+	 * @param idList List of Machine IDs to be return
+	 * @return List of Machine object ordered by Favorite and Name
+	 */
+	public List<Machine> getAllMachines(List<Long> idList) {
 
-		String ids = array.toString();
+		String ids = idList.toString();
 		ids = ids.replace('[', '(');
 		ids = ids.replace(']', ')');
 
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
-				+ NAME + " ASC";
+				+ FAVORITES + " DESC," + NAME + " ASC";
 
 		// return value list
 		return getMachineList(selectQuery);
@@ -208,8 +212,6 @@ public class DAOMachine extends DAOBase {
 		// return value list
 		return valueList;
 	}
-
-
 
 	// Updating single value
 	public int updateMachine(Machine m) {
