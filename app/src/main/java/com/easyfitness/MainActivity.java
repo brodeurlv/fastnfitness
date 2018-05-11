@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                                 ListView lv = ((AlertDialog) dialog).getListView();
                                 Object checkedItem = lv.getAdapter().getItem(which);
                                 setCurrentProfil(checkedItem.toString());
-                                Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
+                                Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
                 changeProfilbuilder.show();
@@ -320,11 +320,11 @@ public class MainActivity extends AppCompatActivity {
                                 ListView lv = ((AlertDialog) dialog).getListView();
                                 Object checkedItem = lv.getAdapter().getItem(which);
                                 if (getCurrentProfil().getName().equals(checkedItem.toString())) {
-                                    Toast.makeText(getApplicationContext(), "Impossible to delete current profile", Toast.LENGTH_LONG).show(); //TODO change static string
+                                    Toast.makeText(getApplicationContext(), R.string.impossibleToDeleteProfile, Toast.LENGTH_LONG).show(); //TODO change static string
                                 } else {
                                     Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
                                     mDbProfils.deleteProfil(profileToDelete);
-                                    Toast.makeText(getApplicationContext(), "Profile deleted : " + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
+                                    Toast.makeText(getApplicationContext(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
                                 }
                             }
                         });
@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         DAOMachine mDbMachines = new DAOMachine(getActivity());
                         // recupere le premier ID de la liste.
-                        List<Machine> lList2 = mDbMachines.getAllMachines();
+                        List<Machine> lList2 = mDbMachines.getAllMachinesArray();
                         for (int i = 0; i < lList2.size(); i++) {
                             Machine mTemp = lList2.get(i);
                             mDbMachines.deleteRecord(mTemp.getId());

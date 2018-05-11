@@ -10,6 +10,9 @@
 	<string name="revision_history" translatable="false">\n
 		V0.14.3 BETA: \n
 			\t - Bug : Fixed sum of weight during rest time \n
+			\t - Bug : Fixed some crash on app resume \n
+            \t - Enhancement : Added min and max value for exercises \n
+			\t - Enhancement : Performance enhancement \n
 			\t - Enhancement : Rest countdown vibrates 2 sec before the end \n
 			\t - Enhancement : Added cross in table to delete Weight and Body measures \n
 			\t - Enhancement : Exercise list with icons and details \n
@@ -118,8 +121,5 @@
 	<string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>
 	<string name="circleprogress_content" translatable="false">Circle Progress (Public License)</string>
 	<string name="circularImageView_content" translatable="false">CircularImageView (Apache 2.0)</string>
-
-
-
 
 </resources>

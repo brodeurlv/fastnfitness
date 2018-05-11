@@ -17,17 +17,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.graph.CustomMarkerView;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -81,12 +78,12 @@ public class FonteGraphFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_graph, container, false);
 		mFragmentView = view;
-		functionList = (Spinner) view.findViewById(R.id.filterGraphFunction);
-		machineList = (Spinner) view.findViewById(R.id.filterGraphMachine);
-		allButton = (Button) view.findViewById(R.id.allbutton);
-		lastyearButton = (Button) view.findViewById(R.id.lastyearbutton);
-		lastmonthButton = (Button) view.findViewById(R.id.lastmonthbutton);
-		lastweekButton = (Button) view.findViewById(R.id.lastweekbutton);
+        functionList = view.findViewById(R.id.filterGraphFunction);
+        machineList = view.findViewById(R.id.filterGraphMachine);
+        allButton = view.findViewById(R.id.allbutton);
+        lastyearButton = view.findViewById(R.id.lastyearbutton);
+        lastmonthButton = view.findViewById(R.id.lastmonthbutton);
+        lastweekButton = view.findViewById(R.id.lastweekbutton);
 		
 		/* Initialisation des evenements */
 		machineList.setOnItemSelectedListener(onItemSelectedList);
@@ -102,7 +99,7 @@ public class FonteGraphFragment extends Fragment {
 		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 
 		/* Initialisation de l'historique */
-		if (mDb ==null) mDb = new DAOFonte(view.getContext());
+        if (mDb == null) mDb = new DAOFonte(getContext());
 
 		ArrayAdapter<String> adapterFunction = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item,
@@ -110,37 +107,36 @@ public class FonteGraphFragment extends Fragment {
 		adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		functionList.setAdapter(adapterFunction);
 
-			mMachinesArray = mDb.getAllMachinesStrList(getProfil());
-			// lMachinesArray = prepend(lMachinesArray, "All");
-			mAdapterMachine = new ArrayAdapter<String>(
-					getContext(), android.R.layout.simple_spinner_item,
-					mMachinesArray);
-			mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			machineList.setAdapter(mAdapterMachine);
-			mDb.closeCursor();
+        return view;
+    }
 
-		//refreshData();
-		
-		return view;
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
 
-	@Override
-	public void onStart() {
-		super.onStart();
-        if (this.getUserVisibleHint() == true)
+        if (getProfil() != null) {
+            mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDb.getAllMachinesStrList(getProfil());
+            // lMachinesArray = prepend(lMachinesArray, "All");
+            mAdapterMachine = new ArrayAdapter<String>(
+                    getContext(), android.R.layout.simple_spinner_item,
+                    mMachinesArray);
+            mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            machineList.setAdapter(mAdapterMachine);
+            mDb.closeCursor();
+        }
+
+        if (this.getUserVisibleHint())
             refreshData();
     }
 	
 	@Override
-	public void onAttach(Activity activity)
-	{
+    public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.mActivity = (MainActivity) activity;
 	}
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
         // Save Shared Preferences
     }
@@ -214,27 +210,11 @@ public class FonteGraphFragment extends Fragment {
 		// Recupere les enregistrements
 		List<DateGraphData> valueList = mDb.getFunctionRecords(getProfil(), pMachine, pDAOFunction);
 
-		//ArrayList<String> xVals = new ArrayList<String>();
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Recherche le min et max des dates
 		long maxDate = -1;
 		long minDate = -1;
-
-		/*for (int i = 0; i<valueList.size();i++) {
-			long tmpDate = (long)(valueList.get(i).getX());
-			if (maxDate == -1)  maxDate = tmpDate;
-			if (minDate == -1)  minDate = tmpDate;
-
-			if (tmpDate > maxDate) maxDate = tmpDate;
-			if (tmpDate < minDate) minDate = tmpDate;
-		}*/
-
-		// Reformat l'X axis. Transforme le date de
-		/*for (long i = minDate; i<=maxDate;i=i+86400000) {
-			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
-			xVals.add(dt1.format(i));
-		}*/
 
 		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		int defaultUnit = 0;
@@ -280,12 +260,26 @@ public class FonteGraphFragment extends Fragment {
 		if(mFragmentView != null) {
 			if (getProfil() != null) {
 				//functionList.setOnItemSelectedListener(onItemSelectedList);
-
-				/* Initialisation des machines */
-				mMachinesArray.clear();
-				mMachinesArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-				mAdapterMachine.notifyDataSetChanged();
-				mDb.closeCursor();
+                if (mAdapterMachine == null) {
+                    mMachinesArray = mDb.getAllMachinesStrList(getProfil());
+                    ; //Data are refreshed on show //mDb.getAllMachinesStrList(getProfil());
+                    // lMachinesArray = prepend(lMachinesArray, "All");
+                    mAdapterMachine = new ArrayAdapter<String>(
+                            getContext(), android.R.layout.simple_spinner_item,
+                            mMachinesArray);
+                    mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    machineList.setAdapter(mAdapterMachine);
+                } else {
+                    /* Initialisation des machines */
+                    if (mMachinesArray == null)
+                        mMachinesArray = mDb.getAllMachinesStrList(getProfil());
+                    else {
+                        mMachinesArray.clear();
+                        mMachinesArray.addAll(mDb.getAllMachinesStrList(getProfil()));
+                        mAdapterMachine.notifyDataSetChanged();
+                        mDb.closeCursor();
+                    }
+                }
 
 				if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
 					machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
@@ -296,6 +290,18 @@ public class FonteGraphFragment extends Fragment {
 			}
 		}
 	}
+
+    private ArrayAdapter<String> getAdapterMachine() {
+        ArrayAdapter<String> a;
+        mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDb.getAllMachinesStrList(getProfil());
+        // lMachinesArray = prepend(lMachinesArray, "All");
+        mAdapterMachine = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_spinner_item,
+                mMachinesArray);
+        mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        machineList.setAdapter(mAdapterMachine);
+        return mAdapterMachine;
+    }
   
 	private Profile getProfil()
 	{

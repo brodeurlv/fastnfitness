@@ -1,18 +1,15 @@
 package com.easyfitness.DAO;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.UnitConverter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DAOProfil extends DAOBase {
 	
@@ -286,7 +283,7 @@ public class DAOProfil extends DAOBase {
 	        
 	        DAOWeight mWeightDb;
 	        mWeightDb = new DAOWeight(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps. 
-			List<Weight> valueList = mWeightDb.getWeightList(getProfil(id));
+            List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil(id));
 			for (int i = 0; i<valueList.size();i++) {
 				mWeightDb.deleteMeasure(valueList.get(i).getId());
 			}

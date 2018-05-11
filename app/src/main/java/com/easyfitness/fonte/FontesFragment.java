@@ -42,6 +42,7 @@ import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.Weight;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -66,7 +67,7 @@ public class FontesFragment extends Fragment {
 	Profile mProfile = null;
 	EditText dateEdit = null;
 	AutoCompleteTextView machineEdit = null;
-	ArrayAdapter<String> machineEditAdapter = null;
+    MachineArrayFullAdapter machineEditAdapter = null;
 	EditText serieEdit = null;
 	EditText repetitionEdit = null;
 	EditText poidsEdit = null;
@@ -81,9 +82,9 @@ public class FontesFragment extends Fragment {
 	CheckBox restTimeCheck = null;
 	DatePickerDialogFragment mDateFrag = null;
 	CircularImageView machineImage = null;
+    TextView minText = null;
+    TextView maxText = null;
 	int lTableColor = 1;
-	private String name;
-	private int id;
 	private DAOFonte mDb = null;
 	private DAOMachine mDbMachine = null;
 	AlertDialog machineListDialog;
@@ -115,7 +116,7 @@ public class FontesFragment extends Fragment {
 			float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
 			int unitPoids= UnitConverter.UNIT_KG; // Kg
 			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
-				tmpPoids=UnitConverter.LbstoKg((float)tmpPoids); // Always convert to KG
+                tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
 				unitPoids = UnitConverter.UNIT_LBS; // LBS
 			}
 
@@ -139,7 +140,7 @@ public class FontesFragment extends Fragment {
 
 			/* Reinitialisation des machines */
 			// TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getView().getContext(),
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
 					android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
 			machineEdit.setAdapter(adapter);
 
@@ -180,58 +181,35 @@ public class FontesFragment extends Fragment {
 			saveSharedParams();
 		}
 	};
-	private OnClickListener onClickMachineList = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			machineListArray = mDb.getAllMachines(getProfil());
-			mDb.closeCursor();
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(getView().getContext());
-			builder.setTitle(R.string.selectMachineDialogLabel);
-			builder.setItems(machineListArray, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					machineEdit.setText(machineListArray[which]); // Met a jour le text
-					FillRecordTable(machineListArray[which]); // Met a jour le tableau
-					getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
-
-					hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
-					//((ViewGroup)machineEdit.getParent()).requestFocus(); //Permet de reactiver le clavier lors du focus sur l'editText
-				}
-			});
-			//builder.create();
-			builder.show();
-		}
-	};
 	private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-
-			Cursor oldCursor = null;
-			Integer[] favoriteMachine = null;
-			List<Machine> records = null;
+            Cursor c;
+            Cursor oldCursor;
 
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-			records = mDbMachine.getAllMachines();
+            c = mDbMachine.getAllMachines();
 
-			if(records.isEmpty()) {
+            if (c == null || c.getCount() == 0) {
 				Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
 				machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
-					MachineCursorAdapter mTableAdapter = new MachineCursorAdapter (v.getContext(), mDbMachine.getCursor(), 0);
+                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0);
+                    //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
 					machineList.setAdapter(mTableAdapter);
 				} else {
 					MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
-					oldCursor = mTableAdapter.swapCursor(mDbMachine.getCursor());
+                    oldCursor = mTableAdapter.swapCursor(c);
 					if (oldCursor!=null) oldCursor.close();
 				}
 
 				machineList.setOnItemClickListener(new OnItemClickListener(){
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_ID);
+                        TextView textView = view.findViewById(R.id.LIST_MACHINE_ID);
 						long machineID = Long.parseLong(textView.getText().toString());
 
 						DAOMachine lMachineDb = new DAOMachine(getContext());
@@ -251,15 +229,14 @@ public class FontesFragment extends Fragment {
 						}
 					}
 				});
-			}
 
-			if ( ! records.isEmpty() ) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 				builder.setTitle(R.string.selectMachineDialogLabel);
 				builder.setView(machineList);
 				machineListDialog = builder.create();
 				machineListDialog.show();
 			}
+
 		}
 	};
 	private OnClickListener clickDateEdit = new View.OnClickListener() {
@@ -281,7 +258,7 @@ public class FontesFragment extends Fragment {
 	private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus == true) {
+            if (hasFocus) {
 				switch(v.getId()) {
 				case R.id.editDate:
 					showDatePickerFragment();
@@ -300,12 +277,12 @@ public class FontesFragment extends Fragment {
 					machineImage.setImageResource(R.drawable.ic_machine);
 					break;
 				}
-			}else if (hasFocus == false) {
+            } else if (!hasFocus) {
 				switch(v.getId()) {
 				case R.id.editMachine:
 					Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
 					if(lMachine!=null) ImageUtil.setThumb(machineImage, lMachine.getPicture());
-					FillRecordTable(machineEdit.getText().toString());
+                    FillRecordTable(machineEdit.getText().toString());
 					break;
 				}
 			}
@@ -458,6 +435,8 @@ public class FontesFragment extends Fragment {
 		restTimeEdit = (EditText) view.findViewById(R.id.editRestTime);
 		restTimeCheck = (CheckBox) view.findViewById(R.id.restTimecheckBox);
 		machineImage = (CircularImageView) view.findViewById(R.id.imageMachine);
+        minText = view.findViewById(R.id.minText);
+        maxText = view.findViewById(R.id.maxText);
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(clickAddButton);
@@ -590,47 +569,83 @@ public class FontesFragment extends Fragment {
 	{
 		return mActivity.getCurrentProfil();
 	}
-	
-	public String getMachine()
-	{
+
+    public String getMachine() {
 		//if (machineEdit == null) machineEdit = (AutoCompleteTextView) this.getView().findViewById(R.id.editMachine);
 		return machineEdit.getText().toString();
 	}
-	
 
 	/*  */
-	private void FillRecordTable (String pMachines) {
+    private void FillRecordTable(String pMachine) {
 
 		List<Fonte> records = null;
+        Cursor c = null;
 		Cursor oldCursor = null;
 
 		// Informe l'activité de la machine courante
-		this.getMainActivity().setCurrentMachine(pMachines);
+        Machine m = mDbMachine.getMachine(pMachine);
+        this.getMainActivity().setCurrentMachine(pMachine);
 
 		// Recupere les valeurs
-		if (pMachines==null || pMachines.isEmpty()) {
-			records = mDb.getAllRecordsByProfil(getProfil(), 10);
+        if (pMachine == null || pMachine.isEmpty()) {
+            c = mDb.getAllRecordsByProfil(getProfil(), 10);
 		} else {
-			records = mDb.getAllRecordByMachines(getProfil(), pMachines, 10);
+            c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
 		}
 
-		if(records.isEmpty()) {
+        if (c == null || c.getCount() == 0) {
 			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
 			recordList.setAdapter(null);
 		} else {
 			// ...
 			if ( recordList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter (this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
+                FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
 				mTableAdapter.setFirstColorOdd(lTableColor);
 				recordList.setAdapter(mTableAdapter);
 			} else {				
 				FonteCursorAdapter mTableAdapter = ((FonteCursorAdapter)recordList.getAdapter());
 				mTableAdapter.setFirstColorOdd(lTableColor);
-				oldCursor = mTableAdapter.swapCursor(mDb.getCursor());
+                oldCursor = mTableAdapter.swapCursor(c);
 				if (oldCursor!=null) oldCursor.close();
 				//mTableAdapter.notifyDataSetChanged();
 			}
 		}
+
+        String unitStr = "";
+        float weight = 0;
+        if (getProfil() != null && m != null) {
+            Weight minValue = mDb.getMin(getProfil(), m);
+            getView().findViewById(R.id.minmaxLayout).setVisibility(View.VISIBLE);
+            if (minValue != null) {
+                if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                    weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
+                    unitStr = getContext().getString(R.string.LbsUnitLabel);
+                } else {
+                    weight = minValue.getStoredWeight();
+                    unitStr = getContext().getString(R.string.KgUnitLabel);
+                }
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                minText.setText(numberFormat.format(weight) + " " + unitStr);
+
+                Weight maxValue = mDb.getMax(getProfil(), m);
+                if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                    weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
+                    unitStr = getContext().getString(R.string.LbsUnitLabel);
+                } else {
+                    weight = maxValue.getStoredWeight();
+                    unitStr = getContext().getString(R.string.KgUnitLabel);
+                }
+                maxText.setText(numberFormat.format(weight) + " " + unitStr);
+            } else {
+                minText.setText("-");
+                maxText.setText("-");
+                getView().findViewById(R.id.minmaxLayout).setVisibility(View.GONE);
+            }
+        } else {
+            minText.setText("-");
+            maxText.setText("-");
+            getView().findViewById(R.id.minmaxLayout).setVisibility(View.GONE);
+        }
 	}
 
 	private void refreshData(){
@@ -638,41 +653,45 @@ public class FontesFragment extends Fragment {
 		if(fragmentView != null) {
 			if (getProfil() != null) {
 			mDb.setProfil(getProfil());
-			
-			machineListArray = mDb.getAllMachines(getProfil());   
-			mDb.closeCursor();
+
+                ArrayList<Machine> machineListArray;
+                // Version avec table Machine
+                machineListArray = mDbMachine.getAllMachinesArray();
+
+
+                //machineListArray = mDb.getAllMachines(getProfil());
+                //mDb.closeCursor();
 			
 			/* Init machines list*/
-			machineEditAdapter = new ArrayAdapter<String>(this.getView().getContext(),
-					android.R.layout.simple_dropdown_item_1line, machineListArray);
+                machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
 			machineEdit.setAdapter(machineEditAdapter);	
 			
 			// Si on a change de profil
 			//if (mProfile != getProfil()) {
-				mProfile = getProfil();
-				
-				/* Initialisation serie */ 
-				Fonte lLastRecord = mDb.getLastRecord(getProfil());
-				if (lLastRecord != null ) {
+                mProfile = getProfil();
+
+                /* Initialisation serie */
+                Fonte lLastRecord = mDb.getLastRecord(getProfil());
+                if (lLastRecord != null) {
                     machineEdit.setText(lLastRecord.getMachine());
-					Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
-					machineImage.setImageResource(R.drawable.ic_machine); // Default image
-					ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
-					serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+                    Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
+                    machineImage.setImageResource(R.drawable.ic_machine); // Default image
+                    ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
+                    serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
                     repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
                     unitSpinner.setSelection(lLastRecord.getUnit());
-					DecimalFormat numberFormat = new DecimalFormat("#.##");
-					if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
                         poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
                     else
                         poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
                 } else {
-					// valeur par defaut
-					machineEdit.setText(""); //@TODO recuperer une valeur par defaut. 
-					serieEdit.setText("1");
-					repetitionEdit.setText("10");
-					poidsEdit.setText("50");
-				}
+                    // valeur par defaut
+                    machineEdit.setText("");
+                    serieEdit.setText("1");
+                    repetitionEdit.setText("10");
+                    poidsEdit.setText("50");
+                }
 			//}
 			
 			// Set Initial text
@@ -708,7 +727,8 @@ public class FontesFragment extends Fragment {
 
 	@Override
 	public void onHiddenChanged (boolean hidden) {
-		if (!hidden) refreshData();
+        if (!hidden)
+            refreshData();
 	}
 
 	public void hideKeyboard(View view) {

@@ -28,10 +28,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />                
             </intent-filter>
-        </activity>       
-         <activity android:name="com.easyfitness.machines.MachineDetailsActivity" 
-                   android:configChanges="orientation|screenSize" >
         </activity>
+        <!-- <activity android:name="com.easyfitness.machines.MachineDetailsActivity"
+                   android:configChanges="orientation|screenSize" >
+        </activity> -->
         <activity android:name="com.easyfitness.intro.MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
 

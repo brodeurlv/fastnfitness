@@ -230,4 +230,8 @@
     <string name="profileCreated">Profil créé</string>
     <string name="missinginfo">Info manquante</string>
     <string name="createExerciseFirst">Créez des exercises d\'abord</string>
+    <string name="impossibleToDeleteProfile">Impossible de supprimer l\'utilisateur actuel</string>
+    <string name="profileDeleted">Utilisateur supprimé</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
 </resources>

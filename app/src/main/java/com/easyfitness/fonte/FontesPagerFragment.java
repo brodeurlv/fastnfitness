@@ -9,13 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
-import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter;
 
 public class FontesPagerFragment extends Fragment {
 	private String name; 
@@ -131,10 +128,9 @@ public class FontesPagerFragment extends Fragment {
 	{
 		return (ViewPager) getView().findViewById(R.id.pager);
 	}
-	
-	public FontesViewPagerAdapter getViewPagerAdapter()
-	{
-		return (FontesViewPagerAdapter)((ViewPager)(getView().findViewById(R.id.pager))).getAdapter();
+
+    public FragmentPagerItemAdapter getViewPagerAdapter() {
+        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
 	}
 
 	@Override
@@ -169,17 +165,18 @@ public class FontesPagerFragment extends Fragment {
 
 	@Override
 	public void onHiddenChanged (boolean hidden) {
-		/*if (!hidden) {
+        if (!hidden) {
 			// rafraichit le fragment courant
 			
 			if ( getViewPagerAdapter() != null ) {
 				// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit. 
 				// Il faut donc que cela soit pris en compte dans le refresh des fragments. 
 				for (int i = 0; i < 3; i++) {
-					getViewPagerAdapter().getItem(i).onHiddenChanged(false);
+                    if (getViewPagerAdapter().getItem(i) != null)
+                        getViewPagerAdapter().getItem(i).onHiddenChanged(false);
 				}
 			}
-		}*/
+        }
 	}
 }
 

@@ -1,29 +1,20 @@
 package com.easyfitness.machines;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,8 +28,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
@@ -53,12 +43,7 @@ import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -78,6 +63,7 @@ public class MachineDetailsFragment extends Fragment {
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
 	ImageButton machineFavorite = null;
+    LinearLayout machinePhotoLayout = null;
 
 	Toolbar top_toolbar = null;
 	
@@ -141,6 +127,7 @@ public class MachineDetailsFragment extends Fragment {
         machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
         machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
 		machineFavorite = (ImageButton) view.findViewById(R.id.favButton);
+        machinePhotoLayout = (LinearLayout) view.findViewById(R.id.machine_photo_layout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
@@ -166,7 +153,7 @@ public class MachineDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if(isImageFitToScreen) {
                     isImageFitToScreen=false;
-                    machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     machinePhoto.setAdjustViewBounds(true);
                     machinePhoto.setMaxHeight((int)(getView().getHeight()*0.2));
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -185,11 +172,9 @@ public class MachineDetailsFragment extends Fragment {
 		        			float photoH = bmOptions.outHeight;
 		        			
 		        			// Determine how much to scale down the image
-		        			int scaleFactor = (int)(photoW/(machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);
-		        			machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                                int scaleFactor = (int) (photoW / (machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		                    machinePhoto.setAdjustViewBounds(true);
 		                    machinePhoto.setMaxHeight((int)(photoH/scaleFactor));
-		                         			
 		                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 		}
                 	}
@@ -251,7 +236,8 @@ public class MachineDetailsFragment extends Fragment {
 	
 	private boolean CreateMuscleDialog()
 	{
-		if ( isCreateMuscleDialogActive == true) return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
+        if (isCreateMuscleDialogActive)
+            return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
 		
 		isCreateMuscleDialogActive = true;
 		
@@ -368,7 +354,7 @@ public class MachineDetailsFragment extends Fragment {
 
 		@Override
 		public void onFocusChange(View arg0, boolean arg1) {
-			if (arg1==true) {
+            if (arg1) {
 				CreateMuscleDialog();
 			}
 		}
@@ -483,8 +469,8 @@ public class MachineDetailsFragment extends Fragment {
 			        	String lMachineName = machineName.getText().toString();
 			        	Machine m = mDbMachine.getMachine(machineNameArg);
 			        	Machine m2 = mDbMachine.getMachine(lMachineName);
-			        	
-						List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+
+                        List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 						for (Fonte record : listRecords) {
 							record.setMachine(lMachineName); // Change avec le nouveau nom
 							record.setMachineKey(m2.getId()); // Met l'ID de la nouvelle machine
@@ -520,10 +506,10 @@ public class MachineDetailsFragment extends Fragment {
 				this.mDbMachine.updateMachine(m);
 				
 	        	// Rename all the records with that machine and rename them
-	        	DAOFonte lDbFonte = new DAOFonte(getThis().getView().getContext());
-	        	DAOProfil mDbProfil = new DAOProfil(getView().getContext());						
+                DAOFonte lDbFonte = new DAOFonte(getContext());
+                DAOProfil mDbProfil = new DAOProfil(getContext());
 	        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-				List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+                List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 				for (Fonte record : listRecords) {
 					record.setMachine(lMachineName); // Change avec le nouveau nom (DEPRECTED)
 					//record.setMachineKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
@@ -589,7 +575,7 @@ public class MachineDetailsFragment extends Fragment {
 			
 			Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
-			List<Fonte> listRecords = mDbFonte.getAllRecordByMachines(lProfile, this.machineNameArg);
+        List<Fonte> listRecords = mDbFonte.getAllRecordByMachinesArray(lProfile, this.machineNameArg);
 			for (Fonte record : listRecords) {
 				mDbFonte.deleteRecord(record);
 			}						

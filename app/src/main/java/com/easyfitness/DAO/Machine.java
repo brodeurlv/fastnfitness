@@ -81,4 +81,9 @@ public class Machine {
 		mFavorite= favorite;
 	}
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

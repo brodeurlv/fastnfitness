@@ -19,9 +19,11 @@ import java.util.ArrayList;
  * de jonction de table
  */
 
+
     public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
-        public MachineArrayFullAdapter(Context context, ArrayList<Machine> users) {
-            super(context, 0, users);
+
+    public MachineArrayFullAdapter(Context context, ArrayList<Machine> machines) {
+        super(context, 0, machines);
         }
 
         @Override
@@ -56,6 +58,16 @@ import java.util.ArrayList;
             } else {
                 i0.setImageResource(R.drawable.ic_machine);
             }
+
+            ImageView iFav = (ImageView) convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
+            //DAOFavorites favDB = new DAOFavorites(getContext());
+
+            if (machine.getFavorite()) { //favDB.isFavorite(machine.getId(), mProfile.getId())) {
+                iFav.setImageDrawable(convertView.getResources().getDrawable(android.R.drawable.btn_star_big_on));
+            } else {
+                iFav.setImageDrawable(convertView.getResources().getDrawable(android.R.drawable.btn_star_big_off));
+            }
+
             return convertView;
         }
     }

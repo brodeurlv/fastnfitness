@@ -1,16 +1,15 @@
 package com.easyfitness.fonte;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.Machine;
-import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
         int position=(Integer) v.getTag();
         Object object= getItem(position);
         Machine dataModel=(Machine)object;
+        Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
 
         /*switch (v.getId())
         {

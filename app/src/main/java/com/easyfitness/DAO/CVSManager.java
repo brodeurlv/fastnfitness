@@ -76,7 +76,7 @@ public class CVSManager {
 				 * The code of this class is omitted for brevity.
 				 */
 				List<Fonte> records = null;
-				records = dbcFonte.getAllRecordsByProfil(pProfile);
+                records = dbcFonte.getAllRecordsByProfilArray(pProfile);
 				
 				//Write the name of the table and the name of the columns (comma separated values) in the .csv file.
 				csvOutputFonte.write(TABLE_HEAD);
@@ -165,9 +165,9 @@ public class CVSManager {
 				// use FileWriter constructor that specifies open for appending
 				CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF_8"));
 				DAOWeight dbcWeight = new DAOWeight(mContext);
-				dbcWeight.open(); 
-				
-				List<Weight> weightRecords;
+				dbcWeight.open();
+
+                List<ProfileWeight> weightRecords;
 				weightRecords = dbcWeight.getWeightList(pProfile);
 				
 				csvOutputWeight.write(TABLE_HEAD);

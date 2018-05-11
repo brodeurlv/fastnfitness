@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.Weight;
+import com.easyfitness.DAO.ProfileWeight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -198,7 +198,7 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     // Deleting single Measure
-    public void deleteMeasure(Weight m) {
+    public void deleteMeasure(ProfileWeight m) {
         deleteMeasure(m.getId());
     }
 

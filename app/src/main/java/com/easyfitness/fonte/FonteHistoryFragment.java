@@ -1,14 +1,5 @@
 package com.easyfitness.fonte;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -27,12 +18,20 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.Fonte;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 public class FonteHistoryFragment extends Fragment {
 	private String name;
@@ -88,8 +87,10 @@ public class FonteHistoryFragment extends Fragment {
 		mDb = new DAOFonte(view.getContext());
 
 		mMachineArray = new ArrayList<String>();
+        mDateArray = new ArrayList<String>();
+
 		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-		mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
+        //mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
 		mAdapterMachine = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
 				mMachineArray);
@@ -97,9 +98,9 @@ public class FonteHistoryFragment extends Fragment {
 		machineList.setAdapter(mAdapterMachine);
 		mDb.closeCursor();
 
-		mDateArray = new ArrayList<String>();
+
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
-		mDateArray.addAll(mDb.getAllDatesList(getProfil()));
+        //mDateArray.addAll(mDb.getAllDatesList(getProfil()));
 		mAdapterDate = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item,
 				mDateArray);
@@ -112,25 +113,11 @@ public class FonteHistoryFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+        this.mActivity = (MainActivity) this.getActivity();
 		refreshData();
 	}
-	
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		this.mActivity = (MainActivity) activity;
-	}
 
-	private static String[] prepend(String[] a, String el) {
-		String[] c = new String[a.length + 1];
-		c[0] = el;
-		System.arraycopy(a, 0, c, 1, a.length);
-		return c;
-	}
-
-	public String getName() { 
+    public String getName() {
 		return getArguments().getString("name");
 	}
 
@@ -206,18 +193,18 @@ public class FonteHistoryFragment extends Fragment {
 		}
 
 		// Recupere les valeurs
-		records = mDb.getFilteredRecords(getProfil(), pMachine, pDate);  		
+        Cursor c = mDb.getFilteredRecords(getProfil(), pMachine, pDate);
 
-		if(records.isEmpty()) {
+        if (c == null || c.getCount() == 0) {
 			//Toast.makeText(mActivity, "No records", Toast.LENGTH_SHORT).show();    
 			filterList.setAdapter(null);
 		} else {
 			// ...
 			if ( filterList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
+                FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), c, 0, itemClickDeleteRecord);
 				filterList.setAdapter(mTableAdapter);
 			} else {
-				oldCursor = ((FonteCursorAdapter)filterList.getAdapter()).swapCursor(mDb.getCursor());
+                oldCursor = ((FonteCursorAdapter) filterList.getAdapter()).swapCursor(c);
 				if (oldCursor!=null)
 					oldCursor.close();
 			}

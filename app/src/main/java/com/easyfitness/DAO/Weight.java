@@ -1,40 +1,41 @@
 package com.easyfitness.DAO;
 
-import java.util.Date;
+import com.easyfitness.utils.UnitConverter;
 
-/* DataBase Object */
+import java.text.DecimalFormat;
+
 public class Weight {
-	  // Notez que l'identifiant est un long
-	  private long id;
-	  private Date mDate;
-	  private float mWeight;
-	  private long mProfil_id;
-	  
-	  public Weight(long id, Date pDate, float pWeight, long pProfil_id) {
-	    super();
-	    this.id = id;
-	    this.mDate = pDate; 
-	    this.mWeight = pWeight;
-	    this.mProfil_id = pProfil_id;
-	  }
+    private float pWeight;
+    private int pUnit;
 
-	  public long getId() {
-		  return id;
-	  }
+    public Weight(float weight, int unit) {
+        pWeight = weight;
+        pUnit = unit;
+    }
 
-	  public void setId(long id) {
-		  this.id = id;
-	  }
-	  
-	  public Date getDate() {
-		    return mDate;
-		  }
-	  
-	  public float getWeight() {
-		    return mWeight;
-		  }
-	  
-	  public long getProfil() {
-		    return mProfil_id;
-		  }
-	}
+    public float getStoredWeight() {
+        return pWeight;
+    }
+
+    public float getWeight(int unit) {
+        float weight = pWeight;
+        if (unit == UnitConverter.UNIT_LBS) {
+            weight = UnitConverter.KgtoLbs(pWeight);
+        }
+        return weight;
+    }
+
+    public int getStoredUnit() {
+        return pUnit;
+    }
+
+    public String toString() {
+        DecimalFormat numberFormat = new DecimalFormat("#.##");
+        return numberFormat.format(pWeight);
+    }
+
+    public String getWeightStr(int unit) {
+        DecimalFormat numberFormat = new DecimalFormat("#.##");
+        return numberFormat.format(getWeight(unit));
+    }
+}

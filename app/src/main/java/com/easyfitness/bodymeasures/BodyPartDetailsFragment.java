@@ -151,7 +151,7 @@ public class BodyPartDetailsFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.tab_bodytracking_details, container, false);
+        View view = inflater.inflate(R.layout.bodytracking_details_fragment, container, false);
 
 		addButton = (Button) view.findViewById(R.id.buttonAddWeight);
 		measureEdit = (EditText) view.findViewById(R.id.editWeight);

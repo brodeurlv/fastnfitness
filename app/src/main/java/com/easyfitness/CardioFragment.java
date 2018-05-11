@@ -380,7 +380,7 @@ public class CardioFragment extends Fragment {
 				durationEdit.setText("");
 			} else {
 				// valeur par defaut
-				exerciceEdit.setText(""); //@TODO recuperer une valeur par defaut. 
+                exerciceEdit.setText("");
 				distanceEdit.setText("");
 				durationEdit.setText("");
 			}

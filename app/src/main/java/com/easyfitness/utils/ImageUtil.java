@@ -2,7 +2,6 @@ package com.easyfitness.utils;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,8 +16,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.easyfitness.R;
 
@@ -167,19 +166,17 @@ public class ImageUtil {
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             mImageView.setImageBitmap(bitmap);
 
-            mImageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+            mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mImageView.setAdjustViewBounds(true);
-            //mImageView.setMaxHeight((int)(getView().getHeight()*0.2));
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         } catch (Exception e) {
-            //mCurrentPhotoPath = null;
             e.printStackTrace();
         }
     }
 
     public static final int REQUEST_TAKE_PHOTO = 1;
     public static final int REQUEST_PICK_GALERY_PHOTO = 2;
+    public static final int REQUEST_DELETE_IMAGE = 3;
 
     private void dispatchTakePictureIntent(Fragment pF) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -23,13 +23,11 @@ import android.widget.Toast;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOWeight;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.Weight;
-import com.easyfitness.graph.CustomMarkerView;
+import com.easyfitness.DAO.ProfileWeight;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -204,8 +202,8 @@ public class ProfilFragment extends Fragment {
 		super.onAttach(activity);
 		this.mActivity = (MainActivity) activity;
 	}
-	
-	private void DrawGraph(List<Weight> valueList) {
+
+    private void DrawGraph(List<ProfileWeight> valueList) {
 
 		// Recupere les enregistrements
 		if (valueList.size() < 1) { mChart.clear(); return; }
@@ -249,7 +247,7 @@ public class ProfilFragment extends Fragment {
     }
 	
 	/*  */
-	private void FillRecordTable(List<Weight> valueList) {
+    private void FillRecordTable(List<ProfileWeight> valueList) {
 		Cursor oldCursor = null;
 
 		if(valueList.isEmpty()) {
@@ -290,7 +288,7 @@ public class ProfilFragment extends Fragment {
 			if (getProfil() != null) {
 				//this.profilText.setText(getProfil().getName());
 				//this.resumeText.setText("");
-				List<Weight> valueList = mWeightDb.getWeightList(getProfil()); 
+                List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil());
 
 				// update table
 				DrawGraph(valueList);
