@@ -701,8 +701,9 @@ public class DAOFonte extends DAOBase {
 		Fonte lReturn = null;
 
 		// Select All Machines
-		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME 
-				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
+        String selectQuery = "SELECT " + KEY + ", MAX(" + DATE + ") FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + ")";
+        ;
 		mCursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
