@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 fileChooserDialog.setFileFilter("csv");
-                fileChooserDialog.chooseDirectory("");
+                fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
                 return true;
             case R.id.action_deleteDB:
                 // Afficher une boite de dialogue pour confirmer

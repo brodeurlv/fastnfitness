@@ -47,7 +47,7 @@ public class CVSManager {
 			return false;
 		}
 		else {
-			//We use the Download directory for saving our .csv file.
+            //We use the FastNFitness directory for saving our .csv file.
 			File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export");
 			if (!exportDir.exists()) 
 			{
