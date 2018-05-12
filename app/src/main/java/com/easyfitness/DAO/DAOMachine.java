@@ -35,14 +35,12 @@ public class DAOMachine extends DAOBase {
 
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
-	
-	private Profile mProfile = null;
+
+    private Profile mProfile = null;
 	private Cursor mCursor = null;
-	private Context mContext = null;
 
 	public DAOMachine(Context context) {
 			super(context);
-			mContext = context;
 	}
 	
 	/*public void setProfil (Profile pProfile)

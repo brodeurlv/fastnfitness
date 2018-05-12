@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.OnClickListener{
 
-    private ArrayList<Machine> dataSet;
     Context mContext;
 
     // View lookup cache
@@ -28,7 +27,6 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
 
     public MachineArrayAdapter(ArrayList<Machine> data, Context context) {
         super(context, R.layout.bodypart_row, data);
-        this.dataSet = data;
         this.mContext=context;
     }
 

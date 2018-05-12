@@ -47,8 +47,12 @@ public class CVSManager {
 			return false;
 		}
 		else {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_H_m_s");
+            Date date = new Date();
+
             //We use the FastNFitness directory for saving our .csv file.
-			File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export");
+            File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export/" + dateFormat.format(date));
 			if (!exportDir.exists()) 
 			{
 				exportDir.mkdirs();
@@ -58,11 +62,7 @@ public class CVSManager {
 			PrintWriter printWriter = null;
 			try 
 			{
-				// FONTE
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_H_m_s");
-				Date date = new Date();
-				
-				CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Weight_" +dateFormat.format(date) + ".csv", ',', Charset.forName("UTF_8"));
+                CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Weight_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 				
 				/**This is our database connector class that reads the data from the database.
 				 * The code of this class is omitted for brevity.
@@ -112,10 +112,10 @@ public class CVSManager {
 					csvOutputFonte.endRecord();
 				}
 				csvOutputFonte.close();
-				dbcFonte.closeAll();	
-				
+				dbcFonte.closeAll();
 
-				CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF_8"));
+
+                CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 				
 				/**This is our database connector class that reads the data from the database.
 				 * The code of this class is omitted for brevity.
@@ -163,7 +163,7 @@ public class CVSManager {
 				
 				// Profile weight
 				// use FileWriter constructor that specifies open for appending
-				CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF_8"));
+                CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 				DAOWeight dbcWeight = new DAOWeight(mContext);
 				dbcWeight.open();
 
@@ -212,8 +212,8 @@ public class CVSManager {
 		
 		boolean ret = true;
 		
-		try {			
-			CsvReader csvRecords = new CsvReader(file, ',', Charset.forName("UTF_8"));
+		try {
+            CsvReader csvRecords = new CsvReader(file, ',', Charset.forName("UTF-8"));
 		
 			csvRecords.readHeaders();
 			

@@ -231,14 +231,16 @@ public class FonteHistoryFragment extends Fragment {
 						dateList.setSelection(1);
 					}
 					mAdapterDate.notifyDataSetChanged();
-					mDb.closeCursor();				
+					mDb.closeCursor();
 
+                // positionne la liste deroulante sur la bonne machine
 					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
 						machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-					} 								
-
-					FillRecordTable(machineList.getSelectedItem().toString(), dateList
-							.getSelectedItem().toString());
+                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
+                                .getSelectedItem().toString());
+                    } else { // Si il ne trouve pas la bonne machine, remet la selection a 0
+                        machineList.setSelection(0);
+                    }
 				}
 		}
 	}

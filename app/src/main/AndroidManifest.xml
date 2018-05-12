@@ -39,5 +39,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" />
+
+        <meta-data
+            android:name="firebase_crash_collection_enabled"
+            android:value="@bool/FIREBASE_CRASH_ENABLED" />
     </application>
 </manifest>

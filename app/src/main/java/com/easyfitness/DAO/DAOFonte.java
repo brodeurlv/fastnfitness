@@ -701,19 +701,19 @@ public class DAOFonte extends DAOBase {
 		Fonte lReturn = null;
 
 		// Select All Machines
-        String selectQuery = "SELECT " + KEY + ", MAX(" + DATE + ") FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + ")";
+        String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
         ;
 		mCursor = db.rawQuery(selectQuery, null);
 
-		// looping through all rows and adding to list
-		mCursor.moveToFirst();
-		try {
-			long value = mCursor.getLong(0);
-			lReturn = this.getRecord(value);
-		} catch (NumberFormatException e) {
-			//Date date = new Date();
-			lReturn = null; // Return une valeur
+        // looping through only the first rows.
+        if (mCursor.moveToFirst()) {
+            try {
+                long value = mCursor.getLong(0);
+                lReturn = this.getRecord(value);
+            } catch (NumberFormatException e) {
+                lReturn = null; // Return une valeur
+            }
 		}
 		
 		close();

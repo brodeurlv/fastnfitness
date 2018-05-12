@@ -481,6 +481,13 @@ public class FontesFragment extends Fragment {
 		refreshData();
 	}
 
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        this.mActivity = (MainActivity) this.getActivity();
+        refreshData();
+    }*/
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -607,7 +614,6 @@ public class FontesFragment extends Fragment {
 				mTableAdapter.setFirstColorOdd(lTableColor);
                 oldCursor = mTableAdapter.swapCursor(c);
 				if (oldCursor!=null) oldCursor.close();
-				//mTableAdapter.notifyDataSetChanged();
 			}
 		}
 
@@ -652,22 +658,17 @@ public class FontesFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
-			mDb.setProfil(getProfil());
+                mDb.setProfil(getProfil());
 
                 ArrayList<Machine> machineListArray;
                 // Version avec table Machine
                 machineListArray = mDbMachine.getAllMachinesArray();
 
-
-                //machineListArray = mDb.getAllMachines(getProfil());
-                //mDb.closeCursor();
-			
-			/* Init machines list*/
+                /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
-			machineEdit.setAdapter(machineEditAdapter);	
-			
-			// Si on a change de profil
-			//if (mProfile != getProfil()) {
+                machineEdit.setAdapter(machineEditAdapter);
+
+                // Si on a change de profil
                 mProfile = getProfil();
 
                 /* Initialisation serie */
@@ -692,13 +693,12 @@ public class FontesFragment extends Fragment {
                     repetitionEdit.setText("10");
                     poidsEdit.setText("50");
                 }
-			//}
-			
-			// Set Initial text
-			dateEdit.setText(DateConverter.currentDate());
-	
-			// Set Table
-			FillRecordTable(machineEdit.getText().toString());
+
+                // Set Initial text
+                dateEdit.setText(DateConverter.currentDate());
+
+                // Set Table
+                FillRecordTable(machineEdit.getText().toString());
 			}
 		}
 	}

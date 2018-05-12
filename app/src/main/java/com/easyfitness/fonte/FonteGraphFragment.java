@@ -262,7 +262,7 @@ public class FonteGraphFragment extends Fragment {
 				//functionList.setOnItemSelectedListener(onItemSelectedList);
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDb.getAllMachinesStrList(getProfil());
-                    ; //Data are refreshed on show //mDb.getAllMachinesStrList(getProfil());
+                    //Data are refreshed on show //mDb.getAllMachinesStrList(getProfil());
                     // lMachinesArray = prepend(lMachinesArray, "All");
                     mAdapterMachine = new ArrayAdapter<String>(
                             getContext(), android.R.layout.simple_spinner_item,
@@ -281,8 +281,10 @@ public class FonteGraphFragment extends Fragment {
                     }
                 }
 
-				if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-					machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
+                int position = mAdapterMachine.getPosition(this.getFontesMachine());
+                if (position != -1) {
+                    if (machineList.getSelectedItemPosition() != position)
+                        machineList.setSelection(position);
 					DrawGraph();
 				} else {
 					DrawGraph();

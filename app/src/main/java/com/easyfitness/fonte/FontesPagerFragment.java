@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -22,7 +23,7 @@ public class FontesPagerFragment extends Fragment {
 	private FonteHistoryFragment mpHistoryFrag = null;
 	private FonteGraphFragment mpGraphFrag = null;
 
-	FragmentPagerItemAdapter pagerAdapter = null;
+    FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
 
     /**
@@ -72,11 +73,15 @@ public class FontesPagerFragment extends Fragment {
 
                 @Override
                 public void onPageSelected(int position) {
-                    if (position != 0)  {
+                    //if (position != 0)  {
                         //pagerAdapter.getItem(position).onHiddenChanged(false);
-                        Fragment frag1 = (Fragment)pagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
-                        frag1.onHiddenChanged(false);
-                    }
+                    //Fragment frag1 = (Fragment)pagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+
+                    Fragment frag1 = pagerAdapter.getPage(position);
+                    if (frag1 != null)
+                        frag1.onHiddenChanged(false); // Refresh data
+
+                    //}
                 }
 
                 @Override
@@ -121,7 +126,7 @@ public class FontesPagerFragment extends Fragment {
 
 	public void onPageSelected(int position) {
 		//.instantiateItem() from until .destoryItem() is called it will be able to get the Fragment of page.
-		Fragment page = pagerAdapter.getPage(position);
+        //Fragment page = pagerAdapter.getPage(position);
 	}
 	
 	public ViewPager getViewPager()
@@ -167,16 +172,47 @@ public class FontesPagerFragment extends Fragment {
 	public void onHiddenChanged (boolean hidden) {
         if (!hidden) {
 			// rafraichit le fragment courant
-			
-			if ( getViewPagerAdapter() != null ) {
+
+            if (getViewPagerAdapter() != null) {
 				// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit. 
 				// Il faut donc que cela soit pris en compte dans le refresh des fragments. 
-				for (int i = 0; i < 3; i++) {
-                    if (getViewPagerAdapter().getItem(i) != null)
-                        getViewPagerAdapter().getItem(i).onHiddenChanged(false);
-				}
-			}
+                Fragment frag1;
+                for (int i = 0; i < 3; i++) {
+                    frag1 = getViewPagerAdapter().getPage(i);
+                    if (frag1 != null)
+                        frag1.onHiddenChanged(false); // Refresh data
+                }
+            }
         }
-	}
+    }
+
+    public FontesFragment getFontesFragment() {
+        if (mpFontesFrag == null)
+            mpFontesFrag = (FontesFragment) getChildFragmentManager().findFragmentByTag(MainActivity.FONTES);
+        if (mpFontesFrag == null) mpFontesFrag = FontesFragment.newInstance(MainActivity.FONTES, 1);
+
+        //mpFontesFrag.onHiddenChanged(false);
+        return mpFontesFrag;
+    }
+
+    public FonteGraphFragment getGraphFragment() {
+        if (mpGraphFrag == null)
+            mpGraphFrag = (FonteGraphFragment) getChildFragmentManager().findFragmentByTag(MainActivity.GRAPHIC);
+        if (mpGraphFrag == null)
+            mpGraphFrag = FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2);
+
+        //mpGraphFrag.onHiddenChanged(false);
+        return mpGraphFrag;
+    }
+
+    public FonteHistoryFragment getHistoricFragment() {
+        if (mpHistoryFrag == null)
+            mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().findFragmentByTag(MainActivity.HISTORY);
+        if (mpHistoryFrag == null)
+            mpHistoryFrag = FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3);
+
+        //mpHistoryFrag.onHiddenChanged(false);
+        return mpHistoryFrag;
+    }
 }
 
