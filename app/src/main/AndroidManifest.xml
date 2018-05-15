@@ -31,14 +31,14 @@
         </activity>
         <!-- <activity android:name="com.easyfitness.machines.MachineDetailsActivity"
                    android:configChanges="orientation|screenSize" >
-        </activity> -->
+        </activity>-->
         <activity android:name="com.easyfitness.intro.MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
 
 
-        <meta-data
+        <!-- <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" />
+            android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" />-->
 
         <meta-data
             android:name="firebase_crash_collection_enabled"
