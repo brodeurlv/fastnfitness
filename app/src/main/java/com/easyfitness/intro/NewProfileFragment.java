@@ -125,6 +125,8 @@ public class NewProfileFragment extends SlideFragment {
                 Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
                 mProfilCreated=true;
+
+                nextSlide();
             }
         }
     };
