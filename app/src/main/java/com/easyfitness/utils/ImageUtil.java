@@ -14,11 +14,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.easyfitness.BuildConfig;
 import com.easyfitness.R;
 
 import java.io.File;
@@ -189,10 +191,14 @@ public class ImageUtil {
                 mFilePath = photoFile.getAbsolutePath();
             } catch (IOException ex) {
                 // Error occurred while creating the File
+                return;
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }

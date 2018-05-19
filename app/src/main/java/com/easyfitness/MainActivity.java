@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean bShowMP3 = SP.getBoolean("prefShowMP3", true);
+        boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
         this.showMP3Toolbar(bShowMP3);
     }
 

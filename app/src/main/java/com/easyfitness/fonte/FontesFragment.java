@@ -672,26 +672,28 @@ public class FontesFragment extends Fragment {
                 mProfile = getProfil();
 
                 /* Initialisation serie */
-                Fonte lLastRecord = mDb.getLastRecord(getProfil());
-                if (lLastRecord != null) {
-                    machineEdit.setText(lLastRecord.getMachine());
-                    Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
-                    machineImage.setImageResource(R.drawable.ic_machine); // Default image
-                    ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
-                    serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
-                    repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
-                    unitSpinner.setSelection(lLastRecord.getUnit());
-                    DecimalFormat numberFormat = new DecimalFormat("#.##");
-                    if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
-                        poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
-                    else
-                        poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
-                } else {
-                    // valeur par defaut
-                    machineEdit.setText("");
-                    serieEdit.setText("1");
-                    repetitionEdit.setText("10");
-                    poidsEdit.setText("50");
+                if (machineEdit.getText().toString().isEmpty()) {
+                    Fonte lLastRecord = mDb.getLastRecord(getProfil());
+                    if (lLastRecord != null) {
+                        machineEdit.setText(lLastRecord.getMachine());
+                        Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
+                        machineImage.setImageResource(R.drawable.ic_machine); // Default image
+                        ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
+                        serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+                        repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
+                        unitSpinner.setSelection(lLastRecord.getUnit());
+                        DecimalFormat numberFormat = new DecimalFormat("#.##");
+                        if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+                            poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
+                        else
+                            poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+                    } else {
+                        // valeur par defaut
+                        machineEdit.setText("");
+                        serieEdit.setText("1");
+                        repetitionEdit.setText("10");
+                        poidsEdit.setText("50");
+                    }
                 }
 
                 // Set Initial text

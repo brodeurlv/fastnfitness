@@ -701,8 +701,12 @@ public class DAOFonte extends DAOBase {
 		Fonte lReturn = null;
 
 		// Select All Machines
-        String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
                 + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
+        ;*/
+
+        String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
         ;
 		mCursor = db.rawQuery(selectQuery, null);
 
