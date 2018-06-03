@@ -12,7 +12,7 @@
             \t - Bug : Fixed issue on Time dialog display on Android 8+ \n
             \t - Bug : Fixed issue on Camera dialog display on Android 8+ \n
             \t - Enhancement : Better exercise refresh \n
-            \t - Enhancement : Automatically goes close intro after profile creation \n
+            \t - Enhancement : Automatically close intro after profile creation \n
             \t - Enhancement : MP3 player hidden by default \n
 		V0.14.3 : 15/05/2018\n
 			\t - Bug : Fixed sum of weight during rest time \n

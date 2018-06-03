@@ -1,10 +1,9 @@
 package com.easyfitness.fonte;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOFonte;
@@ -24,6 +22,7 @@ import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FonteHistoryFragment extends Fragment {
 	private String name;
@@ -135,10 +136,12 @@ public class FonteHistoryFragment extends Fragment {
 			FillRecordTable(machineList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
 
-			Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + id, Toast.LENGTH_SHORT) 
-			.show();
+            //Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + id, Toast.LENGTH_SHORT).show();
 
-			return true;
+            KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+
+            return true;
 		}
 	};
 
@@ -262,30 +265,22 @@ public class FonteHistoryFragment extends Fragment {
 
 	private void showDeleteDialog(final long idToDelete) {
 
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case DialogInterface.BUTTON_POSITIVE:
-						mDb.deleteRecord(idToDelete);
-
-						FillRecordTable(machineList.getSelectedItem().toString(), dateList
-								.getSelectedItem().toString());
-
-						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-								.show();
-						break;
-
-					case DialogInterface.BUTTON_NEGATIVE:
-						//No button clicked
-						break;
-				}
-			}
-		};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-                .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
-
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        mDb.deleteRecord(idToDelete);
+                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
+                                .getSelectedItem().toString());
+                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 }

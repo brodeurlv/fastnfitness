@@ -201,7 +201,7 @@ public class FonteGraphFragment extends Fragment {
 		
 		if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
 			pDAOFunction = DAOFonte.MAX1_FCT;
-		} else if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep5))) {
+        } else if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
 			pDAOFunction = DAOFonte.MAX5_FCT;
 		} else if (pFunction.equals(mActivity.getResources().getString(R.string.sum))) {
 			pDAOFunction = DAOFonte.SUM_FCT;

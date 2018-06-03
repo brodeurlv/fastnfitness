@@ -36,7 +36,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:layout_weight="40"
-                        android:text="@string/DateLabel" />
+                        android:text="@string/DateLabel"
+                        android:singleLine="true" />
 
                     <EditText
                         android:id="@+id/editCardioDate"

@@ -129,11 +129,11 @@
     </string-array>
     
     <string name="maxRep1">Maximum (Reps >= 1)</string>
-    <string name="maxRep5">Maximum (Reps >= 5)</string>
+    <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Somme</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
-        <item>@string/maxRep5</item>
+        <item>@string/maxRep5d</item>
         <item>@string/sum</item>
     </string-array>   
     
@@ -195,7 +195,7 @@
     <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
     <string name="RepetitionLabel_short">Reps</string>
-    <string name="DeleteRecordDialog">Voulez-vous vraiment supprimer cet enregistrement ?</string>
+    <string name="DeleteRecordDialog">Supprimer cet enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
@@ -234,4 +234,5 @@
     <string name="profileDeleted">Utilisateur supprimé</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
+    <string name="areyousure">Etes-vous sûr ?</string>
 </resources>

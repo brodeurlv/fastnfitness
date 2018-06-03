@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,6 +54,7 @@ import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -61,6 +63,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FontesFragment extends Fragment {
 	MainActivity mActivity = null;
@@ -98,7 +102,8 @@ public class FontesFragment extends Fragment {
 					serieEdit.getText().toString().isEmpty() ||
 					repetitionEdit.getText().toString().isEmpty() ||
 					poidsEdit.getText().toString().isEmpty() )	{
-                Toast.makeText(getActivity(), R.string.missinginfo, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), R.string.missinginfo, Toast.LENGTH_SHORT).show();
+                KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
 			}
 
@@ -193,8 +198,9 @@ public class FontesFragment extends Fragment {
             c = mDbMachine.getAllMachines();
 
             if (c == null || c.getCount() == 0) {
-				Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-				machineList.setAdapter(null);
+                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
+                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
                     MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0);
@@ -375,29 +381,29 @@ public class FontesFragment extends Fragment {
 	}
 
 	private void showDeleteDialog(final long idToDelete){
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which){
-					case DialogInterface.BUTTON_POSITIVE:
-						mDb.deleteRecord(idToDelete);
 
-						FillRecordTable(machineEdit.getText().toString());
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        mDb.deleteRecord(idToDelete);
 
-						Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-						break;
+                        FillRecordTable(machineEdit.getText().toString());
 
-					case DialogInterface.BUTTON_NEGATIVE:
-						//No button clicked
-						break;
-				}
-			}
-		};
+                        //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                        // Info
+                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
-	}
+    }
 
 	/**
 	 * Create a new instance of DetailsFragment, initialized to

@@ -25,7 +25,7 @@
     <string name="DeleteLabel">Delete</string>
     <string name="ShareLabel">Share</string>
     <string name="EditLabel">Edit</string>
-    <string name="DeleteRecordDialog">Do you really want to remove this record ?</string>
+    <string name="DeleteRecordDialog">Remove this record ?</string>
 
 
     <!-- Fonte Fragment -->
@@ -141,12 +141,12 @@
     </string-array>
 
 
-    <string name="maxRep1">Maximum (Reps >= 1)</string>	
-    <string name="maxRep5">Maximum (Reps >= 5)</string>	
+    <string name="maxRep1">Maximum (Reps >= 1)</string>
+    <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Sum</string>	
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
-        <item>@string/maxRep5</item>
+        <item>@string/maxRep5d</item>
         <item>@string/sum</item>
     </string-array>   
     
@@ -240,6 +240,7 @@
     <string name="profileDeleted">Profile deleted</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
+    <string name="areyousure">Are you sure?</string>
 
 </resources>
 

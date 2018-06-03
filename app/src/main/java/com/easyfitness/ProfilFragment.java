@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +19,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOWeight;
@@ -29,10 +29,13 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class ProfilFragment extends Fragment {
@@ -119,12 +122,14 @@ public class ProfilFragment extends Fragment {
 
 							refreshData();
 
-							Toast.makeText(getActivity(), "Removed weight id " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
+                            //Toast.makeText(getActivity(), "Removed weight id " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
+                            KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
 							break;
 						// Share
 						case 1:
-							Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();//TODO change static string
+                            KToast.infoToast(getActivity(), "Share soon available", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                            //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();//TODO change static string
 							break;
 						default:
 					}
@@ -306,28 +311,23 @@ public class ProfilFragment extends Fragment {
 
 	private void showDeleteDialog(final long idToDelete) {
 
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case DialogInterface.BUTTON_POSITIVE:
-						mWeightDb.deleteMeasure(idToDelete);
-						refreshData();
-						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-								.show();
-						break;
-
-					case DialogInterface.BUTTON_NEGATIVE:
-						//No button clicked
-						break;
-				}
-			}
-		};
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
-
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        mWeightDb.deleteMeasure(idToDelete);
+                        refreshData();
+                        // Info
+                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
 	}
 
 	private Profile getProfil()
