@@ -72,9 +72,10 @@
     <string name="userChanged">User Changed</string>
     <string name="renameProfilTitle">Rename profile</string>
     <string name="renameProfilQuestion">Choose your new profile name ?</string>
-    
-     
-	<!-- Pour le menu settings -->
+    <string name="DeleteWeightDialog">Remove this weight ?</string>
+
+
+    <!-- Pour le menu settings -->
 	<string name="SettingLabel">Settings</string>
     <string name="menu_settings">Settings</string>
     <string name="export_database">Export Records</string>    
