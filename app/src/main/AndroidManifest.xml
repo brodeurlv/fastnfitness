@@ -2,18 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.easyfitness"
-    android:versionCode="15"
-    android:versionName="0.14.4">
+    android:versionCode="16"
+    android:versionName="0.14.5">
+    <!-- Current versionCode on Google Play : 15 -->
 
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="26" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-		<uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
-        <uses-permission android:name="android.permission.CAMERA" />
-	    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -31,11 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />                
             </intent-filter>
         </activity>
-        <!-- <activity android:name="com.easyfitness.machines.MachineDetailsActivity"
-                   android:configChanges="orientation|screenSize" >
-        </activity>-->
         <activity android:name="com.easyfitness.intro.MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
 
         <!-- <meta-data

@@ -24,7 +24,22 @@
             android:background="@color/toolbar_background"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
-            android:visibility="visible" />
+            android:visibility="visible">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_profile_black"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="0dp"
+                app:civ_shadow="false"
+                app:civ_shadow_color="#8BC34A"
+                app:civ_shadow_radius="0" />
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/musicToolbar"

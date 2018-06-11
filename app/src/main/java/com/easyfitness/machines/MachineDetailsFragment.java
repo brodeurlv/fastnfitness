@@ -10,11 +10,13 @@ import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,9 +43,13 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -347,6 +353,49 @@ public class MachineDetailsFragment extends Fragment {
 					requestForSave();
 				}
 				break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
+
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
+
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        Log.v("Moving", "Moving file successful.");
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.v("Moving", "Moving file failed.");
+                    }
+
+                    imgUtil.setPic(machinePhoto, realPath);
+                    imgUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                    requestForSave();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
 		}
 	}
 

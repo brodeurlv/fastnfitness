@@ -131,10 +131,15 @@ public class NewProfileFragment extends SlideFragment {
                 new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText(getContext().getResources().getText(R.string.app_name).toString())
                         .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                        .show();
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
 
+                                nextSlide();
+                            }
+                        })
+                        .show();
                 mProfilCreated=true;
-                nextSlide();
             }
         }
     };

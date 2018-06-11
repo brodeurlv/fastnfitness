@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
 
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
     }
 
     signingConfigs {
@@ -29,7 +29,7 @@ android {
         release {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
         debug {
@@ -46,12 +46,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:preference-v7:26.1.0'
-    compile 'com.android.support:preference-v14:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:support-v4:27.1.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:preference-v7:27.1.1'
+    compile 'com.android.support:preference-v14:27.1.1'
+    compile 'com.android.support:cardview-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     compile files('libs/javacsv-2.0.jar')
     compile 'com.github.philjay:MPAndroidChart:v3.0.3'
@@ -61,10 +61,11 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile "com.google.firebase:firebase-core:15.0.2"
-    compile "com.google.firebase:firebase-crash:15.0.2"
+    //compile "com.google.firebase:firebase-core:15.0.2"
+    //compile "com.google.firebase:firebase-crash:15.0.2"
     compile 'com.github.f0ris.sweetalert:library:1.5.1'
     compile 'com.github.onurkagan:ktoast:1.0.2'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
     //    transitive = true;
     //}

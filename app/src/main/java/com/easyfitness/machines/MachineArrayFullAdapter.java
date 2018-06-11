@@ -49,8 +49,9 @@ import java.util.ArrayList;
             String lPath = machine.getPicture();
             if( lPath != null && !lPath.isEmpty() ) {
                 try {
-                    lPath = lPath.substring(0, lPath.lastIndexOf('.')) + "_TH.jpg";
-                    ImageUtil.setThumb(i0, lPath);
+                    ImageUtil imgUtil = new ImageUtil();
+                    String lThumbPath = imgUtil.getThumbPath(lPath);
+                    imgUtil.setThumb(i0, lThumbPath);
                 } catch (Exception e) {
                     i0.setImageResource(R.drawable.ic_machine);
                     e.printStackTrace();

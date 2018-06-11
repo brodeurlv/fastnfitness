@@ -395,7 +395,7 @@
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
+            android:animateLayoutChanges="false"
             android:fastScrollEnabled="false"
             android:isScrollContainer="false"
             android:scrollbars="none"></com.easyfitness.utils.ExpandedListView>

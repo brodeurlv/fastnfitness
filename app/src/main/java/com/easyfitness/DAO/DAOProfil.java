@@ -21,8 +21,9 @@ public class DAOProfil extends DAOBase {
 	  public static final String CREATIONDATE = "creationdate";
 	  public static final String SIZE = "size";
 	  public static final String BIRTHDAY= "birthday";
-	  
-	  public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CREATIONDATE + " DATE, " + NAME + " TEXT, " + SIZE + " INTEGER, " + BIRTHDAY + " DATE);";
+    public static final String PHOTO = "photo";
+
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CREATIONDATE + " DATE, " + NAME + " TEXT, " + SIZE + " INTEGER, " + BIRTHDAY + " DATE, " + PHOTO + " TEXT);";
 
 	  public static final String TABLE_DROP =  "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	  
@@ -51,6 +52,7 @@ public class DAOProfil extends DAOBase {
 		  value.put(DAOProfil.NAME, m.getName());
 		  value.put(DAOProfil.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
 		  value.put(DAOProfil.SIZE, m.getSize());
+          value.put(DAOProfil.PHOTO, m.getPhoto());
 
 		  db.insert(DAOProfil.TABLE_NAME, null, value);
 		  
@@ -86,8 +88,8 @@ public class DAOProfil extends DAOBase {
 	        SQLiteDatabase db = this.getReadableDatabase();
 			if (mCursor!=null) mCursor.close();
 	        mCursor = null;
-	        mCursor = db.query(TABLE_NAME, 
-	        		new String[] { KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY},
+	        mCursor = db.query(TABLE_NAME,
+                    new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO},
 	        		KEY + "=?",
 	                new String[] { String.valueOf(id) },
 	                null, null, null, null);
@@ -98,8 +100,9 @@ public class DAOProfil extends DAOBase {
 					DateConverter.DBDateStrToDate(mCursor.getString(1)),
 	        		mCursor.getString(2),
 					mCursor.getInt(3),
-					mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0)
-	                );
+                    mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0),
+                    mCursor.getString(5)
+            );
 	        mCursor.close();
 			close();
 	        
@@ -122,8 +125,8 @@ public class DAOProfil extends DAOBase {
 	        SQLiteDatabase db = this.getReadableDatabase();
 			if (mCursor!=null) mCursor.close();
 	        mCursor = null;
-	        mCursor = db.query(TABLE_NAME, 
-	        		new String[] { KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY },
+	        mCursor = db.query(TABLE_NAME,
+                    new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO},
 	        		NAME + "=?",
 	        		new String[] { name },
 	                null, null, null, null);
@@ -134,8 +137,9 @@ public class DAOProfil extends DAOBase {
 					DateConverter.DBDateStrToDate(mCursor.getString(1)),
 	        		mCursor.getString(2),
 					mCursor.getInt(3),
-					mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0)
-			);
+                    mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0),
+                    mCursor.getString(5)
+            );
 	        
 	        mCursor.close();
 			close();
@@ -155,11 +159,10 @@ public class DAOProfil extends DAOBase {
 	    public List<Profile> getProfilsList(String pRequest) {
 	        List<Profile> valueList = new ArrayList<Profile>();
 	        // Select All Query
-	        String selectQuery = pRequest;
 	 
 	        SQLiteDatabase db = this.getReadableDatabase();
 	        mCursor = null;
-	        mCursor = db.rawQuery(selectQuery, null);
+            mCursor = db.rawQuery(pRequest, null);
 	 
 	        // looping through all rows and adding to list
 	        if (mCursor.moveToFirst()) {
@@ -168,8 +171,9 @@ public class DAOProfil extends DAOBase {
 							DateConverter.DBDateStrToDate(mCursor.getString(1)),
 	    	        		mCursor.getString(2),
 							mCursor.getInt(3),
-							mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0)
-					);
+                            mCursor.getString(4) != null ? DateConverter.DBDateStrToDate(mCursor.getString(4)) : new Date(0),
+                            mCursor.getString(5)
+                    );
 	    	        
 	                // Adding value to list
 	                valueList.add(value);
@@ -222,7 +226,7 @@ public class DAOProfil extends DAOBase {
 	        if (mCursor.moveToFirst()) {
 	        	int i = 0;
 	            do {
-	    	        String value = new String(mCursor.getString(0));
+                    String value = mCursor.getString(0);
 	    	        valueList[i]=value;
 	    	        i++;
 	            } while (mCursor.moveToNext());
@@ -257,15 +261,15 @@ public class DAOProfil extends DAOBase {
 	    }
 	 
 	    // Updating single value
-	    public int updateProfil(Profile m) {
+        public int updateProfile(Profile m) {
 	        SQLiteDatabase db = this.getWritableDatabase();
 	 
 	        ContentValues value = new ContentValues();
-			  value.put(DAOProfil.CREATIONDATE, DateConverter.dateToDBDateStr(m.getCreationDate()));
-			  value.put(DAOProfil.NAME, m.getName());
+            value.put(DAOProfil.CREATIONDATE, DateConverter.dateToDBDateStr(m.getCreationDate()));
+            value.put(DAOProfil.NAME, m.getName());
 			value.put(DAOProfil.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
-			value.put(DAOProfil.NAME, m.getName());
-
+            value.put(DAOProfil.SIZE, m.getSize());
+            value.put(DAOProfil.PHOTO, m.getPhoto());
 
 			// updating row
 	        return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -316,9 +320,9 @@ public class DAOProfil extends DAOBase {
 	    public void populate() {
 			Date date = new Date();
 			Date dateBirthday = DateConverter.getNewDate();
-			Profile m = new Profile(0, date, "Champignon", 120, dateBirthday );
+            Profile m = new Profile(0, date, "Champignon", 120, dateBirthday, null);
 			this.addProfil(m);
-			m = new Profile(0, date, "Musclor", 150, dateBirthday);
+            m = new Profile(0, date, "Musclor", 150, dateBirthday, null);
 			this.addProfil(m);
 	    }
 	}

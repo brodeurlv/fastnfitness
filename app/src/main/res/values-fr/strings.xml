@@ -235,4 +235,6 @@
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="areyousure">Etes-vous sûr ?</string>
+    <string name="DeleteWeightDialog">Supprimer cette mesure?</string>
+    <string name="Take_profile_picture">Photo de profil</string>
 </resources>

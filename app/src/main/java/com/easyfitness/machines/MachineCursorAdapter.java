@@ -1,18 +1,12 @@
 package com.easyfitness.machines;
 
-import java.io.File;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easyfitness.R;
@@ -45,8 +39,9 @@ public class MachineCursorAdapter extends CursorAdapter {
 	      String lPath = cursor.getString(5);
 	      if( lPath != null && !lPath.isEmpty() ) {
 	    	  try {
-				lPath = lPath.substring(0, lPath.lastIndexOf('.')) + "_TH.jpg";
-				ImageUtil.setThumb(i0, lPath);
+                  ImageUtil imgUtil = new ImageUtil();
+                  String lThumbPath = imgUtil.getThumbPath(lPath);
+                  imgUtil.setThumb(i0, lThumbPath);
 			} catch (Exception e) {
 				i0.setImageResource(R.drawable.ic_machine);
 				e.printStackTrace();

@@ -1,11 +1,12 @@
 package com.easyfitness;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.easyfitness.DAO.CVSManager;
@@ -38,11 +40,21 @@ import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.FileChooserDialog;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
+import com.easyfitness.utils.RealPathUtil;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.easyfitness.utils.ImageUtil.REQUEST_PICK_GALERY_PHOTO;
 
 //import com.crashlytics.android.Crashlytics;
 
@@ -89,12 +101,14 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private MusicController musicController = new MusicController(this);
+    private CircularImageView roundProfile = null;
 
     private String mCurrentMachine = "";
 
     private boolean mIntro014Launched = false;
+    private boolean mMigrationBD05done = false;
 
-    private static int REQUEST_CODE_INTRO = 111;
+    private final int REQUEST_CODE_INTRO = 111;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -194,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerList.setAdapter(DrawerAdapter);
 
+        roundProfile = (CircularImageView) top_toolbar.findViewById(R.id.imageProfile);
+
         //String[] mTempString = new String[]{"toto","tata","titi"};
         // Set the adapter for the list view
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -262,8 +278,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().putFragment(outState, SETTINGS, mpSettingFrag);
         if (getBodyPartFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, BODYTRACKING, mpBodyPartListFrag);
-
-
     }
 
     @Override
@@ -271,8 +285,121 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
+
+        // restore the profile picture in case it was overwritten during the menu inflate
+        if (mCurrentProfile != null) setPhotoProfile(mCurrentProfile.getPhoto());
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final MenuItem alertMenuItem = menu.findItem(R.id.action_profil);
+
+        roundProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.profile_actions, popup.getMenu());
+                popup.setOnMenuItemClickListener(onMenuItemClick);
+                popup.show();
+            }
+        });
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private PopupMenu.OnMenuItemClickListener onMenuItemClick = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.create_newprofil:
+                    getActivity().CreateNewProfil();
+                    return true;
+                case R.id.photo_profil:
+                    String[] optionListArray = new String[2];
+                    optionListArray[0] = getActivity().getResources().getString(R.string.camera);
+                    optionListArray[1] = getActivity().getResources().getString(R.string.gallery);
+                    //profilListArray[2] = "Remove Image";
+
+                    //requestPermissionForWriting(pF);
+
+                    AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
+                    itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            ListView lv = ((AlertDialog) dialog).getListView();
+
+                            switch (which) {
+                                // Galery
+                                case 1:
+                                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                    photoPickerIntent.setType("image/*");
+                                    startActivityForResult(photoPickerIntent, REQUEST_PICK_GALERY_PHOTO);
+                                    break;
+                                // Camera with Cropping
+                                case 0:
+                                    //dispatchTakePictureIntent(mF);
+                                    // start picker to get image for cropping and then use the image in cropping activity
+                                    CropImage.activity()
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .start(getActivity());
+                                    break;
+                                case 2: // Delete picture
+
+                                    break;
+                                // Camera
+                                default:
+                            }
+                        }
+                    });
+                    itemActionbuilder.show();
+                    return true;
+                case R.id.change_profil:
+                    String[] profilListArray = getActivity().mDbProfils.getAllProfil();
+
+                    AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
+                    changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
+                            .setItems(profilListArray, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ListView lv = ((AlertDialog) dialog).getListView();
+                                    Object checkedItem = lv.getAdapter().getItem(which);
+                                    setCurrentProfil(checkedItem.toString());
+                                    Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    changeProfilbuilder.show();
+                    return true;
+                case R.id.delete_profil:
+                    String[] profildeleteListArray = getActivity().mDbProfils.getAllProfil();
+
+                    AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
+                    deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
+                            .setItems(profildeleteListArray, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ListView lv = ((AlertDialog) dialog).getListView();
+                                    Object checkedItem = lv.getAdapter().getItem(which);
+                                    if (getCurrentProfil().getName().equals(checkedItem.toString())) {
+                                        Toast.makeText(getApplicationContext(), R.string.impossibleToDeleteProfile, Toast.LENGTH_LONG).show(); //TODO change static string
+                                    } else {
+                                        Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
+                                        mDbProfils.deleteProfil(profileToDelete);
+                                        Toast.makeText(getApplicationContext(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
+                                    }
+                                }
+                            });
+                    deleteProfilbuilder.show();
+                    return true;
+                case R.id.rename_profil:
+                    getActivity().renameProfil();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+    };
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -284,55 +411,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-		/*case R.id.action_settings: // Menu setting supprimé du menu. Raison inconnue
-			// Display the fragment as the main content.
-			FragmentManager fragmentManager=getSupportFragmentManager();
-			FragmentTransaction ft=fragmentManager.beginTransaction();
-			showFragment(SETTINGS);
-			mpSettingFrag.setHasOptionsMenu(true);
-			ft.commit();
-			return true;*/
-            case R.id.create_newprofil:
-                this.CreateNewProfil();
-                return true;
-            case R.id.change_profil:
-                String[] profilListArray = this.mDbProfils.getAllProfil();
-
-                AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(this);
-                changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
-                        .setItems(profilListArray, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                ListView lv = ((AlertDialog) dialog).getListView();
-                                Object checkedItem = lv.getAdapter().getItem(which);
-                                setCurrentProfil(checkedItem.toString());
-                                Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                changeProfilbuilder.show();
-                return true;
-            case R.id.delete_profil:
-                String[] profildeleteListArray = this.mDbProfils.getAllProfil();
-
-                AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(this);
-                deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
-                        .setItems(profildeleteListArray, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                ListView lv = ((AlertDialog) dialog).getListView();
-                                Object checkedItem = lv.getAdapter().getItem(which);
-                                if (getCurrentProfil().getName().equals(checkedItem.toString())) {
-                                    Toast.makeText(getApplicationContext(), R.string.impossibleToDeleteProfile, Toast.LENGTH_LONG).show(); //TODO change static string
-                                } else {
-                                    Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
-                                    mDbProfils.deleteProfil(profileToDelete);
-                                    Toast.makeText(getApplicationContext(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
-                                }
-                            }
-                        });
-                deleteProfilbuilder.show();
-                return true;
-            case R.id.rename_profil:
-                this.renameProfil();
-                return true;
             case R.id.export_database:
                 // Afficher une boite de dialogue pour confirmer
                 AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
@@ -505,7 +583,7 @@ public class MainActivity extends AppCompatActivity {
                     // Rename it
                     temp.setName(value);
                     // Commit it
-                    mDbProfils.updateProfil(temp);
+                    mDbProfils.updateProfile(temp);
                     // Make it the current.
                     setCurrentProfil(value);
                 }
@@ -706,7 +784,7 @@ public class MainActivity extends AppCompatActivity {
         return mCurrentProfile.getId();
     }
 
-    @SuppressLint("RestrictedApi")
+    //@SuppressLint("RestrictedApi")
     public void setCurrentProfil(String newProfilName) {
         mCurrentProfile = this.mDbProfils.getProfil(newProfilName);
         mCurrentProfilID = mCurrentProfile.getId();
@@ -724,8 +802,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setDrawerTitle(mCurrentProfile.getName());
+        setPhotoProfile(mCurrentProfile.getPhoto());
 
         savePreferences();
+    }
+
+    private void setPhotoProfile(String path) {
+        ImageUtil imgUtil = new ImageUtil();
+
+        // Check if path is pointing to a thumb else create it and use it.
+        String thumbPath = imgUtil.getThumbPath(path);
+        if (thumbPath != null)
+            imgUtil.setPic(roundProfile, thumbPath);
+        else
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+    }
+
+    private void savePhotoProfile(String path) {
+        mCurrentProfile.setPhoto(path);// Enregistrer sur le profile le path de la photo.
+        mDbProfils.updateProfile(mCurrentProfile);
     }
 
     public String getCurrentMachine() {
@@ -745,6 +840,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         mCurrentProfilID = settings.getLong("currentProfil", -1); // return -1 if it doesn't exist
         mIntro014Launched = settings.getBoolean("intro014Launched", false);
+        mMigrationBD05done = settings.getBoolean("migrationBD05done", false);
     }
 
     private void savePreferences() {
@@ -753,6 +849,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
+        editor.putBoolean("migrationBD05done", mIntro014Launched);
+        editor.putBoolean("migrationBD05done", mMigrationBD05done);
         editor.commit();
     }
 
@@ -901,15 +999,68 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_INTRO) {
-            if (resultCode == RESULT_OK) {
-                initActivity();
-                mIntro014Launched = true;
-                this.savePreferences();
-            } else {
-                // Cancelled the intro. You can then e.g. finish this activity too.
-                finish();
-            }
+        switch (requestCode) {
+            case REQUEST_CODE_INTRO:
+                if (resultCode == RESULT_OK) {
+                    initActivity();
+                    mIntro014Launched = true;
+                    this.savePreferences();
+                } else {
+                    // Cancelled the intro. You can then e.g. finish this activity too.
+                    finish();
+                }
+                break;
+            case REQUEST_PICK_GALERY_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    ImageUtil imgUtil = new ImageUtil();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(getApplicationContext(), data.getData());
+
+                    String ret = imgUtil.saveThumb(realPath);// Crée la miniature
+                    setPhotoProfile(realPath);
+                    savePhotoProfile(realPath);
+                }
+                break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                ImageUtil imgUtil = new ImageUtil();
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(getApplicationContext(), resultUri);
+
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
+
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    File DestinationFile = new File(storageDir.getPath() + imageFileName);
+
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    String ret = imgUtil.saveThumb(realPath);// Crée la miniature
+                    setPhotoProfile(realPath);
+                    savePhotoProfile(realPath);
+
+                    break;
+                }
         }
     }
 
@@ -935,15 +1086,18 @@ public class MainActivity extends AppCompatActivity {
         if (mCurrentProfile != null) setCurrentProfil(mCurrentProfile.getName());
 
         // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
-        DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());
-        String[] machineListArray = lDAOFonte.getAllMachines();
+        if (!mMigrationBD05done) {
+            DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());
+            String[] machineListArray = lDAOFonte.getAllMachines();
 
-        for (int i = 0; i < machineListArray.length; i++) {
-            //Test is Machine exists. If not create it.
-            DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
-            if (!lDAOMachine.machineExists(machineListArray[i])) {
-                lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
+            for (int i = 0; i < machineListArray.length; i++) {
+                //Test is Machine exists. If not create it.
+                DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
+                if (!lDAOMachine.machineExists(machineListArray[i])) {
+                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
+                }
             }
+            mMigrationBD05done = true;
         }
     }
 }

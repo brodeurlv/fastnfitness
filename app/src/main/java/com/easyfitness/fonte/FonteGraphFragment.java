@@ -287,7 +287,7 @@ public class FonteGraphFragment extends Fragment {
                         machineList.setSelection(position);
 					DrawGraph();
 				} else {
-					DrawGraph();
+                    mChart.clear();
 				}
 			}
 		}

@@ -242,6 +242,7 @@
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="areyousure">Are you sure?</string>
+    <string name="Take_profile_picture">Picture for profile</string>
 
 </resources>
 

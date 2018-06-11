@@ -221,9 +221,10 @@ public class FontesFragment extends Fragment {
 						DAOMachine lMachineDb = new DAOMachine(getContext());
 						Machine lMachine = lMachineDb.getMachine(machineID);
 						machineImage.setImageResource(R.drawable.ic_machine); // Default image
-						ImageUtil.setThumb(machineImage, lMachine.getPicture());
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 
-						machineEdit.setText(lMachine.getName()); // Met a jour le text
+                        machineEdit.setText(lMachine.getName()); // Met a jour le text
 						FillRecordTable(lMachine.getName()); // Met a jour le tableau
 						getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
 
@@ -287,7 +288,11 @@ public class FontesFragment extends Fragment {
 				switch(v.getId()) {
 				case R.id.editMachine:
 					Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
-					if(lMachine!=null) ImageUtil.setThumb(machineImage, lMachine.getPicture());
+                    if (lMachine != null) {
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
+
+                    }
                     FillRecordTable(machineEdit.getText().toString());
 					break;
 				}
@@ -684,7 +689,8 @@ public class FontesFragment extends Fragment {
                         machineEdit.setText(lLastRecord.getMachine());
                         Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
                         machineImage.setImageResource(R.drawable.ic_machine); // Default image
-                        ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
                         serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
                         repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
                         unitSpinner.setSelection(lLastRecord.getUnit());
@@ -700,6 +706,12 @@ public class FontesFragment extends Fragment {
                         repetitionEdit.setText("10");
                         poidsEdit.setText("50");
                     }
+                } else { // Restore picture on fragment restore.
+                    Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
+                    machineImage.setImageResource(R.drawable.ic_machine); // Default image
+                    ImageUtil imgUtil = new ImageUtil();
+                    if (lMachine != null)
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
                 }
 
                 // Set Initial text
