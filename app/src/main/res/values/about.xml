@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.14.5</string>
+    <string name="app_version" translatable="false">0.14.6</string>
     <string name="database_version_label">Database version: </string>
     <string name="author_label">Author: </string>
 	<string name="author" translatable="false">Charles Combes</string>
@@ -8,6 +8,8 @@
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
+        V0.14.6 : 16/06/2018\n
+            \t - Enhancement : German version (Many thanks to EGUltraTM)\n
         V0.14.5 : 11/06/2018\n
             \t - Enhancement : Possibility to set a picture for the profile \n
             \t - Enhancement : Crop tool for pictures \n

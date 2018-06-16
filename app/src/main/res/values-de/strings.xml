@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_confirm">Bestätigen</string>
+    <string name="global_warning">Warnung</string>
+    <string name="global_error">Fehler</string>
+    <string name="global_cancel">Abbrechen</string>
+    <string name="global_ok">Ok</string>
+    <string name="global_yes">Ja</string>
+    <string name="global_no">Nein</string>
+
+    <string name="removedid">ID entfernen</string>
+    <string name="failedtocreatefolder">Ordner erstellen fehlgeschlagen</string>
+
+
+    <string name="app_name">Fast N Fitness</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="DateLabel">Datum</string>
+
+    <string name="FunctionLabel">Anzeigen</string>
+    <string name="HistoryLabel">Verlauf</string>
+    <string name="RecordsLabel">Aufzeichnungen</string>
+    <string name="GraphLabel">Grafiken</string>
+    <string name="AddLabel">Hinzufügen</string>
+    <string name="AddSmallLabel">+</string>
+    <string name="DeleteLabel">Löschen</string>
+    <string name="ShareLabel">Teilen</string>
+    <string name="EditLabel">Editieren</string>
+    <string name="DeleteRecordDialog">Aufzeichnung löschen ?</string>
+
+
+    <!-- Fonte Fragment -->
+    <string name="FonteLabel">Body Building</string>
+    <string name="SerieLabel">Sätze</string>
+    <string name="RepetitionLabel">Wiederhol.</string>
+    <string name="RepetitionLabel_short">Wied.</string>
+    <string name="MachineLabel">Übung</string>
+    <string name="PoidsLabel">Gewicht</string>
+    <string name="KgUnitLabel">Kg</string>
+    <string name="LbsUnitLabel">Lbs</string>
+    <string name="NotesLabel">Notizen</string>
+    <string name="TopTenLabel">Letzte 10 Aufzeichnungen:</string>
+
+    <!-- Share text -->
+    <string name="ShareText">Teilen</string>
+    <string name="ShareTitle">Teile deinen Erfolg</string>
+    <string name="ShareInstruction">Editiere deinen Text vor dem senden:</string>
+    <string name="ShareTextDefault">Ich habe __WEIGHT__ Kg an __MACHINE__ gehoben!</string>
+    <string name="ShareParamName">__NAME__</string>
+    <string name="ShareParamWeight">__WEIGHT__</string>
+    <string name="ShareParamMachine">__MACHINE__</string>
+    <string name="ShareParamExercise">__EXERCISE__</string>
+
+    <!-- Cardio Fragment -->
+    <string name="CardioLabel">Cardio (Beta)</string>
+    <string name="DistanceLabel">Entfernung (KM)</string>
+    <string name="KmUnitLabel">KM</string>
+    <string name="MilesUnitLabel">Milen</string>
+    <string name="DurationLabel">Dauer</string>
+    <string name="ExerciceLabel">Übung</string>
+
+    <!-- Profile Fragment -->
+    <string name="ProfilLabel">Gewicht</string>
+    <string name="weightLabel">Gewicht</string>
+    <string name="sizeLabel">Größe</string>
+    <string name="measureLabel">Messen</string>
+    <string name="weightTableLabel">Gewichtsaufzeichnungen : </string>
+    <string name="sizeTableLabel">Messergebnisse : </string>
+    <string name="createProfilTitle">Neues Profil erstellen</string>
+    <string name="profileSelected">Profil ausgewählt</string>
+    <string name="profileDeleteImpossible">Unmöglich das Profil zu löschen</string>
+    <string name="createProfilQuestion">Wähle deinen Profilnamen ?</string>
+    <string name="userChanged">Benutzer geändert</string>
+    <string name="renameProfilTitle">Profil umbennen</string>
+    <string name="renameProfilQuestion">Wähle deinen neuen Prodilnamen ?</string>
+
+
+    <!-- Pour le menu settings -->
+    <string name="SettingLabel">Einstellungen</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="export_database">Aufzeichnungen exportieren</string>
+    <string name="export_question">Willst du die Datenbank exportieren ?</string>
+    <string name="export_success">Datenbank exportiert</string>
+    <string name="export_failed">Datenbank export fehlgeschlagen</string>
+    <string name="import_database">Aufzeichnungen importieren</string>
+    <string name="deleteDB_warning">Diese Aktion setzt deine App zurück. Alle Dateien gehen verloren. Bist du sicher ? Dies beendet die App.</string>
+    <string name="ResetAppLabel">App zurücksetzen</string>
+
+    <!-- Machine Fragment -->
+    <string name="MachinesLabel">Übungen</string>
+    <string name="DescriptionLabel">Beschreibung</string>
+
+
+    <!-- Preferences -->
+    <string name="pref_ui_setting">UI Einstellungen</string>
+    <string name="pref_show_mp3_player">Zeige MP3 Player</string>
+    <string name="pref_show_mp3_player_summary">Zeige/Verstecke die MP3 Player Toolbar</string>
+
+    <string name="pref_bodybuilding_setting">Body Building Einstellungen</string>
+    <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
+    <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
+
+    <string name="pref_user_name">Benutzername setzen</string>
+    <string name="pref_user_name_summary">Setze deinen Benutzernamen</string>
+    <string name="pref_user_profile">Benutzer Profil</string>
+
+
+    <string name="profil_create_new">Erstelle eine neues Profil</string>
+
+    <string name="profil_change">Profil wechseln</string>
+    <string name="profil_select_profil">Wähle ein Profil</string>
+    <string name="profil_edit">Profil editieren</string>
+    <string name="profil_delete">Profil löschen</string>
+    <string name="profil_select_profil_to_delete">Wählle ein Profil zum löschen</string>
+
+    <!-- About Fragment  -->
+    <string name="AboutLabel">Über</string>
+
+    <!-- Navigation Drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="fonte_units">
+        <item>@string/KgUnitLabel</item>
+        <item>@string/LbsUnitLabel</item>
+    </string-array>
+
+    <string-array name="fonte_unitsValues">
+        <item>test0</item>
+        <item>test1</item>
+    </string-array>
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="morphology">
+        <item>Dünn</item>
+        <item>Normal</item>
+        <item>Dick</item>
+    </string-array>
+
+
+    <string name="maxRep1">Maximum (Wied. >= 1)</string>
+    <string name="maxRep5d">Maximum (Wied. >= 5)</string>
+    <string name="sum">Summe</string>
+    <string-array name="graph_functions">
+        <item>@string/maxRep1</item>
+        <item>@string/maxRep5d</item>
+        <item>@string/sum</item>
+    </string-array>
+
+    <string name="all">Alle</string>
+
+    <string name="bodytracking">Body Track</string>
+    <string name="selectMuscles">Wähle Muskeln</string>
+
+    <!-- Muscles -->
+    <string name="biceps">Biceps</string>
+    <string name="triceps">Triceps</string>
+    <string name="pectoraux">Brust</string>
+    <string name="deltoids">Schulter</string>
+
+    <string name="dorseaux">Rücken</string>
+    <string name="abdominaux">Bauchmuskeln</string>
+
+    <string name="quadriceps">Quadriceps</string>
+    <string name="ischio_jambiers">Hamstrings</string>
+    <string name="adducteurs">Oberschenkel</string>
+    <string name="mollets">Waden</string>
+
+    <!-- Body Parts -->
+    <string name="left_arm">Linker Biceps</string>
+    <string name="right_arm">Rechter Biceps</string>
+    <string name="neck">Nacken</string>
+    <string name="left_thigh">Linker Schenkel</string>
+    <string name="right_thigh">Rechter Schenkel</string>
+    <string name="left_calves">Linke Wade</string>
+    <string name="right_calves">Rechte Wade</string>
+    <string name="waist">Taille</string>
+    <string name="behind">Hüfte</string>
+    <string name="MesureHint">Maß hier eingeben</string>
+
+
+    <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
+    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen ? Alle dazugehörigen aufzeichnungen werden gelöscht</string>
+    <string name="deleteRecordsWithMachine_confirm_text">Willst du alle Aufzeichnungen dieses Gerätes löschen ? Alle Aufzeichnungen werden gelöscht</string>
+    <string name="renameMachine_warning_text">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="renameMachine_error_text">Dieser Name existiert bereits, bitte wähle einen anderen.</string>
+
+
+    <!-- Photo -->
+    <string name="camera">Kamera</string>
+    <string name="gallery">Gallerie</string>
+
+    <!-- Graph -->
+    <string name="graph_all">Alle</string>
+    <string name="graph_lastyear">Letztes Jahr</string>
+    <string name="graph_lastmonth">Letzter Monat</string>
+    <string name="graph_lastweek">Letzte Woche</string>
+
+
+    <!-- Chronometer -->
+    <string name="ChronometerLabel">Zeitmesser</string>
+    <string name="CountdownLabel">Pausezeit</string>
+    <string name="activate_rest_time">Aktiviere Pause</string>
+    <string name="rest_time">Pausezeit (sek)</string>
+    <string name="lastRecordLabel">Letzte Aufzeichnung</string>
+    <string name="MachineHint">Name der Übung hier eintragen</string>
+    <string name="WeightHint">Gib dein Gewicht hier ein</string>
+    <string name="total_weight">Gesamtgewicht</string>
+    <string name="total_session">Gesamt wärend der Einheit</string>
+    <string name="total_machine">Gesamt an dem Gerät</string>
+    <string name="nb_serie">Anz. Sätze</string>
+    <string name="exit">Beenden</string>
+    <string name="selectMachineDialogLabel">Wähle ein Gerät aus</string>
+
+    <!-- Intro slides -->
+    <string name="fillAllFields">Bitte alle Felder ausfüllen</string>
+    <string name="introSlide1Title">Hallo</string>
+    <string name="size_cm">Größe (cm)</string>
+    <string name="create">Erstellen</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="name_or_pseudo">Name oder Pseudonym</string>
+    <string name="create_a_profile">Profil erstellen</string>
+    <string name="introSlide1Text">Willkommen bei Fast n Fitness, der App in der du deine Workouts aufzeichnen kannst und eine Übersicht deiner Fortschritte deine Körpers siehst.</string>
+    <string name="introSlide2Text">Gib der Übung/Gerät einen Namen und füge die Details hinzu. Du kannst diese dann aus einer Liste auswählen.</string>
+    <string name="introSlide2Title">Einfach und Schnell</string>
+    <string name="introSlide3Text">Um Bilder der Geräte machen zu können, braucht die App Rechte auf deinem Smartphone. Zugriff aud die Kamera und das Dateisystem zum öffnen der Bilder aus der App.</string>
+    <string name="introSlide3Title">Rechte anfordern</string>
+    <string name="titleSlideEssential">Kein unnötiger Kontent</string>
+    <string name="textSlideEssential">Keine nutzlosen Übungen sind voreingestellt. Du erstellst deine Übungen und Geräte selbst genauso wie du Sie in deinem Studio vorfindest inkl. Bildern dazu.</string>
+    <string name="pressBackAgain">Klicke nochmal ZURÜCK zum beenden</string>
+    <string name="titleSlideOpenSource">Es ist Open Source !</string>
+    <string name="textSlideOpenSource">Tritt der Community bei und last uns die beste Fitness App erstellen! Besuche uns auf https://github.com/brodeurlv/fastnfitness</string>
+    <string name="profileCreated">Profil erstellt</string>
+    <string name="missinginfo">Fehlende Informationen</string>
+    <string name="createExerciseFirst">Du musst zuerst eine Übung erstellen</string>
+    <string name="impossibleToDeleteProfile">Unmöglich das aktuelle Profil zu löschen</string>
+    <string name="profileDeleted">Profil gelöscht</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="areyousure">Bist du sicher?</string>
+    <string name="Take_profile_picture">Bild für Profil</string>
+    <string name="DeleteWeightDialog">Wirklich löschen?</string>
+</resources>
+

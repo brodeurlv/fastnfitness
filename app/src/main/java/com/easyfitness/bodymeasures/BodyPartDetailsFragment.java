@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,7 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,8 +121,8 @@ public class BodyPartDetailsFragment extends Fragment {
 						case 0:
 							mBodyMeasureDb.deleteMeasure(selectedID);
 							refreshData();
-							Toast.makeText(getActivity(), "Removed record " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
-							break;
+                            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                            break;
 						default:
 					}
 				}

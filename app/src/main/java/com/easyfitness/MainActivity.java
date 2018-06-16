@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
 import com.easyfitness.utils.RealPathUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -365,7 +367,8 @@ public class MainActivity extends AppCompatActivity {
                                     ListView lv = ((AlertDialog) dialog).getListView();
                                     Object checkedItem = lv.getAdapter().getItem(which);
                                     setCurrentProfil(checkedItem.toString());
-                                    Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
+                                    KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                                    //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
                                 }
                             });
                     changeProfilbuilder.show();
@@ -380,11 +383,11 @@ public class MainActivity extends AppCompatActivity {
                                     ListView lv = ((AlertDialog) dialog).getListView();
                                     Object checkedItem = lv.getAdapter().getItem(which);
                                     if (getCurrentProfil().getName().equals(checkedItem.toString())) {
-                                        Toast.makeText(getApplicationContext(), R.string.impossibleToDeleteProfile, Toast.LENGTH_LONG).show(); //TODO change static string
+                                        KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                                     } else {
                                         Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
                                         mDbProfils.deleteProfil(profileToDelete);
-                                        Toast.makeText(getApplicationContext(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Toast.LENGTH_LONG).show();//TODO change static string
+                                        KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                                     }
                                 }
                             });
@@ -423,9 +426,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
                         if (cvsMan.exportDatabase(getCurrentProfil())) {
-                            Toast.makeText(getActivity().getBaseContext(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Toast.LENGTH_SHORT).show();
+                            KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                         } else {
-                            Toast.makeText(getActivity().getBaseContext(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Toast.LENGTH_LONG).show();
+                            KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                         }
 
                         // Do nothing but close the dialog

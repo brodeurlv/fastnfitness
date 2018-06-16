@@ -11,12 +11,9 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.utils.UnitConverter;
-import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import java.text.DecimalFormat;
@@ -60,10 +57,10 @@ public class CountdownDialogbox extends Dialog implements
                     Vibrator v = (Vibrator) c.getApplicationContext().getSystemService(c.getApplicationContext().VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
                         //deprecated in API 26
-                        v.vibrate(100);
+                        v.vibrate(500);
                     }
                 } else {
                     bFirst=false;

@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,12 +26,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
 import com.easyfitness.utils.DateConverter;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -194,9 +195,9 @@ public class CardioFragment extends Fragment {
 
 			FillRecordTable(exerciceEdit.getText().toString());
 
-			Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Toast.LENGTH_SHORT).show();
+            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-			return true;
+            return true;
 		}
 	};
 	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {

@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.easyfitness"
-    android:versionCode="16"
-    android:versionName="0.14.5">
-    <!-- Current versionCode on Google Play : 15 -->
+    android:versionCode="17"
+    android:versionName="0.14.6">
+    <!-- Current versionCode on Google Play : 16 -->
 
     <uses-sdk
         android:minSdkVersion="16"

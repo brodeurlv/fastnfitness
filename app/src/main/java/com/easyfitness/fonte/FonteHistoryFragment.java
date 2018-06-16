@@ -91,8 +91,7 @@ public class FonteHistoryFragment extends Fragment {
         mDateArray = new ArrayList<String>();
 
 		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-        //mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-		mAdapterMachine = new ArrayAdapter<String>(
+        mAdapterMachine = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
 				mMachineArray);
 		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,8 +100,7 @@ public class FonteHistoryFragment extends Fragment {
 
 
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
-        //mDateArray.addAll(mDb.getAllDatesList(getProfil()));
-		mAdapterDate = new ArrayAdapter<String>(
+        mAdapterDate = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item,
 				mDateArray);
 		mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -136,10 +134,7 @@ public class FonteHistoryFragment extends Fragment {
 			FillRecordTable(machineList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
 
-            //Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + id, Toast.LENGTH_SHORT).show();
-
             KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-
 
             return true;
 		}
