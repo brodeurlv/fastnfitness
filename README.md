@@ -20,6 +20,10 @@ Easy !
 
 ## Change Log
 
+### 0.14.6 - June 15, 2018
+
+- Enhancement : Added German Version (Thanks to EGUltraTM)
+
 ### 0.14.5 - June 11, 2018
 
 - Enhancement : Possibility to set a picture for the profile 
