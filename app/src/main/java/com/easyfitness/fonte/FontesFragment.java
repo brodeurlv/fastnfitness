@@ -365,7 +365,7 @@ public class FontesFragment extends Fragment {
 						break;
 					// Edit
 					case 1:
-						Toast.makeText(getActivity(), "Edit soon available", Toast.LENGTH_SHORT).show();//TODO change static string
+						Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
 						break;
 					// Share
 					case 2:

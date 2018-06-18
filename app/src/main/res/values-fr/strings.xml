@@ -237,4 +237,8 @@
     <string name="areyousure">Etes-vous sûr ?</string>
     <string name="DeleteWeightDialog">Supprimer cette mesure?</string>
     <string name="Take_profile_picture">Photo de profil</string>
+    <string name="description">Description</string>
+    <string name="muscles">Muscles</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
 </resources>

@@ -243,6 +243,12 @@
     <string name="max">Max</string>
     <string name="areyousure">Are you sure?</string>
     <string name="Take_profile_picture">Picture for profile</string>
+    <string name="edit_soon_available">Edit soon available</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="muscles">Muscles</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
 
 </resources>
 

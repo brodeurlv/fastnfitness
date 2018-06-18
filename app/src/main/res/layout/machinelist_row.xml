@@ -44,7 +44,7 @@
         android:layout_toRightOf="@id/LIST_MACHINE_PHOTO"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="Description"
+        android:text="@string/description"
         android:textSize="12sp" />
 
     <TextView

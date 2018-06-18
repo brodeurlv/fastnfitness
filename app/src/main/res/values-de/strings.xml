@@ -243,5 +243,6 @@
     <string name="areyousure">Bist du sicher?</string>
     <string name="Take_profile_picture">Bild für Profil</string>
     <string name="DeleteWeightDialog">Wirklich löschen?</string>
+    <string name="name">Name</string>
 </resources>
 

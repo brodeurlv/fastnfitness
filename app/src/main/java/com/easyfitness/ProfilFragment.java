@@ -122,15 +122,13 @@ public class ProfilFragment extends Fragment {
 
 							refreshData();
 
-                            //Toast.makeText(getActivity(), "Removed weight id " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
                             KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
 							break;
 						// Share
 						case 1:
                             KToast.infoToast(getActivity(), "Share soon available", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                            //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();//TODO change static string
-							break;
+                            break;
 						default:
 					}
 				}

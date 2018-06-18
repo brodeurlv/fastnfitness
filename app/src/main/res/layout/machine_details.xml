@@ -89,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textSize="12sp" />
 
                 <EditText
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textSize="12sp" />
 
 
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Muscles"
+                    android:text="@string/muscles"
                     android:textSize="12sp" />
 
                 <EditText

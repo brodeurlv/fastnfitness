@@ -42,7 +42,7 @@ public class ImageUtil {
         try {
             if (pPath == null || pPath.isEmpty()) return;
             File f = new File(pPath);
-            if(!f.exists() || f.isDirectory()) return; // TODO Si le fichier n'existe pas, pourrait verifier si le fichier source existe et creer la miniature.
+            if(!f.exists() || f.isDirectory()) return;
 
             // Get the dimensions of the View
             float targetW = 128;//mImageView.getWidth();
@@ -169,8 +169,6 @@ public class ImageUtil {
                         break;
                     // Camera
                     case 0:
-                        //dispatchTakePictureIntent(mF);
-                        // start picker to get image for cropping and then use the image in cropping activity
                         CropImage.activity()
                                 .setGuidelines(CropImageView.Guidelines.ON)
                                 .start(mF.getContext(), mF);

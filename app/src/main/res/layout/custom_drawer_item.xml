@@ -62,6 +62,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="0dp"
         android:background="?android:attr/activatedBackgroundIndicator"
         android:orientation="vertical" >
