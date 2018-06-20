@@ -13,7 +13,7 @@
 
     <ImageView
         android:id="@+id/LIST_BODYPART_LOGO"
-        android:layout_width="128dp"
+        android:layout_width="45dp"
         android:layout_height="fill_parent"
         android:layout_marginEnd="6dip"
         android:layout_marginRight="6dip"

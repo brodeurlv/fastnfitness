@@ -727,6 +727,41 @@ public class DAOFonte extends DAOBase {
 	}
 
 	/**
+	 * @return the last record for a profile p
+	 */
+	public Fonte getLastMachineRecord(long machineID) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		mCursor = null;
+		Fonte lReturn = null;
+
+		// Select All Machines
+        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
+        ;*/
+
+		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
+				+ " WHERE " + MACHINE_KEY + "=" + machineID;
+		;
+		mCursor = db.rawQuery(selectQuery, null);
+
+		// looping through only the first rows.
+		if (mCursor.moveToFirst()) {
+			try {
+				long value = mCursor.getLong(0);
+				lReturn = this.getRecord(value);
+			} catch (NumberFormatException e) {
+				lReturn = null; // Return une valeur
+			}
+		}
+
+		close();
+
+		// return value list
+		return lReturn;
+	}
+
+	/**
 	 * @return the number of series for this machine for this day
 	 */
 	public int getNbSeries(Date pDate, String pMachine) {

@@ -14,10 +14,9 @@
         android:singleLine="true"/>
 
 
-
     <ImageView
         android:id="@+id/LIST_MACHINE_PHOTO"
-        android:layout_width="128px"
+        android:layout_width="45dp"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"

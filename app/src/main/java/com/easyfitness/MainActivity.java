@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_barbell, true);
+        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_profile_black, true);
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));
@@ -811,6 +811,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPhotoProfile(String path) {
+        DrawerAdapter.getItem(0).setImg(path);
+        DrawerAdapter.notifyDataSetChanged();
+        mDrawerLayout.invalidate();
+
         ImageUtil imgUtil = new ImageUtil();
 
         // Check if path is pointing to a thumb else create it and use it.

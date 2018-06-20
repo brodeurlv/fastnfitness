@@ -8,6 +8,9 @@
 	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
 	<string name="revision_history_label">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
+		V0.15 BETA: \n
+			\t - Enhancement : Profile photo in Menu\n
+
         V0.14.6 : 16/06/2018\n
             \t - Enhancement : German version (Many thanks to EGUltraTM)\n
         V0.14.5 : 11/06/2018\n

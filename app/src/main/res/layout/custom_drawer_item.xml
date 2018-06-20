@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/spinnerLayout"
@@ -31,11 +32,21 @@
             android:minHeight="50dp"
             android:background="@color/toolbar_background" >
 
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/header_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_profile_black" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_profile_black"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="0dp"
+                app:civ_shadow="false"
+                app:civ_shadow_color="#8BC34A"
+                app:civ_shadow_radius="0" />
 
             <TextView
                 android:id="@+id/drawerTitle"
@@ -45,16 +56,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </LinearLayout>
-        
-                    
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:background="#DADADC" >
-        </View>
-            
+
     </LinearLayout>
 
     <LinearLayout
@@ -93,4 +95,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

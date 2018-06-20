@@ -225,6 +225,7 @@ public class FontesFragment extends Fragment {
                         imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 
                         machineEdit.setText(lMachine.getName()); // Met a jour le text
+						updateLastRecord(machineID);
 						FillRecordTable(lMachine.getName()); // Met a jour le tableau
 						getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
 
@@ -246,6 +247,20 @@ public class FontesFragment extends Fragment {
 
 		}
 	};
+	private void updateLastRecord(long machineId) {
+		Fonte lLastRecord = mDb.getLastMachineRecord(machineId);
+		if (lLastRecord != null) {
+			serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+			repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
+			unitSpinner.setSelection(lLastRecord.getUnit());
+			DecimalFormat numberFormat = new DecimalFormat("#.##");
+			if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+				poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
+			else
+				poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+		}
+	}
+
 	private OnClickListener clickDateEdit = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -291,7 +306,6 @@ public class FontesFragment extends Fragment {
                     if (lMachine != null) {
                         ImageUtil imgUtil = new ImageUtil();
                         imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
-
                     }
                     FillRecordTable(machineEdit.getText().toString());
 					break;
@@ -631,6 +645,7 @@ public class FontesFragment extends Fragment {
         String unitStr = "";
         float weight = 0;
         if (getProfil() != null && m != null) {
+			updateLastRecord(m.getId());
             Weight minValue = mDb.getMin(getProfil(), m);
             getView().findViewById(R.id.minmaxLayout).setVisibility(View.VISIBLE);
             if (minValue != null) {
