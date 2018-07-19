@@ -32,6 +32,7 @@ import com.easyfitness.R;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
+import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -82,6 +83,11 @@ public class BodyPartDetailsFragment extends Fragment {
 				mBodyMeasureDb.addBodyMeasure(date, mBodyPartID, Float.valueOf(measureEdit.getText().toString()), getProfile());
 				refreshData();
 				measureEdit.setText("");
+
+				Keyboard.hide(getContext(), v);
+			} else {
+				KToast.errorToast(getActivity(), "Please enter a measure", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
 			}
 		}
 	};
@@ -94,7 +100,7 @@ public class BodyPartDetailsFragment extends Fragment {
 	private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus == true) {
+			if (hasFocus) {
 				showDatePickerFragment();
 			}
 		}

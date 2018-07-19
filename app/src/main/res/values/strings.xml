@@ -9,7 +9,8 @@
     <string name="global_no">No</string> 
     
     <string name="removedid">Removed id</string> 
-    <string name="failedtocreatefolder">Failed to create folder</string> 
+    <string name="failedtocreatefolder">Failed to create folder</string>
+    <string name="optional">optional</string>
     
     
     <string name="app_name">Fast N Fitness</string>
@@ -218,10 +219,13 @@
 
     <!-- Intro slides -->
     <string name="fillAllFields">Please fill all the fields</string>
+    <string name="fillNameField">Please enter at least your name</string>
     <string name="introSlide1Title">Hello</string>
-    <string name="size_cm">Size (cm)</string>
+    <string name="size_cm">Size in cm</string>
+    <string name="size_cm_optional">Size in cm (optional)</string>
     <string name="create">Create</string>
     <string name="birthday">Birthday</string>
+    <string name="birthday_optional">Birthday (optional)</string>
     <string name="name_or_pseudo">Name or Pseudo</string>
     <string name="create_a_profile">Create a Profile</string>
     <string name="introSlide1Text">Welcome in Fast n Fitness, the application is just quick and simple to record your workout and to follow your progression and the evolution of your body.</string>
@@ -249,6 +253,7 @@
     <string name="muscles">Muscles</string>
     <string name="start">Start</string>
     <string name="reset">Reset</string>
+    <string name="weight_missing">Please enter a weight</string>
 
 </resources>
 

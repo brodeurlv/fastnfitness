@@ -217,10 +217,13 @@
 
     <!-- Intro slides -->
     <string name="fillAllFields">Bitte alle Felder ausfüllen</string>
+    <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen</string>
     <string name="introSlide1Title">Hallo</string>
-    <string name="size_cm">Größe (cm)</string>
+    <string name="size_cm">Größe in cm</string>
+    <string name="size_cm_optional">Größe in cm (optional)</string>
     <string name="create">Erstellen</string>
     <string name="birthday">Geburtstag</string>
+    <string name="birthday_optional">Geburtstag (optional)</string>
     <string name="name_or_pseudo">Name oder Pseudonym</string>
     <string name="create_a_profile">Profil erstellen</string>
     <string name="introSlide1Text">Willkommen bei Fast n Fitness, der App in der du deine Workouts aufzeichnen kannst und eine Übersicht deiner Fortschritte deine Körpers siehst.</string>
@@ -244,5 +247,7 @@
     <string name="Take_profile_picture">Bild für Profil</string>
     <string name="DeleteWeightDialog">Wirklich löschen?</string>
     <string name="name">Name</string>
+    <string name="optional">optional</string>
+    <string name="weight_missing">Bitte geben Sie Ihrem Gewicht</string>
 </resources>
 

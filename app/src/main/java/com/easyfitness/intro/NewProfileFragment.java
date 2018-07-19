@@ -119,11 +119,16 @@ public class NewProfileFragment extends SlideFragment {
             // Initialisation des objets DB
             DAOProfil mDbProfils = new DAOProfil(v.getContext());
 
-            if (mName.getText().toString().isEmpty() || mSize.getText().toString().isEmpty() || mBirthday.getText().toString().isEmpty()) {
+            if (mName.getText().toString().isEmpty()) {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.fillAllFields).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
             } else {
-                Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
+                int size = 0;
+                if (!mSize.getText().toString().isEmpty()) {
+                    size = Integer.valueOf(mSize.getText().toString());
+                }
+
+                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()));
                 // Create the new profil
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();

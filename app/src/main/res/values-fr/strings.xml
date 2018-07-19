@@ -216,12 +216,15 @@
     <string name="introSlide3Title">Autorisation nécessaire</string>
     <string name="introSlide3Text">Pour prendre des photos de vos machines, il me faut l\'autorisation d\'utiliser votre camera ainsi que d\'écrire dans la mémoire de votre téléphone.</string>
     <string name="birthday">Date de naissance</string>
+    <string name="birthday_optional">Date de naissance (optionel)</string>
     <string name="create">Créer</string>
     <string name="create_a_profile">Créer un profil</string>
     <string name="fillAllFields">Tous les champs sont nécessaires</string>
+    <string name="fillNameField">Entrez au moins votre nom ou pseudo!</string>
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
-    <string name="size_cm">Taille (cm)</string>
+    <string name="size_cm_optional">Taille en cm (optionel)</string>
+    <string name="size_cm">Taille en cm</string>
     <string name="titleSlideEssential">Allez à l\'essentiel</string>
     <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
     <string name="pressBackAgain">Appuyer à nouveau pour quitter</string>
@@ -241,4 +244,6 @@
     <string name="muscles">Muscles</string>
     <string name="start">Start</string>
     <string name="reset">Reset</string>
+    <string name="optional">optionel</string>
+    <string name="weight_missing">Merci de rentrer votre poids</string>
 </resources>

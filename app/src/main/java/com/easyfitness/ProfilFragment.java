@@ -27,6 +27,7 @@ import com.easyfitness.DAO.ProfileWeight;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
+import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -79,7 +80,10 @@ public class ProfilFragment extends Fragment {
 				mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
 				refreshData();
 				weightEdit.setText("");
-			}
+				Keyboard.hide(getContext(), v);
+		} else {
+			KToast.errorToast(getActivity(), getString(R.string.weight_missing), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+		}
 		}
 	};
 	private OnClickListener clickDateEdit = new OnClickListener() {
