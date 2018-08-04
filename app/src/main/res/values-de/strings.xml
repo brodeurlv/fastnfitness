@@ -59,7 +59,7 @@
     <string name="ExerciceLabel">Übung</string>
 
     <!-- Profile Fragment -->
-    <string name="ProfilLabel">Gewicht</string>
+    <string name="WeightLabel">Gewicht</string>
     <string name="weightLabel">Gewicht</string>
     <string name="sizeLabel">Größe</string>
     <string name="measureLabel">Messen</string>

@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
     public static String HISTORY = "History";
     public static String GRAPHIC = "Graphics";
     public static String CARDIO = "Cardio";
-    public static String PROFIL = "Profile";
+    public static String WEIGHT = "Weight";
+    public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private CardioFragment mpCardioFrag = null;
     //private HistoryFragment mpHistoryFrag = null;
     //private GraphFragment mpGraphFrag = null;
-    private ProfilFragment mpProfilFrag = null;
+    private WeightFragment mpWeightFrag = null;
+    private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
     private SettingsFragment mpSettingFrag = null;
     private AboutFragment mpAboutFrag = null;
@@ -132,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
             if (mpCardioFrag == null) mpCardioFrag = CardioFragment.newInstance(CARDIO, 4);
             //private HistoryFragment mpHistoryFrag = HistoryFragment.newInstance(HISTORY, 3);
             //private GraphFragment mpGraphFrag = GraphFragment.newInstance(GRAPHIC, 4);
-            if (mpProfilFrag == null) mpProfilFrag = ProfilFragment.newInstance(PROFIL, 5);
+            if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
+            if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
             //private SettingsFragment    mpSettingFrag = new SettingsFragment();
             if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
@@ -142,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
             mpCardioFrag = (CardioFragment) getSupportFragmentManager().getFragment(savedInstanceState, CARDIO);
-            mpProfilFrag = (ProfilFragment) getSupportFragmentManager().getFragment(savedInstanceState, PROFIL);
+            mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
+            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, PROFILE);
             mpSettingFrag = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, SETTINGS);
             mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, ABOUT);
             mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
@@ -151,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         /*else {
 			mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
 			mpCardioFrag = (CardioFragment) getSupportFragmentManager().findFragmentByTag(CARDIO);
-			mpProfilFrag = (ProfilFragment) getSupportFragmentManager().findFragmentByTag(PROFIL);
+			mpProfilFrag = (ProfilFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
 			mpAboutFrag = (AboutFragment) getSupportFragmentManager().findFragmentByTag(ABOUT);
 			mpMachineFrag = (MachineFragment) getSupportFragmentManager().findFragmentByTag(MACHINES);
 		}*/
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.ProfilLabel), R.drawable.ic_scale, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.WeightLabel), R.drawable.ic_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_measuring_tape, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
@@ -270,8 +274,10 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().putFragment(outState, FONTESPAGER, mpFontesPagerFrag);
         if (getCardioFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, CARDIO, mpCardioFrag);
-        if (getProfilFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, PROFIL, mpProfilFrag);
+        if (getWeightFragment().isAdded())
+            getSupportFragmentManager().putFragment(outState, WEIGHT, mpWeightFrag);
+        if (getProfileFragment().isAdded())
+            getSupportFragmentManager().putFragment(outState, PROFILE, mpProfileFrag);
         if (getMachineFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, MACHINES, mpMachineFrag);
         if (getAboutFragment().isAdded())
@@ -655,8 +661,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container,getFontesPagerFragment(), FONTESPAGER);
         } else if (pFragmentName.equals(CARDIO)) {
             ft.replace(R.id.fragment_container,getCardioFragment(), CARDIO);
-        } else if (pFragmentName.equals(PROFIL)) {
-            ft.replace(R.id.fragment_container,getProfilFragment(), PROFIL );
+        } else if (pFragmentName.equals(WEIGHT)) {
+            ft.replace(R.id.fragment_container, getWeightFragment(), WEIGHT);
         } else if (pFragmentName.equals(SETTINGS)) {
             ft.replace(R.id.fragment_container,getSettingsFragment(), SETTINGS);
         } else if (pFragmentName.equals(MACHINES)) {
@@ -665,6 +671,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container,getAboutFragment(), ABOUT);
         } else if (pFragmentName.equals(BODYTRACKING)) {
             ft.replace(R.id.fragment_container,getBodyPartFragment(), BODYTRACKING);
+        } else if (pFragmentName.equals(PROFILE)) {
+            ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
         }
         currentFragmentName = pFragmentName;
         //if (addToBackStack)  ft.addToBackStack(null);
@@ -684,7 +692,8 @@ public class MainActivity extends AppCompatActivity {
             else
                 ft.add(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
             if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
@@ -696,18 +705,20 @@ public class MainActivity extends AppCompatActivity {
             else
                 ft.add(R.id.fragment_container, getCardioFragment(), CARDIO);
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
             if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
             if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
             currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(PROFIL)) {
-            if (getProfilFragment().isAdded())
-                ft.show(getProfilFragment());
+        } else if (pFragmentName.equals(WEIGHT)) {
+            if (getWeightFragment().isAdded())
+                ft.show(getWeightFragment());
             else
-                ft.add(R.id.fragment_container, getProfilFragment(), PROFIL);
+                ft.add(R.id.fragment_container, getWeightFragment(), WEIGHT);
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
@@ -722,7 +733,8 @@ public class MainActivity extends AppCompatActivity {
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
             if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
             currentFragmentName = pFragmentName;
@@ -734,7 +746,8 @@ public class MainActivity extends AppCompatActivity {
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
             if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
             currentFragmentName = pFragmentName;
@@ -746,7 +759,8 @@ public class MainActivity extends AppCompatActivity {
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
             if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
             if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
             currentFragmentName = pFragmentName;
@@ -758,7 +772,21 @@ public class MainActivity extends AppCompatActivity {
             if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
             if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
             if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getProfilFragment().isAdded()) ft.hide(getProfilFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
+            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
+            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
+            currentFragmentName = pFragmentName;
+        } else if (pFragmentName.equals(PROFILE)) {
+            if (getProfileFragment().isAdded())
+                ft.show(getProfileFragment());
+            else
+                ft.add(R.id.fragment_container, getProfileFragment(), BODYTRACKING);
+            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
+            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
+            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
+            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
+            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
             if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
             if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
             currentFragmentName = pFragmentName;
@@ -795,7 +823,7 @@ public class MainActivity extends AppCompatActivity {
         // rafraichit le fragment courant
         FragmentManager fragmentManager = getSupportFragmentManager();
         //FragmentTransaction ft=fragmentManager.beginTransaction();
-        //showFragment(PROFIL);
+        //showFragment(WEIGHT);
 
         // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
         // Il faut donc que cela soit pris en compte dans le refresh des fragments.
@@ -878,12 +906,20 @@ public class MainActivity extends AppCompatActivity {
         return mpCardioFrag;
     }
 
-    private ProfilFragment getProfilFragment() {
-        if (mpProfilFrag == null)
-            mpProfilFrag = (ProfilFragment) getSupportFragmentManager().findFragmentByTag(PROFIL);
-        if (mpProfilFrag == null) mpProfilFrag = ProfilFragment.newInstance(PROFIL, 5);
+    private WeightFragment getWeightFragment() {
+        if (mpWeightFrag == null)
+            mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
+        if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
 
-        return mpProfilFrag;
+        return mpWeightFrag;
+    }
+
+    private ProfileFragment getProfileFragment() {
+        if (mpProfileFrag == null)
+            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(PROFILE);
+        if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
+
+        return mpProfileFrag;
     }
 
     private MachineFragment getMachineFragment() {
@@ -942,7 +978,8 @@ public class MainActivity extends AppCompatActivity {
             // Insert the fragment by replacing any existing fragment
             switch (position) {
                 case 0:
-                    // Title with Profile
+                    showFragment(PROFILE);
+                    setTitle("Profile");
                     break;
                 case 1:
                     showFragment(FONTESPAGER);
@@ -957,8 +994,8 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.MachinesLabel));
                     break;
                 case 4:
-                    showFragment(PROFIL);
-                    setTitle(getResources().getText(R.string.ProfilLabel));
+                    showFragment(WEIGHT);
+                    setTitle(getResources().getText(R.string.WeightLabel));
                     break;
                 case 5:
                     showFragment(BODYTRACKING);

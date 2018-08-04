@@ -60,7 +60,7 @@
     <string name="ExerciceLabel">Exercise</string>
     
     <!-- Profile Fragment -->
-    <string name="ProfilLabel">Weight Track</string>
+    <string name="WeightLabel">Weight Track</string>
     <string name="weightLabel">Weight</string>
     <string name="sizeLabel">Size</string>
     <string name="measureLabel">Measure</string>

@@ -1,10 +1,8 @@
-<android.support.design.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tab_machine_details"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
@@ -107,7 +105,8 @@ android:layout_height="match_parent">
                 android:id="@+id/name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:inputType="text"
                 android:lines="1"
@@ -119,7 +118,8 @@ android:layout_height="match_parent">
                 android:id="@+id/birthday"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
                 android:inputType="none"
                 android:text="XX/XX/XX"
@@ -129,7 +129,8 @@ android:layout_height="match_parent">
                 android:id="@+id/size"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
                 android:text="180 cm"
                 android:textSize="14sp" />
