@@ -2,6 +2,8 @@ package com.easyfitness.utils;
 
 import android.content.Context;
 
+import com.easyfitness.DAO.DAOUtils;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -9,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.easyfitness.DAO.DAOUtils;
 
 public class DateConverter {
 
@@ -112,6 +112,22 @@ public class DateConverter {
 		String date = df.format(day) + "/" + df.format(month) + "/" + df.format(year);
 		return date;
 	}
+
+    /**
+     * @param year
+     * @param month    0-based
+     * @param day
+     * @param pContext
+     * @return date for local format
+     */
+    static public String dateToLocalDateStr(int year, int month, int day, Context pContext) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        Date date = calendar.getTime();
+
+        return dateToLocalDateStr(date, pContext);
+    }
 
 
 

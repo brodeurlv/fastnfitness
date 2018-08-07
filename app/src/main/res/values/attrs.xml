@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="editableinput_view">
+        <attr name="android:text" />
+        <attr name="android:gravity" />
+        <attr name="android:inputType" />
+        <attr name="android:lines" />
+        <attr name="android:maxLines" />
+        <attr name="android:textSize" />
+    </declare-styleable>
+</resources>

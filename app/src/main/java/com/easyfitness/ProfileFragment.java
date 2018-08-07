@@ -1,91 +1,49 @@
 package com.easyfitness;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.easyfitness.DAO.DAOProfil;
-import com.easyfitness.DAO.DAOWeight;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.ExpandedListView;
-import com.github.mikephil.charting.charts.LineChart;
+import com.easyfitness.utils.EditableInputView.EditableInputView;
+import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.utils.RealPathUtil;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class ProfileFragment extends Fragment {
-    Button addWeightButton = null;
-    EditText weightEdit = null;
-    EditText dateEdit = null;
-    ExpandedListView weightList = null;
+    EditableInputView sizeEdit = null;
+    EditableInputView birthdayEdit = null;
+    EditableInputView nameEdit = null;
+    CircularImageView roundProfile = null;
+    FloatingActionButton photoButton = null;
+    String mCurrentPhotoPath = null;
+
     MainActivity mActivity = null;
-    private String name;
-    private int id;
-    private LineChart mChart = null;
-    private Graph mGraph = null;
-    private DAOWeight mWeightDb = null;
     private DAOProfil mDb = null;
+    private Profile mProfile = null;
+    private ImageUtil imgUtil = null;
 
     DatePickerDialogFragment mDateFrag = null;
-
-    private void showDatePickerFragment() {
-        if (mDateFrag == null) {
-            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-        }
-
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        mDateFrag.show(ft, "dialog");
-    }
-
-    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-        }
-    };
-
-    private OnClickListener onClickAddWeight = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!weightEdit.getText().toString().isEmpty()) {
-
-                Date date = DateConverter.editToDate(dateEdit.getText().toString());
-
-                mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
-                weightEdit.setText("");
-            }
-        }
-    };
-    private OnClickListener clickDateEdit = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            showDatePickerFragment();
-        }
-    };
-    private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus == true) {
-                showDatePickerFragment();
-            }
-        }
-    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -110,15 +68,28 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.profile, container, false);
 
-//		addWeightButton = (Button) view.findViewById(R.id.buttonAddWeight);
+        sizeEdit = view.findViewById(R.id.size);
+        birthdayEdit = view.findViewById(R.id.birthday);
+        nameEdit = view.findViewById(R.id.name);
+        roundProfile = view.findViewById(R.id.photo);
+        photoButton = view.findViewById(R.id.actionCamera);
 
-        /* Initialisation serie */
+
+        mDb = new DAOProfil(view.getContext());
+        mProfile = getProfil();
+
+        /* Initialisation des valeurs */
+        sizeEdit.setText(String.valueOf(mProfile.getSize()));
+        birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
+        nameEdit.setText(mProfile.getName());
+        imgUtil = new ImageUtil();
+        // ImageView must be set in OnStart. Not in OnCreateView
 
         /* Initialisation des boutons */
-//		addWeightButton.setOnClickListener(onClickAddWeight);
-
-        /* Initialisation des evenements */
-        mDb = new DAOProfil(view.getContext());
+        sizeEdit.setOnTextChangeListener(itemOnTextChange);
+        birthdayEdit.setOnTextChangeListener(itemOnTextChange);
+        nameEdit.setOnTextChangeListener(itemOnTextChange);
+        photoButton.setOnClickListener(onClickMachinePhoto);
 
         return view;
     }
@@ -127,7 +98,12 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        refreshData();
+        roundProfile.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshData();
+            }
+        });
     }
 
     @Override
@@ -139,52 +115,42 @@ public class ProfileFragment extends Fragment {
     public String getName() {
         return getArguments().getString("name");
     }
-
     public int getFragmentId() {
         return getArguments().getInt("id", 0);
     }
 
-    private DAOProfil getDB() {
-        return mDb;
-    }
-
-    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
-        @Override
-        public void onBtnClick(long id) {
-            showDeleteDialog(id);
-        }
-    };
-
-    private void showDeleteDialog(final long idToDelete) {
-
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText(getString(R.string.DeleteRecordDialog))
-                .setContentText(getResources().getText(R.string.areyousure).toString())
-                .setCancelText(getResources().getText(R.string.global_no).toString())
-                .setConfirmText(getResources().getText(R.string.global_yes).toString())
-                .showCancelButton(true)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        mWeightDb.deleteMeasure(idToDelete);
-                        refreshData();
-                        // Info
-                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .show();
-    }
-
     private void refreshData() {
+        mProfile = getProfil();
 
+        /* Initialisation des valeurs */
+        sizeEdit.setText(String.valueOf(mProfile.getSize()));
+        birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
+        nameEdit.setText(mProfile.getName());
+
+        if (mProfile.getPhoto() != null) {
+            imgUtil.setPic(roundProfile, mProfile.getPhoto());
+            roundProfile.invalidate();
+        } else
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
     }
 
+
+    private void requestForSave() {
+        // Save all the fields in the Profile
+        mProfile.setName(nameEdit.getText());
+        mProfile.setSize(Integer.parseInt(sizeEdit.getText()));
+        mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
+        mProfile.setPhoto(mCurrentPhotoPath);
+        mDb.updateProfile(mProfile);
+
+        KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+    }
+
+    ;
 
     private Profile getProfil() {
         return ((MainActivity) getActivity()).getCurrentProfil();
     }
-
 
     public Fragment getFragment() {
         return this;
@@ -193,5 +159,98 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) refreshData();
+    }
+
+    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
+
+        @Override
+        public void onTextChanged(EditableInputView view) {
+            requestForSave();
+        }
+    };
+
+
+    private OnClickListener onClickMachinePhoto = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            CreatePhotoSourceDialog();
+        }
+    };
+
+    private boolean CreatePhotoSourceDialog() {
+        if (imgUtil == null)
+            imgUtil = new ImageUtil();
+
+        return imgUtil.CreatePhotoSourceDialog(this);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case ImageUtil.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    mCurrentPhotoPath = imgUtil.getFilePath();
+                    imgUtil.setPic(roundProfile, mCurrentPhotoPath);
+                    imgUtil.saveThumb(mCurrentPhotoPath);
+                    imgUtil.galleryAddPic(this, mCurrentPhotoPath);
+                    requestForSave();
+                }
+                break;
+            case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+
+                    imgUtil.setPic(roundProfile, realPath);
+                    imgUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                    requestForSave();
+                }
+                break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
+
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
+
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        Log.v("Moving", "Moving file successful.");
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.v("Moving", "Moving file failed.");
+                    }
+
+                    imgUtil.setPic(roundProfile, realPath);
+                    imgUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                    requestForSave();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
+        }
     }
 }

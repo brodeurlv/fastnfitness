@@ -839,18 +839,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPhotoProfile(String path) {
-        DrawerAdapter.getItem(0).setImg(path);
-        DrawerAdapter.notifyDataSetChanged();
-        mDrawerLayout.invalidate();
-
         ImageUtil imgUtil = new ImageUtil();
 
         // Check if path is pointing to a thumb else create it and use it.
         String thumbPath = imgUtil.getThumbPath(path);
-        if (thumbPath != null)
+        if (thumbPath != null) {
             imgUtil.setPic(roundProfile, thumbPath);
-        else
+            DrawerAdapter.getItem(0).setImg(thumbPath);
+            DrawerAdapter.notifyDataSetChanged();
+            mDrawerLayout.invalidate();
+        } else {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+            DrawerAdapter.getItem(0).setImgResID(R.drawable.ic_profile_black);
+            DrawerAdapter.notifyDataSetChanged();
+            mDrawerLayout.invalidate();
+        }
     }
 
     private void savePhotoProfile(String path) {

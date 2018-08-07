@@ -326,7 +326,6 @@ public class MachineDetailsFragment extends Fragment {
 		}
 	};
 
-
 	String mCurrentPhotoPath = null;
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -63,7 +63,7 @@ dependencies {
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     //compile "com.google.firebase:firebase-core:15.0.2"
     //compile "com.google.firebase:firebase-crash:15.0.2"
-    compile 'com.github.f0ris.sweetalert:library:1.5.1'
+    compile 'com.github.f0ris.sweetalert:library:1.5.3'
     compile 'com.github.onurkagan:ktoast:1.0.2'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {

@@ -194,7 +194,9 @@ public class ImageUtil {
 
             // Get the dimensions of the View
             int targetW = mImageView.getWidth();
+            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
             int targetH = mImageView.getHeight();
+            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
 
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
