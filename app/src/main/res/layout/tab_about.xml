@@ -106,6 +106,20 @@
                         android:text="@string/opensource_url"
                         android:textIsSelectable="true" />
 
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:text="@string/email_label" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:autoLink="email"
+                        android:text="@string/email_url"
+                        android:textIsSelectable="true" />
+
                 </LinearLayout>
 
 

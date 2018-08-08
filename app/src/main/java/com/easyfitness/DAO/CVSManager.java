@@ -26,9 +26,7 @@ public class CVSManager {
 	
 	static private String TABLE_HEAD = "table";
 	static private String ID_HEAD =  "id";
-	static private String PROFIL_HEAD = "profil";
-	
-	
+
 	private Context mContext = null;
 	
 	public CVSManager(Context pContext) {
@@ -47,8 +45,7 @@ public class CVSManager {
 			return false;
 		}
 		else {
-            // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
             Date date = new Date();
 
             //We use the FastNFitness directory for saving our .csv file.
@@ -58,152 +55,240 @@ public class CVSManager {
 				exportDir.mkdirs();
 			}
 
-			File file;
 			PrintWriter printWriter = null;
 			try 
 			{
-                CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Weight_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
-				
-				/**This is our database connector class that reads the data from the database.
-				 * The code of this class is omitted for brevity.
-				 */
-				DAOFonte dbcFonte = new DAOFonte(mContext);
-				dbcFonte.open(); 
+                exportFontes(exportDir, pProfile);
+                exportCardio(exportDir, pProfile);
+                exportProfileWeight(exportDir, pProfile);
+            } catch (Exception e) {
+                //if there are any exceptions, return false
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (printWriter != null) printWriter.close();
+            }
 
-				/**Let's read the first table of the database.
-				 * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-				 * containing all records of the table (all fields).
-				 * The code of this class is omitted for brevity.
-				 */
-				List<Fonte> records = null;
-                records = dbcFonte.getAllRecordsByProfilArray(pProfile);
-				
-				//Write the name of the table and the name of the columns (comma separated values) in the .csv file.
-				csvOutputFonte.write(TABLE_HEAD);
-				csvOutputFonte.write(ID_HEAD);
-				csvOutputFonte.write(DAOFonte.DATE);
-				csvOutputFonte.write(DAOFonte.MACHINE);
-				csvOutputFonte.write(DAOFonte.POIDS);
-				csvOutputFonte.write(DAOFonte.REPETITION);
-				csvOutputFonte.write(DAOFonte.SERIE);
-				csvOutputFonte.write(DAOFonte.PROFIL_KEY);
-				csvOutputFonte.write(DAOFonte.UNIT);
-				csvOutputFonte.write(DAOFonte.NOTES);
-				csvOutputFonte.endRecord();
-				
-				for (int i = 0; i<records.size();i++) {
-					csvOutputFonte.write(DAOFonte.TABLE_NAME);
-					csvOutputFonte.write(Long.toString(records.get(i).getId()));
-					
-					Date dateRecord = records.get(i).getDate();
+            //If there are no errors, return true.
+            return true;
+        }
+    }
 
-					SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-				
-					csvOutputFonte.write(dateFormatcsv.format(dateRecord));
-					csvOutputFonte.write(records.get(i).getMachine());
-					csvOutputFonte.write(Float.toString(records.get(i).getPoids()));
-					csvOutputFonte.write(Integer.toString(records.get(i).getRepetition()));
-					csvOutputFonte.write(Integer.toString(records.get(i).getSerie()));
-					if ( records.get(i).getProfil()  != null) csvOutputFonte.write(Long.toString(records.get(i).getProfil().getId()));
-					else csvOutputFonte.write("-1"); 
-					csvOutputFonte.write(Integer.toString(records.get(i).getUnit()));
-					if ( records.get(i).getNote() == null ) csvOutputFonte.write("");
-					else csvOutputFonte.write(records.get(i).getNote());
-					csvOutputFonte.endRecord();
-				}
-				csvOutputFonte.close();
-				dbcFonte.closeAll();
+    public boolean exportFontes(File exportDir, Profile pProfile) {
+        try {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            Date date = new Date();
 
+            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Fontes_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
-                CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
-				
-				/**This is our database connector class that reads the data from the database.
-				 * The code of this class is omitted for brevity.
-				 */
-				DAOCardio dbcCardio = new DAOCardio(mContext);
-				dbcCardio.open(); 
+            /**This is our database connector class that reads the data from the database.
+             * The code of this class is omitted for brevity.
+             */
+            DAOFonte dbcFonte = new DAOFonte(mContext);
+            dbcFonte.open();
 
-				/**Let's read the first table of the database.
-				 * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-				 * containing all records of the table (all fields).
-				 * The code of this class is omitted for brevity.
-				 */
-				List<Cardio> cardioRecords = null;
-				cardioRecords = dbcCardio.getAllRecordsByProfil(pProfile);
-				
-				//Write the name of the table and the name of the columns (comma separated values) in the .csv file.
-				csvOutputCardio.write(TABLE_HEAD);
-				csvOutputCardio.write(ID_HEAD);
-				csvOutputCardio.write(DAOCardio.DATE);
-				csvOutputCardio.write(DAOCardio.EXERCICE);
-				csvOutputCardio.write(DAOCardio.DURATION);
-				csvOutputCardio.write(DAOCardio.DISTANCE);
-				csvOutputCardio.write(DAOCardio.PROFIL_KEY);
-				csvOutputCardio.endRecord();
-				
-				for (int i = 0; i<cardioRecords.size();i++) {
-					csvOutputCardio.write(DAOCardio.TABLE_NAME);
-					csvOutputCardio.write(Long.toString(cardioRecords.get(i).getId()));
-					
-					Date dateRecord = cardioRecords.get(i).getDate();
+            /**Let's read the first table of the database.
+             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
+             * containing all records of the table (all fields).
+             * The code of this class is omitted for brevity.
+             */
+            List<Fonte> records = null;
+            records = dbcFonte.getAllRecordsByProfilArray(pProfile);
 
-					SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-				
-					csvOutputCardio.write(dateFormatcsv.format(dateRecord));
-					csvOutputCardio.write(cardioRecords.get(i).getExercice());
-					csvOutputCardio.write(Long.toString(cardioRecords.get(i).getDuration()));
-					csvOutputCardio.write(Float.toString(cardioRecords.get(i).getDistance()));
-					if ( cardioRecords.get(i).getProfil()  != null) csvOutputCardio.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
-					else csvOutputCardio.write("-1"); 
-					//write the record in the .csv file
-					csvOutputCardio.endRecord();
-				}
-				csvOutputCardio.close();
-				dbcCardio.close();	
-				
-				// Profile weight
-				// use FileWriter constructor that specifies open for appending
-                CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
-				DAOWeight dbcWeight = new DAOWeight(mContext);
-				dbcWeight.open();
+            //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
+            csvOutputFonte.write(TABLE_HEAD);
+            csvOutputFonte.write(ID_HEAD);
+            csvOutputFonte.write(DAOFonte.DATE);
+            csvOutputFonte.write(DAOFonte.MACHINE);
+            csvOutputFonte.write(DAOFonte.POIDS);
+            csvOutputFonte.write(DAOFonte.REPETITION);
+            csvOutputFonte.write(DAOFonte.SERIE);
+            csvOutputFonte.write(DAOFonte.PROFIL_KEY);
+            csvOutputFonte.write(DAOFonte.UNIT);
+            csvOutputFonte.write(DAOFonte.NOTES);
+            csvOutputFonte.endRecord();
 
-                List<ProfileWeight> weightRecords;
-				weightRecords = dbcWeight.getWeightList(pProfile);
-				
-				csvOutputWeight.write(TABLE_HEAD);
-				csvOutputWeight.write(ID_HEAD);
-				csvOutputWeight.write(DAOWeight.POIDS);
-				csvOutputWeight.write(DAOWeight.DATE);
-				csvOutputWeight.endRecord();
-				
-				for (int i = 0; i<weightRecords.size();i++) {
-					csvOutputWeight.write(DAOWeight.TABLE_NAME);
-					csvOutputWeight.write(Long.toString(weightRecords.get(i).getId()));
-					csvOutputWeight.write(Float.toString(weightRecords.get(i).getWeight()));
-					
-					Date dateRecord = weightRecords.get(i).getDate();
-					SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);				
-					csvOutputWeight.write(dateFormatcsv.format(dateRecord));
+            for (int i = 0; i < records.size(); i++) {
+                csvOutputFonte.write(DAOFonte.TABLE_NAME);
+                csvOutputFonte.write(Long.toString(records.get(i).getId()));
 
-					csvOutputWeight.endRecord();	
-				}
-				csvOutputWeight.close();
-				dbcWeight.close();
-			}
+                Date dateRecord = records.get(i).getDate();
 
-			catch(Exception e) {
-				//if there are any exceptions, return false
-				e.printStackTrace();
-				return false;
-			}
-			finally {
-				if(printWriter != null) printWriter.close();
-			}
+                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 
-			//If there are no errors, return true.
-			return true;
-		}
-	}
+                csvOutputFonte.write(dateFormatcsv.format(dateRecord));
+                csvOutputFonte.write(records.get(i).getMachine());
+                csvOutputFonte.write(Float.toString(records.get(i).getPoids()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getRepetition()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getSerie()));
+                if (records.get(i).getProfil() != null)
+                    csvOutputFonte.write(Long.toString(records.get(i).getProfil().getId()));
+                else csvOutputFonte.write("-1");
+                csvOutputFonte.write(Integer.toString(records.get(i).getUnit()));
+                if (records.get(i).getNote() == null) csvOutputFonte.write("");
+                else csvOutputFonte.write(records.get(i).getNote());
+                csvOutputFonte.endRecord();
+            }
+            csvOutputFonte.close();
+            dbcFonte.closeAll();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
+    public boolean exportProfileWeight(File exportDir, Profile pProfile) {
+        try {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            Date date = new Date();
+
+            CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+
+            /**This is our database connector class that reads the data from the database.
+             * The code of this class is omitted for brevity.
+             */
+            DAOCardio dbcCardio = new DAOCardio(mContext);
+            dbcCardio.open();
+
+            /**Let's read the first table of the database.
+             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
+             * containing all records of the table (all fields).
+             * The code of this class is omitted for brevity.
+             */
+            List<Cardio> cardioRecords = null;
+            cardioRecords = dbcCardio.getAllRecordsByProfil(pProfile);
+
+            //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
+            csvOutputCardio.write(TABLE_HEAD);
+            csvOutputCardio.write(ID_HEAD);
+            csvOutputCardio.write(DAOCardio.DATE);
+            csvOutputCardio.write(DAOCardio.EXERCICE);
+            csvOutputCardio.write(DAOCardio.DURATION);
+            csvOutputCardio.write(DAOCardio.DISTANCE);
+            csvOutputCardio.write(DAOCardio.PROFIL_KEY);
+            csvOutputCardio.endRecord();
+
+            for (int i = 0; i < cardioRecords.size(); i++) {
+                csvOutputCardio.write(DAOCardio.TABLE_NAME);
+                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getId()));
+
+                Date dateRecord = cardioRecords.get(i).getDate();
+
+                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+
+                csvOutputCardio.write(dateFormatcsv.format(dateRecord));
+                csvOutputCardio.write(cardioRecords.get(i).getExercice());
+                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getDuration()));
+                csvOutputCardio.write(Float.toString(cardioRecords.get(i).getDistance()));
+                if (cardioRecords.get(i).getProfil() != null)
+                    csvOutputCardio.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
+                else csvOutputCardio.write("-1");
+                //write the record in the .csv file
+                csvOutputCardio.endRecord();
+            }
+            csvOutputCardio.close();
+            dbcCardio.close();// Profile weight
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            DAOWeight dbcWeight = new DAOWeight(mContext);
+            dbcWeight.open();
+
+            List<ProfileWeight> weightRecords;
+            weightRecords = dbcWeight.getWeightList(pProfile);
+
+            csvOutputWeight.write(TABLE_HEAD);
+            csvOutputWeight.write(ID_HEAD);
+            csvOutputWeight.write(DAOWeight.POIDS);
+            csvOutputWeight.write(DAOWeight.DATE);
+            csvOutputWeight.endRecord();
+
+            for (int i = 0; i < weightRecords.size(); i++) {
+                csvOutputWeight.write(DAOWeight.TABLE_NAME);
+                csvOutputWeight.write(Long.toString(weightRecords.get(i).getId()));
+                csvOutputWeight.write(Float.toString(weightRecords.get(i).getWeight()));
+
+                Date dateRecord = weightRecords.get(i).getDate();
+                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                csvOutputWeight.write(dateFormatcsv.format(dateRecord));
+
+                csvOutputWeight.endRecord();
+            }
+            csvOutputWeight.close();
+            dbcWeight.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
+    public boolean exportCardio(File exportDir, Profile pProfile) {
+        try {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            Date date = new Date();
+
+            CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+
+            /**This is our database connector class that reads the data from the database.
+             * The code of this class is omitted for brevity.
+             */
+            DAOCardio dbcCardio = new DAOCardio(mContext);
+            dbcCardio.open();
+
+            /**Let's read the first table of the database.
+             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
+             * containing all records of the table (all fields).
+             * The code of this class is omitted for brevity.
+             */
+            List<Cardio> cardioRecords = null;
+            cardioRecords = dbcCardio.getAllRecordsByProfil(pProfile);
+
+            //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
+            csvOutputCardio.write(TABLE_HEAD);
+            csvOutputCardio.write(ID_HEAD);
+            csvOutputCardio.write(DAOCardio.DATE);
+            csvOutputCardio.write(DAOCardio.EXERCICE);
+            csvOutputCardio.write(DAOCardio.DURATION);
+            csvOutputCardio.write(DAOCardio.DISTANCE);
+            csvOutputCardio.write(DAOCardio.PROFIL_KEY);
+            csvOutputCardio.endRecord();
+
+            for (int i = 0; i < cardioRecords.size(); i++) {
+                csvOutputCardio.write(DAOCardio.TABLE_NAME);
+                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getId()));
+
+                Date dateRecord = cardioRecords.get(i).getDate();
+
+                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+
+                csvOutputCardio.write(dateFormatcsv.format(dateRecord));
+                csvOutputCardio.write(cardioRecords.get(i).getExercice());
+                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getDuration()));
+                csvOutputCardio.write(Float.toString(cardioRecords.get(i).getDistance()));
+                if (cardioRecords.get(i).getProfil() != null)
+                    csvOutputCardio.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
+                else csvOutputCardio.write("-1");
+                //write the record in the .csv file
+                csvOutputCardio.endRecord();
+            }
+            csvOutputCardio.close();
+            dbcCardio.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
 	
 	/*
 	 * TODO : Renforcer cette fonction. 

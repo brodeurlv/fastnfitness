@@ -133,18 +133,23 @@ public class NewProfileFragment extends SlideFragment {
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
-                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(getContext().getResources().getText(R.string.app_name).toString())
-                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
+                if (p != null) {
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(p.getName())
+                            .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
 
-                                nextSlide();
-                            }
-                        })
-                        .show();
-                mProfilCreated=true;
+                                    nextSlide();
+                                }
+                            })
+                            .show();
+                    mProfilCreated = true;
+                } else {
+                    KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
+                }
+
             }
         }
     };

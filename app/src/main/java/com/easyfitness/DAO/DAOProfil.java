@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.utils.DateConverter;
 
 import java.util.ArrayList;
@@ -284,14 +286,24 @@ public class DAOProfil extends DAOBase {
 	    // Deleting single Profile
 	    public void deleteProfil(long id) {
 	    	open();
-	        
+
+            // Supprime les enregistrements de poids
 	        DAOWeight mWeightDb;
 	        mWeightDb = new DAOWeight(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps. 
             List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil(id));
 			for (int i = 0; i<valueList.size();i++) {
 				mWeightDb.deleteMeasure(valueList.get(i).getId());
 			}
-			
+
+            // Supprime les enregistrements de measure de body
+            DAOBodyMeasure mBodyDb;
+            mBodyDb = new DAOBodyMeasure(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
+            List<BodyMeasure> bodyMeasuresList = mBodyDb.getBodyMeasuresList(getProfil(id));
+            for (int i = 0; i < bodyMeasuresList.size(); i++) {
+                mBodyDb.deleteMeasure(bodyMeasuresList.get(i).getId());
+            }
+
+            // Supprime le profile
 	        SQLiteDatabase db = this.getWritableDatabase();
 	        db.delete(TABLE_NAME, KEY + " = ?",
 	                new String[] { String.valueOf(id) });

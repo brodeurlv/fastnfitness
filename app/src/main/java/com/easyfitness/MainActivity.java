@@ -1,12 +1,10 @@
 package com.easyfitness;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -43,17 +41,13 @@ import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
-import com.easyfitness.utils.RealPathUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.easyfitness.utils.ImageUtil.REQUEST_PICK_GALERY_PHOTO;
@@ -79,13 +73,10 @@ public class MainActivity extends AppCompatActivity {
     public static String MACHINESDETAILS = "MachinesDetails";
 
     public static String PREFS_NAME = "prefsfile";
-    CustomDrawerAdapter DrawerAdapter;
+    CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
-    //private FontesFragment mpFontesFrag = FontesFragment.newInstance(FONTES, 1);
     private FontesPagerFragment mpFontesPagerFrag = null;
     private CardioFragment mpCardioFrag = null;
-    //private HistoryFragment mpHistoryFrag = null;
-    //private GraphFragment mpGraphFrag = null;
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
@@ -118,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Fabric.with(this, new Crashlytics());
-
-        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
         top_toolbar = (Toolbar) this.findViewById(R.id.actionToolbar);
@@ -128,16 +116,12 @@ public class MainActivity extends AppCompatActivity {
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
 
         if (savedInstanceState == null) {
-            //private FontesFragment mpFontesFrag = FontesFragment.newInstance(FONTES, 1);
             if (mpFontesPagerFrag == null)
                 mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
             if (mpCardioFrag == null) mpCardioFrag = CardioFragment.newInstance(CARDIO, 4);
-            //private HistoryFragment mpHistoryFrag = HistoryFragment.newInstance(HISTORY, 3);
-            //private GraphFragment mpGraphFrag = GraphFragment.newInstance(GRAPHIC, 4);
             if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
             if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
-            //private SettingsFragment    mpSettingFrag = new SettingsFragment();
             if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
             if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
             if (mpBodyPartListFrag == null)
@@ -209,12 +193,12 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
 
-        DrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
+        mDrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
                 dataList);
 
-        mDrawerList.setAdapter(DrawerAdapter);
+        mDrawerList.setAdapter(mDrawerAdapter);
 
-        roundProfile = (CircularImageView) top_toolbar.findViewById(R.id.imageProfile);
+        roundProfile = top_toolbar.findViewById(R.id.imageProfile);
 
         //String[] mTempString = new String[]{"toto","tata","titi"};
         // Set the adapter for the list view
@@ -401,6 +385,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.rename_profil:
                     getActivity().renameProfil();
+                    return true;
+                case R.id.param_profil:
+                    showFragment(PROFILE);
                     return true;
                 default:
                     return false;
@@ -610,8 +597,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDrawerTitle(String pProfilName) {
-        DrawerAdapter.getItem(0).setTitle(pProfilName);
-        DrawerAdapter.notifyDataSetChanged();
+        mDrawerAdapter.getItem(0).setTitle(pProfilName);
+        mDrawerAdapter.notifyDataSetChanged();
         mDrawerLayout.invalidate();
     }
 
@@ -680,122 +667,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showFragment2(String pFragmentName) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-
-        // Then show the fragments
-        if (pFragmentName.equals(FONTESPAGER)) {
-            if (getFontesPagerFragment().isAdded())
-                ft.show(getFontesPagerFragment());
-            else
-                ft.add(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(CARDIO)) {
-            if (getCardioFragment().isAdded())
-                ft.show(getCardioFragment());
-            else
-                ft.add(R.id.fragment_container, getCardioFragment(), CARDIO);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(WEIGHT)) {
-            if (getWeightFragment().isAdded())
-                ft.show(getWeightFragment());
-            else
-                ft.add(R.id.fragment_container, getWeightFragment(), WEIGHT);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(SETTINGS)) {
-            if (getSettingsFragment().isAdded())
-                ft.show(getSettingsFragment());
-            else
-                ft.add(R.id.fragment_container, getSettingsFragment(), SETTINGS);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(MACHINES)) {
-            if (getMachineFragment().isAdded())
-                ft.show(getMachineFragment());
-            else
-                ft.add(R.id.fragment_container, getMachineFragment(), MACHINES);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(ABOUT)) {
-            if (getAboutFragment().isAdded())
-                ft.show(getAboutFragment());
-            else
-                ft.add(R.id.fragment_container, getAboutFragment(), ABOUT);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(BODYTRACKING)) {
-            if (getBodyPartFragment().isAdded())
-                ft.show(getBodyPartFragment());
-            else
-                ft.add(R.id.fragment_container, getBodyPartFragment(), BODYTRACKING);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getProfileFragment().isAdded()) ft.hide(getProfileFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            currentFragmentName = pFragmentName;
-        } else if (pFragmentName.equals(PROFILE)) {
-            if (getProfileFragment().isAdded())
-                ft.show(getProfileFragment());
-            else
-                ft.add(R.id.fragment_container, getProfileFragment(), BODYTRACKING);
-            if (getFontesPagerFragment().isAdded()) ft.hide(getFontesPagerFragment());
-            if (getCardioFragment().isAdded()) ft.hide(getCardioFragment());
-            if (getMachineFragment().isAdded()) ft.hide(getMachineFragment());
-            if (getWeightFragment().isAdded()) ft.hide(getWeightFragment());
-            if (getBodyPartFragment().isAdded()) ft.hide(getBodyPartFragment());
-            if (getSettingsFragment().isAdded()) ft.hide(getSettingsFragment());
-            if (getAboutFragment().isAdded()) ft.hide(getAboutFragment());
-            currentFragmentName = pFragmentName;
-        }
-
-        ft.commit();
-
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -817,7 +688,12 @@ public class MainActivity extends AppCompatActivity {
 
     //@SuppressLint("RestrictedApi")
     public void setCurrentProfil(String newProfilName) {
-        mCurrentProfile = this.mDbProfils.getProfil(newProfilName);
+        Profile newProfil = this.mDbProfils.getProfil(newProfilName);
+        setCurrentProfil(newProfil);
+    }
+
+    public void setCurrentProfil(Profile newProfil) {
+        mCurrentProfile = newProfil;
         mCurrentProfilID = mCurrentProfile.getId();
 
         // rafraichit le fragment courant
@@ -845,13 +721,14 @@ public class MainActivity extends AppCompatActivity {
         String thumbPath = imgUtil.getThumbPath(path);
         if (thumbPath != null) {
             imgUtil.setPic(roundProfile, thumbPath);
-            DrawerAdapter.getItem(0).setImg(thumbPath);
-            DrawerAdapter.notifyDataSetChanged();
+            mDrawerAdapter.getItem(0).setImg(thumbPath);
+            mDrawerAdapter.notifyDataSetChanged();
             mDrawerLayout.invalidate();
         } else {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
-            DrawerAdapter.getItem(0).setImgResID(R.drawable.ic_profile_black);
-            DrawerAdapter.notifyDataSetChanged();
+            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_profile_black);
+            mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
+            mDrawerAdapter.notifyDataSetChanged();
             mDrawerLayout.invalidate();
         }
     }
@@ -887,7 +764,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
-        editor.putBoolean("migrationBD05done", mIntro014Launched);
         editor.putBoolean("migrationBD05done", mMigrationBD05done);
         editor.commit();
     }
@@ -982,7 +858,7 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     showFragment(PROFILE);
-                    setTitle("Profile");
+                    setTitle(getString(R.string.ProfileLabel));
                     break;
                 case 1:
                     showFragment(FONTESPAGER);
@@ -1019,6 +895,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_INTRO:
+                if (resultCode == RESULT_OK) {
+                    initActivity();
+                    mIntro014Launched = true;
+                    this.savePreferences();
+                } else {
+                    // Cancelled the intro. You can then e.g. finish this activity too.
+                    finish();
+                }
+                break;
+        }
+    }
+
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
 
@@ -1040,74 +933,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             mBackPressed = System.currentTimeMillis();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_INTRO:
-                if (resultCode == RESULT_OK) {
-                    initActivity();
-                    mIntro014Launched = true;
-                    this.savePreferences();
-                } else {
-                    // Cancelled the intro. You can then e.g. finish this activity too.
-                    finish();
-                }
-                break;
-            case REQUEST_PICK_GALERY_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    ImageUtil imgUtil = new ImageUtil();
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(getApplicationContext(), data.getData());
-
-                    String ret = imgUtil.saveThumb(realPath);// Crée la miniature
-                    setPhotoProfile(realPath);
-                    savePhotoProfile(realPath);
-                }
-                break;
-            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                ImageUtil imgUtil = new ImageUtil();
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(getApplicationContext(), resultUri);
-
-                    // Le fichier est crée dans le cache.
-                    // Déplacer le fichier dans le repertoire de FastNFitness
-                    File SourceFile = new File(realPath);
-
-                    File storageDir = null;
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
-                    String state = Environment.getExternalStorageState();
-                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
-                        return;
-                    } else {
-                        //We use the FastNFitness directory for saving our .csv file.
-                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
-                        if (!storageDir.exists()) {
-                            storageDir.mkdirs();
-                        }
-                    }
-                    File DestinationFile = new File(storageDir.getPath() + imageFileName);
-
-                    try {
-                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
-                        realPath = DestinationFile.getPath();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    String ret = imgUtil.saveThumb(realPath);// Crée la miniature
-                    setPhotoProfile(realPath);
-                    savePhotoProfile(realPath);
-
-                    break;
-                }
         }
     }
 

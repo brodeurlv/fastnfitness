@@ -138,6 +138,14 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         valueTextView.setText(newValue);
     }
 
+    public void setHint(String newValue) {
+        valueTextView.setHint(newValue);
+    }
+
+    public TextView getTextView() {
+        return valueTextView;
+    }
+
     public void setOnTextChangeListener(EditableInputView.OnTextChangedListener listener) {
         mConfirmClickListener = listener;
     }

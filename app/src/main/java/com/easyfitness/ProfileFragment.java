@@ -43,8 +43,6 @@ public class ProfileFragment extends Fragment {
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
 
-    DatePickerDialogFragment mDateFrag = null;
-
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -79,10 +77,7 @@ public class ProfileFragment extends Fragment {
         mProfile = getProfil();
 
         /* Initialisation des valeurs */
-        sizeEdit.setText(String.valueOf(mProfile.getSize()));
-        birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
-        nameEdit.setText(mProfile.getName());
-        imgUtil = new ImageUtil();
+        imgUtil = new ImageUtil(roundProfile);
         // ImageView must be set in OnStart. Not in OnCreateView
 
         /* Initialisation des boutons */
@@ -90,6 +85,15 @@ public class ProfileFragment extends Fragment {
         birthdayEdit.setOnTextChangeListener(itemOnTextChange);
         nameEdit.setOnTextChangeListener(itemOnTextChange);
         photoButton.setOnClickListener(onClickMachinePhoto);
+
+        imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
+            @Override
+            public void onDeleteImage(ImageUtil imgUtil) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+                mCurrentPhotoPath = null;
+                requestForSave(imgUtil.getView());
+            }
+        });
 
         return view;
     }
@@ -123,8 +127,19 @@ public class ProfileFragment extends Fragment {
         mProfile = getProfil();
 
         /* Initialisation des valeurs */
-        sizeEdit.setText(String.valueOf(mProfile.getSize()));
-        birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
+        if (mProfile.getSize() == 0) {
+            sizeEdit.setText("");
+            sizeEdit.setHint(getString(R.string.profileEnterYourSize));
+        } else {
+            sizeEdit.setText(String.valueOf(mProfile.getSize()));
+        }
+        if (mProfile.getBirthday().getTime() == 0) {
+            birthdayEdit.setText("");
+            birthdayEdit.setHint(getString(R.string.profileEnterYourBirthday));
+        } else {
+            birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
+            //sizeEdit.setNormalColor();
+        }
         nameEdit.setText(mProfile.getName());
 
         if (mProfile.getPhoto() != null) {
@@ -134,16 +149,29 @@ public class ProfileFragment extends Fragment {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
     }
 
-
-    private void requestForSave() {
+    private void requestForSave(View view) {
         // Save all the fields in the Profile
-        mProfile.setName(nameEdit.getText());
-        mProfile.setSize(Integer.parseInt(sizeEdit.getText()));
-        mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
-        mProfile.setPhoto(mCurrentPhotoPath);
+        switch (view.getId()) {
+            case R.id.name:
+                mProfile.setName(nameEdit.getText());
+                break;
+            case R.id.size:
+                mProfile.setSize(Integer.parseInt(sizeEdit.getText()));
+                break;
+            case R.id.birthday:
+                mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
+                break;
+            case R.id.photo:
+                mProfile.setPhoto(mCurrentPhotoPath);
+                break;
+        }
+
         mDb.updateProfile(mProfile);
 
         KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+        refreshData();
+        mActivity.setCurrentProfil(mProfile);
     }
 
     ;
@@ -165,7 +193,7 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onTextChanged(EditableInputView view) {
-            requestForSave();
+            requestForSave(view);
         }
     };
 
@@ -194,7 +222,7 @@ public class ProfileFragment extends Fragment {
                     imgUtil.setPic(roundProfile, mCurrentPhotoPath);
                     imgUtil.saveThumb(mCurrentPhotoPath);
                     imgUtil.galleryAddPic(this, mCurrentPhotoPath);
-                    requestForSave();
+                    requestForSave(roundProfile);
                 }
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
@@ -205,7 +233,7 @@ public class ProfileFragment extends Fragment {
                     imgUtil.setPic(roundProfile, realPath);
                     imgUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
-                    requestForSave();
+                    requestForSave(roundProfile);
                 }
                 break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
@@ -246,7 +274,7 @@ public class ProfileFragment extends Fragment {
                     imgUtil.setPic(roundProfile, realPath);
                     imgUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
-                    requestForSave();
+                    requestForSave(roundProfile);
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }

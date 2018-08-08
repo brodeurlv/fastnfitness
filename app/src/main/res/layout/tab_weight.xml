@@ -114,6 +114,7 @@
                 android:id="@+id/weightChart"
                 android:layout_width="match_parent"
                 android:layout_height="300dip"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:background="#FFFFFF" />

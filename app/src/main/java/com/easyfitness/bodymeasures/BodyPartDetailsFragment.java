@@ -226,7 +226,6 @@ public class BodyPartDetailsFragment extends Fragment {
         }
 
 		mGraph.draw(yVals);
-        //mGraph.getLineChart().
     }
 	
 	/*  */
@@ -257,7 +256,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfile() != null) {
-				List<BodyMeasure> valueList = mBodyMeasureDb.getBodyMeasuresList(mBodyPartID , getProfile());
+                List<BodyMeasure> valueList = mBodyMeasureDb.getBodyPartMeasuresList(mBodyPartID, getProfile());
 				DrawGraph(valueList);
 				// update table
 				FillRecordTable(valueList);

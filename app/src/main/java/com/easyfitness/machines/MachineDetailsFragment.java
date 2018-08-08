@@ -139,6 +139,7 @@ public class MachineDetailsFragment extends Fragment {
 
 		machineAction = (FloatingActionButton) view.findViewById(R.id.actionCamera);
 
+        imgUtil = new ImageUtil(machinePhoto);
 
 		buildMusclesTable();
 
@@ -223,6 +224,15 @@ public class MachineDetailsFragment extends Fragment {
 		machineName.addTextChangedListener(watcher);
 		machineDescription.addTextChangedListener(watcher);
 		musclesList.addTextChangedListener(watcher);
+
+        imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
+            @Override
+            public void onDeleteImage(ImageUtil imgUtil) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                mCurrentPhotoPath = null;
+                requestForSave();
+            }
+        });
 				
 		return view;
 	}

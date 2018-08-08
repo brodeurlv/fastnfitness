@@ -13,6 +13,7 @@
         android:id="@+id/delete_profil"
         android:title="@string/profil_delete" />
     <item
-        android:id="@+id/photo_profil"
-        android:title="@string/Take_profile_picture" />
+        android:id="@+id/param_profil"
+        android:title="@string/profile_page" />
+
 </menu>

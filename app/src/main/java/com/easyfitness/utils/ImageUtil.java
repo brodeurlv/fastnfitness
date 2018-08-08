@@ -32,11 +32,24 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by ccombes on 18/04/14.
- */
-
 public class ImageUtil {
+
+    private ImageView imgView = null;
+
+    public ImageUtil() {
+    }
+
+    public ImageUtil(ImageView view) {
+        imgView = view;
+    }
+
+    public void setView(ImageView view) {
+        imgView = view;
+    }
+
+    public ImageView getView() {
+        return imgView;
+    }
 
     static public void setThumb(ImageView mImageView, String pPath) {
         try {
@@ -122,7 +135,7 @@ public class ImageUtil {
         String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
 
         // If it is already a thumb do nothing
-        if (nameOfOutputImage.substring(nameOfOutputImage.length() - 3) == "_TH") {
+        if (nameOfOutputImage.substring(nameOfOutputImage.length() - 3).equals("_TH")) {
             return pPath;
             // else check if it already exists
         } else {
@@ -146,14 +159,24 @@ public class ImageUtil {
         return mFilePath;
     }
 
+    private ImageUtil.OnDeleteImageListener mDeleteImageListener;
+
+    public interface OnDeleteImageListener {
+        void onDeleteImage(ImageUtil imgUtil);
+    }
+
+    public void setOnDeleteImageListener(ImageUtil.OnDeleteImageListener listener) {
+        mDeleteImageListener = listener;
+    }
+
     public boolean CreatePhotoSourceDialog(Fragment pF) {
 
         mF = pF;
 
-        String[] optionListArray = new String[2];
+        String[] optionListArray = new String[3];
         optionListArray[0] = mF.getResources().getString(R.string.camera);
         optionListArray[1] = mF.getResources().getString(R.string.gallery);
-        //profilListArray[2] = "Remove Image";
+        optionListArray[2] = "Remove Image";
 
         requestPermissionForWriting(pF);
 
@@ -174,7 +197,8 @@ public class ImageUtil {
                                 .start(mF.getContext(), mF);
                         break;
                     case 2: // Delete picture
-
+                        if (mDeleteImageListener != null)
+                            mDeleteImageListener.onDeleteImage(ImageUtil.this);
                         break;
                     // Camera
                     default:

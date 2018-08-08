@@ -175,12 +175,7 @@
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
     <string name="CountdownLabel">Repos</string>
-    <string name="author_label">Auteur:</string>
-    <string name="database_version_label">Database version:</string>
-    <string name="opensource_label">Open source Lien:</string>
     <string name="rest_time">Temps de repos (sec)</string>
-    <string name="revision_history_label">Historique des modificiations:</string>
-    <string name="thanks_label">Libraries :</string>
     <string name="activate_rest_time">Activer le Compteur de repos</string>
     <string name="pref_bodybuilding_setting">Body Building - Paramètres</string>
     <string name="sizeTableLabel">Historique</string>
@@ -246,4 +241,10 @@
     <string name="reset">Reset</string>
     <string name="optional">optionel</string>
     <string name="weight_missing">Merci de rentrer votre poids</string>
+    <string name="profileEnterYourSize">Votre taille</string>
+    <string name="profileEnterYourBirthday">Votre date de naissance</string>
+    <string name="edit_soon_available">Bientôt disponible</string>
+    <string name="name">Nom</string>
+    <string name="ProfileLabel">Profil</string>
+    <string name="profile_page">Details</string>
 </resources>

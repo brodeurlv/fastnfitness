@@ -254,6 +254,10 @@
     <string name="start">Start</string>
     <string name="reset">Reset</string>
     <string name="weight_missing">Please enter a weight</string>
+    <string name="profileEnterYourSize">Your size</string>
+    <string name="profileEnterYourBirthday">Your Birthday</string>
+    <string name="profile_page">Profile page</string>
+    <string name="ProfileLabel">Profile</string>
 
 </resources>
 

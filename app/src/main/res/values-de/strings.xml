@@ -249,5 +249,14 @@
     <string name="name">Name</string>
     <string name="optional">optional</string>
     <string name="weight_missing">Bitte geben Sie Ihrem Gewicht</string>
+    <string name="profileEnterYourSize">Ihre Größe</string>
+    <string name="profileEnterYourBirthday">Ihre Geburstag</string>
+    <string name="ProfileLabel">Profil</string>
+    <string name="profile_page">Profilseite</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="muscles">Muskeln</string>
+    <string name="description">Beschreibung</string>
+    <string name="edit_soon_available">in Kürze verfügbar</string>
 </resources>
 
