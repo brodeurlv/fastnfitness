@@ -25,41 +25,50 @@
             android:background="@color/toolbar_background"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
-            android:visibility="visible" />
+            android:visibility="visible">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_profile_black"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="0dp"
+                app:civ_shadow="false"
+                app:civ_shadow_color="#8BC34A"
+                app:civ_shadow_radius="0" />
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/musicToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_margin="0dp"
             android:background="@color/toolbar_background"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
+            android:padding="0dp"
             app:contentInsetStart="0dp"
             app:titleMargins="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="0dp"
+                android:orientation="vertical"
+                android:padding="0dp">
 
                 <LinearLayout
                     android:id="@+id/playerTopLayout"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp">
-
-                    <SeekBar
-                        android:id="@+id/playerSeekBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="-5dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="-2dp" />
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -72,23 +81,34 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4dp"
                             android:layout_marginRight="4dp"
-
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            tools:text="00:00" />
 
                         <TextView
                             android:id="@+id/playerSongTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
+                            android:layout_gravity="top"
                             android:layout_marginLeft="4dp"
                             android:layout_marginRight="4dp"
                             android:ellipsize="marquee"
-                            android:gravity="left"
                             android:marqueeRepeatLimit="marquee_forever"
-                            android:maxLines="1"
-                            android:scrollHorizontally="true" />
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            tools:text="musique_test.mp3" />
 
                     </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/playerSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="-4dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="-4dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,7 +125,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:padding="5dp"
                         android:src="@drawable/ic_skip_previous_black_36dp" />
 
@@ -118,7 +138,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:src="@drawable/ic_stop_black_36dp" />
 
                     <ImageButton
@@ -130,7 +150,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:src="@drawable/ic_play_arrow_black_36dp" />
 
                     <ImageButton
@@ -142,7 +162,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:src="@drawable/ic_skip_next_black_36dp" />
 
                     <ImageButton
@@ -154,7 +174,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:src="@drawable/ic_replay_blue_36dp" />
 
                     <ImageButton
@@ -166,7 +186,7 @@
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
+                        android:cropToPadding="true"
                         android:src="@drawable/ic_library_music_black_36dp" />
 
                 </LinearLayout>
@@ -179,7 +199,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/musicToolbar"
             android:layout_below="@id/actionToolbar"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical"/>
 
     </RelativeLayout>
 

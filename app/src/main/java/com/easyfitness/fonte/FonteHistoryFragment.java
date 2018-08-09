@@ -1,20 +1,9 @@
 package com.easyfitness.fonte;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +14,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.Fonte;
+import com.onurkaganaldemir.ktoastlib.KToast;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FonteHistoryFragment extends Fragment {
 	private String name;
@@ -88,19 +88,19 @@ public class FonteHistoryFragment extends Fragment {
 		mDb = new DAOFonte(view.getContext());
 
 		mMachineArray = new ArrayList<String>();
+        mDateArray = new ArrayList<String>();
+
 		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-		mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-		mAdapterMachine = new ArrayAdapter<String>(
+        mAdapterMachine = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
 				mMachineArray);
 		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		machineList.setAdapter(mAdapterMachine);
 		mDb.closeCursor();
 
-		mDateArray = new ArrayList<String>();
+
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
-		mDateArray.addAll(mDb.getAllDatesList(getProfil()));
-		mAdapterDate = new ArrayAdapter<String>(
+        mAdapterDate = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item,
 				mDateArray);
 		mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -112,25 +112,11 @@ public class FonteHistoryFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+        this.mActivity = (MainActivity) this.getActivity();
 		refreshData();
 	}
-	
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		this.mActivity = (MainActivity) activity;
-	}
 
-	private static String[] prepend(String[] a, String el) {
-		String[] c = new String[a.length + 1];
-		c[0] = el;
-		System.arraycopy(a, 0, c, 1, a.length);
-		return c;
-	}
-
-	public String getName() { 
+    public String getName() {
 		return getArguments().getString("name");
 	}
 
@@ -148,10 +134,9 @@ public class FonteHistoryFragment extends Fragment {
 			FillRecordTable(machineList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
 
-			Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + id, Toast.LENGTH_SHORT) 
-			.show();
+            KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-			return true;
+            return true;
 		}
 	};
 
@@ -206,18 +191,18 @@ public class FonteHistoryFragment extends Fragment {
 		}
 
 		// Recupere les valeurs
-		records = mDb.getFilteredRecords(getProfil(), pMachine, pDate);  		
+        Cursor c = mDb.getFilteredRecords(getProfil(), pMachine, pDate);
 
-		if(records.isEmpty()) {
+        if (c == null || c.getCount() == 0) {
 			//Toast.makeText(mActivity, "No records", Toast.LENGTH_SHORT).show();    
 			filterList.setAdapter(null);
 		} else {
 			// ...
 			if ( filterList.getAdapter() == null ) {
-				FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), mDb.GetCursor(), 0, itemClickDeleteRecord);
+                FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), c, 0, itemClickDeleteRecord);
 				filterList.setAdapter(mTableAdapter);
 			} else {
-				oldCursor = ((FonteCursorAdapter)filterList.getAdapter()).swapCursor(mDb.GetCursor());
+                oldCursor = ((FonteCursorAdapter) filterList.getAdapter()).swapCursor(c);
 				if (oldCursor!=null)
 					oldCursor.close();
 			}
@@ -244,14 +229,16 @@ public class FonteHistoryFragment extends Fragment {
 						dateList.setSelection(1);
 					}
 					mAdapterDate.notifyDataSetChanged();
-					mDb.closeCursor();				
+					mDb.closeCursor();
 
+                // positionne la liste deroulante sur la bonne machine
 					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
 						machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-					} 								
-
-					FillRecordTable(machineList.getSelectedItem().toString(), dateList
-							.getSelectedItem().toString());
+                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
+                                .getSelectedItem().toString());
+                    } else { // Si il ne trouve pas la bonne machine, remet la selection a 0
+                        machineList.setSelection(0);
+                    }
 				}
 		}
 	}
@@ -273,30 +260,22 @@ public class FonteHistoryFragment extends Fragment {
 
 	private void showDeleteDialog(final long idToDelete) {
 
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case DialogInterface.BUTTON_POSITIVE:
-						mDb.deleteRecord(idToDelete);
-
-						FillRecordTable(machineList.getSelectedItem().toString(), dateList
-								.getSelectedItem().toString());
-
-						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-								.show();
-						break;
-
-					case DialogInterface.BUTTON_NEGATIVE:
-						//No button clicked
-						break;
-				}
-			}
-		};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-                .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
-
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        mDb.deleteRecord(idToDelete);
+                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
+                                .getSelectedItem().toString());
+                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 }

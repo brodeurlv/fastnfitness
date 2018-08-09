@@ -39,7 +39,7 @@ public class Graph {
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
-        IMarker marker = new CustomMarkerView(mChart.getContext(), R.layout.graph_markerview);
+        IMarker marker = new CustomMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
         mChart.setMarker(marker);
 
 

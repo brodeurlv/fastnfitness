@@ -6,7 +6,7 @@ public class Machine {
 	private long id;
 	private String mName;
 	private int mType; // Cardio or Fonte
-	private String mPicture;
+	private String mPicture=null;
 	private String mDescription;
 	private String mBodyParts;
 	private Boolean mFavorite;
@@ -80,5 +80,10 @@ public class Machine {
 	public void setFavorite(Boolean favorite) {
 		mFavorite= favorite;
 	}
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

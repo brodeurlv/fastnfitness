@@ -1,17 +1,60 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
+    android:id="@+id/tab_machine_details"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
-    <!--android:fitsSystemWindows="true"-->
-    <ScrollView
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/actionToolbarMachine"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_background"
+            android:elevation="4dp">
+
+            <ImageButton
+                android:id="@+id/action_machine_delete"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right"
+                android:layout_weight="5"
+                android:adjustViewBounds="false"
+                android:background="@android:color/transparent"
+                android:baselineAlignBottom="false"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_delete_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/action_machine_save"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right"
+                android:layout_weight="5"
+                android:adjustViewBounds="false"
+                android:background="@android:color/transparent"
+                android:baselineAlignBottom="false"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_save_black_24dp" />
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/tab_machine_details"
-            android:name="tab_machine_details"
+            android:id="@+id/machine_photo_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
@@ -22,64 +65,18 @@
             android:paddingRight="0dp"
             android:paddingTop="0dp">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/actionToolbarMachine"
+            <ImageView
+                android:id="@+id/machine_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar_background"
-                android:minHeight="?attr/actionBarSize">
+                android:adjustViewBounds="true"
+                android:background="@color/background_even"
+                android:cropToPadding="false"
+                android:maxHeight="200dp"
+                android:minHeight="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_machine" />
 
-                <ImageButton
-                    android:id="@+id/action_machine_delete"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="right"
-                    android:layout_weight="5"
-                    android:adjustViewBounds="false"
-                    android:background="@android:color/transparent"
-                    android:baselineAlignBottom="false"
-                    android:cropToPadding="false"
-                    android:src="@drawable/ic_delete_black_24dp" />
-
-                <ImageButton
-                    android:id="@+id/action_machine_save"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="right"
-                    android:layout_weight="5"
-                    android:adjustViewBounds="false"
-                    android:background="@android:color/transparent"
-                    android:baselineAlignBottom="false"
-                    android:cropToPadding="false"
-                    android:src="@drawable/ic_save_black_24dp" />
-            </android.support.v7.widget.Toolbar>
-
-            <RelativeLayout
-                android:id="@+id/topMachineDetails"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="0dip">
-
-                <ImageView
-                    android:id="@+id/machine_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@color/background_even"
-                    android:contentDescription=""
-                    android:cropToPadding="false"
-                    android:maxHeight="200dp"
-                    android:minHeight="60dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_machine" />
-
-                <ImageButton
-                    android:id="@+id/favButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@android:drawable/btn_star_big_off" />
-
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -92,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textSize="12sp" />
 
                 <EditText
@@ -111,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textSize="12sp" />
 
 
@@ -127,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Muscles"
+                    android:text="@string/muscles"
                     android:textSize="12sp" />
 
                 <EditText
@@ -139,12 +136,21 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-
         </LinearLayout>
 
 
+    </android.support.v4.widget.NestedScrollView>
 
-    </ScrollView>
+    <ImageButton
+        android:id="@+id/favButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="5dp"
+        android:background="@android:drawable/btn_star_big_off"
+        app:layout_anchor="@id/machine_photo"
+        app:layout_anchorGravity="top|left|start" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/actionCamera"
@@ -157,3 +163,4 @@
         app:layout_anchor="@id/machine_photo"
         app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>
+

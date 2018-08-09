@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -23,11 +26,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
+import com.easyfitness.utils.DateConverter;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,8 +41,8 @@ import java.util.TimeZone;
 
 @SuppressLint("ValidFragment")
 public class CardioFragment extends Fragment {
-    public static DatePickerDialogFragment mDateFrag = null;
-    public static TimePickerDialogFragment mDurationFrag = null;
+    DatePickerDialogFragment mDateFrag = null;
+    TimePickerDialogFragment mDurationFrag = null;
     MainActivity mActivity = null;
     EditText dateEdit = null;
 	AutoCompleteTextView exerciceEdit = null;
@@ -191,9 +195,9 @@ public class CardioFragment extends Fragment {
 
 			FillRecordTable(exerciceEdit.getText().toString());
 
-			Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Toast.LENGTH_SHORT).show();
+            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-			return true;
+            return true;
 		}
 	};
 	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
@@ -326,37 +330,40 @@ public class CardioFragment extends Fragment {
 	private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
-			// Do something with the date chosen by the user
-			String date = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
-			dateEdit.setText(date);
+			dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+			hideKeyboard(dateEdit);
 		}
 	};
 
 
 	private void showTimePicker() {
 		if (mDurationFrag==null) {
-			mDurationFrag = new TimePickerDialogFragment() {
-				@Override
-				public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-					// Do something with the time chosen by the user
-					String strMinute = "00";
-					String strHour = "00";
-
-					if (minute < 10) strMinute = "0" + Integer.toString(minute);
-					else strMinute = Integer.toString(minute);
-					if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-					else strHour = Integer.toString(hourOfDay);
-
-					String date = strHour + ":" + strMinute;
-					durationEdit.setText(date);
-				}
-			}; //TODO eviter de recreer le DatePicker a chaque fois.
+			mDurationFrag = TimePickerDialogFragment.newInstance(timeSet);
             mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
         } else {
             if (!mDurationFrag.isVisible())
                 mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
         }
     }
+
+	public TimePickerDialog.OnTimeSetListener timeSet = new TimePickerDialog.OnTimeSetListener() {
+
+		@Override
+		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+			// Do something with the time chosen by the user
+			String strMinute = "00";
+			String strHour = "00";
+
+			if (minute < 10) strMinute = "0" + Integer.toString(minute);
+			else strMinute = Integer.toString(minute);
+			if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+			else strHour = Integer.toString(hourOfDay);
+
+			String date = strHour + ":" + strMinute;
+			durationEdit.setText(date);
+			hideKeyboard(durationEdit);
+		}
+	};
 
 	private void refreshData(){
 		View fragmentView = getView();
@@ -380,7 +387,7 @@ public class CardioFragment extends Fragment {
 				durationEdit.setText("");
 			} else {
 				// valeur par defaut
-				exerciceEdit.setText(""); //@TODO recuperer une valeur par defaut. 
+                exerciceEdit.setText("");
 				distanceEdit.setText("");
 				durationEdit.setText("");
 			}
@@ -427,6 +434,11 @@ public class CardioFragment extends Fragment {
 	@Override
 	public void onHiddenChanged (boolean hidden) {
 		if (!hidden) refreshData();
+	}
+
+	public void hideKeyboard(View view) {
+		InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
 } 

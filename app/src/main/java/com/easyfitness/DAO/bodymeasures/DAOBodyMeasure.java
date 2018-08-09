@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.Weight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -151,9 +150,23 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pProfile
      * @return List<BodyMeasure>
      */
-    public List<BodyMeasure> getBodyMeasuresList(long pBodyPartID, Profile pProfile) {
+    public List<BodyMeasure> getBodyPartMeasuresList(long pBodyPartID, Profile pProfile) {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_KEY + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+
+        // return value list
+        return getMeasuresList(selectQuery);
+    }
+
+    /**
+     * Getting All Measures associated to a Body part for a specific Profile
+     *
+     * @param pProfile
+     * @return List<BodyMeasure>
+     */
+    public List<BodyMeasure> getBodyMeasuresList(Profile pProfile) {
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 
         // return value list
         return getMeasuresList(selectQuery);
@@ -195,11 +208,6 @@ public class DAOBodyMeasure extends DAOBase {
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
                 new String[]{String.valueOf(m.getId())});
-    }
-
-    // Deleting single Measure
-    public void deleteMeasure(Weight m) {
-        deleteMeasure(m.getId());
     }
 
     // Deleting single Measure

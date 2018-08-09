@@ -9,10 +9,11 @@
     <string name="global_no">No</string> 
     
     <string name="removedid">Removed id</string> 
-    <string name="failedtocreatefolder">Failed to create folder</string> 
+    <string name="failedtocreatefolder">Failed to create folder</string>
+    <string name="optional">optional</string>
     
     
-    <string name="app_name">Fast n Fitness</string>
+    <string name="app_name">Fast N Fitness</string>
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
     
@@ -25,7 +26,7 @@
     <string name="DeleteLabel">Delete</string>
     <string name="ShareLabel">Share</string>
     <string name="EditLabel">Edit</string>
-    <string name="DeleteRecordDialog">Do you really want to remove this record ?</string>
+    <string name="DeleteRecordDialog">Remove this record ?</string>
 
 
     <!-- Fonte Fragment -->
@@ -59,7 +60,7 @@
     <string name="ExerciceLabel">Exercise</string>
     
     <!-- Profile Fragment -->
-    <string name="ProfilLabel">Weight Track</string>
+    <string name="WeightLabel">Weight Track</string>
     <string name="weightLabel">Weight</string>
     <string name="sizeLabel">Size</string>
     <string name="measureLabel">Measure</string>
@@ -72,9 +73,10 @@
     <string name="userChanged">User Changed</string>
     <string name="renameProfilTitle">Rename profile</string>
     <string name="renameProfilQuestion">Choose your new profile name ?</string>
-    
-     
-	<!-- Pour le menu settings -->
+    <string name="DeleteWeightDialog">Remove this weight ?</string>
+
+
+    <!-- Pour le menu settings -->
 	<string name="SettingLabel">Settings</string>
     <string name="menu_settings">Settings</string>
     <string name="export_database">Export Records</string>    
@@ -141,12 +143,12 @@
     </string-array>
 
 
-    <string name="maxRep1">Maximum (Reps >= 1)</string>	
-    <string name="maxRep5">Maximum (Reps >= 5)</string>	
+    <string name="maxRep1">Maximum (Reps >= 1)</string>
+    <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Sum</string>	
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
-        <item>@string/maxRep5</item>
+        <item>@string/maxRep5d</item>
         <item>@string/sum</item>
     </string-array>   
     
@@ -217,17 +219,45 @@
 
     <!-- Intro slides -->
     <string name="fillAllFields">Please fill all the fields</string>
+    <string name="fillNameField">Please enter at least your name</string>
     <string name="introSlide1Title">Hello</string>
-    <string name="size_cm">Size (cm)</string>
+    <string name="size_cm">Size in cm</string>
+    <string name="size_cm_optional">Size in cm (optional)</string>
     <string name="create">Create</string>
     <string name="birthday">Birthday</string>
+    <string name="birthday_optional">Birthday (optional)</string>
     <string name="name_or_pseudo">Name or Pseudo</string>
     <string name="create_a_profile">Create a Profile</string>
-    <string name="introSlide1Text">Welcome in Fast n Fitness, the application just quick and simple to record your workout and to follow your progression and the evolution of your body.</string>
+    <string name="introSlide1Text">Welcome in Fast n Fitness, the application is just quick and simple to record your workout and to follow your progression and the evolution of your body.</string>
     <string name="introSlide2Text">Write the name of the exercise and the details and it is created automatically. Then, find it back easily in the list.</string>
     <string name="introSlide2Title">Easy and Quick</string>
     <string name="introSlide3Text">To take pictures of your machines, I need some authorization to use your camera and the memory of your phone.</string>
     <string name="introSlide3Title">Required access</string>
+    <string name="titleSlideEssential">Go to the essential</string>
+    <string name="textSlideEssential">No useless exercise are pre-created. You create your own exercises very simply depending on the name of the machine you have in your fitness place.</string>
+    <string name="pressBackAgain">Click BACK again to exit</string>
+    <string name="titleSlideOpenSource">It\'s Open Source !</string>
+    <string name="textSlideOpenSource">Join the community and together, let\'s build the best fitness app ever ! Visit us at https://github.com/brodeurlv/fastnfitness</string>
+    <string name="profileCreated">Profile created</string>
+    <string name="missinginfo">Missing info</string>
+    <string name="createExerciseFirst">You must create exercise first</string>
+    <string name="impossibleToDeleteProfile">Impossible to delete current profile</string>
+    <string name="profileDeleted">Profile deleted</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="areyousure">Are you sure?</string>
+    <string name="Take_profile_picture">Picture for profile</string>
+    <string name="edit_soon_available">Edit soon available</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="muscles">Muscles</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="weight_missing">Please enter a weight</string>
+    <string name="profileEnterYourSize">Your size</string>
+    <string name="profileEnterYourBirthday">Your Birthday</string>
+    <string name="profile_page">Profile page</string>
+    <string name="ProfileLabel">Profile</string>
 
 </resources>
 

@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
 
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 27
     }
 
     signingConfigs {
@@ -29,11 +28,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
+            resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
             signingConfig signingConfigs.debug
         }
     }
@@ -45,26 +46,31 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:preference-v7:25.3.1'
-    compile 'com.android.support:preference-v14:25.3.1'
+    compile 'com.android.support:support-v4:27.1.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:preference-v7:27.1.1'
+    compile 'com.android.support:preference-v14:27.1.1'
+    compile 'com.android.support:cardview-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
-    //compile files('libs/GraphView-3.1.3.jar')
     compile files('libs/javacsv-2.0.jar')
-    compile 'com.github.philjay:MPAndroidChart:v3.0.2'
-    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.github.philjay:MPAndroidChart:v3.0.3'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile 'com.android.support:design:25.3.1'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+    //compile "com.google.firebase:firebase-core:15.0.2"
+    //compile "com.google.firebase:firebase-crash:15.0.2"
+    compile 'com.github.f0ris.sweetalert:library:1.5.3'
+    compile 'com.github.onurkagan:ktoast:1.0.2'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    //    transitive = true;
+    //}
 }
 
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
+//repositories {
+//    maven { url 'https://maven.fabric.io/public' }
+//}

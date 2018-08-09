@@ -1,9 +1,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tab_fontes"
     android:name="tab_fontes"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,50 +31,98 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/imageMachine"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|center"
+                        android:src="@drawable/ic_machine"
+                        app:civ_border_color="#EEEEEE"
+                        app:civ_border_width="0dp"
+                        app:civ_shadow="false"
+                        app:civ_shadow_color="#8BC34A"
+                        app:civ_shadow_radius="0" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/editMachine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toLeftOf="@+id/buttonListMachine"
+                        android:layout_toStartOf="@+id/buttonListMachine"
+                        android:layout_toRightOf="@+id/imageMachine"
+                        android:layout_toEndOf="@+id/imageMachine"
+                        android:hint="@string/MachineHint"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
+                        android:nextFocusForward="@+id/editSerie"
+                        android:singleLine="true" />
+
+                    <ImageButton
+                        android:id="@+id/buttonListMachine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="false"
+                        android:background="@android:color/transparent"
+                        android:baselineAlignBottom="false"
+                        android:cropToPadding="false"
+                        android:src="@drawable/list" />
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/minmaxLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="10"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="40"
-                        android:singleLine="true"
-                        android:text="@string/MachineLabel" />
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/min" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
+                    <TextView
+                        android:id="@+id/minText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:orientation="horizontal">
+                        android:gravity="center"
+                        android:text="40 kg" />
 
-                        <AutoCompleteTextView
-                            android:id="@+id/editMachine"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="45"
-                            android:hint="@string/MachineHint"
-                            android:imeOptions="actionNext"
-                            android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                            android:nextFocusForward="@+id/editSerie" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingRight="5dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/max" />
 
-                        <ImageButton
-                            android:id="@+id/buttonListMachine"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="5"
-                            android:adjustViewBounds="false"
-                            android:background="@android:color/transparent"
-                            android:baselineAlignBottom="false"
-                            android:cropToPadding="false"
-                            android:src="@drawable/list" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/maxText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="80 kg" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -110,7 +160,7 @@
                         android:inputType="number"
                         android:minEms="3"
                         android:nextFocusDown="@+id/editRepetition"
-                        android:text="2"></EditText>
+                        android:text="2"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -141,7 +191,7 @@
                         android:inputType="number"
                         android:minEms="3"
                         android:nextFocusDown="@+id/editPoids"
-                        android:text="10"></EditText>
+                        android:text="10"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -153,23 +203,22 @@
                 android:layout_weight="40">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="40"
                     android:background="@drawable/border"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:id="@+id/poidsLabel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:text="@string/PoidsLabel" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:background="@drawable/border"
                         android:orientation="horizontal">
 
                         <EditText
@@ -179,18 +228,15 @@
                             android:gravity="center"
                             android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
-                            android:text="10"></EditText>
+                            android:text="10" />
 
                         <Spinner
                             android:id="@+id/spinnerUnit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:entries="@array/fonte_units"
-
-                            android:gravity="center"
                             android:minEms="3" />
                     </LinearLayout>
-
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
@@ -226,15 +272,16 @@
                     android:visibility="visible">
 
                     <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="fill_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/DateLabel" />
 
@@ -242,10 +289,11 @@
                             android:id="@+id/editDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:ems="9"
-                            android:inputType="none"
-                            android:nextFocusDown="@+id/editMachine"></EditText>
+                            android:inputType="none|date"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/editMachine"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -258,6 +306,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/activate_rest_time" />
 
@@ -275,6 +324,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/rest_time" />
 
@@ -283,10 +333,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
+                            android:layout_marginEnd="8dp"
                             android:ems="4"
-                            android:nextFocusForward="@id/editMachine"
                             android:inputType="none|number"
-                            android:text="60"></EditText>
+                            android:nextFocusForward="@id/editMachine"
+                            android:text="60"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -302,6 +353,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:gravity="start"
                             android:text="@string/NotesLabel" />
 
@@ -312,11 +364,12 @@
                             android:layout_gravity="bottom"
                             android:height="40dp"
                             android:ems="10"
+                            android:hint="@string/NotesLabel"
                             android:inputType="textMultiLine"
                             android:lines="3"
                             android:maxLines="5"
                             android:minHeight="40dp"
-                            android:minLines="2"></EditText>
+                            android:minLines="2"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -340,20 +393,21 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:text="@string/TopTenLabel" />
 
         </LinearLayout>
 
-        <include layout="@layout/row_fonte_header"/>
+        <include layout="@layout/row_fonte_header" />
 
-        <ListView
+        <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:animateLayoutChanges="true">
-
-        </ListView>
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="false"
+            android:fastScrollEnabled="false"
+            android:isScrollContainer="false"
+            android:scrollbars="none"/>
 
     </LinearLayout>
 </ScrollView>

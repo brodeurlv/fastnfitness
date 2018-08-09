@@ -1,17 +1,5 @@
 package com.easyfitness.fonte;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
-import com.easyfitness.DAO.DAOFonte;
-import com.easyfitness.DAO.DAOUtils;
-import com.easyfitness.R;
-import com.easyfitness.utils.UnitConverter;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -20,6 +8,18 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.R;
+import com.easyfitness.utils.UnitConverter;
+
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class FonteCursorAdapter extends CursorAdapter {
 
@@ -88,7 +88,6 @@ public class FonteCursorAdapter extends CursorAdapter {
         deletImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if(mDeleteClickListener != null)
                     mDeleteClickListener.onBtnClick((long)v.getTag());
             }

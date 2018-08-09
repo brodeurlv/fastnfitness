@@ -8,18 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import de.psdev.licensesdialog.LicensesDialog;
-import de.psdev.licensesdialog.LicensesDialogFragment;
-import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
-import de.psdev.licensesdialog.licenses.GnuGeneralPublicLicense20;
-import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
-import de.psdev.licensesdialog.licenses.License;
-import de.psdev.licensesdialog.model.Notice;
-import de.psdev.licensesdialog.model.Notices;
-
-import com.easyfitness.R;
 import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.licenses.CustomLicense;
+
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
+import de.psdev.licensesdialog.licenses.License;
+import de.psdev.licensesdialog.licenses.MITLicense;
+import de.psdev.licensesdialog.model.Notice;
 
 public class AboutFragment extends Fragment {
 	private String name; 
@@ -36,12 +33,12 @@ public class AboutFragment extends Fragment {
 	private TextView mpFlaticonTextView = null;
 	private TextView mpFreepikView = null;
 	private TextView mpCircleProgressView = null;
+	private TextView mpCircularImageView = null;
+    private TextView mpkToast = null;
+    private TextView mpSweetAlertDialog = null;
+    private TextView mpAndroidImageCropper = null;
 
-
-
-
-	
-    /**
+	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
@@ -83,6 +80,12 @@ public class AboutFragment extends Fragment {
 		mpFlaticonTextView = (TextView) view.findViewById(R.id.flaticonCredits);
 		mpFreepikView = (TextView) view.findViewById(R.id.freepikCredits);
 		mpCircleProgressView = (TextView) view.findViewById(R.id.CircleProgress);
+		mpCircularImageView = (TextView) view.findViewById(R.id.CircularImageView);
+        mpkToast = (TextView) view.findViewById(R.id.ktoast);
+        mpSweetAlertDialog = (TextView) view.findViewById(R.id.SweetAlertDialog);
+        mpAndroidImageCropper = (TextView) view.findViewById(R.id.AndroidImageCropper);
+
+
 
 		mpMPAndroidChartTextView.setOnClickListener(clickLicense);
 		mpjavaCVSTextView.setOnClickListener(clickLicense);
@@ -93,6 +96,10 @@ public class AboutFragment extends Fragment {
 		mpFlaticonTextView.setOnClickListener(clickLicense);
 		mpFreepikView.setOnClickListener(clickLicense);
 		mpCircleProgressView.setOnClickListener(clickLicense);
+		mpCircularImageView.setOnClickListener(clickLicense);
+        mpkToast.setOnClickListener(clickLicense);
+        mpSweetAlertDialog.setOnClickListener(clickLicense);
+        mpAndroidImageCropper.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -167,8 +174,30 @@ public class AboutFragment extends Fragment {
 					copyright = "lzyzsd";
 					license = new CustomLicense("Free License", "https://github.com/lzyzsd/CircleProgress", "");
 					break;
-
-
+				case R.id.CircularImageView:
+					name = "CircularImageView";
+					url = "https://github.com/lopspower/CircularImageView";
+					copyright = "Lopez Mikhael";
+					license = new ApacheSoftwareLicense20();
+					break;
+                case R.id.ktoast:
+                    name = "ktoast";
+                    url = "https://github.com/onurkagan/KToast";
+                    copyright = "Onurkagan";
+                    license = new ApacheSoftwareLicense20();
+                    break;
+                case R.id.SweetAlertDialog:
+                    name = "SweetAlertDialog";
+                    url = "https://github.com/F0RIS/sweet-alert-dialog";
+                    copyright = "Pedant (http://pedant.cn)";
+                    license = new MITLicense();
+                    break;
+                case R.id.AndroidImageCropper:
+                    name = "Android-Image-Cropper";
+                    url = "https://github.com/ArthurHub/Android-Image-Cropper";
+                    copyright = "Arthur Teplitzki";
+                    license = new ApacheSoftwareLicense20();
+                    break;
 			}
 
 

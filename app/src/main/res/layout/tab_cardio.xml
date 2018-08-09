@@ -35,15 +35,17 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="40"
-                        android:text="@string/DateLabel" />
+                        android:text="@string/DateLabel"
+                        android:singleLine="true" />
 
                     <EditText
                         android:id="@+id/editCardioDate"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:inputType="none"
+                        android:inputType="none|date"
                         android:nextFocusDown="@+id/editMachine" />
                 </LinearLayout>
 
@@ -58,6 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="40"
                         android:text="@string/ExerciceLabel" />
 
@@ -176,7 +179,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="false"
+                    android:layout_alignParentStart="false"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="false"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"

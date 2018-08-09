@@ -4,18 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="top"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:textColor="#000000"
-        android:textAlignment="center"
-        app:pstsIndicatorColor="@color/toolbar_background"
-        app:pstsShouldExpand="true"/>-->
-
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/viewpagertab"
         android:layout_width="match_parent"
@@ -53,11 +41,5 @@
         android:layout_height="match_parent"
         android:layout_below="@id/viewpagertab"
         />
-
-    <!--<android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>-->
 
 </RelativeLayout>

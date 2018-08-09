@@ -4,7 +4,7 @@
    	<color name="background_odd">#99d6ea</color>
    	<color name="background_even">#cceaf4</color>
 	<color name="graph_fill">#f2fbff</color>
-   	<color name="background">#FFFFFF</color>
+   	<color name="background">#ffffff</color>
 	<color name="tableheader_background">#FFFFFF</color>
-	<color name="launcher_background">#0DADF4</color>
+	<color name="launcher_background">#0dadf4</color>
 </resources>

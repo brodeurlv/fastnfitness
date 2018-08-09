@@ -1,6 +1,7 @@
 package com.easyfitness;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -11,11 +12,19 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 @SuppressLint("ValidFragment")
-public class TimePickerDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class TimePickerDialogFragment extends DialogFragment {
 
-    /*public TimePickerDialogFragment(Fragment callback) {
-        mFragment = callback;
-    }*/
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
+
+    static public TimePickerDialogFragment newInstance(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        TimePickerDialogFragment pickerFragment = new TimePickerDialogFragment();
+        pickerFragment.setOnTimeSetListener(onTimeSetListener);
+
+        //Pass the date in a bundle.
+        Bundle bundle = new Bundle();
+        pickerFragment.setArguments(bundle);
+        return pickerFragment;
+    }
 
      public Dialog onCreateDialog(Bundle savedInstanceState) {
     	// Use the current time as the default values for the picker
@@ -24,12 +33,11 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
          int minute = c.get(Calendar.MINUTE);
 
          // Create a new instance of TimePickerDialog and return it
-         return new TimePickerDialog(getActivity(), this, hour, minute,
+         return new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute,
                  DateFormat.is24HourFormat(getActivity()));
      }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        //
+    private void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener listener) {
+        this.onTimeSetListener = listener;
     }
 }

@@ -1,11 +1,12 @@
 package com.easyfitness.DAO;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOMachine extends DAOBase {
 
@@ -18,7 +19,7 @@ public class DAOMachine extends DAOBase {
 	public static final String TYPE = "type";
 	public static final String PICTURE= "picture";
 	public static final String BODYPARTS= "bodyparts";
-	public static final String FAVORITES= "favorites";
+    public static final String FAVORITES = "favorites"; // DEPRECATED - Specific DataBase created for this.
 
 
 	public static final int TYPE_FONTE = 0;
@@ -34,20 +35,18 @@ public class DAOMachine extends DAOBase {
 
 	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 			+ TABLE_NAME + ";";
-	
-	private Profile mProfile = null;
+
+    private Profile mProfile = null;
 	private Cursor mCursor = null;
-	private Context mContext = null;
 
 	public DAOMachine(Context context) {
 			super(context);
-			mContext = context;
 	}
 	
-	public void setProfil (Profile pProfile)
+	/*public void setProfil (Profile pProfile)
 	{
 		mProfile = pProfile;
-	}
+	}*/
 
 	/**
 	 * @param pName le Record a ajouter a la base
@@ -71,7 +70,6 @@ public class DAOMachine extends DAOBase {
 		return new_id;
 	}
 
-	
 	// Getting single value
 	public Machine getMachine(long id) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -122,8 +120,8 @@ public class DAOMachine extends DAOBase {
 	}
 
 	// Getting All Records
-	private List<Machine> getMachineList(String pRequest) {
-		List<Machine> valueList = new ArrayList<Machine>();
+    private ArrayList<Machine> getMachineList(String pRequest) {
+        ArrayList<Machine> valueList = new ArrayList<Machine>();
 		SQLiteDatabase db = this.getReadableDatabase();
 		// Select All Query
 		String selectQuery = pRequest;
@@ -147,6 +145,16 @@ public class DAOMachine extends DAOBase {
 		return valueList;
 	}
 
+    // Getting All Records
+    private Cursor getMachineListCursor(String pRequest) {
+        ArrayList<Machine> valueList = new ArrayList<Machine>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Select All Query
+        String selectQuery = pRequest;
+
+        return db.rawQuery(selectQuery, null);
+    }
+
 	public Cursor getCursor() {
 		return mCursor;
 	}
@@ -155,11 +163,43 @@ public class DAOMachine extends DAOBase {
 		mCursor.close();
 	}
 
-	// Getting All Records
-	public List<Machine> getAllMachines() {
+	/**
+	 * @return List of Machine object ordered by Favorite and Name
+	 */
+    public Cursor getAllMachines() {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
+                + FAVORITES + " DESC," + NAME + " ASC";
+
+        // return value list
+        return getMachineListCursor(selectQuery);
+    }
+
+    /**
+     * @return List of Machine object ordered by Favorite and Name
+     */
+    public ArrayList<Machine> getAllMachinesArray() {
+// Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
+                + FAVORITES + " DESC," + NAME + " ASC";
+
+        // return value list
+        return getMachineList(selectQuery);
+    }
+
+	/**
+	 * @param idList List of Machine IDs to be return
+	 * @return List of Machine object ordered by Favorite and Name
+	 */
+	public List<Machine> getAllMachines(List<Long> idList) {
+
+		String ids = idList.toString();
+		ids = ids.replace('[', '(');
+		ids = ids.replace(']', ')');
+
 		// Select All Query
-		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-				+ NAME + " ASC";
+		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
+				+ FAVORITES + " DESC," + NAME + " ASC";
 
 		// return value list
 		return getMachineList(selectQuery);
@@ -193,8 +233,6 @@ public class DAOMachine extends DAOBase {
 		// return value list
 		return valueList;
 	}
-
-
 
 	// Updating single value
 	public int updateMachine(Machine m) {

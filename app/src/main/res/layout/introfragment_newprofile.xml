@@ -68,7 +68,7 @@
                 android:id="@+id/profileBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/birthday"
+                android:hint="@string/birthday_optional"
                 android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
 
@@ -83,7 +83,7 @@
                 android:id="@+id/profileSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/size_cm"
+                android:hint="@string/size_cm_optional"
                 android:inputType="numberSigned" />
         </android.support.design.widget.TextInputLayout>
 

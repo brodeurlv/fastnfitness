@@ -13,9 +13,10 @@
         android:visibility="gone"
         android:singleLine="true"/>
 
+
     <ImageView
         android:id="@+id/LIST_MACHINE_PHOTO"
-        android:layout_width="128px"
+        android:layout_width="45dp"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
@@ -24,7 +25,15 @@
         android:contentDescription="TODO"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_machine" />
-    
+
+    <ImageView
+        android:id="@+id/LIST_MACHINE_FAVORITE"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitCenter"
+        android:background="@android:drawable/btn_star_big_off" />
+
     <TextView
         android:id="@+id/LIST_MACHINE_SHORT_DESCRIPTION"
         android:layout_width="fill_parent"
@@ -34,7 +43,7 @@
         android:layout_toRightOf="@id/LIST_MACHINE_PHOTO"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="Description"
+        android:text="@string/description"
         android:textSize="12sp" />
 
     <TextView
@@ -49,5 +58,7 @@
         android:gravity="center_vertical"
         android:text="Example application"
         android:textSize="16sp" />
+
+
 
 </RelativeLayout> 

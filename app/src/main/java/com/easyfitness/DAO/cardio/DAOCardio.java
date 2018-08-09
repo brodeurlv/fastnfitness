@@ -16,6 +16,7 @@ import com.easyfitness.DateGraphData;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.R;
 
 public class DAOCardio extends DAOBase {
 
@@ -201,24 +202,12 @@ public class DAOCardio extends DAOBase {
 		boolean lfilterDate = true;
 		String selectQuery = null;
 
-		if (pMachine == null || pMachine.isEmpty() || pMachine.equals("All")) // @TODO
-																				// Remplacer
-																				// All
-																				// par
-																				// une
-																				// string
-																				// global
+		if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterMachine = false;
 		}
 
-		if (pDate == null || pDate.isEmpty() || pDate.equals("All")) // @TODO
-																		// Remplacer
-																		// All
-																		// par
-																		// une
-																		// string
-																		// global
+		if (pDate == null || pDate.isEmpty() || pDate.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterDate = false;
 		}
@@ -258,24 +247,12 @@ public class DAOCardio extends DAOBase {
 		boolean lfilterFunction = true;
 		String selectQuery = null;
 
-		if (pMachine == null || pMachine.isEmpty() || pMachine.equals("All")) // @TODO
-																				// Remplacer
-																				// All
-																				// par
-																				// une
-																				// string
-																				// global
+		if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterMachine = false;
 		}
 
-		if (pFunction == null || pFunction.isEmpty() || pFunction.equals("All")) // @TODO
-																					// Remplacer
-																					// All
-																					// par
-																					// une
-																					// string
-																					// global
+		if (pFunction == null || pFunction.isEmpty() || pFunction.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterFunction = false;
 		}

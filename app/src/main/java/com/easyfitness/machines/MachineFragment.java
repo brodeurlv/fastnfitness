@@ -1,6 +1,5 @@
 package com.easyfitness.machines;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,7 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MachineFragment extends Fragment {
 	private String name;
@@ -148,25 +147,26 @@ public class MachineFragment extends Fragment {
 	}
 
 	private void refreshData(){
+        Cursor c = null;
 		Cursor oldCursor = null;
-		List<Machine> records = null;
+        ArrayList<Machine> records = null;
 		
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
 			
 				// Version avec table Machine
-				records = mDbMachine.getAllMachines();
-				if(records.isEmpty()) {
+                c = mDbMachine.getAllMachines();
+                if (c == null || c.getCount() == 0) {
 					//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
 					machineList.setAdapter(null);
 				} else {
 					if ( machineList.getAdapter() == null ) {
-						MachineCursorAdapter mTableAdapter = new MachineCursorAdapter (this.getView().getContext(), mDbMachine.getCursor(), 0);
+                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0);
 						machineList.setAdapter(mTableAdapter);
 					} else {				
 						MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
-						oldCursor = mTableAdapter.swapCursor(mDbMachine.getCursor());
+                        oldCursor = mTableAdapter.swapCursor(c);
 						if (oldCursor!=null) oldCursor.close();
 					}
 				}

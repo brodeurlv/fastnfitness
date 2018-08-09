@@ -1,16 +1,16 @@
 package com.easyfitness.DAO;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 public class DAOWeight extends DAOBase {
 		
@@ -44,8 +44,7 @@ public class DAOWeight extends DAOBase {
 	   */
 	  public void addWeight(Date pDate, float pWeight, Profile pProfile) {
 		  SQLiteDatabase db = this.getWritableDatabase();
-		  //TODO : verifier qu'on ne met pas deux poids sur la meme journee.
-		  
+
 		  ContentValues value = new ContentValues();
 		  
 		  SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
@@ -60,7 +59,7 @@ public class DAOWeight extends DAOBase {
 	  }
 
 	// Getting single value
-	  private Weight getMeasure(long id) {
+    private ProfileWeight getMeasure(long id) {
 	        SQLiteDatabase db = this.getReadableDatabase();
 	        
 	        mCursor = null;
@@ -81,8 +80,8 @@ public class DAOWeight extends DAOBase {
 				e.printStackTrace();
 				date = new Date();
 			}
-	 
-	        Weight value = new Weight(mCursor.getLong(0),
+
+        ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
 	        		date,
 	        		mCursor.getFloat(2),
 	        		mCursor.getLong(3)	                
@@ -95,8 +94,8 @@ public class DAOWeight extends DAOBase {
 	    }
 	    
 	 // Getting All Measures
-	    private List<Weight> getMeasuresList(String pRequest) {
-	        List<Weight> valueList = new ArrayList<Weight>();
+     private List<ProfileWeight> getMeasuresList(String pRequest) {
+         List<ProfileWeight> valueList = new ArrayList<ProfileWeight>();
 	        // Select All Query
 	        String selectQuery = pRequest;
 	 
@@ -116,8 +115,8 @@ public class DAOWeight extends DAOBase {
 	    				e.printStackTrace();
 	    				date = new Date();
 	    			}
-	    			
-	    	        Weight value = new Weight(mCursor.getLong(0),
+
+                    ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
 	    	        		date,
 	    	        		mCursor.getFloat(2),
 	    	        		mCursor.getLong(3)	                
@@ -138,7 +137,7 @@ public class DAOWeight extends DAOBase {
 	    }
 	     
 	    // Getting All Measures
-	    public List<Weight> getWeightList(Profile pProfile) {
+        public List<ProfileWeight> getWeightList(Profile pProfile) {
 	        // Select All Query
 	        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 	 
@@ -147,7 +146,7 @@ public class DAOWeight extends DAOBase {
 	    }
 	    
 	    // Updating single value
-	    public int updateMeasure(Weight m) {
+        public int updateMeasure(ProfileWeight m) {
 	        SQLiteDatabase db = this.getWritableDatabase();
 	 
 	        ContentValues value = new ContentValues();
@@ -161,7 +160,7 @@ public class DAOWeight extends DAOBase {
 	    }
 	 
 	    // Deleting single Measure
-	    public void deleteMeasure(Weight m) {
+        public void deleteMeasure(ProfileWeight m) {
 	    	deleteMeasure(m.getId());
 	    }
 	    

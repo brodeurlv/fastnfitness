@@ -1,25 +1,18 @@
 package com.easyfitness.machines;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,8 +30,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
@@ -49,12 +41,12 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,6 +69,7 @@ public class MachineDetailsFragment extends Fragment {
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
 	ImageButton machineFavorite = null;
+    LinearLayout machinePhotoLayout = null;
 
 	Toolbar top_toolbar = null;
 	
@@ -98,6 +91,8 @@ public class MachineDetailsFragment extends Fragment {
 	DAOMachine mDbMachine = null;
 	
 	View fragmentView = null;
+
+	ImageUtil imgUtil = null;
 	
 	/**
 	 * Create a new instance of DetailsFragment, initialized to
@@ -138,11 +133,13 @@ public class MachineDetailsFragment extends Fragment {
         machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
         machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
 		machineFavorite = (ImageButton) view.findViewById(R.id.favButton);
+        machinePhotoLayout = (LinearLayout) view.findViewById(R.id.machine_photo_layout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
 		machineAction = (FloatingActionButton) view.findViewById(R.id.actionCamera);
 
+        imgUtil = new ImageUtil(machinePhoto);
 
 		buildMusclesTable();
 
@@ -163,7 +160,7 @@ public class MachineDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if(isImageFitToScreen) {
                     isImageFitToScreen=false;
-                    machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     machinePhoto.setAdjustViewBounds(true);
                     machinePhoto.setMaxHeight((int)(getView().getHeight()*0.2));
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -182,11 +179,9 @@ public class MachineDetailsFragment extends Fragment {
 		        			float photoH = bmOptions.outHeight;
 		        			
 		        			// Determine how much to scale down the image
-		        			int scaleFactor = (int)(photoW/(machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);
-		        			machinePhoto.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                                int scaleFactor = (int) (photoW / (machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		                    machinePhoto.setAdjustViewBounds(true);
 		                    machinePhoto.setMaxHeight((int)(photoH/scaleFactor));
-		                         			
 		                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 		}
                 	}
@@ -218,7 +213,7 @@ public class MachineDetailsFragment extends Fragment {
 	            // Here you can get the size :)
 	            
 	    		if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
-	        		setPic(machinePhoto, mCurrentPhotoPath);
+	        		ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
 	        	} else {
 	        		machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 	        	}
@@ -229,6 +224,15 @@ public class MachineDetailsFragment extends Fragment {
 		machineName.addTextChangedListener(watcher);
 		machineDescription.addTextChangedListener(watcher);
 		musclesList.addTextChangedListener(watcher);
+
+        imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
+            @Override
+            public void onDeleteImage(ImageUtil imgUtil) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                mCurrentPhotoPath = null;
+                requestForSave();
+            }
+        });
 				
 		return view;
 	}
@@ -248,7 +252,8 @@ public class MachineDetailsFragment extends Fragment {
 	
 	private boolean CreateMuscleDialog()
 	{
-		if ( isCreateMuscleDialogActive == true) return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
+        if (isCreateMuscleDialogActive)
+            return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
 		
 		isCreateMuscleDialogActive = true;
 		
@@ -304,37 +309,12 @@ public class MachineDetailsFragment extends Fragment {
 	//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
 	private boolean CreatePhotoSourceDialog() {
-				final long selectedID = id;
-				
-				String[] profilListArray = new String[2];
-				profilListArray[0] = getResources().getString(R.string.camera); 
-				profilListArray[1] = getResources().getString(R.string.gallery);
+		if (imgUtil==null)
+			imgUtil = new ImageUtil();
 
-		requestPermissionForWriting();
+		return imgUtil.CreatePhotoSourceDialog(this);
+	}
 
-				AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-				itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						ListView lv = ((AlertDialog)dialog).getListView();
-					
-						switch (which) {
-						// Galery
-						case 1 : 
-							getGaleryPict();
-							break;
-						// Camera
-						case 0:
-							dispatchTakePictureIntent();
-							break;						
-						default:
-						}
-					}				
-				});
-				itemActionbuilder.show();
-				
-				return true;
-	}	
-	
 	private OnClickListener onClickMusclesList = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -356,204 +336,85 @@ public class MachineDetailsFragment extends Fragment {
 		}
 	};
 
-
 	String mCurrentPhotoPath = null;
 
-	private File createImageFile() throws IOException {
-	    // Create an image file name
-	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-	    String imageFileName = "JPEG_" + timeStamp + "_";
-	    File storageDir = this.getActivity().getExternalFilesDir(
-	            Environment.DIRECTORY_DCIM);
-	    File image = File.createTempFile(
-	        imageFileName,  /* prefix */
-	        ".jpg",         /* suffix */
-	        storageDir      /* directory */
-	    );
-
-	    // Save a file: path for use with ACTION_VIEW intents
-	    mCurrentPhotoPath = image.getAbsolutePath();
-	    return image;
-	}
-	
-	
-	static final int REQUEST_TAKE_PHOTO = 1;
-	static final int REQUEST_PICK_GALERY_PHOTO = 2;
-
-	private void dispatchTakePictureIntent() {
-	    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	    // Ensure that there's a camera activity to handle the intent
-	    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-	        // Create the File where the photo should go
-	        File photoFile = null;
-	        try {
-	            photoFile = createImageFile();
-	        } catch (IOException ex) {
-	            // Error occurred while creating the File
-	        }
-	        // Continue only if the File was successfully created
-	        if (photoFile != null) {
-	            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-	            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-	        }
-	    }
-	}
-	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		switch(requestCode) { 
-	    case REQUEST_TAKE_PHOTO:
-	    	 if(resultCode == Activity.RESULT_OK){  
-	 	        //Bundle extras = data.getExtras();
-	 	        //Bitmap imageBitmap = (Bitmap) extras.get("data")	
-	 	    		setPic(machinePhoto, mCurrentPhotoPath);//.setImageBitmap(imageBitmap);
-	 	    		saveThumb(mCurrentPhotoPath);
-	 				galleryAddPic(mCurrentPhotoPath);
-	 				requestForSave();
-	    	 }
-	    	 break;
-	    case REQUEST_PICK_GALERY_PHOTO:
-	    	 if(resultCode == Activity.RESULT_OK){  
-	    		 Uri selectedImage = data.getData();
-	             InputStream imageStream;
-					
-					String realPath;
-				 realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
-					//imageStream = getActivity().getBaseContext().getContentResolver().openInputStream(selectedImage);
-					//Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-	 	    		setPic(machinePhoto, realPath);//.setImageBitmap(imageBitmap);
-	 	    		saveThumb(realPath);
-	 	    		mCurrentPhotoPath=realPath;
+		switch (requestCode) {
+			case ImageUtil.REQUEST_TAKE_PHOTO:
+				if (resultCode == Activity.RESULT_OK) {
+					mCurrentPhotoPath = imgUtil.getFilePath();
+					imgUtil.setPic(machinePhoto, mCurrentPhotoPath);
+					imgUtil.saveThumb(mCurrentPhotoPath);
+					imgUtil.galleryAddPic(this, mCurrentPhotoPath);
 					requestForSave();
-	    	 }
-	    	 break;
-		}
+				}
+				break;
+			case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
+				if (resultCode == Activity.RESULT_OK) {
+					String realPath;
+					realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
-	}
-	
-	private void getGaleryPict() {
-		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-		photoPickerIntent.setType("image/*");
-		startActivityForResult(photoPickerIntent, REQUEST_PICK_GALERY_PHOTO);    
-	}
-	
-	public void galleryAddPic(String file) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(file);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.getActivity().sendBroadcast(mediaScanIntent);
-    }
-	
-	private void setPic(ImageView mImageView, String pPath) {
-	    try {
-	    	if (pPath == null) return;
-	    	File f = new File(pPath);
-	    	if(!f.exists() || f.isDirectory()) return;
-	    	
-			// Get the dimensions of the View
-			int targetW = mImageView.getWidth();
-			int targetH = mImageView.getHeight();
+					imgUtil.setPic(machinePhoto, realPath);
+					imgUtil.saveThumb(realPath);
+					mCurrentPhotoPath = realPath;
+					requestForSave();
+				}
+				break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
 
-			// Get the dimensions of the bitmap
-			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-			bmOptions.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(pPath, bmOptions);
-			int photoW = bmOptions.outWidth;
-			int photoH = bmOptions.outHeight;
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
 
-			// Determine how much to scale down the image
-			int scaleFactor = photoW/targetW; //Math.min(photoW/targetW, photoH/targetH);
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
 
-			// Decode the image file into a Bitmap sized to fill the View
-			bmOptions.inJustDecodeBounds = false;
-			bmOptions.inSampleSize = scaleFactor;
-			bmOptions.inPurgeable = true;
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        Log.v("Moving", "Moving file successful.");
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.v("Moving", "Moving file failed.");
+                    }
 
-			Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-			mImageView.setImageBitmap(bitmap);
-
-			mImageView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-			mImageView.setAdjustViewBounds(true);
-			mImageView.setMaxHeight((int)(getView().getHeight()*0.2));
-			mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			
-		} catch (Exception e) {
-			mCurrentPhotoPath = null;
-			e.printStackTrace();
-		}
-	}
-	
-	private void saveThumb(String pPath) {
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(pPath, bmOptions);
-		float photoW = bmOptions.outWidth;
-		float photoH = bmOptions.outHeight;
-
-		// Determine how much to scale down the image
-		float scaleFactor = photoW/photoH; //Math.min(photoW/targetW, photoH/targetH);		
-		
-		Bitmap ThumbImage =null;
-		//if (photoW < photoH)
-			ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), 128, (int)(128/scaleFactor));
-		//else 
-		//	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
-		
-		// extract path without the .jpg
-		String pathOfOutputImage = "";
-		pathOfOutputImage = pPath.substring(0, pPath.lastIndexOf('.')) + "_TH.jpg";		
-		
-		try
-	    {
-	        FileOutputStream out = new FileOutputStream(pathOfOutputImage);
-	        ThumbImage.compress(Bitmap.CompressFormat.JPEG, 80, out);
-	    }
-	    catch (Exception e)
-	    {
-	        Log.e("Image", e.getMessage(), e);
-	    }
-	}
-
-	private void requestPermissionForWriting() {
-		// Here, thisActivity is the current activity
-		if (ContextCompat.checkSelfPermission(this.getActivity(),
-				Manifest.permission.READ_CONTACTS)
-				!= PackageManager.PERMISSION_GRANTED) {
-
-			// Should we show an explanation?
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-					Manifest.permission.READ_CONTACTS)) {
-
-				// Show an explanation to the user *asynchronously* -- don't block
-				// this thread waiting for the user's response! After the user
-				// sees the explanation, try again to request the permission.
-
-			} else {
-
-				// No explanation needed, we can request the permission.
-
-				ActivityCompat.requestPermissions(this.getActivity(),
-						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-						MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-				// app-defined int constant. The callback method gets the
-				// result of the request.
-			}
+                    imgUtil.setPic(machinePhoto, realPath);
+                    imgUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                    requestForSave();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
 		}
 	}
-	
+
 	private OnFocusChangeListener onFocusMachineList = new View.OnFocusChangeListener() {
 
 		@Override
 		public void onFocusChange(View arg0, boolean arg1) {
-			if (arg1==true) {
+            if (arg1) {
 				CreateMuscleDialog();
 			}
-			
 		}
 	};  
 	
@@ -666,8 +527,8 @@ public class MachineDetailsFragment extends Fragment {
 			        	String lMachineName = machineName.getText().toString();
 			        	Machine m = mDbMachine.getMachine(machineNameArg);
 			        	Machine m2 = mDbMachine.getMachine(lMachineName);
-			        	
-						List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+
+                        List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 						for (Fonte record : listRecords) {
 							record.setMachine(lMachineName); // Change avec le nouveau nom
 							record.setMachineKey(m2.getId()); // Met l'ID de la nouvelle machine
@@ -703,10 +564,10 @@ public class MachineDetailsFragment extends Fragment {
 				this.mDbMachine.updateMachine(m);
 				
 	        	// Rename all the records with that machine and rename them
-	        	DAOFonte lDbFonte = new DAOFonte(getThis().getView().getContext());
-	        	DAOProfil mDbProfil = new DAOProfil(getView().getContext());						
+                DAOFonte lDbFonte = new DAOFonte(getContext());
+                DAOProfil mDbProfil = new DAOProfil(getContext());
 	        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-				List<Fonte> listRecords = lDbFonte.getAllRecordByMachines(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+                List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 				for (Fonte record : listRecords) {
 					record.setMachine(lMachineName); // Change avec le nouveau nom (DEPRECTED)
 					//record.setMachineKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
@@ -772,7 +633,7 @@ public class MachineDetailsFragment extends Fragment {
 			
 			Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
-			List<Fonte> listRecords = mDbFonte.getAllRecordByMachines(lProfile, this.machineNameArg);
+        List<Fonte> listRecords = mDbFonte.getAllRecordByMachinesArray(lProfile, this.machineNameArg);
 			for (Fonte record : listRecords) {
 				mDbFonte.deleteRecord(record);
 			}						
@@ -798,8 +659,7 @@ public class MachineDetailsFragment extends Fragment {
 	private void requestForSave() {
 		toBeSaved = true; // setting state
 		machineSave.setVisibility(View.VISIBLE);
-        //getThis().getActivity().invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-	}
+ 	}
 	
 	
 	public void buildMusclesTable()	{

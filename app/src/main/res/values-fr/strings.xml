@@ -56,14 +56,14 @@
     <string name="ExerciceLabel">Exercice</string>
     
     <!-- Profile Fragment -->
-    <string name="ProfilLabel">Suivi de poids</string>
+    <string name="WeightLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
     <string name="sizeLabel">Taille</string>
     <string name="measureLabel">Mesure</string>
     <string name="weightTableLabel">Enregistrements : </string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
-    <string name="userChanged">Utilisateur changé</string>
+    <string name="userChanged">Profil changé</string>
     <string name="renameProfilTitle">Renommer le profil</string>
     <string name="renameProfilQuestion">Choisis un nouveau nom de profil ?</string>
     
@@ -94,7 +94,7 @@
 
     <string name="profil_create_new">Créer un nouveau profil</string>
 
-    <string name="profil_change">Change de profil</string>
+    <string name="profil_change">Changer de profil</string>
     <string name="profil_select_profil">Selectionner un profil</string>
     <string name="profil_edit">Editer un profil</string>
     <string name="profil_delete">Supprimer un profil</string>
@@ -116,13 +116,24 @@
 	    <item>1</item>
 	    <item>2</item>
 	</string-array>
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="morphology">
+        <item>Fin</item>
+        <item>Normal</item>
+        <item>Large</item>
+    </string-array>
     
     <string name="maxRep1">Maximum (Reps >= 1)</string>
-    <string name="maxRep5">Maximum (Reps >= 5)</string>
+    <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Somme</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
-        <item>@string/maxRep5</item>
+        <item>@string/maxRep5d</item>
         <item>@string/sum</item>
     </string-array>   
     
@@ -164,12 +175,7 @@
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
     <string name="CountdownLabel">Repos</string>
-    <string name="author_label">Auteur:</string>
-    <string name="database_version_label">Database version:</string>
-    <string name="opensource_label">Open source Lien:</string>
     <string name="rest_time">Temps de repos (sec)</string>
-    <string name="revision_history_label">Historique des modificiations:</string>
-    <string name="thanks_label">Libraries :</string>
     <string name="activate_rest_time">Activer le Compteur de repos</string>
     <string name="pref_bodybuilding_setting">Body Building - Paramètres</string>
     <string name="sizeTableLabel">Historique</string>
@@ -184,7 +190,7 @@
     <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
     <string name="RepetitionLabel_short">Reps</string>
-    <string name="DeleteRecordDialog">Veux-tu vraiment supprimer cette enregistrement ?</string>
+    <string name="DeleteRecordDialog">Supprimer cet enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
@@ -200,15 +206,45 @@
     <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
     <string name="selectMachineDialogLabel">Selectionne une machine existante</string>
     <string name="introSlide2Title">Facile et Rapide</string>
-    <string name="introSlide2Text">Ecrivez le nom de votre exercice et les details de votre série et la machine s\'enregistre automatiquement. Retrouvez la ensuite plus facilement dans la liste déroulante.</string>
+    <string name="introSlide2Text">Ecris le nom de ton exercice et les details de ta série et la machine s\'enregistre automatiquement quand tu cliques sur \"ajouter\". Retrouve la ensuite facilement dans la liste déroulante.</string>
     <string name="introSlide1Text">Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l\'évolution de votre corps.</string>
     <string name="introSlide3Title">Autorisation nécessaire</string>
     <string name="introSlide3Text">Pour prendre des photos de vos machines, il me faut l\'autorisation d\'utiliser votre camera ainsi que d\'écrire dans la mémoire de votre téléphone.</string>
     <string name="birthday">Date de naissance</string>
+    <string name="birthday_optional">Date de naissance (optionel)</string>
     <string name="create">Créer</string>
     <string name="create_a_profile">Créer un profil</string>
     <string name="fillAllFields">Tous les champs sont nécessaires</string>
+    <string name="fillNameField">Entrez au moins votre nom ou pseudo!</string>
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
-    <string name="size_cm">Taille (cm)</string>
+    <string name="size_cm_optional">Taille en cm (optionel)</string>
+    <string name="size_cm">Taille en cm</string>
+    <string name="titleSlideEssential">Allez à l\'essentiel</string>
+    <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
+    <string name="pressBackAgain">Appuyer à nouveau pour quitter</string>
+    <string name="titleSlideOpenSource">C\'est Open Source !</string>
+    <string name="textSlideOpenSource">Rejoins la communauté et ensemble, construisons la meilleure application fitness ! https://github.com/brodeurlv/fastnfitnes</string>
+    <string name="profileCreated">Profil créé</string>
+    <string name="missinginfo">Info manquante</string>
+    <string name="createExerciseFirst">Créez des exercises d\'abord</string>
+    <string name="impossibleToDeleteProfile">Impossible de supprimer l\'utilisateur actuel</string>
+    <string name="profileDeleted">Utilisateur supprimé</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="areyousure">Etes-vous sûr ?</string>
+    <string name="DeleteWeightDialog">Supprimer cette mesure?</string>
+    <string name="Take_profile_picture">Photo de profil</string>
+    <string name="description">Description</string>
+    <string name="muscles">Muscles</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="optional">optionel</string>
+    <string name="weight_missing">Merci de rentrer votre poids</string>
+    <string name="profileEnterYourSize">Votre taille</string>
+    <string name="profileEnterYourBirthday">Votre date de naissance</string>
+    <string name="edit_soon_available">Bientôt disponible</string>
+    <string name="name">Nom</string>
+    <string name="ProfileLabel">Profil</string>
+    <string name="profile_page">Details</string>
 </resources>

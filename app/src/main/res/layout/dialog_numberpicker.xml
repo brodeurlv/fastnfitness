@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/cardview_light_background"
@@ -24,7 +25,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="+0.25"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold" />
@@ -34,40 +35,44 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="+0.5"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_plusOne"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="+1"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_plusFive"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="+5"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_plusTen"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="+10"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +84,7 @@
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -100,50 +105,55 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="-0.25"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_minusHalf"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="-0.5"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_minusOne"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="-1"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_minusFive"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="-5"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/btn_minusTen"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_button_background"
                 android:text="-10"
                 android:textColor="#5DBCD2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -4,6 +4,7 @@ public class DrawerItem {
 
 	String itemName;
 	int imgResID;
+	String imgSrc;
 	String title;
 	boolean isSpinner;
 	boolean isActive;
@@ -36,6 +37,14 @@ public class DrawerItem {
 
 	public void setImgResID(int imgResID) {
 		this.imgResID = imgResID;
+	}
+
+	public String getImg() {
+		return imgSrc;
+	}
+
+	public void setImg(String imgSrc) {
+		this.imgSrc = imgSrc;
 	}
 
 	public String getTitle() {

@@ -80,7 +80,7 @@ public class BodyPart {
             case WAIST: return R.string.waist;
             case NECK: return R.string.neck;
             case BEHIND: return R.string.behind;
-        };
+        }
 
         return 0;
     }
@@ -106,7 +106,7 @@ public class BodyPart {
             case WAIST: return R.drawable.ic_waist_measure;
             case NECK: return R.drawable.ic_neck;
             case BEHIND: return R.drawable.ic_buttock_measure;
-        };
+        }
 
         return 0;
     }

@@ -3,15 +3,10 @@ package com.easyfitness.intro;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.R;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.heinrichreimersoftware.materialintro.slide.Slide;
@@ -65,7 +60,7 @@ public class MainIntroActivity extends IntroActivity {
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.introSlide2Title)
                 .description(R.string.introSlide2Text)
-                .image(R.drawable.ic_machine)
+                .image(R.drawable.bench_hi_res_512)
                 .background(R.color.background_even)
                 .backgroundDark(R.color.background_odd)
                 .scrollable(scrollable)
@@ -74,7 +69,16 @@ public class MainIntroActivity extends IntroActivity {
         addSlide(new SimpleSlide.Builder()
                 .title(R.string.titleSlideEssential)
                 .description(R.string.textSlideEssential)
-                .image(R.drawable.ic_machine)
+                .image(R.drawable.idea_hi_res_485)
+                .background(R.color.background_even)
+                .backgroundDark(R.color.background_odd)
+                .scrollable(scrollable)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.titleSlideOpenSource)
+                .description(R.string.textSlideOpenSource)
+                .image(R.drawable.group_hi_res_512)
                 .background(R.color.background_even)
                 .backgroundDark(R.color.background_odd)
                 .scrollable(scrollable)

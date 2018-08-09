@@ -3,17 +3,17 @@ package com.easyfitness;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.utils.UnitConverter;
-import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import java.text.DecimalFormat;
@@ -42,14 +42,31 @@ public class CountdownDialogbox extends Dialog implements
     int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
 
+        boolean bFirst=true;
+
         @Override
         public void onChronometerTick(Chronometer chronometer) {
             // Update progressbar
             //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
-            int secElapsed = (int) (chrono.getTimeElapsed() / 1000);
+
+            int secElapsed = (int) (chrono.getTimeElapsed() / 1000); //secElapsed is a negative value
             //progressBar.setProgress(iRestTime + secElapsed);
             progressCircle.setProgress(iRestTime + secElapsed);
-            if (iRestTime + secElapsed >= iRestTime) {
+            if (secElapsed >= -2) { // Vibrate
+                if (bFirst==false) {
+                    Vibrator v = (Vibrator) c.getApplicationContext().getSystemService(c.getApplicationContext().VIBRATOR_SERVICE);
+                    // Vibrate for 500 milliseconds
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        //deprecated in API 26
+                        v.vibrate(500);
+                    }
+                } else {
+                    bFirst=false;
+                }
+            }
+            if (secElapsed >= 0) {
                 chrono.stop();
                 dismiss();
             }
@@ -106,7 +123,7 @@ public class CountdownDialogbox extends Dialog implements
         nbSeries.setText(Integer.toString(lNbSerie));
 
         chrono.setOnChronometerTickListener(onChronometerTick);
-        chrono.setBase(SystemClock.elapsedRealtime() + iRestTime * 1000);
+        chrono.setBase(SystemClock.elapsedRealtime() + (iRestTime+1) * 1000);
         chrono.setPrecision(false);
         chrono.start(); // Start automatically
     }

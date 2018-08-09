@@ -11,6 +11,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.R;
 
 import java.io.File;
@@ -24,11 +25,13 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 
 	 private LayoutInflater mInflater;
 	 private Context mContext = null;
-    private int mFirstColorOdd = 0;
+	 private int mFirstColorOdd = 0;
+	 BtnClickListener mDeleteClickListener = null;
 
-	 public BodyMeasureCursorAdapter(Context context, Cursor c, int flags) {
+	 public BodyMeasureCursorAdapter(Context context, Cursor c, int flags, BtnClickListener mD) {
 		super(context, c, flags);
 		mContext = context;
+		mDeleteClickListener= mD;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	 }
 	 
@@ -64,8 +67,19 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
          else {
              view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
          }
+
+		 ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
+		 deletImg.setTag(cursor.getLong(0));
+		 deletImg.setOnClickListener(new View.OnClickListener() {
+			 @Override
+			 public void onClick(View v) {
+				 if(mDeleteClickListener != null)
+					 mDeleteClickListener.onBtnClick((long)v.getTag());
+			 }
+		 });
+
 	 }
-	 
+
 	 @Override
 	 public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		 return mInflater.inflate(R.layout.bodymeasure_row, parent, false);

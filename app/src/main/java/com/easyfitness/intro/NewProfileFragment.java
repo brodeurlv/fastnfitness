@@ -28,23 +28,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
@@ -52,6 +44,9 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
+import com.onurkaganaldemir.ktoastlib.KToast;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class NewProfileFragment extends SlideFragment {
 
@@ -124,13 +119,37 @@ public class NewProfileFragment extends SlideFragment {
             // Initialisation des objets DB
             DAOProfil mDbProfils = new DAOProfil(v.getContext());
 
-            if (mName.getText().toString().isEmpty() || mSize.getText().toString().isEmpty() || mBirthday.getText().toString().isEmpty()) {
-                Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
+            if (mName.getText().toString().isEmpty()) {
+                //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
+                KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
             } else {
-                Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
+                int size = 0;
+                if (!mSize.getText().toString().isEmpty()) {
+                    size = Integer.valueOf(mSize.getText().toString());
+                }
+
+                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()));
                 // Create the new profil
                 mDbProfils.addProfil(p);
-                mProfilCreated=true;
+                //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
+
+                if (p != null) {
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(p.getName())
+                            .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+
+                                    nextSlide();
+                                }
+                            })
+                            .show();
+                    mProfilCreated = true;
+                } else {
+                    KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
+                }
+
             }
         }
     };
