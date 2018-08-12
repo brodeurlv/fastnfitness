@@ -20,7 +20,13 @@ Easy !
 
 ## Change Log
 
-### 0.14.6 - June 15, 2018
+### 0.15 : 08/08/2018
+- Enhancement : Profile photo in Menu
+- Enhancement : New profile fragment
+- Enhancement : Possibility to remove a photo
+- Enhancement : Small UI updates
+
+0.14.6 - June 15, 2018
 
 - Enhancement : Added German Version (Thanks to EGUltraTM)
 
