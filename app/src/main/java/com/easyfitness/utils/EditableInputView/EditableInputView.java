@@ -113,7 +113,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             datePickerDialog.show();
         } else {
             final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText("Edit value")
+                    .setTitleText(getContext().getString(R.string.edit_value))
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {

@@ -247,4 +247,5 @@
     <string name="name">Nom</string>
     <string name="ProfileLabel">Profil</string>
     <string name="profile_page">Details</string>
+    <string name="edit_value">Nouvelle valeur</string>
 </resources>

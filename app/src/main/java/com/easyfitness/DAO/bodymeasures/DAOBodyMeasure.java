@@ -159,14 +159,14 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     /**
-     * Getting All Measures associated to a Body part for a specific Profile
+     * Getting All Measures for a specific Profile
      *
      * @param pProfile
      * @return List<BodyMeasure>
      */
     public List<BodyMeasure> getBodyMeasuresList(Profile pProfile) {
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
 
         // return value list
         return getMeasuresList(selectQuery);

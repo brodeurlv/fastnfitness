@@ -258,5 +258,6 @@
     <string name="muscles">Muskeln</string>
     <string name="description">Beschreibung</string>
     <string name="edit_soon_available">in Kürze verfügbar</string>
+    <string name="edit_value">Neue Wert</string>
 </resources>
 

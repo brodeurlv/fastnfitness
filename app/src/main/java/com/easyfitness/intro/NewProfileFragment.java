@@ -113,7 +113,7 @@ public class NewProfileFragment extends SlideFragment {
         return view;
     }
 
-    private View.OnClickListener clickCreateButton = new View.OnClickListener() {
+    private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // Initialisation des objets DB
@@ -124,8 +124,12 @@ public class NewProfileFragment extends SlideFragment {
                 KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
             } else {
                 int size = 0;
-                if (!mSize.getText().toString().isEmpty()) {
-                    size = Integer.valueOf(mSize.getText().toString());
+                try {
+                    if (!mSize.getText().toString().isEmpty()) {
+                        size = Double.valueOf(mSize.getText().toString()).intValue();
+                    }
+                } catch (NumberFormatException e) {
+                    size = 0;
                 }
 
                 Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()));

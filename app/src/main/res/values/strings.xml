@@ -258,6 +258,7 @@
     <string name="profileEnterYourBirthday">Your Birthday</string>
     <string name="profile_page">Profile page</string>
     <string name="ProfileLabel">Profile</string>
+    <string name="edit_value">Edit value</string>
 
 </resources>
 

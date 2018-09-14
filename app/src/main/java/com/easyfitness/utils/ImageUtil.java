@@ -77,7 +77,8 @@ public class ImageUtil {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            mImageView.setImageBitmap(bitmap);
+            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+            mImageView.setImageBitmap(orientedBitmap);
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,20 +96,27 @@ public class ImageUtil {
         // Determine how much to scale down the image
         float scaleFactor = photoW/photoH; //Math.min(photoW/targetW, photoH/targetH);
 
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = (int) scaleFactor;
+        bmOptions.inPurgeable = true;
+
         Bitmap ThumbImage =null;
         //if (photoW < photoH)
-        ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), 128, (int)(128/scaleFactor));
+        Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+        Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+        ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
         //	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
 
         // extract path without the .jpg
         String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
         String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
-        File pathThumbFolder = new File(pathOfOutputFolder + "/thumb/");
+        File pathThumbFolder = new File(pathOfOutputFolder + "/.thumb/");
         if (!pathThumbFolder.exists()) {
             pathThumbFolder.mkdirs();
         }
-        String pathOfThumbImage = pathOfOutputFolder + "/thumb/" + nameOfOutputImage + "_TH.jpg";
+        String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
 
         try {
             FileOutputStream out = new FileOutputStream(pathOfThumbImage);
@@ -141,7 +149,7 @@ public class ImageUtil {
         } else {
             // extract path without the .jpg
             String pathOfThumbImage = "";
-            pathOfThumbImage = pathOfOutputFolder + "/thumb/" + nameOfOutputImage + "_TH.jpg";
+            pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
             File f = new File(pathOfThumbImage);
             if (!f.exists())
                 return saveThumb(pPath); // create thumb file
@@ -238,7 +246,8 @@ public class ImageUtil {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            mImageView.setImageBitmap(bitmap);
+            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+            mImageView.setImageBitmap(orientedBitmap);
 
             //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mImageView.setAdjustViewBounds(true);

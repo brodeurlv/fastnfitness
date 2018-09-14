@@ -156,7 +156,7 @@ public class ProfileFragment extends Fragment {
                 mProfile.setName(nameEdit.getText());
                 break;
             case R.id.size:
-                mProfile.setSize(Integer.parseInt(sizeEdit.getText()));
+                mProfile.setSize((int) Float.parseFloat(sizeEdit.getText()));
                 break;
             case R.id.birthday:
                 mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));

@@ -5,8 +5,12 @@ import android.os.Environment;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
+import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,11 +49,11 @@ public class CVSManager {
 			return false;
 		}
 		else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s_");
             Date date = new Date();
 
             //We use the FastNFitness directory for saving our .csv file.
-            File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export/" + dateFormat.format(date));
+            File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export/" + dateFormat.format(date) + pProfile.getName());
 			if (!exportDir.exists()) 
 			{
 				exportDir.mkdirs();
@@ -61,6 +65,7 @@ public class CVSManager {
                 exportFontes(exportDir, pProfile);
                 exportCardio(exportDir, pProfile);
                 exportProfileWeight(exportDir, pProfile);
+                exportBodyMeasures(exportDir, pProfile);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -80,7 +85,7 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
             Date date = new Date();
 
-            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Fontes_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyBuilding_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -147,54 +152,8 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
             Date date = new Date();
 
-            CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
-
-            /**This is our database connector class that reads the data from the database.
-             * The code of this class is omitted for brevity.
-             */
-            DAOCardio dbcCardio = new DAOCardio(mContext);
-            dbcCardio.open();
-
-            /**Let's read the first table of the database.
-             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-             * containing all records of the table (all fields).
-             * The code of this class is omitted for brevity.
-             */
-            List<Cardio> cardioRecords = null;
-            cardioRecords = dbcCardio.getAllRecordsByProfil(pProfile);
-
-            //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
-            csvOutputCardio.write(TABLE_HEAD);
-            csvOutputCardio.write(ID_HEAD);
-            csvOutputCardio.write(DAOCardio.DATE);
-            csvOutputCardio.write(DAOCardio.EXERCICE);
-            csvOutputCardio.write(DAOCardio.DURATION);
-            csvOutputCardio.write(DAOCardio.DISTANCE);
-            csvOutputCardio.write(DAOCardio.PROFIL_KEY);
-            csvOutputCardio.endRecord();
-
-            for (int i = 0; i < cardioRecords.size(); i++) {
-                csvOutputCardio.write(DAOCardio.TABLE_NAME);
-                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getId()));
-
-                Date dateRecord = cardioRecords.get(i).getDate();
-
-                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-
-                csvOutputCardio.write(dateFormatcsv.format(dateRecord));
-                csvOutputCardio.write(cardioRecords.get(i).getExercice());
-                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getDuration()));
-                csvOutputCardio.write(Float.toString(cardioRecords.get(i).getDistance()));
-                if (cardioRecords.get(i).getProfil() != null)
-                    csvOutputCardio.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
-                else csvOutputCardio.write("-1");
-                //write the record in the .csv file
-                csvOutputCardio.endRecord();
-            }
-            csvOutputCardio.close();
-            dbcCardio.close();// Profile weight
             // use FileWriter constructor that specifies open for appending
-            CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Profil_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutputWeight = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_ProfilWeight_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
             DAOWeight dbcWeight = new DAOWeight(mContext);
             dbcWeight.open();
 
@@ -220,6 +179,53 @@ public class CVSManager {
             }
             csvOutputWeight.close();
             dbcWeight.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
+    public boolean exportBodyMeasures(File exportDir, Profile pProfile) {
+        try {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            Date date = new Date();
+
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
+            daoBodyMeasure.open();
+
+            List<BodyMeasure> bodyMeasures;
+            bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
+
+            cvsOutput.write(TABLE_HEAD);
+            cvsOutput.write(ID_HEAD);
+            cvsOutput.write(DAOBodyMeasure.DATE);
+            cvsOutput.write(DAOBodyMeasure.BODYPART_KEY);
+            cvsOutput.write("bodypart_label");
+            cvsOutput.write(DAOBodyMeasure.MEASURE);
+            cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
+            cvsOutput.endRecord();
+
+            for (int i = 0; i < bodyMeasures.size(); i++) {
+                cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
+                cvsOutput.write(Long.toString(bodyMeasures.get(i).getId()));
+                Date dateRecord = bodyMeasures.get(i).getDate();
+                cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
+                cvsOutput.write(Long.toString(bodyMeasures.get(i).getBodyPartID()));
+                BodyPart bp = new BodyPart(bodyMeasures.get(i).getBodyPartID());
+                cvsOutput.write(this.mContext.getString(bp.getResourceNameID())); // Write the full name of the BodyPart
+                cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure()));
+                cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
+
+                cvsOutput.endRecord();
+            }
+            cvsOutput.close();
+            daoBodyMeasure.close();
         } catch (Exception e) {
             //if there are any exceptions, return false
             e.printStackTrace();
