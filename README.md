@@ -20,7 +20,12 @@ Easy !
 
 ## Change Log
 
-### 0.15 : August 8, 2018
+### 0.15.1 : September 13, 2018
+- Bug : Fixed float issue for profile size
+- Bug : Fixed wrong image rotation
+- Bug : Fixed CVS export for bodymeasures
+
+### 0.15 - August 8, 2018
 - Enhancement : Profile photo in Menu
 - Enhancement : New profile fragment
 - Enhancement : Possibility to remove a photo
