@@ -20,6 +20,9 @@ Easy !
 
 ## Change Log
 
+### 0.15.2 : September 19, 2018
+- Bug : Fixed intro
+
 ### 0.15.1 : September 13, 2018
 - Bug : Fixed float issue for profile size
 - Bug : Fixed wrong image rotation
