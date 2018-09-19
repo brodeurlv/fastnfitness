@@ -43,6 +43,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -109,8 +110,25 @@ public class NewProfileFragment extends SlideFragment {
 		/* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);
 
+        getIntroActivity().addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
+            @Override
+            public void onNavigationBlocked(int position, int direction) {
+                //Slide slide = getIntroActivity().getSlide(position);
+
+                if (position == 5) {
+                    mBtCreate.callOnClick();
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    ;
+
+    private NewProfileFragment getThis() {
+        return this;
     }
 
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
@@ -121,7 +139,7 @@ public class NewProfileFragment extends SlideFragment {
 
             if (mName.getText().toString().isEmpty()) {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             } else {
                 int size = 0;
                 try {
@@ -144,7 +162,6 @@ public class NewProfileFragment extends SlideFragment {
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
-
                                     nextSlide();
                                 }
                             })
@@ -153,7 +170,6 @@ public class NewProfileFragment extends SlideFragment {
                 } else {
                     KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
-
             }
         }
     };
@@ -166,6 +182,14 @@ public class NewProfileFragment extends SlideFragment {
     @Override
     public boolean canGoForward() {
         return mProfilCreated;
+    }
+
+    public MainIntroActivity getIntroActivity() {
+        if (getActivity() instanceof MainIntroActivity) {
+            return (MainIntroActivity) getActivity();
+        } else {
+            throw new IllegalStateException("SlideFragment's must be attached to MainIntroActivity.");
+        }
     }
 }
 

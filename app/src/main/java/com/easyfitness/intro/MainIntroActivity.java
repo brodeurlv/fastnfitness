@@ -42,7 +42,7 @@ public class MainIntroActivity extends IntroActivity {
         super.onCreate(savedInstanceState);
 
         setButtonBackFunction(skipEnabled ? BUTTON_BACK_FUNCTION_SKIP : BUTTON_BACK_FUNCTION_BACK);
-        setButtonNextFunction( finishEnabled ? BUTTON_NEXT_FUNCTION_NEXT_FINISH : BUTTON_NEXT_FUNCTION_NEXT);
+        setButtonNextFunction(finishEnabled ? BUTTON_NEXT_FUNCTION_NEXT_FINISH : BUTTON_NEXT_FUNCTION_NEXT);
         setButtonBackVisible(showBack);
         setButtonNextVisible(showNext);
         setButtonCtaVisible(getStartedEnabled);
@@ -115,58 +115,5 @@ public class MainIntroActivity extends IntroActivity {
                     .build();
             addSlide(profileSlide);
         }
-
-        //Feel free to add a navigation policy to define when users can go forward/backward
-        /*
-        setNavigationPolicy(new NavigationPolicy() {
-            @Override
-            public boolean canGoForward(int position) {
-                return true;
-            }
-
-            @Override
-            public boolean canGoBackward(int position) {
-                return true;
-            }
-        });
-        */
-/*
-        addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
-            @Override
-            public void onNavigationBlocked(int position, int direction) {
-                View contentView = findViewById(android.R.id.content);
-                if (contentView != null) {
-                    Slide slide = getSlide(position);
-
-                    if (slide == permissionsSlide) {
-                        Snackbar.make(contentView, R.string.label_grant_permissions, Snackbar.LENGTH_LONG)
-                                .show();
-                    } else if (slide == loginSlide) {
-                        Snackbar.make(contentView, R.string.label_fill_out_form, Snackbar.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
-*/
-        //Feel free to add and remove page change listeners
-        /*
-        addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        */
     }
-
 }
