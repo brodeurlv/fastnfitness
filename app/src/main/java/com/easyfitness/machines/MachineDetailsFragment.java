@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
@@ -192,6 +194,9 @@ public class MachineDetailsFragment extends Fragment {
 
 		Machine temp = mDbMachine.getMachine(machineIdArg);
 		machineNameArg = temp.getName();
+
+		if (machineNameArg.equals("")) {requestForSave();}
+
 		machineName.setText(machineNameArg);
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
@@ -479,8 +484,15 @@ public class MachineDetailsFragment extends Fragment {
 			backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					saveMachine();
-					getActivity().onBackPressed();
+
+                    String lMachineName = machineName.getText().toString();
+                    if (lMachineName.equals("")) {
+                        KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                    }
+                    else {
+                        saveMachine();
+                        getActivity().onBackPressed();
+                    }
 				}
 			});
 
@@ -488,7 +500,11 @@ public class MachineDetailsFragment extends Fragment {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					getActivity().onBackPressed();
+                    if (machineNameArg.equals("")) {
+                        KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                        return;
+                    }
+				    getActivity().onBackPressed();
 				}
 			});
 
