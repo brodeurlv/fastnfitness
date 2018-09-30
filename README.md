@@ -28,7 +28,7 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
     1. From the Welcome Screen: Check out project from Version Contrlo -> Git
     1. Or from within Android Studio: File -> New -> Project from version control -> Git
     2. Log in to Github... -> Create API Token -> Enter your username and password from your Github account
-    3. Git Repository URL: https://github.com/geniusupgrader/Timeupgrader.git
+    3. Add the url of your forked project in „Git Repository URL“
     4. Clone
 3. Click **No** on the next Dialog: „Would you like to create an Android Studio project for the sources you have checked out to [...]“
 4. Then open an existing Android Studio project:
