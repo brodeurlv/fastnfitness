@@ -65,7 +65,7 @@ public class MachineFragment extends Fragment {
 		//typeList = (Spinner) view.findViewById(R.id.filterDate);
 		//machineList = (Spinner) view.findViewById(R.id.filterMachine);
         //renameMachineButton = (ImageButton) view.findViewById(R.id.imageMachineRename);
-        machineList = (ListView) view.findViewById(R.id.listMachine);
+        machineList = view.findViewById(R.id.listMachine);
 		//musclesList = (Spinner) view.findViewById(R.id.listFilterRecord);
 		
 		machineList.setOnItemClickListener(onClickListItem);
@@ -106,10 +106,10 @@ public class MachineFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			// Get Machine Name selected
-			TextView textView = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
+			TextView textView = view.findViewById(R.id.LIST_MACHINE_NAME);
 			String machineName = textView.getText().toString();
 
-			TextView textViewID = (TextView) view.findViewById(R.id.LIST_MACHINE_ID);
+			TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
 			long machineId = Long.valueOf(textViewID.getText().toString());
 
 			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());

@@ -77,9 +77,9 @@ public class CustomSpinnerAdapter extends ArrayAdapter<SpinnerItem>{
 			row=inflater.inflate(layoutResID, parent, false);
 			holder=new SpinnerHolder();
 			
-			holder.userImage=(ImageView)row.findViewById(R.id.left_pic);
-			holder.name=(TextView)row.findViewById(R.id.text_main_name);
-			holder.email=(TextView)row.findViewById(R.id.sub_text_email);
+			holder.userImage= row.findViewById(R.id.left_pic);
+			holder.name= row.findViewById(R.id.text_main_name);
+			holder.email= row.findViewById(R.id.sub_text_email);
 			
 			row.setTag(holder);
 		}

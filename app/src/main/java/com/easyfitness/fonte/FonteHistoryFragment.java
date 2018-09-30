@@ -75,9 +75,9 @@ public class FonteHistoryFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_history, container, false);
 		
-		dateList = (Spinner) view.findViewById(R.id.filterDate);
-		machineList = (Spinner) view.findViewById(R.id.filterMachine);
-		filterList = (ListView) view.findViewById(R.id.listFilterRecord);
+		dateList = view.findViewById(R.id.filterDate);
+		machineList = view.findViewById(R.id.filterMachine);
+		filterList = view.findViewById(R.id.listFilterRecord);
 		
 		// Initialisation des evenements
 		filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);

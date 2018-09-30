@@ -39,7 +39,7 @@ public class CardioCursorAdapter extends CursorAdapter {
 	   view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
 	  }
 	 
-	  TextView t1 = (TextView) view.findViewById(R.id.DATE_CELL);
+	  TextView t1 = view.findViewById(R.id.DATE_CELL);
 	  Date date;
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
@@ -58,16 +58,16 @@ public class CardioCursorAdapter extends CursorAdapter {
 			e.printStackTrace();
 		}
 
-      TextView t2 = (TextView) view.findViewById(R.id.MACHINE_CELL);
+      TextView t2 = view.findViewById(R.id.MACHINE_CELL);
       t2.setText(cursor.getString(2));
       
-      TextView t3 = (TextView) view.findViewById(R.id.SERIE_CELL);
+      TextView t3 = view.findViewById(R.id.SERIE_CELL);
       t3.setText(cursor.getString(3));
       
-      TextView t4 = (TextView) view.findViewById(R.id.REPETITION_CELL);
+      TextView t4 = view.findViewById(R.id.REPETITION_CELL);
       t4.setText(""); //cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
       
-      TextView t5 = (TextView) view.findViewById(R.id.POIDS_CELL);
+      TextView t5 = view.findViewById(R.id.POIDS_CELL);
       
 	  Date date2 = new Date();
 

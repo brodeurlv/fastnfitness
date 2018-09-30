@@ -62,7 +62,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         //do setup work here
 
         rootView = inflate(context, R.layout.editableinput_view, this);
-        valueTextView = (TextView) rootView.findViewById(R.id.valueTextView);
+        valueTextView = rootView.findViewById(R.id.valueTextView);
 
         editButton = rootView.findViewById(R.id.editButton);
 

@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         dataList = new ArrayList<DrawerItem>();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = findViewById(R.id.left_drawer);
 
         DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_profile_black, true);
 
