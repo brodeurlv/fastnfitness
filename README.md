@@ -18,6 +18,53 @@ Don't leave the app to get your music. A music player is integrated with the app
 Easy !
 
 
+
+## Development
+
+For Development [Android Studio](https://developer.android.com/studio/) with [gradle](https://gradle.org/) is used. If you want to develop and contribute, the easiest way is to use Android Studio as well.
+
+1. First fork this project on Github.
+2. Then clone it within Android Studio:
+    1. From the Welcome Screen: Check out project from Version Contrlo -> Git
+    1. Or from within Android Studio: File -> New -> Project from version control -> Git
+    2. Log in to Github... -> Create API Token -> Enter your username and password from your Github account
+    3. Git Repository URL: https://github.com/geniusupgrader/Timeupgrader.git
+    4. Clone
+3. Click **No** on the next Dialog: „Would you like to create an Android Studio project for the sources you have checked out to [...]“
+4. Then open an existing Android Studio project:
+    1. From the Welcome Screen: Open an existing Android Studio project
+    1. Or from within Android Studio: File -> Open
+    2. Search for the path, where you cloned this project
+5. Do you want to add the following file to Git? (Project.xml) -> **No**
+6. Then in the Build window: Add Google Maven repository and sync project
+7. In the Android File Browser, go to: fastnfitness -> app -> build.gradle and comment out the „signingConfigs“ section and signingConfig instructions inside buildTypes:
+
+```
+signingConfigs {
+    release {
+        storeFile file("C:/Dev/fastnfitness_keystore/keystore")
+        storePassword "5d1f5s2f"
+        keyAlias "brodeur"
+        keyPassword "5d1f5s2f"
+    }
+    debug {
+        storeFile file("C:/Dev/fastnfitness_keystore/keystore")
+        storePassword "5d1f5s2f"
+        keyAlias "brodeur"
+        keyPassword "5d1f5s2f"
+    }
+}
+
+signingConfig signingConfigs.release
+
+signingConfig signingConfigs.debug
+```
+
+8. File -> Sync Project with Gradle Files
+
+
+
+
 ## Change Log
 
 ### 0.15.2 : September 19, 2018
