@@ -38,7 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         //addPreferencesFromResource(R.xml.settings);
 
-        Preference myPref = (Preference) findPreference("prefShowMP3");
+        Preference myPref = findPreference("prefShowMP3");
         myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -51,7 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-        Preference myPref2 = (Preference) findPreference("defaultUnit");
+        Preference myPref2 = findPreference("defaultUnit");
         myPref2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {

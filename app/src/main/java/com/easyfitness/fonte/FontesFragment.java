@@ -162,8 +162,8 @@ public class FontesFragment extends Fragment {
 				restTimeEdit.setText("60");
 			}
 
-			float iTotalWeightSession = (float) mDb.getTotalWeightSession(date);
-			float iTotalWeight = (float) mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
+			float iTotalWeightSession = mDb.getTotalWeightSession(date);
+			float iTotalWeight = mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
 			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
 
 			// Launch Countdown
@@ -446,20 +446,20 @@ public class FontesFragment extends Fragment {
 
 		View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
-		dateEdit = (EditText) view.findViewById(R.id.editDate);
-		machineEdit = (AutoCompleteTextView) view.findViewById(R.id.editMachine);
-		serieEdit = (EditText) view.findViewById(R.id.editSerie);
-		repetitionEdit = (EditText) view.findViewById(R.id.editRepetition);
-		poidsEdit = (EditText) view.findViewById(R.id.editPoids);
-		recordList = (ExpandedListView) view.findViewById(R.id.listRecord);
-		machineListButton = (ImageButton) view.findViewById(R.id.buttonListMachine);
-		addButton = (Button) view.findViewById(R.id.addperff);
-		unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnit);
-		detailsLayout = (LinearLayout) view.findViewById(R.id.notesLayout);
-		detailsExpandArrow = (ImageButton) view.findViewById(R.id.buttonExpandArrow);
-		restTimeEdit = (EditText) view.findViewById(R.id.editRestTime);
-		restTimeCheck = (CheckBox) view.findViewById(R.id.restTimecheckBox);
-		machineImage = (CircularImageView) view.findViewById(R.id.imageMachine);
+		dateEdit = view.findViewById(R.id.editDate);
+		machineEdit = view.findViewById(R.id.editMachine);
+		serieEdit = view.findViewById(R.id.editSerie);
+		repetitionEdit = view.findViewById(R.id.editRepetition);
+		poidsEdit = view.findViewById(R.id.editPoids);
+		recordList = view.findViewById(R.id.listRecord);
+		machineListButton = view.findViewById(R.id.buttonListMachine);
+		addButton = view.findViewById(R.id.addperff);
+		unitSpinner = view.findViewById(R.id.spinnerUnit);
+		detailsLayout = view.findViewById(R.id.notesLayout);
+		detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
+		restTimeEdit = view.findViewById(R.id.editRestTime);
+		restTimeCheck = view.findViewById(R.id.restTimecheckBox);
+		machineImage = view.findViewById(R.id.imageMachine);
         minText = view.findViewById(R.id.minText);
         maxText = view.findViewById(R.id.maxText);
 

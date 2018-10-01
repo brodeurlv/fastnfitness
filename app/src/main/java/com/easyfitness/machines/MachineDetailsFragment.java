@@ -122,22 +122,22 @@ public class MachineDetailsFragment extends Fragment {
 		mDbMachine = new DAOMachine(view.getContext());
 
         ((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.GONE);
-        top_toolbar = (Toolbar) view.findViewById(R.id.actionToolbarMachine);
+        top_toolbar = view.findViewById(R.id.actionToolbarMachine);
 		top_toolbar.setNavigationIcon(R.drawable.ic_back);
 		top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 		
-		machineName = (EditText) view.findViewById(R.id.machine_name);
-		machineDescription = (EditText) view.findViewById(R.id.machine_description);
-		musclesList = (EditText) view.findViewById(R.id.machine_muscles);
-		machinePhoto = (ImageView) view.findViewById(R.id.machine_photo);
-        machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
-        machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
-		machineFavorite = (ImageButton) view.findViewById(R.id.favButton);
-        machinePhotoLayout = (LinearLayout) view.findViewById(R.id.machine_photo_layout);
+		machineName = view.findViewById(R.id.machine_name);
+		machineDescription = view.findViewById(R.id.machine_description);
+		musclesList = view.findViewById(R.id.machine_muscles);
+		machinePhoto = view.findViewById(R.id.machine_photo);
+        machineDelete = view.findViewById(R.id.action_machine_delete);
+        machineSave = view.findViewById(R.id.action_machine_save);
+		machineFavorite = view.findViewById(R.id.favButton);
+        machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
-		machineAction = (FloatingActionButton) view.findViewById(R.id.actionCamera);
+		machineAction = view.findViewById(R.id.actionCamera);
 
         imgUtil = new ImageUtil(machinePhoto);
 

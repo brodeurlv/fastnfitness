@@ -95,7 +95,7 @@ public class FonteGraphFragment extends Fragment {
 		lastweekButton.setOnClickListener(onZoomClick);
 		
 		/* Initialise le graph */ 
-		mChart = (LineChart) view.findViewById(R.id.graphChart);
+		mChart = view.findViewById(R.id.graphChart);
 		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 
 		/* Initialisation de l'historique */

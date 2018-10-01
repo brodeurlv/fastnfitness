@@ -44,7 +44,7 @@ public class FonteCursorAdapter extends CursorAdapter {
             view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
         }
 
-        TextView t1 = (TextView) view.findViewById(R.id.DATE_CELL);
+        TextView t1 = view.findViewById(R.id.DATE_CELL);
         Date date;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
@@ -59,21 +59,21 @@ public class FonteCursorAdapter extends CursorAdapter {
             e.printStackTrace();
         }
 
-        TextView t10 = (TextView) view.findViewById(R.id.TIME_CELL);
+        TextView t10 = view.findViewById(R.id.TIME_CELL);
         t10.setText(cursor.getString(10));
 
 
-        TextView t2 = (TextView) view.findViewById(R.id.MACHINE_CELL);
+        TextView t2 = view.findViewById(R.id.MACHINE_CELL);
         //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
         t2.setText(cursor.getString(2));
 
-        TextView t3 = (TextView) view.findViewById(R.id.SERIE_CELL);
+        TextView t3 = view.findViewById(R.id.SERIE_CELL);
         t3.setText(cursor.getString(3));
 
-        TextView t4 = (TextView) view.findViewById(R.id.REPETITION_CELL);
+        TextView t4 = view.findViewById(R.id.REPETITION_CELL);
         t4.setText(cursor.getString(4));
 
-        TextView t5 = (TextView) view.findViewById(R.id.POIDS_CELL);
+        TextView t5 = view.findViewById(R.id.POIDS_CELL);
         String unit= mContext.getString(R.string.KgUnitLabel);
         float poids = cursor.getFloat(5);
         if (cursor.getInt(6) == UnitConverter.UNIT_LBS)  {
@@ -83,7 +83,7 @@ public class FonteCursorAdapter extends CursorAdapter {
         DecimalFormat numberFormat = new DecimalFormat("#.##");
         t5.setText(numberFormat.format(poids)+ unit);
 
-        ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
+        ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));
         deletImg.setOnClickListener(new View.OnClickListener() {
             @Override

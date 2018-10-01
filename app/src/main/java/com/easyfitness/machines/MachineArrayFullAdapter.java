@@ -36,16 +36,16 @@ import java.util.ArrayList;
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.machinelist_row, parent, false);
             }
-            TextView t0 = (TextView) convertView.findViewById(R.id.LIST_MACHINE_ID);
+            TextView t0 = convertView.findViewById(R.id.LIST_MACHINE_ID);
             t0.setText(String.valueOf(machine.getId()));
 
-            TextView t1 = (TextView) convertView.findViewById(R.id.LIST_MACHINE_NAME);
+            TextView t1 = convertView.findViewById(R.id.LIST_MACHINE_NAME);
             t1.setText(machine.getName());
 
-            TextView t2 = (TextView) convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
+            TextView t2 = convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
             t2.setText(machine.getDescription());
 
-            ImageView i0 = (ImageView) convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
+            ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
             String lPath = machine.getPicture();
             if( lPath != null && !lPath.isEmpty() ) {
                 try {
@@ -60,7 +60,7 @@ import java.util.ArrayList;
                 i0.setImageResource(R.drawable.ic_machine);
             }
 
-            ImageView iFav = (ImageView) convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
+            ImageView iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
             //DAOFavorites favDB = new DAOFavorites(getContext());
 
             if (machine.getFavorite()) { //favDB.isFavorite(machine.getId(), mProfile.getId())) {

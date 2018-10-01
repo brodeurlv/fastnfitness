@@ -67,10 +67,10 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.bodypart_row, parent, false);
-            viewHolder.txtID = (TextView) convertView.findViewById(R.id.LIST_BODYPART_ID);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.LIST_BODYPART);
-            viewHolder.txtLastMeasure = (TextView) convertView.findViewById(R.id.LIST_BODYPART_LASTRECORD);
-            viewHolder.logo = (ImageView) convertView.findViewById(R.id.LIST_BODYPART_LOGO);
+            viewHolder.txtID = convertView.findViewById(R.id.LIST_BODYPART_ID);
+            viewHolder.txtName = convertView.findViewById(R.id.LIST_BODYPART);
+            viewHolder.txtLastMeasure = convertView.findViewById(R.id.LIST_BODYPART_LASTRECORD);
+            viewHolder.logo = convertView.findViewById(R.id.LIST_BODYPART_LOGO);
 
             result=convertView;
 

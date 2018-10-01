@@ -161,11 +161,11 @@ public class BodyPartDetailsFragment extends Fragment {
 		// Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bodytracking_details_fragment, container, false);
 
-		addButton = (Button) view.findViewById(R.id.buttonAddWeight);
-		measureEdit = (EditText) view.findViewById(R.id.editWeight);
-		dateEdit= (EditText) view.findViewById(R.id.profilEditDate);
-		measureList = (ExpandedListView) view.findViewById(R.id.listWeightProfil);
-		bodyToolbar = (Toolbar) view.findViewById(R.id.bodyTrackingDetailsToolbar);
+		addButton = view.findViewById(R.id.buttonAddWeight);
+		measureEdit = view.findViewById(R.id.editWeight);
+		dateEdit= view.findViewById(R.id.profilEditDate);
+		measureList = view.findViewById(R.id.listWeightProfil);
+		bodyToolbar = view.findViewById(R.id.bodyTrackingDetailsToolbar);
 
 		/* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
@@ -180,7 +180,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		/* Initialisation des evenements */
 
 		// Add the other graph
-		mChart = (LineChart) view.findViewById(R.id.weightChart);
+		mChart = view.findViewById(R.id.weightChart);
 		mChart.setDescription(null);
 		mGraph = new Graph(mChart, "");
 		mBodyMeasureDb = new DAOBodyMeasure(view.getContext());

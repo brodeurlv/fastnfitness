@@ -31,19 +31,19 @@ public class NumberPickerDialogbox extends Dialog implements
         setContentView(R.layout.dialog_numberpicker);
         this.setCanceledOnTouchOutside(true); // make it not modal
 
-        ok = (Button) findViewById(R.id.btn_ok);
+        ok = findViewById(R.id.btn_ok);
         ok.setOnClickListener(this);
 
-        cancel = (Button) findViewById(R.id.btn_cancel);
+        cancel = findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(this);
 
-        lbtn_minusOne = (Button) findViewById(R.id.btn_minusOne);
+        lbtn_minusOne = findViewById(R.id.btn_minusOne);
         lbtn_minusOne.setOnClickListener(this);
-        lbtn_minusFive = (Button) findViewById(R.id.btn_minusFive);
+        lbtn_minusFive = findViewById(R.id.btn_minusFive);
         lbtn_minusFive.setOnClickListener(this);
-        lbtn_plusOne = (Button) findViewById(R.id.btn_plusOne);
+        lbtn_plusOne = findViewById(R.id.btn_plusOne);
         lbtn_plusOne.setOnClickListener(this);
-        lbtn_plusFive = (Button) findViewById(R.id.btn_plusFive);
+        lbtn_plusFive = findViewById(R.id.btn_plusFive);
         lbtn_plusFive.setOnClickListener(this);
 
     }
