@@ -11,8 +11,25 @@ android {
     }
 
     signingConfigs {
-        release {
-            release
+        if (rootProject.file('release.properties').exists()) {
+            def props = new Properties()
+            props.load(new FileInputStream(rootProject.file('release.properties')))
+            release {
+                storeFile file(props.keyStore)
+                storePassword props.keyStorePassword
+                keyAlias props.keyAlias
+                keyPassword props.keyAliasPassword
+            }
+        }
+        if (rootProject.file('debug.properties').exists()) {
+            def props2 = new Properties()
+            props2.load(new FileInputStream(rootProject.file('debug.properties')))
+            debug {
+                storeFile file(props2.keyStore)
+                storePassword props2.keyStorePassword
+                keyAlias props2.keyAlias
+                keyPassword props2.keyAliasPassword
+            }
         }
     }
 
@@ -21,11 +38,16 @@ android {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
+            if (rootProject.file('release.properties').exists()) {
+                signingConfig signingConfigs.release
+            }
         }
         debug {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
+            if (rootProject.file('debug.properties').exists()) {
+                signingConfig signingConfigs.debug
+            }
         }
     }
     dataBinding {
@@ -65,13 +87,3 @@ dependencies {
 //repositories {
 //    maven { url 'https://maven.fabric.io/public' }
 //}
-
-
-
-def props = new Properties()
-
-props.load(new FileInputStream(rootProject.file("release.properties")))
-android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
-android.signingConfigs.release.storePassword props.keyStorePassword
-android.signingConfigs.release.keyAlias props.keyAlias
-android.signingConfigs.release.keyPassword props.keyAliasPassword
