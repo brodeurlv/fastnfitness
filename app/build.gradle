@@ -12,16 +12,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
-            storePassword "5d1f5s2f"
-            keyAlias "brodeur"
-            keyPassword "5d1f5s2f"
-        }
-        debug {
-            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
-            storePassword "5d1f5s2f"
-            keyAlias "brodeur"
-            keyPassword "5d1f5s2f"
+            release
         }
     }
 
@@ -35,7 +26,6 @@ android {
         debug {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
-            signingConfig signingConfigs.debug
         }
     }
     dataBinding {
@@ -44,7 +34,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:27.1.1'
     compile 'com.android.support:appcompat-v7:27.1.1'
@@ -69,8 +59,19 @@ dependencies {
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
     //    transitive = true;
     //}
+    implementation files('libs/javacsv-2.0.jar')
 }
 
 //repositories {
 //    maven { url 'https://maven.fabric.io/public' }
 //}
+
+
+
+def props = new Properties()
+
+props.load(new FileInputStream(rootProject.file("release.properties")))
+android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+android.signingConfigs.release.storePassword props.keyStorePassword
+android.signingConfigs.release.keyAlias props.keyAlias
+android.signingConfigs.release.keyPassword props.keyAliasPassword
