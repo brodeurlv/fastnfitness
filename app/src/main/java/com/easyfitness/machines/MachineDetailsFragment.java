@@ -195,7 +195,7 @@ public class MachineDetailsFragment extends Fragment {
 		Machine temp = mDbMachine.getMachine(machineIdArg);
 		machineNameArg = temp.getName();
 
-		if (machineNameArg.equals("")) {requestForSave();}
+		//if (machineNameArg.equals("")) {requestForSave();}
 
 		machineName.setText(machineNameArg);
 		machineDescription.setText(temp.getDescription());	
@@ -500,10 +500,10 @@ public class MachineDetailsFragment extends Fragment {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-                    if (machineNameArg.equals("")) {
+                    /*if (machineNameArg.equals("")) {
                         KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                         return;
-                    }
+                    }*/
 				    getActivity().onBackPressed();
 				}
 			});
@@ -516,12 +516,15 @@ public class MachineDetailsFragment extends Fragment {
 		}
 	}
 
-	private void saveMachine() {		
+	private boolean saveMachine() {
+		boolean result = false;
 		Machine m = this.mDbMachine.getMachine(machineIdArg); // machine d'origine
 		String lMachineName = this.machineName.getText().toString(); // Potentiel nouveau nom dans le EditText
 		
 		// Si le nom est different du nom actuel
-		if (!machineNameArg.equals(lMachineName))
+		if (lMachineName.equals("")) {
+			KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+		} else if (!machineNameArg.equals(lMachineName))
 		{ 
 			Machine m2 = this.mDbMachine.getMachine(lMachineName);
 		
@@ -592,6 +595,7 @@ public class MachineDetailsFragment extends Fragment {
 
 				machineSave.setVisibility(View.GONE);
 				toBeSaved = false;
+				result = true;
 				//getThis().getActivity().invalidateOptionsMenu();
 			}
 		} else {
@@ -606,8 +610,10 @@ public class MachineDetailsFragment extends Fragment {
 
             machineSave.setVisibility(View.GONE);
             toBeSaved = false;
+			result = true;
 			//getThis().getActivity().invalidateOptionsMenu();
 		}
+		return result;
 	}
 	
 	private void deleteMachine() {
