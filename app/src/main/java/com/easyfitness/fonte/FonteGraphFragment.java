@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
@@ -187,35 +189,40 @@ public class FonteGraphFragment extends Fragment {
 
 		if (getProfil()==null) return;
 
-		String pMachine = null;
-		String pFunction = null;
-		int pDAOFunction = 0;
+        String lMachine = null;
+        String lFunction = null;
+        int lDAOFunction = 0;
 
+        mChart.clear();
 		if (machineList.getSelectedItem() == null) {
-			mChart.clear(); return; }// Evite les problemes au cas ou il n'y aurait aucune machine d'enregistree
+            return;
+        }// Evite les problemes au cas ou il n'y aurait aucune machine d'enregistree
 		if (functionList.getSelectedItem() == null) {
-			mChart.clear(); return; }
-		
-		pMachine = machineList.getSelectedItem().toString();
-		pFunction = functionList.getSelectedItem().toString();
-		
-		if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
-			pDAOFunction = DAOFonte.MAX1_FCT;
-        } else if (pFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
-			pDAOFunction = DAOFonte.MAX5_FCT;
-		} else if (pFunction.equals(mActivity.getResources().getString(R.string.sum))) {
-			pDAOFunction = DAOFonte.SUM_FCT;
-		}
+            return;
+        }
+
+        lMachine = machineList.getSelectedItem().toString();
+        lFunction = functionList.getSelectedItem().toString();
+
+        if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
+            lDAOFunction = DAOFonte.MAX1_FCT;
+        } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
+            lDAOFunction = DAOFonte.MAX5_FCT;
+        } else if (lFunction.equals(mActivity.getResources().getString(R.string.sum))) {
+            lDAOFunction = DAOFonte.SUM_FCT;
+        }
+
+        DAOMachine mDbExercise = new DAOMachine(mActivity);
+        Machine m = mDbExercise.getMachine(lMachine);
+
+        if (m.getType() != DAOMachine.TYPE_FONTE) return; // TODO Manage also Cardio records
 
 		// Recupere les enregistrements
-		List<DateGraphData> valueList = mDb.getFunctionRecords(getProfil(), pMachine, pDAOFunction);
+        List<DateGraphData> valueList = mDb.getBodyBuildingFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Recherche le min et max des dates
-		long maxDate = -1;
-		long minDate = -1;
-
 		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		int defaultUnit = 0;
 		try {
@@ -223,7 +230,6 @@ public class FonteGraphFragment extends Fragment {
 		}catch (NumberFormatException e) {
 			defaultUnit = 0;
 		}
-
 
 		for (int i = 0; i<valueList.size();i++) {
 			Entry value = null;
@@ -236,7 +242,7 @@ public class FonteGraphFragment extends Fragment {
 		}
 
 		Description desc = new Description();
-		desc.setText(pMachine + "/" + pFunction);
+        desc.setText(lMachine + "/" + lFunction);
 
 		mGraph.getLineChart().setDescription(desc);
 		mGraph.draw(yVals);

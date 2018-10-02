@@ -3,7 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/tableheader_background"
-    android:orientation="horizontal"
     android:paddingBottom="2dp"
     android:paddingTop="2dp">
 
@@ -30,8 +29,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="40"
-        android:gravity="center|start"
         android:ellipsize="end"
+        android:gravity="center|start"
         android:maxLines="1"
         android:paddingBottom="0dp"
         android:paddingTop="0dp"
@@ -45,8 +44,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="20"
-        android:gravity="start|center"
         android:ellipsize="end"
+        android:gravity="start|center"
         android:maxLines="1"
         android:singleLine="true"
         android:text="@string/SerieLabel" />
@@ -57,36 +56,36 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_marginLeft="5dp"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:layout_marginRight="5dp"
         android:layout_weight="15"
+        android:ellipsize="end"
         android:gravity="start|center"
+        android:maxLines="1"
         android:text="@string/RepetitionLabel_short" />
 
     <TextView
-    android:id="@+id/POIDS_CELL"
-    android:layout_width="0dip"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:id="@+id/POIDS_CELL"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_weight="20"
-    android:gravity="start|center"
-    android:text="@string/weightLabel" />
+        android:layout_marginRight="5dp"
+        android:layout_weight="20"
+        android:ellipsize="end"
+        android:gravity="start|center"
+        android:maxLines="1"
+        android:text="@string/weightLabel" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:ellipsize="end"
-        android:maxLines="1"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:ellipsize="end"
         android:gravity="start|center"
+        android:maxLines="1"
         android:text="" />
 
 </LinearLayout>

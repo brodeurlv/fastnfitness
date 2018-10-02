@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,11 +39,15 @@ import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
+import com.easyfitness.DAO.Cardio;
+import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.Record;
 import com.easyfitness.DAO.Weight;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
@@ -89,9 +94,25 @@ public class FontesFragment extends Fragment {
     TextView minText = null;
     TextView maxText = null;
 	int lTableColor = 1;
-	private DAOFonte mDb = null;
+    private DAOFonte mDbBodyBuilding = null;
+    private DAOCardio mDbCardio = null;
+    private DAORecord mDb = null;
 	private DAOMachine mDbMachine = null;
 	AlertDialog machineListDialog;
+
+    LinearLayout minMaxLayout = null;
+
+    // Selection part
+    LinearLayout exerciseTypeSelectorLayout = null;
+    TextView bodybuildingSelector = null;
+    TextView cardioSelector = null;
+
+    // Cardio Part
+    LinearLayout bodyBuildingLayout = null;
+    LinearLayout cardioLayout = null;
+    EditText distanceEdit = null;
+    EditText durationEdit = null;
+
 
 	private OnClickListener clickAddButton = new View.OnClickListener() {
 		@Override
@@ -117,65 +138,96 @@ public class FontesFragment extends Fragment {
 				date = new Date();
 			}
 
-			/* Convertion du poid */
-			float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
-			int unitPoids= UnitConverter.UNIT_KG; // Kg
-			if ( unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel)) ) {
-                tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-				unitPoids = UnitConverter.UNIT_LBS; // LBS
-			}
+            Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
 
-			mDb.addRecord(date,
-					machineEdit.getText().toString(),
-					Integer.parseInt(serieEdit.getText().toString()),
-					Integer.parseInt(repetitionEdit.getText().toString()),
-					tmpPoids, // Always save in KG
-					getProfil(),
-					unitPoids, // Store Unit for future display
-					"", //Notes
-					DateConverter.currentTime()
-					);
+            if (lMachine.getType() == DAOMachine.TYPE_FONTE) {
+                /* Convertion du poid */
+                float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
+                int unitPoids = UnitConverter.UNIT_KG; // Kg
+                if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
+                    tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
+                    unitPoids = UnitConverter.UNIT_LBS; // LBS
+                }
 
-			getActivity().findViewById(R.id.drawer_layout).requestFocus();
-			hideKeyboard(v);
+                mDbBodyBuilding.addBodyBuildingRecord(date,
+                        machineEdit.getText().toString(),
+                        Integer.parseInt(serieEdit.getText().toString()),
+                        Integer.parseInt(repetitionEdit.getText().toString()),
+                        tmpPoids, // Always save in KG
+                        getProfil(),
+                        unitPoids, // Store Unit for future display
+                        "", //Notes
+                        DateConverter.currentTime()
+                );
 
-			lTableColor = (lTableColor+1)%2; // Change la couleur a chaque ajout de donnees
+                float iTotalWeightSession = (float) mDbBodyBuilding.getTotalWeightSession(date);
+                float iTotalWeight = (float) mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
+                int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
 
-			FillRecordTable(machineEdit.getText().toString());
+                //--Launch Rest Dialog
+                boolean bLaunchRest = restTimeCheck.isChecked();
+                int restTime = 60;
+                try {
+                    restTime = Integer.valueOf(restTimeEdit.getText().toString());
+                } catch (NumberFormatException e) {
+                    restTime = 60;
+                    restTimeEdit.setText("60");
+                }
 
-			/* Reinitialisation des machines */
-			// TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
+                // Launch Countdown
+                if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+                    cdd.setNbSeries(iNbSeries);
+                    cdd.setTotalWeightMachine(iTotalWeight);
+                    cdd.setTotalWeightSession(iTotalWeightSession);
+                    cdd.show();
+                }
+            } else if (lMachine.getType() == DAOMachine.TYPE_CARDIO) {
+                long duration;
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    Date tmpDate = dateFormat.parse(durationEdit.getText().toString());
+                    duration = tmpDate.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    duration = 0;
+                }
+
+                float distance;
+                if (distanceEdit.getText().toString().isEmpty()) {
+                    distance = 0;
+                } else {
+                    distance = Float.parseFloat(distanceEdit.getText().toString());
+                }
+
+                mDbCardio.addCardioRecord(date,
+                        DateConverter.currentTime(),
+                        machineEdit.getText().toString(),
+                        distance,
+                        duration,
+                        getProfil());
+            }
+
+            getActivity().findViewById(R.id.drawer_layout).requestFocus();
+            hideKeyboard(v);
+
+            lTableColor = (lTableColor + 1) % 2; // Change la couleur a chaque ajout de donnees
+
+            FillRecordTable(machineEdit.getText().toString());
+
+            /* Reinitialisation des machines */
+            // TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
-					android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
-			machineEdit.setAdapter(adapter);
+                    android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
+            machineEdit.setAdapter(adapter);
 
-			//Rajoute le moment du dernier ajout dans le bouton Add
-			addButton.setText(getView().getContext().getString(R.string.AddLabel)+"\n("+DateConverter.currentTime()+")");
+            //Rajoute le moment du dernier ajout dans le bouton Add
+            addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
 
-			//--Launch Rest Dialog
-			boolean bLaunchRest = restTimeCheck.isChecked();
-			int restTime = 60;
-			try {
-				restTime = Integer.valueOf(restTimeEdit.getText().toString());
-			} catch (NumberFormatException e) {
-				restTime = 60;
-				restTimeEdit.setText("60");
-			}
-
-			float iTotalWeightSession = (float) mDb.getTotalWeightSession(date);
-			float iTotalWeight = (float) mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
-			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
-
-			// Launch Countdown
-			if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext())) ) { // Only launch Countdown if date is today.
-				CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-				cdd.setNbSeries(iNbSeries);
-				cdd.setTotalWeightMachine(iTotalWeight);
-				cdd.setTotalWeightSession(iTotalWeightSession);
-				cdd.show();
-			}
-
-			mDb.closeCursor();
+            mDbCardio.closeCursor();
+            mDbBodyBuilding.closeCursor();
+            mDb.closeCursor();
 		}
 	};
 	private OnClickListener collapseDetailsClick = new View.OnClickListener() {
@@ -186,11 +238,49 @@ public class FontesFragment extends Fragment {
 			saveSharedParams();
 		}
 	};
+    private OnClickListener clickExerciseTypeSelector = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.cardioSelection:
+                    cardioSelector.setBackgroundColor(getResources().getColor(R.color.main_green_color));
+                    bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
+                    displayExerciseTypeUI(DAOMachine.TYPE_CARDIO, true);
+                    break;
+                case R.id.bodyBuildingSelection:
+                default:
+                    cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
+                    bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.main_green_color));
+                    displayExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+                    break;
+            }
+        }
+    };
+
+    private View.OnKeyListener checkExerciseExists = new View.OnKeyListener() {
+
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            Machine lMach = mDbMachine.getMachine(machineEdit.getText().toString());
+            if (lMach == null) {
+                exerciseTypeSelectorLayout.setVisibility(View.VISIBLE);
+            } else {
+                exerciseTypeSelectorLayout.setVisibility(View.GONE);
+            }
+            return false;
+        }
+    };
+
 	private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
             Cursor c;
             Cursor oldCursor;
+
+            // In case the dialog is already open
+            if (machineListDialog != null && machineListDialog.isShowing()) {
+                return;
+            }
 
 			ListView machineList = new ListView(v.getContext());
 
@@ -231,8 +321,7 @@ public class FontesFragment extends Fragment {
 
 						hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
 
-						if(machineListDialog.isShowing())
-						{
+                        if (machineListDialog.isShowing()) {
 							machineListDialog.dismiss();
 						}
 					}
@@ -247,8 +336,10 @@ public class FontesFragment extends Fragment {
 
 		}
 	};
+
 	private void updateLastRecord(long machineId) {
-		Fonte lLastRecord = mDb.getLastMachineRecord(machineId);
+        this.getMachine();
+        Fonte lLastRecord = mDbBodyBuilding.getLastMachineRecord(machineId);
 		if (lLastRecord != null) {
 			serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
 			repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
@@ -384,12 +475,12 @@ public class FontesFragment extends Fragment {
 					// Share
 					case 2:
 						//Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
-						Fonte fonte = mDb.getRecord(selectedID);
+                        Fonte fonte = mDbBodyBuilding.getBodyBuildingRecord(selectedID);
 						// Build text
 						String text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
 						text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamName), fonte.getProfil().getName());
 						text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
-						text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getMachine());
+                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getExercise());
 						shareRecord(text);
 						break;
 					default:
@@ -410,7 +501,7 @@ public class FontesFragment extends Fragment {
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        mDb.deleteRecord(idToDelete);
+                        mDbBodyBuilding.deleteRecord(idToDelete);
 
                         FillRecordTable(machineEdit.getText().toString());
 
@@ -421,7 +512,6 @@ public class FontesFragment extends Fragment {
                     }
                 })
                 .show();
-
     }
 
 	/**
@@ -462,6 +552,12 @@ public class FontesFragment extends Fragment {
 		machineImage = (CircularImageView) view.findViewById(R.id.imageMachine);
         minText = view.findViewById(R.id.minText);
         maxText = view.findViewById(R.id.maxText);
+        bodyBuildingLayout = view.findViewById(R.id.bodybuildingLayout);
+        cardioLayout = view.findViewById(R.id.cardioLayout);
+        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
+        cardioSelector = view.findViewById(R.id.cardioSelection);
+        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
+        minMaxLayout = view.findViewById(R.id.minmaxLayout);
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(clickAddButton);
@@ -472,12 +568,16 @@ public class FontesFragment extends Fragment {
 		serieEdit.setOnFocusChangeListener(touchRazEdit);
 		repetitionEdit.setOnFocusChangeListener(touchRazEdit);
 		poidsEdit.setOnFocusChangeListener(touchRazEdit);
+        machineEdit.setOnKeyListener(checkExerciseExists);
 		machineEdit.setOnFocusChangeListener(touchRazEdit);
 		machineEdit.setOnItemClickListener(onItemClickFilterList);
 		recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
 		detailsExpandArrow.setOnClickListener(collapseDetailsClick);
 		restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
 		restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange); //.setOnFocusChangeListener(restTimeEditChange);
+
+        bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
+        cardioSelector.setOnClickListener(clickExerciseTypeSelector);
 
 		restoreSharedParams();
 
@@ -491,7 +591,10 @@ public class FontesFragment extends Fragment {
 		unitSpinner.setSelection(defaultUnit);
 
 		// Initialisation de la base de donnee
-		mDb = new DAOFonte(getContext());
+        mDbBodyBuilding = new DAOFonte(getContext());
+        mDbCardio = new DAOCardio(getContext());
+        mDb = new DAORecord(getContext());
+
 		mDbMachine = new DAOMachine (getContext());
 		dateEdit.setText(DateConverter.currentDate());
 
@@ -590,7 +693,7 @@ public class FontesFragment extends Fragment {
 	}
 
 	public DAOFonte getDB(){
-		return mDb;
+        return mDbBodyBuilding;
 	}
 
 	public FontesFragment getFragment() {
@@ -620,22 +723,20 @@ public class FontesFragment extends Fragment {
 
 		// Recupere les valeurs
         if (pMachine == null || pMachine.isEmpty()) {
-            c = mDb.getAllRecordsByProfil(getProfil(), 10);
+            c = mDb.getAllRecordsByProfile(getProfil(), 10);
 		} else {
             c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
 		}
 
         if (c == null || c.getCount() == 0) {
-			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
-			recordList.setAdapter(null);
+            recordList.setAdapter(null);
 		} else {
-			// ...
 			if ( recordList.getAdapter() == null ) {
-                FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
+                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
 				mTableAdapter.setFirstColorOdd(lTableColor);
 				recordList.setAdapter(mTableAdapter);
-			} else {				
-				FonteCursorAdapter mTableAdapter = ((FonteCursorAdapter)recordList.getAdapter());
+            } else {
+                RecordCursorAdapter mTableAdapter = ((RecordCursorAdapter) recordList.getAdapter());
 				mTableAdapter.setFirstColorOdd(lTableColor);
                 oldCursor = mTableAdapter.swapCursor(c);
 				if (oldCursor!=null) oldCursor.close();
@@ -646,8 +747,8 @@ public class FontesFragment extends Fragment {
         float weight = 0;
         if (getProfil() != null && m != null) {
 			updateLastRecord(m.getId());
-            Weight minValue = mDb.getMin(getProfil(), m);
-            getView().findViewById(R.id.minmaxLayout).setVisibility(View.VISIBLE);
+            Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
+            minMaxLayout.setVisibility(View.VISIBLE);
             if (minValue != null) {
                 if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
                     weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
@@ -659,7 +760,7 @@ public class FontesFragment extends Fragment {
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 minText.setText(numberFormat.format(weight) + " " + unitStr);
 
-                Weight maxValue = mDb.getMax(getProfil(), m);
+                Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
                 if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
                     weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
                     unitStr = getContext().getString(R.string.LbsUnitLabel);
@@ -671,12 +772,12 @@ public class FontesFragment extends Fragment {
             } else {
                 minText.setText("-");
                 maxText.setText("-");
-                getView().findViewById(R.id.minmaxLayout).setVisibility(View.GONE);
+                minMaxLayout.setVisibility(View.GONE);
             }
         } else {
             minText.setText("-");
             maxText.setText("-");
-            getView().findViewById(R.id.minmaxLayout).setVisibility(View.GONE);
+            minMaxLayout.setVisibility(View.GONE);
         }
 	}
 
@@ -684,7 +785,7 @@ public class FontesFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
-                mDb.setProfil(getProfil());
+                mDb.setProfile(getProfil());
 
                 ArrayList<Machine> machineListArray;
                 // Version avec table Machine
@@ -694,26 +795,35 @@ public class FontesFragment extends Fragment {
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
                 machineEdit.setAdapter(machineEditAdapter);
 
-                // Si on a change de profil
+                // If profile has changed
                 mProfile = getProfil();
 
-                /* Initialisation serie */
                 if (machineEdit.getText().toString().isEmpty()) {
-                    Fonte lLastRecord = mDb.getLastRecord(getProfil());
+                    Record lLastRecord = mDb.getLastRecord(getProfil());
                     if (lLastRecord != null) {
-                        machineEdit.setText(lLastRecord.getMachine());
-                        Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
+
+                        machineEdit.setText(lLastRecord.getExercise());
+                        Machine lMachine = mDbMachine.getMachine(lLastRecord.getExercise());
                         machineImage.setImageResource(R.drawable.ic_machine); // Default image
                         ImageUtil imgUtil = new ImageUtil();
                         imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
-                        serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
-                        repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
-                        unitSpinner.setSelection(lLastRecord.getUnit());
-                        DecimalFormat numberFormat = new DecimalFormat("#.##");
-                        if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
-                            poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
-                        else
-                            poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+
+                        if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
+                            Fonte lLastBodyBuildingRecord = mDbBodyBuilding.getBodyBuildingRecord(lLastRecord.getId());
+                            serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
+                            repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
+                            unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
+                            DecimalFormat numberFormat = new DecimalFormat("#.##");
+                            if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
+                                poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids())));
+                            else
+                                poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
+                        } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
+                            Cardio lLastCardioRecord = mDbCardio.getRecord(lLastRecord.getId());
+                            distanceEdit.setText(String.valueOf(lLastCardioRecord.getDistance()));
+                            durationEdit.setText(DateConverter.durationToHoursMinutesStr(lLastCardioRecord.getDuration()));
+                        }
+                        displayExerciseTypeUI(lMachine.getType(), false);
                     } else {
                         // valeur par defaut
                         machineEdit.setText("");
@@ -727,6 +837,7 @@ public class FontesFragment extends Fragment {
                     ImageUtil imgUtil = new ImageUtil();
                     if (lMachine != null)
                         imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
+                    displayExerciseTypeUI(lMachine.getType(), false);
                 }
 
                 // Set Initial text
@@ -737,6 +848,24 @@ public class FontesFragment extends Fragment {
 			}
 		}
 	}
+
+    private void displayExerciseTypeUI(int pType, boolean displaySelector) {
+        if (displaySelector) exerciseTypeSelectorLayout.setVisibility(View.VISIBLE);
+        else exerciseTypeSelectorLayout.setVisibility(View.GONE);
+
+        switch (pType) {
+            case DAOMachine.TYPE_CARDIO:
+                bodyBuildingLayout.setVisibility(View.GONE);
+                cardioLayout.setVisibility(View.VISIBLE);
+                minMaxLayout.setVisibility(View.GONE);
+                break;
+            case DAOMachine.TYPE_FONTE:
+            default:
+                minMaxLayout.setVisibility(View.VISIBLE);
+                bodyBuildingLayout.setVisibility(View.VISIBLE);
+                cardioLayout.setVisibility(View.GONE);
+        }
+    }
 
 	public void saveSharedParams() {
 		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);

@@ -43,7 +43,7 @@ public class DAOMachine extends DAOBase {
 			super(context);
 	}
 	
-	/*public void setProfil (Profile pProfile)
+	/*public void setProfile (Profile pProfile)
 	{
 		mProfile = pProfile;
 	}*/
@@ -101,9 +101,14 @@ public class DAOMachine extends DAOBase {
 			mCursor.moveToFirst();
 		
 		if (mCursor.getCount() == 0)
-			return null; 
+			return null;
 
-		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6)==1);
+        Machine value = new Machine(mCursor.getString(1),
+                mCursor.getString(2),
+                mCursor.getInt(3),
+                mCursor.getString(4),
+                mCursor.getString(5),
+                mCursor.getInt(6) == 1);
 
 		value.setId(mCursor.getLong(0));
 		// return value

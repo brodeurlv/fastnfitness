@@ -56,7 +56,7 @@
     <string name="ExerciceLabel">Exercice</string>
     
     <!-- Profile Fragment -->
-    <string name="WeightLabel">Suivi de poids</string>
+    <string name="weightMenuLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
     <string name="sizeLabel">Taille</string>
     <string name="measureLabel">Mesure</string>

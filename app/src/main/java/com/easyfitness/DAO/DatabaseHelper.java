@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
-import com.easyfitness.DAO.cardio.DAOCardio;
 
 import java.io.File;
 
@@ -16,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-    public static final int DATABASE_VERSION = 14;
+    public static final int DATABASE_VERSION = 15;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -28,13 +27,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(DAOFonte.TABLE_CREATE);
-		db.execSQL(DAOProfil.TABLE_CREATE);
+        db.execSQL(DAORecord.TABLE_CREATE); // Covers Fonte and Cardio
+        db.execSQL(DAOProfil.TABLE_CREATE);
 		db.execSQL(DAOWeight.TABLE_CREATE);
-		db.execSQL(DAOCardio.TABLE_CREATE);
 		db.execSQL(DAOMachine.TABLE_CREATE);
 		db.execSQL(DAOBodyMeasure.TABLE_CREATE);
-		//onUpgrade(db, 0, DATABASE_VERSION);	
 	}
 
 	@Override
@@ -102,6 +99,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     case 14:
                         db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.PHOTO + " TEXT");
                         break;
+                    case 15:
+                        // Merge of Cardio DB and Fonte DB
+                        db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE + " REAL");
+                        db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DURATION + " INTEGER");
+                        db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TYPE + " INTEGER DEFAULT " + DAOMachine.TYPE_FONTE);
+                        break;
 				}
                 upgradeTo++;
             }
@@ -157,12 +160,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    
 		try {
 			res = db.rawQuery("SELECT " + fieldName + " FROM " + tableName,null);
+            res.close();
 		} catch (SQLiteException e) {
 			isExist = false;
 		}
-	   
-	    return isExist;
-	}
+
+
+        return isExist;
+    }
+
+    public boolean tableExists(SQLiteDatabase db, String tableName) {
+        boolean isExist = true;
+        Cursor res;
+
+        try {
+            res = db.rawQuery("SELECT * FROM " + tableName, null);
+            res.close();
+        } catch (SQLiteException e) {
+            isExist = false;
+        }
+        return isExist;
+    }
 
 	public static void renameOldDatabase(Activity activity)
 	{

@@ -7,11 +7,11 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.media.ExifInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -530,8 +530,8 @@ public class MachineDetailsFragment extends Fragment {
 
                         List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 						for (Fonte record : listRecords) {
-							record.setMachine(lMachineName); // Change avec le nouveau nom
-							record.setMachineKey(m2.getId()); // Met l'ID de la nouvelle machine
+                            record.setExercise(lMachineName); // Change avec le nouveau nom
+                            record.setExerciseKey(m2.getId()); // Met l'ID de la nouvelle machine
 							lDbFonte.updateRecord(record); // Met a jour
 						}	
 						
@@ -569,8 +569,8 @@ public class MachineDetailsFragment extends Fragment {
 	        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
                 List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
 				for (Fonte record : listRecords) {
-					record.setMachine(lMachineName); // Change avec le nouveau nom (DEPRECTED)
-					//record.setMachineKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
+                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECTED)
+                    //record.setExerciseKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
 					lDbFonte.updateRecord(record); // met a jour
 				}
 
@@ -635,7 +635,7 @@ public class MachineDetailsFragment extends Fragment {
 
         List<Fonte> listRecords = mDbFonte.getAllRecordByMachinesArray(lProfile, this.machineNameArg);
 			for (Fonte record : listRecords) {
-				mDbFonte.deleteRecord(record);
+                mDbFonte.deleteRecord(record.getId());
 			}						
 	}
 	

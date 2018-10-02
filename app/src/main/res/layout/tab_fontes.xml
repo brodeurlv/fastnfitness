@@ -59,10 +59,10 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_toLeftOf="@+id/buttonListMachine"
-                        android:layout_toStartOf="@+id/buttonListMachine"
-                        android:layout_toRightOf="@+id/imageMachine"
                         android:layout_toEndOf="@+id/imageMachine"
+                        android:layout_toLeftOf="@+id/buttonListMachine"
+                        android:layout_toRightOf="@+id/imageMachine"
+                        android:layout_toStartOf="@+id/buttonListMachine"
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
@@ -111,10 +111,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingRight="5dp"
                         android:paddingEnd="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="5dp"
+                        android:paddingStart="20dp"
                         android:text="@string/max" />
 
                     <TextView
@@ -128,6 +128,47 @@
         </android.support.v7.widget.CardView>
 
         <LinearLayout
+            android:id="@+id/exerciseTypeSelectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40">
+
+                <TextView
+                    android:id="@+id/bodyBuildingSelection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/green"
+                    android:gravity="center"
+                    android:text="@string/FonteLabel" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40">
+
+                <TextView
+                    android:id="@+id/cardioSelection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/CardioLabel" />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bodybuildingLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
@@ -160,7 +201,7 @@
                         android:inputType="number"
                         android:minEms="3"
                         android:nextFocusDown="@+id/editRepetition"
-                        android:text="2"/>
+                        android:text="2" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -191,7 +232,7 @@
                         android:inputType="number"
                         android:minEms="3"
                         android:nextFocusDown="@+id/editPoids"
-                        android:text="10"/>
+                        android:text="10" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -241,6 +282,77 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/cardioLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textDistance"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/DistanceLabel" />
+
+                    <EditText
+                        android:id="@+id/editDistance"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:nextFocusDown="@+id/editDuration" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textDuration"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/DurationLabel" />
+
+                    <EditText
+                        android:id="@+id/editDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:inputType="time">
+
+                    </EditText>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
@@ -398,16 +510,16 @@
 
         </LinearLayout>
 
-        <include layout="@layout/row_fonte_header" />
-
         <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="false"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:fastScrollEnabled="false"
             android:isScrollContainer="false"
-            android:scrollbars="none"/>
+            android:scrollbars="none" />
 
     </LinearLayout>
 </ScrollView>

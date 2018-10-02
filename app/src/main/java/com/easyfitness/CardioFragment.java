@@ -27,9 +27,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import com.easyfitness.DAO.Cardio;
+import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.cardio.Cardio;
-import com.easyfitness.DAO.cardio.DAOCardio;
 import com.easyfitness.utils.DateConverter;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -97,13 +97,11 @@ public class CardioFragment extends Fragment {
 				distance = Float.parseFloat(distanceEdit.getText().toString());
             }
 
-			Cardio value = new Cardio(date,
+            mDb.addCardioRecord(date, "00:00",
                     exerciceEdit.getText().toString(),
                     distance,
                     duration,
-					getProfil());
-
-			mDb.addRecord(value);
+                    getProfil());
 
 			getActivity().findViewById(R.id.drawer_layout).requestFocus();
 
@@ -302,9 +300,9 @@ public class CardioFragment extends Fragment {
 
 		// Recupere les valeurs
 		if (pMachines==null || pMachines.isEmpty()) {
-			records = mDb.getAllRecordsByProfil(getProfil());   	
+            records = mDb.getAllCardioRecordsByProfile(getProfil());
 		} else {
-			records = mDb.getAllRecordByMachines(getProfil(), pMachines);    		
+            records = mDb.getAllCardioRecordByMachines(getProfil(), pMachines);
 		}
 
 		if(records.isEmpty()) {
@@ -312,7 +310,7 @@ public class CardioFragment extends Fragment {
 			recordList.setAdapter(null);
 		} else {
 			// ...
-			CardioCursorAdapter mTableAdapter = new CardioCursorAdapter (this.getView().getContext(), mDb.GetCursor(), 0);
+            CardioCursorAdapter mTableAdapter = new CardioCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0);
 			recordList.setAdapter(mTableAdapter);
 		}
 	}
@@ -369,7 +367,7 @@ public class CardioFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
-			mDb.setProfil(getProfil());
+                mDb.setProfile(getProfil());
 
 			exerciceListArray = mDb.getAllMachines(getProfil());         
 
@@ -382,7 +380,7 @@ public class CardioFragment extends Fragment {
 			/* Initialisation serie */ 
 			Cardio lLastRecord = mDb.getLastRecord(getProfil());
 			if (lLastRecord != null ) {
-				exerciceEdit.setText(lLastRecord.getExercice());
+                exerciceEdit.setText(lLastRecord.getExercise());
 				distanceEdit.setText("");
 				durationEdit.setText("");
 			} else {
