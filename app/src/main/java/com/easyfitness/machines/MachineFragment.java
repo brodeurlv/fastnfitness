@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -34,6 +35,7 @@ public class MachineFragment extends Fragment {
 	EditText description = null;
 	ImageButton renameMachineButton = null;
 	ListView machineList = null;
+	Button addButton = null;
 
 	private DAOFonte mDbFonte = null;
 
@@ -62,6 +64,9 @@ public class MachineFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_machine, container, false);
 
+		addButton = view.findViewById(R.id.addExercise);
+		addButton.setOnClickListener(clickAddButton);
+
 		//typeList = (Spinner) view.findViewById(R.id.filterDate);
 		//machineList = (Spinner) view.findViewById(R.id.filterMachine);
         //renameMachineButton = (ImageButton) view.findViewById(R.id.imageMachineRename);
@@ -81,8 +86,9 @@ public class MachineFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 
-		refreshData();
-		
+        mDbMachine.deleteAllEmptyExercises();
+        refreshData();
+
 		// Initialisation des evenements
 		machineList.setOnItemSelectedListener(onItemSelectedList);
 	}
@@ -122,6 +128,32 @@ public class MachineFragment extends Fragment {
 			transaction.commit();
 		}
 	};
+
+
+	private View.OnClickListener clickAddButton = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+            // create a temporarily exercise with name="" and open it like any other existing exercises
+
+            long new_id = -1;
+            long temp_machine_key = -1;
+            String pMachine = "";
+
+            DAOMachine lDAOMachine = new DAOMachine(getContext());
+            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "");
+
+			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity)getActivity()).getCurrentProfil().getId());
+			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack so the user can navigate back
+			transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+			transaction.addToBackStack(null);
+			// Commit the transaction
+			transaction.commit();
+		}
+	};
+
 
 	private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 

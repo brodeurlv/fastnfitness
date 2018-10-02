@@ -227,6 +227,7 @@
     <string name="birthday">Birthday</string>
     <string name="birthday_optional">Birthday (optional)</string>
     <string name="name_or_pseudo">Name or Pseudo</string>
+    <string name="name_is_required">Name is required</string>
     <string name="create_a_profile">Create a Profile</string>
     <string name="introSlide1Text">Welcome in Fast n Fitness, the application is just quick and simple to record your workout and to follow your progression and the evolution of your body.</string>
     <string name="introSlide2Text">Write the name of the exercise and the details and it is created automatically. Then, find it back easily in the list.</string>
