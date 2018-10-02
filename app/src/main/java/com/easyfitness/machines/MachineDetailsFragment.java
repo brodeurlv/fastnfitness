@@ -486,11 +486,7 @@ public class MachineDetailsFragment extends Fragment {
 				public void onClick(DialogInterface dialog, int which) {
 
                     String lMachineName = machineName.getText().toString();
-                    if (lMachineName.equals("")) {
-                        KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                    }
-                    else {
-                        saveMachine();
+                    if (saveMachine()) {
                         getActivity().onBackPressed();
                     }
 				}
