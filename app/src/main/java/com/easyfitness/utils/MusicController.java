@@ -229,25 +229,25 @@ public class MusicController {
 
     public void initView() {
         // Music controller
-        musicPlay = (ImageButton) mActivity.findViewById(R.id.playerPlay);
-        musicStop = (ImageButton) mActivity.findViewById(R.id.playerStop);
-        musicNext = (ImageButton) mActivity.findViewById(R.id.playerNext);
-        musicPrevious = (ImageButton) mActivity.findViewById(R.id.playerPrevious);
-        musicList = (ImageButton) mActivity.findViewById(R.id.playerList);
-        musicReplay = (ImageButton) mActivity.findViewById(R.id.playerLoop);
+        musicPlay = mActivity.findViewById(R.id.playerPlay);
+        musicStop = mActivity.findViewById(R.id.playerStop);
+        musicNext = mActivity.findViewById(R.id.playerNext);
+        musicPrevious = mActivity.findViewById(R.id.playerPrevious);
+        musicList = mActivity.findViewById(R.id.playerList);
+        musicReplay = mActivity.findViewById(R.id.playerLoop);
         //playerTopLayout = (LinearLayout) mActivity.findViewById(R.id.playerTopLayout);
 
-        barSongTitle = (TextView)mActivity.findViewById(R.id.playerSongTitle);
+        barSongTitle = mActivity.findViewById(R.id.playerSongTitle);
         barSongTitle.setSingleLine(true);
         barSongTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         barSongTitle.setHorizontallyScrolling(true);
         barSongTitle.setSelected(true);
 
-        seekProgressBar = (SeekBar) mActivity.findViewById(R.id.playerSeekBar);
+        seekProgressBar = mActivity.findViewById(R.id.playerSeekBar);
         seekProgressBar.setMax(100);
         seekProgressBar.setProgress(0);
 
-        barSongTime = (TextView)mActivity.findViewById(R.id.playerSongProgress);
+        barSongTime = mActivity.findViewById(R.id.playerSongProgress);
 
         musicPlay.setOnClickListener(playerClick);
         musicStop.setOnClickListener(playerClick);

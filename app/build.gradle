@@ -11,17 +11,25 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
-            storePassword "5d1f5s2f"
-            keyAlias "brodeur"
-            keyPassword "5d1f5s2f"
+        if (rootProject.file('release.properties').exists()) {
+            def props = new Properties()
+            props.load(new FileInputStream(rootProject.file('release.properties')))
+            release {
+                storeFile file(props.keyStore)
+                storePassword props.keyStorePassword
+                keyAlias props.keyAlias
+                keyPassword props.keyAliasPassword
+            }
         }
-        debug {
-            storeFile file("C:/Dev/fastnfitness_keystore/keystore")
-            storePassword "5d1f5s2f"
-            keyAlias "brodeur"
-            keyPassword "5d1f5s2f"
+        if (rootProject.file('debug.properties').exists()) {
+            def props2 = new Properties()
+            props2.load(new FileInputStream(rootProject.file('debug.properties')))
+            debug {
+                storeFile file(props2.keyStore)
+                storePassword props2.keyStorePassword
+                keyAlias props2.keyAlias
+                keyPassword props2.keyAliasPassword
+            }
         }
     }
 
@@ -30,12 +38,16 @@ android {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
+            if (rootProject.file('release.properties').exists()) {
+                signingConfig signingConfigs.release
+            }
         }
         debug {
             minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
-            signingConfig signingConfigs.debug
+            if (rootProject.file('debug.properties').exists()) {
+                signingConfig signingConfigs.debug
+            }
         }
     }
     dataBinding {
@@ -44,7 +56,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:27.1.1'
     compile 'com.android.support:appcompat-v7:27.1.1'
@@ -69,6 +81,7 @@ dependencies {
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
     //    transitive = true;
     //}
+    implementation files('libs/javacsv-2.0.jar')
 }
 
 //repositories {

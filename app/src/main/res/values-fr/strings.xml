@@ -218,6 +218,7 @@
     <string name="fillNameField">Entrez au moins votre nom ou pseudo!</string>
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
+    <string name="name_is_required">Nom est obligatoire</string>
     <string name="size_cm_optional">Taille en cm (optionel)</string>
     <string name="size_cm">Taille en cm</string>
     <string name="titleSlideEssential">Allez à l\'essentiel</string>

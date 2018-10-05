@@ -26,16 +26,16 @@ public class MachineCursorAdapter extends CursorAdapter {
 	 @Override
 	 public void bindView(View view, Context context, Cursor cursor) {
 		 		 
-		  TextView t0 = (TextView) view.findViewById(R.id.LIST_MACHINE_ID); 
+		  TextView t0 = view.findViewById(R.id.LIST_MACHINE_ID);
 	      t0.setText(cursor.getString(0));
 			 
-		  TextView t1 = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
+		  TextView t1 = view.findViewById(R.id.LIST_MACHINE_NAME);
 		  t1.setText(cursor.getString(1));
 	
-	      TextView t2 = (TextView) view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
+	      TextView t2 = view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
 	      t2.setText(cursor.getString(2));
 	      
-	      ImageView i0 = (ImageView) view.findViewById(R.id.LIST_MACHINE_PHOTO);
+	      ImageView i0 = view.findViewById(R.id.LIST_MACHINE_PHOTO);
 	      String lPath = cursor.getString(5);
 	      if( lPath != null && !lPath.isEmpty() ) {
 	    	  try {
@@ -50,7 +50,7 @@ public class MachineCursorAdapter extends CursorAdapter {
 	    	  i0.setImageResource(R.drawable.ic_machine);
 	      }
 
-		 ImageView iFav = (ImageView) view.findViewById(R.id.LIST_MACHINE_FAVORITE);
+		 ImageView iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);
 		 boolean bFav = cursor.getInt(6)== 1;
 		 if(bFav) {
 			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));

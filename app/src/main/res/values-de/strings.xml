@@ -225,6 +225,7 @@
     <string name="birthday">Geburtstag</string>
     <string name="birthday_optional">Geburtstag (optional)</string>
     <string name="name_or_pseudo">Name oder Pseudonym</string>
+    <string name="name_is_required">Name wird benötigt</string>
     <string name="create_a_profile">Profil erstellen</string>
     <string name="introSlide1Text">Willkommen bei Fast n Fitness, der App in der du deine Workouts aufzeichnen kannst und eine Übersicht deiner Fortschritte deine Körpers siehst.</string>
     <string name="introSlide2Text">Gib der Übung/Gerät einen Namen und füge die Details hinzu. Du kannst diese dann aus einer Liste auswählen.</string>

@@ -235,14 +235,14 @@ public class CardioFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_cardio, container, false);
 
-        dateEdit = (EditText) view.findViewById(R.id.editCardioDate);
-        exerciceEdit = (AutoCompleteTextView) view.findViewById(R.id.editExercice);
-        distanceEdit = (EditText) view.findViewById(R.id.editDistance);
-        durationEdit = (EditText) view.findViewById(R.id.editDuration);
-        recordList = (ListView) view.findViewById(R.id.listCardioRecord);
-        exerciceListButton = (ImageButton) view.findViewById(R.id.buttonListExercice);
-        launchChronoButton = (ImageButton) view.findViewById(R.id.buttonLaunchChrono);
-        addButton = (Button) view.findViewById(R.id.addExercice);
+        dateEdit = view.findViewById(R.id.editCardioDate);
+        exerciceEdit = view.findViewById(R.id.editExercice);
+        distanceEdit = view.findViewById(R.id.editDistance);
+        durationEdit = view.findViewById(R.id.editDuration);
+        recordList = view.findViewById(R.id.listCardioRecord);
+        exerciceListButton = view.findViewById(R.id.buttonListExercice);
+        launchChronoButton = view.findViewById(R.id.buttonLaunchChrono);
+        addButton = view.findViewById(R.id.addExercice);
 
 		/* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);

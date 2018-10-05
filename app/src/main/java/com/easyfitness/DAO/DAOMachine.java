@@ -183,6 +183,16 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name
      */
+    public void deleteAllEmptyExercises() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, NAME + " = ?",
+                new String[] { "" });
+        db.close();
+        }
+
+    /**
+     * @return List of Machine object ordered by Favorite and Name
+     */
     public ArrayList<Machine> getAllMachinesArray() {
 // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "

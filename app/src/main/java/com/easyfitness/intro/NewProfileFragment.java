@@ -91,10 +91,10 @@ public class NewProfileFragment extends SlideFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
 
-        mName = (EditText) view.findViewById(R.id.profileName);
-        mSize = (EditText) view.findViewById(R.id.profileSize);
-        mBirthday = (EditText) view.findViewById(R.id.profileBirthday);
-        mBtCreate = (Button) view.findViewById(R.id.create_newprofil);
+        mName = view.findViewById(R.id.profileName);
+        mSize = view.findViewById(R.id.profileSize);
+        mBirthday = view.findViewById(R.id.profileBirthday);
+        mBtCreate = view.findViewById(R.id.create_newprofil);
 
         mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override

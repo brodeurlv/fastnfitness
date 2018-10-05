@@ -67,23 +67,23 @@ public class AboutFragment extends Fragment {
 		
 		View view =  inflater.inflate(R.layout.tab_about, container, false); 
 				
-		mpDBVersionTextView = (TextView) view.findViewById(R.id.database_version);
+		mpDBVersionTextView = view.findViewById(R.id.database_version);
 		mpDBVersionTextView.setText(Integer.toString(DatabaseHelper.DATABASE_VERSION));
 
-		mpMPAndroidChartTextView = (TextView) view.findViewById(R.id.MPAndroidChart);
-		mpjavaCVSTextView = (TextView) view.findViewById(R.id.javaCSV);
-		mpLicenseDialogTextView = (TextView) view.findViewById(R.id.LicensesDialog);
-		mpChronometerTextView = (TextView) view.findViewById(R.id.antoniomChronometer);
-		mpPagerSlidingTabStripTextView = (TextView) view.findViewById(R.id.PagerSlidingTabStrip);
+		mpMPAndroidChartTextView = view.findViewById(R.id.MPAndroidChart);
+		mpjavaCVSTextView = view.findViewById(R.id.javaCSV);
+		mpLicenseDialogTextView = view.findViewById(R.id.LicensesDialog);
+		mpChronometerTextView = view.findViewById(R.id.antoniomChronometer);
+		mpPagerSlidingTabStripTextView = view.findViewById(R.id.PagerSlidingTabStrip);
 
-		mpSmartTabLayoutTextView = (TextView) view.findViewById(R.id.SmartTabLayout);
-		mpFlaticonTextView = (TextView) view.findViewById(R.id.flaticonCredits);
-		mpFreepikView = (TextView) view.findViewById(R.id.freepikCredits);
-		mpCircleProgressView = (TextView) view.findViewById(R.id.CircleProgress);
-		mpCircularImageView = (TextView) view.findViewById(R.id.CircularImageView);
-        mpkToast = (TextView) view.findViewById(R.id.ktoast);
-        mpSweetAlertDialog = (TextView) view.findViewById(R.id.SweetAlertDialog);
-        mpAndroidImageCropper = (TextView) view.findViewById(R.id.AndroidImageCropper);
+		mpSmartTabLayoutTextView = view.findViewById(R.id.SmartTabLayout);
+		mpFlaticonTextView = view.findViewById(R.id.flaticonCredits);
+		mpFreepikView = view.findViewById(R.id.freepikCredits);
+		mpCircleProgressView = view.findViewById(R.id.CircleProgress);
+		mpCircularImageView = view.findViewById(R.id.CircularImageView);
+        mpkToast = view.findViewById(R.id.ktoast);
+        mpSweetAlertDialog = view.findViewById(R.id.SweetAlertDialog);
+        mpAndroidImageCropper = view.findViewById(R.id.AndroidImageCropper);
 
 
 

@@ -87,14 +87,14 @@ public class CountdownDialogbox extends Dialog implements
         setContentView(R.layout.dialog_rest);
         this.setCanceledOnTouchOutside(true); // make it not modal
 
-        exit = (Button) findViewById(R.id.btn_exit);
+        exit = findViewById(R.id.btn_exit);
         //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
-        chrono = (Chronometer) findViewById(R.id.chronoValue);
-        nbSeries = (TextView) findViewById(R.id.idNbSeries);
-        totalSession = (TextView) findViewById(R.id.idTotalSession);
-        totalMachine = (TextView) findViewById(R.id.idTotalWeightMachine);
+        chrono = findViewById(R.id.chronoValue);
+        nbSeries = findViewById(R.id.idNbSeries);
+        totalSession = findViewById(R.id.idTotalSession);
+        totalMachine = findViewById(R.id.idTotalWeightMachine);
 
-        progressCircle = (DonutProgress) findViewById(R.id.donut_progress);
+        progressCircle = findViewById(R.id.donut_progress);
 
         progressCircle.setMax(iRestTime);
 

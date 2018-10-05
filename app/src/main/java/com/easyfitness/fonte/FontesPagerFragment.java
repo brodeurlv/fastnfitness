@@ -49,7 +49,7 @@ public class FontesPagerFragment extends Fragment {
 		View view =  inflater.inflate(R.layout.pager, container, false); 
 		
 		// Locate the viewpager in activity_main.xml
-        mViewPager = (ViewPager) view.findViewById(R.id.pager);
+        mViewPager = view.findViewById(R.id.pager);
 		
 		if (mViewPager.getAdapter()==null) {
 

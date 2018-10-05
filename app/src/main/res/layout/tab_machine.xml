@@ -11,6 +11,24 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"    >
 
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+
+		<Button
+			android:id="@+id/addExercise"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:background="@android:color/white"
+			android:text="@string/AddLabel" />
+
+
+	</LinearLayout>
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

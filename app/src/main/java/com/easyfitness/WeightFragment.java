@@ -166,12 +166,12 @@ public class WeightFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_weight, container, false);
 
-        addWeightButton = (Button) view.findViewById(R.id.buttonAddWeight);
-        weightEdit = (EditText) view.findViewById(R.id.editWeight);
+        addWeightButton = view.findViewById(R.id.buttonAddWeight);
+        weightEdit = view.findViewById(R.id.editWeight);
         //resumeText = (TextView) view.findViewById(R.id.textResume);
         //profilText = (TextView) view.findViewById(R.id.textProfil);
-        dateEdit = (EditText) view.findViewById(R.id.profilEditDate);
-        weightList = (ExpandedListView) view.findViewById(R.id.listWeightProfil);
+        dateEdit = view.findViewById(R.id.profilEditDate);
+        weightList = view.findViewById(R.id.listWeightProfil);
 
         /* Initialisation serie */
 
@@ -184,7 +184,7 @@ public class WeightFragment extends Fragment {
         /* Initialisation des evenements */
 
         // Add the other graph
-        mChart = (LineChart) view.findViewById(R.id.weightChart);
+        mChart = view.findViewById(R.id.weightChart);
         mChart.setDescription(null);
         mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
 
