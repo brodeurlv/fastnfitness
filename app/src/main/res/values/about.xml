@@ -12,6 +12,8 @@
 	<string name="revision_history" translatable="false">\n
 		V0.16 : 08/10/2018 \n
             \t - Enhancement : Added button to add machines (Thanks to geniusupgrader)\n
+            \t - Enhancement : Possible to set exercise as Favorite in the list \n
+            \t - Enhancement : Possibility to edit exercise from main screen by \n clicking on the exercise picture\n
         V0.15.2 : 19/09/2018 \n
             \t - Enhancement : Better intro for profile creation\n
         V0.15.1 : 13/09/2018 \n

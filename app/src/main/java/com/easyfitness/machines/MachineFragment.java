@@ -112,9 +112,6 @@ public class MachineFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			// Get Machine Name selected
-			TextView textView = view.findViewById(R.id.LIST_MACHINE_NAME);
-			String machineName = textView.getText().toString();
-
 			TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
 			long machineId = Long.valueOf(textViewID.getText().toString());
 

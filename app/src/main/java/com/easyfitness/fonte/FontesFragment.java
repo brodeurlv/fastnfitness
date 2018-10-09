@@ -49,6 +49,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
+import com.easyfitness.machines.MachineDetailsFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
@@ -494,6 +495,23 @@ public class FontesFragment extends Fragment {
 		mDb = new DAOFonte(getContext());
 		mDbMachine = new DAOMachine (getContext());
 		dateEdit.setText(DateConverter.currentDate());
+
+		machineImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
+                if (m!=null) {
+                    MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                    android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                }
+            }
+        });
 
 		// Inflate the layout for this fragment
 		return view;
