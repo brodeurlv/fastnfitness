@@ -53,7 +53,7 @@ public class CountdownDialogbox extends Dialog implements
             //progressBar.setProgress(iRestTime + secElapsed);
             progressCircle.setProgress(iRestTime + secElapsed);
             if (secElapsed >= -2) { // Vibrate
-                if (bFirst==false) {
+                if (!bFirst) {
                     Vibrator v = (Vibrator) c.getApplicationContext().getSystemService(c.getApplicationContext().VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

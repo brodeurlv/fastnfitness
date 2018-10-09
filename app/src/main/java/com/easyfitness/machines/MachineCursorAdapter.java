@@ -9,17 +9,23 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 public class MachineCursorAdapter extends CursorAdapter {
 	 
 	 private LayoutInflater mInflater;
 	 private Context mContext = null;
+	 DAOMachine mDbMachine = null;
+	 MaterialFavoriteButton iFav = null;
 	 
-	 public MachineCursorAdapter(Context context, Cursor c, int flags) {
+	 public MachineCursorAdapter(Context context, Cursor c, int flags, DAOMachine pDbMachine) {
 		super(context, c, flags);
 		mContext = context;
+		mDbMachine = pDbMachine;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	 }
 	 
@@ -50,13 +56,26 @@ public class MachineCursorAdapter extends CursorAdapter {
 	    	  i0.setImageResource(R.drawable.ic_machine);
 	      }
 
-		 ImageView iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);
+		 iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);
 		 boolean bFav = cursor.getInt(6)== 1;
-		 if(bFav) {
-			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
-		 } else {
-			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_off));
-		 }
+		 iFav.setFavorite(bFav);
+         iFav.setRotationDuration(500);
+         iFav.setAnimateFavorite(true);
+		 iFav.setTag(cursor.getLong(0));
+
+         iFav.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 MaterialFavoriteButton mFav = (MaterialFavoriteButton)v;
+                 boolean t = mFav.isFavorite();
+                 mFav.setFavoriteAnimated(!t);
+                 if(mDbMachine != null) {
+                     Machine m = mDbMachine.getMachine((long) mFav.getTag());
+                     m.setFavorite(!t);
+                     mDbMachine.updateMachine(m);
+                 }
+             }
+         });
 	 }
 
 	 @Override

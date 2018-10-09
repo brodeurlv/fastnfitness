@@ -203,7 +203,7 @@ public class FontesFragment extends Fragment {
                 machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
-                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0);
+                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0, mDbMachine);
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
 					machineList.setAdapter(mTableAdapter);
 				} else {

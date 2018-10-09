@@ -194,7 +194,7 @@ public class MachineFragment extends Fragment {
 					machineList.setAdapter(null);
 				} else {
 					if ( machineList.getAdapter() == null ) {
-                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0);
+                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
 						machineList.setAdapter(mTableAdapter);
 					} else {				
 						MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
