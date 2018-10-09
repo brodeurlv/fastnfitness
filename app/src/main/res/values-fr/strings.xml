@@ -28,7 +28,7 @@
     
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
-    <string name="SerieLabel">Series</string>
+    <string name="SerieLabel">Séries</string>
     <string name="RepetitionLabel">Répétitions</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
@@ -153,7 +153,7 @@
     <string name="adducteurs">Adducteurs</string>
     <string name="mollets">Mollets</string>
 
-    <string name="selectMuscles">Selectionnez les muscles concernés</string>
+    <string name="selectMuscles">Sélectionnez les muscles concernés</string>
 
 
     <string name="backDialog_confirm_text">Voulez-vous sauver avant de quitter ?</string>
@@ -204,7 +204,7 @@
     <string name="total_weight">Poids total</string>
     <string name="pref_preferredUnitSummary">"Unité préférée : "</string>
     <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
-    <string name="selectMachineDialogLabel">Selectionne une machine existante</string>
+    <string name="selectMachineDialogLabel">Sélectionne une machine existante</string>
     <string name="introSlide2Title">Facile et Rapide</string>
     <string name="introSlide2Text">Ecris le nom de ton exercice et les details de ta série et la machine s\'enregistre automatiquement quand tu cliques sur \"ajouter\". Retrouve la ensuite facilement dans la liste déroulante.</string>
     <string name="introSlide1Text">Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l\'évolution de votre corps.</string>
