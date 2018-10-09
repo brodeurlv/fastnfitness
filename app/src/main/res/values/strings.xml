@@ -31,7 +31,7 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
-    <string name="SerieLabel">Series</string>
+    <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel">Repetitions</string>
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercise</string>
@@ -185,9 +185,9 @@
 
 
     <string name="backDialog_confirm_text">Do you want to save before exit ?</string>
-    <string name="deleteMachine_confirm_text">Do you want to delete this machine ? All associated records will be deleted</string>
+    <string name="deleteMachine_confirm_text">Do you want to delete this exercise ? All associated records will be deleted</string>
     <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine ? All associated records will be deleted</string>
-    <string name="renameMachine_warning_text">WARNING: this machine name already exists. Records will be merged with the other machine.</string>
+    <string name="renameMachine_warning_text">WARNING: this exercise name already exists. Records will be merged with the other exercise.</string>
 	<string name="renameMachine_error_text">This name already exists, please select an other name.</string>
     
 	
@@ -212,10 +212,10 @@
     <string name="WeightHint">Enter your weight here</string>
     <string name="total_weight">Total weight</string>
     <string name="total_session">Total during session</string>
-    <string name="total_machine">Total on machine</string>
+    <string name="total_machine">Total on exercise</string>
     <string name="nb_serie">Nb Serie</string>
     <string name="exit">Exit</string>
-    <string name="selectMachineDialogLabel">Select an existing Machine</string>
+    <string name="selectMachineDialogLabel">Select an existing exercise</string>
 
     <!-- Intro slides -->
     <string name="fillAllFields">Please fill all the fields</string>
