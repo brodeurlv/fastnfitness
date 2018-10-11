@@ -37,6 +37,7 @@ public class AboutFragment extends Fragment {
     private TextView mpkToast = null;
     private TextView mpSweetAlertDialog = null;
     private TextView mpAndroidImageCropper = null;
+    private TextView mpMaterialFavoriteButton = null;
 
 	/**
      * Create a new instance of DetailsFragment, initialized to
@@ -84,6 +85,7 @@ public class AboutFragment extends Fragment {
         mpkToast = view.findViewById(R.id.ktoast);
         mpSweetAlertDialog = view.findViewById(R.id.SweetAlertDialog);
         mpAndroidImageCropper = view.findViewById(R.id.AndroidImageCropper);
+        mpMaterialFavoriteButton = view.findViewById(R.id.MaterialFavoriteButton);
 
 
 
@@ -100,6 +102,7 @@ public class AboutFragment extends Fragment {
         mpkToast.setOnClickListener(clickLicense);
         mpSweetAlertDialog.setOnClickListener(clickLicense);
         mpAndroidImageCropper.setOnClickListener(clickLicense);
+        mpMaterialFavoriteButton.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -196,6 +199,12 @@ public class AboutFragment extends Fragment {
                     name = "Android-Image-Cropper";
                     url = "https://github.com/ArthurHub/Android-Image-Cropper";
                     copyright = "Arthur Teplitzki";
+                    license = new ApacheSoftwareLicense20();
+                    break;
+                case R.id.MaterialFavoriteButton:
+                    name = "Material Favorite Button";
+                    url = "https://github.com/IvBaranov/MaterialFavoriteButton";
+                    copyright = "Ivan Baranov";
                     license = new ApacheSoftwareLicense20();
                     break;
 			}

@@ -34,7 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(DAOCardio.TABLE_CREATE);
 		db.execSQL(DAOMachine.TABLE_CREATE);
 		db.execSQL(DAOBodyMeasure.TABLE_CREATE);
-		//onUpgrade(db, 0, DATABASE_VERSION);	
 	}
 
 	@Override

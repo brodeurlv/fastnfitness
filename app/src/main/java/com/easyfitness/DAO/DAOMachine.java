@@ -178,6 +178,19 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name
      */
+    public Cursor getAllMachines(int type) {
+        // Select All Query
+        String selectQuery = "";
+        selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
+                + FAVORITES + " DESC," + NAME + " ASC";
+
+        // return value list
+        return getMachineListCursor(selectQuery);
+    }
+
+    /**
+     * @return List of Machine object ordered by Favorite and Name
+     */
     public void deleteAllEmptyExercises() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, NAME + " = ?",

@@ -196,7 +196,7 @@ public class FontesFragment extends Fragment {
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-            c = mDbMachine.getAllMachines();
+            c = mDbMachine.getAllMachines(DAOMachine.TYPE_FONTE);
 
             if (c == null || c.getCount() == 0) {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();

@@ -94,7 +94,7 @@ public class DAOFonte extends DAOBase {
 		value.put(DAOFonte.MACHINE_KEY, machine_key);
 		value.put(DAOFonte.TIME, pTime);
 		
-		SQLiteDatabase db = open();
+		SQLiteDatabase db = this.getWritableDatabase();
 		new_id = db.insert(DAOFonte.TABLE_NAME, null, value);		
 		close();
 		
