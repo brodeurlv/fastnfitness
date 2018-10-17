@@ -186,7 +186,7 @@ public class WeightFragment extends Fragment {
         // Add the other graph
         mChart = view.findViewById(R.id.weightChart);
         mChart.setDescription(null);
-        mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+        mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
 
         mWeightDb = new DAOWeight(view.getContext());
 

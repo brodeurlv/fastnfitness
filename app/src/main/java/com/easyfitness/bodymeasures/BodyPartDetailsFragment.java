@@ -182,7 +182,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		// Add the other graph
 		mChart = view.findViewById(R.id.weightChart);
 		mChart.setDescription(null);
-		mGraph = new Graph(mChart, "");
+		mGraph = new Graph(getContext(), mChart, "");
 		mBodyMeasureDb = new DAOBodyMeasure(view.getContext());
 
 		// Set Initial text
