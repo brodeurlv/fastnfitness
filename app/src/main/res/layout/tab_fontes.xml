@@ -66,7 +66,6 @@
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                        android:nextFocusForward="@+id/editSerie"
                         android:singleLine="true" />
 
                     <ImageButton
@@ -86,11 +85,12 @@
                 <LinearLayout
                     android:id="@+id/minmaxLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="10"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,9 +130,20 @@
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/maxText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:text="Exercise Type :" />
 
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
@@ -144,7 +155,7 @@
                     android:id="@+id/bodyBuildingSelection"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green"
+                    android:background="@color/background_odd"
                     android:gravity="center"
                     android:text="@string/FonteLabel" />
 
@@ -169,10 +180,11 @@
 
         <LinearLayout
             android:id="@+id/bodybuildingLayout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
@@ -200,7 +212,7 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="3"
-                        android:nextFocusDown="@+id/editRepetition"
+
                         android:text="2" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -231,7 +243,7 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="3"
-                        android:nextFocusDown="@+id/editPoids"
+
                         android:text="10" />
 
                 </LinearLayout>
@@ -285,20 +297,19 @@
         <LinearLayout
             android:id="@+id/cardioLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
-                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="30">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -314,8 +325,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:inputType="numberDecimal"
-                        android:nextFocusDown="@+id/editDuration" />
+                        android:inputType="numberDecimal" />
+
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -328,7 +339,7 @@
                 android:layout_weight="30">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -404,11 +415,11 @@
                             android:layout_gravity="start"
                             android:ems="9"
                             android:inputType="none|date"
-                            android:maxLines="1"
-                            android:nextFocusDown="@+id/editMachine"/>
+                            android:maxLines="1" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/restTimeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -444,12 +455,12 @@
                             android:id="@+id/editRestTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="8dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
                             android:ems="4"
                             android:inputType="none|number"
-                            android:nextFocusForward="@id/editMachine"
-                            android:text="60"/>
+
+                            android:text="60" />
                     </LinearLayout>
 
                     <LinearLayout

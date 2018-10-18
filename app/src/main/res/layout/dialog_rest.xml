@@ -25,6 +25,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
+            android:rotation="-90"
             custom:donut_show_text="false" />
 
         <gr.antoniom.chronometer.Chronometer

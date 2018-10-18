@@ -440,6 +440,170 @@ public class DAORecord extends DAOBase {
         return lReturn;
     }
 
+    /**
+     * @return the last record for a profile p
+     */
+    public Record getLastExerciseRecord(long machineID) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        Record lReturn = null;
+
+        // Select All Machines
+        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
+        ;*/
+
+        String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
+                + " WHERE " + MACHINE_KEY + "=" + machineID;
+        ;
+        mCursor = db.rawQuery(selectQuery, null);
+
+        // looping through only the first rows.
+        if (mCursor.moveToFirst()) {
+            try {
+                long value = mCursor.getLong(0);
+                lReturn = this.getRecord(value);
+            } catch (NumberFormatException e) {
+                lReturn = null; // Return une valeur
+            }
+        }
+
+        close();
+
+        // return value list
+        return lReturn;
+    }
+
+    /**
+     * @return the last record for a profile p
+     */
+    public Record getLastExerciseRecord(long machineID, Profile p) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        Record lReturn = null;
+
+        String selectQuery;
+        if (p == null) {
+            selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
+                    + " WHERE " + MACHINE_KEY + "=" + machineID;
+        } else {
+            selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
+                    + " WHERE " + MACHINE_KEY + "=" + machineID + " AND " + PROFIL_KEY + "=" + p.getId();
+        }
+        mCursor = db.rawQuery(selectQuery, null);
+
+        // looping through only the first rows.
+        if (mCursor.moveToFirst()) {
+            try {
+                long value = mCursor.getLong(0);
+                lReturn = this.getRecord(value);
+            } catch (NumberFormatException e) {
+                lReturn = null; // Return une valeur
+            }
+        }
+
+        close();
+
+        // return value list
+        return lReturn;
+    }
+
+    // Get all record for one Machine
+    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
+        return getAllRecordByMachinesArray(pProfile, pMachines, -1);
+    }
+
+    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
+        String mTop;
+        if (pNbRecords == -1) mTop = "";
+        else mTop = " LIMIT " + pNbRecords;
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+
+        // return value list
+        return getRecordsList(selectQuery);
+    }
+
+    // Getting All Records
+    private List<Record> getRecordsList(String pRequest) {
+        List<Record> valueList = new ArrayList<Record>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Select All Query
+        String selectQuery = pRequest;
+
+        mCursor = null;
+        mCursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
+            do {
+                //Get Date
+                Date date;
+                try {
+                    SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    date = new Date();
+                }
+
+                //Get Profile
+                DAOProfil lDAOProfil = new DAOProfil(mContext);
+                Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.PROFIL_KEY)));
+
+                long machine_key = -1;
+
+                //Test is Machine exists. If not create it.
+                DAOMachine lDAOMachine = new DAOMachine(mContext);
+                if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)), "");
+                } else {
+                    machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
+                }
+
+                Record value = new Record(date,
+                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)),
+                        lProfile,
+                        machine_key,
+                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.TIME)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)));
+
+                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));
+
+                // Adding value to list
+                valueList.add(value);
+            } while (mCursor.moveToNext());
+        }
+        // return value list
+        return valueList;
+    }
+
+    // Updating single value
+    public int updateRecord(Record m) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues value = new ContentValues();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));
+        value.put(DAOFonte.EXERCISE, m.getExercise());
+        value.put(DAOFonte.PROFIL_KEY, m.getProfilKey());
+        value.put(DAOFonte.TIME, m.getTime());
+        value.put(DAOFonte.TYPE, m.getType());
+
+        // updating row
+        return db.update(TABLE_NAME, value, KEY + " = ?",
+                new String[]{String.valueOf(m.getId())});
+    }
+
     public void closeCursor() {
         if (mCursor != null) mCursor.close();
     }

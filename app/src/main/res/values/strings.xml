@@ -19,7 +19,6 @@
     
 	<string name="FunctionLabel">Display</string>
     <string name="HistoryLabel">History</string>
-    <string name="RecordsLabel">Records</string>
     <string name="GraphLabel">Graphs</string>
     <string name="AddLabel">Add</string>
     <string name="AddSmallLabel">Add</string>
@@ -28,9 +27,9 @@
     <string name="EditLabel">Edit</string>
     <string name="DeleteRecordDialog">Remove this record ?</string>
 
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
+    <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel">Repetitions</string>
     <string name="RepetitionLabel_short">Reps</string>

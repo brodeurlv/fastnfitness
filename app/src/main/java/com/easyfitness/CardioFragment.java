@@ -24,13 +24,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TimePicker;
 
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.fonte.RecordCursorAdapter;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.ExpandedListView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.ParseException;
@@ -38,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 @SuppressLint("ValidFragment")
 public class CardioFragment extends Fragment {
@@ -51,7 +54,7 @@ public class CardioFragment extends Fragment {
 	Button addButton = null;
 	Button chronoButton = null;
 	Button paramButton = null;
-    ListView recordList = null;
+    ExpandedListView recordList = null;
     String[] exerciceListArray = null;
     ImageButton exerciceListButton = null;
 	ImageButton launchChronoButton = null;
@@ -310,10 +313,42 @@ public class CardioFragment extends Fragment {
 			recordList.setAdapter(null);
 		} else {
 			// ...
-            CardioCursorAdapter mTableAdapter = new CardioCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0);
-			recordList.setAdapter(mTableAdapter);
+            RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
+            mTableAdapter.setFirstColorOdd(records.size() % 2);
+            recordList.setAdapter(mTableAdapter);
 		}
 	}
+
+    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+        @Override
+        public void onBtnClick(long id) {
+            showDeleteDialog(id);
+        }
+    };
+
+    private void showDeleteDialog(final long idToDelete) {
+
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        mDb.deleteRecord(idToDelete);
+
+                        FillRecordTable(exerciceEdit.getText().toString());
+
+                        //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                        // Info
+                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+    }
 
 	private void showDatePicker() {
 		if (mDateFrag==null) {

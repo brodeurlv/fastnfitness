@@ -109,7 +109,6 @@ public class DAOFonte extends DAORecord {
 
     // Getting All Records
     private Cursor getRecordsListCursor(String pRequest) {
-        List<Fonte> valueList = new ArrayList<Fonte>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
         String selectQuery = pRequest;
@@ -123,8 +122,9 @@ public class DAOFonte extends DAORecord {
 	// Getting All Records
     public List<Fonte> getAllBodyBuildingRecords() {
 		// Select All Query
-		String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " ORDER BY "
-				+ DATE + " DESC," + KEY + " DESC";
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + TYPE + "=" + DAOMachine.TYPE_FONTE
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list
 		return getRecordsList(selectQuery);
@@ -142,9 +142,10 @@ public class DAOFonte extends DAORecord {
 
 
         // Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME +
-				" WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
-				" ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop ;
+        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
 		// Return value list
 		return getRecordsList(selectQuery);
@@ -223,6 +224,7 @@ public class DAOFonte extends DAORecord {
 	}
 
     // Get all record for one Machine
+    /*
     public List<Fonte> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
         return getAllRecordByMachinesArray(pProfile, pMachines, -1);
     }
@@ -241,13 +243,15 @@ public class DAOFonte extends DAORecord {
 		// return value list
 		return getRecordsList(selectQuery);
 	}
+	*/
 
 	// Get all record for one Date
 	public List<Fonte> getAllRecordByDate(Profile pProfile, String pDate) {
 		// Select All Query
 		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
+                + " WHERE " + DATE + "=\"" + pDate + "\""
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
 				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list
@@ -260,6 +264,7 @@ public class DAOFonte extends DAORecord {
         String selectQuery = "SELECT " + KEY + "," + DATE + "," + EXERCISE + ", SUM(" + SERIE + ")," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + pDate + "\""
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
                 + " GROUP BY " + DATE + "," + EXERCISE + "," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY
 				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
@@ -282,7 +287,8 @@ public class DAOFonte extends DAORecord {
         ;*/
 
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE;
         ;
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -514,40 +520,7 @@ public class DAOFonte extends DAORecord {
 				new String[] { String.valueOf(m.getId()) });
 	}
 
-    /**
-     * @return the last record for a profile p
-     */
-    public Fonte getLastMachineRecord(long machineID) {
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-        Fonte lReturn = null;
-
-        // Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
-
-        String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + MACHINE_KEY + "=" + machineID;
-        ;
-        mCursor = db.rawQuery(selectQuery, null);
-
-        // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
-            try {
-                long value = mCursor.getLong(0);
-                lReturn = this.getBodyBuildingRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
-            }
-        }
-
-        close();
-
-        // return value list
-        return lReturn;
-    }
 
 
     public void populate() {

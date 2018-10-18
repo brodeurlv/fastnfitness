@@ -150,8 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
         loadPreferences();
 
-        if (DatabaseHelper.DATABASE_VERSION == 15) {
-            DatabaseHelper.renameOldDatabase(this);
+        DatabaseHelper.renameOldDatabase(this);
+
+        if (DatabaseHelper.DATABASE_VERSION >= 15) {
             DAOOldCardio mDbOldCardio = new DAOOldCardio(this);
             if (mDbOldCardio.tableExists()) {
                 DAOCardio mDbCardio = new DAOCardio(this);
@@ -160,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
                     mDbCardio.addCardioRecord(record.getDate(), "00:00", record.getExercice(), record.getDistance(), record.getDuration(), record.getProfil());
                 }
                 mDbOldCardio.dropTable();
-            }
 
-            DAOFonte mDbFonte = new DAOFonte(this);
-            List<Fonte> mFonteList = mDbFonte.getAllBodyBuildingRecords();
-            for (Fonte record : mFonteList) {
-                mDbFonte.updateRecord(record); // Automatically update record Type
+                DAOFonte mDbFonte = new DAOFonte(this);
+                List<Fonte> mFonteList = mDbFonte.getAllBodyBuildingRecords();
+                for (Fonte record : mFonteList) {
+                    mDbFonte.updateRecord(record); // Automatically update record Type
+                }
             }
         }
 		

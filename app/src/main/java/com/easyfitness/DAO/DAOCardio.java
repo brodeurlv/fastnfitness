@@ -39,7 +39,8 @@ public class DAOCardio extends DAORecord {
 
     // Getting single value
     public Cardio getRecord(long id) {
-        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + KEY + "=" + id;
         List<Cardio> valueList = new ArrayList<Cardio>();
 
         valueList = getRecordsList(selectQuery);
@@ -94,8 +95,8 @@ public class DAOCardio extends DAORecord {
 	// Getting All Records
 	public List<Cardio> getAllRecords() {
 		// Select All Query
-		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME + " ORDER BY "
-                + KEY + " DESC";
+        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " ORDER BY " + KEY + " DESC";
 
 		// return value list
 		return getRecordsList(selectQuery);
@@ -104,9 +105,10 @@ public class DAOCardio extends DAORecord {
 	// Getting All Records
 	public List<Cardio> getAllCardioRecordsByProfile(Profile pProfile) {
         // Select All Query
-		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME +
-                " WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
-				" ORDER BY " + KEY + " DESC";
+        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
+                + " ORDER BY " + KEY + " DESC";
 
 		// return value list
 		return getRecordsList(selectQuery);
@@ -115,8 +117,9 @@ public class DAOCardio extends DAORecord {
 	// Getting Top 10 Records
 	public List<Cardio> getTop10Records(Profile pProfile) {
 		// Select All Query
-		String selectQuery = "SELECT TOP 10 * FROM " + TABLE_NAME+ 
-				" WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+        String selectQuery = "SELECT TOP 10 * FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
 				+ " ORDER BY " + KEY + " DESC";
 
 		// return value list
@@ -213,8 +216,10 @@ public class DAOCardio extends DAORecord {
 		mCursor = null;
 
 		// Select All Machines
-		String selectQuery = "SELECT DISTINCT  " + EXERCISE + " FROM "
-                + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+        String selectQuery = "SELECT DISTINCT  " + EXERCISE + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
+                + " ORDER BY " + EXERCISE + " ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();
@@ -259,6 +264,7 @@ public class DAOCardio extends DAORecord {
 		String selectQuery = "SELECT * FROM " + TABLE_NAME 
 				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
 				+ " ORDER BY " + KEY + " DESC";
 
 		// return value list

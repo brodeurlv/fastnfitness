@@ -165,7 +165,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			isExist = false;
 		}
 
-
         return isExist;
     }
 

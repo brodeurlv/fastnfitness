@@ -55,7 +55,7 @@ public class FontesPagerFragment extends Fragment {
 
 			pagerAdapter = new FragmentPagerItemAdapter(
                     getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                    .add(R.string.FonteLabel, FontesFragment.class)
+                    .add(R.string.RecordLabel, FontesFragment.class)
                     .add(R.string.GraphLabel, FonteGraphFragment.class)
                     .add(R.string.HistoryLabel, FonteHistoryFragment.class)
                     .create());

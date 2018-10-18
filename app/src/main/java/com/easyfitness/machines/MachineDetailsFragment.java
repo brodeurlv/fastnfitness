@@ -33,13 +33,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
-import com.easyfitness.DAO.Fonte;
+import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
@@ -74,6 +75,12 @@ public class MachineDetailsFragment extends Fragment {
 	MaterialFavoriteButton machineFavorite = null;
     LinearLayout machinePhotoLayout = null;
 
+    // Selection part
+    LinearLayout exerciseTypeSelectorLayout = null;
+    TextView bodybuildingSelector = null;
+    TextView cardioSelector = null;
+    int selectedType = DAOMachine.TYPE_FONTE;
+
 	Toolbar top_toolbar = null;
 	
 	String machineNameArg = null;
@@ -92,7 +99,8 @@ public class MachineDetailsFragment extends Fragment {
 	protected CharSequence[] _muscles = { "Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs", "Uranus", "Neptune", "Neptune" };
 	protected boolean[] _selections =  new boolean[ _muscles.length ];
 	DAOMachine mDbMachine = null;
-	
+    Machine mMachine;
+
 	View fragmentView = null;
 
 	ImageUtil imgUtil = null;
@@ -147,6 +155,9 @@ public class MachineDetailsFragment extends Fragment {
 			}
 		});
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
+        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
+        cardioSelector = view.findViewById(R.id.cardioSelection);
+        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
@@ -167,6 +178,8 @@ public class MachineDetailsFragment extends Fragment {
 		//machineFavorite.setOnClickListener(onClickFavoriteItem);
 		musclesList.setOnClickListener(onClickMusclesList);
 		musclesList.setOnFocusChangeListener(onFocusMachineList);
+        //bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
+        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
 		machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
 		machinePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,17 +216,36 @@ public class MachineDetailsFragment extends Fragment {
         });
 		machineAction.setOnClickListener(onClickMachinePhoto);
 
-		Machine temp = mDbMachine.getMachine(machineIdArg);
-		machineNameArg = temp.getName();
+        mMachine = mDbMachine.getMachine(machineIdArg);
+        machineNameArg = mMachine.getName();
 
 		//if (machineNameArg.equals("")) {requestForSave();}
 
 		machineName.setText(machineNameArg);
-		machineDescription.setText(temp.getDescription());	
-		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
-		mCurrentPhotoPath = temp.getPicture();
-        isFavorite=temp.getFavorite();
+        machineDescription.setText(mMachine.getDescription());
+        musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
+        mCurrentPhotoPath = mMachine.getPicture();
+        isFavorite = mMachine.getFavorite();
 		machineFavorite.setFavorite(isFavorite);
+
+        /*if ( machineNameArg.isEmpty() ) { // this is a new exercise so show the selector
+            exerciseTypeSelectorLayout.setVisibility(View.VISIBLE);
+        }else {
+            exerciseTypeSelectorLayout.setVisibility(View.GONE);
+        }*/
+        exerciseTypeSelectorLayout.setVisibility(View.GONE);
+
+        if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
+            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+            bodybuildingSelector.setVisibility(View.GONE);
+            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
+            selectedType = mMachine.getType();
+        } else {
+            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
+            cardioSelector.setVisibility(View.GONE);
+            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+            selectedType = mMachine.getType();
+        }
 
 	    view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -231,7 +263,12 @@ public class MachineDetailsFragment extends Fragment {
 	    		if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
 	        		ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
 	        	} else {
-	        		machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                    } else {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_running));
+                    }
+                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 	        	}
 	    		machinePhoto.setMaxHeight((int)(getView().getHeight()*0.2)); // Taille initiale
 	        }
@@ -475,6 +512,25 @@ public class MachineDetailsFragment extends Fragment {
         }
 	};
 
+    private OnClickListener clickExerciseTypeSelector = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.cardioSelection:
+                    cardioSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+                    bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
+                    selectedType = DAOMachine.TYPE_CARDIO;
+                    break;
+                case R.id.bodyBuildingSelection:
+                default:
+                    cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
+                    bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+                    selectedType = DAOMachine.TYPE_FONTE;
+                    break;
+            }
+        }
+    };
+
 	public void setMuscleText(String t) {
 		musclesList.setText(t);
 	}
@@ -536,9 +592,8 @@ public class MachineDetailsFragment extends Fragment {
 			Machine m2 = this.mDbMachine.getMachine(lMachineName);
 		
 			// Si une machine existe avec le meme nom => Merge
-			if (m2!=null && m2.getId()!=m.getId())	
+            if (m2 != null && m2.getId() != m.getId() && m2.getType() == m.getType())
 			{
-				
 				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 	
 				dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
@@ -547,18 +602,18 @@ public class MachineDetailsFragment extends Fragment {
 				dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) {	
 			        	// Rename all the records with that machine and rename them
-			        	DAOFonte lDbFonte = new DAOFonte(getThis().getView().getContext());
+                        DAORecord lDbRecord = new DAORecord(getThis().getView().getContext());
 			        	DAOProfil mDbProfil = new DAOProfil(getView().getContext());						
 			        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 			        	String lMachineName = machineName.getText().toString();
 			        	Machine m = mDbMachine.getMachine(machineNameArg);
 			        	Machine m2 = mDbMachine.getMachine(lMachineName);
 
-                        List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
-						for (Fonte record : listRecords) {
+                        List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+                        for (Record record : listRecords) {
                             record.setExercise(lMachineName); // Change avec le nouveau nom
                             record.setExerciseKey(m2.getId()); // Met l'ID de la nouvelle machine
-							lDbFonte.updateRecord(record); // Met a jour
+                            lDbRecord.updateRecord(record); // Met a jour
 						}	
 						
 						mDbMachine.deleteRecord(m); // Supprime l'ancienne machine
@@ -586,18 +641,19 @@ public class MachineDetailsFragment extends Fragment {
 				m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 				m.setPicture(this.mCurrentPhotoPath);
                 m.setFavorite(isFavorite);
+                m.setType(selectedType);
 
 				this.mDbMachine.updateMachine(m);
 				
 	        	// Rename all the records with that machine and rename them
-                DAOFonte lDbFonte = new DAOFonte(getContext());
+                DAORecord lDbRecord = new DAORecord(getContext());
                 DAOProfil mDbProfil = new DAOProfil(getContext());
 	        	Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-                List<Fonte> listRecords = lDbFonte.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
-				for (Fonte record : listRecords) {
+                List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, machineNameArg); // Recupere tous les records de la machine courante
+                for (Record record : listRecords) {
                     record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECTED)
                     //record.setExerciseKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
-					lDbFonte.updateRecord(record); // met a jour
+                    lDbRecord.updateRecord(record); // met a jour
 				}
 
 				machineSave.setVisibility(View.GONE);
@@ -612,6 +668,7 @@ public class MachineDetailsFragment extends Fragment {
 			m.setBodyParts(this.getDBStringFromInput(this.musclesList.getText().toString()));
 			m.setPicture(this.mCurrentPhotoPath);
             m.setFavorite(isFavorite);
+            m.setType(selectedType);
 
 			this.mDbMachine.updateMachine(m);
 
@@ -635,8 +692,8 @@ public class MachineDetailsFragment extends Fragment {
 			@Override
 	        public void onClick(DialogInterface dialog, int which) {
 				// Suppress the machine
-				Machine m = mDbMachine.getMachine(machineIdArg);
-				mDbMachine.deleteRecord(m);
+                //Machine m = mDbMachine.getMachine(machineIdArg);
+                mDbMachine.deleteRecord(mMachine);
 	        	// Suppress the associated Fontes records
 	        	deleteRecordsAssociatedToMachine();
 	        	getActivity().onBackPressed();
@@ -657,15 +714,15 @@ public class MachineDetailsFragment extends Fragment {
 	}
 	
 	private void deleteRecordsAssociatedToMachine() {
-			DAOFonte mDbFonte = new DAOFonte(getContext());
-			DAOProfil mDbProfil = new DAOProfil(getContext());
-			
-			Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
+        DAORecord mDbRecord = new DAORecord(getContext());
+        DAOProfil mDbProfil = new DAOProfil(getContext());
 
-        List<Fonte> listRecords = mDbFonte.getAllRecordByMachinesArray(lProfile, this.machineNameArg);
-			for (Fonte record : listRecords) {
-                mDbFonte.deleteRecord(record.getId());
-			}						
+        Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
+
+        List<Record> listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, this.machineNameArg);
+        for (Record record : listRecords) {
+            mDbRecord.deleteRecord(record.getId());
+        }
 	}
 	
 	public TextWatcher watcher = new TextWatcher() {
