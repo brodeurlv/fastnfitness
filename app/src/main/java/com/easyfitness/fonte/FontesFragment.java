@@ -54,6 +54,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
+import com.easyfitness.machines.MachineDetailsFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
@@ -285,7 +286,7 @@ public class FontesFragment extends Fragment {
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-            c = mDbMachine.getAllMachines();
+            c = mDbMachine.getAllMachines(DAOMachine.TYPE_FONTE);
 
             if (c == null || c.getCount() == 0) {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -293,7 +294,7 @@ public class FontesFragment extends Fragment {
                 machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
-                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0);
+                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0, mDbMachine);
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
 					machineList.setAdapter(mTableAdapter);
 				} else {
@@ -597,6 +598,23 @@ public class FontesFragment extends Fragment {
 
 		mDbMachine = new DAOMachine (getContext());
 		dateEdit.setText(DateConverter.currentDate());
+
+		machineImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
+                if (m!=null) {
+                    MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                    android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                }
+            }
+        });
 
 		// Inflate the layout for this fragment
 		return view;

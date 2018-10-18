@@ -14,7 +14,21 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/toolbar_background"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            android:padding="0dp">
+
+            <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                android:id="@+id/favButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                app:mfb_animate_favorite="true"
+                app:mfb_animate_unfavorite="true"
+                app:mfb_bounce_duration="700"
+                app:mfb_color="black"
+                app:mfb_rotation_angle="216"
+                app:mfb_rotation_duration="400"
+                app:mfb_type="star" />
 
             <ImageButton
                 android:id="@+id/action_machine_delete"
@@ -141,15 +155,21 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <ImageButton
+    <!--<com.github.ivbaranov.mfb.MaterialFavoriteButton
         android:id="@+id/favButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="5dp"
-        android:background="@android:drawable/btn_star_big_off"
+        app:mfb_animate_favorite="true"
+        app:mfb_animate_unfavorite="true"
+        app:mfb_rotation_duration="400"
+        app:mfb_rotation_angle="216"
+        app:mfb_bounce_duration="700"
+        app:mfb_color="black"
+        app:mfb_type="star"
         app:layout_anchor="@id/machine_photo"
-        app:layout_anchorGravity="top|left|start" />
+        app:layout_anchorGravity="top|left|start" />-->
 
 
     <android.support.design.widget.FloatingActionButton

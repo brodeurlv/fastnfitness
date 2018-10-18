@@ -112,9 +112,6 @@ public class MachineFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			// Get Machine Name selected
-			TextView textView = view.findViewById(R.id.LIST_MACHINE_NAME);
-			String machineName = textView.getText().toString();
-
 			TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
 			long machineId = Long.valueOf(textViewID.getText().toString());
 
@@ -194,7 +191,7 @@ public class MachineFragment extends Fragment {
 					machineList.setAdapter(null);
 				} else {
 					if ( machineList.getAdapter() == null ) {
-                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0);
+                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
 						machineList.setAdapter(mTableAdapter);
 					} else {				
 						MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());

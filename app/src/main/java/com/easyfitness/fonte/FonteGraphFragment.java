@@ -98,7 +98,7 @@ public class FonteGraphFragment extends Fragment {
 		
 		/* Initialise le graph */ 
 		mChart = view.findViewById(R.id.graphChart);
-		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+		mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
 
 		/* Initialisation de l'historique */
         if (mDb == null) mDb = new DAOFonte(getContext());

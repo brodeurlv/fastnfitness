@@ -44,6 +44,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -70,7 +71,7 @@ public class MachineDetailsFragment extends Fragment {
 	FloatingActionButton machineAction = null;
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
-	ImageButton machineFavorite = null;
+	MaterialFavoriteButton machineFavorite = null;
     LinearLayout machinePhotoLayout = null;
 
 	Toolbar top_toolbar = null;
@@ -135,6 +136,16 @@ public class MachineDetailsFragment extends Fragment {
         machineDelete = view.findViewById(R.id.action_machine_delete);
         machineSave = view.findViewById(R.id.action_machine_save);
 		machineFavorite = view.findViewById(R.id.favButton);
+		machineFavorite.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MaterialFavoriteButton mFav = (MaterialFavoriteButton)v;
+				boolean t = mFav.isFavorite();
+				mFav.setFavoriteAnimated(!t);
+				isFavorite=!t;
+				requestForSave();
+			}
+		});
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
@@ -153,7 +164,7 @@ public class MachineDetailsFragment extends Fragment {
 		// set events
         machineSave.setOnClickListener(onClickToolbarItem);
         machineDelete.setOnClickListener(onClickToolbarItem);
-		machineFavorite.setOnClickListener(onClickFavoriteItem);
+		//machineFavorite.setOnClickListener(onClickFavoriteItem);
 		musclesList.setOnClickListener(onClickMusclesList);
 		musclesList.setOnFocusChangeListener(onFocusMachineList);
 		machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
@@ -202,8 +213,8 @@ public class MachineDetailsFragment extends Fragment {
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
 		mCurrentPhotoPath = temp.getPicture();
         isFavorite=temp.getFavorite();
-        setFavImage(isFavorite);
-		
+		machineFavorite.setFavorite(isFavorite);
+
 	    view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
 	        @Override
@@ -800,11 +811,11 @@ public class MachineDetailsFragment extends Fragment {
 
 	private void setFavImage(boolean fav)
     {
-        if(fav) {
+        /*if(fav) {
             machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_on));
         } else {
             machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_off));
-        }
+        }*/
     }
 	
 }

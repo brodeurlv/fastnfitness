@@ -221,7 +221,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/RepetitionLabel" />
+                        android:text="@string/RepetitionLabel_short" />
 
                     <EditText
                         android:id="@+id/editRepetition"

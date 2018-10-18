@@ -1,5 +1,9 @@
 package com.easyfitness.graph;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -15,6 +19,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
+import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
@@ -28,10 +33,11 @@ public class Graph {
 
 	private LineChart mChart = null;
 	private String mChartName = null;
+	private Context mContext = null;
 
 	public enum zoomType {ZOOM_ALL, ZOOM_YEAR, ZOOM_MONTH, ZOOM_WEEK}
 
-	public Graph(LineChart chart, String name) {
+	public Graph(Context context, LineChart chart, String name) {
 		mChart = chart;
 		mChartName = name;
 		mChart.setDoubleTapToZoomEnabled(true);
@@ -39,10 +45,11 @@ public class Graph {
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
+
         IMarker marker = new CustomMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
         mChart.setMarker(marker);
 
-
+        mContext = context;
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
@@ -90,7 +97,18 @@ public class Graph {
         set1.setLineWidth(3f);
         set1.setCircleRadius(4f);
         set1.setDrawFilled(true);
+        if (Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.fade_blue);
+            set1.setFillDrawable(drawable);
+        }
+        else {
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+        }
         set1.setFillAlpha(100);
+        set1.setColor(mContext.getResources().getColor(R.color.toolbar_background));
+        set1.setCircleColor(mContext.getResources().getColor(R.color.toolbar_background));
+
 
 		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets*/

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="6dip">
     
     <TextView
         android:id="@+id/LIST_MACHINE_ID"
@@ -26,20 +28,27 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_machine" />
 
-    <ImageView
+    <com.github.ivbaranov.mfb.MaterialFavoriteButton
         android:id="@+id/LIST_MACHINE_FAVORITE"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:scaleType="fitCenter"
-        android:background="@android:drawable/btn_star_big_off" />
+        android:layout_centerVertical="true"
+        app:mfb_animate_favorite="true"
+        app:mfb_animate_unfavorite="true"
+        app:mfb_bounce_duration="700"
+        app:mfb_color="black"
+        app:mfb_rotation_angle="216"
+        app:mfb_rotation_duration="400"
+        app:mfb_type="star" />
 
     <TextView
         android:id="@+id/LIST_MACHINE_SHORT_DESCRIPTION"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentRight="false"
+        android:layout_toLeftOf="@+id/LIST_MACHINE_FAVORITE"
         android:layout_toRightOf="@id/LIST_MACHINE_PHOTO"
         android:ellipsize="marquee"
         android:singleLine="true"
@@ -48,12 +57,13 @@
 
     <TextView
         android:id="@+id/LIST_MACHINE_NAME"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/LIST_MACHINE_SHORT_DESCRIPTION"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentRight="false"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
+        android:layout_toLeftOf="@+id/LIST_MACHINE_FAVORITE"
         android:layout_toRightOf="@id/LIST_MACHINE_PHOTO"
         android:gravity="center_vertical"
         android:text="Example application"

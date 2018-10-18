@@ -78,6 +78,7 @@ dependencies {
     compile 'com.github.f0ris.sweetalert:library:1.5.3'
     compile 'com.github.onurkagan:ktoast:1.0.2'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    compile 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
     //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
     //    transitive = true;
     //}
