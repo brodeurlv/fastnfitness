@@ -76,7 +76,9 @@ public class CardioFragment extends Fragment {
 
 			Date date;
 			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse(dateEdit.getText().toString());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                date = dateFormat.parse(dateEdit.getText().toString());
 			} catch (ParseException e) {
 				e.printStackTrace();
 				date = new Date();

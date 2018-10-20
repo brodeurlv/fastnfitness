@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.ArrayList;
 
@@ -60,15 +61,8 @@ import java.util.ArrayList;
                 i0.setImageResource(R.drawable.ic_machine);
             }
 
-            ImageView iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
-            //DAOFavorites favDB = new DAOFavorites(getContext());
-
-            if (machine.getFavorite()) { //favDB.isFavorite(machine.getId(), mProfile.getId())) {
-                iFav.setImageDrawable(convertView.getResources().getDrawable(android.R.drawable.btn_star_big_on));
-            } else {
-                iFav.setImageDrawable(convertView.getResources().getDrawable(android.R.drawable.btn_star_big_off));
-            }
-
+            MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
+            iFav.setFavorite(machine.getFavorite());
             return convertView;
         }
     }

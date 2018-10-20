@@ -81,49 +81,6 @@
                         android:cropToPadding="false"
                         android:src="@drawable/list" />
                 </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/minmaxLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="10"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="@string/min" />
-
-                    <TextView
-                        android:id="@+id/minText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="40 kg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingEnd="5dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="5dp"
-                        android:paddingStart="20dp"
-                        android:text="@string/max" />
-
-                    <TextView
-                        android:id="@+id/maxText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="80 kg" />
-                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -184,12 +141,12 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="40">
 
                 <LinearLayout
@@ -220,12 +177,12 @@
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="40">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:orientation="vertical">
                     <!--android:layout_weight="40"-->
@@ -252,7 +209,7 @@
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="40">
 
                 <LinearLayout
@@ -289,6 +246,49 @@
                             android:layout_height="wrap_content"
                             android:entries="@array/fonte_units"
                             android:minEms="3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/minmaxLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="10"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="@string/min" />
+
+                        <TextView
+                            android:id="@+id/minText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="40 kg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingEnd="5dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="5dp"
+                            android:paddingStart="20dp"
+                            android:text="@string/max" />
+
+                        <TextView
+                            android:id="@+id/maxText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="80 kg" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>

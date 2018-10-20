@@ -95,7 +95,7 @@ public class DAORecord extends DAOBase {
         //Test is Machine exists. If not create it.
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         if (!lDAOMachine.machineExists(pMachine)) {
-            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "");
+            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "", false);
         } else {
             machine_key = lDAOMachine.getMachine(pMachine).getId();
         }
@@ -154,7 +154,7 @@ public class DAORecord extends DAOBase {
             //Test is Machine exists. If not create it.
             DAOMachine lDAOMachine = new DAOMachine(mContext);
             if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "");
+                machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false);
             } else {
                 machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
             }
@@ -563,7 +563,7 @@ public class DAORecord extends DAOBase {
                 //Test is Machine exists. If not create it.
                 DAOMachine lDAOMachine = new DAOMachine(mContext);
                 if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)), "");
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)), "", false);
                 } else {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
                 }

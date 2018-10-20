@@ -988,7 +988,7 @@ public class MainActivity extends AppCompatActivity {
                 //Test is Machine exists. If not create it.
                 DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
                 if (!lDAOMachine.machineExists(machineListArray[i])) {
-                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
+                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "", false);
                 }
             }
             mMigrationBD05done = true;

@@ -150,7 +150,7 @@ public class MachineFragment extends Fragment {
                             long temp_machine_key = -1;
                             String pMachine = "";
                             DAOMachine lDAOMachine = new DAOMachine(getContext());
-                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "");
+                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
                             sDialog.dismissWithAnimation();
 
                             MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
@@ -169,7 +169,7 @@ public class MachineFragment extends Fragment {
                             long temp_machine_key = -1;
                             String pMachine = "";
                             DAOMachine lDAOMachine = new DAOMachine(getContext());
-                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "");
+                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false);
                             sDialog.dismissWithAnimation();
 
                             MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());

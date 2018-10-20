@@ -1,7 +1,6 @@
 package com.easyfitness.fonte;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,15 +35,7 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
         int position=(Integer) v.getTag();
         Object object= getItem(position);
         Machine dataModel=(Machine)object;
-        Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
-
-        /*switch (v.getId())
-        {
-            case R.id.item_info:
-                Snackbar.make(v, "Release date " +dataModel.getFeature(), Snackbar.LENGTH_LONG)
-                        .setAction("No action", null).show();
-                break;
-        }*/
+        //Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
     }
 
     private int lastPosition = -1;
@@ -65,7 +56,7 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
             convertView = inflater.inflate(R.layout.simplemachinelist_row, parent, false);
             viewHolder.txtID = convertView.findViewById(R.id.LIST_MACHINE_ID);
             viewHolder.txtName = convertView.findViewById(R.id.LIST_MACHINE_NAME);
-            viewHolder.btFavorite = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
+            //viewHolder.btFavorite = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
 
             convertView.setTag(viewHolder);
         } else {

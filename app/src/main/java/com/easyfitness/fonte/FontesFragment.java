@@ -756,7 +756,7 @@ public class FontesFragment extends Fragment {
 
         Machine lMachine = mDbMachine.getMachine(machineStr);
         if (lMachine == null) {
-            changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+            //changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
             minMaxLayout.setVisibility(View.GONE);
             return;
         }

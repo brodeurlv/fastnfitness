@@ -53,7 +53,7 @@ public class DAOMachine extends DAOBase {
 	 * @param pDescription
 	 * @param pType
 	 */
-	public long addMachine(String pName, String pDescription, int pType, String pPicture) {
+    public long addMachine(String pName, String pDescription, int pType, String pPicture, boolean pFav) {
 		long new_id = -1;
 
 		ContentValues value = new ContentValues();
@@ -62,8 +62,9 @@ public class DAOMachine extends DAOBase {
 		value.put(DAOMachine.DESCRIPTION, pDescription);
 		value.put(DAOMachine.TYPE, pType);
 		value.put(DAOMachine.PICTURE, pPicture);
-		
-		SQLiteDatabase db = open();
+        value.put(DAOMachine.FAVORITES, pFav);
+
+        SQLiteDatabase db = this.getReadableDatabase();
 		new_id = db.insert(DAOMachine.TABLE_NAME, null, value);
 		close();
 		
@@ -312,9 +313,9 @@ public class DAOMachine extends DAOBase {
     }
 
 	public void populate() {
-	
-		addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "");
-		addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "");
+
+        addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "", true);
+        addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "", false);
 			
 	}
 
