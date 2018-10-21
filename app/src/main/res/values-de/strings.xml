@@ -78,6 +78,8 @@
     <string name="SettingLabel">Einstellungen</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="export_database">Aufzeichnungen exportieren</string>
+    <string name="export_exercises">Übungen exportieren</string>
+    <string name="import_exercises">Übungen importieren</string>
     <string name="export_question">Willst du die Datenbank exportieren ?</string>
     <string name="export_success">Datenbank exportiert</string>
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
@@ -258,7 +260,7 @@
     <string name="reset">Reset</string>
     <string name="muscles">Muskeln</string>
     <string name="description">Beschreibung</string>
-    <string name="edit_soon_available">in Kürze verfügbar</string>
+    <string name="soon_available">In Kürze verfügbar</string>
     <string name="edit_value">Neue Wert</string>
 </resources>
 

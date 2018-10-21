@@ -380,7 +380,7 @@ public class FontesFragment extends Fragment {
 						break;
 					// Edit
 					case 1:
-						Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), R.string.soon_available, Toast.LENGTH_SHORT).show();
 						break;
 					// Share
 					case 2:

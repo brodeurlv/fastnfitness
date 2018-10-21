@@ -4,18 +4,27 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -36,6 +45,8 @@ public class MachineFragment extends Fragment {
 	ImageButton renameMachineButton = null;
 	ListView machineList = null;
 	Button addButton = null;
+    AutoCompleteTextView searchField = null;
+    MachineCursorAdapter mTableAdapter;
 
 	private DAOFonte mDbFonte = null;
 
@@ -61,11 +72,14 @@ public class MachineFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+        // activates onCreateOptionsMenu in this fragment
+        setHasOptionsMenu(true);
+
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_machine, container, false);
 
-		addButton = view.findViewById(R.id.addExercise);
-		addButton.setOnClickListener(clickAddButton);
+		searchField = view.findViewById(R.id.searchField);
+		searchField.addTextChangedListener(onTextChangeListener);
 
 		//typeList = (Spinner) view.findViewById(R.id.filterDate);
 		//machineList = (Spinner) view.findViewById(R.id.filterMachine);
@@ -81,6 +95,91 @@ public class MachineFragment extends Fragment {
 
 		return view;
 	}
+
+
+   public TextWatcher onTextChangeListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            Cursor c;
+            Cursor oldCursor;
+
+            if(charSequence.length()==0) {
+                mTableAdapter.notifyDataSetChanged();
+                mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+                c = mDbMachine.getAllMachines();
+                oldCursor = mTableAdapter.swapCursor(c);
+                if (oldCursor!=null) oldCursor.close();
+
+            }
+            else{
+                mTableAdapter.getFilter().filter(charSequence);
+                mTableAdapter.notifyDataSetChanged();
+
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        menu.clear();
+        inflater.inflate(R.menu.exercises_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+
+            case R.id.add_exercises:
+
+                // create a temporarily exercise with name="" and open it like any other existing exercises
+
+                long new_id = -1;
+                long temp_machine_key = -1;
+                String pMachine = "";
+
+                DAOMachine lDAOMachine = new DAOMachine(getContext());
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "");
+
+                MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity)getActivity()).getCurrentProfil().getId());
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                transaction.addToBackStack(null);
+                // Commit the transaction
+                transaction.commit();
+
+                break;
+
+            case R.id.export_exercises:
+                Toast.makeText(getActivity(), R.string.soon_available, Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.import_exercises:
+                Toast.makeText(getActivity(), R.string.soon_available, Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 	@Override
 	public void onStart() {
@@ -191,14 +290,20 @@ public class MachineFragment extends Fragment {
 					machineList.setAdapter(null);
 				} else {
 					if ( machineList.getAdapter() == null ) {
-                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
+                        mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
 						machineList.setAdapter(mTableAdapter);
-					} else {				
-						MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+					} else {
+						mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
                         oldCursor = mTableAdapter.swapCursor(c);
 						if (oldCursor!=null) oldCursor.close();
 					}
-				}
+
+                    mTableAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+                        public Cursor runQuery(CharSequence constraint) {
+                            return mDbMachine.getFilteredMachines(constraint);
+                        }
+                    });
+                }
 			}
 		}
 	}

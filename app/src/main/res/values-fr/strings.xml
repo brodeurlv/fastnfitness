@@ -72,6 +72,8 @@
 	<string name="SettingLabel">Paramètres</string>
     <string name="menu_settings">Paramètres</string>
     <string name="export_database">Exporter la base de données</string>
+    <string name="export_exercises">Exporter les exercises</string>
+    <string name="import_exercises">Importer les exercises</string>
     <string name="export_question">Voulez-vous exporter la base de données?</string>
     <string name="export_success">Base de données exportée</string>
     <string name="export_failed">Erreur dans l\'export de la base de données</string>
@@ -244,7 +246,7 @@
     <string name="weight_missing">Merci de rentrer votre poids</string>
     <string name="profileEnterYourSize">Votre taille</string>
     <string name="profileEnterYourBirthday">Votre date de naissance</string>
-    <string name="edit_soon_available">Bientôt disponible</string>
+    <string name="soon_available">Bientôt disponible</string>
     <string name="name">Nom</string>
     <string name="ProfileLabel">Profil</string>
     <string name="profile_page">Details</string>
