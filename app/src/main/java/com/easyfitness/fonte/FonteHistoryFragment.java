@@ -219,7 +219,7 @@ public class FonteHistoryFragment extends Fragment {
 		if(fragmentView != null) {
 			if (getProfil() != null) {
 				
-					// Initialisation des machines				
+				// Initialisation des machines
                 mExerciseArray.clear();
                 mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
                 mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
@@ -237,13 +237,13 @@ public class FonteHistoryFragment extends Fragment {
 					mDb.closeCursor();
 
                 // positionne la liste deroulante sur la bonne machine
-					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+					/*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
                         exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
                         FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
                                 .getSelectedItem().toString());
                     } else { // Si il ne trouve pas la bonne machine, remet la selection a 0
                         exerciseList.setSelection(0);
-                    }
+                    }*/
 				}
 		}
 	}
