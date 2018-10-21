@@ -191,27 +191,27 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/RecordLabel" />
+
+            <com.easyfitness.utils.ExpandedListView
+                android:id="@+id/listRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:fastScrollEnabled="false"
+                android:isScrollContainer="false"
+                android:scrollbars="none" />
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
-
-    <!--<com.github.ivbaranov.mfb.MaterialFavoriteButton
-        android:id="@+id/favButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="5dp"
-        app:mfb_animate_favorite="true"
-        app:mfb_animate_unfavorite="true"
-        app:mfb_rotation_duration="400"
-        app:mfb_rotation_angle="216"
-        app:mfb_bounce_duration="700"
-        app:mfb_color="black"
-        app:mfb_type="star"
-        app:layout_anchor="@id/machine_photo"
-        app:layout_anchorGravity="top|left|start" />-->
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/actionCamera"

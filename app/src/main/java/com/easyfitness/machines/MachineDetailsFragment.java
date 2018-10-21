@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAORecord;
@@ -43,6 +45,8 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.fonte.RecordCursorAdapter;
+import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
@@ -56,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class MachineDetailsFragment extends Fragment {
@@ -74,6 +79,7 @@ public class MachineDetailsFragment extends Fragment {
     ImageButton machineSave = null;
 	MaterialFavoriteButton machineFavorite = null;
     LinearLayout machinePhotoLayout = null;
+	ExpandedListView recordList = null;
 
     // Selection part
     LinearLayout exerciseTypeSelectorLayout = null;
@@ -99,7 +105,8 @@ public class MachineDetailsFragment extends Fragment {
 	protected CharSequence[] _muscles = { "Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs", "Uranus", "Neptune", "Neptune" };
 	protected boolean[] _selections =  new boolean[ _muscles.length ];
 	DAOMachine mDbMachine = null;
-    Machine mMachine;
+	DAORecord mDbRecord = null;
+	Machine mMachine;
 
 	View fragmentView = null;
 
@@ -131,6 +138,7 @@ public class MachineDetailsFragment extends Fragment {
 
 		// Initialisation de l'historique
 		mDbMachine = new DAOMachine(view.getContext());
+		mDbRecord = new DAORecord(view.getContext());
 
         ((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.GONE);
         top_toolbar = view.findViewById(R.id.actionToolbarMachine);
@@ -162,6 +170,7 @@ public class MachineDetailsFragment extends Fragment {
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
 		machineAction = view.findViewById(R.id.actionCamera);
+		recordList = view.findViewById(R.id.listRecord);
 
         imgUtil = new ImageUtil(machinePhoto);
 
@@ -240,6 +249,8 @@ public class MachineDetailsFragment extends Fragment {
             bodybuildingSelector.setVisibility(View.GONE);
             bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
             selectedType = mMachine.getType();
+			view.findViewById(R.id.machine_muscles).setVisibility(View.GONE);
+			view.findViewById(R.id.machine_muscles_textview).setVisibility(View.GONE);
         } else {
             cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
             cardioSelector.setVisibility(View.GONE);
@@ -302,7 +313,62 @@ public class MachineDetailsFragment extends Fragment {
 	}
 	
 	boolean isCreateMuscleDialogActive = false;
-	
+
+	/*  */
+	private void updateRecordTable() {
+
+		Cursor c = null;
+		Cursor oldCursor = null;
+
+		// Recupere les valeurs
+		if (mMachine != null)  {
+			c = mDbRecord.getAllRecordByMachines(getMainActivity().getCurrentProfil(), mMachine.getName());
+		}
+
+		if (c == null || c.getCount() == 0) {
+			recordList.setAdapter(null);
+		} else {
+			if (recordList.getAdapter() == null) {
+				RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
+				mTableAdapter.setFirstColorOdd(0);
+				recordList.setAdapter(mTableAdapter);
+			} else {
+				RecordCursorAdapter mTableAdapter = ((RecordCursorAdapter) recordList.getAdapter());
+				mTableAdapter.setFirstColorOdd(0);
+				oldCursor = mTableAdapter.swapCursor(c);
+				if (oldCursor != null) oldCursor.close();
+			}
+		}
+	}
+
+	private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
+		@Override
+		public void onBtnClick(long id) {
+			showDeleteDialog(id);
+		}
+	};
+
+	private void showDeleteDialog(final long idToDelete) {
+
+		new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+				.setTitleText(getString(R.string.DeleteRecordDialog))
+				.setContentText(getResources().getText(R.string.areyousure).toString())
+				.setCancelText(getResources().getText(R.string.global_no).toString())
+				.setConfirmText(getResources().getText(R.string.global_yes).toString())
+				.showCancelButton(true)
+				.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+					@Override
+					public void onClick(SweetAlertDialog sDialog) {
+						mDbRecord.deleteRecord(idToDelete);
+						updateRecordTable();
+						KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+						sDialog.dismissWithAnimation();
+					}
+				})
+				.show();
+	}
+
+
 	private boolean CreateMuscleDialog()
 	{
         if (isCreateMuscleDialogActive)
@@ -577,6 +643,10 @@ public class MachineDetailsFragment extends Fragment {
 		} else {
 			getActivity().onBackPressed();
 		}
+	}
+
+	public MainActivity getMainActivity() {
+		return (MainActivity)getActivity();
 	}
 
 	private boolean saveMachine() {
