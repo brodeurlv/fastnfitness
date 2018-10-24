@@ -105,20 +105,14 @@ public class MachineFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            Cursor c;
-            Cursor oldCursor;
-
             if(charSequence.length()==0) {
                 mTableAdapter.notifyDataSetChanged();
                 mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
-
             }
             else{
                 mTableAdapter.getFilter().filter(charSequence);
                 mTableAdapter.notifyDataSetChanged();
-
             }
-
         }
 
         @Override
