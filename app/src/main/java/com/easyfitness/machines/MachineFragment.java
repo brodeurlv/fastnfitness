@@ -111,9 +111,6 @@ public class MachineFragment extends Fragment {
             if(charSequence.length()==0) {
                 mTableAdapter.notifyDataSetChanged();
                 mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
-                c = mDbMachine.getAllMachines();
-                oldCursor = mTableAdapter.swapCursor(c);
-                if (oldCursor!=null) oldCursor.close();
 
             }
             else{
