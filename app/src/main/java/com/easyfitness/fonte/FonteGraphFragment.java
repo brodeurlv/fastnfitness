@@ -220,6 +220,11 @@ public class FonteGraphFragment extends Fragment {
 		// Recupere les enregistrements
         List<DateGraphData> valueList = mDb.getBodyBuildingFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
+		if (valueList.size()<=0) {
+		    mChart.clear();
+		    return;
+        }
+
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Recherche le min et max des dates
