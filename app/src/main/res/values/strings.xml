@@ -150,8 +150,17 @@
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
-    </string-array>   
-    
+    </string-array>
+
+    <string name="sumDistance">Distance</string>
+    <string name="sumDuration">Duration</string>
+    <string name="speed">Speed</string>
+    <string-array name="graph_cardio_functions">
+        <item>@string/sumDistance</item>
+        <item>@string/sumDuration</item>
+        <item>@string/speed</item>
+    </string-array>
+
     <string name="all">All</string>
 
     <string name="bodytracking">Body Track</string>

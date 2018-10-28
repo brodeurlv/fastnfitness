@@ -228,12 +228,17 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting All Machines
+    public List<String> getAllMachinesStrList() {
+        return getAllMachinesStrList(null);
+    }
+
+        // Getting All Machines
     public List<String> getAllMachinesStrList(Profile pProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         String selectQuery = "";
         if (pProfile == null) {
-            selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
+            selectQuery = "SELECT DISTINCT " + EXERCISE+ " FROM "
                     + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
         } else {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
@@ -315,7 +320,7 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting All Dates
-    public List<String> getAllDatesList(Profile pProfile) {
+    public List<String> getAllDatesList(Profile pProfile, Machine pMachine) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -323,8 +328,14 @@ public class DAORecord extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME;
-        if (pProfile != null)
-            selectQuery += " WHERE " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
+        if (pMachine!=null) {
+            selectQuery += " WHERE " + MACHINE_KEY + "=" + pMachine.getId();
+            if (pProfile != null)
+                selectQuery += " AND " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
+        }else {
+            if (pProfile != null)
+                selectQuery += " WHERE " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
+        }
         selectQuery += " ORDER BY " + DATE + " DESC";
 
         mCursor = db.rawQuery(selectQuery, null);

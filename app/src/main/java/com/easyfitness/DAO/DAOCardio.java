@@ -6,14 +6,23 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DateGraphData;
 import com.easyfitness.R;
+import com.easyfitness.utils.DateConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DAOCardio extends DAORecord {
+
+	public static final int DISTANCE_FCT = 0;
+	public static final int DURATION_FCT = 1;
+	public static final int SPEED_FCT = 2;
+	public static final int MAXDURATION_FCT = 3;
+	public static final int MAXDISTANCE_FCT = 4;
+	public static final int NBSERIE_FCT = 5;
 
     private static final String OLD_TABLE_NAME = "EFcardio";
 
@@ -128,7 +137,7 @@ public class DAOCardio extends DAORecord {
 
 	// Getting Function records
 	public List<DateGraphData> getFunctionRecords(Profile pProfile, String pMachine,
-                                                  String pFunction) {
+                                                  int pFunction) {
 
 		boolean lfilterMachine = true;
 		boolean lfilterFunction = true;
@@ -139,37 +148,32 @@ public class DAOCardio extends DAORecord {
 			lfilterMachine = false;
 		}
 
-		if (pFunction == null || pFunction.isEmpty() || pFunction.equals(mContext.getResources().getText(R.string.all).toString()))
-		{
-			lfilterFunction = false;
-		}
-
-		if (pFunction.equals("SUM DISTANCE")) {
+		if (pFunction==DAOCardio.DISTANCE_FCT) {
 			selectQuery = "SELECT SUM(" + DISTANCE + "), " + DATE + " FROM " + TABLE_NAME 
 					+ " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE
 					+ " ORDER BY date(" + DATE + ") ASC";
-		} else if (pFunction.equals("SUM DURATION")) {
-			selectQuery = "SELECT MAX(" + DURATION + ") , " + DATE + " FROM "
+		} else if (pFunction==DAOCardio.DURATION_FCT) {
+			selectQuery = "SELECT SUM(" + DURATION + ") , " + DATE + " FROM "
 					+ TABLE_NAME 
 					+ " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
-		} else if (pFunction.equals("MAX DISTANCE")) {
-			selectQuery = "SELECT SUM(" + DISTANCE + ") , " + DATE + " FROM "
-					+ TABLE_NAME 
+		} else if (pFunction==DAOCardio.SPEED_FCT) {
+			selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM("+DURATION+")," + DATE + " FROM "
+					+ TABLE_NAME
 					+ " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " GROUP BY " + DATE 
+					+ " GROUP BY " + DATE
 					+ " ORDER BY date(" + DATE	+ ") ASC";
-		} else if (pFunction.equals("MAX DURATION")) {
-			selectQuery = "SELECT MAX(" + DURATION + ") , " + DATE + " FROM "
-					+ TABLE_NAME 
+		} else if (pFunction==DAOCardio.MAXDISTANCE_FCT) {
+			selectQuery = "SELECT MAX(" + DISTANCE + ") , " + DATE + " FROM "
+					+ TABLE_NAME
 					+ " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " GROUP BY " + DATE 
+					+ " GROUP BY " + DATE
 					+ " ORDER BY date(" + DATE	+ ") ASC";
 		}
 		// case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
@@ -191,15 +195,16 @@ public class DAOCardio extends DAORecord {
 			do {
 				Date date;
 				try {
-					date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-							.parse(mCursor.getString(1));
+					SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					date = dateFormat.parse(mCursor.getString(1));
 				} catch (ParseException e) {
 					e.printStackTrace();
 					date = new Date();
 				}
 
-				DateGraphData value = new DateGraphData(date.getTime(),
-						Double.parseDouble(mCursor.getString(0)));
+				DateGraphData value = new DateGraphData(DateConverter.nbDays(date.getTime()),
+						mCursor.getDouble(0));
 
 				// Adding value to list
 				valueList.add(value);
@@ -219,7 +224,7 @@ public class DAOCardio extends DAORecord {
         String selectQuery = "SELECT DISTINCT  " + EXERCISE + " FROM " + TABLE_NAME
                 + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
                 + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
-                + " ORDER BY " + EXERCISE + " ASC";
+                + " ORDER BY " + EXERCISE + " COLLATE NOCASE ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();

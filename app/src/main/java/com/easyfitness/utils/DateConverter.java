@@ -23,6 +23,10 @@ public class DateConverter {
 		return (int)(millisecondes / MILLISECONDINDAY);
 	}
 
+	static public double nbMinutes(double millisecondes){
+		return (int)(millisecondes / (60*1000));
+	}
+
 	static public double nbMilliseconds(double days){
 		return days * MILLISECONDINDAY;
 	}

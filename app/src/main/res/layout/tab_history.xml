@@ -24,7 +24,9 @@
         android:stretchColumns="1" >
 
         <TableRow
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:id="@+id/tableRowFilterMachine"
+            >
 
             <TextView
                 android:id="@+id/textviewfilterMachine"

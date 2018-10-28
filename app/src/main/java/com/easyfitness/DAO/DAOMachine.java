@@ -64,7 +64,7 @@ public class DAOMachine extends DAOBase {
 		value.put(DAOMachine.PICTURE, pPicture);
         value.put(DAOMachine.FAVORITES, pFav);
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 		new_id = db.insert(DAOMachine.TABLE_NAME, null, value);
 		close();
 		
@@ -175,7 +175,7 @@ public class DAOMachine extends DAOBase {
     public Cursor getAllMachines() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -188,7 +188,7 @@ public class DAOMachine extends DAOBase {
         // Select All Query
         String selectQuery = "";
         selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -210,7 +210,7 @@ public class DAOMachine extends DAOBase {
     public ArrayList<Machine> getAllMachinesArray() {
 // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineList(selectQuery);
@@ -228,7 +228,7 @@ public class DAOMachine extends DAOBase {
 
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
-				+ FAVORITES + " DESC," + NAME + " ASC";
+				+ FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
 		// return value list
 		return getMachineList(selectQuery);
@@ -241,7 +241,7 @@ public class DAOMachine extends DAOBase {
 
 		// Select All Machines
 		String selectQuery = "SELECT DISTINCT  " + NAME + " FROM "
-				+ TABLE_NAME + " ORDER BY " + NAME + " ASC";
+				+ TABLE_NAME + " ORDER BY " + NAME + " COLLATE NOCASE ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();
@@ -282,7 +282,7 @@ public class DAOMachine extends DAOBase {
 	}
 
 	// Deleting single Record
-	public void deleteRecord(Machine m) {
+	public void delete(Machine m) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_NAME, KEY + " = ?",
 				new String[] { String.valueOf(m.getId()) });
@@ -290,7 +290,7 @@ public class DAOMachine extends DAOBase {
 	}
 
 	// Deleting single Record
-	public void deleteRecord(long id) {
+	public void delete(long id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_NAME, KEY + " = ?", new String[] { String.valueOf(id) });
 		db.close();
