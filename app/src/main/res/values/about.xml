@@ -11,7 +11,8 @@
     <string name="revision_history_label" translatable="false">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
         V0.16: \n
-            \t - Enhancement : Merge of Cardio and Record UI
+            \t - Enhancement : Merge of Cardio and Record UI \n
+			\t - Bug : Removed Exercise list order case sensitive \n
 		V0.15.3 : 08/10/2018 \n
             \t - Enhancement : Possibility to add exercise from Exercise page (Thanks to geniusupgrader)\n
             \t - Enhancement : Possible to set exercise as Favorite in the list \n

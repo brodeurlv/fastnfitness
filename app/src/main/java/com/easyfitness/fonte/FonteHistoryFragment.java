@@ -17,8 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -35,9 +37,6 @@ import java.util.TimeZone;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FonteHistoryFragment extends Fragment {
-	private String name;
-	private int id;
-
 	Spinner dateList = null;
     Spinner exerciseList = null;
 
@@ -56,17 +55,20 @@ public class FonteHistoryFragment extends Fragment {
 	ArrayAdapter<String> mAdapterMachine = null;
 	ArrayAdapter<String> mAdapterDate = null;
 
+	long machineIdArg = -1;
+	long machineProfilIdArg = -1;
+
 	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static FonteHistoryFragment newInstance(String name, int id) {
+    public static FonteHistoryFragment newInstance(long machineId, long machineProfile) {
     	FonteHistoryFragment f = new FonteHistoryFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putInt("id", id);
+		args.putLong("machineID", machineId);
+		args.putLong("machineProfile", machineProfile);
         f.setArguments(args);
 
         return f;
@@ -78,6 +80,10 @@ public class FonteHistoryFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_history, container, false);
+
+		Bundle args = this.getArguments();
+		machineIdArg = args.getLong("machineID");
+		machineProfilIdArg = args.getLong("machineProfile");
 
         dateList = view.findViewById(R.id.filterDate);
         exerciseList = view.findViewById(R.id.filterMachine);
@@ -105,7 +111,6 @@ public class FonteHistoryFragment extends Fragment {
 		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseList.setAdapter(mAdapterMachine);
 		mDb.closeCursor();
-
 
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterDate = new ArrayAdapter<String>(
@@ -219,32 +224,46 @@ public class FonteHistoryFragment extends Fragment {
 		if(fragmentView != null) {
 			if (getProfil() != null) {
 				
-					// Initialisation des machines				
+				// Initialisation des machines
                 mExerciseArray.clear();
                 mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
                 mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-					mAdapterMachine.notifyDataSetChanged();
-					mDb.closeCursor();
-		
-					// Initialisation de la date
-					mDateArray.clear();
-					mDateArray.add(getView().getResources().getText(R.string.all).toString());
-					mDateArray.addAll(mDb.getAllDatesList(getProfil()));
-					if (mDateArray.size() > 1){
-						dateList.setSelection(1);
-					}
-					mAdapterDate.notifyDataSetChanged();
-					mDb.closeCursor();
+				mAdapterMachine.notifyDataSetChanged();
+				mDb.closeCursor();
 
-                // positionne la liste deroulante sur la bonne machine
-					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-                        exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-                        FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                                .getSelectedItem().toString());
-                    } else { // Si il ne trouve pas la bonne machine, remet la selection a 0
-                        exerciseList.setSelection(0);
-                    }
+				// Initialisation de la date
+				DAOMachine lDbMachine = new DAOMachine(getContext());
+				Machine machine = null;
+				if ( exerciseList.getSelectedItem().toString() != getView().getResources().getText(R.string.all).toString()) {
+					machine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
 				}
+
+				mDateArray.clear();
+				mDateArray.add(getView().getResources().getText(R.string.all).toString());
+				mDateArray.addAll(mDb.getAllDatesList(getProfil(), machine));
+				if (mDateArray.size() > 1){
+					dateList.setSelection(1);
+				}
+				mAdapterDate.notifyDataSetChanged();
+				mDb.closeCursor();
+
+				// positionne la liste deroulante sur la bonne machine
+				// If the fragment is used to display record of a specific machine
+				if (machineIdArg != -1)
+				{
+					Machine m = lDbMachine.getMachine(machineIdArg);
+					if (m!=null)
+						exerciseList.setSelection(mAdapterMachine.getPosition(m.getName()));
+					fragmentView.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE); // Hide the filter
+				}
+				/*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+					exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
+					FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+							.getSelectedItem().toString());
+				} else { // Si il ne trouve pas la bonne machine, remet la selection a 0
+					exerciseList.setSelection(0);
+				}*/
+			}
 		}
 	}
 

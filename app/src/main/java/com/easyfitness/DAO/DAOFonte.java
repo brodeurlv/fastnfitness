@@ -223,29 +223,7 @@ public class DAOFonte extends DAORecord {
 		return valueList;
 	}
 
-    // Get all record for one Machine
-    /*
-    public List<Fonte> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
-        return getAllRecordByMachinesArray(pProfile, pMachines, -1);
-    }
-
-    public List<Fonte> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
-		String mTop;
-		if (pNbRecords == -1) mTop = "";
-		else mTop = " LIMIT " + pNbRecords;
-
-		// Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
-				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
-				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
-
-		// return value list
-		return getRecordsList(selectQuery);
-	}
-	*/
-
-	// Get all record for one Date
+    // Get all record for one Date
 	public List<Fonte> getAllRecordByDate(Profile pProfile, String pDate) {
 		// Select All Query
 		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME

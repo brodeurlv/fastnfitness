@@ -53,11 +53,15 @@ public class FontesPagerFragment extends Fragment {
 		
 		if (mViewPager.getAdapter()==null) {
 
+            Bundle args = this.getArguments();
+            args.putLong("machineID", -1);
+            args.putLong("machineProfile", -1);
+
 			pagerAdapter = new FragmentPagerItemAdapter(
                     getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
                     .add(R.string.RecordLabel, FontesFragment.class)
-                    .add(R.string.GraphLabel, FonteGraphFragment.class)
-                    .add(R.string.HistoryLabel, FonteHistoryFragment.class)
+                    .add(R.string.GraphLabel, FonteGraphFragment.class, args)
+                    .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
                     .create());
 
             mViewPager.setAdapter(pagerAdapter);
@@ -209,7 +213,7 @@ public class FontesPagerFragment extends Fragment {
         if (mpHistoryFrag == null)
             mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().findFragmentByTag(MainActivity.HISTORY);
         if (mpHistoryFrag == null)
-            mpHistoryFrag = FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3);
+            mpHistoryFrag = FonteHistoryFragment.newInstance(-1, -1);
 
         //mpHistoryFrag.onHiddenChanged(false);
         return mpHistoryFrag;

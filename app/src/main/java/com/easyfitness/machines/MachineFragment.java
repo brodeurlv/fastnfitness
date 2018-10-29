@@ -118,7 +118,7 @@ public class MachineFragment extends Fragment {
 			TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
 			long machineId = Long.valueOf(textViewID.getText().toString());
 
-			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
+			ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
 			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack so the user can navigate back
@@ -153,7 +153,7 @@ public class MachineFragment extends Fragment {
                             temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
                             sDialog.dismissWithAnimation();
 
-                            MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+							ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                             // Replace whatever is in the fragment_container view with this fragment,
                             // and add the transaction to the back stack so the user can navigate back
@@ -172,7 +172,7 @@ public class MachineFragment extends Fragment {
                             temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false);
                             sDialog.dismissWithAnimation();
 
-                            MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+							ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                             // Replace whatever is in the fragment_container view with this fragment,
                             // and add the transaction to the back stack so the user can navigate back

@@ -4,71 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
-        android:id="@+id/cardViewExercise"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="2dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/imageMachine"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical|center"
-                    android:src="@drawable/ic_machine"
-                    app:civ_border_color="#EEEEEE"
-                    app:civ_border_width="0dp"
-                    app:civ_shadow="false"
-                    app:civ_shadow_color="#8BC34A"
-                    app:civ_shadow_radius="0" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/editMachine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toEndOf="@+id/imageMachine"
-                    android:layout_toLeftOf="@+id/buttonListMachine"
-                    android:layout_toRightOf="@+id/imageMachine"
-                    android:layout_toStartOf="@+id/buttonListMachine"
-                    android:hint="@string/MachineHint"
-                    android:imeOptions="actionNext"
-                    android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                    android:singleLine="true" />
-
-                <ImageButton
-                    android:id="@+id/buttonListMachine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:adjustViewBounds="false"
-                    android:background="@android:color/transparent"
-                    android:baselineAlignBottom="false"
-                    android:cropToPadding="false"
-                    android:src="@drawable/list" />
-            </RelativeLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
     <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:layout_below="@id/cardViewExercise"
         android:id="@+id/viewpagertab"
         android:layout_width="match_parent"
         android:layout_height="48dp"

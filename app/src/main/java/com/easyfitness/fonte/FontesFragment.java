@@ -54,6 +54,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.TimePickerDialogFragment;
+import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.machines.MachineDetailsFragment;
@@ -172,12 +173,7 @@ public class FontesFragment extends Fragment {
         @Override
         public void onClick(View v) {
             // Verifie que les infos sont completes
-            if (
-                    machineEdit.getText().toString().isEmpty() ||
-                            serieEdit.getText().toString().isEmpty() ||
-                            repetitionEdit.getText().toString().isEmpty() ||
-                            poidsEdit.getText().toString().isEmpty()) {
-                //Toast.makeText(getActivity(), R.string.missinginfo, Toast.LENGTH_SHORT).show();
+            if (machineEdit.getText().toString().isEmpty()) {
                 KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
@@ -201,6 +197,14 @@ public class FontesFragment extends Fragment {
             }
 
             if (exerciseType == DAOMachine.TYPE_FONTE) {
+                // Verifie que les infos sont completes
+                if ( serieEdit.getText().toString().isEmpty() ||
+                        repetitionEdit.getText().toString().isEmpty() ||
+                        poidsEdit.getText().toString().isEmpty()) {
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                    return;
+                }
+
                 /* Convertion du poid */
                 float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
                 int unitPoids = UnitConverter.UNIT_KG; // Kg
@@ -243,6 +247,13 @@ public class FontesFragment extends Fragment {
                     cdd.show();
                 }
             } else if (exerciseType == DAOMachine.TYPE_CARDIO) {
+                // Verifie que les infos sont completes
+                if ( durationEdit.getText().toString().isEmpty() && // Only one is mandatory
+                        distanceEdit.getText().toString().isEmpty()) {
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                    return;
+                }
+
                 long duration;
                 try {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -621,7 +632,7 @@ public class FontesFragment extends Fragment {
             public void onClick(View v) {
                 Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
                 if (m!=null) {
-                    MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                    ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
                     android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     // Replace whatever is in the fragment_container view with this fragment,
                     // and add the transaction to the back stack so the user can navigate back
@@ -636,13 +647,6 @@ public class FontesFragment extends Fragment {
 		// Inflate the layout for this fragment
 		return view;
 	}
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        this.mActivity = (MainActivity) this.getActivity();
-        refreshData();
-    }*/
 
     @Override
     public void onStart() {
@@ -749,14 +753,14 @@ public class FontesFragment extends Fragment {
 
     public void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
-            changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+            showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
             return;
         }
 
         Machine lMachine = mDbMachine.getMachine(machineStr);
         if (lMachine == null) {
-            //changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+            showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
             return;
         }

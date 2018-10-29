@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                         List<Machine> lList2 = mDbMachines.getAllMachinesArray();
                         for (int i = 0; i < lList2.size(); i++) {
                             Machine mTemp = lList2.get(i);
-                            mDbMachines.deleteRecord(mTemp.getId());
+                            mDbMachines.delete(mTemp.getId());
                         }
                         // Do nothing but close the dialog
                         dialog.dismiss();
