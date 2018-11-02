@@ -53,17 +53,17 @@
          android:maxLines="2"
          android:text="Machine" />
 
-     <TextView
-         android:id="@+id/SERIE_CELL"
-         android:layout_width="0dip"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center_vertical"
-         android:layout_marginLeft="5dp"
-         android:layout_marginRight="5dp"
-         android:layout_weight="20"
-         android:gravity="start|center"
-         android:maxLines="1"
-         android:text="1" />
+    <TextView
+        android:id="@+id/SERIE_CELL"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="1" />
 
      <TextView
          android:id="@+id/REPETITION_CELL"

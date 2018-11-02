@@ -1,0 +1,7 @@
+keyStore=<your path to your keystore>
+
+keyStorePassword=<your password>
+
+keyAlias=<your alias>
+
+keyAliasPassword=<your password>

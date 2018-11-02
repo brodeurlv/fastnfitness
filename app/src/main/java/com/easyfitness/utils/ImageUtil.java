@@ -17,29 +17,45 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.easyfitness.BuildConfig;
 import com.easyfitness.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by ccombes on 18/04/14.
- */
-
 public class ImageUtil {
+
+    private ImageView imgView = null;
+
+    public ImageUtil() {
+    }
+
+    public ImageUtil(ImageView view) {
+        imgView = view;
+    }
+
+    public void setView(ImageView view) {
+        imgView = view;
+    }
+
+    public ImageView getView() {
+        return imgView;
+    }
 
     static public void setThumb(ImageView mImageView, String pPath) {
         try {
-            if (pPath == null) return;
+            if (pPath == null || pPath.isEmpty()) return;
             File f = new File(pPath);
-            if(!f.exists() || f.isDirectory()) return; // TODO Si le fichier n'existe pas, pourrait verifier si le fichier source existe et creer la miniature.
+            if(!f.exists() || f.isDirectory()) return;
 
             // Get the dimensions of the View
             float targetW = 128;//mImageView.getWidth();
@@ -61,14 +77,16 @@ public class ImageUtil {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            mImageView.setImageBitmap(bitmap);
+            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+            mImageView.setImageBitmap(orientedBitmap);
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    static public void saveThumb(String pPath) {
+    static public String saveThumb(String pPath) {
+        if (pPath == null || pPath.isEmpty()) return null;
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(pPath, bmOptions);
@@ -78,24 +96,66 @@ public class ImageUtil {
         // Determine how much to scale down the image
         float scaleFactor = photoW/photoH; //Math.min(photoW/targetW, photoH/targetH);
 
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = (int) scaleFactor;
+        bmOptions.inPurgeable = true;
+
         Bitmap ThumbImage =null;
         //if (photoW < photoH)
-        ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), 128, (int)(128/scaleFactor));
+        Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+        Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+        ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
         //	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
 
         // extract path without the .jpg
-        String pathOfOutputImage = "";
-        pathOfOutputImage = pPath.substring(0, pPath.lastIndexOf('.')) + "_TH.jpg";
-
-        try
-        {
-            FileOutputStream out = new FileOutputStream(pathOfOutputImage);
-            ThumbImage.compress(Bitmap.CompressFormat.JPEG, 80, out);
+        String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
+        String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
+        File pathThumbFolder = new File(pathOfOutputFolder + "/.thumb/");
+        if (!pathThumbFolder.exists()) {
+            pathThumbFolder.mkdirs();
         }
-        catch (Exception e)
-        {
+        String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
+
+        try {
+            FileOutputStream out = new FileOutputStream(pathOfThumbImage);
+            ThumbImage.compress(Bitmap.CompressFormat.JPEG, 80, out);
+        } catch (Exception e) {
             Log.e("Image", e.getMessage(), e);
+        }
+
+        return pathOfThumbImage;
+    }
+
+    /**
+     * Return path to the thumb of a picture if it is not already a thumb.
+     * If necessary, it creates the thumb file.
+     *
+     * @param pPath Path to the full size picture
+     * @return path to the thumb file
+     */
+    public String getThumbPath(String pPath) {
+        if (pPath == null || pPath.isEmpty()) return null;
+        // extract path without the .jpg
+        String nameOfOutputImage = "";
+        nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
+        String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
+
+        // If it is already a thumb do nothing
+        if (nameOfOutputImage.substring(nameOfOutputImage.length() - 3).equals("_TH")) {
+            return pPath;
+            // else check if it already exists
+        } else {
+            // extract path without the .jpg
+            String pathOfThumbImage = "";
+            pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
+            File f = new File(pathOfThumbImage);
+            if (!f.exists())
+                return saveThumb(pPath); // create thumb file
+            else {
+                return pathOfThumbImage;
+            }
         }
     }
 
@@ -107,18 +167,29 @@ public class ImageUtil {
         return mFilePath;
     }
 
+    private ImageUtil.OnDeleteImageListener mDeleteImageListener;
+
+    public interface OnDeleteImageListener {
+        void onDeleteImage(ImageUtil imgUtil);
+    }
+
+    public void setOnDeleteImageListener(ImageUtil.OnDeleteImageListener listener) {
+        mDeleteImageListener = listener;
+    }
+
     public boolean CreatePhotoSourceDialog(Fragment pF) {
 
         mF = pF;
 
-        String[] profilListArray = new String[2];
-        profilListArray[0] = mF.getResources().getString(R.string.camera);
-        profilListArray[1] = mF.getResources().getString(R.string.gallery);
+        String[] optionListArray = new String[3];
+        optionListArray[0] = mF.getResources().getString(R.string.camera);
+        optionListArray[1] = mF.getResources().getString(R.string.gallery);
+        optionListArray[2] = "Remove Image";
 
         requestPermissionForWriting(pF);
 
         AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(mF.getActivity());
-        itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
+        itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 ListView lv = ((AlertDialog)dialog).getListView();
 
@@ -129,8 +200,15 @@ public class ImageUtil {
                         break;
                     // Camera
                     case 0:
-                        dispatchTakePictureIntent(mF);
+                        CropImage.activity()
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(mF.getContext(), mF);
                         break;
+                    case 2: // Delete picture
+                        if (mDeleteImageListener != null)
+                            mDeleteImageListener.onDeleteImage(ImageUtil.this);
+                        break;
+                    // Camera
                     default:
                 }
             }
@@ -148,7 +226,9 @@ public class ImageUtil {
 
             // Get the dimensions of the View
             int targetW = mImageView.getWidth();
+            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
             int targetH = mImageView.getHeight();
+            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
 
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -166,9 +246,10 @@ public class ImageUtil {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            mImageView.setImageBitmap(bitmap);
+            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+            mImageView.setImageBitmap(orientedBitmap);
 
-            mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mImageView.setAdjustViewBounds(true);
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } catch (Exception e) {
@@ -218,13 +299,24 @@ public class ImageUtil {
         pF.getActivity().sendBroadcast(mediaScanIntent);
     }
 
-
     private File createImageFile(Fragment pF) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = pF.getActivity().getExternalFilesDir(
-                Environment.DIRECTORY_DCIM);
+        File storageDir = null;
+
+        String state = Environment.getExternalStorageState();
+        if (!Environment.MEDIA_MOUNTED.equals(state)) {
+            return null;
+        } else {
+            //We use the FastNFitness directory for saving our .csv file.
+            storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/DCIM/");
+            if (!storageDir.exists()) {
+                storageDir.mkdirs();
+            }
+        }
+        /*File storageDir =  pF.getActivity().getExternalFilesDir(
+                Environment.DIRECTORY_DCIM);*/
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -265,5 +357,24 @@ public class ImageUtil {
                 // result of the request.
             }
         }
+    }
+
+
+    public File moveFile(File file, File dir) throws IOException {
+        File newFile = new File(dir, file.getName());
+        FileChannel outputChannel = null;
+        FileChannel inputChannel = null;
+        try {
+            outputChannel = new FileOutputStream(newFile).getChannel();
+            inputChannel = new FileInputStream(file).getChannel();
+            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+            inputChannel.close();
+            file.delete();
+        } finally {
+            if (inputChannel != null) inputChannel.close();
+            if (outputChannel != null) outputChannel.close();
+        }
+
+        return newFile;
     }
 }

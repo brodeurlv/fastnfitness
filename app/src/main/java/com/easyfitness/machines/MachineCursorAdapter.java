@@ -1,52 +1,53 @@
 package com.easyfitness.machines;
 
-import java.io.File;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 public class MachineCursorAdapter extends CursorAdapter {
 	 
 	 private LayoutInflater mInflater;
 	 private Context mContext = null;
+	 DAOMachine mDbMachine = null;
+	 MaterialFavoriteButton iFav = null;
 	 
-	 public MachineCursorAdapter(Context context, Cursor c, int flags) {
+	 public MachineCursorAdapter(Context context, Cursor c, int flags, DAOMachine pDbMachine) {
 		super(context, c, flags);
 		mContext = context;
+		mDbMachine = pDbMachine;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	 }
 	 
 	 @Override
 	 public void bindView(View view, Context context, Cursor cursor) {
 		 		 
-		  TextView t0 = (TextView) view.findViewById(R.id.LIST_MACHINE_ID); 
+		  TextView t0 = view.findViewById(R.id.LIST_MACHINE_ID);
 	      t0.setText(cursor.getString(0));
 			 
-		  TextView t1 = (TextView) view.findViewById(R.id.LIST_MACHINE_NAME);
+		  TextView t1 = view.findViewById(R.id.LIST_MACHINE_NAME);
 		  t1.setText(cursor.getString(1));
 	
-	      TextView t2 = (TextView) view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
+	      TextView t2 = view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
 	      t2.setText(cursor.getString(2));
 	      
-	      ImageView i0 = (ImageView) view.findViewById(R.id.LIST_MACHINE_PHOTO);
+	      ImageView i0 = view.findViewById(R.id.LIST_MACHINE_PHOTO);
 	      String lPath = cursor.getString(5);
 	      if( lPath != null && !lPath.isEmpty() ) {
 	    	  try {
-				lPath = lPath.substring(0, lPath.lastIndexOf('.')) + "_TH.jpg";
-				ImageUtil.setThumb(i0, lPath);
+                  ImageUtil imgUtil = new ImageUtil();
+                  String lThumbPath = imgUtil.getThumbPath(lPath);
+                  imgUtil.setThumb(i0, lThumbPath);
 			} catch (Exception e) {
 				i0.setImageResource(R.drawable.ic_machine);
 				e.printStackTrace();
@@ -55,13 +56,26 @@ public class MachineCursorAdapter extends CursorAdapter {
 	    	  i0.setImageResource(R.drawable.ic_machine);
 	      }
 
-		 ImageView iFav = (ImageView) view.findViewById(R.id.LIST_MACHINE_FAVORITE);
+		 iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);
 		 boolean bFav = cursor.getInt(6)== 1;
-		 if(bFav) {
-			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
-		 } else {
-			 iFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_off));
-		 }
+		 iFav.setFavorite(bFav);
+         iFav.setRotationDuration(500);
+         iFav.setAnimateFavorite(true);
+		 iFav.setTag(cursor.getLong(0));
+
+         iFav.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 MaterialFavoriteButton mFav = (MaterialFavoriteButton)v;
+                 boolean t = mFav.isFavorite();
+                 mFav.setFavoriteAnimated(!t);
+                 if(mDbMachine != null) {
+                     Machine m = mDbMachine.getMachine((long) mFav.getTag());
+                     m.setFavorite(!t);
+                     mDbMachine.updateMachine(m);
+                 }
+             }
+         });
 	 }
 
 	 @Override

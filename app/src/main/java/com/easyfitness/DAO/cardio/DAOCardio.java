@@ -5,17 +5,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DateGraphData;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOUtils;
+import com.easyfitness.R;
 
 public class DAOCardio extends DAOBase {
 
@@ -65,10 +68,21 @@ public class DAOCardio extends DAOBase {
 	 *            le Record a ajouter a la base
 	 */
 	public void addRecord(Cardio m) {
-		SQLiteDatabase db = open();
+
 		ContentValues value = new ContentValues();
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        long machine_key = -1;
+
+        //Test is Machine exists. If not create it.
+        /*DAOMachine lDAOMachine = new DAOMachine(mContext);
+        if ( ! lDAOMachine.machineExists(m.getExercice()) )  {
+            machine_key = lDAOMachine.addMachine(m.getExercice(), "", DAOMachine.TYPE_FONTE, "");
+        } else {
+            machine_key = lDAOMachine.getMachine(m.getExercice()).getId();
+        }*/
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		value.put(DAOCardio.DATE, dateFormat.format(m.getDate()));
 		value.put(DAOCardio.EXERCICE, m.getExercice());
@@ -76,6 +90,7 @@ public class DAOCardio extends DAOBase {
 		value.put(DAOCardio.DURATION, m.getDuration());
 		value.put(DAOCardio.PROFIL_KEY, m.getProfil().getId());
 
+        SQLiteDatabase db = this.getWritableDatabase();
 		db.insert(DAOCardio.TABLE_NAME, null, value);
 		close();
 	}
@@ -201,24 +216,12 @@ public class DAOCardio extends DAOBase {
 		boolean lfilterDate = true;
 		String selectQuery = null;
 
-		if (pMachine == null || pMachine.isEmpty() || pMachine.equals("All")) // @TODO
-																				// Remplacer
-																				// All
-																				// par
-																				// une
-																				// string
-																				// global
+		if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterMachine = false;
 		}
 
-		if (pDate == null || pDate.isEmpty() || pDate.equals("All")) // @TODO
-																		// Remplacer
-																		// All
-																		// par
-																		// une
-																		// string
-																		// global
+		if (pDate == null || pDate.isEmpty() || pDate.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterDate = false;
 		}
@@ -258,24 +261,12 @@ public class DAOCardio extends DAOBase {
 		boolean lfilterFunction = true;
 		String selectQuery = null;
 
-		if (pMachine == null || pMachine.isEmpty() || pMachine.equals("All")) // @TODO
-																				// Remplacer
-																				// All
-																				// par
-																				// une
-																				// string
-																				// global
+		if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterMachine = false;
 		}
 
-		if (pFunction == null || pFunction.isEmpty() || pFunction.equals("All")) // @TODO
-																					// Remplacer
-																					// All
-																					// par
-																					// une
-																					// string
-																					// global
+		if (pFunction == null || pFunction.isEmpty() || pFunction.equals(mContext.getResources().getText(R.string.all).toString()))
 		{
 			lfilterFunction = false;
 		}

@@ -10,11 +10,14 @@ import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,9 +44,15 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+import com.onurkaganaldemir.ktoastlib.KToast;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -62,7 +71,7 @@ public class MachineDetailsFragment extends Fragment {
 	FloatingActionButton machineAction = null;
     ImageButton machineDelete = null;
     ImageButton machineSave = null;
-	ImageButton machineFavorite = null;
+	MaterialFavoriteButton machineFavorite = null;
     LinearLayout machinePhotoLayout = null;
 
 	Toolbar top_toolbar = null;
@@ -116,23 +125,34 @@ public class MachineDetailsFragment extends Fragment {
 		mDbMachine = new DAOMachine(view.getContext());
 
         ((MainActivity)getActivity()).getActivityToolbar().setVisibility(View.GONE);
-        top_toolbar = (Toolbar) view.findViewById(R.id.actionToolbarMachine);
+        top_toolbar = view.findViewById(R.id.actionToolbarMachine);
 		top_toolbar.setNavigationIcon(R.drawable.ic_back);
 		top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 		
-		machineName = (EditText) view.findViewById(R.id.machine_name);
-		machineDescription = (EditText) view.findViewById(R.id.machine_description);
-		musclesList = (EditText) view.findViewById(R.id.machine_muscles);
-		machinePhoto = (ImageView) view.findViewById(R.id.machine_photo);
-        machineDelete = (ImageButton) view.findViewById(R.id.action_machine_delete);
-        machineSave = (ImageButton) view.findViewById(R.id.action_machine_save);
-		machineFavorite = (ImageButton) view.findViewById(R.id.favButton);
-        machinePhotoLayout = (LinearLayout) view.findViewById(R.id.machine_photo_layout);
+		machineName = view.findViewById(R.id.machine_name);
+		machineDescription = view.findViewById(R.id.machine_description);
+		musclesList = view.findViewById(R.id.machine_muscles);
+		machinePhoto = view.findViewById(R.id.machine_photo);
+        machineDelete = view.findViewById(R.id.action_machine_delete);
+        machineSave = view.findViewById(R.id.action_machine_save);
+		machineFavorite = view.findViewById(R.id.favButton);
+		machineFavorite.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MaterialFavoriteButton mFav = (MaterialFavoriteButton)v;
+				boolean t = mFav.isFavorite();
+				mFav.setFavoriteAnimated(!t);
+				isFavorite=!t;
+				requestForSave();
+			}
+		});
+        machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
 
 		machineSave.setVisibility(View.GONE); // Hide Save button by default
 
-		machineAction = (FloatingActionButton) view.findViewById(R.id.actionCamera);
+		machineAction = view.findViewById(R.id.actionCamera);
 
+        imgUtil = new ImageUtil(machinePhoto);
 
 		buildMusclesTable();
 
@@ -144,7 +164,7 @@ public class MachineDetailsFragment extends Fragment {
 		// set events
         machineSave.setOnClickListener(onClickToolbarItem);
         machineDelete.setOnClickListener(onClickToolbarItem);
-		machineFavorite.setOnClickListener(onClickFavoriteItem);
+		//machineFavorite.setOnClickListener(onClickFavoriteItem);
 		musclesList.setOnClickListener(onClickMusclesList);
 		musclesList.setOnFocusChangeListener(onFocusMachineList);
 		machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
@@ -185,13 +205,16 @@ public class MachineDetailsFragment extends Fragment {
 
 		Machine temp = mDbMachine.getMachine(machineIdArg);
 		machineNameArg = temp.getName();
+
+		//if (machineNameArg.equals("")) {requestForSave();}
+
 		machineName.setText(machineNameArg);
 		machineDescription.setText(temp.getDescription());	
 		musclesList.setText(this.getInputFromDBString(temp.getBodyParts()));
 		mCurrentPhotoPath = temp.getPicture();
         isFavorite=temp.getFavorite();
-        setFavImage(isFavorite);
-		
+		machineFavorite.setFavorite(isFavorite);
+
 	    view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
 	        @Override
@@ -217,6 +240,15 @@ public class MachineDetailsFragment extends Fragment {
 		machineName.addTextChangedListener(watcher);
 		machineDescription.addTextChangedListener(watcher);
 		musclesList.addTextChangedListener(watcher);
+
+        imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
+            @Override
+            public void onDeleteImage(ImageUtil imgUtil) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                mCurrentPhotoPath = null;
+                requestForSave();
+            }
+        });
 				
 		return view;
 	}
@@ -320,7 +352,6 @@ public class MachineDetailsFragment extends Fragment {
 		}
 	};
 
-
 	String mCurrentPhotoPath = null;
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -347,6 +378,49 @@ public class MachineDetailsFragment extends Fragment {
 					requestForSave();
 				}
 				break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
+
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
+
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        Log.v("Moving", "Moving file successful.");
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.v("Moving", "Moving file failed.");
+                    }
+
+                    imgUtil.setPic(machinePhoto, realPath);
+                    imgUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                    requestForSave();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
 		}
 	}
 
@@ -421,8 +495,11 @@ public class MachineDetailsFragment extends Fragment {
 			backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					saveMachine();
-					getActivity().onBackPressed();
+
+                    String lMachineName = machineName.getText().toString();
+                    if (saveMachine()) {
+                        getActivity().onBackPressed();
+                    }
 				}
 			});
 
@@ -430,7 +507,11 @@ public class MachineDetailsFragment extends Fragment {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					getActivity().onBackPressed();
+                    /*if (machineNameArg.equals("")) {
+                        KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                        return;
+                    }*/
+				    getActivity().onBackPressed();
 				}
 			});
 
@@ -442,12 +523,15 @@ public class MachineDetailsFragment extends Fragment {
 		}
 	}
 
-	private void saveMachine() {		
+	private boolean saveMachine() {
+		boolean result = false;
 		Machine m = this.mDbMachine.getMachine(machineIdArg); // machine d'origine
 		String lMachineName = this.machineName.getText().toString(); // Potentiel nouveau nom dans le EditText
 		
 		// Si le nom est different du nom actuel
-		if (!machineNameArg.equals(lMachineName))
+		if (lMachineName.equals("")) {
+			KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+		} else if (!machineNameArg.equals(lMachineName))
 		{ 
 			Machine m2 = this.mDbMachine.getMachine(lMachineName);
 		
@@ -518,6 +602,7 @@ public class MachineDetailsFragment extends Fragment {
 
 				machineSave.setVisibility(View.GONE);
 				toBeSaved = false;
+				result = true;
 				//getThis().getActivity().invalidateOptionsMenu();
 			}
 		} else {
@@ -532,8 +617,10 @@ public class MachineDetailsFragment extends Fragment {
 
             machineSave.setVisibility(View.GONE);
             toBeSaved = false;
+			result = true;
 			//getThis().getActivity().invalidateOptionsMenu();
 		}
+		return result;
 	}
 	
 	private void deleteMachine() {
@@ -724,11 +811,11 @@ public class MachineDetailsFragment extends Fragment {
 
 	private void setFavImage(boolean fav)
     {
-        if(fav) {
+        /*if(fav) {
             machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_on));
         } else {
             machineFavorite.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.btn_star_big_off));
-        }
+        }*/
     }
 	
 }

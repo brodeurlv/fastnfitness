@@ -23,7 +23,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="50"
-        android:gravity="left"
+        android:gravity="start"
         android:text="@string/measureLabel"
         android:textSize="16sp" />
 
@@ -31,7 +31,7 @@
         android:id="@+id/deleteButton2"
         android:layout_width="10dp"
         android:layout_height="20dp"
-        android:layout_gravity="right|center_horizontal|end"
+        android:layout_gravity="center_horizontal|end"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="1"

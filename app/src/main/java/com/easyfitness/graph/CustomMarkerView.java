@@ -34,8 +34,8 @@ public class CustomMarkerView extends MarkerView {
         super(context, layoutResource);
 
         // find your layout components
-        tvContent = (TextView) findViewById(R.id.tvContent);
-        tvDate = (TextView) findViewById(R.id.tvDate);
+        tvContent = findViewById(R.id.tvContent);
+        tvDate = findViewById(R.id.tvDate);
         uiScreenWidth = getResources().getDisplayMetrics().widthPixels;
         lineChart=chart;
     }

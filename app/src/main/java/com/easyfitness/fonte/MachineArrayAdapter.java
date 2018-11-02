@@ -63,9 +63,9 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.simplemachinelist_row, parent, false);
-            viewHolder.txtID = (TextView) convertView.findViewById(R.id.LIST_MACHINE_ID);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.LIST_MACHINE_NAME);
-            viewHolder.btFavorite = (ImageView) convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
+            viewHolder.txtID = convertView.findViewById(R.id.LIST_MACHINE_ID);
+            viewHolder.txtName = convertView.findViewById(R.id.LIST_MACHINE_NAME);
+            viewHolder.btFavorite = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
 
             convertView.setTag(viewHolder);
         } else {

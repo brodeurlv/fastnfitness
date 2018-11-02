@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,12 +26,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.Cardio;
 import com.easyfitness.DAO.cardio.DAOCardio;
 import com.easyfitness.utils.DateConverter;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -194,9 +195,9 @@ public class CardioFragment extends Fragment {
 
 			FillRecordTable(exerciceEdit.getText().toString());
 
-			Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Toast.LENGTH_SHORT).show();
+            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-			return true;
+            return true;
 		}
 	};
 	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
@@ -236,14 +237,14 @@ public class CardioFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_cardio, container, false);
 
-        dateEdit = (EditText) view.findViewById(R.id.editCardioDate);
-        exerciceEdit = (AutoCompleteTextView) view.findViewById(R.id.editExercice);
-        distanceEdit = (EditText) view.findViewById(R.id.editDistance);
-        durationEdit = (EditText) view.findViewById(R.id.editDuration);
-        recordList = (ListView) view.findViewById(R.id.listCardioRecord);
-        exerciceListButton = (ImageButton) view.findViewById(R.id.buttonListExercice);
-        launchChronoButton = (ImageButton) view.findViewById(R.id.buttonLaunchChrono);
-        addButton = (Button) view.findViewById(R.id.addExercice);
+        dateEdit = view.findViewById(R.id.editCardioDate);
+        exerciceEdit = view.findViewById(R.id.editExercice);
+        distanceEdit = view.findViewById(R.id.editDistance);
+        durationEdit = view.findViewById(R.id.editDuration);
+        recordList = view.findViewById(R.id.listCardioRecord);
+        exerciceListButton = view.findViewById(R.id.buttonListExercice);
+        launchChronoButton = view.findViewById(R.id.buttonLaunchChrono);
+        addButton = view.findViewById(R.id.addExercice);
 
 		/* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);

@@ -43,6 +43,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -90,10 +91,10 @@ public class NewProfileFragment extends SlideFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
 
-        mName = (EditText) view.findViewById(R.id.profileName);
-        mSize = (EditText) view.findViewById(R.id.profileSize);
-        mBirthday = (EditText) view.findViewById(R.id.profileBirthday);
-        mBtCreate = (Button) view.findViewById(R.id.create_newprofil);
+        mName = view.findViewById(R.id.profileName);
+        mSize = view.findViewById(R.id.profileSize);
+        mBirthday = view.findViewById(R.id.profileBirthday);
+        mBtCreate = view.findViewById(R.id.create_newprofil);
 
         mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
@@ -109,32 +110,66 @@ public class NewProfileFragment extends SlideFragment {
 		/* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);
 
+        getIntroActivity().addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
+            @Override
+            public void onNavigationBlocked(int position, int direction) {
+                //Slide slide = getIntroActivity().getSlide(position);
+
+                if (position == 5) {
+                    mBtCreate.callOnClick();
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }
 
-    private View.OnClickListener clickCreateButton = new View.OnClickListener() {
+    ;
+
+    private NewProfileFragment getThis() {
+        return this;
+    }
+
+    private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // Initialisation des objets DB
             DAOProfil mDbProfils = new DAOProfil(v.getContext());
 
-            if (mName.getText().toString().isEmpty() || mSize.getText().toString().isEmpty() || mBirthday.getText().toString().isEmpty()) {
+            if (mName.getText().toString().isEmpty()) {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.fillAllFields).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             } else {
-                Profile p = new Profile(mName.getText().toString(), Integer.valueOf(mSize.getText().toString()), DateConverter.editToDate(mBirthday.getText().toString()));
+                int size = 0;
+                try {
+                    if (!mSize.getText().toString().isEmpty()) {
+                        size = Double.valueOf(mSize.getText().toString()).intValue();
+                    }
+                } catch (NumberFormatException e) {
+                    size = 0;
+                }
+
+                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()));
                 // Create the new profil
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
-                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(getContext().getResources().getText(R.string.app_name).toString())
-                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                        .show();
-
-                mProfilCreated=true;
-                nextSlide();
+                if (p != null) {
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText(p.getName())
+                            .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    nextSlide();
+                                }
+                            })
+                            .show();
+                    mProfilCreated = true;
+                } else {
+                    KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
+                }
             }
         }
     };
@@ -147,6 +182,14 @@ public class NewProfileFragment extends SlideFragment {
     @Override
     public boolean canGoForward() {
         return mProfilCreated;
+    }
+
+    public MainIntroActivity getIntroActivity() {
+        if (getActivity() instanceof MainIntroActivity) {
+            return (MainIntroActivity) getActivity();
+        } else {
+            throw new IllegalStateException("SlideFragment's must be attached to MainIntroActivity.");
+        }
     }
 }
 

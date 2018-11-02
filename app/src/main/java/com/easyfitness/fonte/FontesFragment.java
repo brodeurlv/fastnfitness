@@ -49,6 +49,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
+import com.easyfitness.machines.MachineDetailsFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
@@ -162,8 +163,8 @@ public class FontesFragment extends Fragment {
 				restTimeEdit.setText("60");
 			}
 
-			float iTotalWeightSession = (float) mDb.getTotalWeightSession(date);
-			float iTotalWeight = (float) mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
+			float iTotalWeightSession = mDb.getTotalWeightSession(date);
+			float iTotalWeight = mDb.getTotalWeightMachine(date, machineEdit.getText().toString() );
 			int iNbSeries = mDb.getNbSeries(date, machineEdit.getText().toString() );
 
 			// Launch Countdown
@@ -195,7 +196,7 @@ public class FontesFragment extends Fragment {
 			ListView machineList = new ListView(v.getContext());
 
 			// Version avec table Machine
-            c = mDbMachine.getAllMachines();
+            c = mDbMachine.getAllMachines(DAOMachine.TYPE_FONTE);
 
             if (c == null || c.getCount() == 0) {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -203,7 +204,7 @@ public class FontesFragment extends Fragment {
                 machineList.setAdapter(null);
 			} else {
 				if ( machineList.getAdapter() == null ) {
-                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0);
+                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0, mDbMachine);
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
 					machineList.setAdapter(mTableAdapter);
 				} else {
@@ -221,9 +222,11 @@ public class FontesFragment extends Fragment {
 						DAOMachine lMachineDb = new DAOMachine(getContext());
 						Machine lMachine = lMachineDb.getMachine(machineID);
 						machineImage.setImageResource(R.drawable.ic_machine); // Default image
-						ImageUtil.setThumb(machineImage, lMachine.getPicture());
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 
-						machineEdit.setText(lMachine.getName()); // Met a jour le text
+                        machineEdit.setText(lMachine.getName()); // Met a jour le text
+						updateLastRecord(machineID);
 						FillRecordTable(lMachine.getName()); // Met a jour le tableau
 						getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
 
@@ -245,6 +248,20 @@ public class FontesFragment extends Fragment {
 
 		}
 	};
+	private void updateLastRecord(long machineId) {
+		Fonte lLastRecord = mDb.getLastMachineRecord(machineId);
+		if (lLastRecord != null) {
+			serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
+			repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
+			unitSpinner.setSelection(lLastRecord.getUnit());
+			DecimalFormat numberFormat = new DecimalFormat("#.##");
+			if (lLastRecord.getUnit() == UnitConverter.UNIT_LBS)
+				poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastRecord.getPoids())));
+			else
+				poidsEdit.setText(numberFormat.format(lLastRecord.getPoids()));
+		}
+	}
+
 	private OnClickListener clickDateEdit = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -287,7 +304,10 @@ public class FontesFragment extends Fragment {
 				switch(v.getId()) {
 				case R.id.editMachine:
 					Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
-					if(lMachine!=null) ImageUtil.setThumb(machineImage, lMachine.getPicture());
+                    if (lMachine != null) {
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
+                    }
                     FillRecordTable(machineEdit.getText().toString());
 					break;
 				}
@@ -360,7 +380,7 @@ public class FontesFragment extends Fragment {
 						break;
 					// Edit
 					case 1:
-						Toast.makeText(getActivity(), "Edit soon available", Toast.LENGTH_SHORT).show();//TODO change static string
+						Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
 						break;
 					// Share
 					case 2:
@@ -427,20 +447,20 @@ public class FontesFragment extends Fragment {
 
 		View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
-		dateEdit = (EditText) view.findViewById(R.id.editDate);
-		machineEdit = (AutoCompleteTextView) view.findViewById(R.id.editMachine);
-		serieEdit = (EditText) view.findViewById(R.id.editSerie);
-		repetitionEdit = (EditText) view.findViewById(R.id.editRepetition);
-		poidsEdit = (EditText) view.findViewById(R.id.editPoids);
-		recordList = (ExpandedListView) view.findViewById(R.id.listRecord);
-		machineListButton = (ImageButton) view.findViewById(R.id.buttonListMachine);
-		addButton = (Button) view.findViewById(R.id.addperff);
-		unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnit);
-		detailsLayout = (LinearLayout) view.findViewById(R.id.notesLayout);
-		detailsExpandArrow = (ImageButton) view.findViewById(R.id.buttonExpandArrow);
-		restTimeEdit = (EditText) view.findViewById(R.id.editRestTime);
-		restTimeCheck = (CheckBox) view.findViewById(R.id.restTimecheckBox);
-		machineImage = (CircularImageView) view.findViewById(R.id.imageMachine);
+		dateEdit = view.findViewById(R.id.editDate);
+		machineEdit = view.findViewById(R.id.editMachine);
+		serieEdit = view.findViewById(R.id.editSerie);
+		repetitionEdit = view.findViewById(R.id.editRepetition);
+		poidsEdit = view.findViewById(R.id.editPoids);
+		recordList = view.findViewById(R.id.listRecord);
+		machineListButton = view.findViewById(R.id.buttonListMachine);
+		addButton = view.findViewById(R.id.addperff);
+		unitSpinner = view.findViewById(R.id.spinnerUnit);
+		detailsLayout = view.findViewById(R.id.notesLayout);
+		detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
+		restTimeEdit = view.findViewById(R.id.editRestTime);
+		restTimeCheck = view.findViewById(R.id.restTimecheckBox);
+		machineImage = view.findViewById(R.id.imageMachine);
         minText = view.findViewById(R.id.minText);
         maxText = view.findViewById(R.id.maxText);
 
@@ -475,6 +495,23 @@ public class FontesFragment extends Fragment {
 		mDb = new DAOFonte(getContext());
 		mDbMachine = new DAOMachine (getContext());
 		dateEdit.setText(DateConverter.currentDate());
+
+		machineImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
+                if (m!=null) {
+                    MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                    android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                }
+            }
+        });
 
 		// Inflate the layout for this fragment
 		return view;
@@ -626,6 +663,7 @@ public class FontesFragment extends Fragment {
         String unitStr = "";
         float weight = 0;
         if (getProfil() != null && m != null) {
+			updateLastRecord(m.getId());
             Weight minValue = mDb.getMin(getProfil(), m);
             getView().findViewById(R.id.minmaxLayout).setVisibility(View.VISIBLE);
             if (minValue != null) {
@@ -684,7 +722,8 @@ public class FontesFragment extends Fragment {
                         machineEdit.setText(lLastRecord.getMachine());
                         Machine lMachine = mDbMachine.getMachine(lLastRecord.getMachine());
                         machineImage.setImageResource(R.drawable.ic_machine); // Default image
-                        ImageUtil.setThumb(machineImage, lMachine.getPicture()); // Overwrite image is there is one
+                        ImageUtil imgUtil = new ImageUtil();
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
                         serieEdit.setText(String.valueOf(lLastRecord.getSerie()));
                         repetitionEdit.setText(String.valueOf(lLastRecord.getRepetition()));
                         unitSpinner.setSelection(lLastRecord.getUnit());
@@ -700,6 +739,12 @@ public class FontesFragment extends Fragment {
                         repetitionEdit.setText("10");
                         poidsEdit.setText("50");
                     }
+                } else { // Restore picture on fragment restore.
+                    Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
+                    machineImage.setImageResource(R.drawable.ic_machine); // Default image
+                    ImageUtil imgUtil = new ImageUtil();
+                    if (lMachine != null)
+                        imgUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
                 }
 
                 // Set Initial text

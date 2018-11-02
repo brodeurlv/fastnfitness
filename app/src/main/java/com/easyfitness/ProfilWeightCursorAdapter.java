@@ -41,7 +41,7 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 	   view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
 	  }
 	 
-	  TextView t1 = (TextView) view.findViewById(R.id.DATE_CELL);
+	  TextView t1 = view.findViewById(R.id.DATE_CELL);
 	  Date date;
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -59,11 +59,11 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
 			e.printStackTrace();
 		}
 
-	      TextView t2 = (TextView) view.findViewById(R.id.WEIGHT_CELL);
+	      TextView t2 = view.findViewById(R.id.WEIGHT_CELL);
 	      //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
 	      t2.setText(cursor.getString(2));
 
-		 ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
+		 ImageView deletImg = view.findViewById(R.id.deleteButton);
 		 deletImg.setTag(cursor.getLong(0));
 		 deletImg.setOnClickListener(new View.OnClickListener() {
 			 @Override

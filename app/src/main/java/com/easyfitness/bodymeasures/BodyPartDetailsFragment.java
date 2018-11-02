@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,8 +32,10 @@ import com.easyfitness.R;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
+import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,6 +83,11 @@ public class BodyPartDetailsFragment extends Fragment {
 				mBodyMeasureDb.addBodyMeasure(date, mBodyPartID, Float.valueOf(measureEdit.getText().toString()), getProfile());
 				refreshData();
 				measureEdit.setText("");
+
+				Keyboard.hide(getContext(), v);
+			} else {
+				KToast.errorToast(getActivity(), "Please enter a measure", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
 			}
 		}
 	};
@@ -92,7 +100,7 @@ public class BodyPartDetailsFragment extends Fragment {
 	private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus == true) {
+			if (hasFocus) {
 				showDatePickerFragment();
 			}
 		}
@@ -119,8 +127,8 @@ public class BodyPartDetailsFragment extends Fragment {
 						case 0:
 							mBodyMeasureDb.deleteMeasure(selectedID);
 							refreshData();
-							Toast.makeText(getActivity(), "Removed record " + selectedID, Toast.LENGTH_SHORT).show();//TODO change static string
-							break;
+                            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                            break;
 						default:
 					}
 				}
@@ -153,11 +161,11 @@ public class BodyPartDetailsFragment extends Fragment {
 		// Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bodytracking_details_fragment, container, false);
 
-		addButton = (Button) view.findViewById(R.id.buttonAddWeight);
-		measureEdit = (EditText) view.findViewById(R.id.editWeight);
-		dateEdit= (EditText) view.findViewById(R.id.profilEditDate);
-		measureList = (ExpandedListView) view.findViewById(R.id.listWeightProfil);
-		bodyToolbar = (Toolbar) view.findViewById(R.id.bodyTrackingDetailsToolbar);
+		addButton = view.findViewById(R.id.buttonAddWeight);
+		measureEdit = view.findViewById(R.id.editWeight);
+		dateEdit= view.findViewById(R.id.profilEditDate);
+		measureList = view.findViewById(R.id.listWeightProfil);
+		bodyToolbar = view.findViewById(R.id.bodyTrackingDetailsToolbar);
 
 		/* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
@@ -172,9 +180,9 @@ public class BodyPartDetailsFragment extends Fragment {
 		/* Initialisation des evenements */
 
 		// Add the other graph
-		mChart = (LineChart) view.findViewById(R.id.weightChart);
+		mChart = view.findViewById(R.id.weightChart);
 		mChart.setDescription(null);
-		mGraph = new Graph(mChart, "");
+		mGraph = new Graph(getContext(), mChart, "");
 		mBodyMeasureDb = new DAOBodyMeasure(view.getContext());
 
 		// Set Initial text
@@ -218,7 +226,6 @@ public class BodyPartDetailsFragment extends Fragment {
         }
 
 		mGraph.draw(yVals);
-        //mGraph.getLineChart().
     }
 	
 	/*  */
@@ -249,7 +256,7 @@ public class BodyPartDetailsFragment extends Fragment {
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfile() != null) {
-				List<BodyMeasure> valueList = mBodyMeasureDb.getBodyMeasuresList(mBodyPartID , getProfile());
+                List<BodyMeasure> valueList = mBodyMeasureDb.getBodyPartMeasuresList(mBodyPartID, getProfile());
 				DrawGraph(valueList);
 				// update table
 				FillRecordTable(valueList);

@@ -8,18 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import de.psdev.licensesdialog.LicensesDialog;
-import de.psdev.licensesdialog.LicensesDialogFragment;
-import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
-import de.psdev.licensesdialog.licenses.GnuGeneralPublicLicense20;
-import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
-import de.psdev.licensesdialog.licenses.License;
-import de.psdev.licensesdialog.model.Notice;
-import de.psdev.licensesdialog.model.Notices;
-
-import com.easyfitness.R;
 import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.licenses.CustomLicense;
+
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
+import de.psdev.licensesdialog.licenses.License;
+import de.psdev.licensesdialog.licenses.MITLicense;
+import de.psdev.licensesdialog.model.Notice;
 
 public class AboutFragment extends Fragment {
 	private String name; 
@@ -37,11 +34,10 @@ public class AboutFragment extends Fragment {
 	private TextView mpFreepikView = null;
 	private TextView mpCircleProgressView = null;
 	private TextView mpCircularImageView = null;
-
-
-
-
-
+    private TextView mpkToast = null;
+    private TextView mpSweetAlertDialog = null;
+    private TextView mpAndroidImageCropper = null;
+    private TextView mpMaterialFavoriteButton = null;
 
 	/**
      * Create a new instance of DetailsFragment, initialized to
@@ -72,20 +68,26 @@ public class AboutFragment extends Fragment {
 		
 		View view =  inflater.inflate(R.layout.tab_about, container, false); 
 				
-		mpDBVersionTextView = (TextView) view.findViewById(R.id.database_version);
+		mpDBVersionTextView = view.findViewById(R.id.database_version);
 		mpDBVersionTextView.setText(Integer.toString(DatabaseHelper.DATABASE_VERSION));
 
-		mpMPAndroidChartTextView = (TextView) view.findViewById(R.id.MPAndroidChart);
-		mpjavaCVSTextView = (TextView) view.findViewById(R.id.javaCSV);
-		mpLicenseDialogTextView = (TextView) view.findViewById(R.id.LicensesDialog);
-		mpChronometerTextView = (TextView) view.findViewById(R.id.antoniomChronometer);
-		mpPagerSlidingTabStripTextView = (TextView) view.findViewById(R.id.PagerSlidingTabStrip);
+		mpMPAndroidChartTextView = view.findViewById(R.id.MPAndroidChart);
+		mpjavaCVSTextView = view.findViewById(R.id.javaCSV);
+		mpLicenseDialogTextView = view.findViewById(R.id.LicensesDialog);
+		mpChronometerTextView = view.findViewById(R.id.antoniomChronometer);
+		mpPagerSlidingTabStripTextView = view.findViewById(R.id.PagerSlidingTabStrip);
 
-		mpSmartTabLayoutTextView = (TextView) view.findViewById(R.id.SmartTabLayout);
-		mpFlaticonTextView = (TextView) view.findViewById(R.id.flaticonCredits);
-		mpFreepikView = (TextView) view.findViewById(R.id.freepikCredits);
-		mpCircleProgressView = (TextView) view.findViewById(R.id.CircleProgress);
-		mpCircularImageView = (TextView) view.findViewById(R.id.CircularImageView);
+		mpSmartTabLayoutTextView = view.findViewById(R.id.SmartTabLayout);
+		mpFlaticonTextView = view.findViewById(R.id.flaticonCredits);
+		mpFreepikView = view.findViewById(R.id.freepikCredits);
+		mpCircleProgressView = view.findViewById(R.id.CircleProgress);
+		mpCircularImageView = view.findViewById(R.id.CircularImageView);
+        mpkToast = view.findViewById(R.id.ktoast);
+        mpSweetAlertDialog = view.findViewById(R.id.SweetAlertDialog);
+        mpAndroidImageCropper = view.findViewById(R.id.AndroidImageCropper);
+        mpMaterialFavoriteButton = view.findViewById(R.id.MaterialFavoriteButton);
+
+
 
 		mpMPAndroidChartTextView.setOnClickListener(clickLicense);
 		mpjavaCVSTextView.setOnClickListener(clickLicense);
@@ -97,6 +99,10 @@ public class AboutFragment extends Fragment {
 		mpFreepikView.setOnClickListener(clickLicense);
 		mpCircleProgressView.setOnClickListener(clickLicense);
 		mpCircularImageView.setOnClickListener(clickLicense);
+        mpkToast.setOnClickListener(clickLicense);
+        mpSweetAlertDialog.setOnClickListener(clickLicense);
+        mpAndroidImageCropper.setOnClickListener(clickLicense);
+        mpMaterialFavoriteButton.setOnClickListener(clickLicense);
 
 		// Inflate the layout for this fragment 
 		return view;
@@ -177,6 +183,30 @@ public class AboutFragment extends Fragment {
 					copyright = "Lopez Mikhael";
 					license = new ApacheSoftwareLicense20();
 					break;
+                case R.id.ktoast:
+                    name = "ktoast";
+                    url = "https://github.com/onurkagan/KToast";
+                    copyright = "Onurkagan";
+                    license = new ApacheSoftwareLicense20();
+                    break;
+                case R.id.SweetAlertDialog:
+                    name = "SweetAlertDialog";
+                    url = "https://github.com/F0RIS/sweet-alert-dialog";
+                    copyright = "Pedant (http://pedant.cn)";
+                    license = new MITLicense();
+                    break;
+                case R.id.AndroidImageCropper:
+                    name = "Android-Image-Cropper";
+                    url = "https://github.com/ArthurHub/Android-Image-Cropper";
+                    copyright = "Arthur Teplitzki";
+                    license = new ApacheSoftwareLicense20();
+                    break;
+                case R.id.MaterialFavoriteButton:
+                    name = "Material Favorite Button";
+                    url = "https://github.com/IvBaranov/MaterialFavoriteButton";
+                    copyright = "Ivan Baranov";
+                    license = new ApacheSoftwareLicense20();
+                    break;
 			}
 
 

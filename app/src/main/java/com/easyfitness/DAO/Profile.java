@@ -12,17 +12,18 @@ public class Profile {
     private Date mBirthday;
     private String mName;
     private int mSize;
+    private String mPhoto;
     private List<Fonte> mListFonte = new ArrayList<Fonte>();
     private List<ProfileWeight> mListWeight = new ArrayList<ProfileWeight>();
 
-
-    public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday) {
+    public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto) {
         //super();
         this.id = mId;
         this.mCreationDate = mDate;
         this.mBirthday = pBirthday;
         this.mSize = pSize;
         this.mName = pName;
+        this.mPhoto = pPhoto;
     }
 
     public Profile(String pName, int pSize, Date pBirthday) {
@@ -64,8 +65,16 @@ public class Profile {
         return mName;
     }
 
+    public String getPhoto() {
+        return mPhoto;
+    }
+
     public void setName(String pName) {
         this.mName = pName;
+    }
+
+    public void setPhoto(String pPhoto) {
+        this.mPhoto = pPhoto;
     }
 
     public List<ProfileWeight> getWeightList() {

@@ -37,10 +37,10 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 	 
 	 @Override
 	 public void bindView(View view, Context context, Cursor cursor) {
-		  TextView t0 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_ID);
+		  TextView t0 = view.findViewById(R.id.LIST_BODYMEASURE_ID);
 	      t0.setText(cursor.getString(0));
 
-		 TextView t1 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_DATE);
+		 TextView t1 = view.findViewById(R.id.LIST_BODYMEASURE_DATE);
 			 Date date;
 			 try {
 				 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,7 +58,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 				 e.printStackTrace();
 			 }
 	
-	      TextView t2 = (TextView) view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
+	      TextView t2 = view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
 	      t2.setText(cursor.getString(3));
 
          if(cursor.getPosition()%2==mFirstColorOdd) {
@@ -68,7 +68,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
              view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
          }
 
-		 ImageView deletImg = (ImageView) view.findViewById(R.id.deleteButton);
+		 ImageView deletImg = view.findViewById(R.id.deleteButton);
 		 deletImg.setTag(cursor.getLong(0));
 		 deletImg.setOnClickListener(new View.OnClickListener() {
 			 @Override

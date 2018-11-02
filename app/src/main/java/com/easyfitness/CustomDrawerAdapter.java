@@ -17,6 +17,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easyfitness.utils.ImageUtil;
+import com.mikhaellopez.circularimageview.CircularImageView;
+
 public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 	Context context;
@@ -43,16 +46,17 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 			drawerHolder = new DrawerItemHolder();
 
 			view = inflater.inflate(layoutResID, parent, false);
-			drawerHolder.ItemName = (TextView) view.findViewById(R.id.drawer_itemName);
-			drawerHolder.icon = (ImageView) view.findViewById(R.id.drawer_icon);
+			drawerHolder.ItemName = view.findViewById(R.id.drawer_itemName);
+			drawerHolder.icon = view.findViewById(R.id.drawer_icon);
 			
-			drawerHolder.spinner = (Spinner) view.findViewById(R.id.drawerSpinner);
+			drawerHolder.spinner = view.findViewById(R.id.drawerSpinner);
 
-			drawerHolder.title = (TextView) view.findViewById(R.id.drawerTitle);
+			drawerHolder.title = view.findViewById(R.id.drawerTitle);
 
-			drawerHolder.headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);
-			drawerHolder.itemLayout = (LinearLayout) view.findViewById(R.id.itemLayout);
-			drawerHolder.spinnerLayout = (LinearLayout) view.findViewById(R.id.spinnerLayout);
+			drawerHolder.headerLayout = view.findViewById(R.id.headerLayout);
+			drawerHolder.itemLayout = view.findViewById(R.id.itemLayout);
+			drawerHolder.spinnerLayout = view.findViewById(R.id.spinnerLayout);
+			drawerHolder.roundProfile =  view.findViewById(R.id.header_icon);
 
 			view.setTag(drawerHolder);
 
@@ -61,10 +65,10 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		}
 		
-		DrawerItem dItem = (DrawerItem) this.drawerItemList.get(position);
+		DrawerItem dItem = this.drawerItemList.get(position);
 		if (dItem.isSpinner()) {
-			drawerHolder.headerLayout.setVisibility(LinearLayout.INVISIBLE);
-			drawerHolder.itemLayout.setVisibility(LinearLayout.INVISIBLE);
+			drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
+			drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
 			drawerHolder.spinnerLayout.setVisibility(LinearLayout.VISIBLE);
 
 			List<SpinnerItem> userList = new ArrayList<SpinnerItem>();
@@ -97,17 +101,25 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		} else if (dItem.getTitle() != null) {
 			drawerHolder.headerLayout.setVisibility(LinearLayout.VISIBLE);
-			drawerHolder.itemLayout.setVisibility(LinearLayout.INVISIBLE);
-			drawerHolder.spinnerLayout.setVisibility(LinearLayout.INVISIBLE);
+			drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
+			drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
 			drawerHolder.title.setText(dItem.getTitle());
 			//drawerHolder.icon = (ImageView) view.findViewById(R.id.header_icon);
 			
-			drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
-					dItem.getImgResID()));
+			//drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
+			//		dItem.getImgResID()));
+
+			ImageUtil imgUtil = new ImageUtil();
+			// Check if path is pointing to a thumb else create it and use it.
+			String thumbPath = imgUtil.getThumbPath(dItem.getImg());
+			if (thumbPath != null)
+				imgUtil.setPic(drawerHolder.roundProfile, thumbPath);
+			else
+				drawerHolder.roundProfile.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
 		} else {
 			
-			drawerHolder.headerLayout.setVisibility(LinearLayout.INVISIBLE);
-			drawerHolder.spinnerLayout.setVisibility(LinearLayout.INVISIBLE);
+			drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
+			drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
 			drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
 
 			drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
@@ -127,6 +139,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 	private static class DrawerItemHolder {
 		TextView ItemName, title;
 		ImageView icon;
+		CircularImageView roundProfile;
 		LinearLayout headerLayout, itemLayout, spinnerLayout;
 		Spinner spinner;
 	}

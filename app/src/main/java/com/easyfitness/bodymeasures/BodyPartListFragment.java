@@ -61,7 +61,7 @@ public class BodyPartListFragment extends Fragment {
 
 		DAOBodyMeasure mdbMeasure = new DAOBodyMeasure(this.getContext());
 
-        measureList = (ListView) view.findViewById(R.id.listBodyMeasures);
+        measureList = view.findViewById(R.id.listBodyMeasures);
 
 		dataModels= new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class BodyPartListFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-			TextView textView = (TextView) view.findViewById(R.id.LIST_BODYPART_ID);
+			TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
 			int bodyPartID = Integer.parseInt(textView.getText().toString());
 
 			BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID);

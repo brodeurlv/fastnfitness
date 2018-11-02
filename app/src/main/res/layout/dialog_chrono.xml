@@ -20,8 +20,6 @@
         android:background="#3E80B4"
         android:orientation="horizontal" >
 
-
-
         <Button
             android:id="@+id/btn_startstop"
             android:layout_width="70dp"
@@ -29,7 +27,7 @@
             android:layout_margin="10dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Start"
+            android:text="@string/start"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
         
@@ -39,9 +37,10 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Reset"
+            android:text="@string/reset"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 
@@ -53,7 +52,7 @@
             android:layout_marginLeft="5dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Exit"
+            android:text="@string/exit"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 

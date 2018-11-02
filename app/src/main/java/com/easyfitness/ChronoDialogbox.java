@@ -37,10 +37,10 @@ public class ChronoDialogbox extends Dialog implements
     setContentView(R.layout.dialog_chrono);
     this.setCanceledOnTouchOutside(false); // make it modal
     
-    startstop = (Button) findViewById(R.id.btn_startstop);
-    exit = (Button) findViewById(R.id.btn_exit);
-    reset = (Button) findViewById(R.id.btn_reset);
-    chrono= (Chronometer) findViewById(R.id.chronoValue);
+    startstop = findViewById(R.id.btn_startstop);
+    exit = findViewById(R.id.btn_exit);
+    reset = findViewById(R.id.btn_reset);
+    chrono= findViewById(R.id.chronoValue);
     
     startstop.setOnClickListener(this);
     exit.setOnClickListener(this);

@@ -95,8 +95,8 @@ public class FonteGraphFragment extends Fragment {
 		lastweekButton.setOnClickListener(onZoomClick);
 		
 		/* Initialise le graph */ 
-		mChart = (LineChart) view.findViewById(R.id.graphChart);
-		mGraph = new Graph(mChart, getResources().getText(R.string.weightLabel).toString());
+		mChart = view.findViewById(R.id.graphChart);
+		mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
 
 		/* Initialisation de l'historique */
         if (mDb == null) mDb = new DAOFonte(getContext());
@@ -210,6 +210,11 @@ public class FonteGraphFragment extends Fragment {
 		// Recupere les enregistrements
 		List<DateGraphData> valueList = mDb.getFunctionRecords(getProfil(), pMachine, pDAOFunction);
 
+		if (valueList.size()<=0) {
+		    mChart.clear();
+		    return;
+        }
+
 		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
 		// Recherche le min et max des dates
@@ -287,7 +292,7 @@ public class FonteGraphFragment extends Fragment {
                         machineList.setSelection(position);
 					DrawGraph();
 				} else {
-					DrawGraph();
+                    mChart.clear();
 				}
 			}
 		}

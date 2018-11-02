@@ -1,5 +1,7 @@
 package com.easyfitness;
 
+import com.easyfitness.utils.DateConverter;
+
 public class DateGraphData {
     private double x,y;
 
