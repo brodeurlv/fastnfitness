@@ -10,9 +10,12 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
-        V0.16: \n
+        V0.16: 04/11/2018 \n
             \t - Enhancement : Merge of Cardio and Record UI \n
+			\t - Enhancement : UI improvement \n
+			\t - Enhancement : Records visible on Exercise page \n
 			\t - Bug : Removed Exercise list order case sensitive \n
+			\t - Bug : Fixed crash on graph when less that 5 reps \n
 		V0.15.3 : 08/10/2018 \n
             \t - Enhancement : Possibility to add exercise from Exercise page (Thanks to geniusupgrader)\n
             \t - Enhancement : Possible to set exercise as Favorite in the list \n

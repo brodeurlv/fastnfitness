@@ -361,7 +361,28 @@ public class ImageUtil {
 
 
     public File moveFile(File file, File dir) throws IOException {
-        File newFile = new File(dir, file.getName());
+        return copyFile(file, dir, "", true);
+    }
+
+    public File moveFile(File file, File dir, String newFileName) throws IOException {
+        return copyFile(file, dir, newFileName, true);
+    }
+
+    public File copyFile(File file, File dir) throws IOException {
+        return copyFile(file, dir, "", false);
+    }
+
+    public File copyFile(File file, File dir,  String newFileName) throws IOException {
+        return copyFile(file, dir, newFileName, false);
+    }
+
+    public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
+        File newFile = null;
+        if (newFileName=="")
+            newFile = new File(dir, file.getName());
+        else
+            newFile = new File(dir, newFileName);
+
         FileChannel outputChannel = null;
         FileChannel inputChannel = null;
         try {
@@ -369,7 +390,7 @@ public class ImageUtil {
             inputChannel = new FileInputStream(file).getChannel();
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
             inputChannel.close();
-            file.delete();
+            if (moveFile) file.delete();
         } finally {
             if (inputChannel != null) inputChannel.close();
             if (outputChannel != null) outputChannel.close();

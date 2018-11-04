@@ -288,10 +288,6 @@ public class FontesFragment extends Fragment {
             lTableColor = (lTableColor + 1) % 2; // Change la couleur a chaque ajout de donnees
 
             refreshData();
-            /*updateRecordTable(machineEdit.getText().toString());
-            if(lMachine==null)lMachine=mDbMachine.getMachine(machineEdit.getText().toString());
-            updateMinMax(lMachine);
-            changeExerciseTypeUI(lMachine.getType(), false);*/
 
             /* Reinitialisation des machines */
             // TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
@@ -753,6 +749,7 @@ public class FontesFragment extends Fragment {
 
     public void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
+            machineImage.setImageResource(R.drawable.ic_machine); // Default image
             showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
             return;
@@ -760,6 +757,7 @@ public class FontesFragment extends Fragment {
 
         Machine lMachine = mDbMachine.getMachine(machineStr);
         if (lMachine == null) {
+            machineImage.setImageResource(R.drawable.ic_machine); // Default image
             showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
             return;
@@ -907,8 +905,10 @@ public class FontesFragment extends Fragment {
                         serieEdit.setText("1");
                         repetitionEdit.setText("10");
                         poidsEdit.setText("50");
-                        distanceEdit.setText("1000");
-                        durationEdit.setText("01:00");
+                        distanceEdit.setText("1");
+                        durationEdit.setText("10:00");
+                        setCurrentMachine("");
+                        changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
                     }
                 } else { // Restore on fragment restore.
                     setCurrentMachine(machineEdit.getText().toString());

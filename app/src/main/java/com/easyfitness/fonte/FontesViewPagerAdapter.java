@@ -22,7 +22,7 @@ public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 	public FontesViewPagerAdapter(FragmentManager fm, Context ct) {
 		super(fm);
 		lFm = fm;
-		tabtitles[0] =  ct.getResources().getString(R.string.RecordsLabel);
+		tabtitles[0] =  ct.getResources().getString(R.string.RecordLabel);
 		tabtitles[1] =  ct.getResources().getString(R.string.GraphLabel);
 		tabtitles[2] =  ct.getResources().getString(R.string.HistoryLabel);
 	}
