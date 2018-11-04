@@ -18,7 +18,6 @@
 
     <string name="FunctionLabel">Anzeigen</string>
     <string name="HistoryLabel">Verlauf</string>
-    <string name="RecordsLabel">Aufzeichnungen</string>
     <string name="GraphLabel">Grafiken</string>
     <string name="AddLabel">Hinzufügen</string>
     <string name="AddSmallLabel">+</string>
@@ -78,7 +77,7 @@
     <string name="SettingLabel">Einstellungen</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="export_database">Aufzeichnungen exportieren</string>
-    <string name="export_question">Willst du die Datenbank exportieren ?</string>
+    <string name="export_question">Willst du die Datenbank exportieren für </string>
     <string name="export_success">Datenbank exportiert</string>
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
     <string name="import_database">Aufzeichnungen importieren</string>
@@ -261,5 +260,11 @@
     <string name="edit_soon_available">in Kürze verfügbar</string>
     <string name="edit_value">Neue Wert</string>
     <string name="CardioMenuLabel">Cardio (Obsolete)</string>
+    <string name="RecordLabel">Aufzeichnungen</string>
+    <string name="sumDistance">Entfernung</string>
+    <string name="sumDuration">Dauer</string>
+    <string name="speed">Geshwindigkeit</string>
+    <string name="obsoleteCardioTab">Sie können direkt die grundlegende Seite für den bodybuilding und den cardio jetzt benutzen. Diese Seite wird bald verschwinden.</string>
+    <string name="menu_Workout">Training</string>
 </resources>
 

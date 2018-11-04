@@ -234,7 +234,6 @@ public class FonteGraphFragment extends Fragment {
         if (m.getType() == DAOMachine.TYPE_FONTE) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
                 lDAOFunction = DAOFonte.MAX1_FCT;
-
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
                 lDAOFunction = DAOFonte.MAX5_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sum))) {

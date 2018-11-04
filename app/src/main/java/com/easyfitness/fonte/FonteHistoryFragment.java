@@ -58,6 +58,8 @@ public class FonteHistoryFragment extends Fragment {
 	long machineIdArg = -1;
 	long machineProfilIdArg = -1;
 
+	Machine selectedMachine=null;
+
 	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -93,31 +95,41 @@ public class FonteHistoryFragment extends Fragment {
         tReps = view.findViewById(R.id.REPETITION_CELL);
         tWeight = view.findViewById(R.id.POIDS_CELL);
 		
-		// Initialisation des evenements
-		filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);
-        exerciseList.setOnItemSelectedListener(onItemSelectedList);
-		dateList.setOnItemSelectedListener(onItemSelectedList);
-
 		// Initialisation de l'historique
         mDb = new DAORecord(view.getContext());
 
         mExerciseArray = new ArrayList<String>();
-        mDateArray = new ArrayList<String>();
-
         mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterMachine = new ArrayAdapter<String>(
-				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
+                getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
                 mExerciseArray);
-		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseList.setAdapter(mAdapterMachine);
-		mDb.closeCursor();
+        mDb.closeCursor();
 
+        if (machineIdArg!=-1) {
+            // Hide the spinner
+            view.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE);
+            DAOMachine lDbMachine = new DAOMachine(getContext());
+            selectedMachine = lDbMachine.getMachine(machineIdArg);
+            mExerciseArray.add(selectedMachine.getName());
+            mAdapterMachine.notifyDataSetChanged();
+            exerciseList.setSelection(mAdapterMachine.getPosition(selectedMachine.getName()));
+        } else {
+            exerciseList.setOnItemSelectedListener(onItemSelectedList);
+        }
+
+        mDateArray = new ArrayList<String>();
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterDate = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item,
 				mDateArray);
 		mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dateList.setAdapter(mAdapterDate);
+
+        // Initialisation des evenements
+        filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);
+        dateList.setOnItemSelectedListener(onItemSelectedList);
 
 		return view;
 	}
@@ -165,8 +177,30 @@ public class FonteHistoryFragment extends Fragment {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
-            FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-					.getSelectedItem().toString());
+		    if (parent.getId()==R.id.filterMachine) {
+		        // Save current date
+                String currentDateSelection = "";
+
+                //  Update currentSelectedMachine
+                DAOMachine lDbMachine = new DAOMachine(getContext());
+                Machine machine = null;
+                if ( exerciseList.getSelectedItem().toString() != getView().getResources().getText(R.string.all).toString()) {
+                    selectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
+                } else {
+                    selectedMachine = null;
+                }
+                // Update associated Dates
+                refreshDates(selectedMachine);
+                if ( dateList.getCount() > 1 ) {
+                    dateList.setSelection(1); // Select latest date
+                } else {
+                    dateList.setSelection(0); // Or select "All"
+                }
+            }
+            if ( dateList.getCount() >= 1 && exerciseList.getCount() >=1 ) {
+                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+                        .getSelectedItem().toString());
+            }
 		}
 
 		@Override
@@ -220,52 +254,52 @@ public class FonteHistoryFragment extends Fragment {
 	}
 
 	private void refreshData(){
-		View fragmentView = getView();
-		if(fragmentView != null) {
-			if (getProfil() != null) {
-				
-				// Initialisation des machines
-                mExerciseArray.clear();
-                mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-                mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-				mAdapterMachine.notifyDataSetChanged();
-				mDb.closeCursor();
+        View fragmentView = getView();
+        if(fragmentView != null) {
+            if (getProfil() != null) {
+                // If the fragment is used to display record of a specific machine
+                if (machineIdArg == -1) // Refresh the list
+                {
+                    // Initialisation des machines
+                    mExerciseArray.clear();
+                    mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
+                    mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
+                    mAdapterMachine.notifyDataSetChanged();
+                    mDb.closeCursor();
 
-				// Initialisation de la date
-				DAOMachine lDbMachine = new DAOMachine(getContext());
-				Machine machine = null;
-				if ( exerciseList.getSelectedItem().toString() != getView().getResources().getText(R.string.all).toString()) {
-					machine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
-				}
+                    exerciseList.setSelection(0); // Default value is "all" when there is a list
 
-				mDateArray.clear();
-				mDateArray.add(getView().getResources().getText(R.string.all).toString());
-				mDateArray.addAll(mDb.getAllDatesList(getProfil(), machine));
-				if (mDateArray.size() > 1){
-					dateList.setSelection(1);
-				}
-				mAdapterDate.notifyDataSetChanged();
-				mDb.closeCursor();
+                    /*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+                        exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
+                    } else { // if not found, set selection to 0
+                        exerciseList.setSelection(0);
+                    }*/
+                }
 
-				// positionne la liste deroulante sur la bonne machine
-				// If the fragment is used to display record of a specific machine
-				if (machineIdArg != -1)
-				{
-					Machine m = lDbMachine.getMachine(machineIdArg);
-					if (m!=null)
-						exerciseList.setSelection(mAdapterMachine.getPosition(m.getName()));
-					fragmentView.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE); // Hide the filter
-				}
-				/*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-					exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-					FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-							.getSelectedItem().toString());
-				} else { // Si il ne trouve pas la bonne machine, remet la selection a 0
-					exerciseList.setSelection(0);
-				}*/
-			}
-		}
-	}
+                refreshDates(selectedMachine);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param m if m is null then, get the dates for all machines
+     */
+    private void refreshDates(Machine m){
+        View fragmentView = getView();
+        if(fragmentView != null) {
+            if (getProfil() != null) {
+                mDateArray.clear();
+                mDateArray.add(getView().getResources().getText(R.string.all).toString());
+                mDateArray.addAll(mDb.getAllDatesList(getProfil(), m));
+                if (mDateArray.size() > 1) {
+                    dateList.setSelection(1);
+                }
+                mAdapterDate.notifyDataSetChanged();
+                mDb.closeCursor();
+            }
+        }
+    }
 
 	private Profile getProfil()	{
 		return mActivity.getCurrentProfil();

@@ -231,8 +231,9 @@ public class ExerciseDetailsPager extends Fragment {
             KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         } else if (!initialMachine.getName().equals(lMachineName))
         {
+            final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
             // Si une machine existe avec le meme nom => Merge
-            if (newMachine != null && newMachine.getId() != initialMachine.getId() && newMachine.getType() == initialMachine.getType())
+            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType())
             {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
@@ -246,14 +247,14 @@ public class ExerciseDetailsPager extends Fragment {
                         DAOProfil mDbProfil = new DAOProfil(getView().getContext());
                         Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 
-                        List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, machine.getName()); // Recupere tous les records de la machine courante
+                        List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                         for (Record record : listRecords) {
-                            record.setExercise(newMachine.getName()); // Change avec le nouveau nom
-                            record.setExerciseKey(newMachine.getId()); // Met l'ID de la nouvelle machine
+                            record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
+                            record.setExerciseKey(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
                             lDbRecord.updateRecord(record); // Met a jour
                         }
 
-                        mDbMachine.delete(machine); // Supprime l'ancienne machine
+                        mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
 
                         toBeSaved = false;
                         //getThis().getActivity().invalidateOptionsMenu();
@@ -282,7 +283,6 @@ public class ExerciseDetailsPager extends Fragment {
                 List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                 for (Record record : listRecords) {
                     record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECTED)
-                    //record.setExerciseKey(m.getId()); // Change l'id de la machine dans le record // pas necessaire car l'ID ne change pas.
                     lDbRecord.updateRecord(record); // met a jour
                 }
 
@@ -294,7 +294,7 @@ public class ExerciseDetailsPager extends Fragment {
         } else {
             // Si le nom n'a pas ete modifie.
             newMachine.setFavorite(machineFavorite.isFavorite());
-            this.mDbMachine.updateMachine(newMachine);
+            mDbMachine.updateMachine(newMachine);
 
             machineSave.setVisibility(View.GONE);
             toBeSaved = false;
