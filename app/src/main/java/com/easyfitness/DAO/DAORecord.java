@@ -571,10 +571,10 @@ public class DAORecord extends DAOBase {
 
                 long machine_key = -1;
 
-                //Test is Machine exists. If not create it.
+                //Test if machine_key is properly fill. If not add it.
                 DAOMachine lDAOMachine = new DAOMachine(mContext);
                 if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)), "", false);
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)), "", false);
                 } else {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
                 }
@@ -604,11 +604,12 @@ public class DAORecord extends DAOBase {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));
-        value.put(DAOFonte.EXERCISE, m.getExercise());
-        value.put(DAOFonte.PROFIL_KEY, m.getProfilKey());
-        value.put(DAOFonte.TIME, m.getTime());
-        value.put(DAOFonte.TYPE, m.getType());
+        value.put(DAORecord.DATE, dateFormat.format(m.getDate()));
+        value.put(DAORecord.EXERCISE, m.getExercise());
+        value.put(DAORecord.PROFIL_KEY, m.getProfilKey());
+        value.put(DAORecord.TIME, m.getTime());
+        value.put(DAORecord.TYPE, m.getType());
+        value.put(DAORecord.MACHINE_KEY, m.getExerciseKey());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",

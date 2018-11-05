@@ -283,10 +283,12 @@ public class DAOMachine extends DAOBase {
 
 	// Deleting single Record
 	public void delete(Machine m) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_NAME, KEY + " = ?",
-				new String[] { String.valueOf(m.getId()) });
-		db.close();
+		if (m!=null) {
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.delete(TABLE_NAME, KEY + " = ?",
+					new String[]{String.valueOf(m.getId())});
+			db.close();
+		}
 	}
 
 	// Deleting single Record

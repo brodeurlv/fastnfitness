@@ -282,7 +282,7 @@ public class ExerciseDetailsPager extends Fragment {
                 Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
                 List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                 for (Record record : listRecords) {
-                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECTED)
+                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
                     lDbRecord.updateRecord(record); // met a jour
                 }
 
