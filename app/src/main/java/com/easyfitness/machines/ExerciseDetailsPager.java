@@ -233,7 +233,22 @@ public class ExerciseDetailsPager extends Fragment {
         {
             final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
             // Si une machine existe avec le meme nom => Merge
-            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType())
+            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() != machineWithSameName.getType())
+            {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+
+                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
+                dialogBuilder.setMessage("WARNING: this exercise name already exists. It is not possible to merge two machines with same name and different types.");
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+            }
+            else if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType())
             {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
@@ -257,7 +272,6 @@ public class ExerciseDetailsPager extends Fragment {
                         mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
 
                         toBeSaved = false;
-                        //getThis().getActivity().invalidateOptionsMenu();
                         machineSave.setVisibility(View.GONE);
                         getActivity().onBackPressed();
                     }
@@ -282,7 +296,7 @@ public class ExerciseDetailsPager extends Fragment {
                 Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
                 List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                 for (Record record : listRecords) {
-                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECTED)
+                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
                     lDbRecord.updateRecord(record); // met a jour
                 }
 
@@ -320,7 +334,6 @@ public class ExerciseDetailsPager extends Fragment {
                 // Suppress the associated Fontes records
                 deleteRecordsAssociatedToMachine();
                 getActivity().onBackPressed();
-
             }
         });
 
@@ -329,6 +342,7 @@ public class ExerciseDetailsPager extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing
+                dialog.dismiss();
             }
         });
 
