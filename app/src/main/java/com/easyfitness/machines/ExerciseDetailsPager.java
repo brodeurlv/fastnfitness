@@ -272,7 +272,6 @@ public class ExerciseDetailsPager extends Fragment {
                         mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
 
                         toBeSaved = false;
-                        //getThis().getActivity().invalidateOptionsMenu();
                         machineSave.setVisibility(View.GONE);
                         getActivity().onBackPressed();
                     }
@@ -335,7 +334,6 @@ public class ExerciseDetailsPager extends Fragment {
                 // Suppress the associated Fontes records
                 deleteRecordsAssociatedToMachine();
                 getActivity().onBackPressed();
-
             }
         });
 
@@ -344,6 +342,7 @@ public class ExerciseDetailsPager extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing
+                dialog.dismiss();
             }
         });
 
