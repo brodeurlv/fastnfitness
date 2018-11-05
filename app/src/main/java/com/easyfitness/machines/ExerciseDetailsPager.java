@@ -238,7 +238,7 @@ public class ExerciseDetailsPager extends Fragment {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
                 dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
-                dialogBuilder.setMessage("WARNING: this exercise name already exists. It is not possible to merge two machines with same name and different types.");
+                dialogBuilder.setMessage(R.string.renameMachine_error_text2);
                 dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

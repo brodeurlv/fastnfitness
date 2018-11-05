@@ -255,4 +255,5 @@
     <string name="sumDistance">Distance</string>
     <string name="obsoleteCardioTab">"Vous pouvez maintenant utiliser directement la page principale pour le bodybuilding et le cardio. Cette page va bientot disparaitre. "</string>
     <string name="menu_Workout">Entrainement</string>
+    <string name="renameMachine_error_text2">ERREUR: cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
 </resources>

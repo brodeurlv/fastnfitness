@@ -26,7 +26,6 @@
     <string name="EditLabel">Editieren</string>
     <string name="DeleteRecordDialog">Aufzeichnung löschen ?</string>
 
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Sätze</string>
@@ -184,7 +183,7 @@
     <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
     <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen ? Alle dazugehörigen aufzeichnungen werden gelöscht</string>
     <string name="deleteRecordsWithMachine_confirm_text">Willst du alle Aufzeichnungen dieses Gerätes löschen ? Alle Aufzeichnungen werden gelöscht</string>
-    <string name="renameMachine_warning_text">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="renameMachine_warning_text">WARNUNG: dieser Übungsname  existiert bereits. Aufzeichungen werden mit anderen Übung verknüpft.</string>
     <string name="renameMachine_error_text">Dieser Name existiert bereits, bitte wähle einen anderen.</string>
 
 
@@ -260,11 +259,12 @@
     <string name="edit_soon_available">in Kürze verfügbar</string>
     <string name="edit_value">Neue Wert</string>
     <string name="CardioMenuLabel">Cardio (Obsolete)</string>
-    <string name="RecordLabel">Aufzeichnungen</string>
     <string name="sumDistance">Entfernung</string>
     <string name="sumDuration">Dauer</string>
     <string name="speed">Geshwindigkeit</string>
     <string name="obsoleteCardioTab">Sie können direkt die grundlegende Seite für den bodybuilding und den cardio jetzt benutzen. Diese Seite wird bald verschwinden.</string>
     <string name="menu_Workout">Training</string>
+    <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="RecordLabel">Aufzeichnungen</string>
 </resources>
 
