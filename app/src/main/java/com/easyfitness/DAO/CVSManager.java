@@ -8,6 +8,7 @@ import com.csvreader.CsvWriter;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
@@ -368,6 +369,8 @@ public class CVSManager {
 			{
 				if (csvRecords.get(TABLE_HEAD).equals(DAOFonte.TABLE_NAME)) {
 					DAOFonte dbcFonte = new DAOFonte(mContext);
+					DAOCardio dbcCardio = new DAOCardio(mContext);
+                    DAOMachine dbcMachine = new DAOMachine(mContext);
 					dbcFonte.open();
 					Date date;
 					try {
@@ -375,20 +378,31 @@ public class CVSManager {
 								.parse( csvRecords.get(DAOFonte.DATE));
 
                         String machine = csvRecords.get(DAOFonte.EXERCISE);
-                        float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
-						int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
-						int serie = Integer.valueOf(csvRecords.get(DAOFonte.SERIE));
-						int unit = 0;
-						if (!csvRecords.get(DAOFonte.UNIT).isEmpty()) { unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT)); }
-						String notes = csvRecords.get(DAOFonte.NOTES);
-						String time = csvRecords.get(DAOFonte.TIME);
-                        dbcFonte.addBodyBuildingRecord(date, machine, serie, repetition, poids, pProfile, unit, notes, time);
-						dbcFonte.close();
+                        if (dbcMachine.getMachine(machine).getType()==DAOMachine.TYPE_FONTE) {
+                            float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
+                            int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
+                            int serie = Integer.valueOf(csvRecords.get(DAOFonte.SERIE));
+                            int unit = 0;
+                            if (!csvRecords.get(DAOFonte.UNIT).isEmpty()) {
+                                unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT));
+                            }
+                            String notes = csvRecords.get(DAOFonte.NOTES);
+                            String time = csvRecords.get(DAOFonte.TIME);
+                            dbcFonte.addBodyBuildingRecord(date, machine, serie, repetition, poids, pProfile, unit, notes, time);
+                            dbcFonte.close();
+                        }else{
+                            String time = csvRecords.get(DAOCardio.TIME);
+                            String exercise = csvRecords.get(DAOCardio.EXERCISE);
+                            float distance = Float.valueOf(csvRecords.get(DAOCardio.DISTANCE));
+                            int duration = Integer.valueOf(csvRecords.get(DAOCardio.DURATION));
+                            dbcCardio.addCardioRecord(date, time, exercise, distance, duration, pProfile);
+                            dbcCardio.close();
+                        }
 					} catch (ParseException e) {
 						e.printStackTrace();
 						ret = false;
 					}
-				} else if (csvRecords.get(TABLE_HEAD).equals(DAOCardio.TABLE_NAME)) {
+				} else if (csvRecords.get(TABLE_HEAD).equals(DAOOldCardio.TABLE_NAME)) {
 					DAOCardio dbcCardio = new DAOCardio(mContext);
 					dbcCardio.open();
 					Date date;
@@ -396,12 +410,10 @@ public class CVSManager {
 						date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
 								.parse( csvRecords.get(DAOCardio.DATE));
 
-                        String time = csvRecords.get(DAOCardio.TIME);
-                        String exercice = csvRecords.get(DAOCardio.EXERCISE);
-						float distance = Float.valueOf(csvRecords.get(DAOCardio.DISTANCE));
-                        int duration = Integer.valueOf(csvRecords.get(DAOCardio.DURATION));
-						Cardio ft = new Cardio(date, exercice, distance, duration, pProfile);
-                        dbcCardio.addCardioRecord(date, time, exercice, distance, duration, pProfile);
+                        String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
+						float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
+                        int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
+						dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile);
 						dbcCardio.close();
 					} catch (ParseException e) {
 						e.printStackTrace();

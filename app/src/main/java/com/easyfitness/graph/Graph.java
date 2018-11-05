@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.IMarker;
@@ -88,6 +89,9 @@ public class Graph {
 
     public void draw(ArrayList<Entry> entries) {
         mChart.clear();
+        if (entries.isEmpty()) {
+            return;
+        }
 
         Collections.sort(entries, new EntryXComparator());
 
@@ -109,10 +113,6 @@ public class Graph {
         set1.setColor(mContext.getResources().getColor(R.color.toolbar_background));
         set1.setCircleColor(mContext.getResources().getColor(R.color.toolbar_background));
 
-
-		/*List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(set1); // add the datasets*/
-
 		// Create a data object with the datasets
         LineData data = new LineData(set1);
 
@@ -125,13 +125,12 @@ public class Graph {
             }
         });
 
-
 		// Set data
         mChart.setData(data);
-        //mChart.animateX(500, Easing.EasingOption.EaseInOutBack);    //refresh graph
 
         mChart.invalidate();
-        //mChart.resetViewPortOffsets();
+        //mChart.animateY(500, Easing.EasingOption.EaseInBack);    //refresh graph
+
     }
 
     private String arrayToString(ArrayList<Entry> entries) {
