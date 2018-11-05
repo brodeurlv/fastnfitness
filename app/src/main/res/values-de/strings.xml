@@ -18,7 +18,6 @@
 
     <string name="FunctionLabel">Anzeigen</string>
     <string name="HistoryLabel">Verlauf</string>
-    <string name="RecordsLabel">Aufzeichnungen</string>
     <string name="GraphLabel">Grafiken</string>
     <string name="AddLabel">Hinzufügen</string>
     <string name="AddSmallLabel">+</string>
@@ -26,7 +25,6 @@
     <string name="ShareLabel">Teilen</string>
     <string name="EditLabel">Editieren</string>
     <string name="DeleteRecordDialog">Aufzeichnung löschen ?</string>
-
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
@@ -78,7 +76,7 @@
     <string name="SettingLabel">Einstellungen</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="export_database">Aufzeichnungen exportieren</string>
-    <string name="export_question">Willst du die Datenbank exportieren ?</string>
+    <string name="export_question">Willst du die Datenbank exportieren für </string>
     <string name="export_success">Datenbank exportiert</string>
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
     <string name="import_database">Aufzeichnungen importieren</string>
@@ -185,7 +183,7 @@
     <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
     <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen ? Alle dazugehörigen aufzeichnungen werden gelöscht</string>
     <string name="deleteRecordsWithMachine_confirm_text">Willst du alle Aufzeichnungen dieses Gerätes löschen ? Alle Aufzeichnungen werden gelöscht</string>
-    <string name="renameMachine_warning_text">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="renameMachine_warning_text">WARNUNG: dieser Übungsname  existiert bereits. Aufzeichungen werden mit anderen Übung verknüpft.</string>
     <string name="renameMachine_error_text">Dieser Name existiert bereits, bitte wähle einen anderen.</string>
 
 
@@ -261,5 +259,12 @@
     <string name="edit_soon_available">in Kürze verfügbar</string>
     <string name="edit_value">Neue Wert</string>
     <string name="CardioMenuLabel">Cardio (Obsolete)</string>
+    <string name="sumDistance">Entfernung</string>
+    <string name="sumDuration">Dauer</string>
+    <string name="speed">Geshwindigkeit</string>
+    <string name="obsoleteCardioTab">Sie können direkt die grundlegende Seite für den bodybuilding und den cardio jetzt benutzen. Diese Seite wird bald verschwinden.</string>
+    <string name="menu_Workout">Training</string>
+    <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="RecordLabel">Aufzeichnungen</string>
 </resources>
 

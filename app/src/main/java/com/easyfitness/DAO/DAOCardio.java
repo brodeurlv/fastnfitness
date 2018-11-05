@@ -311,6 +311,7 @@ public class DAOCardio extends DAORecord {
 		ContentValues value = new ContentValues();
 		value.put(DAOCardio.DATE, m.getDate().toString());
 		value.put(DAOCardio.EXERCISE, m.getExercise());
+		value.put(DAOCardio.MACHINE_KEY, m.getExerciseKey());
         value.put(DAOCardio.DISTANCE, m.getDistance());
 		value.put(DAOCardio.DURATION, m.getDuration());
 		value.put(DAOCardio.PROFIL_KEY, pProfile.getId());

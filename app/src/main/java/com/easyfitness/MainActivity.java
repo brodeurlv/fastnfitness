@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_profile_black, true);
 
         dataList.add(drawerTitleItem);
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_barbell, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
@@ -221,11 +221,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setAdapter(mDrawerAdapter);
 
         roundProfile = top_toolbar.findViewById(R.id.imageProfile);
-
-        //String[] mTempString = new String[]{"toto","tata","titi"};
-        // Set the adapter for the list view
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-        //        R.layout.drawer_list_item, getDrawerList()));        
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -266,9 +261,6 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
-
-        // Restore state members from saved instance
-        // Example mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
     }
 
     @Override
@@ -434,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
                 exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-                exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question));
+                exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
 
                 // Si oui, supprimer la base de donnee et refaire un Start.
                 exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {

@@ -64,6 +64,7 @@ public class CVSManager {
                 exportCardio(exportDir, pProfile);
                 exportProfileWeight(exportDir, pProfile);
                 exportBodyMeasures(exportDir, pProfile);
+                exportExercise(exportDir, pProfile);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -295,6 +296,61 @@ public class CVSManager {
         //If there are no errors, return true.
         return true;
     }
+
+    public boolean exportExercise(File exportDir, Profile pProfile) {
+        try {
+            // FONTE
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            Date date = new Date();
+
+            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+
+            /**This is our database connector class that reads the data from the database.
+             * The code of this class is omitted for brevity.
+             */
+            DAOMachine dbcMachine = new DAOMachine(mContext);
+            dbcMachine.open();
+
+            /**Let's read the first table of the database.
+             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
+             * containing all records of the table (all fields).
+             * The code of this class is omitted for brevity.
+             */
+            List<Machine> records = null;
+            records = dbcMachine.getAllMachinesArray();
+
+            //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
+            csvOutput.write(TABLE_HEAD);
+            csvOutput.write(ID_HEAD);
+            csvOutput.write(DAOMachine.NAME);
+            csvOutput.write(DAOMachine.DESCRIPTION);
+            csvOutput.write(DAOMachine.TYPE);
+            csvOutput.write(DAOMachine.BODYPARTS);
+            csvOutput.write(DAOMachine.FAVORITES);
+            //csvOutput.write(DAOMachine.PICTURE);
+            csvOutput.endRecord();
+
+            for (int i = 0; i < records.size(); i++) {
+                csvOutput.write(DAOMachine.TABLE_NAME);
+                csvOutput.write(Long.toString(records.get(i).getId()));
+                csvOutput.write(records.get(i).getName());
+                csvOutput.write(records.get(i).getDescription());
+                csvOutput.write(Integer.toString(records.get(i).getType()));
+                csvOutput.write(records.get(i).getBodyParts());
+                csvOutput.write(Boolean.toString(records.get(i).getFavorite()));
+                //write the record in the .csv file
+                csvOutput.endRecord();
+            }
+            csvOutput.close();
+            dbcMachine.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
 	
 	/*
 	 * TODO : Renforcer cette fonction. 
@@ -357,18 +413,27 @@ public class CVSManager {
 					Date date;
 					try {
 						date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-								.parse( csvRecords.get(DAOFonte.DATE));
+								.parse( csvRecords.get(DAOWeight.DATE));
 
-                        float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
+                        float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
 						dbcWeight.addWeight(date, poids, pProfile);
 					} catch (ParseException e) {
 						e.printStackTrace();
 						ret = false;
 					}
 				} else if (csvRecords.get(TABLE_HEAD).equals(DAOProfil.TABLE_NAME)) {
-					// TODO : import des profils
-				}
-
+					// TODO : import profiles
+				} else if (csvRecords.get(TABLE_HEAD).equals(DAOMachine.TABLE_NAME)) {
+                    DAOMachine dbc = new DAOMachine(mContext);
+                    String name = csvRecords.get(DAOMachine.NAME);
+                    String description = csvRecords.get(DAOMachine.DESCRIPTION);
+                    int type = Integer.valueOf(csvRecords.get(DAOMachine.TYPE));
+                    boolean favorite = Boolean.valueOf(csvRecords.get(DAOMachine.FAVORITES));
+                    // Check if this machine doesn't exist
+                    if (dbc.getMachine(name) == null) {
+                        dbc.addMachine(name, description, type, "", favorite);
+                    }
+                }
 			}
 	
 			csvRecords.close();

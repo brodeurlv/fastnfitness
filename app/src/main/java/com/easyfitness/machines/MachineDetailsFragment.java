@@ -88,7 +88,6 @@ public class MachineDetailsFragment extends Fragment {
 	boolean isImageFitToScreen = false;
 	ExerciseDetailsPager pager =null;
 
-
 	ArrayList<Integer> selectMuscleList=new ArrayList();
 	
 	// http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
@@ -443,7 +442,7 @@ public class MachineDetailsFragment extends Fragment {
                             storageDir.mkdirs();
                         }
                     }
-                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
+                    File DestinationFile = null;
 
                     try {
                         DestinationFile = imgUtil.moveFile(SourceFile, storageDir);

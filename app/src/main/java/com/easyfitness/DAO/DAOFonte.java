@@ -484,6 +484,7 @@ public class DAOFonte extends DAORecord {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));
         value.put(DAOFonte.EXERCISE, m.getExercise());
+		value.put(DAOFonte.MACHINE_KEY, m.getExerciseKey());
 		value.put(DAOFonte.SERIE, m.getSerie());
 		value.put(DAOFonte.REPETITION, m.getRepetition());
         value.put(DAOFonte.WEIGHT, m.getPoids());

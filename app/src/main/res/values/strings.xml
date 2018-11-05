@@ -57,7 +57,7 @@
     <string name="KmUnitLabel">Km</string>
     <string name="MilesUnitLabel">Miles</string>
     <string name="DurationLabel">Duration</string>   
-    <string name="ExerciceLabel">Exercise</string>
+    <string name="ExerciceLabel">Exercises</string>
     
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Weight Track</string>
@@ -75,12 +75,11 @@
     <string name="renameProfilQuestion">Choose your new profile name ?</string>
     <string name="DeleteWeightDialog">Remove this weight ?</string>
 
-
     <!-- Pour le menu settings -->
 	<string name="SettingLabel">Settings</string>
     <string name="menu_settings">Settings</string>
     <string name="export_database">Export Records</string>    
-    <string name="export_question">Do you want to export database ?</string>
+    <string name="export_question">Do you want to export database of </string>
     <string name="export_success">Database exported</string>
     <string name="export_failed">Database export failed</string>
     <string name="import_database">Import Records</string>    
@@ -90,7 +89,6 @@
     <!-- Machine Fragment -->
 	<string name="MachinesLabel">Exercises</string>
     <string name="DescriptionLabel">Description</string>
-
 
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Settings</string>
@@ -269,6 +267,10 @@
     <string name="profile_page">Profile page</string>
     <string name="ProfileLabel">Profile</string>
     <string name="edit_value">Edit value</string>
+    <string name="obsoleteCardioTab">You can now use the Record menu for Body building AND Cardio. This tab will disappear soon</string>
+    <string name="menu_Workout">Workout</string>
+    <string name="renameMachine_error_text2">ERROR: this exercise name already exists. It is not possible to merge two exercises with same name and different types.</string>
+    <string name="RecordsLabel">Records</string>
 
 </resources>
 
