@@ -43,7 +43,7 @@ public class DAOMachine extends DAOBase {
 			super(context);
 	}
 	
-	/*public void setProfil (Profile pProfile)
+	/*public void setProfile (Profile pProfile)
 	{
 		mProfile = pProfile;
 	}*/
@@ -53,7 +53,7 @@ public class DAOMachine extends DAOBase {
 	 * @param pDescription
 	 * @param pType
 	 */
-	public long addMachine(String pName, String pDescription, int pType, String pPicture) {
+    public long addMachine(String pName, String pDescription, int pType, String pPicture, boolean pFav) {
 		long new_id = -1;
 
 		ContentValues value = new ContentValues();
@@ -62,8 +62,9 @@ public class DAOMachine extends DAOBase {
 		value.put(DAOMachine.DESCRIPTION, pDescription);
 		value.put(DAOMachine.TYPE, pType);
 		value.put(DAOMachine.PICTURE, pPicture);
-		
-		SQLiteDatabase db = open();
+        value.put(DAOMachine.FAVORITES, pFav);
+
+        SQLiteDatabase db = this.getWritableDatabase();
 		new_id = db.insert(DAOMachine.TABLE_NAME, null, value);
 		close();
 		
@@ -101,9 +102,14 @@ public class DAOMachine extends DAOBase {
 			mCursor.moveToFirst();
 		
 		if (mCursor.getCount() == 0)
-			return null; 
+			return null;
 
-		Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6)==1);
+        Machine value = new Machine(mCursor.getString(1),
+                mCursor.getString(2),
+                mCursor.getInt(3),
+                mCursor.getString(4),
+                mCursor.getString(5),
+                mCursor.getInt(6) == 1);
 
 		value.setId(mCursor.getLong(0));
 		// return value
@@ -169,7 +175,7 @@ public class DAOMachine extends DAOBase {
     public Cursor getAllMachines() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -182,7 +188,7 @@ public class DAOMachine extends DAOBase {
         // Select All Query
         String selectQuery = "";
         selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -204,7 +210,7 @@ public class DAOMachine extends DAOBase {
     public ArrayList<Machine> getAllMachinesArray() {
 // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineList(selectQuery);
@@ -222,7 +228,7 @@ public class DAOMachine extends DAOBase {
 
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
-				+ FAVORITES + " DESC," + NAME + " ASC";
+				+ FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
 		// return value list
 		return getMachineList(selectQuery);
@@ -235,7 +241,7 @@ public class DAOMachine extends DAOBase {
 
 		// Select All Machines
 		String selectQuery = "SELECT DISTINCT  " + NAME + " FROM "
-				+ TABLE_NAME + " ORDER BY " + NAME + " ASC";
+				+ TABLE_NAME + " ORDER BY " + NAME + " COLLATE NOCASE ASC";
 		mCursor = db.rawQuery(selectQuery, null);
 
 		int size = mCursor.getCount();
@@ -276,7 +282,7 @@ public class DAOMachine extends DAOBase {
 	}
 
 	// Deleting single Record
-	public void deleteRecord(Machine m) {
+	public void delete(Machine m) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_NAME, KEY + " = ?",
 				new String[] { String.valueOf(m.getId()) });
@@ -284,7 +290,7 @@ public class DAOMachine extends DAOBase {
 	}
 
 	// Deleting single Record
-	public void deleteRecord(long id) {
+	public void delete(long id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_NAME, KEY + " = ?", new String[] { String.valueOf(id) });
 		db.close();
@@ -307,9 +313,9 @@ public class DAOMachine extends DAOBase {
     }
 
 	public void populate() {
-	
-		addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "");
-		addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "");
+
+        addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "", true);
+        addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "", false);
 			
 	}
 

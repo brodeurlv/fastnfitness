@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {
 	private String name;
@@ -115,7 +118,7 @@ public class MachineFragment extends Fragment {
 			TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
 			long machineId = Long.valueOf(textViewID.getText().toString());
 
-			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
+			ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity)getActivity()).getCurrentProfil().getId());
 			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack so the user can navigate back
@@ -132,22 +135,61 @@ public class MachineFragment extends Fragment {
 		public void onClick(View v) {
 
             // create a temporarily exercise with name="" and open it like any other existing exercises
-
             long new_id = -1;
-            long temp_machine_key = -1;
-            String pMachine = "";
 
-            DAOMachine lDAOMachine = new DAOMachine(getContext());
-            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "");
 
-			MachineDetailsFragment machineDetailsFragment = MachineDetailsFragment.newInstance(temp_machine_key, ((MainActivity)getActivity()).getCurrentProfil().getId());
-			FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-			// Replace whatever is in the fragment_container view with this fragment,
-			// and add the transaction to the back stack so the user can navigate back
-			transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-			transaction.addToBackStack(null);
-			// Commit the transaction
-			transaction.commit();
+            SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText("What type of exercise ?")
+                    .setContentText("")
+                    .setCancelText(getResources().getText(R.string.CardioLabel).toString())
+                    .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
+                    .showCancelButton(true)
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            long temp_machine_key = -1;
+                            String pMachine = "";
+                            DAOMachine lDAOMachine = new DAOMachine(getContext());
+                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
+                            sDialog.dismissWithAnimation();
+
+							ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            // Replace whatever is in the fragment_container view with this fragment,
+                            // and add the transaction to the back stack so the user can navigate back
+                            transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                            transaction.addToBackStack(null);
+                            // Commit the transaction
+                            transaction.commit();
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            long temp_machine_key = -1;
+                            String pMachine = "";
+                            DAOMachine lDAOMachine = new DAOMachine(getContext());
+                            temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false);
+                            sDialog.dismissWithAnimation();
+
+							ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            // Replace whatever is in the fragment_container view with this fragment,
+                            // and add the transaction to the back stack so the user can navigate back
+                            transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                            transaction.addToBackStack(null);
+                            // Commit the transaction
+                            transaction.commit();
+                        }
+                    });
+
+            dlg.show();
+
+            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
+            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
+            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+
 		}
 	};
 

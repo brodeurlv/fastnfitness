@@ -23,6 +23,10 @@ public class DateConverter {
 		return (int)(millisecondes / MILLISECONDINDAY);
 	}
 
+	static public double nbMinutes(double millisecondes){
+		return (int)(millisecondes / (60*1000));
+	}
+
 	static public double nbMilliseconds(double days){
 		return days * MILLISECONDINDAY;
 	}
@@ -79,7 +83,7 @@ public class DateConverter {
 			date = dateFormat.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			date = new Date();
+            date = new Date(0);
 		}
 		return date;
 	}
@@ -127,6 +131,23 @@ public class DateConverter {
         Date date = calendar.getTime();
 
         return dateToLocalDateStr(date, pContext);
+    }
+
+    /**
+     * @param longVal in milliseconds
+     * @return duration in format "HH:MM"
+     */
+    public static String durationToHoursMinutesStr(long longVal) {
+        longVal = longVal / 1000;
+        int hours = (int) longVal / 3600;
+        int remainder = (int) longVal - hours * 3600;
+        int mins = remainder / 60;
+        //remainder = remainder - mins * 60;
+        //int secs = remainder;
+
+        String s = String.format("%02d:%02d", hours, mins);
+
+        return s;
     }
 
 

@@ -77,7 +77,7 @@ public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 	public FonteHistoryFragment getHistoricFragment() {
 		if (mpHistoryFrag == null)
 			mpHistoryFrag = (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
-		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(MainActivity.HISTORY, 3);
+		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(-1, -1);
 
 		//mpHistoryFrag.onHiddenChanged(false);
 		return mpHistoryFrag;

@@ -24,7 +24,9 @@
         android:stretchColumns="1" >
 
         <TableRow
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:id="@+id/tableRowFilterMachine"
+            >
 
             <TextView
                 android:id="@+id/textviewfilterMachine"
@@ -60,12 +62,11 @@
 	</TableLayout>
     </android.support.v7.widget.CardView>
 
-    <include layout="@layout/row_fonte_header"/>
-
     <ListView
         android:id="@+id/listFilterRecord"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="0dp"></ListView>
 
 </LinearLayout>

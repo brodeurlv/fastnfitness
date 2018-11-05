@@ -33,27 +33,36 @@ public class MachineCursorAdapter extends CursorAdapter {
 	 public void bindView(View view, Context context, Cursor cursor) {
 		 		 
 		  TextView t0 = view.findViewById(R.id.LIST_MACHINE_ID);
-	      t0.setText(cursor.getString(0));
+         t0.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.KEY)));
 			 
 		  TextView t1 = view.findViewById(R.id.LIST_MACHINE_NAME);
-		  t1.setText(cursor.getString(1));
+         t1.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.NAME)));
 	
 	      TextView t2 = view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
-	      t2.setText(cursor.getString(2));
+         t2.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.DESCRIPTION)));
 	      
 	      ImageView i0 = view.findViewById(R.id.LIST_MACHINE_PHOTO);
-	      String lPath = cursor.getString(5);
+         String lPath = cursor.getString(cursor.getColumnIndex(DAOMachine.PICTURE));
+
+         int lType = cursor.getInt(cursor.getColumnIndex(DAOMachine.TYPE));
+
 	      if( lPath != null && !lPath.isEmpty() ) {
 	    	  try {
                   ImageUtil imgUtil = new ImageUtil();
                   String lThumbPath = imgUtil.getThumbPath(lPath);
                   imgUtil.setThumb(i0, lThumbPath);
 			} catch (Exception e) {
-				i0.setImageResource(R.drawable.ic_machine);
+                  if (lType == DAOMachine.TYPE_FONTE)
+                      i0.setImageResource(R.drawable.ic_machine);
+                  else
+                      i0.setImageResource(R.drawable.ic_running);
 				e.printStackTrace();
 			}
 	      } else {
-	    	  i0.setImageResource(R.drawable.ic_machine);
+              if (lType == DAOMachine.TYPE_FONTE)
+                  i0.setImageResource(R.drawable.ic_machine);
+              else
+                  i0.setImageResource(R.drawable.ic_running);
 	      }
 
 		 iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);

@@ -14,11 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
-import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.DAOUtils;
-import com.easyfitness.DAO.Fonte;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -35,34 +37,38 @@ import java.util.TimeZone;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FonteHistoryFragment extends Fragment {
-	private String name;
-	private int id;
-
 	Spinner dateList = null;
-	Spinner machineList = null;
+    Spinner exerciseList = null;
 
 	Button paramButton = null;
 	ListView filterList = null;
+
+    TextView tSerie = null;
+    TextView tReps = null;
+    TextView tWeight = null;
 	
 	MainActivity mActivity = null;
 
-	List<String> mMachineArray = null;
+    List<String> mExerciseArray = null;
 	List<String> mDateArray = null;
 
 	ArrayAdapter<String> mAdapterMachine = null;
 	ArrayAdapter<String> mAdapterDate = null;
 
+	long machineIdArg = -1;
+	long machineProfilIdArg = -1;
+
 	/**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static FonteHistoryFragment newInstance(String name, int id) {
+    public static FonteHistoryFragment newInstance(long machineId, long machineProfile) {
     	FonteHistoryFragment f = new FonteHistoryFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putInt("id", id);
+		args.putLong("machineID", machineId);
+		args.putLong("machineProfile", machineProfile);
         f.setArguments(args);
 
         return f;
@@ -74,30 +80,37 @@ public class FonteHistoryFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_history, container, false);
-		
-		dateList = view.findViewById(R.id.filterDate);
-		machineList = view.findViewById(R.id.filterMachine);
-		filterList = view.findViewById(R.id.listFilterRecord);
+
+		Bundle args = this.getArguments();
+		machineIdArg = args.getLong("machineID");
+		machineProfilIdArg = args.getLong("machineProfile");
+
+        dateList = view.findViewById(R.id.filterDate);
+        exerciseList = view.findViewById(R.id.filterMachine);
+        filterList = view.findViewById(R.id.listFilterRecord);
+
+        tSerie = view.findViewById(R.id.SERIE_CELL);
+        tReps = view.findViewById(R.id.REPETITION_CELL);
+        tWeight = view.findViewById(R.id.POIDS_CELL);
 		
 		// Initialisation des evenements
 		filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);
-		machineList.setOnItemSelectedListener(onItemSelectedList);
+        exerciseList.setOnItemSelectedListener(onItemSelectedList);
 		dateList.setOnItemSelectedListener(onItemSelectedList);
 
 		// Initialisation de l'historique
-		mDb = new DAOFonte(view.getContext());
+        mDb = new DAORecord(view.getContext());
 
-		mMachineArray = new ArrayList<String>();
+        mExerciseArray = new ArrayList<String>();
         mDateArray = new ArrayList<String>();
 
-		mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
+        mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterMachine = new ArrayAdapter<String>(
 				getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
-				mMachineArray);
+                mExerciseArray);
 		mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		machineList.setAdapter(mAdapterMachine);
+        exerciseList.setAdapter(mAdapterMachine);
 		mDb.closeCursor();
-
 
 		mDateArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterDate = new ArrayAdapter<String>(
@@ -131,7 +144,7 @@ public class FonteHistoryFragment extends Fragment {
 
 			mDb.deleteRecord(id);
 
-			FillRecordTable(machineList.getSelectedItem().toString(), dateList
+            FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
 
             KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
@@ -152,7 +165,7 @@ public class FonteHistoryFragment extends Fragment {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
-			FillRecordTable(machineList.getSelectedItem().toString(), dateList
+            FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
 					.getSelectedItem().toString());
 		}
 
@@ -162,7 +175,7 @@ public class FonteHistoryFragment extends Fragment {
 		}
 	};
 
-	private DAOFonte mDb = null;
+    private DAORecord mDb = null;
 
 	public MainActivity getMainActivity() {
 		return this.mActivity;
@@ -170,7 +183,6 @@ public class FonteHistoryFragment extends Fragment {
 
 	/*  */
 	private void FillRecordTable(String pMachine, String pDate) {
-		List<Fonte> records = null;
 		Cursor oldCursor = null;
 
         // Retransform date filter value in SQLLite date format
@@ -188,21 +200,19 @@ public class FonteHistoryFragment extends Fragment {
 			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 			pDate = dateFormat.format(date);
-		}
+        }
 
-		// Recupere les valeurs
+        // Get Values
         Cursor c = mDb.getFilteredRecords(getProfil(), pMachine, pDate);
 
         if (c == null || c.getCount() == 0) {
-			//Toast.makeText(mActivity, "No records", Toast.LENGTH_SHORT).show();    
 			filterList.setAdapter(null);
 		} else {
-			// ...
 			if ( filterList.getAdapter() == null ) {
-                FonteCursorAdapter mTableAdapter = new FonteCursorAdapter(this.getView().getContext(), c, 0, itemClickDeleteRecord);
+                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), c, 0, itemClickDeleteRecord);
 				filterList.setAdapter(mTableAdapter);
 			} else {
-                oldCursor = ((FonteCursorAdapter) filterList.getAdapter()).swapCursor(c);
+                oldCursor = ((RecordCursorAdapter) filterList.getAdapter()).swapCursor(c);
 				if (oldCursor!=null)
 					oldCursor.close();
 			}
@@ -214,32 +224,46 @@ public class FonteHistoryFragment extends Fragment {
 		if(fragmentView != null) {
 			if (getProfil() != null) {
 				
-					// Initialisation des machines				
-					mMachineArray.clear();
-					mMachineArray.add(getContext().getResources().getText(R.string.all).toString());
-					mMachineArray.addAll(mDb.getAllMachinesStrList(getProfil()));
-					mAdapterMachine.notifyDataSetChanged();
-					mDb.closeCursor();
-		
-					// Initialisation de la date
-					mDateArray.clear();
-					mDateArray.add(getView().getResources().getText(R.string.all).toString());
-					mDateArray.addAll(mDb.getAllDatesList(getProfil()));
-					if (mDateArray.size() > 1){
-						dateList.setSelection(1);
-					}
-					mAdapterDate.notifyDataSetChanged();
-					mDb.closeCursor();
+				// Initialisation des machines
+                mExerciseArray.clear();
+                mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
+                mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
+				mAdapterMachine.notifyDataSetChanged();
+				mDb.closeCursor();
 
-                // positionne la liste deroulante sur la bonne machine
-					if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
-						machineList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
-                                .getSelectedItem().toString());
-                    } else { // Si il ne trouve pas la bonne machine, remet la selection a 0
-                        machineList.setSelection(0);
-                    }
+				// Initialisation de la date
+				DAOMachine lDbMachine = new DAOMachine(getContext());
+				Machine machine = null;
+				if ( exerciseList.getSelectedItem().toString() != getView().getResources().getText(R.string.all).toString()) {
+					machine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
 				}
+
+				mDateArray.clear();
+				mDateArray.add(getView().getResources().getText(R.string.all).toString());
+				mDateArray.addAll(mDb.getAllDatesList(getProfil(), machine));
+				if (mDateArray.size() > 1){
+					dateList.setSelection(1);
+				}
+				mAdapterDate.notifyDataSetChanged();
+				mDb.closeCursor();
+
+				// positionne la liste deroulante sur la bonne machine
+				// If the fragment is used to display record of a specific machine
+				if (machineIdArg != -1)
+				{
+					Machine m = lDbMachine.getMachine(machineIdArg);
+					if (m!=null)
+						exerciseList.setSelection(mAdapterMachine.getPosition(m.getName()));
+					fragmentView.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE); // Hide the filter
+				}
+				/*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+					exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
+					FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+							.getSelectedItem().toString());
+				} else { // Si il ne trouve pas la bonne machine, remet la selection a 0
+					exerciseList.setSelection(0);
+				}*/
+			}
 		}
 	}
 
@@ -270,7 +294,7 @@ public class FonteHistoryFragment extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         mDb.deleteRecord(idToDelete);
-                        FillRecordTable(machineList.getSelectedItem().toString(), dateList
+                        FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
                                 .getSelectedItem().toString());
                         KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                         sDialog.dismissWithAnimation();

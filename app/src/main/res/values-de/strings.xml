@@ -51,7 +51,7 @@
     <string name="ShareParamExercise">__EXERCISE__</string>
 
     <!-- Cardio Fragment -->
-    <string name="CardioLabel">Cardio (Beta)</string>
+    <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Entfernung (KM)</string>
     <string name="KmUnitLabel">KM</string>
     <string name="MilesUnitLabel">Milen</string>
@@ -59,7 +59,7 @@
     <string name="ExerciceLabel">Übung</string>
 
     <!-- Profile Fragment -->
-    <string name="WeightLabel">Gewicht</string>
+    <string name="weightMenuLabel">Gewicht</string>
     <string name="weightLabel">Gewicht</string>
     <string name="sizeLabel">Größe</string>
     <string name="measureLabel">Messen</string>
@@ -260,5 +260,6 @@
     <string name="description">Beschreibung</string>
     <string name="edit_soon_available">in Kürze verfügbar</string>
     <string name="edit_value">Neue Wert</string>
+    <string name="CardioMenuLabel">Cardio (Obsolete)</string>
 </resources>
 

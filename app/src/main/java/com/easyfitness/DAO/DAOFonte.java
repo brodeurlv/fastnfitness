@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DateGraphData;
-import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,48 +15,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class DAOFonte extends DAOBase {
+public class DAOFonte extends DAORecord {
 
-	// Contacts table name
-	public static final String TABLE_NAME = "EFfontes";
-
-	public static final String KEY = "_id";
-	public static final String DATE = "date";
-	public static final String TIME = "time";
-	public static final String MACHINE = "machine";
-	public static final String SERIE = "serie";
-	public static final String REPETITION = "repetition";
-	public static final String POIDS = "poids";
-	public static final String UNIT = "unit"; // 0:kg 1:lbs
-	public static final String NOTES = "notes";
-	public static final String PROFIL_KEY = "profil_id";
-	public static final String MACHINE_KEY = "machine_id";
-
-	public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-			+ " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
-			+ " DATE, " + MACHINE + " TEXT, " + SERIE + " INTEGER, "
-			+ REPETITION + " INTEGER, " + POIDS + " REAL, " + PROFIL_KEY
-			+ " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY + " INTEGER," + TIME + " TEXT);";
-
-	public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-			+ TABLE_NAME + ";";
 	public static final int SUM_FCT = 0;
 	public static final int MAX1_FCT = 1;
 	public static final int MAX5_FCT = 2;
     public static final int NBSERIE_FCT = 3;
-	private static final String TABLE_ARCHI = KEY + "," + DATE + "," + MACHINE + "," + SERIE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
-    private Profile mProfile = null;
-    private Cursor mCursor = null;
-	private Context mContext = null;
+
+    private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SERIE + "," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
 
 	public DAOFonte(Context context) {
 			super(context);
-			mContext = context;
-	}
-	
-	public void setProfil (Profile pProfile)
-	{
-		mProfile = pProfile;
 	}
 
 	/**
@@ -66,83 +33,20 @@ public class DAOFonte extends DAOBase {
 	 * @param pMachine Machine name
 	 * Le Record a ajouter a la base
 	 */
-	public long addRecord(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
+    public long addBodyBuildingRecord(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
+        return addRecord(pDate, pMachine, DAOMachine.TYPE_FONTE, pSerie, pRepetition, pPoids, pProfile, pUnit, pNote, pTime, 0, 0);
+    }
 
-		ContentValues value = new ContentValues();
-		long new_id = -1;
-		long machine_key = -1;
-		
-		//Test is Machine exists. If not create it. 
-		DAOMachine lDAOMachine = new DAOMachine(mContext);
-		if ( ! lDAOMachine.machineExists(pMachine) )  {
-			machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "");
-		} else {
-			machine_key = lDAOMachine.getMachine(pMachine).getId();
-		}
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-		value.put(DAOFonte.DATE, dateFormat.format(pDate));
-		value.put(DAOFonte.MACHINE, pMachine);
-		value.put(DAOFonte.SERIE, pSerie);
-		value.put(DAOFonte.REPETITION, pRepetition);
-		value.put(DAOFonte.POIDS, pPoids);
-		value.put(DAOFonte.PROFIL_KEY, pProfile.getId());
-		value.put(DAOFonte.UNIT, pUnit);
-		value.put(DAOFonte.NOTES, pNote);
-		value.put(DAOFonte.MACHINE_KEY, machine_key);
-		value.put(DAOFonte.TIME, pTime);
-		
-		SQLiteDatabase db = this.getWritableDatabase();
-		new_id = db.insert(DAOFonte.TABLE_NAME, null, value);		
-		close();
-		
-		return new_id;
-	}
-
-	
 	// Getting single value
-	public Fonte getRecord(long id) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-		mCursor = db.query(TABLE_NAME, new String[] { KEY, DATE, MACHINE,
-				SERIE, REPETITION, POIDS, UNIT, PROFIL_KEY, NOTES, MACHINE_KEY, TIME }, KEY + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
-		if (mCursor != null && mCursor.getCount() > 0)
-			mCursor.moveToFirst();
-		else 
-			return null;
+    public Fonte getBodyBuildingRecord(long id) {
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
+        List<Fonte> valueList = new ArrayList<Fonte>();
 
-		Date date;
-		try {
-
-			SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-			dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-					date = dateformat.parse(mCursor.getString(1));
-		} catch (ParseException e) {
-			e.printStackTrace();
-			date = new Date();
-		}
-		
-		//Get Profile
-		DAOProfil lDAOProfil = new DAOProfil(mContext);
-		Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(7));
-
-		Fonte value = new Fonte(date, mCursor.getString(2),
-				mCursor.getInt(3), 
-				mCursor.getInt(4), 
-				mCursor.getFloat(5),
-                lProfile,
-				mCursor.getInt(6),
-				mCursor.getString(8), 
-				mCursor.getLong(9),
-				mCursor.getString(10));
-
-		value.setId(mCursor.getLong(0));
-		// return value
-		close();
-		return value;
+        valueList = getRecordsList(selectQuery);
+        if (valueList.isEmpty())
+            return null;
+        else
+            return valueList.get(0);
 	}
 
 	// Getting All Records
@@ -163,7 +67,7 @@ public class DAOFonte extends DAOBase {
 				try {
 					SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 					dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-					date = dateformat.parse(mCursor.getString(1));
+                    date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
 				} catch (ParseException e) {
 					e.printStackTrace();
 					date = new Date();
@@ -171,29 +75,29 @@ public class DAOFonte extends DAOBase {
 				
 				//Get Profile
 				DAOProfil lDAOProfil = new DAOProfil(mContext);
-				Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(7));
+                Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.PROFIL_KEY)));
 				
 				long machine_key = -1;
 				
 				//Test is Machine exists. If not create it. 
 				DAOMachine lDAOMachine = new DAOMachine(mContext);
-				if (mCursor.getString(9)==null)  {
-					machine_key = lDAOMachine.addMachine(mCursor.getString(2), "", DAOMachine.TYPE_FONTE, "");
+                if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false);
 				} else {
-					machine_key = mCursor.getLong(9);
+                    machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
 				}
-				
-				Fonte value = new Fonte(date, mCursor.getString(2), 
-						mCursor.getInt(3), 
-						mCursor.getInt(4), 
-						mCursor.getFloat(5),
+
+                Fonte value = new Fonte(date, mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOFonte.SERIE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOFonte.REPETITION)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAOFonte.WEIGHT)),
                         lProfile,
-						mCursor.getInt(6),
-						mCursor.getString(8),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOFonte.UNIT)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.NOTES)),
 						machine_key,
-						mCursor.getString(10));
-				
-				value.setId(mCursor.getLong(0));
+                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.TIME)));
+
+                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));
 
 				// Adding value to list
 				valueList.add(value);
@@ -205,7 +109,6 @@ public class DAOFonte extends DAOBase {
 
     // Getting All Records
     private Cursor getRecordsListCursor(String pRequest) {
-        List<Fonte> valueList = new ArrayList<Fonte>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
         String selectQuery = pRequest;
@@ -214,129 +117,66 @@ public class DAOFonte extends DAOBase {
         return db.rawQuery(selectQuery, null);
     }
 
-	public Cursor getCursor() {
-		return mCursor;
-	}
+
 
 	// Getting All Records
-	public List<Fonte> getAllRecords() {
+    public List<Fonte> getAllBodyBuildingRecords() {
 		// Select All Query
-		String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " ORDER BY "
-				+ DATE + " DESC," + KEY + " DESC";
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + TYPE + "=" + DAOMachine.TYPE_FONTE
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list
 		return getRecordsList(selectQuery);
 	}
 
 	// Getting All Records
-    public List<Fonte> getAllRecordsByProfilArray(Profile pProfile) {
-        return getAllRecordsByProfilArray(pProfile, -1);
+    public List<Fonte> getAllBodyBuildingRecordsByProfileArray(Profile pProfile) {
+        return getAllBodyBuildingRecordsByProfileArray(pProfile, -1);
     }
 
-    public List<Fonte> getAllRecordsByProfilArray(Profile pProfile, int pNbRecords) {
+    private List<Fonte> getAllBodyBuildingRecordsByProfileArray(Profile pProfile, int pNbRecords) {
 		String mTop;
 		if (pNbRecords == -1) mTop = "";
 		else mTop = " LIMIT " + pNbRecords;
 
 
         // Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME +
-				" WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
-				" ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop ;
+        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
 		// Return value list
 		return getRecordsList(selectQuery);
 	}
 
-    // Getting All Records
-    public Cursor getAllRecordsByProfil(Profile pProfile) {
-        return getAllRecordsByProfil(pProfile, -1);
-    }
-
-    public Cursor getAllRecordsByProfil(Profile pProfile, int pNbRecords) {
-        String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
-
-
-        // Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME +
-                " WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
-                " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
-
-        // Return value list
-        return getRecordsListCursor(selectQuery);
-    }
-
-	// Getting Filtered records
-    public Cursor getFilteredRecords(Profile pProfile, String pMachine, String pDate) {
-
-		boolean lfilterMachine = true;
-		boolean lfilterDate = true;
-		String selectQuery = null;
-
-		if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString()))
-		{
-			lfilterMachine = false;
-		}
-
-		if (pDate == null || pDate.isEmpty() || pDate.equals(mContext.getResources().getText(R.string.all).toString())) 
-		{
-			lfilterDate = false;
-		}
-
-		if (lfilterMachine && lfilterDate) {
-			selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME 
-					+ " WHERE " + MACHINE + "=\"" + pMachine 
-					+ "\" AND " + DATE + "=\"" + pDate 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-		} else if (!lfilterMachine && lfilterDate) {
-			selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME 
-					+ " WHERE " + DATE + "=\"" + pDate 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-		} else if (lfilterMachine && !lfilterDate) {
-			selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME 
-					+ " WHERE " + MACHINE	+ "=\"" + pMachine 
-					+ "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-		} else if (!lfilterMachine && !lfilterDate) {
-			selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME 
-					+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-					+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-		}
-
-		// return value list
-        return getRecordsListCursor(selectQuery);
-	}
-
 	// Getting Function records
-	public List<DateGraphData> getFunctionRecords(Profile pProfile, String pMachine,
-                                                  int pFunction) {
+    public List<DateGraphData> getBodyBuildingFunctionRecords(Profile pProfile, String pMachine,
+                                                              int pFunction) {
 
 		String selectQuery = null;
 
 		// TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
 		if (pFunction == DAOFonte.SUM_FCT) {
 			selectQuery = "SELECT SUM(" + SERIE + "*" + REPETITION + "*"
-					+ POIDS + "), " + DATE + " FROM " + TABLE_NAME 
-					+ " WHERE "	+ MACHINE + "=\"" + pMachine + "\"" 
+                    + WEIGHT + "), " + DATE + " FROM " + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
 					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE
 					+ " ORDER BY date(" + DATE + ") ASC";
 		} else if (pFunction == DAOFonte.MAX5_FCT) {
-			selectQuery = "SELECT MAX(" + POIDS + ") , " + DATE + " FROM "
-					+ TABLE_NAME 
-					+ " WHERE " + MACHINE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
+					+ TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
 					+ " AND " + REPETITION + ">=5" 
 					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
 					+ " ORDER BY date(" + DATE	+ ") ASC";
 		} else if (pFunction == DAOFonte.MAX1_FCT) {
-			selectQuery = "SELECT MAX(" + POIDS + ") , " + DATE + " FROM "
-					+ TABLE_NAME 
-					+ " WHERE " + MACHINE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
+					+ TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
 					+ " AND " + REPETITION + ">=1" 
 					+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
 					+ " GROUP BY " + DATE 
@@ -344,7 +184,7 @@ public class DAOFonte extends DAOBase {
         } else if (pFunction == DAOFonte.NBSERIE_FCT) {
             selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + MACHINE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFIL_KEY + "=" + pProfile.getId()
                     + " GROUP BY " + DATE
                     + " ORDER BY date(" + DATE + ") ASC";
@@ -383,295 +223,13 @@ public class DAOFonte extends DAOBase {
 		return valueList;
 	}
 
-    // Getting All Machines
-    public List<String> getAllMachinesStrList(Profile pProfile) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-        String selectQuery = "";
-        if (pProfile==null) {
-            selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
-                    + TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
-        else {
-            selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
-                    + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
-        }
-        // Select All Machines
-        //String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
-        ///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
-        mCursor = db.rawQuery(selectQuery, null);
-
-        int size = mCursor.getCount();
-
-        List<String> valueList = new ArrayList<String>(size);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            int i = 0;
-            do {
-                valueList.add(mCursor.getString(0));
-                i++;
-            } while (mCursor.moveToNext());
-        }
-        close();
-        // return value list
-        return valueList;
-    }
-
-	// Getting All Machines as Machine Object
-	public List<Machine> getAllMachinesList(Profile pProfile) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-		String selectQuery = "";
-		if (pProfile==null) {
-			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
-					+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
-		else {
-			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
-					+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
-		}
-		// Select All Machines
-		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
-		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
-		mCursor = db.rawQuery(selectQuery, null);
-
-		int size = mCursor.getCount();
-
-		List<Machine> valueList = new ArrayList<Machine>(size);
-		DAOMachine lDAOMachine = new DAOMachine(mContext);
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			int i = 0;
-			do {
-				valueList.add(lDAOMachine.getMachine(mCursor.getLong(0)));
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		close();
-		// return value list
-		return valueList;
-	}
-
-	// Getting All Machines as Machine Object
-	public List<Long> getAllMachinesIds(Profile pProfile) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-		String selectQuery = "";
-		if (pProfile==null) {
-			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
-					+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";}
-		else {
-			selectQuery = "SELECT DISTINCT " + MACHINE_KEY + " FROM "
-					+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
-		}
-		// Select All Machines
-		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
-		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
-		mCursor = db.rawQuery(selectQuery, null);
-
-		int size = mCursor.getCount();
-
-		List<Long> valueList = new ArrayList<Long>(size);
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			int i = 0;
-			do {
-				valueList.add(mCursor.getLong(0));
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		close();
-		// return value list
-		return valueList;
-	}
-
-	// Getting All Machines
-	public String[] getAllMachines(Profile pProfile) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-
-		// Select All Machines
-		//String selectQuery = "SELECT DISTINCT  " + DAOMachine.TABLE_NAME +'.' + DAOMachine.NAME + " FROM "
-		///		+ TABLE_NAME  + " INNER JOIN " + DAOMachine.TABLE_NAME + " ON " + DAOMachine.TABLE_NAME + '.' + DAOMachine.KEY + "=" + DAOFonte.TABLE_NAME + '.' + DAOFonte.MACHINE_KEY + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DAOMachine.NAME + " ASC";
-		String selectQuery = "SELECT DISTINCT " + MACHINE + " FROM "
-				+ TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + MACHINE + " ASC";
-		mCursor = db.rawQuery(selectQuery, null);
-
-		int size = mCursor.getCount();
-
-		String[] valueList = new String[size];
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			int i = 0;
-			do {
-				String value = new String(mCursor.getString(0));
-				valueList[i] = value;
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		close();
-		// return value list
-		return valueList;
-	}
-
-	// Getting All Machines
-	public String[] getAllMachines() {
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-
-		// Select All Machines
-		String selectQuery = "SELECT DISTINCT  " + MACHINE + " FROM "
-				+ TABLE_NAME + " ORDER BY " + MACHINE + " ASC";
-		mCursor = db.rawQuery(selectQuery, null);
-
-		int size = mCursor.getCount();
-
-		String[] valueList = new String[size];
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			int i = 0;
-			do {
-				String value = new String(mCursor.getString(0));
-				valueList[i] = value;
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		close();
-		// return value list
-		return valueList;
-	}
-
-	// Getting All Dates
-	public List<String> getAllDatesList(Profile pProfile) {
-		
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		mCursor = null;
-
-		// Select All Machines
-        String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME;
-        if (pProfile != null)
-            selectQuery += " WHERE " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
-        selectQuery += " ORDER BY " + DATE + " DESC";
-
-		mCursor = db.rawQuery(selectQuery, null);
-		int size = mCursor.getCount();
-
-		List<String> valueList = new ArrayList<String>(size);
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			do {
-				int i = 0;
-				//String date;
-				//date = mCursor.getString(0);
-				// Change Date format
-				//date = date.substring(0, 3) + "-" + date.substring(5, 6) + "-"
-
-				Date date;
-				try {
-					SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-					date = dateFormat.parse(mCursor.getString(0));
-    			} catch (ParseException e) {
-					e.printStackTrace();
-					date = new Date();
-				}
-
-				DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
-				dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
-				valueList.add(dateFormat3.format(date));
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		
-		close();
-
-		// return value list
-		return valueList;
-	}
-
-	// Getting All Dates
-	public String[] getAllDatesAsString(Profile pProfile) {
-
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-
-		// Select All Machines
-		String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME
-				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-				+ " ORDER BY " + DATE + " DESC";
-		mCursor = db.rawQuery(selectQuery, null);
-
-		int size = mCursor.getCount();
-
-		String[] valueList = new String[size];
-
-		// looping through all rows and adding to list
-		if (mCursor.moveToFirst()) {
-			int i = 0;
-			do {
-				String value = new String(mCursor.getString(0));
-				valueList[i] = value;
-				i++;
-			} while (mCursor.moveToNext());
-		}
-		
-		close();
-
-		// return value list
-		return valueList;
-	}
-
-	// Get all record for one Machine
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines) {
-		return getAllRecordByMachines(pProfile, pMachines, -1);
-	}
-
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
-        String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
-
-        // Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-                + " WHERE " + MACHINE + "=\"" + pMachines + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
-
-        // return value list
-        return getRecordsListCursor(selectQuery);
-    }
-
-    // Get all record for one Machine
-    public List<Fonte> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
-        return getAllRecordByMachinesArray(pProfile, pMachines, -1);
-    }
-
-    public List<Fonte> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
-		String mTop;
-		if (pNbRecords == -1) mTop = "";
-		else mTop = " LIMIT " + pNbRecords;
-
-		// Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-				+ " WHERE " + MACHINE + "=\"" + pMachines + "\""
-				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
-				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
-
-		// return value list
-		return getRecordsList(selectQuery);
-	}
-
-	// Get all record for one Date
+    // Get all record for one Date
 	public List<Fonte> getAllRecordByDate(Profile pProfile, String pDate) {
 		// Select All Query
 		String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
+                + " WHERE " + DATE + "=\"" + pDate + "\""
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
 				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list
@@ -681,10 +239,11 @@ public class DAOFonte extends DAOBase {
 	// Get all record for one Date
 	public List<Fonte> getSummaryByDateByProfile(Profile pProfile, String pDate) {
 		// Select All Query
-		String selectQuery = "SELECT " + KEY + "," + DATE + "," + MACHINE + ", SUM(" + SERIE + ")," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT " + KEY + "," + DATE + "," + EXERCISE + ", SUM(" + SERIE + ")," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + pDate + "\""
 				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
-				+ " GROUP BY " + DATE + "," + MACHINE + "," + REPETITION + "," + POIDS + "," + UNIT + "," + PROFIL_KEY
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
+                + " GROUP BY " + DATE + "," + EXERCISE + "," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY
 				+ " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
 		// return value list
@@ -694,7 +253,7 @@ public class DAOFonte extends DAOBase {
 	/**
 	 * @return the last record for a profile p
 	 */
-	public Fonte getLastRecord(Profile pProfile) {
+    public Fonte getLastBodyBuildingRecord(Profile pProfile) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
@@ -706,7 +265,8 @@ public class DAOFonte extends DAOBase {
         ;*/
 
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE;
         ;
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -714,47 +274,12 @@ public class DAOFonte extends DAOBase {
         if (mCursor.moveToFirst()) {
             try {
                 long value = mCursor.getLong(0);
-                lReturn = this.getRecord(value);
+                lReturn = this.getBodyBuildingRecord(value);
             } catch (NumberFormatException e) {
                 lReturn = null; // Return une valeur
             }
-		}
+        }
 		
-		close();
-
-		// return value list
-		return lReturn;
-	}
-
-	/**
-	 * @return the last record for a profile p
-	 */
-	public Fonte getLastMachineRecord(long machineID) {
-
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-		Fonte lReturn = null;
-
-		// Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
-
-		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-				+ " WHERE " + MACHINE_KEY + "=" + machineID;
-		;
-		mCursor = db.rawQuery(selectQuery, null);
-
-		// looping through only the first rows.
-		if (mCursor.moveToFirst()) {
-			try {
-				long value = mCursor.getLong(0);
-				lReturn = this.getRecord(value);
-			} catch (NumberFormatException e) {
-				lReturn = null; // Return une valeur
-			}
-		}
-
 		close();
 
 		// return value list
@@ -818,7 +343,7 @@ public class DAOFonte extends DAOBase {
 		SQLiteDatabase db = this.getReadableDatabase();
 		mCursor = null;
 		// Select All Machines
-		String selectQuery = "SELECT " + this.SERIE + ", " + this.POIDS + ", " + this.REPETITION + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT " + SERIE + ", " + WEIGHT + ", " + REPETITION + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + lDate + "\" AND " + MACHINE_KEY + "=" + machine_key;
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -852,7 +377,7 @@ public class DAOFonte extends DAOBase {
 		String lDate = dateFormat.format(pDate);
 
 		// Select All Machines
-		String selectQuery = "SELECT " + this.SERIE + ", " + this.POIDS + ", " + this.REPETITION + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT " + SERIE + ", " + WEIGHT + ", " + REPETITION + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=\"" + lDate + "\"";
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -881,7 +406,7 @@ public class DAOFonte extends DAOBase {
         Weight w = null;
 
 		// Select All Machines
-        String selectQuery = "SELECT MAX(" + this.POIDS + "), " + this.UNIT + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT MAX(" + WEIGHT + "), " + UNIT + " FROM " + TABLE_NAME
 				+ " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -907,7 +432,7 @@ public class DAOFonte extends DAOBase {
         Weight w = null;
 
 		// Select All Machines
-        String selectQuery = "SELECT MAX(" + this.POIDS + "), " + this.UNIT + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT MAX(" + WEIGHT + "), " + UNIT + " FROM " + TABLE_NAME
 				+ " WHERE " + DATE + "=MAX(" + DATE + ") " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -933,7 +458,7 @@ public class DAOFonte extends DAOBase {
         Weight w = null;
 
 		// Select All Machines
-        String selectQuery = "SELECT MIN(" + this.POIDS + "), " + this.UNIT + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT MIN(" + WEIGHT + "), " + UNIT + " FROM " + TABLE_NAME
 				+ " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
 		mCursor = db.rawQuery(selectQuery, null);
 
@@ -957,61 +482,26 @@ public class DAOFonte extends DAOBase {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-		value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));		
-		value.put(DAOFonte.MACHINE, m.getMachine());
+		value.put(DAOFonte.DATE, dateFormat.format(m.getDate()));
+        value.put(DAOFonte.EXERCISE, m.getExercise());
 		value.put(DAOFonte.SERIE, m.getSerie());
 		value.put(DAOFonte.REPETITION, m.getRepetition());
-		value.put(DAOFonte.POIDS, m.getPoids());
+        value.put(DAOFonte.WEIGHT, m.getPoids());
 		value.put(DAOFonte.UNIT, m.getUnit());
 		value.put(DAOFonte.NOTES, m.getNote());		
 		value.put(DAOFonte.PROFIL_KEY, m.getProfilKey());
+        value.put(DAOFonte.TIME, m.getTime());
+        value.put(DAOFonte.TYPE, DAOMachine.TYPE_FONTE);
 
 		// updating row
 		return db.update(TABLE_NAME, value, KEY + " = ?",
 				new String[] { String.valueOf(m.getId()) });
 	}
 
-	// Deleting single Record
-	public void deleteRecord(Fonte m) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_NAME, KEY + " = ?",
-				new String[] { String.valueOf(m.getId()) });
-		db.close();
-	}
 
-	// Deleting single Record
-	public void deleteRecord(long id) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_NAME, KEY + " = ?", new String[] { String.valueOf(id) });
-		db.close();
-	}
 
-    // Getting Profils Count
-    public int getCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
-        open();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        	
-        int value = cursor.getCount();
-        cursor.close();
-        close();
-        
-        // return count
-        return value;
-    }
-    
-    
-    public void closeCursor() {
-    	if ( mCursor!=null) mCursor.close();
-    }
-    
-    public void closeAll() {
-    	if ( mCursor!=null) mCursor.close();
-        close();
-    }
 
-	public void populate() {
+    public void populate() {
 		// DBORecord(long id, Date pDate, String pMachine, int pSerie, int
 		// pRepetition, int pPoids)
 		Date date = new Date();
@@ -1020,7 +510,7 @@ public class DAOFonte extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Biceps";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
 		}
 
 		date = new Date();
@@ -1029,7 +519,7 @@ public class DAOFonte extends DAOBase {
 		for (int i = 1; i <= 5; i++) {
 			String machine = "Dev Couche";
 			date.setDate(date.getDay() + i * 10);
-			addRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
 		}
 	}
 

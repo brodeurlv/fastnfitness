@@ -27,12 +27,16 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.easyfitness.DAO.CVSManager;
+import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DatabaseHelper;
+import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.cardio.DAOOldCardio;
+import com.easyfitness.DAO.cardio.OldCardio;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
 import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
@@ -147,6 +151,24 @@ public class MainActivity extends AppCompatActivity {
         loadPreferences();
 
         DatabaseHelper.renameOldDatabase(this);
+
+        if (DatabaseHelper.DATABASE_VERSION >= 15) {
+            DAOOldCardio mDbOldCardio = new DAOOldCardio(this);
+            if (mDbOldCardio.tableExists()) {
+                DAOCardio mDbCardio = new DAOCardio(this);
+                List<OldCardio> mList = mDbOldCardio.getAllRecords();
+                for (OldCardio record : mList) {
+                    mDbCardio.addCardioRecord(record.getDate(), "00:00", record.getExercice(), record.getDistance(), record.getDuration(), record.getProfil());
+                }
+                mDbOldCardio.dropTable();
+
+                DAOFonte mDbFonte = new DAOFonte(this);
+                List<Fonte> mFonteList = mDbFonte.getAllBodyBuildingRecords();
+                for (Fonte record : mFonteList) {
+                    mDbFonte.updateRecord(record); // Automatically update record Type
+                }
+            }
+        }
 		
 		/* creation de l'arborescence de l'application */
         File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
@@ -186,9 +208,9 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.FonteLabel), R.drawable.ic_barbell, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioLabel), R.drawable.ic_running, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.WeightLabel), R.drawable.ic_scale, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_measuring_tape, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
@@ -481,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                         List<Machine> lList2 = mDbMachines.getAllMachinesArray();
                         for (int i = 0; i < lList2.size(); i++) {
                             Machine mTemp = lList2.get(i);
-                            mDbMachines.deleteRecord(mTemp.getId());
+                            mDbMachines.delete(mTemp.getId());
                         }
                         // Do nothing but close the dialog
                         dialog.dismiss();
@@ -874,7 +896,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4:
                     showFragment(WEIGHT);
-                    setTitle(getResources().getText(R.string.WeightLabel));
+                    setTitle(getResources().getText(R.string.weightMenuLabel));
                     break;
                 case 5:
                     showFragment(BODYTRACKING);
@@ -966,7 +988,7 @@ public class MainActivity extends AppCompatActivity {
                 //Test is Machine exists. If not create it.
                 DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
                 if (!lDAOMachine.machineExists(machineListArray[i])) {
-                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "");
+                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "", false);
                 }
             }
             mMigrationBD05done = true;

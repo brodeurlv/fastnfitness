@@ -19,7 +19,6 @@
     
 	<string name="FunctionLabel">Display</string>
     <string name="HistoryLabel">History</string>
-    <string name="RecordsLabel">Records</string>
     <string name="GraphLabel">Graphs</string>
     <string name="AddLabel">Add</string>
     <string name="AddSmallLabel">Add</string>
@@ -28,9 +27,9 @@
     <string name="EditLabel">Edit</string>
     <string name="DeleteRecordDialog">Remove this record ?</string>
 
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
+    <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel">Repetitions</string>
     <string name="RepetitionLabel_short">Reps</string>
@@ -52,7 +51,8 @@
     <string name="ShareParamExercise">__EXERCISE__</string>        
     
     <!-- Cardio Fragment -->
-    <string name="CardioLabel">Cardio (Beta)</string>
+    <string name="CardioLabel">Cardio</string>
+    <string name="CardioMenuLabel">Cardio (Obsolete)</string>
     <string name="DistanceLabel">Distance (Km)</string>
     <string name="KmUnitLabel">Km</string>
     <string name="MilesUnitLabel">Miles</string>
@@ -60,7 +60,7 @@
     <string name="ExerciceLabel">Exercise</string>
     
     <!-- Profile Fragment -->
-    <string name="WeightLabel">Weight Track</string>
+    <string name="weightMenuLabel">Weight Track</string>
     <string name="weightLabel">Weight</string>
     <string name="sizeLabel">Size</string>
     <string name="measureLabel">Measure</string>
@@ -150,8 +150,17 @@
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
-    </string-array>   
-    
+    </string-array>
+
+    <string name="sumDistance">Distance</string>
+    <string name="sumDuration">Duration</string>
+    <string name="speed">Speed</string>
+    <string-array name="graph_cardio_functions">
+        <item>@string/sumDistance</item>
+        <item>@string/sumDuration</item>
+        <item>@string/speed</item>
+    </string-array>
+
     <string name="all">All</string>
 
     <string name="bodytracking">Body Track</string>

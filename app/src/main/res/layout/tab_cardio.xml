@@ -210,10 +210,16 @@
                 android:text="@string/AddLabel" />
         </LinearLayout>
 
-        <ListView
+        <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listCardioRecord"
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="false"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:fastScrollEnabled="false"
+            android:isScrollContainer="false"
+            android:scrollbars="none" />
 
     </LinearLayout>
 </ScrollView>
