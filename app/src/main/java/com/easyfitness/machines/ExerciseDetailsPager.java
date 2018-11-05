@@ -233,7 +233,22 @@ public class ExerciseDetailsPager extends Fragment {
         {
             final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
             // Si une machine existe avec le meme nom => Merge
-            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType())
+            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() != machineWithSameName.getType())
+            {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+
+                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
+                dialogBuilder.setMessage("WARNING: this exercise name already exists. It is not possible to merge two machines with same name and different types.");
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+            }
+            else if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType())
             {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
