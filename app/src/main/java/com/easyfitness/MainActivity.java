@@ -140,13 +140,6 @@ public class MainActivity extends AppCompatActivity {
             mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
             mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, BODYTRACKING);
         }
-        /*else {
-			mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
-			mpCardioFrag = (CardioFragment) getSupportFragmentManager().findFragmentByTag(CARDIO);
-			mpProfilFrag = (ProfilFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
-			mpAboutFrag = (AboutFragment) getSupportFragmentManager().findFragmentByTag(ABOUT);
-			mpMachineFrag = (MachineFragment) getSupportFragmentManager().findFragmentByTag(MACHINES);
-		}*/
 
         loadPreferences();
 
@@ -154,11 +147,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (DatabaseHelper.DATABASE_VERSION >= 15) {
             DAOOldCardio mDbOldCardio = new DAOOldCardio(this);
+            DAOMachine lDAOMachine = new DAOMachine(this);
             if (mDbOldCardio.tableExists()) {
                 DAOCardio mDbCardio = new DAOCardio(this);
                 List<OldCardio> mList = mDbOldCardio.getAllRecords();
                 for (OldCardio record : mList) {
-                    mDbCardio.addCardioRecord(record.getDate(), "00:00", record.getExercice(), record.getDistance(), record.getDuration(), record.getProfil());
+                    String exerciseName="";
+                    Machine m = lDAOMachine.getMachine(record.getExercice());
+                    exerciseName = record.getExercice();
+                    if (m != null) { // if a machine exists
+                        if (m.getType()==DAOMachine.TYPE_FONTE) { // if it is not a Cardio type
+                            exerciseName = exerciseName + "-Cardio"; // add a suffix to
+                        }
+                    }
+
+                    mDbCardio.addCardioRecord(record.getDate(), "00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil());
                 }
                 mDbOldCardio.dropTable();
 
@@ -167,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
                 for (Fonte record : mFonteList) {
                     mDbFonte.updateRecord(record); // Automatically update record Type
                 }
+            }
+            ArrayList<Machine> machineList = lDAOMachine.getAllMachinesArray();
+            for (Machine record : machineList) {
+                lDAOMachine.updateMachine(record); // Reset all the fields on machines.
             }
         }
 		

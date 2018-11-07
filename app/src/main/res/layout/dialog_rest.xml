@@ -166,7 +166,6 @@
         android:layout_gravity="center"
         android:background="#3E80B4"
         android:gravity="center"
-
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -176,9 +175,9 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
-
             android:background="@android:color/white"
             android:clickable="true"
+            android:gravity="center"
             android:text="@string/exit"
             android:textColor="#5DBCD2"
             android:textSize="18sp"
