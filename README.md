@@ -44,6 +44,13 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.16 : November 8, 2018
+- Enhancement : Merge of Cardio and Bodybuilding UI
+- Enhancement : UI improvement
+- Enhancement : Records visible on Exercise page
+- Bug : Removed Exercise list order case sensitive
+- Bug : Fixed crash on graph when less that 5 reps
+
 ### 0.15.2 : September 19, 2018
 - Bug : Fixed intro
 
