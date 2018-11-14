@@ -44,6 +44,10 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.16.1 : November 14, 2018
+- Bug : Fixed crash on Cardio page
+- Bug : Fixed title on Workout page
+
 ### 0.16 : November 8, 2018
 - Enhancement : Merge of Cardio and Bodybuilding UI
 - Enhancement : UI improvement
