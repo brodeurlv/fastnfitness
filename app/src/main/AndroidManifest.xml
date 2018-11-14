@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.easyfitness"
-    android:versionCode="24"
-    android:versionName="0.16">
+    android:versionCode="25"
+    android:versionName="0.16.1">
 
     <uses-sdk
         android:minSdkVersion="16"

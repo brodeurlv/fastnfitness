@@ -274,7 +274,7 @@ public class CardioFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        //refreshData();
+        refreshData();
     }
 
     public String getName() {

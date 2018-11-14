@@ -260,10 +260,6 @@ public class DAOFonte extends DAORecord {
 		Fonte lReturn = null;
 
 		// Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
-
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
                 + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
                 + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE;

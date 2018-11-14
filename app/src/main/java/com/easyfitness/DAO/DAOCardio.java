@@ -285,16 +285,16 @@ public class DAOCardio extends DAORecord {
 
 		// Select All Machines
 		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME 
-				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
+				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO;
 		mCursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
 		mCursor.moveToFirst();
 		try {
-			long value = Long.parseLong(mCursor.getString(mCursor.getColumnIndex(DAOCardio.KEY)));
+			long value = mCursor.getLong(0);
             lReturn = this.getRecord(value);
 		} catch (NumberFormatException e) {
-			//Date date = new Date();
 			lReturn = null; // Return une valeur
 		}
 		

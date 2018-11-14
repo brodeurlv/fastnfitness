@@ -883,7 +883,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 1:
                     showFragment(FONTESPAGER);
-                    setTitle(getResources().getText(R.string.FonteLabel));
+                    setTitle(getResources().getText(R.string.menu_Workout));
                     break;
                 case 2:
                     showFragment(CARDIO);
