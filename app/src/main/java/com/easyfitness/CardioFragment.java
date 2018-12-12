@@ -315,7 +315,7 @@ public class CardioFragment extends Fragment {
 			recordList.setAdapter(null);
 		} else {
 			// ...
-            RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord);
+            RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord, null);
             mTableAdapter.setFirstColorOdd(records.size() % 2);
             recordList.setAdapter(mTableAdapter);
 		}

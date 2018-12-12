@@ -119,7 +119,7 @@ public class FontesFragment extends Fragment {
         @Override
         public void onClick(View v) {
             detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-            detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.arrow_up : R.drawable.arrow_down);
+            detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
             saveSharedParams();
         }
     };
@@ -167,6 +167,30 @@ public class FontesFragment extends Fragment {
         @Override
         public void onBtnClick(long id) {
             showDeleteDialog(id);
+        }
+    };
+
+    private BtnClickListener itemClickCopyRecord = new BtnClickListener() {
+        @Override
+        public void onBtnClick(long id) {
+            Record r = mDb.getRecord(id);
+            if (r!=null) {
+                // Copy values above
+                setCurrentMachine(r.getExercise());
+                if ( r.getType() == DAOMachine.TYPE_FONTE ) {
+                    Fonte f = mDbBodyBuilding.getBodyBuildingRecord(id);
+                    repetitionEdit.setText(String.format ("%d", f.getRepetition()));
+                    serieEdit.setText(String.format ("%d", f.getSerie()));
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    poidsEdit.setText(numberFormat.format(f.getPoids()));
+                } else if ( r.getType() == DAOMachine.TYPE_CARDIO ) {
+                    Cardio c = mDbCardio.getRecord(id);
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    distanceEdit.setText(numberFormat.format(c.getDistance()));
+                    durationEdit.setText(DateConverter.durationToHoursMinutesStr(c.getDuration()));
+                }
+                KToast.infoToast(getMainActivity(), "Record copied", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
         }
     };
     private OnClickListener clickAddButton = new View.OnClickListener() {
@@ -854,18 +878,23 @@ public class FontesFragment extends Fragment {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
 
+        Record r = mDb.getLastRecord(getProfil());
+
         // Recupere les valeurs
-        if (pMachine == null || pMachine.isEmpty()) {
-            c = mDb.getAllRecordsByProfile(getProfil(), 10);
-        } else {
-            c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
-        }
+       // if (pMachine == null || pMachine.isEmpty()) {
+        if (r!=null)
+            c = mDb.getFilteredRecords(getProfil(), null,  DateConverter.dateToDBDateStr(r.getDate()));
+        else
+            return;
+        //} else {
+        //    c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
+        //}
 
         if (c == null || c.getCount() == 0) {
             recordList.setAdapter(null);
         } else {
             if (recordList.getAdapter() == null) {
-                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
+                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord, itemClickCopyRecord);
                 mTableAdapter.setFirstColorOdd(lTableColor);
                 recordList.setAdapter(mTableAdapter);
             } else {
@@ -971,7 +1000,7 @@ public class FontesFragment extends Fragment {
         } else {
             detailsLayout.setVisibility(View.GONE);
         }
-        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.arrow_up : R.drawable.arrow_down);
+        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
     }
 
     @Override

@@ -75,7 +75,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:adjustViewBounds="false"
+                        android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
@@ -385,7 +385,7 @@
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:src="@drawable/arrow_up" />
+                    android:src="@drawable/baseline_keyboard_arrow_up_black_36" />
 
                 <LinearLayout
                     android:id="@+id/notesLayout"

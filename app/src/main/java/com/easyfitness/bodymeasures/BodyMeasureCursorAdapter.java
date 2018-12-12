@@ -61,11 +61,13 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 	      TextView t2 = view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
 	      t2.setText(cursor.getString(3));
 
+         android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
+
          if(cursor.getPosition()%2==mFirstColorOdd) {
-             view.setBackgroundColor(context.getResources().getColor(R.color.background_odd));
+             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
          }
          else {
-             view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
+             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
          }
 
 		 ImageView deletImg = view.findViewById(R.id.deleteButton);

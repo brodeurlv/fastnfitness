@@ -26,12 +26,14 @@ public class RecordCursorAdapter extends CursorAdapter {
     private int mFirstColorOdd = 0;
     private Context mContext = null;
     BtnClickListener mDeleteClickListener = null;
+    BtnClickListener mCopyClickListener = null;
 
-    public RecordCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickList) {
+    public RecordCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickDelete, BtnClickListener clickCopy) {
         super(context, c, flags);
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mDeleteClickListener = clickList;
+        mDeleteClickListener = clickDelete;
+        mCopyClickListener = clickCopy;
     }
 
     @Override
@@ -67,6 +69,9 @@ public class RecordCursorAdapter extends CursorAdapter {
         LinearLayout tRepsLayout = view.findViewById(R.id.REP_LAYOUT);
         //LinearLayout tWeightLayout = view.findViewById(R.id.WEIGHT_LAYOUT);
 
+        if (mCopyClickListener == null) {
+            view.findViewById(R.id.copyButton).setVisibility(View.GONE);
+        }
 
         /* Specific display */
         int recordType = cursor.getInt(cursor.getColumnIndex(DAORecord.TYPE));
@@ -103,6 +108,16 @@ public class RecordCursorAdapter extends CursorAdapter {
             public void onClick(View v) {
                 if (mDeleteClickListener != null)
                     mDeleteClickListener.onBtnClick((long) v.getTag());
+            }
+        });
+
+        ImageView copyImg = view.findViewById(R.id.copyButton);
+        copyImg.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
+        copyImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCopyClickListener != null)
+                    mCopyClickListener.onBtnClick((long) v.getTag());
             }
         });
     }

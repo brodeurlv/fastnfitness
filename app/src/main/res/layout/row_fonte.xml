@@ -189,9 +189,21 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/copyButton"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="0dp"
+                android:clickable="true"
+                android:elevation="0dp"
+                android:rotation="+90"
+                app:srcCompat="?attr/actionModeCloseDrawable" />
+
+            <ImageView
                 android:id="@+id/deleteButton"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
