@@ -80,6 +80,7 @@
      
 	<!-- Machine Fragment -->
 	<string name="MachinesLabel">Exercices</string>
+    <string name="AddExercise">Nouveau exercice</string>
     <string name="DescriptionLabel">Description</string>
 
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>

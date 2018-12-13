@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
-public class MachineCursorAdapter extends CursorAdapter {
+public class MachineCursorAdapter extends CursorAdapter implements Filterable {
 	 
 	 private LayoutInflater mInflater;
 	 private Context mContext = null;

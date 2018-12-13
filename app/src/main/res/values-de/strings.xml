@@ -85,6 +85,7 @@
 
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Übungen</string>
+    <string name="AddExercise">Neue Übung</string>
     <string name="DescriptionLabel">Beschreibung</string>
 
 
