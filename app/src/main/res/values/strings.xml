@@ -270,6 +270,7 @@
     <string name="obsoleteCardioTab">You can now use the Record menu for Body building AND Cardio. This tab will disappear soon</string>
     <string name="menu_Workout">Workout</string>
     <string name="renameMachine_error_text2">ERROR: this exercise name already exists. It is not possible to merge two exercises with same name and different types.</string>
+    <string name="recordcopied">Record copied</string>
 
 </resources>
 

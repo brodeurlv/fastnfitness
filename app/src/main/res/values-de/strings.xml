@@ -244,7 +244,7 @@
     <string name="max">Max</string>
     <string name="areyousure">Bist du sicher?</string>
     <string name="Take_profile_picture">Bild für Profil</string>
-    <string name="DeleteWeightDialog">Wirklich löschen?</string>
+    <string name="DeleteWeightDialog">Datensatz kopierte</string>
     <string name="name">Name</string>
     <string name="optional">optional</string>
     <string name="weight_missing">Bitte geben Sie Ihrem Gewicht</string>

@@ -3,7 +3,7 @@ package com.easyfitness.DAO;
 import java.util.Date;
 
 /* DataBase Object */
-public class Record {
+public abstract class ARecord implements IRecord {
     protected long id;
     protected Date mDate;
     protected String mExercise;
@@ -13,11 +13,11 @@ public class Record {
     protected int mType; // Time in HH:MM:SS
 
 
-    public Record() {
+    public ARecord() {
         super();
     }
 
-    public Record(Date pDate, String pMachine, Profile pProfile, long pMachineKey, String pTime, int pType) {
+    public ARecord(Date pDate, String pMachine, Profile pProfile, long pMachineKey, String pTime, int pType) {
         super();
         this.mDate = pDate;
         this.mExercise = pMachine;
@@ -27,52 +27,58 @@ public class Record {
         this.mType = pType;
     }
 
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
 
+    @Override
     public Date getDate() {
         return mDate;
     }
 
+    @Override
     public String getExercise() {
         return mExercise;
     }
 
+    @Override
     public void setExercise(String exercise) {
         this.mExercise = exercise;
     }
 
+    @Override
     public long getExerciseKey() {
         return mExerciseId;
     }
 
+    @Override
     public void setExerciseKey(long id) {
         this.mExerciseId = id;
     }
 
+    @Override
     public Profile getProfil() {
         return mProfile;
     }
 
+    @Override
     public long getProfilKey() {
         return mProfile.getId();
     }
 
+    @Override
     public String getTime() {
         return mTime;
     }
 
+    @Override
     public int getType() {
         return mType;
     }
-
-    public void setType(int pType) {
-        this.mType = pType;
-    }
-
 }

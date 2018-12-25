@@ -64,10 +64,10 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
          android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
 
          if(cursor.getPosition()%2==mFirstColorOdd) {
-             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
+             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
          }
          else {
-             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
+             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
          }
 
 		 ImageView deletImg = view.findViewById(R.id.deleteButton);

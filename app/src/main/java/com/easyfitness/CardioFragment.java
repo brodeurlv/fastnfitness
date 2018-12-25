@@ -28,6 +28,7 @@ import android.widget.TimePicker;
 
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
+import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.fonte.RecordCursorAdapter;
 import com.easyfitness.utils.DateConverter;
@@ -415,7 +416,7 @@ public class CardioFragment extends Fragment {
 			dateEdit.setText(dateFormat.format(date));
 
 			/* Initialisation serie */ 
-			Cardio lLastRecord = mDb.getLastRecord(getProfil());
+			IRecord lLastRecord = mDb.getLastRecord(getProfil());
 			if (lLastRecord != null ) {
                 exerciceEdit.setText(lLastRecord.getExercise());
 				distanceEdit.setText("");

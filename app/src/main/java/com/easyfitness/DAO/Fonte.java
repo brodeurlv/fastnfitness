@@ -3,7 +3,7 @@ package com.easyfitness.DAO;
 import java.util.Date;
 
 /* DataBase Object */
-public class Fonte extends Record {
+public class Fonte extends ARecord {
     // Notez que l'identifiant est un long
     private int mSerie;
     private int mRepetition;
@@ -26,6 +26,7 @@ public class Fonte extends Record {
         this.mProfile = pProfile;
         this.mExerciseId = pMachineKey;
         this.mTime = pTime;
+        this.mType = DAOMachine.TYPE_FONTE;
     }
 
     public int getSerie() {
