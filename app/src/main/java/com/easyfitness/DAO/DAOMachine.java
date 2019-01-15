@@ -194,7 +194,20 @@ public class DAOMachine extends DAOBase {
         return getMachineListCursor(selectQuery);
     }
 
-    /**
+	/**
+	 * @return List of Machine object ordered by Favorite and Name
+	 */
+	public Cursor getFilteredMachines(CharSequence filterString) {
+		// Select All Query
+		// like '%"+inputText+"%'";
+		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' "  + " ORDER BY "
+				+ FAVORITES + " DESC," + NAME + " ASC";
+		// return value list
+		return getMachineListCursor(selectQuery);
+	}
+
+
+	/**
      * @return List of Machine object ordered by Favorite and Name
      */
     public void deleteAllEmptyExercises() {
