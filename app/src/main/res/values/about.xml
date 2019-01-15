@@ -10,10 +10,11 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
-        V0.16.2: 14/11/2018 \n
+        V0.16.2: 16/01/2019 \n
             \t - Enhancement : Possibility to copy existing records \n
             \t - Enhancement : Main list displaying last date history \n
             \t - Enhancement : Refactoring for better performances \n
+            \t - Enhancement : Added filtering in exercise page (Thanks to geniusupgrader) \n
         V0.16.1: 14/11/2018 \n
             \t - Bug : Fixed crash on Cardio page\n
             \t - Bug : Fixed title on Workout page\n
