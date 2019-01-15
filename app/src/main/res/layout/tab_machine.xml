@@ -1,47 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tab_machines"
-    android:name="tab_machines"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"    >
+	android:id="@+id/tab_machines"
+	android:name="tab_machines"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:focusable="true"
+	android:focusableInTouchMode="true"
+	android:orientation="vertical"
+	android:paddingBottom="0dp"
+	android:paddingLeft="0dp"
+	android:paddingRight="0dp"
+	android:paddingTop="0dp"    >
 
+	<Button
+		android:id="@+id/addExercise"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="8dp"
+		android:background="@android:color/white"
+		android:text="@string/AddLabel" />
 
-	<LinearLayout
+	<AutoCompleteTextView
+		android:id="@+id/searchField"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		android:layout_gravity="center_vertical"
+		android:hint="@string/MachineHint"
+		android:imeOptions="actionNext"
+		android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
+		android:nextFocusForward="@+id/editSerie"
+		android:singleLine="true" />
+
+	<ListView
+		android:id="@+id/listMachine"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:drawSelectorOnTop="false"
+		android:minHeight="300dip" >
+	</ListView>
 
 
-		<Button
-			android:id="@+id/addExercise"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="8dp"
-			android:background="@android:color/white"
-			android:text="@string/AddLabel" />
-
-
-	</LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-    
-	    <ListView
-	        android:id="@+id/listMachine"        
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:drawSelectorOnTop="false"
-	        android:minHeight="300dip" >
-	  	</ListView>
-
-    </RelativeLayout> 	
-    
 </LinearLayout>

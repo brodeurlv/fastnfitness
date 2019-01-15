@@ -4,19 +4,27 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -39,6 +47,9 @@ public class MachineFragment extends Fragment {
 	ImageButton renameMachineButton = null;
 	ListView machineList = null;
 	Button addButton = null;
+	AutoCompleteTextView searchField = null;
+	MachineCursorAdapter mTableAdapter;
+	final int addId = 555;  //for add exercise menu
 
 	private DAOFonte mDbFonte = null;
 
@@ -64,11 +75,17 @@ public class MachineFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		// activates onCreateOptionsMenu in this fragment
+		setHasOptionsMenu(true);
+
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.tab_machine, container, false);
 
 		addButton = view.findViewById(R.id.addExercise);
 		addButton.setOnClickListener(clickAddButton);
+
+		searchField = view.findViewById(R.id.searchField);
+		searchField.addTextChangedListener(onTextChangeListener);
 
 		//typeList = (Spinner) view.findViewById(R.id.filterDate);
 		//machineList = (Spinner) view.findViewById(R.id.filterMachine);
@@ -85,12 +102,54 @@ public class MachineFragment extends Fragment {
 		return view;
 	}
 
+
+	public TextWatcher onTextChangeListener = new TextWatcher() {
+		@Override
+		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+			if(charSequence.length()==0) {
+//				mTableAdapter.notifyDataSetChanged();
+//				mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+				refreshData();
+			}
+			else{
+				mTableAdapter.getFilter().filter(charSequence);
+				mTableAdapter.notifyDataSetChanged();
+			}
+		}
+
+		@Override
+		public void afterTextChanged(Editable editable) {
+		}
+	};
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+
+		switch (item.getItemId()) {
+			case addId:
+				clickAddButton.onClick(getView());
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+
+
 	@Override
 	public void onStart() {
 		super.onStart();
 
         mDbMachine.deleteAllEmptyExercises();
         refreshData();
+
+        // for resetting the search field at the start:
+		searchField.setText("");
 
 		// Initialisation des evenements
 		machineList.setOnItemSelectedListener(onItemSelectedList);
@@ -218,28 +277,34 @@ public class MachineFragment extends Fragment {
 	}
 
 	private void refreshData(){
-        Cursor c = null;
+		Cursor c = null;
 		Cursor oldCursor = null;
-        ArrayList<Machine> records = null;
-		
+		ArrayList<Machine> records = null;
+
 		View fragmentView = getView();
 		if(fragmentView != null) {
 			if (getProfil() != null) {
-			
+
 				// Version avec table Machine
-                c = mDbMachine.getAllMachines();
-                if (c == null || c.getCount() == 0) {
-					//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
+				c = mDbMachine.getAllMachines();
+				if (c == null || c.getCount() == 0) {
+					//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
 					machineList.setAdapter(null);
 				} else {
 					if ( machineList.getAdapter() == null ) {
-                        MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
+						mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
 						machineList.setAdapter(mTableAdapter);
-					} else {				
-						MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
-                        oldCursor = mTableAdapter.swapCursor(c);
+					} else {
+						mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+						oldCursor = mTableAdapter.swapCursor(c);
 						if (oldCursor!=null) oldCursor.close();
 					}
+
+					mTableAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+						public Cursor runQuery(CharSequence constraint) {
+							return mDbMachine.getFilteredMachines(constraint);
+						}
+					});
 				}
 			}
 		}
