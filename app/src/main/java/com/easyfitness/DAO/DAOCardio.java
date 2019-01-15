@@ -257,53 +257,6 @@ public class DAOCardio extends DAORecord {
 		return getRecordsList(selectQuery);
 	}
 
-	// Get all record for one Date
-	public List<Cardio> getAllRecordByDate(Profile pProfile, Date pDate) {
-		// return value list
-		return getAllRecordByDate(pProfile, pDate.toString());
-	}
-
-	// Get all record for one Date
-	public List<Cardio> getAllRecordByDate(Profile pProfile, String pDate) {
-		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NAME 
-				+ " WHERE " + DATE + "=\"" + pDate + "\"" 
-				+ " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO
-				+ " ORDER BY " + KEY + " DESC";
-
-		// return value list
-		return getRecordsList(selectQuery);
-	}
-
-	// Getting last record
-	public Cardio getLastRecord(Profile pProfile) {
-
-		SQLiteDatabase db = this.getReadableDatabase();
-		mCursor = null;
-		Cardio lReturn = null;
-
-		// Select All Machines
-		String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME 
-				+ " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-                + " AND " + TYPE + "=" + DAOMachine.TYPE_CARDIO;
-		mCursor = db.rawQuery(selectQuery, null);
-
-		// looping through all rows and adding to list
-		mCursor.moveToFirst();
-		try {
-			long value = mCursor.getLong(0);
-            lReturn = this.getRecord(value);
-		} catch (NumberFormatException e) {
-			lReturn = null; // Return une valeur
-		}
-		
-		close();
-
-		// return value list
-		return lReturn;
-	}
-
 	// Updating single value
 	public int updateRecord(Profile pProfile, Cardio m) {
 		SQLiteDatabase db = this.getWritableDatabase();

@@ -3,7 +3,7 @@ package com.easyfitness.DAO;
 import java.util.Date;
 
 /* DataBase Object */
-public class Cardio extends Record {
+public class Cardio extends ARecord {
 	  // Notez que l'identifiant est un long
 	  private float mDistance;
 	  private long mDuration;
@@ -14,6 +14,7 @@ public class Cardio extends Record {
           this.mDistance = pDistance;
           this.mDuration = pDuration;
           this.mProfile = pProfile;
+          this.mType = DAOMachine.TYPE_CARDIO;
 	  }
 	  
 	  public float getDistance() {

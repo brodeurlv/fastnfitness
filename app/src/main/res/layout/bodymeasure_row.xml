@@ -1,53 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@color/background_even">
-    
-    <TextView
-        android:id="@+id/LIST_BODYMEASURE_ID"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:visibility="gone"
-        android:singleLine="true"/>
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/LIST_BODYMEASURE_DATE"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="50"
-        android:gravity="start"
-        android:text="24/08/2017"
-        android:textSize="16sp" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/CARDVIEW"
+        style="@style/CardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="40"
+        android:padding="5dp">
 
-    <TextView
-        android:id="@+id/LIST_BODYMEASURE_WEIGHT"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_weight="50"
-        android:gravity="center|start"
-        android:text="50"
-        android:textSize="16sp" />
+        <LinearLayout
 
-    <ImageView
-        android:id="@+id/deleteButton"
-        android:layout_width="10dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_horizontal|end"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_weight="5"
-        android:clickable="true"
-        android:elevation="0dp"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="4dp">
+
+            <TextView
+                android:id="@+id/LIST_BODYMEASURE_ID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/LIST_BODYMEASURE_DATE"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:gravity="center_vertical|start"
+                android:text="24/08/2017"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/LIST_BODYMEASURE_WEIGHT"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="50"
+                android:gravity="center|start"
+                android:text="50"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/deleteButton"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|end"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="5"
+                android:clickable="true"
+                android:elevation="0dp"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -132,6 +132,11 @@
         <com.easyfitness.utils.ExpandedListView
             android:id="@+id/listWeightProfil"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></com.easyfitness.utils.ExpandedListView>
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:fastScrollEnabled="false"
+            android:isScrollContainer="false"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"/>
     </LinearLayout>
 </ScrollView>

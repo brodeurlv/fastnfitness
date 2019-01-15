@@ -46,9 +46,9 @@ import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.Fonte;
+import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.Record;
 import com.easyfitness.DAO.Weight;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
@@ -57,7 +57,6 @@ import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
-import com.easyfitness.machines.MachineDetailsFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
@@ -119,7 +118,7 @@ public class FontesFragment extends Fragment {
         @Override
         public void onClick(View v) {
             detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-            detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.arrow_up : R.drawable.arrow_down);
+            detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
             saveSharedParams();
         }
     };
@@ -167,6 +166,30 @@ public class FontesFragment extends Fragment {
         @Override
         public void onBtnClick(long id) {
             showDeleteDialog(id);
+        }
+    };
+
+    private BtnClickListener itemClickCopyRecord = new BtnClickListener() {
+        @Override
+        public void onBtnClick(long id) {
+            IRecord r = mDb.getRecord(id);
+            if (r!=null) {
+                // Copy values above
+                setCurrentMachine(r.getExercise());
+                if ( r.getType() == DAOMachine.TYPE_FONTE ) {
+                    Fonte f = (Fonte) r;
+                    repetitionEdit.setText(String.format ("%d", f.getRepetition()));
+                    serieEdit.setText(String.format ("%d", f.getSerie()));
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    poidsEdit.setText(numberFormat.format(f.getPoids()));
+                } else if ( r.getType() == DAOMachine.TYPE_CARDIO ) {
+                    Cardio c = (Cardio) r;
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    distanceEdit.setText(numberFormat.format(c.getDistance()));
+                    durationEdit.setText(DateConverter.durationToHoursMinutesStr(c.getDuration()));
+                }
+                KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
         }
     };
     private OnClickListener clickAddButton = new View.OnClickListener() {
@@ -509,12 +532,22 @@ public class FontesFragment extends Fragment {
                     // Share
                     case 2:
                         //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
-                        Fonte fonte = mDbBodyBuilding.getBodyBuildingRecord(selectedID);
-                        // Build text
-                        String text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamName), fonte.getProfil().getName());
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getExercise());
+                        IRecord r = mDb.getRecord(selectedID);
+                        String text = "";
+                        if (r.getType()==DAOMachine.TYPE_FONTE) {
+                            Fonte fonte = (Fonte) r;
+                            // Build text
+                            text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
+                            text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
+                            text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getExercise());
+                        } else {
+                            Cardio cardio = (Cardio) r;
+                            // Build text
+                            text = "I have done __METER__ in __TIME__ on __MACHINE__.";
+                            text = text.replace("__METER__", String.valueOf(cardio.getDistance()));
+                            text = text.replace("__TIME__", String.valueOf(cardio.getDuration()));
+                            text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), cardio.getExercise());
+                        }
                         shareRecord(text);
                         break;
                     default:
@@ -825,11 +858,11 @@ public class FontesFragment extends Fragment {
     }
 
     private void updateLastRecord(Machine m) {
-        Record lLastRecord = mDb.getLastExerciseRecord(m.getId(), getProfil());
+        IRecord lLastRecord = mDb.getLastExerciseRecord(m.getId(), getProfil());
         if (lLastRecord == null) {
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            Fonte lLastBodyBuildingRecord = mDbBodyBuilding.getBodyBuildingRecord(lLastRecord.getId());
+            Fonte lLastBodyBuildingRecord = (Fonte) lLastRecord;
             serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
             repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
             unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
@@ -839,7 +872,7 @@ public class FontesFragment extends Fragment {
             else
                 poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
-            Cardio lLastCardioRecord = mDbCardio.getRecord(lLastRecord.getId());
+            Cardio lLastCardioRecord = (Cardio)lLastRecord;
             distanceEdit.setText(String.valueOf(lLastCardioRecord.getDistance()));
             durationEdit.setText(DateConverter.durationToHoursMinutesStr(lLastCardioRecord.getDuration()));
         }
@@ -854,18 +887,23 @@ public class FontesFragment extends Fragment {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
 
+        IRecord r = mDb.getLastRecord(getProfil());
+
         // Recupere les valeurs
-        if (pMachine == null || pMachine.isEmpty()) {
-            c = mDb.getAllRecordsByProfile(getProfil(), 10);
-        } else {
-            c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
-        }
+       // if (pMachine == null || pMachine.isEmpty()) {
+        if (r!=null)
+            c = mDb.getFilteredRecords(getProfil(), null,  DateConverter.dateToDBDateStr(r.getDate()));
+        else
+            return;
+        //} else {
+        //    c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
+        //}
 
         if (c == null || c.getCount() == 0) {
             recordList.setAdapter(null);
         } else {
             if (recordList.getAdapter() == null) {
-                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord);
+                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord, itemClickCopyRecord);
                 mTableAdapter.setFirstColorOdd(lTableColor);
                 recordList.setAdapter(mTableAdapter);
             } else {
@@ -895,7 +933,7 @@ public class FontesFragment extends Fragment {
                 mProfile = getProfil();
 
                 if (machineEdit.getText().toString().isEmpty()) {
-                    Record lLastRecord = mDb.getLastRecord(getProfil());
+                    IRecord lLastRecord = mDb.getLastRecord(getProfil());
                     if (lLastRecord != null) {
                         // Last recorded exercise
                         setCurrentMachine(lLastRecord.getExercise());
@@ -971,7 +1009,7 @@ public class FontesFragment extends Fragment {
         } else {
             detailsLayout.setVisibility(View.GONE);
         }
-        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.arrow_up : R.drawable.arrow_down);
+        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
     }
 
     @Override

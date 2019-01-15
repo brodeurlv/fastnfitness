@@ -129,7 +129,7 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting single value
-    public Record getRecord(long id) {
+    public IRecord getRecord(long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
         mCursor = getRecordsListCursor(selectQuery);
@@ -159,12 +159,26 @@ public class DAORecord extends DAOBase {
                 machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
             }
 
-            Record value = new Record(date,
-                    mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
-                    lProfile,
-                    machine_key,
-                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)));
+            IRecord value=null;
+
+            if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE))==DAOMachine.TYPE_FONTE) {
+                value = new Fonte(date,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                        lProfile,
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                        machine_key,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+            } else {
+                value = new Cardio(date,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
+                        mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
+                        lProfile);
+            }
 
             value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
             return value;
@@ -419,11 +433,11 @@ public class DAORecord extends DAOBase {
     /**
      * @return the last record for a profile p
      */
-    public Record getLastRecord(Profile pProfile) {
+    public IRecord getLastRecord(Profile pProfile) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        Record lReturn = null;
+        IRecord lReturn = null;
 
         // Select All Machines
         /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
@@ -451,49 +465,15 @@ public class DAORecord extends DAOBase {
         return lReturn;
     }
 
-    /**
-     * @return the last record for a profile p
-     */
-    public Record getLastExerciseRecord(long machineID) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-        Record lReturn = null;
-
-        // Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
-
-        String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + MACHINE_KEY + "=" + machineID;
-        ;
-        mCursor = db.rawQuery(selectQuery, null);
-
-        // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
-            try {
-                long value = mCursor.getLong(0);
-                lReturn = this.getRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
-            }
-        }
-
-        close();
-
-        // return value list
-        return lReturn;
-    }
 
     /**
      * @return the last record for a profile p
      */
-    public Record getLastExerciseRecord(long machineID, Profile p) {
+    public IRecord getLastExerciseRecord(long machineID, Profile p) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        Record lReturn = null;
+        IRecord lReturn = null;
 
         String selectQuery;
         if (p == null) {
@@ -522,11 +502,11 @@ public class DAORecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
+    public List<IRecord> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
         return getAllRecordByMachinesArray(pProfile, pMachines, -1);
     }
 
-    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
+    public List<IRecord> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
@@ -542,8 +522,8 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting All Records
-    private List<Record> getRecordsList(String pRequest) {
-        List<Record> valueList = new ArrayList<Record>();
+    private List<IRecord> getRecordsList(String pRequest) {
+        List<IRecord> valueList = new ArrayList<IRecord>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
         String selectQuery = pRequest;
@@ -579,12 +559,26 @@ public class DAORecord extends DAOBase {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
                 }
 
-                Record value = new Record(date,
-                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)),
-                        lProfile,
-                        machine_key,
-                        mCursor.getString(mCursor.getColumnIndex(DAOFonte.TIME)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOFonte.TYPE)));
+                IRecord value = null;
+
+                if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_FONTE) {
+                    value = new Fonte(date,
+                            mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
+                            mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                            lProfile,
+                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
+                            mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                            machine_key,
+                            mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                } else {
+                    value = new Cardio(date,
+                            mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                            mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
+                            mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
+                            lProfile);
+                }
 
                 value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));
 
@@ -597,7 +591,7 @@ public class DAORecord extends DAOBase {
     }
 
     // Updating single value
-    public int updateRecord(Record m) {
+    public int updateRecord(IRecord m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
