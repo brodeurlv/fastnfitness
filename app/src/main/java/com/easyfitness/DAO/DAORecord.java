@@ -561,7 +561,7 @@ public class DAORecord extends DAOBase {
 
                 IRecord value = null;
 
-                if (mCursor.getColumnIndex(DAORecord.TYPE)==DAOMachine.TYPE_FONTE) {
+                if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_FONTE) {
                     value = new Fonte(date,
                             mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
                             mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
