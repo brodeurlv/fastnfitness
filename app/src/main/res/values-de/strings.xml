@@ -266,5 +266,6 @@
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
     <string name="RecordLabel">Aufzeichnungen</string>
+    <string name="recordcopied">Aufzeichnung kopiert</string>
 </resources>
 
