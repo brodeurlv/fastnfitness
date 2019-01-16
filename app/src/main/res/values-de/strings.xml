@@ -36,7 +36,7 @@
     <string name="KgUnitLabel">Kg</string>
     <string name="LbsUnitLabel">Lbs</string>
     <string name="NotesLabel">Notizen</string>
-    <string name="TopTenLabel">Letzte 10 Aufzeichnungen:</string>
+    <string name="TopTenLabel">Letzte Aufzeichnungen:</string>
 
     <!-- Share text -->
     <string name="ShareText">Teilen</string>
