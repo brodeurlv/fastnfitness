@@ -44,6 +44,12 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.16.2 : January 16, 2019
+- Enhancement : Possibility to copy existing records
+- Enhancement : Main list displaying last date history 
+- Enhancement : Refactoring for better performances
+- Enhancement : Added filtering in exercise page (Thanks to @geniusupgrader)
+
 ### 0.16.1 : November 14, 2018
 - Bug : Fixed crash on Cardio page
 - Bug : Fixed title on Workout page
@@ -71,7 +77,7 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ### 0.14.6 - June 15, 2018
 
-- Enhancement : Added German Version (Thanks to EGUltraTM)
+- Enhancement : Added German Version (Thanks to @EGUltraTM)
 
 ### 0.14.5 - June 11, 2018
 
