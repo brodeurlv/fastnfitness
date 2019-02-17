@@ -892,12 +892,9 @@ public class FontesFragment extends Fragment {
         // Recupere les valeurs
        // if (pMachine == null || pMachine.isEmpty()) {
         if (r!=null)
-            c = mDb.getFilteredRecords(getProfil(), null,  DateConverter.dateToDBDateStr(r.getDate()));
+            c = mDb.getTop3DatesRecords(getProfil());
         else
             return;
-        //} else {
-        //    c = mDb.getAllRecordByMachines(getProfil(), pMachine, 10);
-        //}
 
         if (c == null || c.getCount() == 0) {
             recordList.setAdapter(null);

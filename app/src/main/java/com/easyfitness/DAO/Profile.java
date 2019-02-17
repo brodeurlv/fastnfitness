@@ -53,6 +53,9 @@ public class Profile {
         this.mBirthday = mBirthday;
     }
 
+    /**
+     * @return size in centimeter
+     */
     public int getSize() {
         return mSize;
     }

@@ -1,142 +1,417 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/tab_profil"
-        android:name="tab_profil"
+        android:id="@+id/tab_weight"
+        android:name="tab_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#EEEEEE"
+        android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="0dp"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp">
 
-        <android.support.v7.widget.CardView
-            style="@style/CardViewStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp">
-
-                <Button
-                    android:id="@+id/buttonAddWeight"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="1dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="center_vertical|center"
-                    android:text="+"
-                    android:textSize="24sp" />
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
-                    android:id="@+id/layoutup"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@id/buttonAddWeight"
-                    android:layout_toStartOf="@id/buttonAddWeight"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="40"
-                        android:text="@string/DateLabel" />
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:text="@string/weightLabel"
+                        android:textSize="18sp" />
 
-                    <EditText
-                        android:id="@+id/profilEditDate"
-                        android:layout_width="fill_parent"
+                    <TextView
+
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_weight="10"
-                        android:inputType="none"
-                        android:nextFocusDown="@+id/editWeight"></EditText>
+                        android:layout_gravity="center_horizontal|center|clip_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="70kg" />
+
+                    <ImageButton
+                        android:id="@+id/weightButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
-                    android:id="@+id/layoutdown"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/layoutup"
-                    android:layout_toLeftOf="@id/buttonAddWeight"
-                    android:layout_toStartOf="@id/buttonAddWeight"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="40"
-                        android:text="@string/weightLabel" />
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:text="@string/fatLabel"
+                        android:textSize="18sp" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
+                    <TextView
+
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center_horizontal|center|clip_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="20%" />
 
-                        <EditText
-                            android:id="@+id/editWeight"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="10"
-                            android:hint="@string/WeightHint"
-                            android:inputType="numberDecimal"></EditText>
-
-                    </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/fatButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:text="@string/bonesLabel"
+                        android:textSize="18sp" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center|clip_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="20kg" />
+
+                    <ImageButton
+                        android:id="@+id/bonesButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+                        android:text="@string/waterLabel"
+                        android:textSize="18sp" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="20%" />
+
+
+                    <ImageButton
+                        android:id="@+id/waterButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:baselineAlignBottom="false"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:layout_weight="50"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="IMC"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/imcValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal|center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="20" />
+
+                    <TextView
+                        android:id="@+id/imcViewText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:text="normal"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:layout_weight="50"
+                android:minHeight="70dp"
+                android:minWidth="70dp"
+                app:cardCornerRadius="5dp">
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="RFM"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/rfmValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal|center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        tools:text="20" />
+
+                    <TextView
+                        android:id="@+id/rfmViewText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:text="normal"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
 
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/weightChart"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dip"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:background="#FFFFFF" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/weightChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dip"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#FFFFFF" />
+
+
+            </LinearLayout>
+
 
         </android.support.v7.widget.CardView>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/weightTableLabel" />
-
-        <include layout="@layout/bodymeasure_rowheader" />
-
-        <com.easyfitness.utils.ExpandedListView
-            android:id="@+id/listWeightProfil"
-            android:layout_width="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:fastScrollEnabled="false"
-            android:isScrollContainer="false"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"/>
     </LinearLayout>
 </ScrollView>

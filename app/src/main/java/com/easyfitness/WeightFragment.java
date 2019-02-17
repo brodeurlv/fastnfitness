@@ -6,8 +6,10 @@ import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +31,19 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.ogaclejapan.smarttablayout.utils.ViewPagerItemAdapter;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +63,8 @@ public class WeightFragment extends Fragment {
     private Graph mGraph = null;
     private DAOWeight mWeightDb = null;
     private DAOProfil mDb = null;
+
+    ViewPagerItemAdapter viewpagerAdapter = null;
 
     DatePickerDialogFragment mDateFrag = null;
 
@@ -166,20 +180,18 @@ public class WeightFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_weight, container, false);
 
-        addWeightButton = view.findViewById(R.id.buttonAddWeight);
+        /*addWeightButton = view.findViewById(R.id.buttonAddWeight);
         weightEdit = view.findViewById(R.id.editWeight);
-        //resumeText = (TextView) view.findViewById(R.id.textResume);
-        //profilText = (TextView) view.findViewById(R.id.textProfil);
-        dateEdit = view.findViewById(R.id.profilEditDate);
-        weightList = view.findViewById(R.id.listWeightProfil);
+        dateEdit = view.findViewById(R.id.profilEditDate);*/
+        //weightList = view.findViewById(R.id.listWeightProfil);
 
         /* Initialisation serie */
 
         /* Initialisation des boutons */
-        addWeightButton.setOnClickListener(onClickAddWeight);
+        /* addWeightButton.setOnClickListener(onClickAddWeight);
         dateEdit.setOnClickListener(clickDateEdit);
-        dateEdit.setOnFocusChangeListener(focusDateEdit);
-        weightList.setOnItemLongClickListener(itemlongclickDeleteRecord);
+        dateEdit.setOnFocusChangeListener(focusDateEdit);*/
+        //weightList.setOnItemLongClickListener(itemlongclickDeleteRecord);
 
         /* Initialisation des evenements */
 
@@ -187,11 +199,13 @@ public class WeightFragment extends Fragment {
         mChart = view.findViewById(R.id.weightChart);
         mChart.setDescription(null);
         mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
+        mChart.getAxisRight().setEnabled(true);
+        mChart.getAxisRight().setDrawGridLines(false);
 
         mWeightDb = new DAOWeight(view.getContext());
 
         // Set Initial text
-        dateEdit.setText(DateConverter.currentDate());
+        //dateEdit.setText(DateConverter.currentDate());
 
         return view;
     }
@@ -217,42 +231,93 @@ public class WeightFragment extends Fragment {
             return;
         }
 
-        //ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
+        ArrayList<Entry> imcVals = new ArrayList<Entry>();
 
-        // Draw second graph
-        long maxDate = -1;
-        long minDate = -1;
-
-		/*for (int i = 0; i<valueList.size();i++) {
-			long tmpDate = valueList.get(i).getDate().getTime();
-			if (maxDate == -1)  maxDate = tmpDate;
-			if (minDate == -1)  minDate = tmpDate;
-
-			if (tmpDate > maxDate) maxDate = tmpDate;
-			if (tmpDate < minDate) minDate = tmpDate;
-		}*/
-
-        // Crée toutes les dates, meme si il n'y a pas de poids associé
-		/*for (long i = minDate; i<=maxDate;i=i+86400000) {
-			SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yy");
-			//dt1.setTimeZone(TimeZone.getTimeZone("GMT")); // On se recalle sur le GMT car le GetTime est en GMT.
-			xVals.add(dt1.format(i));
-		}*/
-
-        float minWeight = -1;
+        long minImc = -1;
+        long maxImc = -1;
+        long currentImcValue = -1;
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float x = (float) DateConverter.nbDays(valueList.get(i).getDate().getTime());
             Entry value = new Entry(x, valueList.get(i).getWeight());
             yVals.add(value);
-            if (minWeight == -1) minWeight = valueList.get(i).getWeight();
-            else if (valueList.get(i).getWeight() < minWeight)
-                minWeight = valueList.get(i).getWeight();
+            if (getProfil().getSize() > 0) {
+                currentImcValue = calculateImc(valueList.get(i).getWeight(), getProfil().getSize());
+                Entry valueImc = new Entry(x, currentImcValue);
+                imcVals.add(valueImc);
+                if (minImc == -1) minImc = currentImcValue;
+                else if (currentImcValue < minImc)
+                    minImc = currentImcValue;
+                if (maxImc == -1) maxImc = currentImcValue;
+                else if (currentImcValue > maxImc)
+                    maxImc = currentImcValue;
+            }
         }
+        if (minImc > 15f)
+            mChart.getAxisRight().setAxisMinimum(15f); // start at 15
+        if (maxImc < 40f)
+            mChart.getAxisRight().setAxisMaximum(30f); // the axis maximum is 40
 
-        mGraph.draw(yVals);
-        //mGraph.getLineChart().
+        // Defines yVals
+        LineDataSet set1 = new LineDataSet(yVals, "Weight");
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(4f);
+        set1.setDrawFilled(true);
+        if (Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_blue);
+            set1.setFillDrawable(drawable);
+        } else {
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+        }
+        set1.setFillAlpha(100);
+        set1.setColor(getContext().getResources().getColor(R.color.toolbar_background));
+        set1.setCircleColor(getContext().getResources().getColor(R.color.toolbar_background));
+
+        // Create a data object with the datasets
+        LineData data = new LineData(set1);
+
+        data.setValueFormatter(new IValueFormatter() {
+            private DecimalFormat mFormat = new DecimalFormat("#.##");
+
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return mFormat.format(value);
+            }
+        });
+
+        LineDataSet set2 = new LineDataSet(imcVals, "IMC");
+        set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        set2.setLineWidth(3f);
+        set2.setCircleRadius(4f);
+        set2.setDrawFilled(false);
+
+        set2.setFillAlpha(100);
+        set2.setColor(getContext().getResources().getColor(R.color.red));
+        set2.setCircleColor(getContext().getResources().getColor(R.color.red));
+
+        // Create a data object with the datasets
+        LineData data2 = new LineData(set2);
+
+        data2.setValueFormatter(new IValueFormatter() {
+            private DecimalFormat mFormat = new DecimalFormat("#.##");
+
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return mFormat.format(value);
+            }
+        });
+
+        // use the interface ILineDataSet
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+
+        LineData lineData = new LineData(dataSets);
+        mChart.setData(lineData);
+        mChart.invalidate(); // refresh
     }
 
     /*  */
@@ -291,6 +356,14 @@ public class WeightFragment extends Fragment {
         return mDb;
     }
 
+    private long calculateImc(float weight, int size) {
+        long imc = 0;
+
+        imc = (long) (weight / (size / 100.0 * size / 100.0));
+
+        return imc;
+    }
+
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -301,7 +374,7 @@ public class WeightFragment extends Fragment {
 
                 // update table
                 DrawGraph(valueList);
-                FillRecordTable(valueList);
+                //FillRecordTable(valueList);
             }
         }
     }

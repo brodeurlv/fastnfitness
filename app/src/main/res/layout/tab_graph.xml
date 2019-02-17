@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tab_graph"
     android:name="tab_graph"
     android:layout_width="match_parent"
@@ -19,7 +20,8 @@
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -127,12 +129,14 @@
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:cardCornerRadius="5dp">
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/graphChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"

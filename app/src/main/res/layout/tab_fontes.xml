@@ -26,7 +26,8 @@
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -106,7 +107,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="40">
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
 
                 <TextView
                     android:id="@+id/bodyBuildingSelection"
@@ -122,7 +124,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="40">
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
 
                 <TextView
                     android:id="@+id/cardioSelection"
@@ -147,7 +150,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="40">
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -178,7 +182,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="40">
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -210,7 +215,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="40">
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -306,7 +312,8 @@
             <android.support.v7.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_height="wrap_content"
-                android:layout_weight="30">
+                android:layout_weight="30"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -336,7 +343,8 @@
                 style="@style/CardViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="30">
+                android:layout_weight="30"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -368,7 +376,8 @@
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -492,7 +501,7 @@
                             android:lines="3"
                             android:maxLines="5"
                             android:minHeight="40dp"
-                            android:minLines="2"/>
+                            android:minLines="2" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

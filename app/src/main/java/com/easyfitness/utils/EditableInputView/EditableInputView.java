@@ -83,6 +83,13 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             }
         }
 
+        valueTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDialog(v.getContext()); //we'll define this method later
+            }
+        });
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

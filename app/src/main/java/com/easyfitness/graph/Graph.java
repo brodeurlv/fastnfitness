@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.IMarker;
@@ -83,8 +82,7 @@ public class Graph {
         leftAxis.setGranularity((float)0.5);
         leftAxis.resetAxisMinimum();
 
-        YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setEnabled(false);
+        mChart.getAxisRight().setEnabled(false);
     }
 
     public void draw(ArrayList<Entry> entries) {

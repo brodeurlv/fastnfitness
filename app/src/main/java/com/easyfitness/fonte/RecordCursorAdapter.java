@@ -41,7 +41,9 @@ public class RecordCursorAdapter extends CursorAdapter {
 
         android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
 
-        if (cursor.getPosition() % 2 == mFirstColorOdd) {
+        final int position = cursor.getPosition();
+
+        if (position % 2 == mFirstColorOdd) {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
         } else {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
@@ -99,6 +101,26 @@ public class RecordCursorAdapter extends CursorAdapter {
             tRepsLayout.setVisibility(View.GONE);
             tSerie.setText(cursor.getString(cursor.getColumnIndex(DAORecord.DISTANCE)));
             tWeight.setText(DateConverter.durationToHoursMinutesStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
+        }
+
+        // Add separator if needed
+        boolean separatorNeeded = false;
+        if (position == 0) {
+            separatorNeeded = true;
+        } else {
+            cursor.moveToPosition(position - 1);
+            Date datePrevious = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex(DAORecord.DATE)));
+            if (datePrevious.compareTo(date) != 0) {
+                separatorNeeded = true;
+            }
+            cursor.moveToPosition(position);
+        }
+
+        if (separatorNeeded) {
+            LinearLayout tRowLayout = view.findViewById(R.id.ROWFONTELAYOUT);
+            TextView t = new TextView(this.mContext);
+            t.setText(DateConverter.dateToLocalDateStr(date, mContext));
+            tRowLayout.addView(t);
         }
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
