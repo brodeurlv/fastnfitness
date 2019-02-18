@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/ROWFONTELAYOUT"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/SEPARATOR_CELL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left|start"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="40"
+        android:gravity="start"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        android:textStyle="bold|italic"
+        android:visibility="gone"
+        tool:text="- 12/09/2019 - "
+        tool:visibility="visible" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/CARDVIEW"
@@ -46,7 +67,10 @@
                     android:text="Machine"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:autoSizeMaxTextSize="16sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeTextType="uniform" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -180,8 +204,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:gravity="start|center"
                     android:maxLines="1"

@@ -25,8 +25,8 @@ public class RecordCursorAdapter extends CursorAdapter {
     private LayoutInflater mInflater;
     private int mFirstColorOdd = 0;
     private Context mContext = null;
-    BtnClickListener mDeleteClickListener = null;
-    BtnClickListener mCopyClickListener = null;
+    private BtnClickListener mDeleteClickListener = null;
+    private BtnClickListener mCopyClickListener = null;
 
     public RecordCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickDelete, BtnClickListener clickCopy) {
         super(context, c, flags);
@@ -52,8 +52,8 @@ public class RecordCursorAdapter extends CursorAdapter {
         /* Commun display */
         TextView tDate = view.findViewById(R.id.DATE_CELL);
         Date date;
-
-        date = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex(DAORecord.DATE)));
+        String dateString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE));
+        date = DateConverter.DBDateStrToDate(dateString);
         tDate.setText(DateConverter.dateToLocalDateStr(date, mContext));
 
         TextView tTime = view.findViewById(R.id.TIME_CELL);
@@ -109,19 +109,28 @@ public class RecordCursorAdapter extends CursorAdapter {
             separatorNeeded = true;
         } else {
             cursor.moveToPosition(position - 1);
-            Date datePrevious = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex(DAORecord.DATE)));
-            if (datePrevious.compareTo(date) != 0) {
+            String datePreviousString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE));
+            if (datePreviousString.compareTo(dateString) != 0) {
                 separatorNeeded = true;
             }
             cursor.moveToPosition(position);
         }
 
+        TextView t = view.findViewById(R.id.SEPARATOR_CELL);
         if (separatorNeeded) {
-            LinearLayout tRowLayout = view.findViewById(R.id.ROWFONTELAYOUT);
-            TextView t = new TextView(this.mContext);
-            t.setText(DateConverter.dateToLocalDateStr(date, mContext));
-            tRowLayout.addView(t);
+            t.setText("- " + DateConverter.dateToLocalDateStr(date, mContext) + " -");
+            t.setVisibility(View.VISIBLE);
+        } else {
+            t.setText("");
+            t.setVisibility(View.GONE);
         }
+
+        /*if (separatorNeeded) {
+            LinearLayout l = view.findViewById(R.id.ROWFONTELAYOUT);
+            TextView t = new TextView(context);
+            t.setText(DateConverter.dateToLocalDateStr(date, mContext));
+            l.addView(t, 1);
+        }*/
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));

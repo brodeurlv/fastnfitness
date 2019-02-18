@@ -398,7 +398,7 @@ public class DAORecord extends DAOBase {
 
         selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-                + " AND " + DATE + " IN (SELECT " + DATE + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DATE + " DESC LIMIT 3)"
+                + " AND " + DATE + " IN (SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DATE + " DESC LIMIT 3)"
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
         return getRecordsListCursor(selectQuery);

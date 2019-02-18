@@ -66,7 +66,10 @@ public class AboutFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 			Bundle savedInstanceState) { 
 		
-		View view =  inflater.inflate(R.layout.tab_about, container, false); 
+		View view =  inflater.inflate(R.layout.tab_about, container, false);
+
+		//TextView pAppVersion = view.findViewById(R.id.app_version_textview);
+		//pAppVersion.setText(); TODO get code version from Manifest
 				
 		mpDBVersionTextView = view.findViewById(R.id.database_version);
 		mpDBVersionTextView.setText(Integer.toString(DatabaseHelper.DATABASE_VERSION));
