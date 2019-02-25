@@ -65,6 +65,7 @@
     <string name="fatLabel">Fat</string>
     <string name="bonesLabel">Bones</string>
     <string name="waterLabel">Water</string>
+    <string name="musclesLabel">Muscles</string>
     <string name="sizeLabel">Size</string>
     <string name="measureLabel">Measure</string>
     <string name="weightTableLabel">Weight records : </string>

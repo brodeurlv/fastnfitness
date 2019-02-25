@@ -16,18 +16,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.DAOWeight;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.ProfileWeight;
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.graph.Graph;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.EditableInputView.EditableInputView;
+import com.easyfitness.utils.EditableInputView.EditableInputViewWithDate;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,6 +54,7 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -52,9 +62,15 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class WeightFragment extends Fragment {
-    Button addWeightButton = null;
-    EditText weightEdit = null;
-    EditText dateEdit = null;
+    private EditableInputViewWithDate weightEdit = null;
+    private EditableInputView fatEdit = null;
+    private EditableInputView bonesEdit = null;
+    private EditableInputView waterEdit = null;
+    private TextView imcText = null;
+    private TextView imcRank = null;
+
+    private Spinner valueSpinner = null;
+
     ExpandedListView weightList = null;
     MainActivity mActivity = null;
     private String name;
@@ -62,55 +78,25 @@ public class WeightFragment extends Fragment {
     private LineChart mChart = null;
     private Graph mGraph = null;
     private DAOWeight mWeightDb = null;
+    private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOProfil mDb = null;
 
     ViewPagerItemAdapter viewpagerAdapter = null;
 
     DatePickerDialogFragment mDateFrag = null;
 
-    private void showDatePickerFragment() {
-        if (mDateFrag == null) {
-            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-        }
-
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        mDateFrag.show(ft, "dialog");
-    }
-
-    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-        }
-    };
-
     private OnClickListener onClickAddWeight = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (!weightEdit.getText().toString().isEmpty()) {
 
-                Date date = DateConverter.editToDate(dateEdit.getText().toString());
 
-                mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
+                //mWeightDb.addWeight(date, Float.valueOf(weightEdit.getText().toString()), getProfil());
                 refreshData();
                 weightEdit.setText("");
                 Keyboard.hide(getContext(), v);
             } else {
                 KToast.errorToast(getActivity(), getString(R.string.weight_missing), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            }
-        }
-    };
-    private OnClickListener clickDateEdit = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            showDatePickerFragment();
-        }
-    };
-    private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus == true) {
-                showDatePickerFragment();
             }
         }
     };
@@ -180,20 +166,21 @@ public class WeightFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_weight, container, false);
 
-        /*addWeightButton = view.findViewById(R.id.buttonAddWeight);
-        weightEdit = view.findViewById(R.id.editWeight);
-        dateEdit = view.findViewById(R.id.profilEditDate);*/
-        //weightList = view.findViewById(R.id.listWeightProfil);
-
-        /* Initialisation serie */
-
-        /* Initialisation des boutons */
-        /* addWeightButton.setOnClickListener(onClickAddWeight);
-        dateEdit.setOnClickListener(clickDateEdit);
-        dateEdit.setOnFocusChangeListener(focusDateEdit);*/
-        //weightList.setOnItemLongClickListener(itemlongclickDeleteRecord);
+        /* Views Initialisation */
+        weightEdit = view.findViewById(R.id.weightInput);
+        fatEdit = view.findViewById(R.id.fatInput);
+        bonesEdit = view.findViewById(R.id.bonesInput);
+        waterEdit = view.findViewById(R.id.waterInput);
+        imcText = view.findViewById(R.id.imcValue);
+        imcRank = view.findViewById(R.id.imcViewText);
+        valueSpinner = view.findViewById(R.id.weightSpinner);
+        weightList = view.findViewById(R.id.listRecord);
 
         /* Initialisation des evenements */
+        weightEdit.setOnTextChangeListener(itemOnTextChange);
+        fatEdit.setOnTextChangeListener(itemOnTextChange);
+        bonesEdit.setOnTextChangeListener(itemOnTextChange);
+        waterEdit.setOnTextChangeListener(itemOnTextChange);
 
         // Add the other graph
         mChart = view.findViewById(R.id.weightChart);
@@ -203,9 +190,7 @@ public class WeightFragment extends Fragment {
         mChart.getAxisRight().setDrawGridLines(false);
 
         mWeightDb = new DAOWeight(view.getContext());
-
-        // Set Initial text
-        //dateEdit.setText(DateConverter.currentDate());
+        mDbBodyMeasure = new DAOBodyMeasure(view.getContext());
 
         return view;
     }
@@ -223,7 +208,26 @@ public class WeightFragment extends Fragment {
         this.mActivity = (MainActivity) activity;
     }
 
-    private void DrawGraph(List<ProfileWeight> valueList) {
+    private void DrawGraph(int bodyPart) {
+        List<ProfileWeight> valueList = null;
+        List<BodyMeasure> bodyPartValueList = null;
+
+        switch (bodyPart) {
+            case BodyPart.WEIGHT:
+                valueList = mWeightDb.getWeightList(getProfil());
+            break;
+            case BodyPart.FAT:
+                bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.FAT, getProfil());
+                break;
+            case BodyPart.WATER:
+                bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.WATER, getProfil());
+                break;
+            case BodyPart.BONES:
+                bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.BONES, getProfil());
+                break;
+        }
+
+
 
         // Recupere les enregistrements
         if (valueList.size() < 1) {
@@ -234,9 +238,9 @@ public class WeightFragment extends Fragment {
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         ArrayList<Entry> imcVals = new ArrayList<Entry>();
 
-        long minImc = -1;
-        long maxImc = -1;
-        long currentImcValue = -1;
+        float minImc = -1;
+        float maxImc = -1;
+        float currentImcValue = -1;
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float x = (float) DateConverter.nbDays(valueList.get(i).getDate().getTime());
@@ -288,32 +292,9 @@ public class WeightFragment extends Fragment {
             }
         });
 
-        LineDataSet set2 = new LineDataSet(imcVals, "IMC");
-        set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        set2.setLineWidth(3f);
-        set2.setCircleRadius(4f);
-        set2.setDrawFilled(false);
-
-        set2.setFillAlpha(100);
-        set2.setColor(getContext().getResources().getColor(R.color.red));
-        set2.setCircleColor(getContext().getResources().getColor(R.color.red));
-
-        // Create a data object with the datasets
-        LineData data2 = new LineData(set2);
-
-        data2.setValueFormatter(new IValueFormatter() {
-            private DecimalFormat mFormat = new DecimalFormat("#.##");
-
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return mFormat.format(value);
-            }
-        });
-
         // use the interface ILineDataSet
         List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1);
-        dataSets.add(set2);
 
         LineData lineData = new LineData(dataSets);
         mChart.setData(lineData);
@@ -356,25 +337,112 @@ public class WeightFragment extends Fragment {
         return mDb;
     }
 
-    private long calculateImc(float weight, int size) {
-        long imc = 0;
+    /**
+     *
+     * @param weight in kg
+     * @param size in cm
+     * @return
+     */
+    private float calculateImc(float weight, int size) {
+        float imc = 0;
 
-        imc = (long) (weight / (size / 100.0 * size / 100.0));
+        if (size==0) return 0;
+
+        imc = (float)(weight / (size / 100.0 * size / 100.0));
 
         return imc;
+    }
+
+    /**
+     *
+     * @param imc
+     * @return text associated with imc value
+     */
+    private String getImcText(float imc) {
+        if (imc<18.5) {
+            return "underweight";
+        } else if (imc < 25) {
+            return "normal";
+        } else if (imc < 30) {
+            return "overweight";
+        } else {
+            return "obese";
+        }
     }
 
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfil() != null) {
-                //this.profilText.setText(getProfil().getName());
-                //this.resumeText.setText("");
-                List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil());
+                mWeightDb.setProfil(getProfil());
+                ProfileWeight pWeight = mWeightDb.getLastMeasure();
+
+                BodyMeasure lastWeightValue = null;
+                BodyMeasure lastWaterValue = null;
+                BodyMeasure lastFatValue = null;
+                BodyMeasure lastBonesValue = null;
+
+                if (getProfil()!=null) {
+                    //lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.WEIGHT, getProfil());
+                    lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.WATER, getProfil());
+                    lastFatValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.FAT, getProfil());
+                    lastBonesValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.BONES, getProfil());
+                }
+
+                if (pWeight!=null) {
+                    weightEdit.setText(String.valueOf(pWeight.getWeight()));
+                    // update IMC
+                    int size = getProfil().getSize();
+                    if (size == 0) {
+                        imcText.setText("-");
+                        imcRank.setText("no size available");
+                    } else {
+                        float imcValue = calculateImc(pWeight.getWeight(), size);
+                        imcText.setText(String.format("%.1f", imcValue));
+                        imcRank.setText(getImcText(imcValue));
+                    }
+                }
+                else
+                    weightEdit.setText("-");
+                if (lastWaterValue!=null)
+                    waterEdit.setText(String.valueOf(lastWaterValue.getBodyMeasure()));
+                else
+                    waterEdit.setText("-");
+                if (lastFatValue!=null)
+                    fatEdit.setText(String.valueOf(lastFatValue.getBodyMeasure()));
+                else
+                    fatEdit.setText("-");
+                if (lastBonesValue!=null)
+                    bonesEdit.setText(String.valueOf(lastBonesValue.getBodyMeasure()));
+                else
+                    bonesEdit.setText("-");
+
+                getResources().getText(R.string.weightLabel).toString();
+
+                List<ProfileWeight> valueList = null;
+
+
+                int bodyPart=0;
+
+                if (valueSpinner.getSelectedItem().toString() == getResources().getText(R.string.weightLabel)) {
+                    //valueList = mWeightDb.getWeightList(getProfil());
+                    bodyPart = BodyPart.WEIGHT;
+                } else if (valueSpinner.getSelectedItem().toString() == getResources().getText(R.string.fatLabel)) {
+                    //valueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.FAT, getProfil());
+                    bodyPart = BodyPart.FAT;
+                } else if (valueSpinner.getSelectedItem().toString() == getResources().getText(R.string.waterLabel)) {
+                    bodyPart = BodyPart.WATER;
+                } else if (valueSpinner.getSelectedItem().toString() == getResources().getText(R.string.bonesLabel)) {
+                    bodyPart = BodyPart.BONES;
+                }
+
+
+                //update graph
+                DrawGraph(bodyPart);
 
                 // update table
-                DrawGraph(valueList);
-                //FillRecordTable(valueList);
+                FillRecordTable(valueList);
+                //List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil());
             }
         }
     }
@@ -383,6 +451,36 @@ public class WeightFragment extends Fragment {
         @Override
         public void onBtnClick(long id) {
             showDeleteDialog(id);
+        }
+    };
+
+    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
+
+        @Override
+        public void onTextChanged(EditableInputView view) {
+            EditableInputViewWithDate v = (EditableInputViewWithDate) view;
+            //save values to databases
+            switch (view.getId()) {
+                case R.id.weightInput:
+                    // push value to database
+                    float weight = Float.parseFloat(v.getText());
+                    getWeightDB().addWeight(v.getDate(), weight, getProfil());
+                    break;
+                case R.id.fatInput:
+                    float fatValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfil());
+                    break;
+                case R.id.bonesInput:
+                    float bonesValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.BONES, bonesValue, getProfil());
+                    break;
+                case R.id.waterInput:
+                    float waterValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfil());
+                    break;
+            }
+            // update graph and table
+            refreshData();
         }
     };
 
@@ -410,7 +508,6 @@ public class WeightFragment extends Fragment {
     private Profile getProfil() {
         return ((MainActivity) getActivity()).getCurrentProfil();
     }
-
 
     public Fragment getFragment() {
         return this;

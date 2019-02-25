@@ -30,6 +30,7 @@ public class BodyPart {
     public static final int FAT = 20;
     public static final int BONES = 21;
     public static final int WATER = 22;
+    public static final int MUSCLES = 23;
 
     public BodyPart(int id) {
         super();
@@ -84,14 +85,11 @@ public class BodyPart {
             case WAIST: return R.string.waist;
             case NECK: return R.string.neck;
             case BEHIND: return R.string.behind;
-            case WEIGHT:
-                return R.string.weightLabel;
-            case FAT:
-                return R.string.fatLabel;
-            case BONES:
-                return R.string.bonesLabel;
-            case WATER:
-                return R.string.waterLabel;
+            case WEIGHT: return R.string.weightLabel;
+            case FAT: return R.string.fatLabel;
+            case BONES: return R.string.bonesLabel;
+            case WATER: return R.string.waterLabel;
+            case MUSCLES: return R.string.musclesLabel;
         }
 
         return 0;

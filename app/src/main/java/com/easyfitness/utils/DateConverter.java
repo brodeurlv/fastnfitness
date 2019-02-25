@@ -133,6 +133,15 @@ public class DateConverter {
         return dateToLocalDateStr(date, pContext);
     }
 
+	static public Date dateToDate(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+
+		Date date = calendar.getTime();
+
+		return date;
+	}
+
     /**
      * @param longVal in milliseconds
      * @return duration in format "HH:MM"

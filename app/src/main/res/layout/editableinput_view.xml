@@ -24,6 +24,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:src="@drawable/edit" />
 
 </RelativeLayout>

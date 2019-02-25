@@ -172,8 +172,8 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:inputType="number"
-                        android:minEms="2"
 
+                        android:minEms="2"
                         android:text="2" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>

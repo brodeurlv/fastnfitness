@@ -54,8 +54,8 @@
                         android:text="@string/weightLabel"
                         android:textSize="18sp" />
 
-                    <TextView
-
+                    <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
+                        android:id="@+id/weightInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
@@ -66,7 +66,11 @@
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
-                        tools:text="70kg" />
+                        tools:text="70kg"
+                        android:inputType="text"
+                        android:lines="1"
+                        app:iconVisible="false"
+                        />
 
                     <ImageButton
                         android:id="@+id/weightButton"
@@ -110,13 +114,15 @@
                         android:text="@string/fatLabel"
                         android:textSize="18sp" />
 
-                    <TextView
-
+                    <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
+                        android:id="@+id/fatInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
+                        android:inputType="text"
+                        android:lines="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:maxLines="1"
                         android:maxWidth="100dp"
@@ -168,8 +174,8 @@
                         android:text="@string/bonesLabel"
                         android:textSize="18sp" />
 
-                    <TextView
-
+                    <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
+                        android:id="@+id/bonesInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
@@ -180,6 +186,8 @@
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
+                        android:inputType="text"
+                        android:lines="1"
                         tools:text="20kg" />
 
                     <ImageButton
@@ -225,12 +233,14 @@
                         android:text="@string/waterLabel"
                         android:textSize="18sp" />
 
-                    <TextView
-
+                    <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
+                        android:id="@+id/waterInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center"
                         android:layout_marginBottom="10dp"
+                        android:inputType="text"
+                        android:lines="1"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
                         android:maxLines="1"
@@ -390,12 +400,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <Spinner
-                    android:id="@+id/spinner2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/weightSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/weightSpinnerValues"
+                    android:spinnerMode="dialog" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/weightChart"
@@ -405,10 +420,28 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
                     android:background="#FFFFFF" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="show values" />
+
+                <com.easyfitness.utils.ExpandedListView
+                    android:id="@+id/listRecord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="false"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:fastScrollEnabled="false"
+                    android:isScrollContainer="false"
+                    android:scrollbars="none" />
 
             </LinearLayout>
+
+
 
 
         </android.support.v7.widget.CardView>

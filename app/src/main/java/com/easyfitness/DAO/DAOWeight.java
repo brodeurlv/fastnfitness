@@ -64,8 +64,8 @@ public class DAOWeight extends DAOBase {
 	        
 	        mCursor = null;
 	        mCursor = db.query(TABLE_NAME, 
-	        		new String[] { KEY, DATE, POIDS, PROFIL_KEY}, 
-	        		KEY + "=?",
+	        		new String[] { KEY, DATE, POIDS, PROFIL_KEY},
+					KEY + "=?",
 	                new String[] { String.valueOf(id) },
 	                null, null, null, null);
 	        if (mCursor != null)
@@ -92,7 +92,42 @@ public class DAOWeight extends DAOBase {
 	        // return value
 	        return value;
 	    }
-	    
+
+	    // Getting single value
+	public ProfileWeight getLastMeasure() {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		mCursor = null;
+		mCursor = db.query(TABLE_NAME,
+				new String[] { KEY, DATE, POIDS, PROFIL_KEY},
+				PROFIL_KEY + "=?",
+				new String[] { String.valueOf(mProfile.getId())},
+				null, null, DATE + " desc, " + KEY + " desc", null);
+
+		if (mCursor != null)
+			mCursor.moveToFirst();
+
+		Date date;
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			date = dateFormat.parse(mCursor.getString(1));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			date = new Date();
+		}
+
+		ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
+				date,
+				mCursor.getFloat(2),
+				mCursor.getLong(3)
+		);
+
+		db.close();
+
+		// return value
+		return value;
+	}
 	 // Getting All Measures
      private List<ProfileWeight> getMeasuresList(String pRequest) {
          List<ProfileWeight> valueList = new ArrayList<ProfileWeight>();

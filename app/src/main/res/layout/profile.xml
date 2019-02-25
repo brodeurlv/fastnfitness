@@ -18,7 +18,7 @@
             android:id="@+id/mainProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="50dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -40,26 +40,34 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_white" />-->
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/photo"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                android:maxHeight="200dp"
-                android:minHeight="60dp"
-                android:src="@drawable/ic_profile_white"
-                app:civ_border_color="#EEEEEE"
-                app:civ_border_width="0dp"
-                app:civ_shadow="false"
-                app:civ_shadow_color="#8BC34A"
-                app:civ_shadow_radius="0" />
+                android:layout_height="wrap_content">
 
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/photo"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:hapticFeedbackEnabled="false"
+                    android:isScrollContainer="false"
+                    android:maxHeight="200dp"
+                    android:minHeight="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile_white"
+                    android:textAlignment="center"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="0dp"
+                    app:civ_shadow="false"
+                    app:civ_shadow_color="#8BC34A"
+                    app:civ_shadow_radius="0" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -84,11 +92,11 @@
                     android:id="@+id/birthday"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:inputType="date"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     tools:text="XX/XX/XX" />
 
                 <com.easyfitness.utils.EditableInputView.EditableInputView
@@ -99,7 +107,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:inputType="number|numberSigned"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     tools:text="180" />
 
 
