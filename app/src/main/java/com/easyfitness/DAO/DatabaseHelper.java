@@ -1,21 +1,29 @@
 package com.easyfitness.DAO;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-    public static final int DATABASE_VERSION = 15;
+    public static final int DATABASE_VERSION = 16;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	
@@ -105,6 +113,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DURATION + " INTEGER");
                         db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TYPE + " INTEGER DEFAULT " + DAOMachine.TYPE_FONTE);
                         break;
+                    case 16:
+                        // Merge of Cardio DB and Fonte DB
+                        db.execSQL("ALTER TABLE " + DAOBodyMeasure.TABLE_NAME + " ADD COLUMN " + DAOBodyMeasure.UNIT + " INTEGER");
+                        migrateWeightTable(db, mContext);
+                        break;
 				}
                 upgradeTo++;
             }
@@ -189,4 +202,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		    oldDatabaseFile.renameTo(newDatabaseFile);
 	    }
 	}
+
+    private void migrateWeightTable(SQLiteDatabase db, Context context) {
+        List<ProfileWeight> valueList = new ArrayList<ProfileWeight>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + DAOWeight.TABLE_NAME;
+        ;
+        //SQLiteDatabase db = this.getWritableDatabase();
+        Cursor mCursor = null;
+        mCursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (mCursor.moveToFirst()) {
+            do {
+                Date date;
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    date = new Date();
+                }
+
+                ContentValues value = new ContentValues();
+
+                value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));
+                value.put(DAOBodyMeasure.BODYPART_KEY, BodyPart.WEIGHT);
+                value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOWeight.POIDS)));
+                value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOWeight.PROFIL_KEY)));
+
+                db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
+
+            } while (mCursor.moveToNext());
+            mCursor.close();
+            //db.close(); // Closing database connection
+        }
+
+    }
 }

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-	<string-array name="syncFrequency">
-        <item name="1">Once a day</item>
-        <item name="7">Once a week</item>
-        <item name="3">Once a year</item>
-        <item name="0">Never (Update manually)</item>
-    </string-array>
 	<string-array name="syncFrequencyValues">
         <item name="1">1</item>
         <item name="7">7</item>
@@ -19,11 +13,10 @@
         <item>90</item>
         <item>120</item>
     </string-array>
-    <string-array name="weightSpinnerValues">
+    <string-array name="weightSpinner">
         <item>@string/weightLabel</item>
         <item>@string/fatLabel</item>
+        <item>@string/musclesLabel</item>
         <item>@string/waterLabel</item>
-        <item>@string/bonesLabel</item>
     </string-array>
-	
 </resources>

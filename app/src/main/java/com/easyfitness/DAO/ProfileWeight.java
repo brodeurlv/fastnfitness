@@ -34,7 +34,7 @@ public class ProfileWeight {
         return mWeight;
     }
 
-    public long getProfil() {
+    public long getProfilId() {
         return mProfil_id;
     }
 }

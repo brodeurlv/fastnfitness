@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/valueTextView"
@@ -11,7 +10,6 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/editButton"
         android:gravity="center_vertical"
-        tools:text="Test"
         android:textSize="12sp" />
 
     <ImageView
@@ -25,7 +23,6 @@
         android:layout_marginTop="5dp"
         android:clickable="true"
         android:visibility="gone"
-        tools:visibility="visible"
         android:src="@drawable/edit" />
 
 </RelativeLayout>

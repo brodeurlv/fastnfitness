@@ -7,6 +7,7 @@
         <attr name="android:lines" format="integer"/>
         <attr name="android:maxLines" format="integer" />
         <attr name="android:textSize" />
+        <attr name="text" />
         <attr name="iconVisible" format="boolean"/>
     </declare-styleable>
 </resources>

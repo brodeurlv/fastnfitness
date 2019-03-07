@@ -187,7 +187,7 @@ public class DAOWeight extends DAOBase {
 	        ContentValues value = new ContentValues();
 			  value.put(DAOWeight.DATE, m.getDate().toString());
 			  value.put(DAOWeight.POIDS, m.getWeight());
-			  value.put(DAOWeight.PROFIL_KEY, m.getProfil());
+            value.put(DAOWeight.PROFIL_KEY, m.getProfilId());
 	 
 	        // updating row
 	        return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -220,6 +220,11 @@ public class DAOWeight extends DAOBase {
 	        // return count
 	        return value;
 	    }
+
+    public List<ProfileWeight> getAllRecords() {
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+        return getMeasuresList(selectQuery);
+    }
 	    
 	    public void populate() {
 			Date date = new Date();

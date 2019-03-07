@@ -267,5 +267,9 @@
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
     <string name="RecordLabel">Aufzeichnungen</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
+    <string name="fatLabel">Fett</string>
+    <string name="bonesLabel">Knochen</string>
+    <string name="waterLabel">Wasser</string>
+    <string name="musclesLabel">Muskeln</string>
 </resources>
 

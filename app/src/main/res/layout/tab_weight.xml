@@ -26,7 +26,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="2.5dp"
@@ -49,6 +49,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeMinTextSize="14sp"
+                        android:autoSizeStepGranularity="1dp"
                         android:gravity="center_horizontal"
                         android:lines="1"
                         android:text="@string/weightLabel"
@@ -62,23 +65,15 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:maxLines="1"
-                        android:maxWidth="100dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
-                        tools:text="70kg"
                         android:inputType="text"
                         android:lines="1"
+                        android:maxLines="1"
+                        android:maxWidth="100dp"
+                        android:text="70kg"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
                         app:iconVisible="false"
-                        />
-
-                    <ImageButton
-                        android:id="@+id/weightButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center"
-                        android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                        tools:text="70kg" />
                 </LinearLayout>
 
 
@@ -86,7 +81,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="2.5dp"
@@ -109,6 +104,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeMinTextSize="14sp"
+                        android:autoSizeStepGranularity="1dp"
                         android:gravity="center_horizontal"
                         android:lines="1"
                         android:text="@string/fatLabel"
@@ -121,22 +119,15 @@
                         android:layout_gravity="center_horizontal|center|clip_vertical"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
                         android:inputType="text"
                         android:lines="1"
-                        android:gravity="center_vertical|center_horizontal"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20%" />
 
-                    <ImageButton
-                        android:id="@+id/fatButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center"
-                        android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
@@ -144,7 +135,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="2.5dp"
@@ -169,34 +160,30 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeMinTextSize="14sp"
+                        android:autoSizeStepGranularity="1dp"
                         android:gravity="center_horizontal"
                         android:lines="1"
-                        android:text="@string/bonesLabel"
+                        android:text="@string/musclesLabel"
                         android:textSize="18sp" />
 
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
-                        android:id="@+id/bonesInput"
+                        android:id="@+id/musclesInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
+                        android:inputType="text"
+                        android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
-                        android:inputType="text"
-                        android:lines="1"
-                        tools:text="20kg" />
+                        tools:text="20%" />
 
-                    <ImageButton
-                        android:id="@+id/bonesButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center"
-                        android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
@@ -204,7 +191,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="2.5dp"
@@ -228,6 +215,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeMinTextSize="14sp"
+                        android:autoSizeStepGranularity="1dp"
                         android:gravity="center_horizontal"
                         android:lines="1"
                         android:text="@string/waterLabel"
@@ -239,25 +229,15 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center"
                         android:layout_marginBottom="10dp"
-                        android:inputType="text"
-                        android:lines="1"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
+                        android:inputType="text"
+                        android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20%" />
-
-
-                    <ImageButton
-                        android:id="@+id/waterButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:baselineAlignBottom="false"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
 
                 </LinearLayout>
 
@@ -292,14 +272,38 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/imcTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_horizontal"
-                        android:text="IMC"
-                        android:textSize="18sp" />
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/imc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+
+                            android:gravity="center_horizontal"
+                            android:text="@string/imcLabel"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/imcHelp"
+                            android:layout_width="25sp"
+                            android:layout_height="25sp"
+                            android:layout_alignParentBottom="false"
+                            android:layout_alignParentEnd="false"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:adjustViewBounds="false"
+                            android:cropToPadding="false"
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/imcValue"
@@ -321,7 +325,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:text="normal"
+                        tools:text="normal"
                         android:textSize="14sp"
                         android:textStyle="italic" />
 
@@ -350,14 +354,38 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
+                        android:id="@+id/rfmTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:gravity="center_horizontal"
-                        android:text="RFM"
-                        android:textSize="18sp" />
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/imc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+
+                            android:gravity="center_horizontal"
+                            android:text="@string/rfmLabel"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/rfmHelp"
+                            android:layout_width="25sp"
+                            android:layout_height="25sp"
+                            android:layout_alignParentBottom="false"
+                            android:layout_alignParentEnd="false"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:adjustViewBounds="false"
+                            android:cropToPadding="false"
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/rfmValue"
@@ -379,7 +407,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:text="normal"
+                        tools:text="normal"
                         android:textSize="14sp"
                         android:textStyle="italic" />
 
@@ -409,18 +437,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:layout_marginTop="5dp"
-                    android:entries="@array/weightSpinnerValues"
+                    android:entries="@array/weightSpinner"
                     android:spinnerMode="dialog" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/weightChart"
                     android:layout_width="match_parent"
                     android:layout_height="250dip"
-                    android:layout_margin="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="0dp"
                     android:background="#FFFFFF" />
 
                 <TextView

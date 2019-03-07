@@ -59,12 +59,12 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:27.1.1'
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:preference-v7:27.1.1'
-    compile 'com.android.support:preference-v14:27.1.1'
-    compile 'com.android.support:cardview-v7:27.1.1'
-    compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support:support-v4:28.0.0'
+    compile 'com.android.support:appcompat-v7:28.0.0'
+    compile 'com.android.support:preference-v7:28.0.0'
+    compile 'com.android.support:preference-v14:28.0.0'
+    compile 'com.android.support:cardview-v7:28.0.0'
+    compile 'com.android.support:design:28.0.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     implementation files('libs/javacsv-2.0.jar')
     implementation 'com.github.hannesa2:MPAndroidChart:3.0.5'

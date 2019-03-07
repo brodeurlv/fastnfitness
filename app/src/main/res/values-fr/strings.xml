@@ -257,4 +257,8 @@
     <string name="menu_Workout">Entrainement</string>
     <string name="renameMachine_error_text2">ERREUR: cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
     <string name="recordcopied">Enregistrement copié</string>
+    <string name="fatLabel">Gras</string>
+    <string name="bonesLabel">Os</string>
+    <string name="waterLabel">Eau</string>
+    <string name="musclesLabel">Muscles</string>
 </resources>

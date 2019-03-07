@@ -80,7 +80,7 @@ public class BodyPartDetailsFragment extends Fragment {
 
 				Date date = DateConverter.editToDate(dateEdit.getText().toString());
 
-				mBodyMeasureDb.addBodyMeasure(date, mBodyPartID, Float.valueOf(measureEdit.getText().toString()), getProfile());
+                mBodyMeasureDb.addBodyMeasure(date, mBodyPartID, Float.valueOf(measureEdit.getText().toString()), getProfile().getId());
 				refreshData();
 				measureEdit.setText("");
 

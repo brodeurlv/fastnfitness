@@ -25,9 +25,10 @@ public class DAOBodyMeasure extends DAOBase {
     public static final String BODYPART_KEY = "bodypart_id";
     public static final String MEASURE = "mesure";
     public static final String DATE = "date";
+    public static final String UNIT = "unit";
     public static final String PROFIL_KEY = "profil_id";
 
-    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_KEY + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER);";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_KEY + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     private Profile mProfile = null;
@@ -45,9 +46,9 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pDate           date of the weight measure
      * @param pBodymeasure_id id of the body part
      * @param pMeasure        body measure
-     * @param pProfile        profil associated with the measure
+     * @param pProfileID        profil associated with the measure
      */
-    public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, Profile pProfile) {
+    public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, long pProfileID) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
@@ -58,7 +59,7 @@ public class DAOBodyMeasure extends DAOBase {
         value.put(DAOBodyMeasure.DATE, dateFormat.format(pDate));
         value.put(DAOBodyMeasure.BODYPART_KEY, pBodymeasure_id);
         value.put(DAOBodyMeasure.MEASURE, pMeasure);
-        value.put(DAOBodyMeasure.PROFIL_KEY, pProfile.getId());
+        value.put(DAOBodyMeasure.PROFIL_KEY, pProfileID);
 
         db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
         db.close(); // Closing database connection

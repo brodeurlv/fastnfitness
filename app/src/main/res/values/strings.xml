@@ -275,6 +275,8 @@
     <string name="menu_Workout">Workout</string>
     <string name="renameMachine_error_text2">ERROR: this exercise name already exists. It is not possible to merge two exercises with same name and different types.</string>
     <string name="recordcopied">Record copied</string>
+    <string name="imcLabel">BMI</string>
+    <string name="rfmLabel">RFM</string>
 
 </resources>
 
