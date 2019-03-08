@@ -118,6 +118,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         db.execSQL("ALTER TABLE " + DAOBodyMeasure.TABLE_NAME + " ADD COLUMN " + DAOBodyMeasure.UNIT + " INTEGER");
                         migrateWeightTable(db, mContext);
                         break;
+                    case 17:
+                        db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.GENDER + " INTEGER");
+                    break;
 				}
                 upgradeTo++;
             }
@@ -215,16 +218,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
-
                 ContentValues value = new ContentValues();
 
                 value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));

@@ -1,22 +1,28 @@
 package com.easyfitness.DAO;
 
+import com.easyfitness.utils.Gender;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /* DataBase Object */
 public class Profile {
-    // Notez que l'identifiant est un long
+
     private long id;
     private Date mCreationDate;
     private Date mBirthday;
     private String mName;
-    private int mSize;
+    private int mSize = 0;
+    private int mGender = Gender.MALE;
     private String mPhoto;
     private List<Fonte> mListFonte = new ArrayList<Fonte>();
     private List<ProfileWeight> mListWeight = new ArrayList<ProfileWeight>();
 
-    public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto) {
+
+
+    public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto, int pGender) {
         //super();
         this.id = mId;
         this.mCreationDate = mDate;
@@ -24,6 +30,7 @@ public class Profile {
         this.mSize = pSize;
         this.mName = pName;
         this.mPhoto = pPhoto;
+        this.mGender = pGender;
     }
 
     public Profile(String pName, int pSize, Date pBirthday) {
@@ -78,6 +85,14 @@ public class Profile {
 
     public void setPhoto(String pPhoto) {
         this.mPhoto = pPhoto;
+    }
+
+    public int getGender() {
+        return mGender;
+    }
+
+    public void setGender(int gender) {
+        mGender = gender;
     }
 
     public List<ProfileWeight> getWeightList() {
