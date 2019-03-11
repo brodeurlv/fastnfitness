@@ -11,6 +11,7 @@ public class Profile {
     private Date mCreationDate;
     private Date mBirthday;
     private String mName;
+    private int mSex;
     private int mSize;
     private String mPhoto;
     private List<Fonte> mListFonte = new ArrayList<Fonte>();

@@ -117,7 +117,7 @@ public class BodyPartListFragment extends Fragment {
 			TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
 			int bodyPartID = Integer.parseInt(textView.getText().toString());
 
-			BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID);
+            BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, true);
 			FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack so the user can navigate back
@@ -130,10 +130,6 @@ public class BodyPartListFragment extends Fragment {
 	};
 		public BodyPartListFragment getThis() {
 		return this;
-	}
-
-	private void refreshData(){
-
 	}
 
 	@Override

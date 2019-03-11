@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/tab_weight"
@@ -28,10 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2.5dp"
-                android:layout_marginRight="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:minHeight="70dp"
                 android:minWidth="70dp"
@@ -62,18 +59,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:inputType="text"
+                        android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
-                        android:text="70kg"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         app:iconVisible="false"
-                        tools:text="70kg" />
+                        tools:text="70.5" />
+
+                    <ImageButton
+                        android:id="@+id/weightDetailsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/background"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
@@ -83,10 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2.5dp"
-                android:layout_marginRight="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:minHeight="70dp"
                 android:minWidth="70dp"
@@ -117,30 +122,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:inputType="text"
+                        android:inputType="number|numberSigned|numberDecimal"
                         android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
-                        tools:text="20%" />
+                        tools:text="50.9" />
 
+                    <ImageButton
+                        android:id="@+id/fatDetailsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/background"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
             </android.support.v7.widget.CardView>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2.5dp"
-                android:layout_marginRight="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:minHeight="70dp"
                 android:minWidth="70dp"
@@ -150,8 +171,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_marginLeft="2.5dp"
-                    android:layout_marginRight="2.5dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
@@ -173,17 +192,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:inputType="text"
+                        android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
-                        tools:text="20%" />
+                        tools:text="20.2" />
 
+                    <ImageButton
+                        android:id="@+id/musclesDetailsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/background"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
@@ -193,10 +222,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2.5dp"
-                android:layout_marginRight="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:minHeight="70dp"
                 android:minWidth="70dp"
@@ -228,17 +254,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:inputType="text"
+                        android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
                         android:maxLines="1"
                         android:maxWidth="100dp"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
-                        tools:text="20%" />
+                        tools:text="20.5" />
 
+                    <ImageButton
+                        android:id="@+id/waterDetailsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:adjustViewBounds="false"
+                        android:background="@color/background"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
 
@@ -255,8 +291,8 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="50"
                 android:minHeight="70dp"
@@ -273,15 +309,14 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/imcTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_marginTop="10dp"
                         android:gravity="center_horizontal">
 
                         <TextView
-                            android:id="@+id/imc"
+                            android:id="@+id/imcTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
@@ -290,7 +325,7 @@
                             android:text="@string/imcLabel"
                             android:textSize="18sp" />
 
-                        <ImageView
+                        <ImageButton
                             android:id="@+id/imcHelp"
                             android:layout_width="25sp"
                             android:layout_height="25sp"
@@ -300,6 +335,7 @@
                             android:layout_centerInParent="true"
                             android:layout_centerVertical="true"
                             android:adjustViewBounds="false"
+                            android:background="@color/background"
                             android:cropToPadding="false"
                             app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
 
@@ -325,9 +361,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        tools:text="normal"
                         android:textSize="14sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        tools:text="normal" />
 
 
                 </LinearLayout>
@@ -337,12 +373,13 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="50"
                 android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:visibility="gone"
                 app:cardCornerRadius="5dp">
 
 
@@ -372,7 +409,7 @@
                             android:text="@string/rfmLabel"
                             android:textSize="18sp" />
 
-                        <ImageView
+                        <ImageButton
                             android:id="@+id/rfmHelp"
                             android:layout_width="25sp"
                             android:layout_height="25sp"
@@ -382,6 +419,7 @@
                             android:layout_centerInParent="true"
                             android:layout_centerVertical="true"
                             android:adjustViewBounds="false"
+                            android:background="@color/background"
                             android:cropToPadding="false"
                             app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
 
@@ -407,9 +445,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        tools:text="normal"
                         android:textSize="14sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        tools:text="normal" />
 
 
                 </LinearLayout>
@@ -418,60 +456,6 @@
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            style="@style/CardViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <Spinner
-                    android:id="@+id/weightSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="5dp"
-                    android:entries="@array/weightSpinner"
-                    android:spinnerMode="dialog" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/weightChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dip"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
-                    android:background="#FFFFFF" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="show values" />
-
-                <com.easyfitness.utils.ExpandedListView
-                    android:id="@+id/listRecord"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="false"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"
-                    android:fastScrollEnabled="false"
-                    android:isScrollContainer="false"
-                    android:scrollbars="none" />
-
-            </LinearLayout>
-
-
-
-
-        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 </ScrollView>

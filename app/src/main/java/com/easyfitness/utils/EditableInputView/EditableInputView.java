@@ -19,7 +19,6 @@ import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -80,7 +79,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.editableinput_view_android_textSize, 0));
                 valueTextView.setMaxLines(a.getInt(R.styleable.editableinput_view_android_maxLines, 1));
                 valueTextView.setLines(a.getInt(R.styleable.editableinput_view_android_lines, 1));
-                textViewInputType = a.getInt(R.styleable.editableinput_view_android_inputType, InputType.TYPE_CLASS_NUMBER);
+                textViewInputType = a.getInt(R.styleable.editableinput_view_android_inputType, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 valueTextView.setInputType(textViewInputType);
                 if (a.getBoolean(R.styleable.editableinput_view_iconVisible, false)) {
                     editButton.setVisibility(View.VISIBLE);
