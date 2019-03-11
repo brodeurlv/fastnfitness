@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper sInstance;
 
-    public static final int DATABASE_VERSION = 16;
+    public static final int DATABASE_VERSION = 17;
 	public static final String OLD09_DATABASE_NAME = "easyfitness";
 	public static final String DATABASE_NAME = "easyfitness.db";
 	private Context mContext = null;	

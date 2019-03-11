@@ -13,6 +13,9 @@
         v0.16.3BETA: \n
             \t - Enhancement : Optimized start-up\n
             \t - Enhancement : Added fat, muscles and water and BMI to weight tracking\n
+			\t - Enhancement : Added date to record list\n
+            \t - Enhancement : Added gender to profile for BMI calculation\n
+			\t - Bug : Fixed vibration at the end of countdown when screen off\n
         V0.16.2: 16/01/2019 \n
             \t - Enhancement : Possibility to copy existing records \n
             \t - Enhancement : Main list displaying last date history \n

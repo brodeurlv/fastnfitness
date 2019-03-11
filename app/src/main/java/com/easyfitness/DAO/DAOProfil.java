@@ -93,7 +93,7 @@ public class DAOProfil extends DAOBase {
         if (mCursor != null) mCursor.close();
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO},
+                new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO, GENDER},
                 KEY + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
@@ -129,7 +129,7 @@ public class DAOProfil extends DAOBase {
         if (mCursor != null) mCursor.close();
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO},
+                new String[]{KEY, CREATIONDATE, NAME, SIZE, BIRTHDAY, PHOTO, GENDER},
                 NAME + "=?",
                 new String[]{name},
                 null, null, null, null);

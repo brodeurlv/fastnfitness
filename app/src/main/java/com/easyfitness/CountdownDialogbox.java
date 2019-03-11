@@ -1,7 +1,12 @@
 package com.easyfitness;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.easyfitness.utils.AlarmReceiver;
 import com.easyfitness.utils.UnitConverter;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
@@ -24,22 +30,19 @@ import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 public class CountdownDialogbox extends Dialog implements
         View.OnClickListener {
 
-    public Activity c;
+    public Activity activity;
     public Dialog d;
     public Button exit;
     public Chronometer chrono;
     //public ProgressBar progressBar;
-    public DonutProgress progressCircle;
-    public TextView nbSeries;
-    public TextView totalSession;
-    public TextView totalMachine;
+    private DonutProgress progressCircle;
 
-    int lNbSerie=0;
-    float lTotalSession=0;
-    float lTotalMachine=0;
+    private int lNbSerie=0;
+    private float lTotalSession=0;
+    private float lTotalMachine=0;
 
 
-    int iRestTime = 60;
+    private int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
 
         boolean bFirst=true;
@@ -52,9 +55,9 @@ public class CountdownDialogbox extends Dialog implements
             int secElapsed = (int) (chrono.getTimeElapsed() / 1000); //secElapsed is a negative value
             //progressBar.setProgress(iRestTime + secElapsed);
             progressCircle.setProgress(iRestTime + secElapsed);
-            if (secElapsed >= -2) { // Vibrate
+            /*if (secElapsed >= -2) { // Vibrate
                 if (!bFirst) {
-                    Vibrator v = (Vibrator) c.getApplicationContext().getSystemService(c.getApplicationContext().VIBRATOR_SERVICE);
+                    Vibrator v = (Vibrator) activity.getApplicationContext().getSystemService(activity.getApplicationContext().VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -65,7 +68,7 @@ public class CountdownDialogbox extends Dialog implements
                 } else {
                     bFirst=false;
                 }
-            }
+            }*/
             if (secElapsed >= 0) {
                 chrono.stop();
                 dismiss();
@@ -75,7 +78,7 @@ public class CountdownDialogbox extends Dialog implements
 
     public CountdownDialogbox(Activity a, int pRestTime) {
         super(a);
-        this.c = a;
+        this.activity = a;
         iRestTime = pRestTime;
     }
 
@@ -83,16 +86,16 @@ public class CountdownDialogbox extends Dialog implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTitle(c.getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
+        setTitle(getContext().getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
         setContentView(R.layout.dialog_rest);
         this.setCanceledOnTouchOutside(true); // make it not modal
 
         exit = findViewById(R.id.btn_exit);
         //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
         chrono = findViewById(R.id.chronoValue);
-        nbSeries = findViewById(R.id.idNbSeries);
-        totalSession = findViewById(R.id.idTotalSession);
-        totalMachine = findViewById(R.id.idTotalWeightMachine);
+        TextView nbSeries = findViewById(R.id.idNbSeries);
+        TextView totalSession = findViewById(R.id.idTotalSession);
+        TextView totalMachine = findViewById(R.id.idTotalWeightMachine);
 
         progressCircle = findViewById(R.id.donut_progress);
 
@@ -126,16 +129,20 @@ public class CountdownDialogbox extends Dialog implements
         chrono.setBase(SystemClock.elapsedRealtime() + (iRestTime+1) * 1000);
         chrono.setPrecision(false);
         chrono.start(); // Start automatically
+
+        setOnDismissListener(onDismissChrono);
+
+        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime-2) * 1000);
     }
   
-  /*
-  public OnDismissListener onDismissChrono = new OnDismissListener()
-  {
-	  @Override
-	  public void onDismiss(DialogInterface dialog) {
-		  getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	  }
-  };*/
+
+      public OnDismissListener onDismissChrono = new OnDismissListener()
+      {
+          @Override
+          public void onDismiss(DialogInterface dialog) {
+              unregisterAlarm(getContext(), 100101);
+          }
+      };
 
     @Override
     public void onClick(View v) {
@@ -160,6 +167,26 @@ public class CountdownDialogbox extends Dialog implements
 
     public void setNbSeries(int pNbSeries) {
         lNbSerie=pNbSeries;
+    }
+
+
+    public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt)
+    {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
+        }
+    }
+
+    public static void unregisterAlarm(Context context, int uniqueId)
+    {
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        pendingIntent.cancel();
     }
 
 }

@@ -518,7 +518,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@android:color/white"
+                android:background="@drawable/round_corner_button"
                 android:text="@string/AddLabel" />
 
 
