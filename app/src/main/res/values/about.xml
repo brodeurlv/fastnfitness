@@ -11,7 +11,8 @@
     <string name="revision_history_label" translatable="false">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
         v0.16.3BETA: \n
-            \t - Enhancement : added IMC to weight Graph\n
+            \t - Enhancement : Optimized start-up\n
+            \t - Enhancement : Added fat, muscles and water and BMI to weight tracking\n
         V0.16.2: 16/01/2019 \n
             \t - Enhancement : Possibility to copy existing records \n
             \t - Enhancement : Main list displaying last date history \n

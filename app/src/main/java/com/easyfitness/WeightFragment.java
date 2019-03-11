@@ -1,16 +1,16 @@
 package com.easyfitness;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,18 +20,10 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
-import com.easyfitness.bodymeasures.BodyMeasureCursorAdapter;
-import com.easyfitness.graph.Graph;
-import com.easyfitness.utils.DateConverter;
+import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.EditableInputView.EditableInputViewWithDate;
-import com.easyfitness.utils.ExpandedListView;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -41,19 +33,20 @@ public class WeightFragment extends Fragment {
     private EditableInputView fatEdit = null;
     private EditableInputView musclesEdit = null;
     private EditableInputView waterEdit = null;
+
+    private ImageButton weightDetailsButton = null;
+    private ImageButton fatDetailsButton = null;
+    private ImageButton musclesDetailsButton = null;
+    private ImageButton waterDetailsButton = null;
+
     private TextView imcText = null;
     private TextView imcRank = null;
     private TextView rfmText = null;
     private TextView rfmRank = null;
-    private Button rfmHelpButton = null;
-    private Button imcHelpButton = null;
+    private ImageButton rfmHelpButton = null;
+    private ImageButton imcHelpButton = null;
 
-    private Spinner valueSpinner = null;
-
-    ExpandedListView weightList = null;
     MainActivity mActivity = null;
-    private LineChart mChart = null;
-    private Graph mGraph = null;
     private DAOWeight mWeightDb = null;
     private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOProfil mDb = null;
@@ -86,12 +79,15 @@ public class WeightFragment extends Fragment {
         fatEdit = view.findViewById(R.id.fatInput);
         musclesEdit = view.findViewById(R.id.musclesInput);
         waterEdit = view.findViewById(R.id.waterInput);
+        weightDetailsButton = view.findViewById(R.id.weightDetailsButton);
+        fatDetailsButton = view.findViewById(R.id.fatDetailsButton);
+        musclesDetailsButton = view.findViewById(R.id.musclesDetailsButton);
+        waterDetailsButton = view.findViewById(R.id.waterDetailsButton);
         imcText = view.findViewById(R.id.imcValue);
         imcRank = view.findViewById(R.id.imcViewText);
         rfmText = view.findViewById(R.id.rfmValue);
         rfmRank = view.findViewById(R.id.rfmViewText);
-        valueSpinner = view.findViewById(R.id.weightSpinner);
-        weightList = view.findViewById(R.id.listRecord);
+
         rfmHelpButton = view.findViewById(R.id.rfmHelp);
         imcHelpButton = view.findViewById(R.id.imcHelp);
 
@@ -100,14 +96,12 @@ public class WeightFragment extends Fragment {
         fatEdit.setOnTextChangeListener(itemOnTextChange);
         musclesEdit.setOnTextChangeListener(itemOnTextChange);
         waterEdit.setOnTextChangeListener(itemOnTextChange);
-        valueSpinner.setOnItemSelectedListener(itemOnItemSelectedChange);
         imcHelpButton.setOnClickListener(showHelp);
         rfmHelpButton.setOnClickListener(showHelp);
-
-        // Add the other graph
-        mChart = view.findViewById(R.id.weightChart);
-        mChart.setDescription(null);
-        mGraph = new Graph(getContext(), mChart, "");
+        weightDetailsButton.setOnClickListener(showDetailsFragment);
+        fatDetailsButton.setOnClickListener(showDetailsFragment);
+        musclesDetailsButton.setOnClickListener(showDetailsFragment);
+        waterDetailsButton.setOnClickListener(showDetailsFragment);
 
         mWeightDb = new DAOWeight(view.getContext());
         mDbBodyMeasure = new DAOBodyMeasure(view.getContext());
@@ -128,63 +122,39 @@ public class WeightFragment extends Fragment {
         this.mActivity = (MainActivity) activity;
     }
 
-    private void DrawGraph(List<BodyMeasure> valueList) {
-
-        // Recupere les enregistrements
-        if (valueList.size() < 1) {
-            mChart.clear();
-            return;
-        }
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        float minBodyMeasure = -1;
-
-        for (int i = valueList.size() - 1; i >= 0; i--) {
-            Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
-            yVals.add(value);
-            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
-            else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
-                minBodyMeasure = valueList.get(i).getBodyMeasure();
-        }
-
-        mGraph.draw(yVals);
-    }
-
-    /*  */
-    private void FillRecordTable(List<BodyMeasure> bodyPartValueList) {
-        Cursor oldCursor = null;
-
-        if (bodyPartValueList.isEmpty()) {
-            //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
-            weightList.setAdapter(null);
-        } else {
-            // ...
-            if (weightList.getAdapter() == null) {
-                BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter(this.getView().getContext(), mDbBodyMeasure.getCursor(), 0, itemClickDeleteRecord);
-                weightList.setAdapter(mTableAdapter);
-            } else {
-                oldCursor = ((BodyMeasureCursorAdapter) weightList.getAdapter()).swapCursor(mDbBodyMeasure.getCursor());
-                if (oldCursor != null)
-                    oldCursor.close();
+    private AdapterView.OnClickListener showDetailsFragment = new AdapterView.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int bodyPartID = BodyPart.WEIGHT;
+            switch (v.getId()) {
+                case R.id.weightDetailsButton:
+                    bodyPartID = BodyPart.WEIGHT;
+                    break;
+                case R.id.fatDetailsButton:
+                    bodyPartID = BodyPart.FAT;
+                    break;
+                case R.id.musclesDetailsButton:
+                    bodyPartID = BodyPart.MUSCLES;
+                    break;
+                case R.id.waterDetailsButton:
+                    bodyPartID = BodyPart.WATER;
+                    break;
             }
+
+            BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
         }
-    }
+    };
 
     public String getName() {
         return getArguments().getString("name");
-    }
-
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
-    private DAOWeight getWeightDB() {
-        return mWeightDb;
-    }
-
-    private DAOProfil getDB() {
-        return mDb;
     }
 
     /**
@@ -210,10 +180,34 @@ public class WeightFragment extends Fragment {
      */
     private String getImcText(float imc) {
         if (imc<18.5) {
-            return "underweight";
+            return getString(R.string.underweight);
         } else if (imc < 25) {
-            return "normal";
+            return getString(R.string.normal);
         } else if (imc < 30) {
+            return getString(R.string.overweight);
+        } else {
+            return getString(R.string.obese);
+        }
+    }
+
+    private float calculateRfm(float waistCirc, int sex, int size) {
+        float rfm = 0;
+
+        if (waistCirc == 0) return 0;
+
+        return 0;
+    }
+
+    /**
+     * @param rfm index
+     * @return text associated with Rfm value
+     */
+    private String getRfmText(float rfm) {
+        if (rfm < 18.5) {
+            return "underweight";
+        } else if (rfm < 25) {
+            return "normal";
+        } else if (rfm < 30) {
             return "overweight";
         } else {
             return "obese";
@@ -268,48 +262,6 @@ public class WeightFragment extends Fragment {
                     musclesEdit.setText(String.valueOf(lastMusclesValue.getBodyMeasure()));
                 else
                     musclesEdit.setText("-");
-
-                int bodyPart = BodyPart.WEIGHT;
-                ;
-
-                switch (valueSpinner.getSelectedItemPosition()) {
-                    case 0:
-                        bodyPart = BodyPart.WEIGHT;
-                        break;
-                    case 1:
-                        bodyPart = BodyPart.FAT;
-                        break;
-                    case 2:
-                        bodyPart = BodyPart.MUSCLES;
-                        break;
-                    case 3:
-                        bodyPart = BodyPart.WATER;
-                        break;
-                }
-
-                List<BodyMeasure> bodyPartValueList = null;
-
-                switch (bodyPart) {
-                    case BodyPart.WEIGHT:
-                        //valueList = mWeightDb.getWeightList(getProfil());
-                        bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.WEIGHT, getProfil());
-                        break;
-                    case BodyPart.FAT:
-                        bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.FAT, getProfil());
-                        break;
-                    case BodyPart.MUSCLES:
-                        bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.MUSCLES, getProfil());
-                        break;
-                    case BodyPart.WATER:
-                        bodyPartValueList = mDbBodyMeasure.getBodyPartMeasuresList(BodyPart.WATER, getProfil());
-                        break;
-                }
-
-                //update graph
-                DrawGraph(bodyPartValueList);
-
-                // update table
-                FillRecordTable(bodyPartValueList);
             }
         }
     }
@@ -341,24 +293,28 @@ public class WeightFragment extends Fragment {
         public void onTextChanged(EditableInputView view) {
             EditableInputViewWithDate v = (EditableInputViewWithDate) view;
             //save values to databases
-            switch (view.getId()) {
-                case R.id.weightInput:
-                    // push value to database
-                    float weightValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WEIGHT, weightValue, getProfil().getId());
-                    break;
-                case R.id.fatInput:
-                    float fatValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfil().getId());
-                    break;
-                case R.id.musclesInput:
-                    float musclesValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.MUSCLES, musclesValue, getProfil().getId());
-                    break;
-                case R.id.waterInput:
-                    float waterValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfil().getId());
-                    break;
+            try {
+                switch (view.getId()) {
+                    case R.id.weightInput:
+                        // push value to database
+                        float weightValue = Float.parseFloat(v.getText());
+                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WEIGHT, weightValue, getProfil().getId());
+                        break;
+                    case R.id.fatInput:
+                        float fatValue = Float.parseFloat(v.getText());
+                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfil().getId());
+                        break;
+                    case R.id.musclesInput:
+                        float musclesValue = Float.parseFloat(v.getText());
+                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.MUSCLES, musclesValue, getProfil().getId());
+                        break;
+                    case R.id.waterInput:
+                        float waterValue = Float.parseFloat(v.getText());
+                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfil().getId());
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                // Nothing to be done
             }
             // update graph and table
             refreshData();
@@ -373,15 +329,16 @@ public class WeightFragment extends Fragment {
                 case R.id.imcHelp:
                     new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                             .setTitleText("Body Mass Index (BMI)")
-                            .setContentText("BMI = weight (kg) / ( size(m) * size(m) ) ")
+                            .setContentText("BMI = weight(kg) / size(m)*size(m) ")
                             .setConfirmText(getResources().getText(R.string.global_ok).toString())
                             .showCancelButton(true)
                             .show();
                     break;
                 case R.id.rfmHelp:
                     new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                            .setTitleText("Body Mass Index (BMI)")
-                            .setContentText("BMI = weight (kg) / ( size(m) * size(m) ) ")
+                            .setTitleText("Relative Fat Mass Index (RFM)")
+                            .setContentText("Pour les femmes: RFM = 76 – (20 x (hauteur/circonférence de la taille))\n" +
+                                    "Pour les hommes: RFM = 64 – (20 x (hauteur/circonférence de la taille))")
                             .setConfirmText(getResources().getText(R.string.global_ok).toString())
                             .showCancelButton(true)
                             .show();

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -143,12 +144,13 @@ public class BodyPartDetailsFragment extends Fragment {
 	 * Create a new instance of DetailsFragment, initialized to
 	 * show the text at 'index'.
 	 */
-	public static BodyPartDetailsFragment newInstance(int bodyPartID) {
+    public static BodyPartDetailsFragment newInstance(int bodyPartID, boolean showInput) {
 		BodyPartDetailsFragment f = new BodyPartDetailsFragment();
 
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
 		args.putInt("bodyPartID", bodyPartID);
+        args.putBoolean("showInput", showInput);
 		f.setArguments(args);
 
 		return f;
@@ -166,10 +168,15 @@ public class BodyPartDetailsFragment extends Fragment {
 		dateEdit= view.findViewById(R.id.profilEditDate);
 		measureList = view.findViewById(R.id.listWeightProfil);
 		bodyToolbar = view.findViewById(R.id.bodyTrackingDetailsToolbar);
+        CardView c = view.findViewById(R.id.addMeasureCardView);
 
 		/* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
 		mBodyPart = new BodyPart(mBodyPartID);
+
+        // Hide Input if needed.
+        if (!getArguments().getBoolean("showInput", true))
+            c.setVisibility(View.GONE);
 
 		/* Initialisation des boutons */
 		addButton.setOnClickListener(onClickAddMeasure);

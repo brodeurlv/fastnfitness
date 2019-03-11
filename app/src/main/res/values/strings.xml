@@ -4,9 +4,9 @@
     <string name="global_warning">Warning</string> 
     <string name="global_error">Error</string>
     <string name="global_cancel">Cancel</string>            
-    <string name="global_ok">Ok</string> 
-    <string name="global_yes">Yes</string> 
-    <string name="global_no">No</string> 
+    <string name="global_ok">Ok</string>
+    <string name="global_yes">Yes</string>
+    <string name="global_no">No</string>
     
     <string name="removedid">Removed id</string> 
     <string name="failedtocreatefolder">Failed to create folder</string>
@@ -61,11 +61,11 @@
     
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Weight Track</string>
-    <string name="weightLabel">Weight</string>
-    <string name="fatLabel">Fat</string>
-    <string name="bonesLabel">Bones</string>
-    <string name="waterLabel">Water</string>
-    <string name="musclesLabel">Muscles</string>
+    <string name="weightLabel">Weight(kg)</string>
+    <string name="fatLabel">Fat(%)</string>
+    <string name="bonesLabel">Bones(%)</string>
+    <string name="waterLabel">Water(%)</string>
+    <string name="musclesLabel">Muscles(%)</string>
     <string name="sizeLabel">Size</string>
     <string name="measureLabel">Measure</string>
     <string name="weightTableLabel">Weight records : </string>
@@ -277,6 +277,10 @@
     <string name="recordcopied">Record copied</string>
     <string name="imcLabel">BMI</string>
     <string name="rfmLabel">RFM</string>
+    <string name="underweight">underweight</string>
+    <string name="normal">normal</string>
+    <string name="overweight">overweight</string>
+    <string name="obese">obese</string>
 
 </resources>
 

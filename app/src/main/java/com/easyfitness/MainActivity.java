@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentMachine = "";
 
     private boolean mIntro014Launched = false;
-    private boolean mMigrationBD05done = false;
+    private boolean mMigrationBD15done = false;
 
     private final int REQUEST_CODE_INTRO = 111;
 
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper.renameOldDatabase(this);
 
-        if (DatabaseHelper.DATABASE_VERSION >= 15) {
+        if (DatabaseHelper.DATABASE_VERSION >= 15 && !mMigrationBD15done) {
             DAOOldCardio mDbOldCardio = new DAOOldCardio(this);
             DAOMachine lDAOMachine = new DAOMachine(this);
             if (mDbOldCardio.tableExists()) {
@@ -170,11 +170,13 @@ public class MainActivity extends AppCompatActivity {
                 for (Fonte record : mFonteList) {
                     mDbFonte.updateRecord(record); // Automatically update record Type
                 }
+                ArrayList<Machine> machineList = lDAOMachine.getAllMachinesArray();
+                for (Machine record : machineList) {
+                    lDAOMachine.updateMachine(record); // Reset all the fields on machines.
+                }
             }
-            ArrayList<Machine> machineList = lDAOMachine.getAllMachinesArray();
-            for (Machine record : machineList) {
-                lDAOMachine.updateMachine(record); // Reset all the fields on machines.
-            }
+            mMigrationBD15done = true;
+            savePreferences();
         }
 		
 		/* creation de l'arborescence de l'application */
@@ -194,13 +196,6 @@ public class MainActivity extends AppCompatActivity {
                         Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
             }
         }
-		
-		/*
-		mDbMachines = new DAOMachine(this);
-		if (mDbMachines.getCount()==0) {
-			// recupere le premier ID de la liste.
-			mDbMachines.populate();
-		}*/
 
         if (savedInstanceState == null) {
             showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
@@ -776,7 +771,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         mCurrentProfilID = settings.getLong("currentProfil", -1); // return -1 if it doesn't exist
         mIntro014Launched = settings.getBoolean("intro014Launched", false);
-        mMigrationBD05done = settings.getBoolean("migrationBD05done", false);
+        mMigrationBD15done = settings.getBoolean("migrationBD15done", false);
     }
 
     private void savePreferences() {
@@ -785,7 +780,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
-        editor.putBoolean("migrationBD05done", mMigrationBD05done);
+        editor.putBoolean("migrationBD15done", mMigrationBD15done);
         editor.commit();
     }
 
@@ -978,19 +973,5 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCurrentProfile != null) setCurrentProfil(mCurrentProfile.getName());
 
-        // Initialisation de la base de donnee Machine dans le cas d'une migration de database < 4 vers 5 ou plus
-        if (!mMigrationBD05done) {
-            DAOFonte lDAOFonte = new DAOFonte(this.getApplicationContext());
-            String[] machineListArray = lDAOFonte.getAllMachines();
-
-            for (int i = 0; i < machineListArray.length; i++) {
-                //Test is Machine exists. If not create it.
-                DAOMachine lDAOMachine = new DAOMachine(this.getApplicationContext());
-                if (!lDAOMachine.machineExists(machineListArray[i])) {
-                    lDAOMachine.addMachine(machineListArray[i], "", DAOMachine.TYPE_FONTE, "", false);
-                }
-            }
-            mMigrationBD05done = true;
-        }
     }
 }

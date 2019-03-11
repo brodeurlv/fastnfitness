@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
@@ -83,7 +82,7 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         } else {
             editText.setText(getText());
         }
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editText.setGravity(Gravity.CENTER);
         editText.requestFocus();
         editText.selectAll();
@@ -95,6 +94,9 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
 
         SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getContext().getString(R.string.edit_value))
+                .showCancelButton(true)
+                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setConfirmText(getContext().getString(R.string.AddLabel))
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
