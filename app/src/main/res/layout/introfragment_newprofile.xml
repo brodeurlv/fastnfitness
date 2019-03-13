@@ -28,75 +28,142 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fitsSystemWindows="false"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/mi_baseline"
-        android:weightSum="1">
 
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/create_a_profile"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:layout_gravity="top"
+            android:fitsSystemWindows="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/mi_baseline"
+            android:weightSum="1">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/signup_input_layout_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            tools:ignore="ObsoleteLayoutParam">
-        <EditText
-            android:id="@+id/profileName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mi_baseline"
-            android:hint="@string/name_or_pseudo" />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/signup_input_layout_name2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            tools:ignore="ObsoleteLayoutParam">
-
-            <EditText
-                android:id="@+id/profileBirthday"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/birthday_optional"
-                android:inputType="date" />
-        </android.support.design.widget.TextInputLayout>
+                android:gravity="center_horizontal"
+                android:text="@string/create_a_profile"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@android:color/black" />
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/signup_input_layout_name3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            tools:ignore="ObsoleteLayoutParam">
-            <EditText
-                android:id="@+id/profileSize"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/signup_input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/size_cm_optional"
-                android:inputType="numberSigned" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                tools:ignore="ObsoleteLayoutParam">
 
-        <Button
-            android:id="@+id/create_newprofil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mi_baseline"
-            android:text="@string/create" />
+                <EditText
+                    android:id="@+id/profileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mi_baseline"
+                    android:hint="@string/name_or_pseudo"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
 
-    </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button"
+                    android:button="@null"
+                    android:gravity="center_horizontal"
+                    android:padding="2dp"
+                    android:text="Male"
+                    android:textColor="@android:color/black" />
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center_horizontal"
+                    android:padding="2dp"
+                    android:text="Female"
+                    android:textColor="@android:color/black" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button"
+                    android:button="@null"
+                    android:gravity="center_horizontal"
+                    android:padding="2dp"
+                    android:text="Other"
+                    android:textColor="@android:color/black" />
+            </RadioGroup>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/signup_input_layout_name2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tools:ignore="ObsoleteLayoutParam">
+
+                <EditText
+                    android:id="@+id/profileBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/birthday_optional"
+                    android:inputType="date"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/signup_input_layout_name3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tools:ignore="ObsoleteLayoutParam">
+
+                <EditText
+                    android:id="@+id/profileSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/size_cm_optional"
+                    android:inputType="numberSigned"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/create_newprofil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mi_baseline"
+                android:background="@drawable/round_corner_button"
+                android:text="@string/create"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
     </ScrollView>
 </layout>
