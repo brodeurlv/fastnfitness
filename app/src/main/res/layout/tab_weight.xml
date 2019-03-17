@@ -60,16 +60,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center|clip_vertical"
                         android:layout_marginTop="5dp"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:text=" - "
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         app:iconVisible="false"
                         tools:text="70.5" />
+
 
                     <ImageButton
                         android:id="@+id/weightDetailsButton"

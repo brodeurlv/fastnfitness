@@ -709,25 +709,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentProfil(Profile newProfil) {
-        mCurrentProfile = newProfil;
-        mCurrentProfilID = mCurrentProfile.getId();
+        if (mCurrentProfile != null)
+            if (mCurrentProfilID != newProfil.getId() || !mCurrentProfile.equals(newProfil)) {
 
-        // rafraichit le fragment courant
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        //FragmentTransaction ft=fragmentManager.beginTransaction();
-        //showFragment(WEIGHT);
+                mCurrentProfile = newProfil;
+                mCurrentProfilID = mCurrentProfile.getId();
 
-        // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
-        // Il faut donc que cela soit pris en compte dans le refresh des fragments.
-        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-            if ( fragmentManager.getFragments().get(i) != null )
-                fragmentManager.getFragments().get(i).onHiddenChanged(false);
-        }
+                // rafraichit le fragment courant
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                //FragmentTransaction ft=fragmentManager.beginTransaction();
+                //showFragment(WEIGHT);
 
-        setDrawerTitle(mCurrentProfile.getName());
-        setPhotoProfile(mCurrentProfile.getPhoto());
+                // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
+                // Il faut donc que cela soit pris en compte dans le refresh des fragments.
+                for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                    if (fragmentManager.getFragments().get(i) != null)
+                        fragmentManager.getFragments().get(i).onHiddenChanged(false);
+                }
 
-        savePreferences();
+                setDrawerTitle(mCurrentProfile.getName());
+                setPhotoProfile(mCurrentProfile.getPhoto());
+
+                savePreferences();
+            }
     }
 
     private void setPhotoProfile(String path) {
@@ -736,7 +740,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if path is pointing to a thumb else create it and use it.
         String thumbPath = imgUtil.getThumbPath(path);
         if (thumbPath != null) {
-            imgUtil.setPic(roundProfile, thumbPath);
+            ImageUtil.setPic(roundProfile, thumbPath);
             mDrawerAdapter.getItem(0).setImg(thumbPath);
             mDrawerAdapter.notifyDataSetChanged();
             mDrawerLayout.invalidate();
@@ -781,7 +785,7 @@ public class MainActivity extends AppCompatActivity {
         if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.putBoolean("migrationBD15done", mMigrationBD15done);
-        editor.commit();
+        editor.apply();
     }
 
     private FontesPagerFragment getFontesPagerFragment() {

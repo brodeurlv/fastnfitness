@@ -32,8 +32,13 @@
         <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
        <!-- <item name="android:numberPickerStyle">@style/Theme</item> -->
         <item name="cardViewStyle">@style/CardViewStyle</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Design.FloatingActionButton</item>
     </style>
 
+    <style name="MySpinnerLook" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">30sp</item>
+    </style>
 
     <style name="CardViewStyle" parent="CardView">
         <item name="android:layout_width">match_parent</item>

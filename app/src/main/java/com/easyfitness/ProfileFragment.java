@@ -18,6 +18,7 @@ import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.EditableInputView.EditableInputView;
+import com.easyfitness.utils.Gender;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -29,11 +30,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class ProfileFragment extends Fragment {
     EditableInputView sizeEdit = null;
     EditableInputView birthdayEdit = null;
     EditableInputView nameEdit = null;
+    EditableInputView genderEdit = null;
     CircularImageView roundProfile = null;
     FloatingActionButton photoButton = null;
     String mCurrentPhotoPath = null;
@@ -69,6 +73,7 @@ public class ProfileFragment extends Fragment {
         sizeEdit = view.findViewById(R.id.size);
         birthdayEdit = view.findViewById(R.id.birthday);
         nameEdit = view.findViewById(R.id.name);
+        genderEdit = view.findViewById(R.id.gender);
         roundProfile = view.findViewById(R.id.photo);
         photoButton = view.findViewById(R.id.actionCamera);
 
@@ -81,9 +86,52 @@ public class ProfileFragment extends Fragment {
         // ImageView must be set in OnStart. Not in OnCreateView
 
         /* Initialisation des boutons */
-        sizeEdit.setOnTextChangeListener(itemOnTextChange);
-        birthdayEdit.setOnTextChangeListener(itemOnTextChange);
-        nameEdit.setOnTextChangeListener(itemOnTextChange);
+
+        genderEdit.setCustomDialogBuilder(new EditableInputView.CustomerDialogBuilder() {
+            @Override
+            public SweetAlertDialog customerDialogBuilder(EditableInputView view) {
+                SweetAlertDialog dialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(getContext().getString(R.string.edit_value))
+                        .setNeutralText(getString(R.string.maleGender))
+                        .setCancelText(getString(R.string.femaleGender))
+                        .setConfirmText(getString(R.string.otherGender))
+                        .setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                String oldValue = genderEdit.getText();
+                                if (!oldValue.equals(getString(R.string.maleGender))) {
+                                    genderEdit.setText(getString(R.string.maleGender));
+                                    requestForSave(genderEdit);
+                                }
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                String oldValue = genderEdit.getText();
+                                if (!oldValue.equals(getString(R.string.femaleGender))) {
+                                    genderEdit.setText(getString(R.string.femaleGender));
+                                    requestForSave(genderEdit);
+                                }
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                String oldValue = genderEdit.getText();
+                                if (!oldValue.equals(getString(R.string.otherGender))) {
+                                    genderEdit.setText(getString(R.string.otherGender));
+                                    requestForSave(genderEdit);
+                                }
+                                sDialog.dismissWithAnimation();
+                            }
+                        });
+                return dialog;
+            }
+        });
+
         photoButton.setOnClickListener(onClickMachinePhoto);
 
         imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
@@ -98,6 +146,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -106,6 +155,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void run() {
                 refreshData();
+                sizeEdit.setOnTextChangeListener(itemOnTextChange);
+                birthdayEdit.setOnTextChangeListener(itemOnTextChange);
+                nameEdit.setOnTextChangeListener(itemOnTextChange);
+                genderEdit.setOnTextChangeListener(itemOnTextChange);
             }
         });
     }
@@ -119,9 +172,6 @@ public class ProfileFragment extends Fragment {
     public String getName() {
         return getArguments().getString("name");
     }
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
 
     private void refreshData() {
         mProfile = getProfil();
@@ -133,6 +183,22 @@ public class ProfileFragment extends Fragment {
         } else {
             sizeEdit.setText(String.valueOf(mProfile.getSize()));
         }
+
+        switch (mProfile.getGender()) {
+            case Gender.MALE:
+                genderEdit.setText(getString(R.string.maleGender));
+                break;
+            case Gender.FEMALE:
+                genderEdit.setText(getString(R.string.femaleGender));
+                break;
+            case Gender.OTHER:
+                genderEdit.setText(getString(R.string.otherGender));
+                break;
+            default:
+                genderEdit.setText("");
+                genderEdit.setHint(getString(R.string.enter_gender_here));
+        }
+
         if (mProfile.getBirthday().getTime() == 0) {
             birthdayEdit.setText("");
             birthdayEdit.setHint(getString(R.string.profileEnterYourBirthday));
@@ -150,10 +216,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void requestForSave(View view) {
+        boolean profileToUpdate = false;
+
         // Save all the fields in the Profile
         switch (view.getId()) {
             case R.id.name:
                 mProfile.setName(nameEdit.getText());
+                profileToUpdate = true;
                 break;
             case R.id.size:
                 try {
@@ -161,24 +230,36 @@ public class ProfileFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     mProfile.setSize(0);
                 }
+                profileToUpdate = true;
                 break;
             case R.id.birthday:
                 mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
+                profileToUpdate = true;
                 break;
             case R.id.photo:
                 mProfile.setPhoto(mCurrentPhotoPath);
+                profileToUpdate = true;
+                break;
+            case R.id.gender:
+                int lGender = Gender.UNKNOWN;
+                if (genderEdit.getText().equals(getString(R.string.maleGender))) {
+                    lGender = Gender.MALE;
+                } else if (genderEdit.getText().equals(getString(R.string.femaleGender))) {
+                    lGender = Gender.FEMALE;
+                } else if (genderEdit.getText().equals(getString(R.string.otherGender))) {
+                    lGender = Gender.OTHER;
+                }
+                mProfile.setGender(lGender);
+                profileToUpdate = true;
                 break;
         }
 
-        mDb.updateProfile(mProfile);
-
-        KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-
-        refreshData();
-        mActivity.setCurrentProfil(mProfile);
+        if (profileToUpdate) {
+            mDb.updateProfile(mProfile);
+            KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            mActivity.setCurrentProfil(mProfile);
+        }
     }
-
-    ;
 
     private Profile getProfil() {
         return ((MainActivity) getActivity()).getCurrentProfil();

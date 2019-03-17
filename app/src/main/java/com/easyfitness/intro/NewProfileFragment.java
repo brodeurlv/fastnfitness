@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
@@ -43,6 +44,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Gender;
 import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -55,6 +57,10 @@ public class NewProfileFragment extends SlideFragment {
     private EditText mSize;
     private EditText mBirthday;
     private Button mBtCreate;
+    private RadioButton mRbMale;
+    private RadioButton mRbFemale;
+    private RadioButton mRbOtherGender;
+
     private boolean mProfilCreated=false;
 
     private DatePickerDialogFragment mDateFrag = null;
@@ -95,6 +101,9 @@ public class NewProfileFragment extends SlideFragment {
         mSize = view.findViewById(R.id.profileSize);
         mBirthday = view.findViewById(R.id.profileBirthday);
         mBtCreate = view.findViewById(R.id.create_newprofil);
+        mRbMale = view.findViewById(R.id.radioButtonMale);
+        mRbFemale = view.findViewById(R.id.radioButtonFemale);
+        mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
         mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
@@ -125,12 +134,6 @@ public class NewProfileFragment extends SlideFragment {
         return view;
     }
 
-    ;
-
-    private NewProfileFragment getThis() {
-        return this;
-    }
-
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -150,7 +153,16 @@ public class NewProfileFragment extends SlideFragment {
                     size = 0;
                 }
 
-                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()));
+                int lGender = Gender.UNKNOWN;
+                if (mRbMale.isChecked()) {
+                    lGender = Gender.MALE;
+                } else if (mRbFemale.isChecked()) {
+                    lGender = Gender.FEMALE;
+                } else if (mRbOtherGender.isChecked()) {
+                    lGender = Gender.OTHER;
+                }
+
+                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()), lGender);
                 // Create the new profil
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();

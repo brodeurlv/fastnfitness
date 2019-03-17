@@ -36,6 +36,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             mConfirmClickListener.onTextChanged(EditableInputView.this);
     }
 
+    /**
+     * when CustomerDialogBuilder is used the OnTextChangedListener is not triggered
+     */
     private EditableInputView.CustomerDialogBuilder mCustomerDialogBuilder=null;
     public interface CustomerDialogBuilder{
         SweetAlertDialog customerDialogBuilder(EditableInputView view);
@@ -141,9 +144,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                                     imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                                 }
                                 setText(editText.getText().toString());
+                                sDialog.dismissWithAnimation();
                                 if (mConfirmClickListener != null)
                                     mConfirmClickListener.onTextChanged(EditableInputView.this);
-                                sDialog.dismissWithAnimation();
                             }
                         });
                 dialog.setCustomView(linearLayout);
@@ -157,7 +160,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     }
 
     public void setText(String newValue) {
+        String oldValue = valueTextView.getText().toString();
         valueTextView.setText(newValue);
+
     }
 
     public void setHint(String newValue) {

@@ -2,25 +2,19 @@ package com.easyfitness.DAO;
 
 import com.easyfitness.utils.Gender;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 /* DataBase Object */
 public class Profile {
 
     private long id;
-    private Date mCreationDate;
-    private Date mBirthday;
-    private String mName;
+    private Date mCreationDate = null;
+    private Date mBirthday = null;
+    private String mName = "";
     private int mSize = 0;
     private int mGender = Gender.MALE;
-    private String mPhoto;
-    private List<Fonte> mListFonte = new ArrayList<Fonte>();
-    private List<ProfileWeight> mListWeight = new ArrayList<ProfileWeight>();
-
-
+    private String mPhoto = "";
 
     public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto, int pGender) {
         //super();
@@ -33,11 +27,12 @@ public class Profile {
         this.mGender = pGender;
     }
 
-    public Profile(String pName, int pSize, Date pBirthday) {
+    public Profile(String pName, int pSize, Date pBirthday, int pGender) {
         //super();
         this.mBirthday = pBirthday;
         this.mSize = pSize;
         this.mName = pName;
+        this.mGender = pGender;
     }
 
     public long getId() {
@@ -95,8 +90,16 @@ public class Profile {
         mGender = gender;
     }
 
-    public List<ProfileWeight> getWeightList() {
-        // call DAO get List
-        return mListWeight;
+    public boolean equals(Profile p) {
+        boolean birthdayEquals = false;
+        if (p == null) return false;
+        if (mBirthday == null && p.mBirthday == null) birthdayEquals = true;
+        else if (mBirthday == null && p.getBirthday() != null) birthdayEquals = false;
+        else if (mBirthday != null && p.getBirthday() == null) birthdayEquals = false;
+        else if (!p.mBirthday.equals(mBirthday)) birthdayEquals = false;
+
+        return birthdayEquals && p.mName.equals(mName) && p.mSize == mSize && p.mGender == mGender && p.mPhoto.equals(mPhoto);
     }
+
+
 }

@@ -281,6 +281,10 @@
     <string name="normal">normal</string>
     <string name="overweight">overweight</string>
     <string name="obese">obese</string>
+    <string name="maleGender">Male</string>
+    <string name="femaleGender">Female</string>
+    <string name="otherGender">Other</string>
+    <string name="enter_gender_here">Enter gender here</string>
 
 </resources>
 

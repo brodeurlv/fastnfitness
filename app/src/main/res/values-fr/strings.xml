@@ -261,4 +261,7 @@
     <string name="bonesLabel">Os(%)</string>
     <string name="waterLabel">Eau(%)</string>
     <string name="musclesLabel">Muscles(%)</string>
+    <string name="maleGender">Male</string>
+    <string name="femaleGender">Female</string>
+    <string name="otherGender">Other</string>
 </resources>
