@@ -219,7 +219,7 @@
     <string name="activate_rest_time">Activate Rest Countdown</string>
     <string name="rest_time">Rest time (sec)</string>
     <string name="lastRecordLabel">Last record</string>
-    <string name="MachineHint">Enter exercise name here</string>
+    <string name="MachineHint">Filter by exercise name</string>
     <string name="WeightHint">Enter your weight here</string>
     <string name="total_weight">Total weight</string>
     <string name="total_session">Total during session</string>
@@ -284,7 +284,14 @@
     <string name="maleGender">Male</string>
     <string name="femaleGender">Female</string>
     <string name="otherGender">Other</string>
-    <string name="enter_gender_here">Enter gender here</string>
+    <string name="enter_gender_here">Enter gender</string>
+    <string name="no_size_available">no size available</string>
+    <string name="no_weight_available">no weight available</string>
+    <string name="BMI_dialog_title">Body Mass Index (BMI)</string>
+    <string name="BMI_formula">BMI = weight(kg) / size(m)*size(m)</string>
+    <string name="RFM_dialog_title">Relative Fat Mass Index (RFM)</string>
+    <string name="RFM_female_formula">Women: RFM = 76 – (20 x (size/waist circumference))</string>
+    <string name="RFM_male_formula">Men: RFM = 64 – (20 x (size/waist circumference))</string>
 
 </resources>
 

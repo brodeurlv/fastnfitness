@@ -236,7 +236,7 @@ public class WeightFragment extends Fragment {
                     int size = getProfil().getSize();
                     if (size == 0) {
                         imcText.setText("-");
-                        imcRank.setText("no size available");
+                        imcRank.setText(R.string.no_size_available);
                     } else {
                         float imcValue = calculateImc(lastWeightValue.getBodyMeasure(), size);
                         imcText.setText(String.format("%.1f", imcValue));
@@ -245,7 +245,7 @@ public class WeightFragment extends Fragment {
                 } else {
                     weightEdit.setText("-");
                     imcText.setText("-");
-                    imcRank.setText("no weight available");
+                    imcRank.setText(R.string.no_weight_available);
                 }
 
                 if (lastWaterValue!=null)
@@ -328,17 +328,17 @@ public class WeightFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.imcHelp:
                     new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                            .setTitleText("Body Mass Index (BMI)")
-                            .setContentText("BMI = weight(kg) / size(m)*size(m) ")
+                            .setTitleText(R.string.BMI_dialog_title)
+                            .setContentText(getString(R.string.BMI_formula))
                             .setConfirmText(getResources().getText(R.string.global_ok).toString())
                             .showCancelButton(true)
                             .show();
                     break;
                 case R.id.rfmHelp:
                     new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                            .setTitleText("Relative Fat Mass Index (RFM)")
-                            .setContentText("Pour les femmes: RFM = 76 – (20 x (hauteur/circonférence de la taille))\n" +
-                                    "Pour les hommes: RFM = 64 – (20 x (hauteur/circonférence de la taille))")
+                            .setTitleText(R.string.RFM_dialog_title)
+                            .setContentText(getString(R.string.RFM_female_formula) +
+                                    getString(R.string.RFM_male_formula))
                             .setConfirmText(getResources().getText(R.string.global_ok).toString())
                             .showCancelButton(true)
                             .show();

@@ -204,7 +204,7 @@
     <string name="activate_rest_time">Aktiviere Pause</string>
     <string name="rest_time">Pausezeit (sek)</string>
     <string name="lastRecordLabel">Letzte Aufzeichnung</string>
-    <string name="MachineHint">Name der Übung hier eintragen</string>
+    <string name="MachineHint">Filtern nach Übungsname</string>
     <string name="WeightHint">Gib dein Gewicht hier ein</string>
     <string name="total_weight">Gesamtgewicht</string>
     <string name="total_session">Gesamt wärend der Einheit</string>
@@ -271,8 +271,22 @@
     <string name="bonesLabel">Knochen(%)</string>
     <string name="waterLabel">Wasser(%)</string>
     <string name="musclesLabel">Muskeln(%)</string>
-    <string name="maleGender">Male</string>
-    <string name="femaleGender">Female</string>
-    <string name="otherGender">Other</string>
+    <string name="maleGender">Mann</string>
+    <string name="femaleGender">Frau</string>
+    <string name="otherGender">Andere</string>
+    <string name="underweight">Untergewicht</string>
+    <string name="normal">normal</string>
+    <string name="overweight">Übergewicht</string>
+    <string name="obese">fettleibig</string>
+    <string name="enter_gender_here">Wähle dein Geschlecht</string>
+    <string name="rfmLabel">RFM</string>
+    <string name="imcLabel">KMI</string>
+    <string name="RFM_female_formula">Frauen: RFM = 76 – (20 x (Körpergröße/Bauchumfang))</string>
+    <string name="RFM_male_formula">Männer: RFM = 64 – (20 x (Körpergröße/Bauchumfang))</string>
+    <string name="no_size_available">Größe nicht verfügbar</string>
+    <string name="no_weight_available">Gewicht nicht verfügbar</string>
+    <string name="BMI_dialog_title">Body-Mass-Index (BMI)</string>
+    <string name="BMI_formula">BMI = Gewicht(kg) / Größe(m)*Größe(m)</string>
+    <string name="RFM_dialog_title">Relativer Fettmassenindex (RFM)</string>
 </resources>
 

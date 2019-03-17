@@ -880,36 +880,41 @@ public class FontesFragment extends Fragment {
 
     /*  */
     private void updateRecordTable(String pMachine) {
-
-        Cursor c = null;
-        Cursor oldCursor = null;
-
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
 
-        IRecord r = mDb.getLastRecord(getProfil());
+        this.getView().post(new Runnable() {
+            @Override
+            public void run() {
 
-        // Recupere les valeurs
-       // if (pMachine == null || pMachine.isEmpty()) {
-        if (r!=null)
-            c = mDb.getTop3DatesRecords(getProfil());
-        else
-            return;
+                Cursor c = null;
+                Cursor oldCursor = null;
 
-        if (c == null || c.getCount() == 0) {
-            recordList.setAdapter(null);
-        } else {
-            if (recordList.getAdapter() == null) {
-                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord, itemClickCopyRecord);
-                mTableAdapter.setFirstColorOdd(lTableColor);
-                recordList.setAdapter(mTableAdapter);
-            } else {
-                RecordCursorAdapter mTableAdapter = ((RecordCursorAdapter) recordList.getAdapter());
-                mTableAdapter.setFirstColorOdd(lTableColor);
-                oldCursor = mTableAdapter.swapCursor(c);
-                if (oldCursor != null) oldCursor.close();
+                IRecord r = mDb.getLastRecord(getProfil());
+
+                // Recupere les valeurs
+                // if (pMachine == null || pMachine.isEmpty()) {
+                if (r != null)
+                    c = mDb.getTop3DatesRecords(getProfil());
+                else
+                    return;
+
+                if (c == null || c.getCount() == 0) {
+                    recordList.setAdapter(null);
+                } else {
+                    if (recordList.getAdapter() == null) {
+                        RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord, itemClickCopyRecord);
+                        mTableAdapter.setFirstColorOdd(lTableColor);
+                        recordList.setAdapter(mTableAdapter);
+                    } else {
+                        RecordCursorAdapter mTableAdapter = ((RecordCursorAdapter) recordList.getAdapter());
+                        mTableAdapter.setFirstColorOdd(lTableColor);
+                        oldCursor = mTableAdapter.swapCursor(c);
+                        if (oldCursor != null) oldCursor.close();
+                    }
+                }
             }
-        }
+        });
     }
 
     private void refreshData() {

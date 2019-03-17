@@ -194,7 +194,7 @@
     <string name="WeightHint">Entre ton poids ici</string>
     <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
     <string name="profileSelected">Profil selectionné</string>
-    <string name="MachineHint">Entre le nom de l\'exercice ici</string>
+    <string name="MachineHint">Filter par nom d\'exercice</string>
     <string name="MesureHint">Entre ta mesure ici</string>
     <string name="exit">Quitter</string>
     <string name="nb_serie">Nb Série</string>
@@ -261,7 +261,21 @@
     <string name="bonesLabel">Os(%)</string>
     <string name="waterLabel">Eau(%)</string>
     <string name="musclesLabel">Muscles(%)</string>
-    <string name="maleGender">Male</string>
-    <string name="femaleGender">Female</string>
-    <string name="otherGender">Other</string>
+    <string name="maleGender">Homme</string>
+    <string name="femaleGender">Femme</string>
+    <string name="otherGender">Autre</string>
+    <string name="imcLabel">IMC</string>
+    <string name="rfmLabel">RFM</string>
+    <string name="underweight">maigre</string>
+    <string name="normal">normal</string>
+    <string name="overweight">surpoids</string>
+    <string name="obese">obèse</string>
+    <string name="enter_gender_here">Choisis ton sexe</string>
+    <string name="no_size_available">taille non disponible</string>
+    <string name="no_weight_available">poids non disponible</string>
+    <string name="BMI_dialog_title">Indice de Masse Corporel (IMC)</string>
+    <string name="BMI_formula">IMC = poids(kg) / taille(m)*taille(m)</string>
+    <string name="RFM_dialog_title">Indice de Masse Graisseuse Relatif (MGR)</string>
+    <string name="RFM_female_formula">Femmes: RFM = 76 – (20 x (hauteur/circonférence de la taille))</string>
+    <string name="RFM_male_formula">Hommes: RFM = 64 – (20 x (hauteur/circonférence de la taille))</string>
 </resources>
