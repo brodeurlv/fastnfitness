@@ -44,6 +44,15 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.17 : March 17, 2019
+
+- Enhancement : Optimized start-up and update UI
+- Enhancement : Added fat, muscles and water and BMI to weight tracking
+- Enhancement : Added date to record list
+- Enhancement : Added gender to profile for BMI calculation
+- Bug : Fixed vibration at the end of countdown when screen off
+- Bug : Other small bug fixes
+
 ### 0.16.2 : January 16, 2019
 - Enhancement : Possibility to copy existing records
 - Enhancement : Main list displaying last date history 
