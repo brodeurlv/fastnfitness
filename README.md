@@ -53,6 +53,8 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 - Bug : Fixed vibration at the end of countdown when screen off
 - Bug : Other small bug fixes
 
+https://github.com/brodeurlv/fastnfitness/releases/tag/0.17
+
 ### 0.16.2 : January 16, 2019
 - Enhancement : Possibility to copy existing records
 - Enhancement : Main list displaying last date history 
