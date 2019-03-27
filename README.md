@@ -44,6 +44,10 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.17.1 : March 27, 2019
+
+- Bug : Fixed frozen edit in creation profil
+
 ### 0.17 : March 17, 2019
 
 - Enhancement : Optimized start-up and update UI
