@@ -63,7 +63,8 @@
                     android:inputType="text"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:textColorHint="@android:color/darker_gray"
+                    android:importantForAutofill="no" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -123,8 +124,7 @@
                 android:id="@+id/signup_input_layout_name2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                tools:ignore="ObsoleteLayoutParam">
+                android:layout_marginTop="5dp">
 
                 <EditText
                     android:id="@+id/profileBirthday"
@@ -134,7 +134,8 @@
                     android:inputType="date"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:textColorHint="@android:color/darker_gray"
+                    android:importantForAutofill="no"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -142,8 +143,7 @@
                 android:id="@+id/signup_input_layout_name3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                tools:ignore="ObsoleteLayoutParam">
+                android:layout_marginTop="5dp">
 
                 <EditText
                     android:id="@+id/profileSize"
@@ -153,7 +153,8 @@
                     android:inputType="numberSigned"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:textColorHint="@android:color/darker_gray"
+                    android:importantForAutofill="no"/>
 
 
             </android.support.design.widget.TextInputLayout>

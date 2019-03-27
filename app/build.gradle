@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-    implementation 'com.heinrichreimersoftware:material-intro:1.5.8'
+    implementation 'com.heinrichreimersoftware:material-intro:1.6'
     implementation 'com.mikhaellopez:circularimageview:3.0.2'
     //compile "com.google.firebase:firebase-core:15.0.2"
     //compile "com.google.firebase:firebase-crash:15.0.2"
