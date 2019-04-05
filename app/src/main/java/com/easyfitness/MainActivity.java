@@ -1,16 +1,20 @@
 package com.easyfitness;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_barbell, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
+        //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_measuring_tape, true));
@@ -412,6 +416,52 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    private final int  MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
+
+    private void exportDatabase() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            // Afficher une boite de dialogue pour confirmer
+            AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
+
+            exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
+            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
+
+            // Si oui, supprimer la base de donnee et refaire un Start.
+            exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                    if (cvsMan.exportDatabase(getCurrentProfil())) {
+                        KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    } else {
+                        KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    }
+
+                    // Do nothing but close the dialog
+                    dialog.dismiss();
+                }
+            });
+
+            exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog exportDbDialog = exportDbBuilder.create();
+            exportDbDialog.show();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -424,39 +474,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.export_database:
-                // Afficher une boite de dialogue pour confirmer
-                AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
-
-                exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-                exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
-
-                // Si oui, supprimer la base de donnee et refaire un Start.
-                exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                        if (cvsMan.exportDatabase(getCurrentProfil())) {
-                            KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        } else {
-                            KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        }
-
-                        // Do nothing but close the dialog
-                        dialog.dismiss();
-                    }
-                });
-
-                exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog exportDbDialog = exportDbBuilder.create();
-                exportDbDialog.show();
-
+                exportDatabase();
                 return true;
             case R.id.import_database:
                 // Create DirectoryChooserDialog and register a callback
@@ -535,6 +553,27 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                    exportDatabase();
+                } else {
+                    KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+                }
+
+
+                }
+            }
+        }
+
 
     public boolean CreateNewProfil() {
         AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(this);
@@ -885,26 +924,22 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.menu_Workout));
                     break;
                 case 2:
-                    showFragment(CARDIO);
-                    setTitle(getResources().getText(R.string.CardioLabel));
-                    break;
-                case 3:
                     showFragment(MACHINES);
                     setTitle(getResources().getText(R.string.MachinesLabel));
                     break;
-                case 4:
+                case 3:
                     showFragment(WEIGHT);
                     setTitle(getResources().getText(R.string.weightMenuLabel));
                     break;
-                case 5:
+                case 4:
                     showFragment(BODYTRACKING);
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
-                case 6:
+                case 5:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 7:
+                case 6:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;

@@ -288,5 +288,7 @@
     <string name="BMI_dialog_title">Body-Mass-Index (BMI)</string>
     <string name="BMI_formula">BMI = Gewicht(kg) / Größe(m)*Größe(m)</string>
     <string name="RFM_dialog_title">Relativer Fettmassenindex (RFM)</string>
+    <string name="access_granted">Zugriff gewährt</string>
+    <string name="another_time_maybe">Später vielleicht :)</string>
 </resources>
 

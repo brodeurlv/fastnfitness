@@ -84,7 +84,7 @@ public class MainIntroActivity extends IntroActivity {
                 .scrollable(scrollable)
                 .build());
 
-        final Slide permissionsSlide;
+        /*final Slide permissionsSlide;
         if (permissions) {
             permissionsSlide = new SimpleSlide.Builder()
                     .title(R.string.introSlide3Title)
@@ -99,7 +99,7 @@ public class MainIntroActivity extends IntroActivity {
             addSlide(permissionsSlide);
         } else {
             permissionsSlide = null;
-        }
+        }*/
 
         // Initialisation des objets DB
         DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());

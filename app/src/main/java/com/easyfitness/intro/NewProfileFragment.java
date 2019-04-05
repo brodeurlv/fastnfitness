@@ -124,7 +124,7 @@ public class NewProfileFragment extends SlideFragment {
             public void onNavigationBlocked(int position, int direction) {
                 //Slide slide = getIntroActivity().getSlide(position);
 
-                if (position == 5) {
+                if (position == 4) {
                     mBtCreate.callOnClick();
                 }
             }

@@ -292,6 +292,8 @@
     <string name="RFM_dialog_title">Relative Fat Mass Index (RFM)</string>
     <string name="RFM_female_formula">Women: RFM = 76 – (20 x (size/waist circumference))</string>
     <string name="RFM_male_formula">Men: RFM = 64 – (20 x (size/waist circumference))</string>
+    <string name="access_granted">Access granted</string>
+    <string name="another_time_maybe">Another time maybe :)</string>
 
 </resources>
 

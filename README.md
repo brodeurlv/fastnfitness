@@ -44,6 +44,11 @@ For Development [Android Studio](https://developer.android.com/studio/) with [gr
 
 ## Change Log
 
+### 0.17.2 : April 5, 2019
+
+- Enhancement : Permissions have been made optional
+- Enhancement : Cardio fragment removed
+
 ### 0.17.1 : March 27, 2019
 
 - Bug : Fixed frozen edit in creation profil

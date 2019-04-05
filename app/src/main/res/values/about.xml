@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.17.1</string>
+    <string name="app_version" translatable="false">0.17.2</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label" translatable="false">Author: </string>
 	<string name="author" translatable="false">Charles Combes</string>
@@ -10,6 +10,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
 	<string name="revision_history" translatable="false">\n
+        v0.17.2: 05/04/2019\n
+            \t - Enhancement : Permissions have been made optional\n
+            \t - Enhancement : Cardio fragment removed\n
         v0.17.1: 27/03/2019\n
             \t - Bug : Fixed intro profil creation\n
         v0.17: 18/03/2019\n
