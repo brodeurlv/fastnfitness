@@ -12,10 +12,10 @@
         android:background="#EEEEEE"
         android:isScrollContainer="true"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
@@ -26,10 +26,10 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:stretchColumns="1">
 
                 <TableRow android:gravity="center_vertical">
@@ -77,9 +77,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dip"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
+                android:layout_marginBottom="0dip"
                 android:layout_weight="40"
                 android:background="@android:color/white"
                 android:text="@string/graph_all"
@@ -90,9 +90,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dip"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
+                android:layout_marginBottom="0dip"
                 android:layout_weight="40"
                 android:background="@android:color/white"
                 android:text="@string/graph_lastyear"
@@ -103,9 +103,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dip"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
+                android:layout_marginBottom="0dip"
                 android:layout_weight="40"
                 android:background="@android:color/white"
                 android:text="@string/graph_lastmonth"
@@ -116,9 +116,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="0dip"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
+                android:layout_marginBottom="0dip"
                 android:layout_weight="40"
                 android:background="@android:color/white"
                 android:text="@string/graph_lastweek"
@@ -137,10 +137,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="#FFFFFF"
                 android:minHeight="150dp" />
         </android.support.v7.widget.CardView>

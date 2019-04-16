@@ -1,6 +1,5 @@
 package com.easyfitness.intro;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -49,40 +48,40 @@ public class MainIntroActivity extends IntroActivity {
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.introSlide1Title)
-                .description(R.string.introSlide1Text)
-                .image(R.drawable.web_hi_res_512)
-                .background(R.color.launcher_background)
-                .backgroundDark(R.color.background_even)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.introSlide1Title)
+            .description(R.string.introSlide1Text)
+            .image(R.drawable.web_hi_res_512)
+            .background(R.color.launcher_background)
+            .backgroundDark(R.color.background_even)
+            .scrollable(scrollable)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.introSlide2Title)
-                .description(R.string.introSlide2Text)
-                .image(R.drawable.bench_hi_res_512)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.introSlide2Title)
+            .description(R.string.introSlide2Text)
+            .image(R.drawable.bench_hi_res_512)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(scrollable)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.titleSlideEssential)
-                .description(R.string.textSlideEssential)
-                .image(R.drawable.idea_hi_res_485)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.titleSlideEssential)
+            .description(R.string.textSlideEssential)
+            .image(R.drawable.idea_hi_res_485)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(scrollable)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.titleSlideOpenSource)
-                .description(R.string.textSlideOpenSource)
-                .image(R.drawable.group_hi_res_512)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.titleSlideOpenSource)
+            .description(R.string.textSlideOpenSource)
+            .image(R.drawable.group_hi_res_512)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(scrollable)
+            .build());
 
         /*final Slide permissionsSlide;
         if (permissions) {
@@ -109,10 +108,10 @@ public class MainIntroActivity extends IntroActivity {
             final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
             profileSlide = new FragmentSlide.Builder()
-                    .background(R.color.background_even)
-                    .backgroundDark(R.color.launcher_background)
-                    .fragment(NewProfileFragment.newInstance())
-                    .build();
+                .background(R.color.background_even)
+                .backgroundDark(R.color.launcher_background)
+                .fragment(NewProfileFragment.newInstance())
+                .build();
             addSlide(profileSlide);
         }
     }

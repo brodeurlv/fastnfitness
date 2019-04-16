@@ -32,20 +32,24 @@
                 android:title="Profile picture" />
         </menu>
     </item>
-    
-    <item android:id="@+id/action_deleteDB"
+
+    <item
+        android:id="@+id/action_deleteDB"
         android:title="@string/ResetAppLabel"
-          app:showAsAction="never|withText"/>
-    
-    <item android:id="@+id/export_database"
-          android:title="@string/export_database"
-          app:showAsAction="never|withText"/>    
-    <item android:id="@+id/import_database"
-          android:title="@string/import_database"
-          app:showAsAction="never|withText"/>            
-    
-    <item android:id="@+id/action_apropos"
+        app:showAsAction="never|withText" />
+
+    <item
+        android:id="@+id/export_database"
+        android:title="@string/export_database"
+        app:showAsAction="never|withText" />
+    <item
+        android:id="@+id/import_database"
+        android:title="@string/import_database"
+        app:showAsAction="never|withText" />
+
+    <item
+        android:id="@+id/action_apropos"
         android:title="@string/AboutLabel"
-          app:showAsAction="never|withText"/>
+        app:showAsAction="never|withText" />
 
 </menu>

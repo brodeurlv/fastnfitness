@@ -46,6 +46,19 @@ public class ProfileFragment extends Fragment {
     private DAOProfil mDb = null;
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
+    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
+
+        @Override
+        public void onTextChanged(EditableInputView view) {
+            requestForSave(view);
+        }
+    };
+    private OnClickListener onClickMachinePhoto = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            CreatePhotoSourceDialog();
+        }
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -91,43 +104,43 @@ public class ProfileFragment extends Fragment {
             @Override
             public SweetAlertDialog customerDialogBuilder(EditableInputView view) {
                 SweetAlertDialog dialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(getContext().getString(R.string.edit_value))
-                        .setNeutralText(getString(R.string.maleGender))
-                        .setCancelText(getString(R.string.femaleGender))
-                        .setConfirmText(getString(R.string.otherGender))
-                        .setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                String oldValue = genderEdit.getText();
-                                if (!oldValue.equals(getString(R.string.maleGender))) {
-                                    genderEdit.setText(getString(R.string.maleGender));
-                                    requestForSave(genderEdit);
-                                }
-                                sDialog.dismissWithAnimation();
+                    .setTitleText(getContext().getString(R.string.edit_value))
+                    .setNeutralText(getString(R.string.maleGender))
+                    .setCancelText(getString(R.string.femaleGender))
+                    .setConfirmText(getString(R.string.otherGender))
+                    .setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            String oldValue = genderEdit.getText();
+                            if (!oldValue.equals(getString(R.string.maleGender))) {
+                                genderEdit.setText(getString(R.string.maleGender));
+                                requestForSave(genderEdit);
                             }
-                        })
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                String oldValue = genderEdit.getText();
-                                if (!oldValue.equals(getString(R.string.femaleGender))) {
-                                    genderEdit.setText(getString(R.string.femaleGender));
-                                    requestForSave(genderEdit);
-                                }
-                                sDialog.dismissWithAnimation();
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            String oldValue = genderEdit.getText();
+                            if (!oldValue.equals(getString(R.string.femaleGender))) {
+                                genderEdit.setText(getString(R.string.femaleGender));
+                                requestForSave(genderEdit);
                             }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                String oldValue = genderEdit.getText();
-                                if (!oldValue.equals(getString(R.string.otherGender))) {
-                                    genderEdit.setText(getString(R.string.otherGender));
-                                    requestForSave(genderEdit);
-                                }
-                                sDialog.dismissWithAnimation();
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            String oldValue = genderEdit.getText();
+                            if (!oldValue.equals(getString(R.string.otherGender))) {
+                                genderEdit.setText(getString(R.string.otherGender));
+                                requestForSave(genderEdit);
                             }
-                        });
+                            sDialog.dismissWithAnimation();
+                        }
+                    });
                 return dialog;
             }
         });
@@ -145,7 +158,6 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
-
 
     @Override
     public void onStart() {
@@ -273,22 +285,6 @@ public class ProfileFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) refreshData();
     }
-
-    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
-
-        @Override
-        public void onTextChanged(EditableInputView view) {
-            requestForSave(view);
-        }
-    };
-
-
-    private OnClickListener onClickMachinePhoto = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            CreatePhotoSourceDialog();
-        }
-    };
 
     private boolean CreatePhotoSourceDialog() {
         if (imgUtil == null)

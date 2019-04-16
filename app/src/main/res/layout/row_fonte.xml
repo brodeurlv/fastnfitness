@@ -18,8 +18,8 @@
         android:gravity="start"
         android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="1"
-        android:paddingBottom="0dp"
         android:paddingTop="0dp"
+        android:paddingBottom="0dp"
         android:textColor="@color/gray"
         android:textSize="12sp"
         android:textStyle="bold|italic"
@@ -41,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp">
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:layout_width="0dip"
@@ -62,8 +62,8 @@
                     android:gravity="start"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="1"
-                    android:paddingBottom="0dp"
                     android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
                     android:text="Machine"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
@@ -83,8 +83,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_marginBottom="0dp"
                         android:layout_marginTop="1dp"
+                        android:layout_marginBottom="0dp"
                         android:paddingTop="0dp"
                         android:text="12/34/2016"
                         android:textSize="10sp" />
@@ -204,8 +204,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:gravity="start|center"
                     android:maxLines="1"

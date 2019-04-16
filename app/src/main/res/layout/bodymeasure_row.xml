@@ -20,17 +20,17 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:paddingBottom="4dp"
             android:paddingLeft="5dp"
+            android:paddingTop="4dp"
             android:paddingRight="5dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/LIST_BODYMEASURE_ID"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:singleLine="true"
                 android:visibility="gone" />
 

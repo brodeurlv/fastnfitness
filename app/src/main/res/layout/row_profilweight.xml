@@ -20,10 +20,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:paddingBottom="4dp"
             android:paddingLeft="5dp"
+            android:paddingTop="4dp"
             android:paddingRight="5dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/DATE_CELL"

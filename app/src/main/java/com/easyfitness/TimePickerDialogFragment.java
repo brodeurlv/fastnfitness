@@ -21,16 +21,16 @@ public class TimePickerDialogFragment extends DialogFragment {
         return pickerFragment;
     }
 
-     public Dialog onCreateDialog(Bundle savedInstanceState) {
-    	// Use the current time as the default values for the picker
-         //final Calendar c = Calendar.getInstance();
-         //int hour = c.get(Calendar.HOUR_OF_DAY);
-         //int minute = c.get(Calendar.MINUTE);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        // Use the current time as the default values for the picker
+        //final Calendar c = Calendar.getInstance();
+        //int hour = c.get(Calendar.HOUR_OF_DAY);
+        //int minute = c.get(Calendar.MINUTE);
 
-         // Create a new instance of TimePickerDialog and return it
-         return new TimePickerDialog(getActivity(), onTimeSetListener, 0, 0,
-                 true);
-     }
+        // Create a new instance of TimePickerDialog and return it
+        return new TimePickerDialog(getActivity(), onTimeSetListener, 0, 0,
+            true);
+    }
 
     private void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener listener) {
         this.onTimeSetListener = listener;

@@ -95,7 +95,7 @@ public class RealPathUtil {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                    Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                 return getDataColumn(context, contentUri, null, null);
             }
@@ -116,7 +116,7 @@ public class RealPathUtil {
 
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[]{
-                        split[1]
+                    split[1]
                 };
 
                 return getDataColumn(context, contentUri, selection, selectionArgs);
@@ -155,12 +155,12 @@ public class RealPathUtil {
         Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {
-                column
+            column
         };
 
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+                null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(index);

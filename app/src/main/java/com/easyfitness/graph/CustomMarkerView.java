@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.widget.TextView;
 
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -15,7 +14,6 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -24,11 +22,12 @@ public class CustomMarkerView extends MarkerView {
     private TextView tvContent;
     private TextView tvDate;
     private DecimalFormat mFormat = new DecimalFormat("#.##");
-    private LineChart lineChart=null;
+    private LineChart lineChart = null;
     /**
      * Screen width in pixels.
      */
     private int uiScreenWidth;
+    private MPPointF mOffset;
 
     public CustomMarkerView(Context context, int layoutResource, LineChart chart) {
         super(context, layoutResource);
@@ -37,7 +36,7 @@ public class CustomMarkerView extends MarkerView {
         tvContent = findViewById(R.id.tvContent);
         tvDate = findViewById(R.id.tvDate);
         uiScreenWidth = getResources().getDisplayMetrics().widthPixels;
-        lineChart=chart;
+        lineChart = chart;
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -54,8 +53,6 @@ public class CustomMarkerView extends MarkerView {
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
     }
-
-    private MPPointF mOffset;
 
     @Override
     public MPPointF getOffset() {
@@ -79,23 +76,23 @@ public class CustomMarkerView extends MarkerView {
         float width = getWidth();
         float height = getHeight();
 
-        if(lineChart != null) {
+        if (lineChart != null) {
             lineChartWidth = lineChart.getWidth();
             lineChartHeight = lineChart.getHeight();
         }
 
         //Si ca deborde sur les cotés
-        if(posX + offsetX < 0) {
-            offsetX = - posX;
-        } else if(posX + width + offsetX > lineChartWidth) {
+        if (posX + offsetX < 0) {
+            offsetX = -posX;
+        } else if (posX + width + offsetX > lineChartWidth) {
             offsetX = lineChartWidth - posX - width;
         }
         posX += offsetX;
 
         // Si ca deborde en haut ou en bas
-        if(posY + offsetY < 0) {
+        if (posY + offsetY < 0) {
             posY = posY + 20;
-        } else if(posY + height + offsetY > lineChartHeight) {
+        } else if (posY + height + offsetY > lineChartHeight) {
             posY += lineChartHeight - posY - height;
         } else {
             posY += offsetY;

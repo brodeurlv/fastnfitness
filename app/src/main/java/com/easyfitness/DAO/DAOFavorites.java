@@ -46,7 +46,7 @@ public class DAOFavorites extends DAOBase {
     public void deleteFavorite(long id, Profile p) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, MACHINE_KEY + " = ? AND " + PROFIL_KEY + " = ?",
-                new String[]{String.valueOf(id), String.valueOf(p.getId())});
+            new String[]{String.valueOf(id), String.valueOf(p.getId())});
     }
 
     // Getting All Measures

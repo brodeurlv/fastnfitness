@@ -17,9 +17,9 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
 
     //private String url;
 
-    /* 
-     * if any of the parameters is null, the respective functionality 
-     * will not be used 
+    /*
+     * if any of the parameters is null, the respective functionality
+     * will not be used
      */
     public CustomExceptionHandler(String localPath) { //, String url) {
         this.localPath = localPath;
@@ -28,9 +28,9 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
     }
 
     public void uncaughtException(Thread t, Throwable e) {
-    	
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_H_m_s");
-		Date date = new Date();		
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_H_m_s");
+        Date date = new Date();
         String timestamp = dateFormat.format(date);
         final Writer result = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(result);
@@ -52,7 +52,7 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
     private void writeToFile(String stacktrace, String filename) {
         try {
             BufferedWriter bos = new BufferedWriter(new FileWriter(
-                    localPath + "/" + filename));
+                localPath + "/" + filename));
             bos.write(stacktrace);
             bos.flush();
             bos.close();

@@ -1,30 +1,28 @@
 package com.easyfitness.utils;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ExpandedListView extends ListView
-{
+public class ExpandedListView extends ListView {
     private android.view.ViewGroup.LayoutParams params;
     private int oldCount = 0;
 
-    public  ExpandedListView(Context context) {
+    public ExpandedListView(Context context) {
         super(context);
     }
 
-    public  ExpandedListView(Context context, AttributeSet attrs) {
+    public ExpandedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public  ExpandedListView(Context context, AttributeSet attrs, int defStyle) {
+    public ExpandedListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
-    protected  void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightSpec = heightMeasureSpec;
 
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {

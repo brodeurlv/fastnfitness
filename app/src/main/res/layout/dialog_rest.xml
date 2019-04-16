@@ -36,7 +36,7 @@
             android:gravity="center"
             android:keepScreenOn="true"
             android:text="00:00"
-            android:textSize="60sp"/>
+            android:textSize="60sp" />
     </FrameLayout>
 
     <LinearLayout

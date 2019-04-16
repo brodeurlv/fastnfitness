@@ -2,8 +2,6 @@ package com.easyfitness.licenses;
 
 import android.content.Context;
 
-import com.easyfitness.R;
-
 import de.psdev.licensesdialog.licenses.License;
 
 /**

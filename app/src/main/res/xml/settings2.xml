@@ -2,12 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_bodybuilding_setting">
         <android.support.v7.preference.ListPreference
-            android:title="@string/pref_preferredUnitTitle"
-            android:summary=""
-            android:key="defaultUnit"
             android:defaultValue="0"
             android:entries="@array/fonte_units"
-            android:entryValues="@array/fonte_unitsEnum" />
+            android:entryValues="@array/fonte_unitsEnum"
+            android:key="defaultUnit"
+            android:summary=""
+            android:title="@string/pref_preferredUnitTitle" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_ui_setting">

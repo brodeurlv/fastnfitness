@@ -12,10 +12,10 @@
         android:background="#EEEEEE"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,8 +30,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
@@ -81,8 +81,8 @@
                         android:layout_marginRight="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
@@ -95,8 +95,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
@@ -128,8 +128,8 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:inputType="number|numberSigned|numberDecimal"
                         android:lines="1"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="50.9" />
@@ -142,8 +142,8 @@
                         android:layout_marginRight="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
@@ -165,8 +165,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
@@ -198,8 +198,8 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20.2" />
@@ -212,8 +212,8 @@
                         android:layout_marginRight="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
@@ -226,8 +226,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 app:cardCornerRadius="5dp">
 
 
@@ -260,8 +260,8 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:inputType="numberSigned|numberDecimal"
                         android:lines="1"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20.5" />
@@ -274,8 +274,8 @@
                         android:layout_marginRight="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
                 </LinearLayout>
 
@@ -297,8 +297,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="50"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 app:cardCornerRadius="5dp">
 
 
@@ -331,9 +331,9 @@
                             android:id="@+id/imcHelp"
                             android:layout_width="25sp"
                             android:layout_height="25sp"
-                            android:layout_alignParentBottom="false"
                             android:layout_alignParentEnd="false"
                             android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="false"
                             android:layout_centerInParent="true"
                             android:layout_centerVertical="true"
                             android:adjustViewBounds="false"
@@ -348,11 +348,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal|center"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20" />
@@ -379,8 +379,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_weight="50"
-                android:minHeight="70dp"
                 android:minWidth="70dp"
+                android:minHeight="70dp"
                 android:visibility="gone"
                 app:cardCornerRadius="5dp">
 
@@ -415,9 +415,9 @@
                             android:id="@+id/rfmHelp"
                             android:layout_width="25sp"
                             android:layout_height="25sp"
-                            android:layout_alignParentBottom="false"
                             android:layout_alignParentEnd="false"
                             android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="false"
                             android:layout_centerInParent="true"
                             android:layout_centerVertical="true"
                             android:adjustViewBounds="false"
@@ -432,11 +432,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal|center"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:maxLines="1"
                         android:maxWidth="100dp"
+                        android:maxLines="1"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         tools:text="20" />

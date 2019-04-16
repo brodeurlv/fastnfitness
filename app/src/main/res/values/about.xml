@@ -3,13 +3,13 @@
     <string name="app_version" translatable="false">0.17.2</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label" translatable="false">Author: </string>
-	<string name="author" translatable="false">Charles Combes</string>
+    <string name="author" translatable="false">Charles Combes</string>
     <string name="opensource_label" translatable="false">Open source URL: </string>
-	<string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
+    <string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
     <string name="email_label" translatable="false">Contact the developer: </string>
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
-	<string name="revision_history" translatable="false">\n
+    <string name="revision_history" translatable="false">\n
         v0.17.2: 05/04/2019\n
             \t - Enhancement : Permissions have been made optional\n
             \t - Enhancement : Cardio fragment removed\n
@@ -167,16 +167,16 @@
 			\t - Beta version \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries : </string>
-	<string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
-	<string name="javaCSV_content" translatable="false">JavaCSV (LGPL)</string>
-	<string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
-	<string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
-	<string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
-	<string name="SmartTabLayout_content" translatable="false">SmartTabLayout (Apache 2.0)</string>
-	<string name="freepik_content" translatable="false">Freepik (Free License with attribution)</string>
-	<string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>
-	<string name="circleprogress_content" translatable="false">Circle Progress (Public License)</string>
-	<string name="circularImageView_content" translatable="false">CircularImageView (Apache 2.0)</string>
+    <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
+    <string name="javaCSV_content" translatable="false">JavaCSV (LGPL)</string>
+    <string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
+    <string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
+    <string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
+    <string name="SmartTabLayout_content" translatable="false">SmartTabLayout (Apache 2.0)</string>
+    <string name="freepik_content" translatable="false">Freepik (Free License with attribution)</string>
+    <string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>
+    <string name="circleprogress_content" translatable="false">Circle Progress (Public License)</string>
+    <string name="circularImageView_content" translatable="false">CircularImageView (Apache 2.0)</string>
     <string name="ktoast_content" translatable="false">ktoast (Apache 2.0)</string>
     <string name="SweetAlertDialog_content" translatable="false">SweetAlertDialog (MIT)</string>
     <string name="AndroidImageCropper_content" translatable="false">Android-Image-Cropper (Apache 2.0)</string>

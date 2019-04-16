@@ -46,7 +46,7 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pDate           date of the weight measure
      * @param pBodymeasure_id id of the body part
      * @param pMeasure        body measure
-     * @param pProfileID        profil associated with the measure
+     * @param pProfileID      profil associated with the measure
      */
     public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, long pProfileID) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -71,10 +71,10 @@ public class DAOBodyMeasure extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, DATE, BODYPART_KEY, MEASURE, PROFIL_KEY},
-                KEY + "=?",
-                new String[]{String.valueOf(id)},
-                null, null, null, null);
+            new String[]{KEY, DATE, BODYPART_KEY, MEASURE, PROFIL_KEY},
+            KEY + "=?",
+            new String[]{String.valueOf(id)},
+            null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
@@ -89,10 +89,10 @@ public class DAOBodyMeasure extends DAOBase {
         }
 
         BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
-                date,
-                mCursor.getInt(2),
-                mCursor.getFloat(3),
-                mCursor.getLong(4)
+            date,
+            mCursor.getInt(2),
+            mCursor.getFloat(3),
+            mCursor.getLong(4)
         );
 
         db.close();
@@ -125,10 +125,10 @@ public class DAOBodyMeasure extends DAOBase {
                 }
 
                 BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
-                        date,
-                        mCursor.getInt(2),
-                        mCursor.getFloat(3),
-                        mCursor.getLong(4)
+                    date,
+                    mCursor.getInt(2),
+                    mCursor.getFloat(3),
+                    mCursor.getLong(4)
                 );
 
                 // Adding value to list
@@ -185,7 +185,7 @@ public class DAOBodyMeasure extends DAOBase {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_KEY + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 
         List<BodyMeasure> array = getMeasuresList(selectQuery);
-        if (array.size() <= 0 ) {
+        if (array.size() <= 0) {
             return null;
         }
 
@@ -208,14 +208,14 @@ public class DAOBodyMeasure extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-                new String[]{String.valueOf(m.getId())});
+            new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Measure
     public void deleteMeasure(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-                new String[]{String.valueOf(id)});
+            new String[]{String.valueOf(id)});
     }
 
     // Getting Profils Count

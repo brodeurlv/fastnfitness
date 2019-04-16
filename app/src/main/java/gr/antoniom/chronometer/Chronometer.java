@@ -32,10 +32,10 @@ public class Chronometer extends AppCompatTextView {
                 dispatchChronometerTick();
                 if (mPreciseClock)
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                            TICK_WHAT), 100);
+                        TICK_WHAT), 100);
                 else
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                            TICK_WHAT), 1000);
+                        TICK_WHAT), 1000);
             }
         }
     };
@@ -78,7 +78,7 @@ public class Chronometer extends AppCompatTextView {
     }
 
     public void setOnChronometerTickListener(
-            OnChronometerTickListener listener) {
+        OnChronometerTickListener listener) {
         mOnChronometerTickListener = listener;
     }
 
@@ -153,10 +153,10 @@ public class Chronometer extends AppCompatTextView {
                 dispatchChronometerTick();
                 if (mPreciseClock) {
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                            TICK_WHAT), 100);
+                        TICK_WHAT), 100);
                 } else {
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                            TICK_WHAT), 1000);
+                        TICK_WHAT), 1000);
                 }
             } else {
                 mHandler.removeMessages(TICK_WHAT);

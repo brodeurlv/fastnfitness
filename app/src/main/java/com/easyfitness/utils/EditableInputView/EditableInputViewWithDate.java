@@ -22,15 +22,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class EditableInputViewWithDate extends EditableInputView implements DatePickerDialog.OnDateSetListener {
     private Date date;
-    private EditText dateEditView=null;
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        date = DateConverter.dateToDate(year, month, dayOfMonth);
-        if (dateEditView!=null) dateEditView.setText(DateConverter.dateToLocalDateStr(date, getContext()));
-        if (mConfirmClickListener != null)
-            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
-    }
+    private EditText dateEditView = null;
 
     public EditableInputViewWithDate(Context context) {
         super(context);
@@ -47,6 +39,15 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         init(context, attrs);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        date = DateConverter.dateToDate(year, month, dayOfMonth);
+        if (dateEditView != null)
+            dateEditView.setText(DateConverter.dateToLocalDateStr(date, getContext()));
+        if (mConfirmClickListener != null)
+            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+    }
+
     private EditableInputViewWithDate getEditableInputViewWithDate() {
         return this;
     }
@@ -54,7 +55,7 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
     @Override
     protected void editDialog(Context context) {
         final EditText editDate = new EditText(getContext());
-        date=DateConverter.getNewDate();
+        date = DateConverter.getNewDate();
         editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
         editDate.setGravity(Gravity.CENTER);
         editDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -93,23 +94,23 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         linearLayout.addView(editText);
 
         SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getContext().getString(R.string.edit_value))
-                .showCancelButton(true)
-                .setCancelText(getContext().getString(R.string.global_cancel))
-                .setConfirmText(getContext().getString(R.string.AddLabel))
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                        }
-                        setText(editText.getText().toString());
-                        if (mConfirmClickListener != null)
-                            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
-                        sDialog.dismissWithAnimation();
+            .setTitleText(getContext().getString(R.string.edit_value))
+            .showCancelButton(true)
+            .setCancelText(getContext().getString(R.string.global_cancel))
+            .setConfirmText(getContext().getString(R.string.AddLabel))
+            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     }
-                });
+                    setText(editText.getText().toString());
+                    if (mConfirmClickListener != null)
+                        mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+                    sDialog.dismissWithAnimation();
+                }
+            });
         dialog.setCustomView(linearLayout);
         dialog.show();
     }

@@ -8,11 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -28,24 +25,27 @@ import gr.antoniom.chronometer.Chronometer;
 import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 
 public class CountdownDialogbox extends Dialog implements
-        View.OnClickListener {
+    View.OnClickListener {
 
     public Activity activity;
     public Dialog d;
     public Button exit;
     public Chronometer chrono;
+    public OnDismissListener onDismissChrono = new OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            unregisterAlarm(getContext(), 100101);
+        }
+    };
     //public ProgressBar progressBar;
     private DonutProgress progressCircle;
-
-    private int lNbSerie=0;
-    private float lTotalSession=0;
-    private float lTotalMachine=0;
-
-
+    private int lNbSerie = 0;
+    private float lTotalSession = 0;
+    private float lTotalMachine = 0;
     private int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
 
-        boolean bFirst=true;
+        boolean bFirst = true;
 
         @Override
         public void onChronometerTick(Chronometer chronometer) {
@@ -82,6 +82,23 @@ public class CountdownDialogbox extends Dialog implements
         iRestTime = pRestTime;
     }
 
+    public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
+        }
+    }
+
+    public static void unregisterAlarm(Context context, int uniqueId) {
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        pendingIntent.cancel();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,16 +126,14 @@ public class CountdownDialogbox extends Dialog implements
         //progressBar.setMax(iRestTime);
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int defaultUnit= Integer.valueOf(SP.getString("defaultUnit", "0"));
+        int defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
 
         DecimalFormat numberFormat = new DecimalFormat("#.##");
 
         if (defaultUnit == UnitConverter.UNIT_KG) {
             totalMachine.setText(numberFormat.format(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
             totalSession.setText(numberFormat.format(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
-        }
-        else if (defaultUnit == UnitConverter.UNIT_LBS)
-        {
+        } else if (defaultUnit == UnitConverter.UNIT_LBS) {
             totalMachine.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalMachine)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
             totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
         }
@@ -126,23 +141,14 @@ public class CountdownDialogbox extends Dialog implements
         nbSeries.setText(Integer.toString(lNbSerie));
 
         chrono.setOnChronometerTickListener(onChronometerTick);
-        chrono.setBase(SystemClock.elapsedRealtime() + (iRestTime+1) * 1000);
+        chrono.setBase(SystemClock.elapsedRealtime() + (iRestTime + 1) * 1000);
         chrono.setPrecision(false);
         chrono.start(); // Start automatically
 
         setOnDismissListener(onDismissChrono);
 
-        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime-2) * 1000);
+        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime - 2) * 1000);
     }
-  
-
-      public OnDismissListener onDismissChrono = new OnDismissListener()
-      {
-          @Override
-          public void onDismiss(DialogInterface dialog) {
-              unregisterAlarm(getContext(), 100101);
-          }
-      };
 
     @Override
     public void onClick(View v) {
@@ -158,35 +164,15 @@ public class CountdownDialogbox extends Dialog implements
     }
 
     public void setTotalWeightSession(float pTotalWeight) {
-        lTotalSession=pTotalWeight;
+        lTotalSession = pTotalWeight;
     }
 
     public void setTotalWeightMachine(float pTotalWeight) {
-        lTotalMachine=pTotalWeight;
+        lTotalMachine = pTotalWeight;
     }
 
     public void setNbSeries(int pNbSeries) {
-        lNbSerie=pNbSeries;
-    }
-
-
-    public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt)
-    {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
-        }
-    }
-
-    public static void unregisterAlarm(Context context, int uniqueId)
-    {
-        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
-        pendingIntent.cancel();
+        lNbSerie = pNbSeries;
     }
 
 }

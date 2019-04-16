@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="toolbar_background">#0CACF4</color>
-   	<color name="background_odd">#99d6ea</color>
-   	<color name="background_even">#cceaf4</color>
-	<color name="graph_fill">#f2fbff</color>
-   	<color name="background">#ffffff</color>
-	<color name="tableheader_background">#FFFFFF</color>
-	<color name="launcher_background">#0dadf4</color>
+    <color name="toolbar_background">#0CACF4</color>
+    <color name="background_odd">#99d6ea</color>
+    <color name="background_even">#cceaf4</color>
+    <color name="graph_fill">#f2fbff</color>
+    <color name="background">#ffffff</color>
+    <color name="tableheader_background">#FFFFFF</color>
+    <color name="launcher_background">#0dadf4</color>
 </resources>

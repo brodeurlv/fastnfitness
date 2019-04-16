@@ -1,8 +1,5 @@
 package com.easyfitness;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,127 +17,130 @@ import android.widget.Toast;
 import com.easyfitness.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
-	Context context;
-	List<DrawerItem> drawerItemList;
-	int layoutResID;
+    Context context;
+    List<DrawerItem> drawerItemList;
+    int layoutResID;
 
-	public CustomDrawerAdapter(Context context, int layoutResourceID,
-			List<DrawerItem> listItems) {
-		super(context, layoutResourceID, listItems);
-		this.context = context;
-		this.drawerItemList = listItems;
-		this.layoutResID = layoutResourceID;
+    public CustomDrawerAdapter(Context context, int layoutResourceID,
+                               List<DrawerItem> listItems) {
+        super(context, layoutResourceID, listItems);
+        this.context = context;
+        this.drawerItemList = listItems;
+        this.layoutResID = layoutResourceID;
 
-	}
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-			
-		DrawerItemHolder drawerHolder;
-		View view = convertView;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-		if (view == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-			drawerHolder = new DrawerItemHolder();
+        DrawerItemHolder drawerHolder;
+        View view = convertView;
 
-			view = inflater.inflate(layoutResID, parent, false);
-			drawerHolder.ItemName = view.findViewById(R.id.drawer_itemName);
-			drawerHolder.icon = view.findViewById(R.id.drawer_icon);
-			
-			drawerHolder.spinner = view.findViewById(R.id.drawerSpinner);
+        if (view == null) {
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            drawerHolder = new DrawerItemHolder();
 
-			drawerHolder.title = view.findViewById(R.id.drawerTitle);
+            view = inflater.inflate(layoutResID, parent, false);
+            drawerHolder.ItemName = view.findViewById(R.id.drawer_itemName);
+            drawerHolder.icon = view.findViewById(R.id.drawer_icon);
 
-			drawerHolder.headerLayout = view.findViewById(R.id.headerLayout);
-			drawerHolder.itemLayout = view.findViewById(R.id.itemLayout);
-			drawerHolder.spinnerLayout = view.findViewById(R.id.spinnerLayout);
-			drawerHolder.roundProfile =  view.findViewById(R.id.header_icon);
+            drawerHolder.spinner = view.findViewById(R.id.drawerSpinner);
 
-			view.setTag(drawerHolder);
+            drawerHolder.title = view.findViewById(R.id.drawerTitle);
 
-		} else {
-			drawerHolder = (DrawerItemHolder) view.getTag();
+            drawerHolder.headerLayout = view.findViewById(R.id.headerLayout);
+            drawerHolder.itemLayout = view.findViewById(R.id.itemLayout);
+            drawerHolder.spinnerLayout = view.findViewById(R.id.spinnerLayout);
+            drawerHolder.roundProfile = view.findViewById(R.id.header_icon);
 
-		}
-		
-		DrawerItem dItem = this.drawerItemList.get(position);
-		if (dItem.isSpinner()) {
-			drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.spinnerLayout.setVisibility(LinearLayout.VISIBLE);
+            view.setTag(drawerHolder);
 
-			List<SpinnerItem> userList = new ArrayList<SpinnerItem>();
+        } else {
+            drawerHolder = (DrawerItemHolder) view.getTag();
 
-			userList.add(new SpinnerItem(R.drawable.profilebw, "bloop",
-					"bloop@gmail.com"));
-			userList.add(new SpinnerItem(R.drawable.profilebw, "blip",
-					"blip@gmail.com"));
+        }
 
-			CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(context,
-					R.layout.custom_spinner_item, userList);
+        DrawerItem dItem = this.drawerItemList.get(position);
+        if (dItem.isSpinner()) {
+            drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.spinnerLayout.setVisibility(LinearLayout.VISIBLE);
 
-			drawerHolder.spinner.setAdapter(adapter);
+            List<SpinnerItem> userList = new ArrayList<SpinnerItem>();
 
-			drawerHolder.spinner
-					.setOnItemSelectedListener(new OnItemSelectedListener() {
+            userList.add(new SpinnerItem(R.drawable.profilebw, "bloop",
+                "bloop@gmail.com"));
+            userList.add(new SpinnerItem(R.drawable.profilebw, "blip",
+                "blip@gmail.com"));
 
-						@Override
-						public void onItemSelected(AdapterView<?> arg0,
-								View arg1, int arg2, long arg3) {
-							Toast.makeText(context, context.getResources().getString(R.string.userChanged),
-									Toast.LENGTH_SHORT).show();
-						}
+            CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(context,
+                R.layout.custom_spinner_item, userList);
 
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
+            drawerHolder.spinner.setAdapter(adapter);
 
-						}
-					});
+            drawerHolder.spinner
+                .setOnItemSelectedListener(new OnItemSelectedListener() {
 
-		} else if (dItem.getTitle() != null) {
-			drawerHolder.headerLayout.setVisibility(LinearLayout.VISIBLE);
-			drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.title.setText(dItem.getTitle());
-			//drawerHolder.icon = (ImageView) view.findViewById(R.id.header_icon);
-			
-			//drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
-			//		dItem.getImgResID()));
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0,
+                                               View arg1, int arg2, long arg3) {
+                        Toast.makeText(context, context.getResources().getString(R.string.userChanged),
+                            Toast.LENGTH_SHORT).show();
+                    }
 
-			ImageUtil imgUtil = new ImageUtil();
-			// Check if path is pointing to a thumb else create it and use it.
-			String thumbPath = imgUtil.getThumbPath(dItem.getImg());
-			if (thumbPath != null)
-				imgUtil.setPic(drawerHolder.roundProfile, thumbPath);
-			else
-				drawerHolder.roundProfile.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
-		} else {
-			
-			drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
-			drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
 
-			drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
-			
-			if (dItem.isActive() == false) { 
-				drawerHolder.ItemName.setAlpha((float) 0.5);
-				drawerHolder.ItemName.setText(dItem.getItemName()+ "(soon)");
-			} else {
-				drawerHolder.ItemName.setText(dItem.getItemName());
-			}
-				
-			//Log.d("Getview","Passed5");
-		}
-		return view;
-	}
+                    }
+                });
 
-	private static class DrawerItemHolder {
-		TextView ItemName, title;
-		ImageView icon;
-		CircularImageView roundProfile;
-		LinearLayout headerLayout, itemLayout, spinnerLayout;
-		Spinner spinner;
-	}
+        } else if (dItem.getTitle() != null) {
+            drawerHolder.headerLayout.setVisibility(LinearLayout.VISIBLE);
+            drawerHolder.itemLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.title.setText(dItem.getTitle());
+            //drawerHolder.icon = (ImageView) view.findViewById(R.id.header_icon);
+
+            //drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
+            //		dItem.getImgResID()));
+
+            ImageUtil imgUtil = new ImageUtil();
+            // Check if path is pointing to a thumb else create it and use it.
+            String thumbPath = imgUtil.getThumbPath(dItem.getImg());
+            if (thumbPath != null)
+                imgUtil.setPic(drawerHolder.roundProfile, thumbPath);
+            else
+                drawerHolder.roundProfile.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+        } else {
+
+            drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
+            drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
+
+            drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+
+            if (dItem.isActive() == false) {
+                drawerHolder.ItemName.setAlpha((float) 0.5);
+                drawerHolder.ItemName.setText(dItem.getItemName() + "(soon)");
+            } else {
+                drawerHolder.ItemName.setText(dItem.getItemName());
+            }
+
+            //Log.d("Getview","Passed5");
+        }
+        return view;
+    }
+
+    private static class DrawerItemHolder {
+        TextView ItemName, title;
+        ImageView icon;
+        CircularImageView roundProfile;
+        LinearLayout headerLayout, itemLayout, spinnerLayout;
+        Spinner spinner;
+    }
 }

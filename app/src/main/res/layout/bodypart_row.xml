@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip"
-    android:orientation="horizontal">
-    
+    android:orientation="horizontal"
+    android:padding="6dip">
+
     <TextView
         android:id="@+id/LIST_BODYPART_ID"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/LIST_BODYPART_LOGO"
@@ -26,9 +26,9 @@
         android:id="@+id/LIST_BODYPART"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="50"
         android:gravity="center_vertical"
         android:text="Example Body Part"
-        android:layout_weight="50"
         android:textSize="16sp" />
 
     <LinearLayout

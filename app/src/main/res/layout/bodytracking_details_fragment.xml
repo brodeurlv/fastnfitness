@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/tab_bodytracking_details"
     android:name="tab_bodytracking_details"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_gravity="top"
-    android:gravity="top">
+    android:gravity="top"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/bodyTrackingDetailsToolbar"
@@ -20,10 +20,10 @@
         android:background="#EEEEEE"
         android:fillViewport="true"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -39,21 +39,21 @@
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
 
                     <Button
                         android:id="@+id/buttonAddWeight"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_alignParentBottom="false"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="false"
                         android:layout_centerVertical="true"
-                        android:layout_marginBottom="1dp"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
                         android:layout_marginTop="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="1dp"
                         android:background="@drawable/round_button"
                         android:gravity="center_vertical|center"
                         android:text="+"
@@ -64,8 +64,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_toLeftOf="@id/buttonAddWeight"
                         android:layout_toStartOf="@id/buttonAddWeight"
+                        android:layout_toLeftOf="@id/buttonAddWeight"
                         android:orientation="horizontal">
 
                         <TextView
@@ -89,10 +89,10 @@
                         android:id="@+id/layoutdown"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@id/layoutup"
-                        android:layout_toLeftOf="@id/buttonAddWeight"
+                        android:layout_alignParentLeft="true"
                         android:layout_toStartOf="@id/buttonAddWeight"
+                        android:layout_toLeftOf="@id/buttonAddWeight"
                         android:orientation="horizontal">
 
                         <TextView
@@ -145,9 +145,9 @@
                     android:id="@+id/weightChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dip"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:background="#FFFFFF" />
 
 
@@ -165,9 +165,9 @@
                 android:id="@+id/listWeightProfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:animateLayoutChanges="true"
                 android:fastScrollEnabled="false"
                 android:isScrollContainer="false"
                 android:scrollbars="none" />

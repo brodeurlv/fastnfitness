@@ -10,88 +10,89 @@ import com.easyfitness.R;
 
 public class FontesViewPagerAdapter extends FragmentPagerAdapter {
 
-	final int PAGE_COUNT = 3;
-	Context context;
-	FragmentManager lFm = null;
-	// Tab Titles
-	private String tabtitles[] = new String[3]; // { "Records", "Graphics", "History" };
-	private FontesFragment mpFontesFrag = null;
-	private FonteHistoryFragment mpHistoryFrag = null;
-	private FonteGraphFragment mpGraphFrag = null;
+    final int PAGE_COUNT = 3;
+    Context context;
+    FragmentManager lFm = null;
+    // Tab Titles
+    private String tabtitles[] = new String[3]; // { "Records", "Graphics", "History" };
+    private FontesFragment mpFontesFrag = null;
+    private FonteHistoryFragment mpHistoryFrag = null;
+    private FonteGraphFragment mpGraphFrag = null;
 
-	public FontesViewPagerAdapter(FragmentManager fm, Context ct) {
-		super(fm);
-		lFm = fm;
-		tabtitles[0] =  ct.getResources().getString(R.string.RecordLabel);
-		tabtitles[1] =  ct.getResources().getString(R.string.GraphLabel);
-		tabtitles[2] =  ct.getResources().getString(R.string.HistoryLabel);
-	}
+    public FontesViewPagerAdapter(FragmentManager fm, Context ct) {
+        super(fm);
+        lFm = fm;
+        tabtitles[0] = ct.getResources().getString(R.string.RecordLabel);
+        tabtitles[1] = ct.getResources().getString(R.string.GraphLabel);
+        tabtitles[2] = ct.getResources().getString(R.string.HistoryLabel);
+    }
 
-	@Override
-	public int getCount() {
-		return PAGE_COUNT;
-	}
+    @Override
+    public int getCount() {
+        return PAGE_COUNT;
+    }
 
-	@Override
-	public Fragment getItem(int position) {
-		switch (position) {
+    @Override
+    public Fragment getItem(int position) {
+        switch (position) {
 
-		// Open FragmentTab1.java
-		case 0:
-			return this.getFontesFragment();
+            // Open FragmentTab1.java
+            case 0:
+                return this.getFontesFragment();
 
-		// Open FragmentTab3.java
-		case 1:
-			return this.getGraphFragment();
-			
-		// Open FragmentTab2.java
-		case 2:
-			return this.getHistoricFragment();
-		}
-		return null;
-	}
+            // Open FragmentTab3.java
+            case 1:
+                return this.getGraphFragment();
 
-	@Override
-	public CharSequence getPageTitle(int position) {
-		return tabtitles[position];
-	}
+            // Open FragmentTab2.java
+            case 2:
+                return this.getHistoricFragment();
+        }
+        return null;
+    }
 
-	public FontesFragment getFontesFragment() {
-		if (mpFontesFrag == null)
-			mpFontesFrag = (FontesFragment) lFm.findFragmentByTag(MainActivity.FONTES);
-		if (mpFontesFrag==null) 	mpFontesFrag= FontesFragment.newInstance(MainActivity.FONTES, 1);
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabtitles[position];
+    }
 
-		//mpFontesFrag.onHiddenChanged(false);
-		return mpFontesFrag;
-	}
+    public FontesFragment getFontesFragment() {
+        if (mpFontesFrag == null)
+            mpFontesFrag = (FontesFragment) lFm.findFragmentByTag(MainActivity.FONTES);
+        if (mpFontesFrag == null) mpFontesFrag = FontesFragment.newInstance(MainActivity.FONTES, 1);
 
-	public FonteGraphFragment getGraphFragment() {
-		if (mpGraphFrag == null)
-			mpGraphFrag = (FonteGraphFragment) lFm.findFragmentByTag(MainActivity.GRAPHIC);
-		if (mpGraphFrag==null) 	mpGraphFrag= FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2);
+        //mpFontesFrag.onHiddenChanged(false);
+        return mpFontesFrag;
+    }
 
-		//mpGraphFrag.onHiddenChanged(false);
-		return mpGraphFrag;
-	}
+    public FonteGraphFragment getGraphFragment() {
+        if (mpGraphFrag == null)
+            mpGraphFrag = (FonteGraphFragment) lFm.findFragmentByTag(MainActivity.GRAPHIC);
+        if (mpGraphFrag == null)
+            mpGraphFrag = FonteGraphFragment.newInstance(MainActivity.GRAPHIC, 2);
 
-	public FonteHistoryFragment getHistoricFragment() {
-		if (mpHistoryFrag == null)
-			mpHistoryFrag = (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
-		if (mpHistoryFrag==null) 	mpHistoryFrag= FonteHistoryFragment.newInstance(-1, -1);
+        //mpGraphFrag.onHiddenChanged(false);
+        return mpGraphFrag;
+    }
 
-		//mpHistoryFrag.onHiddenChanged(false);
-		return mpHistoryFrag;
-	}
+    public FonteHistoryFragment getHistoricFragment() {
+        if (mpHistoryFrag == null)
+            mpHistoryFrag = (FonteHistoryFragment) lFm.findFragmentByTag(MainActivity.HISTORY);
+        if (mpHistoryFrag == null) mpHistoryFrag = FonteHistoryFragment.newInstance(-1, -1);
 
-	public void restoreFontesFragment(FontesFragment mpFrag) {
-		mpFontesFrag = mpFrag;
-	}
+        //mpHistoryFrag.onHiddenChanged(false);
+        return mpHistoryFrag;
+    }
 
-	public void restoreGraphFragment(FonteGraphFragment mpFrag) {
-		mpGraphFrag = mpFrag;
-	}
+    public void restoreFontesFragment(FontesFragment mpFrag) {
+        mpFontesFrag = mpFrag;
+    }
 
-	public void restoreHistoricFragment(FonteHistoryFragment mpFrag) {
-		mpHistoryFrag = mpFrag;
-	}
+    public void restoreGraphFragment(FonteGraphFragment mpFrag) {
+        mpGraphFrag = mpFrag;
+    }
+
+    public void restoreHistoricFragment(FonteHistoryFragment mpFrag) {
+        mpHistoryFrag = mpFrag;
+    }
 }

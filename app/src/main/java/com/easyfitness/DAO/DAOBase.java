@@ -4,27 +4,27 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DAOBase {
-	
-	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
-	
-	public DAOBase(Context context) {
-		dbHelper = DatabaseHelper.getInstance(context);
-	}
 
-	public SQLiteDatabase open() {
-		return database = dbHelper.getWritableDatabase();
-	}
+    private SQLiteDatabase database;
+    private DatabaseHelper dbHelper;
 
-	public SQLiteDatabase getWritableDatabase() {
-		return database = dbHelper.getWritableDatabase();
-	}
+    public DAOBase(Context context) {
+        dbHelper = DatabaseHelper.getInstance(context);
+    }
 
-	public SQLiteDatabase getReadableDatabase() {
-		return database = dbHelper.getReadableDatabase();
-	}
-	
-	public void close() {
-		dbHelper.close();
-	}
+    public SQLiteDatabase open() {
+        return database = dbHelper.getWritableDatabase();
+    }
+
+    public SQLiteDatabase getWritableDatabase() {
+        return database = dbHelper.getWritableDatabase();
+    }
+
+    public SQLiteDatabase getReadableDatabase() {
+        return database = dbHelper.getReadableDatabase();
+    }
+
+    public void close() {
+        dbHelper.close();
+    }
 }

@@ -7,10 +7,10 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp"
         android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -20,10 +20,10 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:paddingBottom="0dp"
             android:paddingLeft="0dp"
+            android:paddingTop="0dp"
             android:paddingRight="0dp"
-            android:paddingTop="0dp">
+            android:paddingBottom="0dp">
 
             <ImageView
                 android:id="@+id/machine_photo"

@@ -10,16 +10,16 @@ import android.support.v7.widget.Toolbar;
 import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-	
-	Toolbar top_toolbar = null;
+
+    Toolbar top_toolbar = null;
     MainActivity mActivity = null;
-	
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
     public static SettingsFragment newInstance(String name, int id) {
-    	SettingsFragment f = new SettingsFragment();
+        SettingsFragment f = new SettingsFragment();
 
         // Supply index input as an argument.
         /*Bundle args = new Bundle();
@@ -42,8 +42,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if(newValue instanceof Boolean){
-                    Boolean boolVal = (Boolean)newValue;
+                if (newValue instanceof Boolean) {
+                    Boolean boolVal = (Boolean) newValue;
                     mActivity.showMP3Toolbar(boolVal);
                 }
 
@@ -56,8 +56,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 ListPreference listPreference = (ListPreference) preference;
-                if(newValue instanceof String){
-                    String boolVal = (String)newValue;
+                if (newValue instanceof String) {
+                    String boolVal = (String) newValue;
 
                     //find the index of changed value in settings.
                     updateSummary(listPreference, boolVal);

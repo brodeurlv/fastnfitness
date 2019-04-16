@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -29,10 +27,10 @@ import java.util.List;
 
 
 public class MusicController {
-	
-	static final int MUSICCONTROLLER = 1563540;
-	static final int MUSICCONTROLLER_PLAY_CLICK = MUSICCONTROLLER + 0;
-	public static String PREFS_NAME = "music_prefsfile";
+
+    static final int MUSICCONTROLLER = 1563540;
+    static final int MUSICCONTROLLER_PLAY_CLICK = MUSICCONTROLLER + 0;
+    public static String PREFS_NAME = "music_prefsfile";
     AppCompatActivity mActivity = null;
     NoisyAudioStreamReceiver myNoisyAudioStreamReceiver = null;
 
@@ -47,23 +45,23 @@ public class MusicController {
     private TextView barSongTime = null;
     private SeekBar seekProgressBar = null;
 
-    private UnitConverter utils=new UnitConverter();
-    
+    private UnitConverter utils = new UnitConverter();
+
     private boolean isStopped = true;
     private boolean isPaused = false;
     private boolean newSongSelected = false;
     private boolean isReplayOn = false;
-    
+
     private FileChooserDialog fileChooserDialog = null;
     private List<String> songList;
     private String currentFile = "";
     private String currentPath = "";
     private int currentIndexSongList = -1;
-    
+
     // Handler to update UI timer, progress bar etc,.
     private Handler mHandler = new Handler();
-	
-	
+
+
     private MediaPlayer mediaPlayer;
     /*
      * Moves the cursor of the progress bar to accelerate a song.
@@ -124,7 +122,7 @@ public class MusicController {
                     currentIndexSongList = 0;
                     Play();
                 } else {
-                       /* release mediaplayer */
+                    /* release mediaplayer */
                     Stop();
                 }
             }
@@ -186,21 +184,20 @@ public class MusicController {
     };
 
     public MusicController(AppCompatActivity activity) {
-		mActivity = activity;
+        mActivity = activity;
 
         // Create DirectoryChooserDialog and register a callback
         fileChooserDialog =
-                new FileChooserDialog(this.mActivity, new FileChooserDialog.ChosenFileListener() {
-            @Override
-            public void onChosenFile(String file)
-            {
-            		currentFile = file;
-            		currentPath = getParentDirPath(currentFile);
-            		buildSongList(currentPath);
-            		currentIndexSongList=songList.indexOf(getFileName(file));
-            		newSongSelected = true;
-            		Play();
-            		savePreferences();
+            new FileChooserDialog(this.mActivity, new FileChooserDialog.ChosenFileListener() {
+                @Override
+                public void onChosenFile(String file) {
+                    currentFile = file;
+                    currentPath = getParentDirPath(currentFile);
+                    buildSongList(currentPath);
+                    currentIndexSongList = songList.indexOf(getFileName(file));
+                    newSongSelected = true;
+                    Play();
+                    savePreferences();
             		/*
                     mediaPlayer.reset();
 					mediaPlayer.setDataSource(file);
@@ -208,19 +205,19 @@ public class MusicController {
                 	mediaPlayer.start();
         			musicPlay.setImageResource(R.drawable.pause);
         			isStopped = false;*/
-            }
-        });
+                }
+            });
 
         fileChooserDialog.setNewFolderEnabled(false);
         fileChooserDialog.setDisplayFolderOnly(false);
         fileChooserDialog.setFileFilter("mp3;3gp;mp4;aac;ts;flac;mid;ogg;mkv;wav");
 
-	}
+    }
 
     public static String getParentDirPath(String fileOrDirPath) {
         boolean endsWithSlash = fileOrDirPath.endsWith(File.separator);
         return fileOrDirPath.substring(0, fileOrDirPath.lastIndexOf(File.separatorChar,
-                endsWithSlash ? fileOrDirPath.length() - 2 : fileOrDirPath.length() - 1));
+            endsWithSlash ? fileOrDirPath.length() - 2 : fileOrDirPath.length() - 1));
     }
 
     public static String getFileName(String fileOrDirPath) {
@@ -261,7 +258,7 @@ public class MusicController {
         myNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
         intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
-	}
+    }
 
     public void Play() {
         // Play song
@@ -269,90 +266,90 @@ public class MusicController {
             if (currentPath == "")
                 fileChooserDialog.chooseDirectory(currentPath);
             else {
-        		currentIndexSongList=0;
-        		buildSongList(currentPath);
-        		currentFile = songList.get(0);
-        		newSongSelected = true;
-        		Play();
+                currentIndexSongList = 0;
+                buildSongList(currentPath);
+                currentFile = songList.get(0);
+                newSongSelected = true;
+                Play();
             }
         else {
             try {
-                if (newSongSelected == true){
-        			newSongSelected = false;
-	        		currentFile = songList.get(currentIndexSongList).toString();
-	        		mediaPlayer.reset();
+                if (newSongSelected == true) {
+                    newSongSelected = false;
+                    currentFile = songList.get(currentIndexSongList).toString();
+                    mediaPlayer.reset();
                     mediaPlayer.setDataSource(currentPath + File.separator + currentFile);
                     mediaPlayer.prepareAsync();
                     isStopped = false;
                     isPaused = false;
-        		} else if (isPaused == true) { // differe de STOP
-        			mediaPlayer.start();
-        			mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-        			musicPlay.setImageResource(R.drawable.ic_pause_black_36dp);
-        			updateProgressBar();
-        			isStopped = false;
-    				isPaused = false;
+                } else if (isPaused == true) { // differe de STOP
+                    mediaPlayer.start();
+                    mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+                    musicPlay.setImageResource(R.drawable.ic_pause_black_36dp);
+                    updateProgressBar();
+                    isStopped = false;
+                    isPaused = false;
                 }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void Pause() {
         mediaPlayer.pause();
-		try {
-			mActivity.unregisterReceiver(myNoisyAudioStreamReceiver);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		// Changing Button Image to pause image
-		isPaused = true;
-    	musicPlay.setImageResource(R.drawable.ic_play_arrow_black_36dp);
-	}
-	
-	public void Stop() {
-		mediaPlayer.stop();
-		try {
-			mActivity.unregisterReceiver(myNoisyAudioStreamReceiver);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		isStopped = true;
-		isPaused = false;
-		barSongTitle.setText("");
+        try {
+            mActivity.unregisterReceiver(myNoisyAudioStreamReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        // Changing Button Image to pause image
+        isPaused = true;
+        musicPlay.setImageResource(R.drawable.ic_play_arrow_black_36dp);
+    }
+
+    public void Stop() {
+        mediaPlayer.stop();
+        try {
+            mActivity.unregisterReceiver(myNoisyAudioStreamReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        isStopped = true;
+        isPaused = false;
+        barSongTitle.setText("");
         seekProgressBar.setProgress(0);
         barSongTime.setText("");
-		currentIndexSongList = -1;
-		// Changing Button Image to play image
-    	musicPlay.setImageResource(R.drawable.ic_play_arrow_black_36dp);
-	}
+        currentIndexSongList = -1;
+        // Changing Button Image to play image
+        musicPlay.setImageResource(R.drawable.ic_play_arrow_black_36dp);
+    }
 
     public void Next() {
-       /* load the new source */
-		if ( currentIndexSongList >= 0) {
+        /* load the new source */
+        if (currentIndexSongList >= 0) {
             if (currentIndexSongList + 1 < songList.size()) {
                 currentIndexSongList = currentIndexSongList + 1;
                 newSongSelected = true;
-				Play();
-			}
-		}
-	}
+                Play();
+            }
+        }
+    }
 
     public void Previous() {
         /* load the new source */
         if (currentIndexSongList > 0) {
             currentIndexSongList = currentIndexSongList - 1;
             newSongSelected = true;
-			Play();
-		}
-	}
+            Play();
+        }
+    }
 
     private void buildSongList(String path) {
         songList = fileChooserDialog.getFiles(currentPath);
@@ -360,28 +357,28 @@ public class MusicController {
 
     /**
      * Update timer on seekbar
-	     * */
-	    public void updateProgressBar() {
-	        mHandler.postDelayed(mUpdateTimeTask, 200);
-        }
+     */
+    public void updateProgressBar() {
+        mHandler.postDelayed(mUpdateTimeTask, 200);
+    }
 
     private void loadPreferences() {
         // Restore preferences
-    		SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-    		currentPath = settings.getString("currentPath", "");
-    	}
+        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
+        currentPath = settings.getString("currentPath", "");
+    }
 
-    	private void savePreferences() {
-    		// Restore preferences
-    		SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-    		SharedPreferences.Editor editor = settings.edit();
-    		editor.putString("currentPath", currentPath);
-    		boolean x = editor.commit();
-        }
+    private void savePreferences() {
+        // Restore preferences
+        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("currentPath", currentPath);
+        boolean x = editor.commit();
+    }
 
     public void releaseMediaPlayer() {
         mediaPlayer.release();
-		mediaPlayer=null;
+        mediaPlayer = null;
     }
 
     private void showMP3Player(boolean showit) {
@@ -394,13 +391,13 @@ public class MusicController {
 
     private class NoisyAudioStreamReceiver extends BroadcastReceiver {
         @Override
-	    public void onReceive(Context context, Intent intent) {
-	        if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-	            Pause();
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                Pause();
                 Log.d("Message", "HeadPhone Unplugged");
             }
         }
 
-	}
+    }
 
 }

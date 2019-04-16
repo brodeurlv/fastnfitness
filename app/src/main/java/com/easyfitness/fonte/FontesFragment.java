@@ -110,6 +110,24 @@ public class FontesFragment extends Fragment {
     LinearLayout restTimeLayout = null;
     EditText distanceEdit = null;
     EditText durationEdit = null;
+    public TimePickerDialog.OnTimeSetListener timeSet = new TimePickerDialog.OnTimeSetListener() {
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String strMinute = "00";
+            String strHour = "00";
+
+            if (minute < 10) strMinute = "0" + Integer.toString(minute);
+            else strMinute = Integer.toString(minute);
+            if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+            else strHour = Integer.toString(hourOfDay);
+
+            String date = strHour + ":" + strMinute;
+            durationEdit.setText(date);
+            hideKeyboard(durationEdit);
+        }
+    };
     private DAOFonte mDbBodyBuilding = null;
     private DAOCardio mDbCardio = null;
     private DAORecord mDb = null;
@@ -168,21 +186,20 @@ public class FontesFragment extends Fragment {
             showDeleteDialog(id);
         }
     };
-
     private BtnClickListener itemClickCopyRecord = new BtnClickListener() {
         @Override
         public void onBtnClick(long id) {
             IRecord r = mDb.getRecord(id);
-            if (r!=null) {
+            if (r != null) {
                 // Copy values above
                 setCurrentMachine(r.getExercise());
-                if ( r.getType() == DAOMachine.TYPE_FONTE ) {
+                if (r.getType() == DAOMachine.TYPE_FONTE) {
                     Fonte f = (Fonte) r;
-                    repetitionEdit.setText(String.format ("%d", f.getRepetition()));
-                    serieEdit.setText(String.format ("%d", f.getSerie()));
+                    repetitionEdit.setText(String.format("%d", f.getRepetition()));
+                    serieEdit.setText(String.format("%d", f.getSerie()));
                     DecimalFormat numberFormat = new DecimalFormat("#.##");
                     poidsEdit.setText(numberFormat.format(f.getPoids()));
-                } else if ( r.getType() == DAOMachine.TYPE_CARDIO ) {
+                } else if (r.getType() == DAOMachine.TYPE_CARDIO) {
                     Cardio c = (Cardio) r;
                     DecimalFormat numberFormat = new DecimalFormat("#.##");
                     distanceEdit.setText(numberFormat.format(c.getDistance()));
@@ -221,9 +238,9 @@ public class FontesFragment extends Fragment {
 
             if (exerciseType == DAOMachine.TYPE_FONTE) {
                 // Verifie que les infos sont completes
-                if ( serieEdit.getText().toString().isEmpty() ||
-                        repetitionEdit.getText().toString().isEmpty() ||
-                        poidsEdit.getText().toString().isEmpty()) {
+                if (serieEdit.getText().toString().isEmpty() ||
+                    repetitionEdit.getText().toString().isEmpty() ||
+                    poidsEdit.getText().toString().isEmpty()) {
                     KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                     return;
                 }
@@ -237,14 +254,14 @@ public class FontesFragment extends Fragment {
                 }
 
                 mDbBodyBuilding.addBodyBuildingRecord(date,
-                        machineEdit.getText().toString(),
-                        Integer.parseInt(serieEdit.getText().toString()),
-                        Integer.parseInt(repetitionEdit.getText().toString()),
-                        tmpPoids, // Always save in KG
-                        getProfil(),
-                        unitPoids, // Store Unit for future display
-                        "", //Notes
-                        DateConverter.currentTime()
+                    machineEdit.getText().toString(),
+                    Integer.parseInt(serieEdit.getText().toString()),
+                    Integer.parseInt(repetitionEdit.getText().toString()),
+                    tmpPoids, // Always save in KG
+                    getProfil(),
+                    unitPoids, // Store Unit for future display
+                    "", //Notes
+                    DateConverter.currentTime()
                 );
 
                 float iTotalWeightSession = (float) mDbBodyBuilding.getTotalWeightSession(date);
@@ -271,8 +288,8 @@ public class FontesFragment extends Fragment {
                 }
             } else if (exerciseType == DAOMachine.TYPE_CARDIO) {
                 // Verifie que les infos sont completes
-                if ( durationEdit.getText().toString().isEmpty() && // Only one is mandatory
-                        distanceEdit.getText().toString().isEmpty()) {
+                if (durationEdit.getText().toString().isEmpty() && // Only one is mandatory
+                    distanceEdit.getText().toString().isEmpty()) {
                     KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                     return;
                 }
@@ -296,11 +313,11 @@ public class FontesFragment extends Fragment {
                 }
 
                 mDbCardio.addCardioRecord(date,
-                        DateConverter.currentTime(),
-                        machineEdit.getText().toString(),
-                        distance,
-                        duration,
-                        getProfil());
+                    DateConverter.currentTime(),
+                    machineEdit.getText().toString(),
+                    distance,
+                    duration,
+                    getProfil());
 
                 // No Countdown for Cardio
             }
@@ -315,7 +332,7 @@ public class FontesFragment extends Fragment {
             /* Reinitialisation des machines */
             // TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
-                    android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
+                android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
             machineEdit.setAdapter(adapter);
 
             //Rajoute le moment du dernier ajout dans le bouton Add
@@ -346,8 +363,8 @@ public class FontesFragment extends Fragment {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
                 KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 machineList.setAdapter(null);
-			} else {
-				if ( machineList.getAdapter() == null ) {
+            } else {
+                if (machineList.getAdapter() == null) {
                     MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0, mDbMachine);
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
                     machineList.setAdapter(mTableAdapter);
@@ -410,25 +427,6 @@ public class FontesFragment extends Fragment {
             hideKeyboard(dateEdit);
         }
     };
-    public TimePickerDialog.OnTimeSetListener timeSet = new TimePickerDialog.OnTimeSetListener() {
-
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
-            String strMinute = "00";
-            String strHour = "00";
-
-            if (minute < 10) strMinute = "0" + Integer.toString(minute);
-            else strMinute = Integer.toString(minute);
-            if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-            else strHour = Integer.toString(hourOfDay);
-
-            String date = strHour + ":" + strMinute;
-            durationEdit.setText(date);
-            hideKeyboard(durationEdit);
-        }
-    };
-
     private OnClickListener clickDateEdit = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -534,7 +532,7 @@ public class FontesFragment extends Fragment {
                         //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
                         IRecord r = mDb.getRecord(selectedID);
                         String text = "";
-                        if (r.getType()==DAOMachine.TYPE_FONTE) {
+                        if (r.getType() == DAOMachine.TYPE_FONTE) {
                             Fonte fonte = (Fonte) r;
                             // Build text
                             text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
@@ -560,25 +558,25 @@ public class FontesFragment extends Fragment {
     private void showDeleteDialog(final long idToDelete) {
 
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText(getString(R.string.DeleteRecordDialog))
-                .setContentText(getResources().getText(R.string.areyousure).toString())
-                .setCancelText(getResources().getText(R.string.global_no).toString())
-                .setConfirmText(getResources().getText(R.string.global_yes).toString())
-                .showCancelButton(true)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        mDb.deleteRecord(idToDelete);
+            .setTitleText(getString(R.string.DeleteRecordDialog))
+            .setContentText(getResources().getText(R.string.areyousure).toString())
+            .setCancelText(getResources().getText(R.string.global_no).toString())
+            .setConfirmText(getResources().getText(R.string.global_yes).toString())
+            .showCancelButton(true)
+            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+                    mDb.deleteRecord(idToDelete);
 
-                        updateRecordTable(machineEdit.getText().toString());
+                    updateRecordTable(machineEdit.getText().toString());
 
-                        //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                        // Info
-                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .show();
+                    //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                    // Info
+                    KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    sDialog.dismissWithAnimation();
+                }
+            })
+            .show();
     }
 
     @Override
@@ -656,11 +654,11 @@ public class FontesFragment extends Fragment {
         dateEdit.setText(DateConverter.currentDate());
         selectedType = DAOMachine.TYPE_FONTE;
 
-		machineImage.setOnClickListener(new OnClickListener() {
+        machineImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
-                if (m!=null) {
+                if (m != null) {
                     ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
                     android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     // Replace whatever is in the fragment_container view with this fragment,
@@ -673,9 +671,9 @@ public class FontesFragment extends Fragment {
             }
         });
 
-		// Inflate the layout for this fragment
-		return view;
-	}
+        // Inflate the layout for this fragment
+        return view;
+    }
 
     @Override
     public void onStart() {
@@ -872,7 +870,7 @@ public class FontesFragment extends Fragment {
             else
                 poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
-            Cardio lLastCardioRecord = (Cardio)lLastRecord;
+            Cardio lLastCardioRecord = (Cardio) lLastRecord;
             distanceEdit.setText(String.valueOf(lLastCardioRecord.getDistance()));
             durationEdit.setText(DateConverter.durationToHoursMinutesStr(lLastCardioRecord.getDuration()));
         }
@@ -882,7 +880,7 @@ public class FontesFragment extends Fragment {
     private void updateRecordTable(String pMachine) {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
-            getView().post(new Runnable() {
+        getView().post(new Runnable() {
             @Override
             public void run() {
 

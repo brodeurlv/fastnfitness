@@ -50,7 +50,7 @@
                 android:text="+1"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_plusFive"
@@ -61,7 +61,7 @@
                 android:text="+5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_plusTen"
@@ -72,7 +72,7 @@
                 android:text="+10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -85,12 +85,12 @@
                 android:id="@+id/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_weight="1"
                 android:ems="3"
-                android:maxEms="5"
-                android:inputType="phone" />
+                android:gravity="center"
+                android:inputType="phone"
+                android:maxEms="5" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,7 +109,7 @@
                 android:text="-0.25"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusHalf"
@@ -120,7 +120,7 @@
                 android:text="-0.5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusOne"
@@ -131,7 +131,7 @@
                 android:text="-1"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusFive"
@@ -142,7 +142,7 @@
                 android:text="-5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusTen"
@@ -153,7 +153,7 @@
                 android:text="-10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </LinearLayout>

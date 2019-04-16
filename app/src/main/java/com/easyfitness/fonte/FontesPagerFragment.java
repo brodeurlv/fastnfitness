@@ -16,22 +16,20 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 public class FontesPagerFragment extends Fragment {
-	private String name; 
-	private int id;
-
-	private FontesFragment mpFontesFrag = null;
-	private FonteHistoryFragment mpHistoryFrag = null;
-	private FonteGraphFragment mpGraphFrag = null;
-
     FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
+    private String name;
+    private int id;
+    private FontesFragment mpFontesFrag = null;
+    private FonteHistoryFragment mpHistoryFrag = null;
+    private FonteGraphFragment mpGraphFrag = null;
 
     /**
-	 * Create a new instance of DetailsFragment, initialized to
-	 * show the text at 'index'.
+     * Create a new instance of DetailsFragment, initialized to
+     * show the text at 'index'.
      */
     public static FontesPagerFragment newInstance(String name, int id) {
-    	FontesPagerFragment f = new FontesPagerFragment();
+        FontesPagerFragment f = new FontesPagerFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
@@ -41,28 +39,28 @@ public class FontesPagerFragment extends Fragment {
 
         return f;
     }
-	
-	@Override 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
-			Bundle savedInstanceState) { 
-		
-		View view =  inflater.inflate(R.layout.pager, container, false); 
-		
-		// Locate the viewpager in activity_main.xml
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.pager, container, false);
+
+        // Locate the viewpager in activity_main.xml
         mViewPager = view.findViewById(R.id.pager);
-		
-		if (mViewPager.getAdapter()==null) {
+
+        if (mViewPager.getAdapter() == null) {
 
             Bundle args = this.getArguments();
             args.putLong("machineID", -1);
             args.putLong("machineProfile", -1);
 
-			pagerAdapter = new FragmentPagerItemAdapter(
-                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                    .add(R.string.ExerciceLabel, FontesFragment.class)
-                    .add(R.string.GraphLabel, FonteGraphFragment.class, args)
-                    .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
-                    .create());
+            pagerAdapter = new FragmentPagerItemAdapter(
+                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                .add(R.string.ExerciceLabel, FontesFragment.class)
+                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
+                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
+                .create());
 
             mViewPager.setAdapter(pagerAdapter);
 
@@ -78,7 +76,7 @@ public class FontesPagerFragment extends Fragment {
                 @Override
                 public void onPageSelected(int position) {
                     //if (position != 0)  {
-                        //pagerAdapter.getItem(position).onHiddenChanged(false);
+                    //pagerAdapter.getItem(position).onHiddenChanged(false);
                     //Fragment frag1 = (Fragment)pagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
 
                     Fragment frag1 = pagerAdapter.getPage(position);
@@ -94,15 +92,15 @@ public class FontesPagerFragment extends Fragment {
                 }
             });
 
-			// Locate the viewpager in activity_main.xml
-			//ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
-		
-			// Set the ViewPagerAdapter into ViewPager
-			//viewPager.setAdapter(new FontesViewPagerAdapter(getChildFragmentManager(), getActivity().getApplicationContext()));
+            // Locate the viewpager in activity_main.xml
+            //ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
 
-			// Bind the tabs to the ViewPager
-			//PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-			//tabs.setViewPager(viewPager);
+            // Set the ViewPagerAdapter into ViewPager
+            //viewPager.setAdapter(new FontesViewPagerAdapter(getChildFragmentManager(), getActivity().getApplicationContext()));
+
+            // Bind the tabs to the ViewPager
+            //PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+            //tabs.setViewPager(viewPager);
 
 			/*viewPager.addOnPageChangeListener(new OnPageChangeListener() {
 				@Override
@@ -120,32 +118,31 @@ public class FontesPagerFragment extends Fragment {
 				}
 			});*/
 
-		}
+        }
 
-		// Inflate the layout for this fragment 
-		return view;
-	}
+        // Inflate the layout for this fragment
+        return view;
+    }
 
-	//...
+    //...
 
-	public void onPageSelected(int position) {
-		//.instantiateItem() from until .destoryItem() is called it will be able to get the Fragment of page.
+    public void onPageSelected(int position) {
+        //.instantiateItem() from until .destoryItem() is called it will be able to get the Fragment of page.
         //Fragment page = pagerAdapter.getPage(position);
-	}
-	
-	public ViewPager getViewPager()
-	{
-		return (ViewPager) getView().findViewById(R.id.pager);
-	}
+    }
+
+    public ViewPager getViewPager() {
+        return (ViewPager) getView().findViewById(R.id.pager);
+    }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
         return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
-	}
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
 			/*mpFontesFrag = (FontesFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.FONTES);
 			getViewPagerAdapter().restoreFontesFragment(mpFontesFrag);
 
@@ -154,14 +151,14 @@ public class FontesPagerFragment extends Fragment {
 
 			mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.HISTORY);
 			getViewPagerAdapter().restoreHistoricFragment(mpHistoryFrag);*/
-		}
-	}
+        }
+    }
 
-	// invoked when the activity may be temporarily destroyed, save the instance state here
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		// call superclass to save any view hierarchy
-		super.onSaveInstanceState(outState);
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
 
 		/*if (getViewPagerAdapter().getFontesFragment() != null && getViewPagerAdapter().getFontesFragment().isAdded())
 			getChildFragmentManager().putFragment(outState, MainActivity.FONTES, getViewPagerAdapter().getFontesFragment());
@@ -170,16 +167,16 @@ public class FontesPagerFragment extends Fragment {
 		if (getViewPagerAdapter().getHistoricFragment() != null && getViewPagerAdapter().getHistoricFragment().isAdded())
 			getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
 		*/
-	}
+    }
 
-	@Override
-	public void onHiddenChanged (boolean hidden) {
+    @Override
+    public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
-			// rafraichit le fragment courant
+            // rafraichit le fragment courant
 
             if (getViewPagerAdapter() != null) {
-				// Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit. 
-				// Il faut donc que cela soit pris en compte dans le refresh des fragments. 
+                // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
+                // Il faut donc que cela soit pris en compte dans le refresh des fragments.
                 Fragment frag1;
                 for (int i = 0; i < 3; i++) {
                     frag1 = getViewPagerAdapter().getPage(i);

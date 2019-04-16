@@ -23,10 +23,10 @@ import java.util.TimeZone;
 
 public class FonteCursorAdapter extends CursorAdapter {
 
+    BtnClickListener mDeleteClickListener = null;
     private LayoutInflater mInflater;
     private int mFirstColorOdd = 0;
     private Context mContext = null;
-    BtnClickListener mDeleteClickListener = null;
 
     public FonteCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickList) {
         super(context, c, flags);
@@ -74,22 +74,22 @@ public class FonteCursorAdapter extends CursorAdapter {
         t4.setText(cursor.getString(4));
 
         TextView t5 = view.findViewById(R.id.POIDS_CELL);
-        String unit= mContext.getString(R.string.KgUnitLabel);
+        String unit = mContext.getString(R.string.KgUnitLabel);
         float poids = cursor.getFloat(5);
-        if (cursor.getInt(6) == UnitConverter.UNIT_LBS)  {
+        if (cursor.getInt(6) == UnitConverter.UNIT_LBS) {
             poids = UnitConverter.KgtoLbs(poids);
             unit = mContext.getString(R.string.LbsUnitLabel);
         }
         DecimalFormat numberFormat = new DecimalFormat("#.##");
-        t5.setText(numberFormat.format(poids)+ unit);
+        t5.setText(numberFormat.format(poids) + unit);
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));
         deletImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mDeleteClickListener != null)
-                    mDeleteClickListener.onBtnClick((long)v.getTag());
+                if (mDeleteClickListener != null)
+                    mDeleteClickListener.onBtnClick((long) v.getTag());
             }
         });
 

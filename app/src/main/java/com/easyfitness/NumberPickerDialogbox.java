@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 public class NumberPickerDialogbox extends Dialog implements
-        View.OnClickListener {
+    View.OnClickListener {
 
     public Activity c;
     public Dialog d;

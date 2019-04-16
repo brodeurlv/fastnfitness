@@ -61,79 +61,7 @@ public class NewProfileFragment extends SlideFragment {
     private RadioButton mRbFemale;
     private RadioButton mRbOtherGender;
 
-    private boolean mProfilCreated=false;
-
-    private DatePickerDialogFragment mDateFrag = null;
-    private MainActivity motherActivity;
-
-    public NewProfileFragment() {
-        // Required empty public constructor
-    }
-
-    private void showDatePickerFragment() {
-        if (mDateFrag == null) {
-            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-        }
-
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        mDateFrag.show(ft, "dialog");
-    }
-
-    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
-            InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-        }
-    };
-
-    public static NewProfileFragment newInstance() {
-        return new NewProfileFragment();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
-
-        mName = view.findViewById(R.id.profileName);
-        mSize = view.findViewById(R.id.profileSize);
-        mBirthday = view.findViewById(R.id.profileBirthday);
-        mBtCreate = view.findViewById(R.id.create_newprofil);
-        mRbMale = view.findViewById(R.id.radioButtonMale);
-        mRbFemale = view.findViewById(R.id.radioButtonFemale);
-        mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
-
-        mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-                    showDatePickerFragment();
-                }
-            }
-        });
-
-		/* Initialisation des boutons */
-        mBtCreate.setOnClickListener(clickCreateButton);
-
-        getIntroActivity().addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
-            @Override
-            public void onNavigationBlocked(int position, int direction) {
-                //Slide slide = getIntroActivity().getSlide(position);
-
-                if (position == 4) {
-                    mBtCreate.callOnClick();
-                }
-            }
-        });
-
-        // Inflate the layout for this fragment
-        return view;
-    }
-
+    private boolean mProfilCreated = false;
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -169,15 +97,15 @@ public class NewProfileFragment extends SlideFragment {
 
                 if (p != null) {
                     new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText(p.getName())
-                            .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    nextSlide();
-                                }
-                            })
-                            .show();
+                        .setTitleText(p.getName())
+                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                nextSlide();
+                            }
+                        })
+                        .show();
                     mProfilCreated = true;
                 } else {
                     KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
@@ -185,6 +113,75 @@ public class NewProfileFragment extends SlideFragment {
             }
         }
     };
+    private DatePickerDialogFragment mDateFrag = null;
+    private MainActivity motherActivity;
+    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+        }
+    };
+
+    public NewProfileFragment() {
+        // Required empty public constructor
+    }
+
+    public static NewProfileFragment newInstance() {
+        return new NewProfileFragment();
+    }
+
+    private void showDatePickerFragment() {
+        if (mDateFrag == null) {
+            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+        }
+
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        mDateFrag.show(ft, "dialog");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
+
+        mName = view.findViewById(R.id.profileName);
+        mSize = view.findViewById(R.id.profileSize);
+        mBirthday = view.findViewById(R.id.profileBirthday);
+        mBtCreate = view.findViewById(R.id.create_newprofil);
+        mRbMale = view.findViewById(R.id.radioButtonMale);
+        mRbFemale = view.findViewById(R.id.radioButtonFemale);
+        mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
+
+        mBirthday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+                    showDatePickerFragment();
+                }
+            }
+        });
+
+        /* Initialisation des boutons */
+        mBtCreate.setOnClickListener(clickCreateButton);
+
+        getIntroActivity().addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
+            @Override
+            public void onNavigationBlocked(int position, int direction) {
+                //Slide slide = getIntroActivity().getSlide(position);
+
+                if (position == 4) {
+                    mBtCreate.callOnClick();
+                }
+            }
+        });
+
+        // Inflate the layout for this fragment
+        return view;
+    }
 
     @Override
     public void onDestroy() {
