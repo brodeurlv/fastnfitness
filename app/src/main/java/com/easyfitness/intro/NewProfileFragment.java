@@ -44,6 +44,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.Gender;
 import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
@@ -55,7 +56,7 @@ public class NewProfileFragment extends SlideFragment {
 
     private EditText mName;
     private EditText mSize;
-    private EditText mBirthday;
+    private EditableInputView mBirthday;
     private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
@@ -105,7 +106,7 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
+        /*mBirthday.setOnFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -114,7 +115,7 @@ public class NewProfileFragment extends SlideFragment {
                     showDatePickerFragment();
                 }
             }
-        });
+        });*/
 
 		/* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);

@@ -214,6 +214,88 @@ public class WeightFragment extends Fragment {
         }
     }
 
+    /**
+     * Fat-Free Mass (FFM): FFM [kg] = weight [kg] × (1 − (body fat [%] / 100))
+     * Fat-Free Mass Index (FFMI): FFMI [kg/m2] = FFM [kg] / (height [m])2
+     * Normalized Fat-Free Mass Index: Normalized FFMI [kg/m2] = FFM [kg] / (height [m])2 + 6.1 × (1.8 − height [m])
+     * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
+     */
+    private double calculateFfmi(float weight, int size, float bodyFat) {
+        double ffmi = 0;
+
+        if (bodyFat == 0) return 0;
+
+        ffmi = weight * (1-(bodyFat/100)) / (size*size);
+
+        return ffmi;
+    }
+
+    /**
+     * Fat-Free Mass (FFM): FFM [kg] = weight [kg] × (1 − (body fat [%] / 100))
+     * Fat-Free Mass Index (FFMI): FFMI [kg/m2] = FFM [kg] / (height [m])2
+     * Normalized Fat-Free Mass Index: Normalized FFMI [kg/m2] = FFM [kg] / (height [m])2 + 6.1 × (1.8 − height [m])
+     * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
+     */
+    private double calculateNormalizedFfmi(float weight, int size, float bodyFat) {
+        double ffmi = 0;
+
+        if (bodyFat == 0) return 0;
+
+        ffmi = weight * (1-(bodyFat/100)) / (size*size) + 6.1*(1.8-size);
+
+        return ffmi;
+    }
+
+    /**
+     * 16 – 17: below average     *
+     * 18 – 19: average     *
+     * 20 - 21: above average     *
+     * 22: excellent     *
+     * 23 – 25: superior     *
+     * 26 – 27: scores considered suspicious but still attainable naturally     */
+    private String getFfmiTextForMen(float ffmi) {
+        if (ffmi < 17) {
+            return "below average";
+        } else if (ffmi < 19) {
+            return "average";
+        } else if (ffmi < 21) {
+            return "above average";
+        }else if (ffmi < 23) {
+            return "excellent";
+        }else if (ffmi < 25) {
+            return "superior";
+        }else if (ffmi < 27) {
+            return "suspicious";
+        } else {
+            return "very suspicious";
+        }
+    }
+
+    /**
+     * 16 – 17: below average     *
+     * 18 – 19: average     *
+     * 20 - 21: above average     *
+     * 22: excellent     *
+     * 23 – 25: superior     *
+     * 26 – 27: scores considered suspicious but still attainable naturally     */
+    private String getFfmiTextForWomen(float ffmi) {
+        if (ffmi < 14) {
+            return "below average";
+        } else if (ffmi < 16) {
+            return "average";
+        } else if (ffmi < 18) {
+            return "above average";
+        }else if (ffmi < 20) {
+            return "excellent";
+        }else if (ffmi < 22) {
+            return "superior";
+        }else if (ffmi < 24) {
+            return "suspicious";
+        } else {
+            return "very suspicious";
+        }
+    }
+
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
