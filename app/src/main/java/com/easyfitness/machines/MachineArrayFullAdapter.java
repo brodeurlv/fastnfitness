@@ -52,7 +52,7 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
             try {
                 ImageUtil imgUtil = new ImageUtil();
                 String lThumbPath = imgUtil.getThumbPath(lPath);
-                imgUtil.setThumb(i0, lThumbPath);
+                ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
                 i0.setImageResource(R.drawable.ic_machine);
                 e.printStackTrace();

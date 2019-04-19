@@ -34,55 +34,41 @@ public class WeightFragment extends Fragment {
     private EditableInputView fatEdit = null;
     private EditableInputView musclesEdit = null;
     private EditableInputView waterEdit = null;
-    private ImageButton weightDetailsButton = null;
-    private ImageButton fatDetailsButton = null;
-    private ImageButton musclesDetailsButton = null;
-    private ImageButton waterDetailsButton = null;
     private TextView imcText = null;
     private TextView imcRank = null;
     private TextView rfmText = null;
     private TextView rfmRank = null;
-    private ImageButton rfmHelpButton = null;
-    private ImageButton imcHelpButton = null;
     private DAOWeight mWeightDb = null;
     private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOProfil mDb = null;
-    private AdapterView.OnClickListener showDetailsFragment = new AdapterView.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int bodyPartID = BodyPart.WEIGHT;
-            switch (v.getId()) {
-                case R.id.weightDetailsButton:
-                    bodyPartID = BodyPart.WEIGHT;
-                    break;
-                case R.id.fatDetailsButton:
-                    bodyPartID = BodyPart.FAT;
-                    break;
-                case R.id.musclesDetailsButton:
-                    bodyPartID = BodyPart.MUSCLES;
-                    break;
-                case R.id.waterDetailsButton:
-                    bodyPartID = BodyPart.WATER;
-                    break;
-            }
-
-            BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
+    private AdapterView.OnClickListener showDetailsFragment = v -> {
+        int bodyPartID = BodyPart.WEIGHT;
+        switch (v.getId()) {
+            case R.id.weightDetailsButton:
+                bodyPartID = BodyPart.WEIGHT;
+                break;
+            case R.id.fatDetailsButton:
+                bodyPartID = BodyPart.FAT;
+                break;
+            case R.id.musclesDetailsButton:
+                bodyPartID = BodyPart.MUSCLES;
+                break;
+            case R.id.waterDetailsButton:
+                bodyPartID = BodyPart.WATER;
+                break;
         }
+
+        BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
     };
-    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
-        @Override
-        public void onBtnClick(long id) {
-            showDeleteDialog(id);
-        }
-    };
+    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private Spinner.OnItemSelectedListener itemOnItemSelectedChange = new Spinner.OnItemSelectedListener() {
 
         @Override
@@ -95,62 +81,54 @@ public class WeightFragment extends Fragment {
 
         }
     };
-    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
-
-        @Override
-        public void onTextChanged(EditableInputView view) {
-            EditableInputViewWithDate v = (EditableInputViewWithDate) view;
-            //save values to databases
-            try {
-                switch (view.getId()) {
-                    case R.id.weightInput:
-                        // push value to database
-                        float weightValue = Float.parseFloat(v.getText());
-                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WEIGHT, weightValue, getProfil().getId());
-                        break;
-                    case R.id.fatInput:
-                        float fatValue = Float.parseFloat(v.getText());
-                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfil().getId());
-                        break;
-                    case R.id.musclesInput:
-                        float musclesValue = Float.parseFloat(v.getText());
-                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.MUSCLES, musclesValue, getProfil().getId());
-                        break;
-                    case R.id.waterInput:
-                        float waterValue = Float.parseFloat(v.getText());
-                        mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfil().getId());
-                        break;
-                }
-            } catch (NumberFormatException e) {
-                // Nothing to be done
+    private EditableInputView.OnTextChangedListener itemOnTextChange = view -> {
+        EditableInputViewWithDate v = (EditableInputViewWithDate) view;
+        //save values to databases
+        try {
+            switch (view.getId()) {
+                case R.id.weightInput:
+                    // push value to database
+                    float weightValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WEIGHT, weightValue, getProfil().getId());
+                    break;
+                case R.id.fatInput:
+                    float fatValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfil().getId());
+                    break;
+                case R.id.musclesInput:
+                    float musclesValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.MUSCLES, musclesValue, getProfil().getId());
+                    break;
+                case R.id.waterInput:
+                    float waterValue = Float.parseFloat(v.getText());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfil().getId());
+                    break;
             }
-            // update graph and table
-            refreshData();
+        } catch (NumberFormatException e) {
+            // Nothing to be done
         }
+        // update graph and table
+        refreshData();
     };
-    private OnClickListener showHelp = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.imcHelp:
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.BMI_dialog_title)
-                        .setContentText(getString(R.string.BMI_formula))
-                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                    break;
-                case R.id.rfmHelp:
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.RFM_dialog_title)
-                        .setContentText(getString(R.string.RFM_female_formula) +
-                            getString(R.string.RFM_male_formula))
-                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                    break;
-            }
+    private OnClickListener showHelp = v -> {
+        switch (v.getId()) {
+            case R.id.imcHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.BMI_dialog_title)
+                    .setContentText(getString(R.string.BMI_formula))
+                    .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                    .showCancelButton(true)
+                    .show();
+                break;
+            case R.id.rfmHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.RFM_dialog_title)
+                    .setContentText(getString(R.string.RFM_female_formula) +
+                        getString(R.string.RFM_male_formula))
+                    .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                    .showCancelButton(true)
+                    .show();
+                break;
         }
     };
 
@@ -182,17 +160,17 @@ public class WeightFragment extends Fragment {
         fatEdit = view.findViewById(R.id.fatInput);
         musclesEdit = view.findViewById(R.id.musclesInput);
         waterEdit = view.findViewById(R.id.waterInput);
-        weightDetailsButton = view.findViewById(R.id.weightDetailsButton);
-        fatDetailsButton = view.findViewById(R.id.fatDetailsButton);
-        musclesDetailsButton = view.findViewById(R.id.musclesDetailsButton);
-        waterDetailsButton = view.findViewById(R.id.waterDetailsButton);
+        ImageButton weightDetailsButton = view.findViewById(R.id.weightDetailsButton);
+        ImageButton fatDetailsButton = view.findViewById(R.id.fatDetailsButton);
+        ImageButton musclesDetailsButton = view.findViewById(R.id.musclesDetailsButton);
+        ImageButton waterDetailsButton = view.findViewById(R.id.waterDetailsButton);
         imcText = view.findViewById(R.id.imcValue);
         imcRank = view.findViewById(R.id.imcViewText);
         rfmText = view.findViewById(R.id.rfmValue);
         rfmRank = view.findViewById(R.id.rfmViewText);
 
-        rfmHelpButton = view.findViewById(R.id.rfmHelp);
-        imcHelpButton = view.findViewById(R.id.imcHelp);
+        ImageButton rfmHelpButton = view.findViewById(R.id.rfmHelp);
+        ImageButton imcHelpButton = view.findViewById(R.id.imcHelp);
 
         /* Initialisation des evenements */
         weightEdit.setOnTextChangeListener(itemOnTextChange);
@@ -344,15 +322,12 @@ public class WeightFragment extends Fragment {
             .setCancelText(getResources().getText(R.string.global_no).toString())
             .setConfirmText(getResources().getText(R.string.global_yes).toString())
             .showCancelButton(true)
-            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sDialog) {
-                    mDbBodyMeasure.deleteMeasure(idToDelete);
-                    refreshData();
-                    // Info
-                    KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                    sDialog.dismissWithAnimation();
-                }
+            .setConfirmClickListener(sDialog -> {
+                mDbBodyMeasure.deleteMeasure(idToDelete);
+                refreshData();
+                // Info
+                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                sDialog.dismissWithAnimation();
             })
             .show();
     }

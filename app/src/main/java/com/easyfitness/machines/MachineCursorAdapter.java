@@ -21,11 +21,9 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
     DAOMachine mDbMachine = null;
     MaterialFavoriteButton iFav = null;
     private LayoutInflater mInflater;
-    private Context mContext = null;
 
     public MachineCursorAdapter(Context context, Cursor c, int flags, DAOMachine pDbMachine) {
         super(context, c, flags);
-        mContext = context;
         mDbMachine = pDbMachine;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -51,7 +49,7 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
             try {
                 ImageUtil imgUtil = new ImageUtil();
                 String lThumbPath = imgUtil.getThumbPath(lPath);
-                imgUtil.setThumb(i0, lThumbPath);
+                ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
                 if (lType == DAOMachine.TYPE_FONTE)
                     i0.setImageResource(R.drawable.ic_machine);
@@ -73,17 +71,14 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
         iFav.setAnimateFavorite(true);
         iFav.setTag(cursor.getLong(0));
 
-        iFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
-                boolean t = mFav.isFavorite();
-                mFav.setFavoriteAnimated(!t);
-                if (mDbMachine != null) {
-                    Machine m = mDbMachine.getMachine((long) mFav.getTag());
-                    m.setFavorite(!t);
-                    mDbMachine.updateMachine(m);
-                }
+        iFav.setOnClickListener(v -> {
+            MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
+            boolean t = mFav.isFavorite();
+            mFav.setFavoriteAnimated(!t);
+            if (mDbMachine != null) {
+                Machine m = mDbMachine.getMachine((long) mFav.getTag());
+                m.setFavorite(!t);
+                mDbMachine.updateMachine(m);
             }
         });
     }

@@ -130,13 +130,12 @@ public class DAOWeight extends DAOBase {
 
     // Getting All Measures
     private List<ProfileWeight> getMeasuresList(String pRequest) {
-        List<ProfileWeight> valueList = new ArrayList<ProfileWeight>();
+        List<ProfileWeight> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = pRequest;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -231,7 +230,7 @@ public class DAOWeight extends DAOBase {
 
         for (int i = 1; i <= 5; i++) {
             date.setTime(date.getTime() + i * 1000 * 60 * 60 * 24 * 2);
-            addWeight(date, Float.valueOf(i), mProfile);
+            addWeight(date, (float) i, mProfile);
         }
     }
 }

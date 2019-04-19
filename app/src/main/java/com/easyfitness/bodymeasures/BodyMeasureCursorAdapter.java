@@ -2,6 +2,7 @@ package com.easyfitness.bodymeasures;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 
     BtnClickListener mDeleteClickListener = null;
     private LayoutInflater mInflater;
     private Context mContext = null;
-    private int mFirstColorOdd = 0;
 
     public BodyMeasureCursorAdapter(Context context, Cursor c, int flags, BtnClickListener mD) {
         super(context, c, flags);
@@ -47,7 +49,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
             //SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
             //dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
             //t1.setText(DateFormat.getDateInstance().format(date));
-            DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+            DateFormat dateFormat3 = getDateFormat(mContext.getApplicationContext());
             dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
             t1.setText(dateFormat3.format(date));
         } catch (ParseException e) {
@@ -58,8 +60,9 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
         TextView t2 = view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
         t2.setText(cursor.getString(3));
 
-        android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
+        CardView cdView = view.findViewById(R.id.CARDVIEW);
 
+        int mFirstColorOdd = 0;
         if (cursor.getPosition() % 2 == mFirstColorOdd) {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
         } else {
@@ -68,12 +71,9 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));
-        deletImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDeleteClickListener != null)
-                    mDeleteClickListener.onBtnClick((long) v.getTag());
-            }
+        deletImg.setOnClickListener(v -> {
+            if (mDeleteClickListener != null)
+                mDeleteClickListener.onBtnClick((long) v.getTag());
         });
 
     }

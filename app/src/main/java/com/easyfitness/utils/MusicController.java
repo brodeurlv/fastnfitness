@@ -29,17 +29,13 @@ import java.util.List;
 public class MusicController {
 
     static final int MUSICCONTROLLER = 1563540;
-    static final int MUSICCONTROLLER_PLAY_CLICK = MUSICCONTROLLER + 0;
+    static final int MUSICCONTROLLER_PLAY_CLICK = MUSICCONTROLLER;
     public static String PREFS_NAME = "music_prefsfile";
     AppCompatActivity mActivity = null;
     NoisyAudioStreamReceiver myNoisyAudioStreamReceiver = null;
 
     // Music Controller
     private ImageButton musicPlay = null;
-    private ImageButton musicStop = null;
-    private ImageButton musicNext = null;
-    private ImageButton musicPrevious = null;
-    private ImageButton musicList = null;
     private ImageButton musicReplay = null;
     private TextView barSongTitle = null;
     private TextView barSongTime = null;
@@ -70,7 +66,7 @@ public class MusicController {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (isStopped == false && fromUser == true) {
+            if (!isStopped && fromUser) {
                 mediaPlayer.seekTo((int) (mediaPlayer.getDuration() * (progress / 100.0)));
             }
         }
@@ -100,7 +96,7 @@ public class MusicController {
 
                     // Updating progress bar
                     int progress = utils.getProgressPercentage(currentDuration, totalDuration);
-                    //Log.d("Progress", ""+progress);
+                    //Log.d("Progress", "" + progress);
                     seekProgressBar.setProgress(progress);
 
                     // Running this thread after 200 milliseconds
@@ -170,7 +166,7 @@ public class MusicController {
                     fileChooserDialog.chooseDirectory(currentPath);
                     break;
                 case R.id.playerLoop:
-                    if (isReplayOn == true) {
+                    if (isReplayOn) {
                         isReplayOn = false;
                         musicReplay.setImageResource(R.drawable.ic_replay_blue_36dp);
                     } else {
@@ -188,24 +184,22 @@ public class MusicController {
 
         // Create DirectoryChooserDialog and register a callback
         fileChooserDialog =
-            new FileChooserDialog(this.mActivity, new FileChooserDialog.ChosenFileListener() {
-                @Override
-                public void onChosenFile(String file) {
-                    currentFile = file;
-                    currentPath = getParentDirPath(currentFile);
-                    buildSongList(currentPath);
-                    currentIndexSongList = songList.indexOf(getFileName(file));
-                    newSongSelected = true;
-                    Play();
-                    savePreferences();
-            		/*
-                    mediaPlayer.reset();
-					mediaPlayer.setDataSource(file);
-                	mediaPlayer.prepare();
-                	mediaPlayer.start();
-        			musicPlay.setImageResource(R.drawable.pause);
-        			isStopped = false;*/
-                }
+            new FileChooserDialog(this.mActivity, file -> {
+                currentFile = file;
+                currentPath = getParentDirPath(currentFile);
+                buildSongList(currentPath);
+                currentIndexSongList = songList.indexOf(getFileName(file));
+                newSongSelected = true;
+                Play();
+                savePreferences();
+/*
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(file);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                musicPlay.setImageResource(R.drawable.pause);
+                isStopped = false;
+*/
             });
 
         fileChooserDialog.setNewFolderEnabled(false);
@@ -221,16 +215,16 @@ public class MusicController {
     }
 
     public static String getFileName(String fileOrDirPath) {
-        return fileOrDirPath.substring(fileOrDirPath.lastIndexOf(File.separatorChar, fileOrDirPath.length()) + 1, fileOrDirPath.length());
+        return fileOrDirPath.substring(fileOrDirPath.lastIndexOf(File.separatorChar) + 1);
     }
 
     public void initView() {
         // Music controller
         musicPlay = mActivity.findViewById(R.id.playerPlay);
-        musicStop = mActivity.findViewById(R.id.playerStop);
-        musicNext = mActivity.findViewById(R.id.playerNext);
-        musicPrevious = mActivity.findViewById(R.id.playerPrevious);
-        musicList = mActivity.findViewById(R.id.playerList);
+        ImageButton musicStop = mActivity.findViewById(R.id.playerStop);
+        ImageButton musicNext = mActivity.findViewById(R.id.playerNext);
+        ImageButton musicPrevious = mActivity.findViewById(R.id.playerPrevious);
+        ImageButton musicList = mActivity.findViewById(R.id.playerList);
         musicReplay = mActivity.findViewById(R.id.playerLoop);
         //playerTopLayout = (LinearLayout) mActivity.findViewById(R.id.playerTopLayout);
 
@@ -263,7 +257,7 @@ public class MusicController {
     public void Play() {
         // Play song
         if (currentIndexSongList < 0)
-            if (currentPath == "")
+            if (currentPath.equals(""))
                 fileChooserDialog.chooseDirectory(currentPath);
             else {
                 currentIndexSongList = 0;
@@ -274,15 +268,15 @@ public class MusicController {
             }
         else {
             try {
-                if (newSongSelected == true) {
+                if (newSongSelected) {
                     newSongSelected = false;
-                    currentFile = songList.get(currentIndexSongList).toString();
+                    currentFile = songList.get(currentIndexSongList);
                     mediaPlayer.reset();
                     mediaPlayer.setDataSource(currentPath + File.separator + currentFile);
                     mediaPlayer.prepareAsync();
                     isStopped = false;
                     isPaused = false;
-                } else if (isPaused == true) { // differe de STOP
+                } else if (isPaused) { // differe de STOP
                     mediaPlayer.start();
                     mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
                     musicPlay.setImageResource(R.drawable.ic_pause_black_36dp);
@@ -383,7 +377,7 @@ public class MusicController {
 
     private void showMP3Player(boolean showit) {
         if (showit == true) {
-            //this.ba.showMP3Player()
+            //this.ba.showMP3Player();
         } else {
 
         }

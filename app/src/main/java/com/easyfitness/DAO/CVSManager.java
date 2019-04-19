@@ -363,84 +363,93 @@ public class CVSManager {
             csvRecords.readHeaders();
 
             while (csvRecords.readRecord()) {
-                if (csvRecords.get(TABLE_HEAD).equals(DAOFonte.TABLE_NAME)) {
-                    DAOFonte dbcFonte = new DAOFonte(mContext);
-                    DAOCardio dbcCardio = new DAOCardio(mContext);
-                    DAOMachine dbcMachine = new DAOMachine(mContext);
-                    dbcFonte.open();
-                    Date date;
-                    try {
-                        date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                            .parse(csvRecords.get(DAOFonte.DATE));
+                switch (csvRecords.get(TABLE_HEAD)) {
+                    case DAOFonte.TABLE_NAME: {
+                        DAOFonte dbcFonte = new DAOFonte(mContext);
+                        DAOCardio dbcCardio = new DAOCardio(mContext);
+                        DAOMachine dbcMachine = new DAOMachine(mContext);
+                        dbcFonte.open();
+                        Date date;
+                        try {
+                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
+                                .parse(csvRecords.get(DAOFonte.DATE));
 
-                        String machine = csvRecords.get(DAOFonte.EXERCISE);
-                        if (dbcMachine.getMachine(machine).getType() == DAOMachine.TYPE_FONTE) {
-                            float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
-                            int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
-                            int serie = Integer.valueOf(csvRecords.get(DAOFonte.SERIE));
-                            int unit = 0;
-                            if (!csvRecords.get(DAOFonte.UNIT).isEmpty()) {
-                                unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT));
+                            String machine = csvRecords.get(DAOFonte.EXERCISE);
+                            if (dbcMachine.getMachine(machine).getType() == DAOMachine.TYPE_FONTE) {
+                                float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
+                                int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
+                                int serie = Integer.valueOf(csvRecords.get(DAOFonte.SERIE));
+                                int unit = 0;
+                                if (!csvRecords.get(DAOFonte.UNIT).isEmpty()) {
+                                    unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT));
+                                }
+                                String notes = csvRecords.get(DAOFonte.NOTES);
+                                String time = csvRecords.get(DAOFonte.TIME);
+                                dbcFonte.addBodyBuildingRecord(date, machine, serie, repetition, poids, pProfile, unit, notes, time);
+                                dbcFonte.close();
+                            } else {
+                                String time = csvRecords.get(DAOCardio.TIME);
+                                String exercise = csvRecords.get(DAOCardio.EXERCISE);
+                                float distance = Float.valueOf(csvRecords.get(DAOCardio.DISTANCE));
+                                int duration = Integer.valueOf(csvRecords.get(DAOCardio.DURATION));
+                                dbcCardio.addCardioRecord(date, time, exercise, distance, duration, pProfile);
+                                dbcCardio.close();
                             }
-                            String notes = csvRecords.get(DAOFonte.NOTES);
-                            String time = csvRecords.get(DAOFonte.TIME);
-                            dbcFonte.addBodyBuildingRecord(date, machine, serie, repetition, poids, pProfile, unit, notes, time);
-                            dbcFonte.close();
-                        } else {
-                            String time = csvRecords.get(DAOCardio.TIME);
-                            String exercise = csvRecords.get(DAOCardio.EXERCISE);
-                            float distance = Float.valueOf(csvRecords.get(DAOCardio.DISTANCE));
-                            int duration = Integer.valueOf(csvRecords.get(DAOCardio.DURATION));
-                            dbcCardio.addCardioRecord(date, time, exercise, distance, duration, pProfile);
-                            dbcCardio.close();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            ret = false;
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        ret = false;
+                        break;
                     }
-                } else if (csvRecords.get(TABLE_HEAD).equals(DAOOldCardio.TABLE_NAME)) {
-                    DAOCardio dbcCardio = new DAOCardio(mContext);
-                    dbcCardio.open();
-                    Date date;
-                    try {
-                        date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                            .parse(csvRecords.get(DAOCardio.DATE));
+                    case DAOOldCardio.TABLE_NAME: {
+                        DAOCardio dbcCardio = new DAOCardio(mContext);
+                        dbcCardio.open();
+                        Date date;
+                        try {
+                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
+                                .parse(csvRecords.get(DAOCardio.DATE));
 
-                        String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
-                        float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
-                        int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
-                        dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile);
-                        dbcCardio.close();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        ret = false;
+                            String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
+                            float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
+                            int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
+                            dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile);
+                            dbcCardio.close();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            ret = false;
+                        }
+                        break;
                     }
-                } else if (csvRecords.get(TABLE_HEAD).equals(DAOWeight.TABLE_NAME)) {
-                    DAOWeight dbcWeight = new DAOWeight(mContext);
-                    dbcWeight.open();
-                    Date date;
-                    try {
-                        date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                            .parse(csvRecords.get(DAOWeight.DATE));
+                    case DAOWeight.TABLE_NAME: {
+                        DAOWeight dbcWeight = new DAOWeight(mContext);
+                        dbcWeight.open();
+                        Date date;
+                        try {
+                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
+                                .parse(csvRecords.get(DAOWeight.DATE));
 
-                        float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
-                        dbcWeight.addWeight(date, poids, pProfile);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        ret = false;
+                            float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
+                            dbcWeight.addWeight(date, poids, pProfile);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            ret = false;
+                        }
+                        break;
                     }
-                } else if (csvRecords.get(TABLE_HEAD).equals(DAOProfil.TABLE_NAME)) {
-                    // TODO : import profiles
-                } else if (csvRecords.get(TABLE_HEAD).equals(DAOMachine.TABLE_NAME)) {
-                    DAOMachine dbc = new DAOMachine(mContext);
-                    String name = csvRecords.get(DAOMachine.NAME);
-                    String description = csvRecords.get(DAOMachine.DESCRIPTION);
-                    int type = Integer.valueOf(csvRecords.get(DAOMachine.TYPE));
-                    boolean favorite = Boolean.valueOf(csvRecords.get(DAOMachine.FAVORITES));
-                    // Check if this machine doesn't exist
-                    if (dbc.getMachine(name) == null) {
-                        dbc.addMachine(name, description, type, "", favorite);
-                    }
+                    case DAOProfil.TABLE_NAME:
+                        // TODO : import profiles
+                        break;
+                    case DAOMachine.TABLE_NAME:
+                        DAOMachine dbc = new DAOMachine(mContext);
+                        String name = csvRecords.get(DAOMachine.NAME);
+                        String description = csvRecords.get(DAOMachine.DESCRIPTION);
+                        int type = Integer.valueOf(csvRecords.get(DAOMachine.TYPE));
+                        boolean favorite = Boolean.valueOf(csvRecords.get(DAOMachine.FAVORITES));
+                        // Check if this machine doesn't exist
+                        if (dbc.getMachine(name) == null) {
+                            dbc.addMachine(name, description, type, "", favorite);
+                        }
+                        break;
                 }
             }
 

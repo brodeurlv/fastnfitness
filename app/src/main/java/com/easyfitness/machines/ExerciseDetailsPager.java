@@ -2,7 +2,6 @@ package com.easyfitness.machines;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -51,21 +50,18 @@ public class ExerciseDetailsPager extends Fragment {
     DAORecord mDbRecord = null;
     private String name;
     private int id;
-    private View.OnClickListener onClickToolbarItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Handle presses on the action bar items
-            switch (v.getId()) {
-                case R.id.action_machine_save:
-                    saveMachine();
-                    getActivity().findViewById(R.id.tab_machine_details).requestFocus();
-                    break;
-                case R.id.action_machine_delete:
-                    deleteMachine();
-                    break;
-                default:
-                    saveMachineDialog();
-            }
+    private View.OnClickListener onClickToolbarItem = v -> {
+        // Handle presses on the action bar items
+        switch (v.getId()) {
+            case R.id.action_machine_save:
+                saveMachine();
+                getActivity().findViewById(R.id.tab_machine_details).requestFocus();
+                break;
+            case R.id.action_machine_delete:
+                deleteMachine();
+                break;
+            default:
+                saveMachineDialog();
         }
     };
 
@@ -114,7 +110,6 @@ public class ExerciseDetailsPager extends Fragment {
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
                 }
 
                 @Override
@@ -126,7 +121,6 @@ public class ExerciseDetailsPager extends Fragment {
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
         }
@@ -142,15 +136,12 @@ public class ExerciseDetailsPager extends Fragment {
         machineDelete = view.findViewById(R.id.action_machine_delete);
         machineSave = view.findViewById(R.id.action_machine_save);
         machineFavorite = view.findViewById(R.id.favButton);
-        machineFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
-                boolean t = mFav.isFavorite();
-                mFav.setFavoriteAnimated(!t);
-                isFavorite = !t;
-                requestForSave();
-            }
+        machineFavorite.setOnClickListener(v -> {
+            MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
+            boolean t = mFav.isFavorite();
+            mFav.setFavoriteAnimated(!t);
+            isFavorite = !t;
+            requestForSave();
         });
         machine = mDbMachine.getMachine(machineIdArg);
         // TODO gérer quand il n'y  a pas de machine existante.
@@ -184,22 +175,13 @@ public class ExerciseDetailsPager extends Fragment {
             backDialogBuilder.setMessage(getActivity().getResources().getText(R.string.backDialog_confirm_text));
 
             // Si oui, supprimer la base de donnee et refaire un Start.
-            backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (saveMachine()) {
-                        getActivity().onBackPressed();
-                    }
-                }
-            });
-
-            backDialogBuilder.setNegativeButton(getResources().getString(R.string.global_no), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), (dialog, which) -> {
+                if (saveMachine()) {
                     getActivity().onBackPressed();
                 }
             });
+
+            backDialogBuilder.setNegativeButton(getResources().getString(R.string.global_no), (dialog, which) -> getActivity().onBackPressed());
 
             AlertDialog backDialog = backDialogBuilder.create();
             backDialog.show();
@@ -230,11 +212,7 @@ public class ExerciseDetailsPager extends Fragment {
 
                 dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
                 dialogBuilder.setMessage(R.string.renameMachine_error_text2);
-                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> dialog.dismiss());
 
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
@@ -244,33 +222,29 @@ public class ExerciseDetailsPager extends Fragment {
                 dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
                 dialogBuilder.setMessage(getActivity().getResources().getText(R.string.renameMachine_warning_text));
                 // Si oui, supprimer la base de donnee et refaire un Start.
-                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Rename all the records with that machine and rename them
-                        DAORecord lDbRecord = new DAORecord(getView().getContext());
-                        DAOProfil mDbProfil = new DAOProfil(getView().getContext());
-                        Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> {
+                    // Rename all the records with that machine and rename them
+                    DAORecord lDbRecord = new DAORecord(getView().getContext());
+                    DAOProfil mDbProfil = new DAOProfil(getView().getContext());
+                    Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 
-                        List<IRecord> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
-                        for (IRecord record : listRecords) {
-                            record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
-                            record.setExerciseKey(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
-                            lDbRecord.updateRecord(record); // Met a jour
-                        }
-
-                        mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
-
-                        toBeSaved = false;
-                        machineSave.setVisibility(View.GONE);
-                        getActivity().onBackPressed();
+                    List<IRecord> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                    for (IRecord record : listRecords) {
+                        record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
+                        record.setExerciseKey(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
+                        lDbRecord.updateRecord(record); // Met a jour
                     }
+
+                    mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
+
+                    toBeSaved = false;
+                    machineSave.setVisibility(View.GONE);
+                    getActivity().onBackPressed();
                 });
 
-                dialogBuilder.setNegativeButton(getResources().getText(R.string.global_no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing but close the dialog
-                        dialog.dismiss();
-                    }
+                dialogBuilder.setNegativeButton(getResources().getText(R.string.global_no), (dialog, which) -> {
+                    // Do nothing but close the dialog
+                    dialog.dismiss();
                 });
 
                 AlertDialog dialog = dialogBuilder.create();
@@ -315,24 +289,17 @@ public class ExerciseDetailsPager extends Fragment {
         deleteDialogBuilder.setMessage(getActivity().getResources().getText(R.string.deleteMachine_confirm_text));
 
         // Si oui, supprimer la base de donnee et refaire un Start.
-        deleteDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Suppress the machine
-                mDbMachine.delete(machine);
-                // Suppress the associated Fontes records
-                deleteRecordsAssociatedToMachine();
-                getActivity().onBackPressed();
-            }
+        deleteDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), (dialog, which) -> {
+            // Suppress the machine
+            mDbMachine.delete(machine);
+            // Suppress the associated Fontes records
+            deleteRecordsAssociatedToMachine();
+            getActivity().onBackPressed();
         });
 
-        deleteDialogBuilder.setNegativeButton(this.getResources().getString(R.string.global_no), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing
-                dialog.dismiss();
-            }
+        deleteDialogBuilder.setNegativeButton(this.getResources().getString(R.string.global_no), (dialog, which) -> {
+            // Do nothing
+            dialog.dismiss();
         });
 
         AlertDialog deleteDialog = deleteDialogBuilder.create();
@@ -365,16 +332,14 @@ public class ExerciseDetailsPager extends Fragment {
     }
 
     public MachineDetailsFragment getExerciseFragment() {
-        MachineDetailsFragment mpExerciseFrag = null;
-        if (mpExerciseFrag == null)
-            mpExerciseFrag = (MachineDetailsFragment) pagerAdapter.getPage(0);
+        MachineDetailsFragment mpExerciseFrag;
+        mpExerciseFrag = (MachineDetailsFragment) pagerAdapter.getPage(0);
         return mpExerciseFrag;
     }
 
     public FonteHistoryFragment getHistoricFragment() {
-        FonteHistoryFragment mpHistoryFrag = null;
-        if (mpHistoryFrag == null)
-            mpHistoryFrag = (FonteHistoryFragment) pagerAdapter.getPage(1);
+        FonteHistoryFragment mpHistoryFrag;
+        mpHistoryFrag = (FonteHistoryFragment) pagerAdapter.getPage(1);
         return mpHistoryFrag;
     }
 
@@ -416,4 +381,3 @@ public class ExerciseDetailsPager extends Fragment {
         }
     }
 }
-

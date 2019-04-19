@@ -2,7 +2,6 @@ package com.easyfitness.utils;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 
 import com.easyfitness.BuildConfig;
@@ -37,9 +37,8 @@ public class ImageUtil {
     public static final int REQUEST_TAKE_PHOTO = 1;
     public static final int REQUEST_PICK_GALERY_PHOTO = 2;
     public static final int REQUEST_DELETE_IMAGE = 3;
-    public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
-    Fragment mF = null;
-    String mFilePath = null;
+    private Fragment mF = null;
+    private String mFilePath = null;
     private ImageView imgView = null;
     private ImageUtil.OnDeleteImageListener mDeleteImageListener;
 
@@ -79,7 +78,7 @@ public class ImageUtil {
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
             mImageView.setImageBitmap(orientedBitmap);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mImageView.setScaleType(ScaleType.CENTER_CROP);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +106,7 @@ public class ImageUtil {
         Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
         ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
-        //	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
+        //ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int) (96 / scaleFactor), 96);
 
         // extract path without the .jpg
         String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
@@ -225,32 +224,30 @@ public class ImageUtil {
 
         requestPermissionForWriting(pF);
 
-        AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(mF.getActivity());
-        itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                ListView lv = ((AlertDialog) dialog).getListView();
+        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(mF.getActivity());
+        itemActionBuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
+            ListView lv = ((AlertDialog) dialog).getListView();
 
-                switch (which) {
-                    // Galery
-                    case 1:
-                        getGaleryPict(mF);
-                        break;
-                    // Camera
-                    case 0:
-                        CropImage.activity()
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(mF.getContext(), mF);
-                        break;
-                    case 2: // Delete picture
-                        if (mDeleteImageListener != null)
-                            mDeleteImageListener.onDeleteImage(ImageUtil.this);
-                        break;
-                    // Camera
-                    default:
-                }
+            switch (which) {
+                // Galery
+                case 1:
+                    getGaleryPict(mF);
+                    break;
+                // Camera
+                case 0:
+                    CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(mF.getContext(), mF);
+                    break;
+                case 2: // Delete picture
+                    if (mDeleteImageListener != null)
+                        mDeleteImageListener.onDeleteImage(ImageUtil.this);
+                    break;
+                // Camera
+                default:
             }
         });
-        itemActionbuilder.show();
+        itemActionBuilder.show();
 
         return true;
     }
@@ -269,13 +266,11 @@ public class ImageUtil {
                 return;
             }
             // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
-                    BuildConfig.APPLICATION_ID + ".provider",
-                    photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+            Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
 
@@ -309,8 +304,7 @@ public class ImageUtil {
                 storageDir.mkdirs();
             }
         }
-        /*File storageDir =  pF.getActivity().getExternalFilesDir(
-                Environment.DIRECTORY_DCIM);*/
+        //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
         File image = File.createTempFile(
             imageFileName,  /* prefix */
             ".jpg",         /* suffix */
@@ -330,6 +324,7 @@ public class ImageUtil {
 
             // No explanation needed, we can request the permission.
 
+            int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
             ActivityCompat.requestPermissions(pF.getActivity(),
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
@@ -359,22 +354,15 @@ public class ImageUtil {
 
     public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
         File newFile = null;
-        if (newFileName == "")
+        if (newFileName.equals(""))
             newFile = new File(dir, file.getName());
         else
             newFile = new File(dir, newFileName);
 
-        FileChannel outputChannel = null;
-        FileChannel inputChannel = null;
-        try {
-            outputChannel = new FileOutputStream(newFile).getChannel();
-            inputChannel = new FileInputStream(file).getChannel();
+        try (FileChannel outputChannel = new FileOutputStream(newFile).getChannel(); FileChannel inputChannel = new FileInputStream(file).getChannel()) {
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
             inputChannel.close();
             if (moveFile) file.delete();
-        } finally {
-            if (inputChannel != null) inputChannel.close();
-            if (outputChannel != null) outputChannel.close();
         }
 
         return newFile;

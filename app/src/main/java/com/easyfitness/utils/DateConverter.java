@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class DateConverter {
 
     static final int MILLISECONDINDAY = 60 * 60 * 24 * 1000;
@@ -53,7 +55,7 @@ public class DateConverter {
     static public Date localDateStrToDate(String dateStr, Context pContext) {
         Date date;
         try {
-            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(pContext.getApplicationContext());
+            DateFormat dateFormat = getDateFormat(pContext.getApplicationContext());
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
@@ -64,7 +66,7 @@ public class DateConverter {
     }
 
     static public String dateToLocalDateStr(Date date, Context pContext) {
-        DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(pContext.getApplicationContext());
+        DateFormat dateFormat3 = getDateFormat(pContext.getApplicationContext());
         dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat3.format(date);
     }
@@ -113,8 +115,7 @@ public class DateConverter {
     static public String dateToString(int year, int month, int day) {
         // Do something with the date chosen by the user
         DecimalFormat df = new DecimalFormat("00");
-        String date = df.format(day) + "/" + df.format(month) + "/" + df.format(year);
-        return date;
+        return df.format(day) + "/" + df.format(month) + "/" + df.format(year);
     }
 
     /**
@@ -137,9 +138,7 @@ public class DateConverter {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
 
-        Date date = calendar.getTime();
-
-        return date;
+        return calendar.getTime();
     }
 
     /**
@@ -154,10 +153,6 @@ public class DateConverter {
         //remainder = remainder - mins * 60;
         //int secs = remainder;
 
-        String s = String.format("%02d:%02d", hours, mins);
-
-        return s;
+        return String.format("%02d:%02d", hours, mins);
     }
-
-
 }

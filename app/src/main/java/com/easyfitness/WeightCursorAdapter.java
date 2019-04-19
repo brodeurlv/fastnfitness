@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class WeightCursorAdapter extends CursorAdapter {
 
     private LayoutInflater mInflater;
@@ -43,7 +45,7 @@ public class WeightCursorAdapter extends CursorAdapter {
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(cursor.getString(1));
 
-            DateFormat dateFormat2 = android.text.format.DateFormat.getDateFormat(context.getApplicationContext());
+            DateFormat dateFormat2 = getDateFormat(context.getApplicationContext());
             dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
             t1.setText(dateFormat2.format(date));
         } catch (ParseException e) {

@@ -50,7 +50,7 @@ public class DAOCardio extends DAORecord {
     public Cardio getRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
             + " WHERE " + KEY + "=" + id;
-        List<Cardio> valueList = new ArrayList<Cardio>();
+        List<Cardio> valueList;
 
         valueList = getRecordsList(selectQuery);
         if (valueList.isEmpty())
@@ -61,13 +61,12 @@ public class DAOCardio extends DAORecord {
 
     // Getting All Records
     private List<Cardio> getRecordsList(String pRequest) {
-        List<Cardio> valueList = new ArrayList<Cardio>();
+        List<Cardio> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

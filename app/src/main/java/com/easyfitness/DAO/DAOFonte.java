@@ -39,7 +39,7 @@ public class DAOFonte extends DAORecord {
     // Getting single value
     public Fonte getBodyBuildingRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
-        List<Fonte> valueList = new ArrayList<Fonte>();
+        List<Fonte> valueList;
 
         valueList = getRecordsList(selectQuery);
         if (valueList.isEmpty())
@@ -50,13 +50,12 @@ public class DAOFonte extends DAORecord {
 
     // Getting All Records
     private List<Fonte> getRecordsList(String pRequest) {
-        List<Fonte> valueList = new ArrayList<Fonte>();
+        List<Fonte> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
@@ -64,9 +63,9 @@ public class DAOFonte extends DAORecord {
                 //Get Date
                 Date date;
                 try {
-                    SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();
@@ -178,7 +177,7 @@ public class DAOFonte extends DAORecord {
         }
 
         // Formation de tableau de valeur
-        List<DateGraphData> valueList = new ArrayList<DateGraphData>();
+        List<DateGraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;

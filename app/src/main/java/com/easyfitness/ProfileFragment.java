@@ -46,19 +46,8 @@ public class ProfileFragment extends Fragment {
     private DAOProfil mDb = null;
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
-    private EditableInputView.OnTextChangedListener itemOnTextChange = new EditableInputView.OnTextChangedListener() {
-
-        @Override
-        public void onTextChanged(EditableInputView view) {
-            requestForSave(view);
-        }
-    };
-    private OnClickListener onClickMachinePhoto = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            CreatePhotoSourceDialog();
-        }
-    };
+    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
+    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -100,60 +89,44 @@ public class ProfileFragment extends Fragment {
 
         /* Initialisation des boutons */
 
-        genderEdit.setCustomDialogBuilder(new EditableInputView.CustomerDialogBuilder() {
-            @Override
-            public SweetAlertDialog customerDialogBuilder(EditableInputView view) {
-                SweetAlertDialog dialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(getContext().getString(R.string.edit_value))
-                    .setNeutralText(getString(R.string.maleGender))
-                    .setCancelText(getString(R.string.femaleGender))
-                    .setConfirmText(getString(R.string.otherGender))
-                    .setNeutralClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            String oldValue = genderEdit.getText();
-                            if (!oldValue.equals(getString(R.string.maleGender))) {
-                                genderEdit.setText(getString(R.string.maleGender));
-                                requestForSave(genderEdit);
-                            }
-                            sDialog.dismissWithAnimation();
-                        }
-                    })
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            String oldValue = genderEdit.getText();
-                            if (!oldValue.equals(getString(R.string.femaleGender))) {
-                                genderEdit.setText(getString(R.string.femaleGender));
-                                requestForSave(genderEdit);
-                            }
-                            sDialog.dismissWithAnimation();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            String oldValue = genderEdit.getText();
-                            if (!oldValue.equals(getString(R.string.otherGender))) {
-                                genderEdit.setText(getString(R.string.otherGender));
-                                requestForSave(genderEdit);
-                            }
-                            sDialog.dismissWithAnimation();
-                        }
-                    });
-                return dialog;
-            }
+        genderEdit.setCustomDialogBuilder(view1 -> {
+            return new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setNeutralText(getString(R.string.maleGender))
+                .setCancelText(getString(R.string.femaleGender))
+                .setConfirmText(getString(R.string.otherGender))
+                .setNeutralClickListener(sDialog -> {
+                    String oldValue = genderEdit.getText();
+                    if (!oldValue.equals(getString(R.string.maleGender))) {
+                        genderEdit.setText(getString(R.string.maleGender));
+                        requestForSave(genderEdit);
+                    }
+                    sDialog.dismissWithAnimation();
+                })
+                .setCancelClickListener(sDialog -> {
+                    String oldValue = genderEdit.getText();
+                    if (!oldValue.equals(getString(R.string.femaleGender))) {
+                        genderEdit.setText(getString(R.string.femaleGender));
+                        requestForSave(genderEdit);
+                    }
+                    sDialog.dismissWithAnimation();
+                })
+                .setConfirmClickListener(sDialog -> {
+                    String oldValue = genderEdit.getText();
+                    if (!oldValue.equals(getString(R.string.otherGender))) {
+                        genderEdit.setText(getString(R.string.otherGender));
+                        requestForSave(genderEdit);
+                    }
+                    sDialog.dismissWithAnimation();
+                });
         });
 
         photoButton.setOnClickListener(onClickMachinePhoto);
 
-        imgUtil.setOnDeleteImageListener(new ImageUtil.OnDeleteImageListener() {
-            @Override
-            public void onDeleteImage(ImageUtil imgUtil) {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
-                mCurrentPhotoPath = null;
-                requestForSave(imgUtil.getView());
-            }
+        imgUtil.setOnDeleteImageListener(imgUtil -> {
+            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+            mCurrentPhotoPath = null;
+            requestForSave(imgUtil.getView());
         });
 
         return view;
@@ -163,15 +136,12 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        roundProfile.post(new Runnable() {
-            @Override
-            public void run() {
-                refreshData();
-                sizeEdit.setOnTextChangeListener(itemOnTextChange);
-                birthdayEdit.setOnTextChangeListener(itemOnTextChange);
-                nameEdit.setOnTextChangeListener(itemOnTextChange);
-                genderEdit.setOnTextChangeListener(itemOnTextChange);
-            }
+        roundProfile.post(() -> {
+            refreshData();
+            sizeEdit.setOnTextChangeListener(itemOnTextChange);
+            birthdayEdit.setOnTextChangeListener(itemOnTextChange);
+            nameEdit.setOnTextChangeListener(itemOnTextChange);
+            genderEdit.setOnTextChangeListener(itemOnTextChange);
         });
     }
 
@@ -221,7 +191,7 @@ public class ProfileFragment extends Fragment {
         nameEdit.setText(mProfile.getName());
 
         if (mProfile.getPhoto() != null) {
-            imgUtil.setPic(roundProfile, mProfile.getPhoto());
+            ImageUtil.setPic(roundProfile, mProfile.getPhoto());
             roundProfile.invalidate();
         } else
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
@@ -300,8 +270,8 @@ public class ProfileFragment extends Fragment {
             case ImageUtil.REQUEST_TAKE_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
                     mCurrentPhotoPath = imgUtil.getFilePath();
-                    imgUtil.setPic(roundProfile, mCurrentPhotoPath);
-                    imgUtil.saveThumb(mCurrentPhotoPath);
+                    ImageUtil.setPic(roundProfile, mCurrentPhotoPath);
+                    ImageUtil.saveThumb(mCurrentPhotoPath);
                     imgUtil.galleryAddPic(this, mCurrentPhotoPath);
                     requestForSave(roundProfile);
                 }
@@ -311,8 +281,8 @@ public class ProfileFragment extends Fragment {
                     String realPath;
                     realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
-                    imgUtil.setPic(roundProfile, realPath);
-                    imgUtil.saveThumb(realPath);
+                    ImageUtil.setPic(roundProfile, realPath);
+                    ImageUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
                     requestForSave(roundProfile);
                 }
@@ -341,7 +311,8 @@ public class ProfileFragment extends Fragment {
                             storageDir.mkdirs();
                         }
                     }
-                    File DestinationFile = new File(storageDir.getPath().toString() + imageFileName);
+                    new File(storageDir.getPath() + imageFileName);
+                    File DestinationFile;
 
                     try {
                         DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
@@ -352,8 +323,8 @@ public class ProfileFragment extends Fragment {
                         Log.v("Moving", "Moving file failed.");
                     }
 
-                    imgUtil.setPic(roundProfile, realPath);
-                    imgUtil.saveThumb(realPath);
+                    ImageUtil.setPic(roundProfile, realPath);
+                    ImageUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
                     requestForSave(roundProfile);
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {

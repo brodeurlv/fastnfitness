@@ -54,13 +54,12 @@ public class DAOOldCardio extends DAOBase {
 
     // Getting All Records
     private List<OldCardio> getRecordsList(String pRequest) {
-        List<OldCardio> valueList = new ArrayList<OldCardio>();
+        List<OldCardio> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

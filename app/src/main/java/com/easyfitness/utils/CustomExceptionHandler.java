@@ -61,7 +61,8 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
         }
     }
 
-    /*private void sendToServer(String stacktrace, String filename) {
+/*
+    private void sendToServer(String stacktrace, String filename) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -69,10 +70,11 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
         nvps.add(new BasicNameValuePair("stacktrace", stacktrace));
         try {
             httpPost.setEntity(
-                    new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+                new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
             httpClient.execute(httpPost);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
+*/
 }

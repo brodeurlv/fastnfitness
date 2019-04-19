@@ -85,12 +85,9 @@ public class FonteCursorAdapter extends CursorAdapter {
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));
-        deletImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDeleteClickListener != null)
-                    mDeleteClickListener.onBtnClick((long) v.getTag());
-            }
+        deletImg.setOnClickListener(v -> {
+            if (mDeleteClickListener != null)
+                mDeleteClickListener.onBtnClick((long) v.getTag());
         });
 
     }

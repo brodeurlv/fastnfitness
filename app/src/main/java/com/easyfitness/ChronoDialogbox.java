@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import gr.antoniom.chronometer.Chronometer;
-//import android.widget.Chronometer;
-//import android.widget.Chronometer.OnChronometerTickListener;
 
 public class ChronoDialogbox extends Dialog implements
     android.view.View.OnClickListener {

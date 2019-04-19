@@ -159,7 +159,7 @@ public class DAOProfil extends DAOBase {
 
     // Getting All Profils
     public List<Profile> getProfilsList(String pRequest) {
-        List<Profile> valueList = new ArrayList<Profile>();
+        List<Profile> valueList = new ArrayList<>();
         // Select All Query
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -328,7 +328,6 @@ public class DAOProfil extends DAOBase {
         return value;
     }
 
-
     /* DEBUG ONLY */
     public void populate() {
         Date date = new Date();
@@ -339,5 +338,3 @@ public class DAOProfil extends DAOBase {
         this.addProfil(m);
     }
 }
-
-

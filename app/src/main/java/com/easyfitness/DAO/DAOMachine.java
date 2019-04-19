@@ -42,11 +42,12 @@ public class DAOMachine extends DAOBase {
     public DAOMachine(Context context) {
         super(context);
     }
-	
-	/*public void setProfile (Profile pProfile)
-	{
-		mProfile = pProfile;
-	}*/
+
+/*
+    public void setProfile(Profile pProfile) {
+        mProfile = pProfile;
+    }
+*/
 
     /**
      * @param pName        le Record a ajouter a la base
@@ -120,19 +121,17 @@ public class DAOMachine extends DAOBase {
 
     public boolean machineExists(String name) {
         Machine lMach = getMachine(name);
-        if (lMach == null) return false;
-        return true;
+        return lMach != null;
     }
 
     // Getting All Records
     private ArrayList<Machine> getMachineList(String pRequest) {
-        ArrayList<Machine> valueList = new ArrayList<Machine>();
+        ArrayList<Machine> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -152,12 +151,11 @@ public class DAOMachine extends DAOBase {
 
     // Getting All Records
     private Cursor getMachineListCursor(String pRequest) {
-        ArrayList<Machine> valueList = new ArrayList<Machine>();
+        ArrayList<Machine> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
-        return db.rawQuery(selectQuery, null);
+        return db.rawQuery(pRequest, null);
     }
 
     public Cursor getCursor() {
@@ -264,7 +262,7 @@ public class DAOMachine extends DAOBase {
         if (mCursor.moveToFirst()) {
             int i = 0;
             do {
-                String value = new String(mCursor.getString(0));
+                String value = mCursor.getString(0);
                 valueList[i] = value;
                 i++;
             } while (mCursor.moveToNext());
@@ -330,7 +328,5 @@ public class DAOMachine extends DAOBase {
 
         addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "", true);
         addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "", false);
-
     }
-
 }

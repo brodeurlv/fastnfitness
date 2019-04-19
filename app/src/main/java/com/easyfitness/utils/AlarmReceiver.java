@@ -13,7 +13,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         long[] pattern = {
             0,  // Start immediately
             500, 500, 500, 500, 500};
-        Vibrator v = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createWaveform(pattern, -1));

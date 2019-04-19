@@ -103,13 +103,12 @@ public class DAOBodyMeasure extends DAOBase {
 
     // Getting All Measures
     private List<BodyMeasure> getMeasuresList(String pRequest) {
-        List<BodyMeasure> valueList = new ArrayList<BodyMeasure>();
+        List<BodyMeasure> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = pRequest;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -220,7 +219,7 @@ public class DAOBodyMeasure extends DAOBase {
 
     // Getting Profils Count
     public int getCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
         open();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -239,7 +238,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         for (int i = 1; i <= 5; i++) {
             date.setTime(date.getTime() + i * 1000 * 60 * 60 * 24 * 2);
-            //addBodyMeasure(date, Float.valueOf(i), mProfile);
+            //addBodyMeasure(date, (float) i, mProfile);
         }
     }
 }

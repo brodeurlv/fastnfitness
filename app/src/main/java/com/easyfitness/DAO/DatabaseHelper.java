@@ -193,10 +193,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void migrateWeightTable(SQLiteDatabase db, Context context) {
-        List<ProfileWeight> valueList = new ArrayList<ProfileWeight>();
+        List<ProfileWeight> valueList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + DAOWeight.TABLE_NAME;
-        ;
         //SQLiteDatabase db = this.getWritableDatabase();
         Cursor mCursor = null;
         mCursor = db.rawQuery(selectQuery, null);

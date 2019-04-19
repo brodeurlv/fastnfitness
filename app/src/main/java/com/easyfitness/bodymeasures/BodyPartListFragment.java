@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,7 +22,6 @@ import com.easyfitness.R;
 import java.util.ArrayList;
 
 public class BodyPartListFragment extends Fragment {
-    private static BodyPartListAdapter adapter;
     Spinner typeList = null;
     Spinner musclesList = null;
     EditText description = null;
@@ -33,23 +31,20 @@ public class BodyPartListFragment extends Fragment {
     private String name;
     private int id;
     private DAOBodyMeasure mDbBodyMeasures = null;
-    private OnItemClickListener onClickListItem = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 
-            TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
-            int bodyPartID = Integer.parseInt(textView.getText().toString());
+        TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
+        int bodyPartID = Integer.parseInt(textView.getText().toString());
 
-            BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, true);
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
-            transaction.addToBackStack(null);
+        BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, true);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
+        transaction.addToBackStack(null);
 
-            // Commit the transaction
-            transaction.commit();
-        }
+        // Commit the transaction
+        transaction.commit();
     };
 
     /**
@@ -98,14 +93,11 @@ public class BodyPartListFragment extends Fragment {
         dataModels.add(new BodyPart(BodyPart.LEFTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.RIGHTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
 
-        adapter = new BodyPartListAdapter(dataModels, getContext());
+        BodyPartListAdapter adapter = new BodyPartListAdapter(dataModels, getContext());
 
         measureList.setAdapter(adapter);
-        measureList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BodyPart dataModel = dataModels.get(position);
-            }
+        measureList.setOnItemClickListener((parent, view1, position, id) -> {
+            BodyPart dataModel = dataModels.get(position);
         });
 
         measureList.setOnItemClickListener(onClickListItem);

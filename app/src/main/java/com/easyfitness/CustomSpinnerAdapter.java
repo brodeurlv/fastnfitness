@@ -13,10 +13,9 @@ import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<SpinnerItem> {
 
-
-    Context context;
-    int layoutResID;
-    List<SpinnerItem> spinnerData;
+    private Context context;
+    private int layoutResID;
+    private List<SpinnerItem> spinnerData;
 
     public CustomSpinnerAdapter(Context context, int layoutResourceID,
                                 int textViewResourceId, List<SpinnerItem> spinnerDataList) {
@@ -54,10 +53,8 @@ public class CustomSpinnerAdapter extends ArrayAdapter<SpinnerItem> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
-
         View row = convertView;
         SpinnerHolder holder;
-
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -82,13 +79,10 @@ public class CustomSpinnerAdapter extends ArrayAdapter<SpinnerItem> {
         holder.email.setText(spinnerItem.getEmail());
 
         return row;
-
     }
 
     private static class SpinnerHolder {
         ImageView userImage;
         TextView name, email;
-
     }
-
 }

@@ -64,7 +64,7 @@ public class FontesPagerFragment extends Fragment {
 
             mViewPager.setAdapter(pagerAdapter);
 
-            SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.viewpagertab);
+            SmartTabLayout viewPagerTab = view.findViewById(R.id.viewpagertab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
@@ -75,9 +75,9 @@ public class FontesPagerFragment extends Fragment {
 
                 @Override
                 public void onPageSelected(int position) {
-                    //if (position != 0)  {
+                    //if (position != 0) {
                     //pagerAdapter.getItem(position).onHiddenChanged(false);
-                    //Fragment frag1 = (Fragment)pagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+                    //Fragment frag1 = (Fragment) pagerAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
 
                     Fragment frag1 = pagerAdapter.getPage(position);
                     if (frag1 != null)
@@ -88,35 +88,37 @@ public class FontesPagerFragment extends Fragment {
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
 
             // Locate the viewpager in activity_main.xml
-            //ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
+            //ViewPager viewPager = view.findViewById(R.id.pager);
 
             // Set the ViewPagerAdapter into ViewPager
             //viewPager.setAdapter(new FontesViewPagerAdapter(getChildFragmentManager(), getActivity().getApplicationContext()));
 
             // Bind the tabs to the ViewPager
-            //PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+            //PagerSlidingTabStrip tabs = view.findViewById(R.id.tabs);
             //tabs.setViewPager(viewPager);
 
-			/*viewPager.addOnPageChangeListener(new OnPageChangeListener() {
-				@Override
-				public void onPageSelected(int position) {
-					// N'update pas le fragment principal car c'est lui qui dirige les autres.
-					//if (position != 0) getViewPagerAdapter().getItem(position).onHiddenChanged(false);
-				}
+/*
+            viewPager.addOnPageChangeListener(new OnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    // N'update pas le fragment principal car c'est lui qui dirige les autres.
+                    //if (position != 0)
+                    //    getViewPagerAdapter().getItem(position).onHiddenChanged(false);
+                }
 
-				@Override
-				public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-				}
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
 
-				@Override
-				public void onPageScrollStateChanged(int state) {
-				}
-			});*/
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+*/
 
         }
 
@@ -127,7 +129,7 @@ public class FontesPagerFragment extends Fragment {
     //...
 
     public void onPageSelected(int position) {
-        //.instantiateItem() from until .destoryItem() is called it will be able to get the Fragment of page.
+        //.instantiateItem() from until .destroyItem() is called it will be able to get the Fragment of page.
         //Fragment page = pagerAdapter.getPage(position);
     }
 
@@ -143,14 +145,16 @@ public class FontesPagerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-			/*mpFontesFrag = (FontesFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.FONTES);
-			getViewPagerAdapter().restoreFontesFragment(mpFontesFrag);
+/*
+            mpFontesFrag = (FontesFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.FONTES);
+            getViewPagerAdapter().restoreFontesFragment(mpFontesFrag);
 
-			mpGraphFrag = (FonteGraphFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.GRAPHIC);
-			getViewPagerAdapter().restoreGraphFragment(mpGraphFrag);
+            mpGraphFrag = (FonteGraphFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.GRAPHIC);
+            getViewPagerAdapter().restoreGraphFragment(mpGraphFrag);
 
-			mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.HISTORY);
-			getViewPagerAdapter().restoreHistoricFragment(mpHistoryFrag);*/
+            mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.HISTORY);
+            getViewPagerAdapter().restoreHistoricFragment(mpHistoryFrag);
+*/
         }
     }
 
@@ -160,13 +164,14 @@ public class FontesPagerFragment extends Fragment {
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
 
-		/*if (getViewPagerAdapter().getFontesFragment() != null && getViewPagerAdapter().getFontesFragment().isAdded())
-			getChildFragmentManager().putFragment(outState, MainActivity.FONTES, getViewPagerAdapter().getFontesFragment());
-		if (getViewPagerAdapter().getGraphFragment() != null && getViewPagerAdapter().getGraphFragment().isAdded())
-			getChildFragmentManager().putFragment(outState, MainActivity.GRAPHIC, getViewPagerAdapter().getGraphFragment());
-		if (getViewPagerAdapter().getHistoricFragment() != null && getViewPagerAdapter().getHistoricFragment().isAdded())
-			getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
-		*/
+/*
+        if (getViewPagerAdapter().getFontesFragment() != null && getViewPagerAdapter().getFontesFragment().isAdded())
+            getChildFragmentManager().putFragment(outState, MainActivity.FONTES, getViewPagerAdapter().getFontesFragment());
+        if (getViewPagerAdapter().getGraphFragment() != null && getViewPagerAdapter().getGraphFragment().isAdded())
+            getChildFragmentManager().putFragment(outState, MainActivity.GRAPHIC, getViewPagerAdapter().getGraphFragment());
+        if (getViewPagerAdapter().getHistoricFragment() != null && getViewPagerAdapter().getHistoricFragment().isAdded())
+            getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
+*/
     }
 
     @Override
@@ -216,4 +221,3 @@ public class FontesPagerFragment extends Fragment {
         return mpHistoryFrag;
     }
 }
-

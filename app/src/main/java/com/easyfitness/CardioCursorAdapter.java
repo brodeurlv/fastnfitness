@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class CardioCursorAdapter extends CursorAdapter {
 
     private LayoutInflater mInflater;
@@ -37,14 +39,14 @@ public class CardioCursorAdapter extends CursorAdapter {
             view.setBackgroundColor(context.getResources().getColor(R.color.background_even));
         }
 
-        TextView t1 = (TextView) view.findViewById(R.id.DATE_CELL);
+        TextView t1 = view.findViewById(R.id.DATE_CELL);
         Date date;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(cursor.getString(cursor.getColumnIndex(DAOCardio.DATE)));
 
-            DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
+            DateFormat dateFormat3 = getDateFormat(mContext.getApplicationContext());
             dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
             t1.setText(dateFormat3.format(date));
 
@@ -53,19 +55,19 @@ public class CardioCursorAdapter extends CursorAdapter {
             e.printStackTrace();
         }
 
-        TextView t10 = (TextView) view.findViewById(R.id.TIME_CELL);
+        TextView t10 = view.findViewById(R.id.TIME_CELL);
         t10.setText(cursor.getString(cursor.getColumnIndex(DAOCardio.TIME)));
 
-        TextView t2 = (TextView) view.findViewById(R.id.MACHINE_CELL);
+        TextView t2 = view.findViewById(R.id.MACHINE_CELL);
         t2.setText(cursor.getString(cursor.getColumnIndex(DAOCardio.EXERCISE)));
 
-        TextView t3 = (TextView) view.findViewById(R.id.SERIE_CELL);
+        TextView t3 = view.findViewById(R.id.SERIE_CELL);
         t3.setText(cursor.getString(cursor.getColumnIndex(DAOCardio.DISTANCE)));
 
-        TextView t4 = (TextView) view.findViewById(R.id.REPETITION_CELL);
+        TextView t4 = view.findViewById(R.id.REPETITION_CELL);
         t4.setText(""); //cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
 
-        TextView t5 = (TextView) view.findViewById(R.id.POIDS_CELL);
+        TextView t5 = view.findViewById(R.id.POIDS_CELL);
 
         Date date2 = new Date();
 

@@ -25,7 +25,7 @@
 package com.easyfitness.intro;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -45,7 +45,6 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Gender;
-import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -95,27 +94,18 @@ public class NewProfileFragment extends SlideFragment {
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
-                if (p != null) {
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(p.getName())
-                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                nextSlide();
-                            }
-                        })
-                        .show();
-                    mProfilCreated = true;
-                } else {
-                    KToast.errorToast(getActivity(), "An error occurred in profile creation", Gravity.BOTTOM, KToast.LENGTH_LONG);
-                }
+                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText(p.getName())
+                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                    .setConfirmClickListener(sDialog -> nextSlide())
+                    .show();
+                mProfilCreated = true;
             }
         }
     };
     private DatePickerDialogFragment mDateFrag = null;
     private MainActivity motherActivity;
-    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+    private OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
@@ -154,28 +144,22 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-                    showDatePickerFragment();
-                }
+        mBirthday.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+                showDatePickerFragment();
             }
         });
 
         /* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);
 
-        getIntroActivity().addOnNavigationBlockedListener(new OnNavigationBlockedListener() {
-            @Override
-            public void onNavigationBlocked(int position, int direction) {
-                //Slide slide = getIntroActivity().getSlide(position);
+        getIntroActivity().addOnNavigationBlockedListener((position, direction) -> {
+            //Slide slide = getIntroActivity().getSlide(position);
 
-                if (position == 4) {
-                    mBtCreate.callOnClick();
-                }
+            if (position == 4) {
+                mBtCreate.callOnClick();
             }
         });
 
@@ -197,8 +181,7 @@ public class NewProfileFragment extends SlideFragment {
         if (getActivity() instanceof MainIntroActivity) {
             return (MainIntroActivity) getActivity();
         } else {
-            throw new IllegalStateException("SlideFragment's must be attached to MainIntroActivity.");
+            throw new IllegalStateException("SlideFragments must be attached to MainIntroActivity.");
         }
     }
 }
-

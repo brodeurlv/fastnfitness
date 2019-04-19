@@ -15,10 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -55,33 +53,14 @@ public class BodyPartDetailsFragment extends Fragment {
     private LineChart mChart = null;
     private Graph mGraph = null;
     private DAOBodyMeasure mBodyMeasureDb = null;
-    private BodyPart mBodyPart = null;
-    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-        }
-    };
-    private OnClickListener clickDateEdit = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+    private OnClickListener clickDateEdit = v -> showDatePickerFragment();
+    private OnFocusChangeListener focusDateEdit = (v, hasFocus) -> {
+        if (hasFocus) {
             showDatePickerFragment();
         }
     };
-    private OnFocusChangeListener focusDateEdit = new OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus) {
-                showDatePickerFragment();
-            }
-        }
-    };
-    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
-        @Override
-        public void onBtnClick(long id) {
-            showDeleteDialog(id);
-        }
-    };
+    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -100,38 +79,32 @@ public class BodyPartDetailsFragment extends Fragment {
             }
         }
     };
-    private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> listView, View view,
-                                       int position, long id) {
+    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
-            // Get the cursor, positioned to the corresponding row in the result set
-            //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+        // Get the cursor, positioned to the corresponding row in the result set
+        //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
-            final long selectedID = id;
+        final long selectedID = id;
 
-            String[] profilListArray = new String[1]; // un seul choix
-            profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
+        String[] profilListArray = new String[1]; // un seul choix
+        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
 
-            AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-            itemActionbuilder.setTitle("").setItems(profilListArray, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
+        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(getActivity());
+        itemActionBuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
 
-                    switch (which) {
-                        // Delete
-                        case 0:
-                            mBodyMeasureDb.deleteMeasure(selectedID);
-                            refreshData();
-                            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                            break;
-                        default:
-                    }
-                }
-            });
-            itemActionbuilder.show();
+            switch (which) {
+                // Delete
+                case 0:
+                    mBodyMeasureDb.deleteMeasure(selectedID);
+                    refreshData();
+                    KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                    break;
+                default:
+            }
+        });
+        itemActionBuilder.show();
 
-            return true;
-        }
+        return true;
     };
 
     /**
@@ -175,7 +148,7 @@ public class BodyPartDetailsFragment extends Fragment {
 
         /* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
-        mBodyPart = new BodyPart(mBodyPartID);
+        BodyPart mBodyPart = new BodyPart(mBodyPartID);
 
         // Hide Input if needed.
         if (!getArguments().getBoolean("showInput", true))
@@ -201,12 +174,7 @@ public class BodyPartDetailsFragment extends Fragment {
         ((MainActivity) getActivity()).getActivityToolbar().setVisibility(View.GONE);
         bodyToolbar.setTitle(getContext().getString(mBodyPart.getResourceNameID()));
         bodyToolbar.setNavigationIcon(R.drawable.ic_back);
-        bodyToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        bodyToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
         return view;
     }
@@ -226,7 +194,7 @@ public class BodyPartDetailsFragment extends Fragment {
             return;
         }
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        ArrayList<Entry> yVals = new ArrayList<>();
 
         float minBodyMeasure = -1;
 
@@ -279,21 +247,18 @@ public class BodyPartDetailsFragment extends Fragment {
 
     private void showDeleteDialog(final long idToDelete) {
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        mBodyMeasureDb.deleteMeasure(idToDelete);
-                        refreshData();
-                        Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-                            .show();
-                        break;
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    mBodyMeasureDb.deleteMeasure(idToDelete);
+                    refreshData();
+                    Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+                        .show();
+                    break;
 
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
             }
         };
 
@@ -311,8 +276,10 @@ public class BodyPartDetailsFragment extends Fragment {
         return this;
     }
 
-	/*@Override
-	public void onHiddenChanged (boolean hidden) {
-		if (!hidden) refreshData();
-	}*/
+/*
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) refreshData();
+    }
+*/
 }

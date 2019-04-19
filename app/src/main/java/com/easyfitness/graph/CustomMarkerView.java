@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class CustomMarkerView extends MarkerView {
 
     private TextView tvContent;
@@ -44,8 +46,7 @@ public class CustomMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        //DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
-        DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(getContext().getApplicationContext());
+        DateFormat dateFormat3 = getDateFormat(getContext().getApplicationContext());
         dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
         tvDate.setText(dateFormat3.format(new Date((long) DateConverter.nbMilliseconds(e.getX()))));
         tvContent.setText(mFormat.format(e.getY()));

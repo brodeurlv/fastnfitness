@@ -140,7 +140,7 @@ public class Chronometer extends AppCompatTextView {
 
         text += df.format(Math.abs(minutes)) + ":";
         text += df.format(Math.abs(seconds));
-        if (mPreciseClock) text += ":" + Integer.toString(milliseconds);
+        if (mPreciseClock) text += ":" + milliseconds;
 
         setText(text);
     }

@@ -51,13 +51,12 @@ public class DAOFavorites extends DAOBase {
 
     // Getting All Measures
     private List<Long> getFavoritesList(String pRequest) {
-        List<Long> valueList = new ArrayList<Long>();
+        List<Long> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = pRequest;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

@@ -25,6 +25,7 @@ import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.Graph;
+import com.easyfitness.graph.Graph.zoomType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -43,11 +44,7 @@ public class FonteGraphFragment extends Fragment {
     private int id;
     private Spinner functionList = null;
     private Spinner machineList = null;
-    private Button lastyearButton = null;
-    private Button lastmonthButton = null;
-    private Button lastweekButton = null;
-    private Button allButton = null;
-    private Graph.zoomType currentZoom = Graph.zoomType.ZOOM_ALL;
+    private zoomType currentZoom = zoomType.ZOOM_ALL;
     private LineChart mChart = null;
     private Graph mGraph = null;
     private DAOFonte mDbFonte = null;
@@ -69,26 +66,22 @@ public class FonteGraphFragment extends Fragment {
 
         }
     };
-    private OnClickListener onZoomClick = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.allbutton:
-                    currentZoom = Graph.zoomType.ZOOM_ALL;
-                    break;
-                case R.id.lastweekbutton:
-                    currentZoom = Graph.zoomType.ZOOM_WEEK;
-                    break;
-                case R.id.lastmonthbutton:
-                    currentZoom = Graph.zoomType.ZOOM_MONTH;
-                    break;
-                case R.id.lastyearbutton:
-                    currentZoom = Graph.zoomType.ZOOM_YEAR;
-                    break;
-            }
-            mGraph.setZoom(currentZoom);
+    private OnClickListener onZoomClick = v -> {
+        switch (v.getId()) {
+            case R.id.allbutton:
+                currentZoom = zoomType.ZOOM_ALL;
+                break;
+            case R.id.lastweekbutton:
+                currentZoom = zoomType.ZOOM_WEEK;
+                break;
+            case R.id.lastmonthbutton:
+                currentZoom = zoomType.ZOOM_MONTH;
+                break;
+            case R.id.lastyearbutton:
+                currentZoom = zoomType.ZOOM_YEAR;
+                break;
         }
+        mGraph.setZoom(currentZoom);
     };
 
     /**
@@ -116,10 +109,10 @@ public class FonteGraphFragment extends Fragment {
         mFragmentView = view;
         functionList = view.findViewById(R.id.filterGraphFunction);
         machineList = view.findViewById(R.id.filterGraphMachine);
-        allButton = view.findViewById(R.id.allbutton);
-        lastyearButton = view.findViewById(R.id.lastyearbutton);
-        lastmonthButton = view.findViewById(R.id.lastmonthbutton);
-        lastweekButton = view.findViewById(R.id.lastweekbutton);
+        Button allButton = view.findViewById(R.id.allbutton);
+        Button lastyearButton = view.findViewById(R.id.lastyearbutton);
+        Button lastmonthButton = view.findViewById(R.id.lastmonthbutton);
+        Button lastweekButton = view.findViewById(R.id.lastweekbutton);
 
         /* Initialisation des evenements */
         machineList.setOnItemSelectedListener(onItemSelectedList);
@@ -149,7 +142,7 @@ public class FonteGraphFragment extends Fragment {
         if (getProfil() != null) {
             mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
             // lMachinesArray = prepend(lMachinesArray, "All");
-            mAdapterMachine = new ArrayAdapter<String>(
+            mAdapterMachine = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mMachinesArray);
             mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -186,11 +179,11 @@ public class FonteGraphFragment extends Fragment {
         ArrayAdapter<String> adapterFunction = null;
 
         if (machine.getType() == DAOMachine.TYPE_FONTE) {
-            adapterFunction = new ArrayAdapter<String>(
+            adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_functions));
         } else if (machine.getType() == DAOMachine.TYPE_CARDIO) {
-            adapterFunction = new ArrayAdapter<String>(
+            adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
         }
@@ -220,7 +213,7 @@ public class FonteGraphFragment extends Fragment {
         DAOMachine mDbExercise = new DAOMachine(mActivity);
         Machine m = mDbExercise.getMachine(lMachine);
         if (m == null) return;
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        ArrayList<Entry> yVals = new ArrayList<>();
         Description desc = new Description();
 
         if (m.getType() == DAOMachine.TYPE_FONTE) {
@@ -350,7 +343,7 @@ public class FonteGraphFragment extends Fragment {
         ArrayAdapter<String> a;
         mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
         // lMachinesArray = prepend(lMachinesArray, "All");
-        mAdapterMachine = new ArrayAdapter<String>(
+        mAdapterMachine = new ArrayAdapter<>(
             getContext(), android.R.layout.simple_spinner_item,
             mMachinesArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -376,13 +369,12 @@ public class FonteGraphFragment extends Fragment {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(toSave, paramName);
-        editor.commit();
+        editor.apply();
     }
 
     public String getSharedParams(String paramName) {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
-        String ret = sharedPref.getString(paramName, "");
-        return ret;
+        return sharedPref.getString(paramName, "");
     }
 
 }

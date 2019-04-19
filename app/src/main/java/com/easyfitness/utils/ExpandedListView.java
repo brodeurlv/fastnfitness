@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class ExpandedListView extends ListView {
-    private android.view.ViewGroup.LayoutParams params;
+    private ViewGroup.LayoutParams params;
     private int oldCount = 0;
 
     public ExpandedListView(Context context) {
@@ -31,18 +31,16 @@ public class ExpandedListView extends ListView {
 
         super.onMeasure(widthMeasureSpec, heightSpec);
     }
-
-    /*@Override
-    protected void onDraw(Canvas canvas)
-    {
-        if (getCount() != oldCount && getCount()!=0)
-        {
-            /*int height = getChildAt(0).getHeight() + 1 ;
+/*
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (getCount() != oldCount && getCount() != 0) {
+            int height = getChildAt(0).getHeight() + 1;
             oldCount = getCount();
             params = getLayoutParams();
             params.height = getCount() * height;
-            setLayoutParams(params);*/
-            /*if (getCount() != oldCount) {
+            setLayoutParams(params);
+            if (getCount() != oldCount) {
                 params = getLayoutParams();
                 oldCount = getCount();
                 int totalHeight = 0;
@@ -60,5 +58,6 @@ public class ExpandedListView extends ListView {
         }
 
         super.onDraw(canvas);
-    }*/
+    }
+*/
 }

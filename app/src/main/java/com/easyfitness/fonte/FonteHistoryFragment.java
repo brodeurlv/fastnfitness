@@ -60,26 +60,17 @@ public class FonteHistoryFragment extends Fragment {
 
     Machine selectedMachine = null;
     private DAORecord mDb = null;
-    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
-        @Override
-        public void onBtnClick(long id) {
-            showDeleteDialog(id);
-        }
-    };
-    private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> listView, View view,
-                                       int position, long id) {
+    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
-            mDb.deleteRecord(id);
+        mDb.deleteRecord(id);
 
-            FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                .getSelectedItem().toString());
+        FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+            .getSelectedItem().toString());
 
-            KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-            return true;
-        }
+        return true;
     };
     private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
@@ -93,7 +84,7 @@ public class FonteHistoryFragment extends Fragment {
                 //  Update currentSelectedMachine
                 DAOMachine lDbMachine = new DAOMachine(getContext());
                 Machine machine = null;
-                if (exerciseList.getSelectedItem().toString() != getView().getResources().getText(R.string.all).toString()) {
+                if (!exerciseList.getSelectedItem().toString().equals(getView().getResources().getText(R.string.all).toString())) {
                     selectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
                 } else {
                     selectedMachine = null;
@@ -156,9 +147,9 @@ public class FonteHistoryFragment extends Fragment {
         // Initialisation de l'historique
         mDb = new DAORecord(view.getContext());
 
-        mExerciseArray = new ArrayList<String>();
+        mExerciseArray = new ArrayList<>();
         mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-        mAdapterMachine = new ArrayAdapter<String>(
+        mAdapterMachine = new ArrayAdapter<>(
             getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
             mExerciseArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -177,9 +168,9 @@ public class FonteHistoryFragment extends Fragment {
             exerciseList.setOnItemSelectedListener(onItemSelectedList);
         }
 
-        mDateArray = new ArrayList<String>();
+        mDateArray = new ArrayList<>();
         mDateArray.add(getContext().getResources().getText(R.string.all).toString());
-        mAdapterDate = new ArrayAdapter<String>(
+        mAdapterDate = new ArrayAdapter<>(
             getContext(), android.R.layout.simple_spinner_item,
             mDateArray);
         mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -265,11 +256,13 @@ public class FonteHistoryFragment extends Fragment {
 
                     exerciseList.setSelection(0); // Default value is "all" when there is a list
 
-                    /*if ( mAdapterMachine.getPosition(this.getFontesMachine()) != -1 ) {
+/*
+                    if (mAdapterMachine.getPosition(this.getFontesMachine()) != -1) {
                         exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
                     } else { // if not found, set selection to 0
                         exerciseList.setSelection(0);
-                    }*/
+                    }
+*/
                 }
 
                 refreshDates(selectedMachine);
@@ -319,15 +312,12 @@ public class FonteHistoryFragment extends Fragment {
             .setCancelText(getResources().getText(R.string.global_no).toString())
             .setConfirmText(getResources().getText(R.string.global_yes).toString())
             .showCancelButton(true)
-            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sDialog) {
-                    mDb.deleteRecord(idToDelete);
-                    FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                        .getSelectedItem().toString());
-                    KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                    sDialog.dismissWithAnimation();
-                }
+            .setConfirmClickListener(sDialog -> {
+                mDb.deleteRecord(idToDelete);
+                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+                    .getSelectedItem().toString());
+                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                sDialog.dismissWithAnimation();
             })
             .show();
     }

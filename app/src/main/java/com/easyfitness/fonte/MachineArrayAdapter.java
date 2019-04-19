@@ -27,8 +27,7 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
     public void onClick(View v) {
 
         int position = (Integer) v.getTag();
-        Object object = getItem(position);
-        Machine dataModel = (Machine) object;
+        Machine dataModel = getItem(position);
         //Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
     }
 

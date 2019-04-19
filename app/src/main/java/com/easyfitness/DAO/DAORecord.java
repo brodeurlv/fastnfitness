@@ -137,9 +137,9 @@ public class DAORecord extends DAOBase {
             //Get Date
             Date date;
             try {
-                SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
             } catch (ParseException e) {
                 e.printStackTrace();
                 date = new Date();
@@ -235,10 +235,9 @@ public class DAORecord extends DAOBase {
     private Cursor getRecordsListCursor(String pRequest) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         // return value list
-        return db.rawQuery(selectQuery, null);
+        return db.rawQuery(pRequest, null);
     }
 
     // Getting All Machines
@@ -262,7 +261,7 @@ public class DAORecord extends DAOBase {
 
         int size = mCursor.getCount();
 
-        List<String> valueList = new ArrayList<String>(size);
+        List<String> valueList = new ArrayList<>(size);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -355,7 +354,7 @@ public class DAORecord extends DAOBase {
         mCursor = db.rawQuery(selectQuery, null);
         int size = mCursor.getCount();
 
-        List<String> valueList = new ArrayList<String>(size);
+        List<String> valueList = new ArrayList<>(size);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -430,12 +429,12 @@ public class DAORecord extends DAOBase {
                 + " WHERE " + DATE + "=\"" + pDate
                 + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-        } else if (lfilterMachine && !lfilterDate) {
+        } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine
                 + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-        } else if (!lfilterMachine && !lfilterDate) {
+        } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
@@ -455,13 +454,13 @@ public class DAORecord extends DAOBase {
         IRecord lReturn = null;
 
         // Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
+/*
+        String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
+*/
 
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
             + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
-        ;
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through only the first rows.
@@ -538,13 +537,12 @@ public class DAORecord extends DAOBase {
 
     // Getting All Records
     private List<IRecord> getRecordsList(String pRequest) {
-        List<IRecord> valueList = new ArrayList<IRecord>();
+        List<IRecord> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
@@ -552,9 +550,9 @@ public class DAORecord extends DAOBase {
                 //Get Date
                 Date date;
                 try {
-                    SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();

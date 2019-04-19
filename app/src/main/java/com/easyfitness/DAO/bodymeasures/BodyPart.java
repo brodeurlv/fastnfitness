@@ -37,10 +37,10 @@ public class BodyPart {
         this.mLastMeasure = null;
     }
 
-    public BodyPart(int id, BodyMeasure lastmeasure) {
+    public BodyPart(int id, BodyMeasure lastMeasure) {
         super();
         this.id = id;
-        this.mLastMeasure = lastmeasure;
+        this.mLastMeasure = lastMeasure;
     }
 
     private static int getBodyResourceID(int pBodyID) {
@@ -168,6 +168,4 @@ public class BodyPart {
     public void setLastMeasure(BodyMeasure lastmeasure) {
         this.mLastMeasure = lastmeasure;
     }
-
-
 }

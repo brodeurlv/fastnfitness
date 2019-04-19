@@ -2,6 +2,7 @@ package com.easyfitness.utils;
 
 //DirectoryChooserDialog.java
 
+import android.R.layout;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class FileChooserDialog {
@@ -47,7 +47,7 @@ public class FileChooserDialog {
 
         try {
             m_sdcardDirectory = new File(m_sdcardDirectory).getCanonicalPath();
-        } catch (IOException ioe) {
+        } catch (IOException ignored) {
         }
     }
 
@@ -131,7 +131,7 @@ public class FileChooserDialog {
                     if (m_chosenFileListener != null) {
                         // Call registered listener supplied with the chosen directory
                         m_chosenFileListener.onChosenFile(m_dir + "/" + ((AlertDialog) dialog).getListView().getAdapter().getItem(item).toString());
-                        ((AlertDialog) dialog).dismiss();
+                        dialog.dismiss();
                     }
                 }
             }
@@ -140,19 +140,15 @@ public class FileChooserDialog {
         AlertDialog.Builder dialogBuilder =
             createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
 
-		/*dialogBuilder.setPositiveButton("OK", new OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				// Current directory chosen
-				if (m_chosenFileListener != null)
-				{
-					// Call registered listener supplied with the chosen directory
-					m_chosenFileListener.onChosenFile(m_dir);
-				}
-			}
-		});*/
+/*
+        dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
+            // Current directory chosen
+            if (m_chosenFileListener != null) {
+                // Call registered listener supplied with the chosen directory
+                m_chosenFileListener.onChosenFile(m_dir);
+            }
+        });
+*/
 
         dialogBuilder.setNegativeButton("Cancel", null);
 
@@ -177,7 +173,7 @@ public class FileChooserDialog {
     }
 
     public List<String> getDirectories(String dir) {
-        List<String> dirs = new ArrayList<String>();
+        List<String> dirs = new ArrayList<>();
 
         try {
             File dirFile = new File(dir);
@@ -193,20 +189,16 @@ public class FileChooserDialog {
                     dirs.add("/" + file.getName());
                 } else // Get files
                 {
-                    if (this.m_displayFolderOnly == false)
+                    if (!this.m_displayFolderOnly)
                         if (isInFilter(file.getName())) {
                             dirs.add(file.getName());
                         }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        Collections.sort(dirs, new Comparator<String>() {
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        Collections.sort(dirs, String::compareTo);
 
         return dirs;
     }
@@ -215,7 +207,7 @@ public class FileChooserDialog {
      * return only files with full path of a specific folder
      */
     public List<String> getFiles(String dir) {
-        List<String> dirs = new ArrayList<String>();
+        List<String> dirs = new ArrayList<>();
 
         try {
             File dirFile = new File(dir);
@@ -226,20 +218,16 @@ public class FileChooserDialog {
             for (File file : dirFile.listFiles()) {
                 if (!file.isDirectory()) // Don't get Directories
                 {
-                    if (this.m_displayFolderOnly == false)
+                    if (!this.m_displayFolderOnly)
                         if (isInFilter(file.getName())) {
                             dirs.add(file.getName());
                         }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        Collections.sort(dirs, new Comparator<String>() {
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        Collections.sort(dirs, String::compareTo);
 
         return dirs;
     }
@@ -289,36 +277,31 @@ public class FileChooserDialog {
         m_titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         m_titleView.setTextAppearance(m_context, android.R.style.TextAppearance_DeviceDefault_Medium);
         m_titleView.setTextColor(m_context.getResources().getColor(android.R.color.black));
-        m_titleView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        m_titleView.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         m_titleView.setText(title);
 
         Button newDirButton = new Button(m_context);
         newDirButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         newDirButton.setText("New folder");
-        newDirButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText input = new EditText(m_context);
+        newDirButton.setOnClickListener(v -> {
+            final EditText input = new EditText(m_context);
 
-                // Show new folder name input dialog
-                new AlertDialog.Builder(m_context).
-                    setTitle("New folder name").
-                    setView(input).setPositiveButton(m_context.getResources().getText(R.string.global_ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Editable newDir = input.getText();
-                        String newDirName = newDir.toString();
-                        // Create new directory
-                        if (createSubDir(m_dir + "/" + newDirName)) {
-                            // Navigate into the new directory
-                            m_dir += "/" + newDirName;
-                            updateDirectory();
-                        } else {
-                            Toast.makeText(
-                                m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).setNegativeButton(m_context.getResources().getText(R.string.global_cancel), null).show();
-            }
+            // Show new folder name input dialog
+            new AlertDialog.Builder(m_context).
+                setTitle("New folder name").
+                setView(input).setPositiveButton(m_context.getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+                Editable newDir = input.getText();
+                String newDirName = newDir.toString();
+                // Create new directory
+                if (createSubDir(m_dir + "/" + newDirName)) {
+                    // Navigate into the new directory
+                    m_dir += "/" + newDirName;
+                    updateDirectory();
+                } else {
+                    Toast.makeText(
+                        m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
+                }
+            }).setNegativeButton(m_context.getResources().getText(R.string.global_cancel), null).show();
         });
 
         if (!m_isNewFolderEnabled) {
@@ -343,13 +326,13 @@ public class FileChooserDialog {
         m_subdirs.addAll(getDirectories(m_dir));
         m_titleView.setText(m_dir);
         m_listAdapter.notifyDataSetChanged();
-        //m_titleView..getContext().android.R.layout.select_dialog_item
+        //m_titleView.getContext().layout.select_dialog_item;
 
     }
 
     private ArrayAdapter<String> createListAdapter(List<String> items) {
         return new ArrayAdapter<String>(m_context,
-            android.R.layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
+            layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
         {
             @Override
             public View getView(int position, View convertView,
@@ -372,7 +355,7 @@ public class FileChooserDialog {
     // Callback interface for selected directory
     //////////////////////////////////////////////////////
     public interface ChosenFileListener {
-        public void onChosenFile(String chosenDir);
+        void onChosenFile(String chosenDir);
     }
 }
 

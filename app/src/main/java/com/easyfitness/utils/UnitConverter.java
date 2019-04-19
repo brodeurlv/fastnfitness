@@ -6,7 +6,6 @@ public class UnitConverter {
     public static final int UNIT_LBS = 1;
 
     public UnitConverter() {
-
     }
 
     /*
@@ -87,7 +86,7 @@ public class UnitConverter {
      * @param totalDuration
      */
     public int getProgressPercentage(long currentDuration, long totalDuration) {
-        Double percentage = (double) 0;
+        Double percentage;
 
         long currentSeconds = (int) (currentDuration / 1000);
         long totalSeconds = (int) (totalDuration / 1000);
@@ -107,7 +106,7 @@ public class UnitConverter {
      */
     public int progressToTimer(int progress, int totalDuration) {
         int currentDuration = 0;
-        totalDuration = (int) (totalDuration / 1000);
+        totalDuration = totalDuration / 1000;
         currentDuration = (int) ((((double) progress) / 100) * totalDuration);
 
         // return current duration in milliseconds

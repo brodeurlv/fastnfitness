@@ -27,12 +27,12 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     protected TextView valueTextView;
     protected View editButton;
     protected SweetAlertDialog customDialog = null;
-    protected EditableInputView.OnTextChangedListener mConfirmClickListener = null;
+    protected OnTextChangedListener mConfirmClickListener = null;
     private int textViewInputType = InputType.TYPE_CLASS_NUMBER;
     /**
      * when CustomerDialogBuilder is used the OnTextChangedListener is not triggered
      */
-    private EditableInputView.CustomerDialogBuilder mCustomerDialogBuilder = null;
+    private CustomerDialogBuilder mCustomerDialogBuilder = null;
 
     public EditableInputView(Context context) {
         super(context);
@@ -86,19 +86,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             }
         }
 
-        valueTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editDialog(v.getContext());
-            }
-        });
+        valueTextView.setOnClickListener(v -> editDialog(v.getContext()));
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editDialog(v.getContext());
-            }
-        });
+        editButton.setOnClickListener(v -> editDialog(v.getContext()));
     }
 
     protected void editDialog(Context context) {
@@ -128,18 +118,15 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
                     .setTitleText(getContext().getString(R.string.edit_value))
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            if (imm != null) {
-                                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                            }
-                            setText(editText.getText().toString());
-                            sDialog.dismissWithAnimation();
-                            if (mConfirmClickListener != null)
-                                mConfirmClickListener.onTextChanged(EditableInputView.this);
+                    .setConfirmClickListener(sDialog -> {
+                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                         }
+                        setText(editText.getText().toString());
+                        sDialog.dismissWithAnimation();
+                        if (mConfirmClickListener != null)
+                            mConfirmClickListener.onTextChanged(EditableInputView.this);
                     });
                 dialog.setCustomView(linearLayout);
                 dialog.show();
@@ -165,7 +152,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         return valueTextView;
     }
 
-    public void setOnTextChangeListener(EditableInputView.OnTextChangedListener listener) {
+    public void setOnTextChangeListener(OnTextChangedListener listener) {
         mConfirmClickListener = listener;
     }
 

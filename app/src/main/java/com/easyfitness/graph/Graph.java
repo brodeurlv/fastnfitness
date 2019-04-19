@@ -129,13 +129,13 @@ public class Graph {
     }
 
     private String arrayToString(ArrayList<Entry> entries) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         String delimiter = "\n"; // Can be new line \n tab \t etc...
         for (int i = 0; i < entries.size(); i++) {
-            output = output + entries.get(i).getY() + " / " + entries.get(i).getX() + delimiter;
+            output.append(entries.get(i).getY()).append(" / ").append(entries.get(i).getX()).append(delimiter);
         }
 
-        return output;
+        return output.toString();
     }
 
     public LineChart getLineChart() {

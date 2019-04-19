@@ -11,9 +11,6 @@ public class Machine {
     private String mBodyParts;
     private Boolean mFavorite;
 
-    /*
-     *
-     */
     public Machine(String pName, String pDescription, int pType, String pBodyParts, String pPicture, Boolean pFavorite) {
         super();
         this.mName = pName;

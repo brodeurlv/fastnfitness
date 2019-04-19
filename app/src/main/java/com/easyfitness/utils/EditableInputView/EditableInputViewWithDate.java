@@ -6,7 +6,6 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -58,21 +57,18 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         date = DateConverter.getNewDate();
         editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
         editDate.setGravity(Gravity.CENTER);
-        editDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    Calendar calendar = Calendar.getInstance();
+        editDate.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                Calendar calendar = Calendar.getInstance();
 
-                    calendar.setTime(DateConverter.getNewDate());
-                    int day = calendar.get(Calendar.DAY_OF_MONTH);
-                    int month = calendar.get(Calendar.MONTH);
-                    int year = calendar.get(Calendar.YEAR);
+                calendar.setTime(DateConverter.getNewDate());
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
 
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
-                    dateEditView = editDate;
-                    datePickerDialog.show();
-                }
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
+                dateEditView = editDate;
+                datePickerDialog.show();
             }
         });
 
@@ -98,18 +94,15 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
             .showCancelButton(true)
             .setCancelText(getContext().getString(R.string.global_cancel))
             .setConfirmText(getContext().getString(R.string.AddLabel))
-            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sDialog) {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
-                    setText(editText.getText().toString());
-                    if (mConfirmClickListener != null)
-                        mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
-                    sDialog.dismissWithAnimation();
+            .setConfirmClickListener(sDialog -> {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }
+                setText(editText.getText().toString());
+                if (mConfirmClickListener != null)
+                    mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+                sDialog.dismissWithAnimation();
             });
         dialog.setCustomView(linearLayout);
         dialog.show();

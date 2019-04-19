@@ -100,6 +100,4 @@ public class Profile {
 
         return birthdayEquals && p.mName.equals(mName) && p.mSize == mSize && p.mGender == mGender && p.mPhoto.equals(mPhoto);
     }
-
-
 }

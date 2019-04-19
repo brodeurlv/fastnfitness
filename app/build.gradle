@@ -40,14 +40,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
             if (rootProject.file('release.properties').exists()) {
                 signingConfig signingConfigs.release
             }
         }
         debug {
-            minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
             if (rootProject.file('debug.properties').exists()) {
                 signingConfig signingConfigs.debug

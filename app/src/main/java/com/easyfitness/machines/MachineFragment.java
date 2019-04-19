@@ -17,7 +17,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -58,8 +57,8 @@ public class MachineFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             if (charSequence.length() == 0) {
-//				mTableAdapter.notifyDataSetChanged();
-//				mTableAdapter = ((MachineCursorAdapter)machineList.getAdapter());
+//                mTableAdapter.notifyDataSetChanged();
+//                mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
                 refreshData();
             } else {
                 mTableAdapter.getFilter().filter(charSequence);
@@ -71,84 +70,72 @@ public class MachineFragment extends Fragment {
         public void afterTextChanged(Editable editable) {
         }
     };
-    private OnItemClickListener onClickListItem = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // Get Machine Name selected
-            TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
-            long machineId = Long.valueOf(textViewID.getText().toString());
+    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+        // Get Machine Name selected
+        TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
+        long machineId = Long.valueOf(textViewID.getText().toString());
 
-            ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
-        }
+        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     };
-    private View.OnClickListener clickAddButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    private View.OnClickListener clickAddButton = v -> {
 
-            // create a temporarily exercise with name="" and open it like any other existing exercises
-            long new_id = -1;
+        // create a temporarily exercise with name="" and open it like any other existing exercises
+        long new_id = -1;
 
 
-            SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText("What type of exercise ?")
-                .setContentText("")
-                .setCancelText(getResources().getText(R.string.CardioLabel).toString())
-                .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
-                .showCancelButton(true)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        long temp_machine_key = -1;
-                        String pMachine = "";
-                        DAOMachine lDAOMachine = new DAOMachine(getContext());
-                        temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
-                        sDialog.dismissWithAnimation();
+        SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+            .setTitleText("What type of exercise ?")
+            .setContentText("")
+            .setCancelText(getResources().getText(R.string.CardioLabel).toString())
+            .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
+            .showCancelButton(true)
+            .setConfirmClickListener(sDialog -> {
+                long temp_machine_key = -1;
+                String pMachine = "";
+                DAOMachine lDAOMachine = new DAOMachine(getContext());
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
+                sDialog.dismissWithAnimation();
 
-                        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        // Replace whatever is in the fragment_container view with this fragment,
-                        // and add the transaction to the back stack so the user can navigate back
-                        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                        transaction.addToBackStack(null);
-                        // Commit the transaction
-                        transaction.commit();
-                    }
-                })
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        long temp_machine_key = -1;
-                        String pMachine = "";
-                        DAOMachine lDAOMachine = new DAOMachine(getContext());
-                        temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false);
-                        sDialog.dismissWithAnimation();
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                transaction.addToBackStack(null);
+                // Commit the transaction
+                transaction.commit();
+            })
+            .setCancelClickListener(sDialog -> {
+                long temp_machine_key = -1;
+                String pMachine = "";
+                DAOMachine lDAOMachine = new DAOMachine(getContext());
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false);
+                sDialog.dismissWithAnimation();
 
-                        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        // Replace whatever is in the fragment_container view with this fragment,
-                        // and add the transaction to the back stack so the user can navigate back
-                        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                        transaction.addToBackStack(null);
-                        // Commit the transaction
-                        transaction.commit();
-                    }
-                });
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                transaction.addToBackStack(null);
+                // Commit the transaction
+                transaction.commit();
+            });
 
-            dlg.show();
+        dlg.show();
 
-            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
-            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
-            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
+        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
+        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
 
-        }
     };
     private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
@@ -160,7 +147,6 @@ public class MachineFragment extends Fragment {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     };
 
@@ -203,11 +189,11 @@ public class MachineFragment extends Fragment {
         searchField = view.findViewById(R.id.searchField);
         searchField.addTextChangedListener(onTextChangeListener);
 
-        //typeList = (Spinner) view.findViewById(R.id.filterDate);
+        //typeList = view.findViewById(R.id.filterDate);
         //machineList = (Spinner) view.findViewById(R.id.filterMachine);
-        //renameMachineButton = (ImageButton) view.findViewById(R.id.imageMachineRename);
+        //renameMachineButton = view.findViewById(R.id.imageMachineRename);
         machineList = view.findViewById(R.id.listMachine);
-        //musclesList = (Spinner) view.findViewById(R.id.listFilterRecord);
+        //musclesList = view.findViewById(R.id.listFilterRecord);
 
         machineList.setOnItemClickListener(onClickListItem);
 
@@ -283,11 +269,7 @@ public class MachineFragment extends Fragment {
                         if (oldCursor != null) oldCursor.close();
                     }
 
-                    mTableAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-                        public Cursor runQuery(CharSequence constraint) {
-                            return mDbMachine.getFilteredMachines(constraint);
-                        }
-                    });
+                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint));
                 }
             }
         }
