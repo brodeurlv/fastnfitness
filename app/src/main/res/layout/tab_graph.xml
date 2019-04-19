@@ -17,7 +17,7 @@
         android:paddingRight="0dp"
         android:paddingBottom="0dp">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 </TableRow>
 
             </TableLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -143,6 +143,6 @@
                 android:layout_marginBottom="5dp"
                 android:background="#FFFFFF"
                 android:minHeight="150dp" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

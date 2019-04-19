@@ -8,9 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.media.ExifInterface;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,6 +26,9 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.exifinterface.media.ExifInterface;
+import androidx.fragment.app.Fragment;
+
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAORecord;
@@ -36,6 +36,7 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 

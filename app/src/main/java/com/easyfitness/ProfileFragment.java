@@ -5,14 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
@@ -21,6 +21,7 @@ import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.Gender;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;

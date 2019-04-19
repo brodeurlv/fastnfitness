@@ -2,7 +2,8 @@ package com.easyfitness.graph;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;

@@ -24,7 +24,7 @@
             android:singleLine="false"
             android:text="@string/obsoleteCardioTab" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -105,7 +105,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <LinearLayout
@@ -115,7 +115,7 @@
             android:orientation="horizontal">
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -142,10 +142,10 @@
                         android:nextFocusDown="@+id/editDuration" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
 
                     </EditText>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
             <RelativeLayout

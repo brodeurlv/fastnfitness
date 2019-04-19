@@ -2,11 +2,12 @@ package com.easyfitness;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.licenses.CustomLicense;
@@ -34,11 +35,11 @@ public class AboutFragment extends Fragment {
             case R.id.MPAndroidChart:
                 name = "MPAndroidChart";
                 url = "https://github.com/PhilJay/MPAndroidChart";
-                copyright = "Copyright 2016 Philipp Jahoda";
+                copyright = "Copyright 2019 Philipp Jahoda";
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.javaCSV:
-                name = "javaCSV";
+                name = "JavaCSV";
                 url = "https://sourceforge.net/projects/javacsv/";
                 copyright = "";
                 license = new GnuLesserGeneralPublicLicense21();
@@ -51,8 +52,8 @@ public class AboutFragment extends Fragment {
                 break;
             case R.id.LicensesDialog:
                 name = "LicensesDialog";
-                url = "https://github.psdev.de/LicensesDialog/";
-                copyright = "Copyright 2013 Philip Schiffer <admin@psdev.de>";
+                url = "https://github.com/PSDev/LicensesDialog";
+                copyright = "Copyright 2013 Philip Schiffer";
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.PagerSlidingTabStrip:
@@ -64,26 +65,26 @@ public class AboutFragment extends Fragment {
             case R.id.SmartTabLayout:
                 name = "SmartTabLayout";
                 url = "https://github.com/ogaclejapan/SmartTabLayout";
-                copyright = "";
+                copyright = "Copyright (C) 2015 ogaclejapan";
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.flaticonCredits:
                 name = "Flaticon";
                 url = "https://www.flaticon.com";
-                copyright = "Flaticon";
+                copyright = "Copyright © 2013-2019 Freepik Company S.L.";
                 license = new CustomLicense("Free License (with attribution)", "https://profile.flaticon.com/license/free");
                 break;
             case R.id.freepikCredits:
                 name = "Freepik";
-                url = "http://www.freepik.com";
-                copyright = "Freepik";
-                license = new CustomLicense("Free License (with attribution)", "https://github.com/lzyzsd/CircleProgress");
+                url = "https://www.freepik.com";
+                copyright = "Copyright © 2010-2019 Freepik Company S.L.";
+                license = new CustomLicense("Free License (with attribution)", "https://profile.freepik.com/license/free");
                 break;
             case R.id.CircleProgress:
                 name = "CircleProgress";
                 url = "https://github.com/lzyzsd/CircleProgress";
-                copyright = "lzyzsd";
-                license = new CustomLicense("Free License", "https://github.com/lzyzsd/CircleProgress");
+                copyright = "Copyright (C) 2014 Bruce Lee <bruceinpeking#gmail.com>";
+                license = new CustomLicense("WTFPL License", "http://www.wtfpl.net/txt/copying/");
                 break;
             case R.id.CircularImageView:
                 name = "CircularImageView";
@@ -92,9 +93,9 @@ public class AboutFragment extends Fragment {
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.ktoast:
-                name = "ktoast";
+                name = "KToast";
                 url = "https://github.com/onurkagan/KToast";
-                copyright = "Onurkagan";
+                copyright = "";
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.SweetAlertDialog:
@@ -106,17 +107,16 @@ public class AboutFragment extends Fragment {
             case R.id.AndroidImageCropper:
                 name = "Android-Image-Cropper";
                 url = "https://github.com/ArthurHub/Android-Image-Cropper";
-                copyright = "Arthur Teplitzki";
+                copyright = "Copyright 2016, Arthur Teplitzki, 2013, Edmodo, Inc.";
                 license = new ApacheSoftwareLicense20();
                 break;
             case R.id.MaterialFavoriteButton:
                 name = "Material Favorite Button";
                 url = "https://github.com/IvBaranov/MaterialFavoriteButton";
-                copyright = "Ivan Baranov";
+                copyright = "Copyright 2015 Ivan Baranov";
                 license = new ApacheSoftwareLicense20();
                 break;
         }
-
 
         final Notice notice = new Notice(name, url, copyright, license);
         new LicensesDialog.Builder(getMainActivity())

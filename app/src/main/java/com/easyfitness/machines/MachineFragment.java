@@ -2,8 +2,6 @@ package com.easyfitness.machines;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -21,6 +19,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;

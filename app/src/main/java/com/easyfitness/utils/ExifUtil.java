@@ -2,7 +2,8 @@ package com.easyfitness.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.support.media.ExifInterface;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;

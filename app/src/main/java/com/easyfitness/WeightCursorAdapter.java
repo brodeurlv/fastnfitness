@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 import com.easyfitness.DAO.DAOUtils;
 
 import java.text.DateFormat;
@@ -30,7 +32,7 @@ public class WeightCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
+        CardView cdView = view.findViewById(R.id.CARDVIEW);
 
         if (cursor.getPosition() % 2 == 1) {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));

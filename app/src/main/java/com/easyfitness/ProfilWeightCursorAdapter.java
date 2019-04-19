@@ -9,6 +9,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +34,7 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
+        CardView cdView = view.findViewById(R.id.CARDVIEW);
 
 
         if (cursor.getPosition() % 2 == mFirstColorOdd) {
