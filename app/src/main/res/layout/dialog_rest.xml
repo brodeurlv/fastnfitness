@@ -37,6 +37,7 @@
             android:keepScreenOn="true"
             android:text="00:00"
             android:textSize="60sp" />
+
     </FrameLayout>
 
     <LinearLayout
@@ -88,7 +89,6 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +97,6 @@
                 android:gravity="end"
                 android:text="@string/nb_serie"
                 android:textSize="15sp" />
-
 
             <TextView
                 android:id="@+id/idNbSeries"
@@ -108,7 +107,9 @@
                 android:text="X"
                 android:textColor="#5DBCD2"
                 android:textSize="15sp" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -169,7 +170,6 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-
         <Button
             android:id="@+id/btn_exit"
             android:layout_width="120dp"
@@ -177,6 +177,7 @@
             android:layout_margin="10dp"
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/exit"
             android:textColor="#5DBCD2"
@@ -185,7 +186,4 @@
 
     </LinearLayout>
 
-
 </LinearLayout>
-
-

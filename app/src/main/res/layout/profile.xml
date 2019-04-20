@@ -109,10 +109,8 @@
                     android:textSize="18sp"
                     tools:text="180" />
 
-
             </LinearLayout>
         </LinearLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 
@@ -122,9 +120,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@android:drawable/ic_menu_camera"
         app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/photo"
         app:layout_anchorGravity="bottom|right|end" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,6 +14,7 @@
         android:textSize="@dimen/abc_text_size_display_3_material" />
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,36 +23,41 @@
 
         <Button
             android:id="@+id/btn_startstop"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/start"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_reset"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/reset"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_exit"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/exit"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />

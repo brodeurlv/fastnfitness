@@ -27,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:stretchColumns="1">
@@ -67,6 +66,7 @@
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
@@ -74,6 +74,7 @@
 
             <Button
                 android:id="@+id/allbutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -87,6 +88,7 @@
 
             <Button
                 android:id="@+id/lastyearbutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -100,6 +102,7 @@
 
             <Button
                 android:id="@+id/lastmonthbutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -113,6 +116,7 @@
 
             <Button
                 android:id="@+id/lastweekbutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -143,6 +147,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="#FFFFFF"
                 android:minHeight="150dp" />
+
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

@@ -20,7 +20,7 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:stretchColumns="1">
@@ -68,6 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"
-        android:dividerHeight="0dp"></ListView>
+        android:dividerHeight="0dp" />
 
 </LinearLayout>

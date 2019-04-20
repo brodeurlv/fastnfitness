@@ -9,13 +9,12 @@
         android:id="@+id/CARDVIEW"
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="5dp"
         android:layout_weight="40"
         android:padding="5dp">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -51,12 +50,13 @@
                 android:id="@+id/deleteButton"
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="right|center_horizontal|end"
+                android:layout_gravity="center_horizontal|end"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="5"
                 android:clickable="true"
                 android:elevation="0dp"
+                android:focusable="true"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
         </LinearLayout>

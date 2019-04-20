@@ -11,7 +11,7 @@
         android:id="@+id/SEPARATOR_CELL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|left|start"
+        android:layout_gravity="top|start"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="40"
@@ -47,7 +47,7 @@
             <LinearLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="35"
                 android:orientation="vertical">
 
@@ -55,7 +55,7 @@
                     android:id="@+id/MACHINE_CELL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left|start"
+                    android:layout_gravity="top|start"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
                     android:layout_weight="40"
@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:paddingTop="0dp"
                         android:text="00:00:00"
                         android:textSize="10sp" />
@@ -137,6 +137,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="1" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -211,17 +212,19 @@
                     android:maxLines="1"
                     android:text="3Lbs"
                     android:textAlignment="center" />
+
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/copyButton"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="0dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="0dp"
                 android:clickable="true"
                 android:elevation="0dp"
+                android:focusable="true"
                 android:rotation="+90"
                 app:srcCompat="?attr/actionModeCloseDrawable" />
 
@@ -229,13 +232,13 @@
                 android:id="@+id/deleteButton"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
                 android:elevation="0dp"
+                android:focusable="true"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
 
         </LinearLayout>
 

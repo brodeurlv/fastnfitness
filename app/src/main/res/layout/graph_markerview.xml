@@ -16,7 +16,6 @@
         android:textColor="@android:color/black"
         android:textSize="10sp" />
 
-
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"

@@ -17,6 +17,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -24,38 +25,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:background="@color/toolbar_background"
+        android:minHeight="50dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/header_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_profile_black"
+            app:civ_border_color="#EEEEEE"
+            app:civ_border_width="0dp"
+            app:civ_shadow="false"
+            app:civ_shadow_color="#8BC34A"
+            app:civ_shadow_radius="0" />
+
+        <TextView
+            android:id="@+id/drawerTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_background"
-            android:minHeight="50dp">
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/header_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:src="@drawable/ic_profile_black"
-                app:civ_border_color="#EEEEEE"
-                app:civ_border_width="0dp"
-                app:civ_shadow="false"
-                app:civ_shadow_color="#8BC34A"
-                app:civ_shadow_radius="0" />
-
-            <TextView
-                android:id="@+id/drawerTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        </LinearLayout>
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
 
@@ -63,36 +55,29 @@
         android:id="@+id/itemLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_marginTop="0dp"
         android:background="?android:attr/activatedBackgroundIndicator"
+        android:minHeight="50dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <ImageView
+            android:id="@+id/drawer_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="50dp">
+            android:layout_gravity="center_vertical" />
 
-            <ImageView
-                android:id="@+id/drawer_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+        <TextView
+            android:id="@+id/drawer_itemName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/activatedBackgroundIndicator"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#fff" />
 
-            <TextView
-                android:id="@+id/drawer_itemName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="?android:attr/activatedBackgroundIndicator"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#fff" />
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

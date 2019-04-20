@@ -112,7 +112,6 @@
                     android:text="@string/description"
                     android:textSize="12sp" />
 
-
                 <EditText
                     android:id="@+id/machine_description"
                     android:layout_width="fill_parent"
@@ -137,8 +136,8 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -148,9 +147,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@android:drawable/ic_menu_camera"
         app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/machine_photo"
         app:layout_anchorGravity="bottom|right|end" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

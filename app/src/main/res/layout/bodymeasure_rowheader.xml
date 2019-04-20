@@ -36,6 +36,8 @@
         android:layout_weight="1"
         android:clickable="true"
         android:elevation="0dp"
+        android:focusable="true"
         android:visibility="invisible"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
 </LinearLayout>

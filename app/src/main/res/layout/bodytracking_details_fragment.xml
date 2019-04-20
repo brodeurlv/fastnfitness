@@ -25,9 +25,9 @@
         android:paddingRight="0dp"
         android:paddingBottom="0dp">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -39,7 +39,7 @@
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp">
 
@@ -47,7 +47,7 @@
                         android:id="@+id/buttonAddWeight"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="false"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
@@ -63,9 +63,8 @@
                         android:id="@+id/layoutup"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/buttonAddWeight"
-                        android:layout_toLeftOf="@id/buttonAddWeight"
                         android:orientation="horizontal">
 
                         <TextView
@@ -82,7 +81,8 @@
                             android:layout_gravity="start"
                             android:layout_weight="10"
                             android:inputType="none"
-                            android:nextFocusDown="@+id/editWeight"></EditText>
+                            android:nextFocusDown="@+id/editWeight" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -90,9 +90,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/layoutup"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/buttonAddWeight"
-                        android:layout_toLeftOf="@id/buttonAddWeight"
                         android:orientation="horizontal">
 
                         <TextView
@@ -110,26 +109,27 @@
 
                             <EditText
                                 android:id="@+id/editWeight"
-                                android:layout_width="fill_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="10"
                                 android:hint="@string/MesureHint"
-                                android:inputType="numberDecimal"></EditText>
+                                android:inputType="numberDecimal" />
 
-                            <!--<android.support.design.widget.FloatingActionButton
-                                 android:id="@+id/buttonAddWeight"
-                                 android:layout_width="250dp"
-                                 android:layout_height="250dp"
-                                 android:layout_marginBottom="1dp"
-                                 android:layout_marginLeft="5dp"
-                                 android:layout_marginRight="5dp"
-                                 android:layout_marginTop="1dp"
-                                 android:layout_weight="40"
-                                 android:background="@color/background"
-                                 android:clickable="true"
-                                 android:minHeight="?attr/actionBarSize"
-                                 android:text="+"
-                                 app:backgroundTint="@color/launcher_background" />-->
+                            <!--com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/buttonAddWeight"
+                                android:layout_width="250dp"
+                                android:layout_height="250dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="40"
+                                android:background="@color/background"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:minHeight="?attr/actionBarSize"
+                                android:text="+"
+                                app:backgroundTint="@color/launcher_background" /-->
 
                         </LinearLayout>
                     </LinearLayout>
@@ -146,10 +146,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dip"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:background="#FFFFFF" />
-
 
             </androidx.cardview.widget.CardView>
 
@@ -159,7 +157,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/sizeTableLabel" />
 
-            <include layout="@layout/bodymeasure_rowheader"></include>
+            <include layout="@layout/bodymeasure_rowheader" />
 
             <com.easyfitness.utils.ExpandedListView
                 android:id="@+id/listWeightProfil"

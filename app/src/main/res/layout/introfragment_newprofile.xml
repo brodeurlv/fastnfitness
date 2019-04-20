@@ -38,7 +38,6 @@
             android:padding="@dimen/mi_baseline"
             android:weightSum="1">
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +63,6 @@
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray" />
-
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,6 +115,7 @@
                     android:padding="2dp"
                     android:text="@string/otherGender"
                     android:textColor="@android:color/black" />
+
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -135,8 +134,8 @@
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray" />
-            </com.google.android.material.textfield.TextInputLayout>
 
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_input_layout_name3"
@@ -154,7 +153,6 @@
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray" />
-
 
             </com.google.android.material.textfield.TextInputLayout>
 

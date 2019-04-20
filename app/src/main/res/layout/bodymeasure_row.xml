@@ -9,7 +9,7 @@
         android:id="@+id/CARDVIEW"
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="5dp"
         android:layout_weight="40"
         android:padding="5dp">
@@ -29,8 +29,6 @@
                 android:id="@+id/LIST_BODYMEASURE_ID"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
                 android:singleLine="true"
                 android:visibility="gone" />
 
@@ -64,7 +62,9 @@
                 android:layout_weight="5"
                 android:clickable="true"
                 android:elevation="0dp"
+                android:focusable="true"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

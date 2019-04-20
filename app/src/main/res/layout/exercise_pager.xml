@@ -34,7 +34,7 @@
                 android:id="@+id/action_machine_delete"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="5"
                 android:adjustViewBounds="false"
                 android:background="@android:color/transparent"
@@ -46,15 +46,15 @@
                 android:id="@+id/action_machine_save"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="5"
                 android:adjustViewBounds="false"
                 android:background="@android:color/transparent"
                 android:baselineAlignBottom="false"
                 android:cropToPadding="false"
                 android:src="@drawable/ic_save_black_24dp" />
-        </androidx.appcompat.widget.Toolbar>
 
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
