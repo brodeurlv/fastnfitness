@@ -5,9 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +13,15 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TimePicker;
+
+import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
@@ -49,167 +46,161 @@ public class CardioFragment extends Fragment {
     TimePickerDialogFragment mDurationFrag = null;
     MainActivity mActivity = null;
     EditText dateEdit = null;
-	AutoCompleteTextView exerciceEdit = null;
-	EditText distanceEdit = null;
-	EditText durationEdit = null;
-	Button addButton = null;
-	Button chronoButton = null;
-	Button paramButton = null;
+    AutoCompleteTextView exerciceEdit = null;
+    EditText distanceEdit = null;
+    EditText durationEdit = null;
+    public TimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute) -> {
+        // Do something with the time chosen by the user
+        String strMinute = "00";
+        String strHour = "00";
+
+        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+        else strMinute = Integer.toString(minute);
+        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+        else strHour = Integer.toString(hourOfDay);
+
+        String date = strHour + ":" + strMinute;
+        durationEdit.setText(date);
+        hideKeyboard(durationEdit);
+    };
+    Button addButton = null;
+    Button chronoButton = null;
+    Button paramButton = null;
     ExpandedListView recordList = null;
     String[] exerciceListArray = null;
     ImageButton exerciceListButton = null;
-	ImageButton launchChronoButton = null;
+    ImageButton launchChronoButton = null;
     private String name;
     private int id;
     private DAOCardio mDb = null;
-    private OnClickListener clickAddButton = new View.OnClickListener() {
-        @Override
-		public void onClick(View v) {
-			/* Reagir au clic pour les boutons 1 et 2*/
+    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    private OnClickListener clickAddButton = v -> {
+        /* Reagir au clic pour les boutons 1 et 2*/
 
-			// Verifie que les infos sont completes
-			if (dateEdit.getText().toString().isEmpty() ||
-                    exerciceEdit.getText().toString().isEmpty() ||
-                    (distanceEdit.getText().toString().isEmpty() &&
-                            durationEdit.getText().toString().isEmpty()) )	{
-				return;
-			}
+        // Verifie que les infos sont completes
+        if (dateEdit.getText().toString().isEmpty() ||
+            exerciceEdit.getText().toString().isEmpty() ||
+            (distanceEdit.getText().toString().isEmpty() &&
+                durationEdit.getText().toString().isEmpty())) {
+            return;
+        }
 
-			Date date;
-			try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                date = dateFormat.parse(dateEdit.getText().toString());
-			} catch (ParseException e) {
-				e.printStackTrace();
-				date = new Date();
-			}
+        Date date;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            date = dateFormat.parse(dateEdit.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = new Date();
+        }
 
-			long duration;
-			try {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-				dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-				Date tmpDate = dateFormat.parse(durationEdit.getText().toString());
-				duration = tmpDate.getTime();
-			} catch (ParseException e) {
-				e.printStackTrace();
-				duration = 0;
-            }
+        long duration;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date tmpDate = dateFormat.parse(durationEdit.getText().toString());
+            duration = tmpDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            duration = 0;
+        }
 
-			float distance;
-			if ( distanceEdit.getText().toString().isEmpty() ) {
-				distance = 0;
-			} else {
-				distance = Float.parseFloat(distanceEdit.getText().toString());
-            }
+        float distance;
+        if (distanceEdit.getText().toString().isEmpty()) {
+            distance = 0;
+        } else {
+            distance = Float.parseFloat(distanceEdit.getText().toString());
+        }
 
-            mDb.addCardioRecord(date, "00:00",
-                    exerciceEdit.getText().toString(),
-                    distance,
-                    duration,
-                    getProfil());
+        mDb.addCardioRecord(date, "00:00",
+            exerciceEdit.getText().toString(),
+            distance,
+            duration,
+            getProfil());
 
-			getActivity().findViewById(R.id.drawer_layout).requestFocus();
+        getActivity().findViewById(R.id.drawer_layout).requestFocus();
 
-			FillRecordTable(exerciceEdit.getText().toString());
+        FillRecordTable(exerciceEdit.getText().toString());
 
-			/* Reinitialisation des machines */
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getView().getContext(),
-					android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
-			exerciceEdit.setAdapter(adapter);
-		}
-	};
-	private OnClickListener onClickMachineList = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-            exerciceListArray = mDb.getAllMachines(getProfil());
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle("Select a Machine")
-			.setItems(exerciceListArray, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					exerciceEdit.setText(exerciceListArray[which]); // Met a jour le text
-					FillRecordTable(exerciceListArray[which]); // Met a jour le tableau
-					//((ViewGroup)machineEdit.getParent()).requestFocus(); //Permet de reactiver le clavier lors du focus sur l'editText
-				}
-			});
-			//builder.create();
-			builder.show();
-		}
+        /* Reinitialisation des machines */
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
+            android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
+        exerciceEdit.setAdapter(adapter);
     };
-    private OnClickListener clickDateEdit = new View.OnClickListener() {
-        @Override
-		public void onClick(View v) {
-			switch(v.getId()) {
-			case R.id.editCardioDate:
-				showDatePicker();
-				break;
-			case R.id.editDuration:
+    private OnClickListener onClickMachineList = v -> {
+        exerciceListArray = mDb.getAllMachines(getProfil());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Select a Machine")
+            .setItems(exerciceListArray, (dialog, which) -> {
+                exerciceEdit.setText(exerciceListArray[which]); // Met a jour le text
+                FillRecordTable(exerciceListArray[which]); // Met a jour le tableau
+                //((ViewGroup) machineEdit.getParent()).requestFocus(); //Permet de reactiver le clavier lors du focus sur l'editText
+            });
+        //builder.create();
+        builder.show();
+    };
+    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+
+        // Get the cursor, positioned to the corresponding row in the result set
+        //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+        //Log.v("long clicked", "pos: " + position + " id: " + id);
+
+        mDb.deleteRecord(id);
+
+        //listView.removeViewInLayout(view);
+
+        FillRecordTable(exerciceEdit.getText().toString());
+
+        KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+        return true;
+    };
+    private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> FillRecordTable(exerciceEdit.getText().toString());
+    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
+        dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+        hideKeyboard(dateEdit);
+    };
+    private OnClickListener clickDateEdit = v -> {
+        switch (v.getId()) {
+            case R.id.editCardioDate:
+                showDatePicker();
+                break;
+            case R.id.editDuration:
                 showTimePicker();
                 break;
-            }
-		}
+        }
     };
-    private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
-        @Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus == true) {
-				switch(v.getId()) {
-				case R.id.editCardioDate:
+    private OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
+        if (hasFocus) {
+            switch (v.getId()) {
+                case R.id.editCardioDate:
                     showDatePicker();
                     break;
-                    case R.id.editDuration:
+                case R.id.editDuration:
                     showTimePicker();
                     break;
-                    case R.id.editSerie:
-					distanceEdit.setText("");
-					break;
-				case R.id.editPoids:
-					durationEdit.setText("");
-					break;
-				case R.id.editMachine:
-					////InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					//imm.showSoftInput(machineEdit, InputMethodManager.SHOW_IMPLICIT);
-					exerciceEdit.setText("");
-					//machineEdit.set.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-					break;
-				}
-			}else if (hasFocus == false) {
-				switch(v.getId()) {
-				case R.id.editMachine:
-					FillRecordTable(exerciceEdit.getText().toString());
-					break;
-				}
-			}
-		}
-	};
-	private OnItemLongClickListener itemlongclickDeleteRecord = new OnItemLongClickListener() {
-		@Override
-		public boolean onItemLongClick(AdapterView<?> listView, View view,
-				int position, long id) {
-
-			// Get the cursor, positioned to the corresponding row in the result set
-			//Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-
-			//Log.v("long clicked","pos: " + position + " id: " + id);
-
-			mDb.deleteRecord(id);
-
-			//listView.removeViewInLayout(view);
-
-			FillRecordTable(exerciceEdit.getText().toString());
-
-            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + id, Gravity.BOTTOM, KToast.LENGTH_SHORT);
-
-            return true;
-		}
-	};
-	private OnItemClickListener onItemClickFilterList = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-            FillRecordTable(exerciceEdit.getText().toString());
+                case R.id.editSerie:
+                    distanceEdit.setText("");
+                    break;
+                case R.id.editPoids:
+                    durationEdit.setText("");
+                    break;
+                case R.id.editMachine:
+                    ////InputMethodManager imm = getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    //imm.showSoftInput(machineEdit, InputMethodManager.SHOW_IMPLICIT);
+                    exerciceEdit.setText("");
+                    //machineEdit.set.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    break;
+            }
+        } else {
+            switch (v.getId()) {
+                case R.id.editMachine:
+                    FillRecordTable(exerciceEdit.getText().toString());
+                    break;
+            }
         }
     };
 
@@ -250,7 +241,7 @@ public class CardioFragment extends Fragment {
         launchChronoButton = view.findViewById(R.id.buttonLaunchChrono);
         addButton = view.findViewById(R.id.addExercice);
 
-		/* Initialisation des boutons */
+        /* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);
         exerciceListButton.setOnClickListener(onClickMachineList);
         //launchChronoButton.setOnClickListener();
@@ -286,95 +277,75 @@ public class CardioFragment extends Fragment {
         return getArguments().getInt("id", 0);
     }
 
-	public DAOCardio getDB(){
-		return mDb;
-	}
+    public DAOCardio getDB() {
+        return mDb;
+    }
 
-	public Fragment getFragment() {
-		return this;
-	}
+    public Fragment getFragment() {
+        return this;
+    }
 
-	private Profile getProfil()
-	{
-		return mActivity.getCurrentProfil();
-	}
+    private Profile getProfil() {
+        return mActivity.getCurrentProfil();
+    }
 
-	/*  */
-	private void FillRecordTable (String pMachines) {
+    /*  */
+    private void FillRecordTable(String pMachines) {
 
-		List<Cardio> records = null;
+        List<Cardio> records = null;
 
-		// Recupere les valeurs
-		if (pMachines==null || pMachines.isEmpty()) {
+        // Recupere les valeurs
+        if (pMachines == null || pMachines.isEmpty()) {
             records = mDb.getAllCardioRecordsByProfile(getProfil());
-		} else {
+        } else {
             records = mDb.getAllCardioRecordByMachines(getProfil(), pMachines);
-		}
+        }
 
-		if(records.isEmpty()) {
-			//Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();    
-			recordList.setAdapter(null);
-		} else {
-			// ...
+        if (records.isEmpty()) {
+            //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
+            recordList.setAdapter(null);
+        } else {
+            // ...
             RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), mDb.getCursor(), 0, itemClickDeleteRecord, null);
             mTableAdapter.setFirstColorOdd(records.size() % 2);
             recordList.setAdapter(mTableAdapter);
-		}
-	}
-
-    private BtnClickListener itemClickDeleteRecord = new BtnClickListener() {
-        @Override
-        public void onBtnClick(long id) {
-            showDeleteDialog(id);
         }
-    };
+    }
 
     private void showDeleteDialog(final long idToDelete) {
 
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText(getString(R.string.DeleteRecordDialog))
-                .setContentText(getResources().getText(R.string.areyousure).toString())
-                .setCancelText(getResources().getText(R.string.global_no).toString())
-                .setConfirmText(getResources().getText(R.string.global_yes).toString())
-                .showCancelButton(true)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        mDb.deleteRecord(idToDelete);
+            .setTitleText(getString(R.string.DeleteRecordDialog))
+            .setContentText(getResources().getText(R.string.areyousure).toString())
+            .setCancelText(getResources().getText(R.string.global_no).toString())
+            .setConfirmText(getResources().getText(R.string.global_yes).toString())
+            .showCancelButton(true)
+            .setConfirmClickListener(sDialog -> {
+                mDb.deleteRecord(idToDelete);
 
-                        FillRecordTable(exerciceEdit.getText().toString());
+                FillRecordTable(exerciceEdit.getText().toString());
 
-                        //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                        // Info
-                        KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .show();
+                //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                // Info
+                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                sDialog.dismissWithAnimation();
+            })
+            .show();
     }
 
-	private void showDatePicker() {
-		if (mDateFrag==null) {
-			mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-			mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
+    private void showDatePicker() {
+        if (mDateFrag == null) {
+            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+            mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
         } else {
             if (!mDateFrag.isVisible())
                 mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_date");
         }
     }
 
-	private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker view, int year, int month, int day) {
-			dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-			hideKeyboard(dateEdit);
-		}
-	};
-
-
-	private void showTimePicker() {
-		if (mDurationFrag==null) {
-			mDurationFrag = TimePickerDialogFragment.newInstance(timeSet);
+    private void showTimePicker() {
+        if (mDurationFrag == null) {
+            mDurationFrag = TimePickerDialogFragment.newInstance(timeSet);
             mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
         } else {
             if (!mDurationFrag.isVisible())
@@ -382,100 +353,78 @@ public class CardioFragment extends Fragment {
         }
     }
 
-	public TimePickerDialog.OnTimeSetListener timeSet = new TimePickerDialog.OnTimeSetListener() {
-
-		@Override
-		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-			// Do something with the time chosen by the user
-			String strMinute = "00";
-			String strHour = "00";
-
-			if (minute < 10) strMinute = "0" + Integer.toString(minute);
-			else strMinute = Integer.toString(minute);
-			if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-			else strHour = Integer.toString(hourOfDay);
-
-			String date = strHour + ":" + strMinute;
-			durationEdit.setText(date);
-			hideKeyboard(durationEdit);
-		}
-	};
-
-	private void refreshData(){
-		View fragmentView = getView();
-		if(fragmentView != null) {
-			if (getProfil() != null) {
+    private void refreshData() {
+        View fragmentView = getView();
+        if (fragmentView != null) {
+            if (getProfil() != null) {
                 mDb.setProfile(getProfil());
 
-			exerciceListArray = mDb.getAllMachines(getProfil());         
+                exerciceListArray = mDb.getAllMachines(getProfil());
 
-			// Set Initial text
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                // Set Initial text
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-			Date date = new Date();
-			dateEdit.setText(dateFormat.format(date));
+                Date date = new Date();
+                dateEdit.setText(dateFormat.format(date));
 
-			/* Initialisation serie */ 
-			IRecord lLastRecord = mDb.getLastRecord(getProfil());
-			if (lLastRecord != null ) {
-                exerciceEdit.setText(lLastRecord.getExercise());
-				distanceEdit.setText("");
-				durationEdit.setText("");
-			} else {
-				// valeur par defaut
-                exerciceEdit.setText("");
-				distanceEdit.setText("");
-				durationEdit.setText("");
-			}
+                /* Initialisation serie */
+                IRecord lLastRecord = mDb.getLastRecord(getProfil());
+                if (lLastRecord != null) {
+                    exerciceEdit.setText(lLastRecord.getExercise());
+                    distanceEdit.setText("");
+                    durationEdit.setText("");
+                } else {
+                    // valeur par defaut
+                    exerciceEdit.setText("");
+                    distanceEdit.setText("");
+                    durationEdit.setText("");
+                }
 
-			// Set Table
-			FillRecordTable(exerciceEdit.getText().toString());
+                // Set Table
+                FillRecordTable(exerciceEdit.getText().toString());
 
-			/* Init machines list*/
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getView().getContext(),
-					android.R.layout.simple_dropdown_item_1line, exerciceListArray);
-			exerciceEdit.setAdapter(adapter);
-			}
-		}
-	}
+                /* Init machines list*/
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getView().getContext(),
+                    android.R.layout.simple_dropdown_item_1line, exerciceListArray);
+                exerciceEdit.setAdapter(adapter);
+            }
+        }
+    }
 
-	/*private void showDeleteDialog(final long idToDelete) {
+/*
+    private void showDeleteDialog(final long idToDelete) {
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    mDb.delete(idToDelete);
 
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-					case DialogInterface.BUTTON_POSITIVE:
-						mDb.delete(idToDelete);
+                    FillRecordTable();
 
-						FillRecordTable();
+                    Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
+                        .show();
+                    break;
 
-						Toast.makeText(mActivity, getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-								.show();
-						break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        };
 
-					case DialogInterface.BUTTON_NEGATIVE:
-						//No button clicked
-						break;
-				}
-			}
-		};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
+            .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+    }
+*/
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-				.setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) refreshData();
+    }
 
-	}*/
-
-	@Override
-	public void onHiddenChanged (boolean hidden) {
-		if (!hidden) refreshData();
-	}
-
-	public void hideKeyboard(View view) {
-		InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-	}
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
 } 
 

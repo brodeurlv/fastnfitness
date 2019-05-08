@@ -12,8 +12,8 @@ public class Fonte extends ARecord {
     private String mNote;
 
     /*
-       * Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile)
-       */
+     * Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, int pPoids, Profile pProfile)
+     */
     public Fonte(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
         super();
         this.mDate = pDate;

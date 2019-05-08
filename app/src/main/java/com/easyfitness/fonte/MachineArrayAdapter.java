@@ -13,32 +13,23 @@ import com.easyfitness.R;
 
 import java.util.ArrayList;
 
-public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.OnClickListener{
+public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.OnClickListener {
 
     Context mContext;
-
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtID;
-        TextView txtName;
-        ImageView btFavorite;
-    }
+    private int lastPosition = -1;
 
     public MachineArrayAdapter(ArrayList<Machine> data, Context context) {
         super(context, R.layout.bodypart_row, data);
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
     public void onClick(View v) {
 
-        int position=(Integer) v.getTag();
-        Object object= getItem(position);
-        Machine dataModel=(Machine)object;
+        int position = (Integer) v.getTag();
+        Machine dataModel = getItem(position);
         //Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
     }
-
-    private int lastPosition = -1;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -61,9 +52,16 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
         return convertView;
+    }
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtID;
+        TextView txtName;
+        ImageView btFavorite;
     }
 }

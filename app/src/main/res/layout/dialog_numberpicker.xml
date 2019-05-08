@@ -12,16 +12,16 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-
             <Button
                 android:id="@+id/btn_plusQuarter"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -32,6 +32,7 @@
 
             <Button
                 android:id="@+id/btn_plusHalf"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -43,6 +44,7 @@
 
             <Button
                 android:id="@+id/btn_plusOne"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -50,10 +52,11 @@
                 android:text="+1"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_plusFive"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -61,10 +64,11 @@
                 android:text="+5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_plusTen"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -72,7 +76,8 @@
                 android:text="+10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -85,15 +90,17 @@
                 android:id="@+id/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_weight="1"
                 android:ems="3"
-                android:maxEms="5"
-                android:inputType="phone" />
+                android:gravity="center"
+                android:inputType="phone"
+                android:maxEms="5" />
+
         </LinearLayout>
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -102,6 +109,7 @@
 
             <Button
                 android:id="@+id/btn_minusQuarter"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -109,10 +117,11 @@
                 android:text="-0.25"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusHalf"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -120,10 +129,11 @@
                 android:text="-0.5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusOne"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -131,10 +141,11 @@
                 android:text="-1"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusFive"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -142,10 +153,11 @@
                 android:text="-5"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btn_minusTen"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -153,12 +165,14 @@
                 android:text="-10"
                 android:textColor="#5DBCD2"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
+
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -169,29 +183,29 @@
 
         <Button
             android:id="@+id/btn_cancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="90dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
-
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/global_cancel"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 
-
         <Button
             android:id="@+id/btn_ok"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="90dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
-
             android:background="@android:color/white"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/global_ok"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
-
 
     </LinearLayout>
 

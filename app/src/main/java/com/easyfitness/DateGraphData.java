@@ -1,16 +1,14 @@
 package com.easyfitness;
 
-import com.easyfitness.utils.DateConverter;
-
 public class DateGraphData {
-    private double x,y;
+    private double x, y;
 
     public DateGraphData(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public DateGraphData(double x, double y,int y_unit) {
+    public DateGraphData(double x, double y, int y_unit) {
         this.x = x;
         this.y = y;
     }

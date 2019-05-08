@@ -2,69 +2,69 @@ package com.easyfitness;
 
 public class DrawerItem {
 
-	String itemName;
-	int imgResID;
-	String imgSrc;
-	String title;
-	boolean isSpinner;
-	boolean isActive;
+    String itemName;
+    int imgResID;
+    String imgSrc;
+    String title;
+    boolean isSpinner;
+    boolean isActive;
 
-	public DrawerItem(String itemName, int imgResID, boolean isActive) {
-		this.itemName = itemName;
-		this.imgResID = imgResID;
-		this.isActive = isActive;
-	}
-	
-	public DrawerItem(boolean isSpinner) {
-		this.isSpinner = isSpinner;
-	}
+    public DrawerItem(String itemName, int imgResID, boolean isActive) {
+        this.itemName = itemName;
+        this.imgResID = imgResID;
+        this.isActive = isActive;
+    }
 
-	public DrawerItem(String title) {
-		this.title = title;
-	}
+    public DrawerItem(boolean isSpinner) {
+        this.isSpinner = isSpinner;
+    }
 
-	public String getItemName() {
-		return itemName;
-	}
+    public DrawerItem(String title) {
+        this.title = title;
+    }
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    public String getItemName() {
+        return itemName;
+    }
 
-	public int getImgResID() {
-		return imgResID;
-	}
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-	public void setImgResID(int imgResID) {
-		this.imgResID = imgResID;
-	}
+    public int getImgResID() {
+        return imgResID;
+    }
 
-	public String getImg() {
-		return imgSrc;
-	}
+    public void setImgResID(int imgResID) {
+        this.imgResID = imgResID;
+    }
 
-	public void setImg(String imgSrc) {
-		this.imgSrc = imgSrc;
-	}
+    public String getImg() {
+        return imgSrc;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setImg(String imgSrc) {
+        this.imgSrc = imgSrc;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public boolean isSpinner() {
-		return isSpinner;
-	}
-	
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-	
-	public boolean isActive() {
-		return this.isActive;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isSpinner() {
+        return isSpinner;
+    }
+
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
 }

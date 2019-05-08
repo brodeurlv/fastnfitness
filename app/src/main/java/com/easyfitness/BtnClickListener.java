@@ -5,5 +5,5 @@ package com.easyfitness;
  */
 
 public interface BtnClickListener {
-    public abstract void onBtnClick(long id);
+    void onBtnClick(long id);
 }

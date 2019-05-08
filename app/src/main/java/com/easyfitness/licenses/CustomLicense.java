@@ -2,8 +2,6 @@ package com.easyfitness.licenses;
 
 import android.content.Context;
 
-import com.easyfitness.R;
-
 import de.psdev.licensesdialog.licenses.License;
 
 /**
@@ -15,12 +13,10 @@ public class CustomLicense extends License {
     private static final long serialVersionUID = 5165684351346813168L;
     private String mLicenseName = "";
     private String mLicenseURL = "";
-    private String mLicenseVersion = "";
 
-    public CustomLicense(String pName, String pURL, String pVersion) {
+    public CustomLicense(String pName, String pURL) {
         mLicenseName = pName;
         mLicenseURL = pURL;
-        mLicenseVersion = pVersion;
     }
 
     @Override
@@ -55,7 +51,4 @@ public class CustomLicense extends License {
     public void setUrl(String pURL) {
         mLicenseURL = pURL;
     }
-
-
 }
-

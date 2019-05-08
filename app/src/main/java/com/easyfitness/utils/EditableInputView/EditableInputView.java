@@ -27,27 +27,12 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     protected TextView valueTextView;
     protected View editButton;
     protected SweetAlertDialog customDialog = null;
-    private int textViewInputType=InputType.TYPE_CLASS_NUMBER;
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        valueTextView.setText(DateConverter.dateToLocalDateStr(year, month, dayOfMonth, getContext()));
-        if (mConfirmClickListener != null)
-            mConfirmClickListener.onTextChanged(EditableInputView.this);
-    }
-
+    protected OnTextChangedListener mConfirmClickListener = null;
+    private int textViewInputType = InputType.TYPE_CLASS_NUMBER;
     /**
      * when CustomerDialogBuilder is used the OnTextChangedListener is not triggered
      */
-    private EditableInputView.CustomerDialogBuilder mCustomerDialogBuilder=null;
-    public interface CustomerDialogBuilder{
-        SweetAlertDialog customerDialogBuilder(EditableInputView view);
-    }
-
-    protected EditableInputView.OnTextChangedListener mConfirmClickListener=null;
-    public interface OnTextChangedListener {
-        void onTextChanged(EditableInputView view);
-    }
+    private CustomerDialogBuilder mCustomerDialogBuilder = null;
 
     public EditableInputView(Context context) {
         super(context);
@@ -64,6 +49,13 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         init(context, attrs);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        valueTextView.setText(DateConverter.dateToLocalDateStr(year, month, dayOfMonth, getContext()));
+        if (mConfirmClickListener != null)
+            mConfirmClickListener.onTextChanged(EditableInputView.this);
+    }
+
     protected void init(Context context, AttributeSet attrs) {
         //do setup work here
 
@@ -73,9 +65,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(
-                    attrs,
-                    R.styleable.editableinput_view,
-                    0, 0);
+                attrs,
+                R.styleable.editableinput_view,
+                0, 0);
             try {
                 valueTextView.setText(a.getString(R.styleable.editableinput_view_android_text));
                 valueTextView.setGravity(a.getInt(R.styleable.editableinput_view_android_gravity, 0));
@@ -94,23 +86,13 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             }
         }
 
-        valueTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editDialog(v.getContext());
-            }
-        });
+        valueTextView.setOnClickListener(v -> editDialog(v.getContext()));
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editDialog(v.getContext());
-            }
-        });
+        editButton.setOnClickListener(v -> editDialog(v.getContext()));
     }
 
     protected void editDialog(Context context) {
-        if (mCustomerDialogBuilder!=null) {
+        if (mCustomerDialogBuilder != null) {
             mCustomerDialogBuilder.customerDialogBuilder(this).show();
         } else {
             if ((valueTextView.getInputType() & InputType.TYPE_DATETIME_VARIATION_DATE) > 0) {
@@ -122,7 +104,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 int year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        getContext(), this, year, month, day);
+                    getContext(), this, year, month, day);
                 datePickerDialog.show();
             } else {
                 final EditText editText = new EditText(context);
@@ -135,20 +117,17 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 linearLayout.addView(editText);
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(getContext().getString(R.string.edit_value))
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                if (imm != null) {
-                                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                                }
-                                setText(editText.getText().toString());
-                                sDialog.dismissWithAnimation();
-                                if (mConfirmClickListener != null)
-                                    mConfirmClickListener.onTextChanged(EditableInputView.this);
-                            }
-                        });
+                    .setTitleText(getContext().getString(R.string.edit_value))
+                    .setConfirmClickListener(sDialog -> {
+                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        }
+                        setText(editText.getText().toString());
+                        sDialog.dismissWithAnimation();
+                        if (mConfirmClickListener != null)
+                            mConfirmClickListener.onTextChanged(EditableInputView.this);
+                    });
                 dialog.setCustomView(linearLayout);
                 dialog.show();
             }
@@ -173,11 +152,19 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         return valueTextView;
     }
 
-    public void setOnTextChangeListener(EditableInputView.OnTextChangedListener listener) {
+    public void setOnTextChangeListener(OnTextChangedListener listener) {
         mConfirmClickListener = listener;
     }
 
     public void setCustomDialogBuilder(CustomerDialogBuilder customBuilder) {
         mCustomerDialogBuilder = customBuilder;
+    }
+
+    public interface CustomerDialogBuilder {
+        SweetAlertDialog customerDialogBuilder(EditableInputView view);
+    }
+
+    public interface OnTextChangedListener {
+        void onTextChanged(EditableInputView view);
     }
 }

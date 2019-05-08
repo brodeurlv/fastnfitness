@@ -6,24 +6,23 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:paddingBottom="0dp"
     android:paddingLeft="0dp"
+    android:paddingTop="0dp"
     android:paddingRight="0dp"
-    android:paddingTop="0dp"    >
+    android:paddingBottom="0dp">
 
-    <RelativeLayout         
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-    
-	    <ListView
-	        android:id="@+id/listBodyMeasures"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:drawSelectorOnTop="false"
-	        android:minHeight="300dip" >
-	  	</ListView>
+        android:orientation="horizontal">
 
-    </RelativeLayout> 	
-    
+        <ListView
+            android:id="@+id/listBodyMeasures"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false"
+            android:minHeight="300dip" />
+
+    </RelativeLayout>
+
 </LinearLayout>

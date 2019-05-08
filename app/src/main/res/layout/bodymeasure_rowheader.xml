@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@color/tableheader_background"
     android:orientation="horizontal"
-    android:background="@color/tableheader_background">
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <TextView
         android:layout_width="0dp"
@@ -37,6 +36,8 @@
         android:layout_weight="1"
         android:clickable="true"
         android:elevation="0dp"
+        android:focusable="true"
         android:visibility="invisible"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
 </LinearLayout>

@@ -11,10 +11,10 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
         <TextView
             android:layout_width="fill_parent"
@@ -24,7 +24,7 @@
             android:singleLine="false"
             android:text="@string/obsoleteCardioTab" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,11 +42,10 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_weight="40"
-                        android:text="@string/DateLabel"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="@string/DateLabel" />
 
                     <EditText
                         android:id="@+id/editCardioDate"
@@ -55,8 +54,8 @@
                         android:layout_weight="10"
                         android:inputType="none|date"
                         android:nextFocusDown="@+id/editMachine" />
-                </LinearLayout>
 
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -67,7 +66,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_weight="40"
                         android:text="@string/ExerciceLabel" />
@@ -105,8 +103,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
-
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,15 +111,14 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="30">
 
                 <LinearLayout
-                        android:layout_width="fill_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -142,17 +138,16 @@
                         android:nextFocusDown="@+id/editDuration" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="30">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
 
                 <LinearLayout
-                        android:layout_width="fill_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -173,8 +168,7 @@
 
                     </EditText>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
-
+            </androidx.cardview.widget.CardView>
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -186,9 +180,7 @@
                     android:id="@+id/buttonLaunchChrono"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="false"
                     android:layout_alignParentStart="false"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="false"
                     android:layout_centerVertical="true"

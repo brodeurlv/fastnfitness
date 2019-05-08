@@ -22,8 +22,7 @@
   ~ SOFTWARE.
   -->
 
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,7 +38,6 @@
             android:padding="@dimen/mi_baseline"
             android:weightSum="1">
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +46,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@android:color/black" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,14 +58,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/mi_baseline"
                     android:hint="@string/name_or_pseudo"
+                    android:importantForAutofill="no"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:importantForAutofill="no" />
+                    android:textColorHint="@android:color/darker_gray" />
 
-
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -118,9 +115,10 @@
                     android:padding="2dp"
                     android:text="@string/otherGender"
                     android:textColor="@android:color/black" />
+
             </RadioGroup>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_input_layout_name2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,15 +129,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/birthday_optional"
+                    android:importantForAutofill="no"
                     android:inputType="date"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:importantForAutofill="no"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorHint="@android:color/darker_gray" />
 
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_input_layout_name3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,14 +148,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/size_cm_optional"
+                    android:importantForAutofill="no"
                     android:inputType="numberSigned"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:importantForAutofill="no"/>
+                    android:textColorHint="@android:color/darker_gray" />
 
-
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/create_newprofil"

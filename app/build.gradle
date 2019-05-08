@@ -2,12 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
+        versionCode 30
+        versionName "0.17.2"
+
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -37,54 +40,71 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             if (rootProject.file('release.properties').exists()) {
                 signingConfig signingConfigs.release
             }
         }
         debug {
-            minifyEnabled false
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
             if (rootProject.file('debug.properties').exists()) {
                 signingConfig signingConfigs.debug
             }
         }
     }
+
     dataBinding {
         enabled = true
+    }
+
+    compileOptions {
+        encoding = 'UTF-8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:preference-v7:28.0.0'
-    implementation 'com.android.support:preference-v14:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
-    implementation files('libs/javacsv-2.0.jar')
-    implementation 'com.github.hannesa2:MPAndroidChart:3.0.5'
-    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
-    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-    implementation 'com.heinrichreimersoftware:material-intro:1.6'
-    implementation 'com.mikhaellopez:circularimageview:3.0.2'
-    //compile "com.google.firebase:firebase-core:15.0.2"
-    //compile "com.google.firebase:firebase-crash:15.0.2"
-    implementation 'com.github.f0ris.sweetalert:library:1.5.3'
-    implementation 'com.github.onurkagan:ktoast:1.0.2'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
-    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
-    //compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-    //    transitive = true;
-    //}
-}
+    implementation files('libs/javacsv-2.1.jar')
+    //implementation 'net.sourceforge.javacsv:javacsv:2.1'
 
-//repositories {
-//    maven { url 'https://maven.fabric.io/public' }
-//}
+// Support
+    implementation 'androidx.annotation:annotation:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+
+// Firebase
+    //implementation 'com.google.firebase:firebase-core:16.0.8'
+    //implementation 'com.google.firebase:firebase-crash:16.2.1'
+
+// Other
+    implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3' //2.0.0
+    implementation 'com.github.hannesa2:MPAndroidChart:3.0.7'
+    //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1' //DEPRECATED
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+    implementation 'com.heinrichreimersoftware:material-intro:1.6' //1.6.2
+    implementation 'com.mikhaellopez:circularimageview:3.0.2' //3.2.0
+    implementation 'com.github.f0ris.sweetalert:library:1.5.6'
+    implementation 'com.github.onurkagan:ktoast:1.0.3'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
+    //implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar', {
+    //    transitive = true
+    //})
+}

@@ -70,12 +70,12 @@ public class Profile {
         return mName;
     }
 
-    public String getPhoto() {
-        return mPhoto;
-    }
-
     public void setName(String pName) {
         this.mName = pName;
+    }
+
+    public String getPhoto() {
+        return mPhoto;
     }
 
     public void setPhoto(String pPhoto) {
@@ -100,6 +100,4 @@ public class Profile {
 
         return birthdayEquals && p.mName.equals(mName) && p.mSize == mSize && p.mGender == mGender && p.mPhoto.equals(mPhoto);
     }
-
-
 }

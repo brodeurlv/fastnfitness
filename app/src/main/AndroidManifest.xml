@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.easyfitness"
-    android:versionCode="30"
-    android:versionName="0.17.2">
+    package="com.easyfitness">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -22,32 +20,32 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name="com.easyfitness.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateUnchanged"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />                
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.easyfitness.intro.MainIntroActivity"
-            android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name=".intro.MainIntroActivity"
+            android:theme="@style/Theme.Intro" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-
-        <!-- <meta-data
+        <!--meta-data
             android:name="io.fabric.ApiKey"
-            android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" />-->
+            android:value="a119606f6a1957e5ad76859e9336d0eb4d20236b" /-->
 
         <meta-data
             android:name="firebase_crash_collection_enabled"
             android:value="@bool/FIREBASE_CRASH_ENABLED" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -56,10 +54,9 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <receiver
-            android:process=":remote"
-            android:name=".utils.AlarmReceiver" />
+            android:name=".utils.AlarmReceiver"
+            android:process=":remote" />
 
     </application>
 </manifest>

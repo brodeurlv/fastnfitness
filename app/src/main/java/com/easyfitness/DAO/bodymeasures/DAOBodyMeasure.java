@@ -46,7 +46,7 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pDate           date of the weight measure
      * @param pBodymeasure_id id of the body part
      * @param pMeasure        body measure
-     * @param pProfileID        profil associated with the measure
+     * @param pProfileID      profil associated with the measure
      */
     public void addBodyMeasure(Date pDate, int pBodymeasure_id, float pMeasure, long pProfileID) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -71,10 +71,10 @@ public class DAOBodyMeasure extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, DATE, BODYPART_KEY, MEASURE, PROFIL_KEY},
-                KEY + "=?",
-                new String[]{String.valueOf(id)},
-                null, null, null, null);
+            new String[]{KEY, DATE, BODYPART_KEY, MEASURE, PROFIL_KEY},
+            KEY + "=?",
+            new String[]{String.valueOf(id)},
+            null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
@@ -89,10 +89,10 @@ public class DAOBodyMeasure extends DAOBase {
         }
 
         BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
-                date,
-                mCursor.getInt(2),
-                mCursor.getFloat(3),
-                mCursor.getLong(4)
+            date,
+            mCursor.getInt(2),
+            mCursor.getFloat(3),
+            mCursor.getLong(4)
         );
 
         db.close();
@@ -103,13 +103,12 @@ public class DAOBodyMeasure extends DAOBase {
 
     // Getting All Measures
     private List<BodyMeasure> getMeasuresList(String pRequest) {
-        List<BodyMeasure> valueList = new ArrayList<BodyMeasure>();
+        List<BodyMeasure> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = pRequest;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -125,10 +124,10 @@ public class DAOBodyMeasure extends DAOBase {
                 }
 
                 BodyMeasure value = new BodyMeasure(mCursor.getLong(0),
-                        date,
-                        mCursor.getInt(2),
-                        mCursor.getFloat(3),
-                        mCursor.getLong(4)
+                    date,
+                    mCursor.getInt(2),
+                    mCursor.getFloat(3),
+                    mCursor.getLong(4)
                 );
 
                 // Adding value to list
@@ -185,7 +184,7 @@ public class DAOBodyMeasure extends DAOBase {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_KEY + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 
         List<BodyMeasure> array = getMeasuresList(selectQuery);
-        if (array.size() <= 0 ) {
+        if (array.size() <= 0) {
             return null;
         }
 
@@ -208,19 +207,19 @@ public class DAOBodyMeasure extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-                new String[]{String.valueOf(m.getId())});
+            new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Measure
     public void deleteMeasure(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-                new String[]{String.valueOf(id)});
+            new String[]{String.valueOf(id)});
     }
 
     // Getting Profils Count
     public int getCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
         open();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -239,7 +238,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         for (int i = 1; i <= 5; i++) {
             date.setTime(date.getTime() + i * 1000 * 60 * 60 * 24 * 2);
-            //addBodyMeasure(date, Float.valueOf(i), mProfile);
+            //addBodyMeasure(date, (float) i, mProfile);
         }
     }
 }

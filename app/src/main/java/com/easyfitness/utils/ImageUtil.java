@@ -2,7 +2,6 @@ package com.easyfitness.utils;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,13 +10,15 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import com.easyfitness.BuildConfig;
 import com.easyfitness.R;
@@ -34,7 +35,14 @@ import java.util.Date;
 
 public class ImageUtil {
 
+    public static final int REQUEST_TAKE_PHOTO = 1;
+    public static final int REQUEST_PICK_GALERY_PHOTO = 2;
+    public static final int REQUEST_DELETE_IMAGE = 3;
+    private Fragment mF = null;
+    private String mFilePath = null;
     private ImageView imgView = null;
+    private ImageUtil.OnDeleteImageListener mDeleteImageListener;
+
 
     public ImageUtil() {
     }
@@ -43,19 +51,11 @@ public class ImageUtil {
         imgView = view;
     }
 
-    public void setView(ImageView view) {
-        imgView = view;
-    }
-
-    public ImageView getView() {
-        return imgView;
-    }
-
     static public void setThumb(ImageView mImageView, String pPath) {
         try {
             if (pPath == null || pPath.isEmpty()) return;
             File f = new File(pPath);
-            if(!f.exists() || f.isDirectory()) return;
+            if (!f.exists() || f.isDirectory()) return;
 
             // Get the dimensions of the View
             float targetW = 128;//mImageView.getWidth();
@@ -69,7 +69,7 @@ public class ImageUtil {
             float photoH = bmOptions.outHeight;
 
             // Determine how much to scale down the image
-            int scaleFactor = (int)(photoW/targetW); //Math.min(photoW/targetW, photoH/targetH);
+            int scaleFactor = (int) (photoW / targetW); //Math.min(photoW/targetW, photoH/targetH);
 
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
@@ -79,7 +79,7 @@ public class ImageUtil {
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
             mImageView.setImageBitmap(orientedBitmap);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mImageView.setScaleType(ScaleType.CENTER_CROP);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,20 +94,20 @@ public class ImageUtil {
         float photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        float scaleFactor = photoW/photoH; //Math.min(photoW/targetW, photoH/targetH);
+        float scaleFactor = photoW / photoH; //Math.min(photoW/targetW, photoH/targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = (int) scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap ThumbImage =null;
+        Bitmap ThumbImage = null;
         //if (photoW < photoH)
         Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
         Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
         ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
-        //	ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int)(96/scaleFactor), 96);
+        //ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int) (96 / scaleFactor), 96);
 
         // extract path without the .jpg
         String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
@@ -126,6 +126,53 @@ public class ImageUtil {
         }
 
         return pathOfThumbImage;
+    }
+
+    static public void setPic(ImageView mImageView, String pPath) {
+        try {
+            if (pPath == null) return;
+            File f = new File(pPath);
+            if (!f.exists() || f.isDirectory()) return;
+
+            // Get the dimensions of the View
+            int targetW = mImageView.getWidth();
+            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
+            int targetH = mImageView.getHeight();
+            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(pPath, bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = photoW / targetW; //Math.min(photoW/targetW, photoH/targetH);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+            mImageView.setImageBitmap(orientedBitmap);
+
+            //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            mImageView.setAdjustViewBounds(true);
+            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ImageView getView() {
+        return imgView;
+    }
+
+    public void setView(ImageView view) {
+        imgView = view;
     }
 
     /**
@@ -159,18 +206,8 @@ public class ImageUtil {
         }
     }
 
-
-    Fragment mF=null;
-    String mFilePath = null;
-
     public String getFilePath() {
         return mFilePath;
-    }
-
-    private ImageUtil.OnDeleteImageListener mDeleteImageListener;
-
-    public interface OnDeleteImageListener {
-        void onDeleteImage(ImageUtil imgUtil);
     }
 
     public void setOnDeleteImageListener(ImageUtil.OnDeleteImageListener listener) {
@@ -188,78 +225,33 @@ public class ImageUtil {
 
         requestPermissionForWriting(pF);
 
-        AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(mF.getActivity());
-        itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                ListView lv = ((AlertDialog)dialog).getListView();
+        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(mF.getActivity());
+        itemActionBuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
+            ListView lv = ((AlertDialog) dialog).getListView();
 
-                switch (which) {
-                    // Galery
-                    case 1 :
-                        getGaleryPict(mF);
-                        break;
-                    // Camera
-                    case 0:
-                        CropImage.activity()
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .start(mF.getContext(), mF);
-                        break;
-                    case 2: // Delete picture
-                        if (mDeleteImageListener != null)
-                            mDeleteImageListener.onDeleteImage(ImageUtil.this);
-                        break;
-                    // Camera
-                    default:
-                }
+            switch (which) {
+                // Galery
+                case 1:
+                    getGaleryPict(mF);
+                    break;
+                // Camera
+                case 0:
+                    CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(mF.getContext(), mF);
+                    break;
+                case 2: // Delete picture
+                    if (mDeleteImageListener != null)
+                        mDeleteImageListener.onDeleteImage(ImageUtil.this);
+                    break;
+                // Camera
+                default:
             }
         });
-        itemActionbuilder.show();
+        itemActionBuilder.show();
 
         return true;
     }
-
-    static public void setPic(ImageView mImageView, String pPath) {
-        try {
-            if (pPath == null) return;
-            File f = new File(pPath);
-            if(!f.exists() || f.isDirectory()) return;
-
-            // Get the dimensions of the View
-            int targetW = mImageView.getWidth();
-            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
-            int targetH = mImageView.getHeight();
-            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
-
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(pPath, bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = photoW/targetW; //Math.min(photoW/targetW, photoH/targetH);
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
-            mImageView.setImageBitmap(orientedBitmap);
-
-            //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            mImageView.setAdjustViewBounds(true);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static final int REQUEST_TAKE_PHOTO = 1;
-    public static final int REQUEST_PICK_GALERY_PHOTO = 2;
-    public static final int REQUEST_DELETE_IMAGE = 3;
 
     private void dispatchTakePictureIntent(Fragment pF) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -275,13 +267,11 @@ public class ImageUtil {
                 return;
             }
             // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
-                        BuildConfig.APPLICATION_ID + ".provider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+            Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
 
@@ -315,12 +305,11 @@ public class ImageUtil {
                 storageDir.mkdirs();
             }
         }
-        /*File storageDir =  pF.getActivity().getExternalFilesDir(
-                Environment.DIRECTORY_DCIM);*/
+        //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+            imageFileName,  /* prefix */
+            ".jpg",         /* suffix */
+            storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -328,27 +317,25 @@ public class ImageUtil {
         return image;
     }
 
-    public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
-
     private void requestPermissionForWriting(Fragment pF) {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(pF.getActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
 
-                // No explanation needed, we can request the permission.
+            // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(pF.getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
+            ActivityCompat.requestPermissions(pF.getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
 
         }
     }
-
 
     public File moveFile(File file, File dir) throws IOException {
         return copyFile(file, dir, "", true);
@@ -362,30 +349,27 @@ public class ImageUtil {
         return copyFile(file, dir, "", false);
     }
 
-    public File copyFile(File file, File dir,  String newFileName) throws IOException {
+    public File copyFile(File file, File dir, String newFileName) throws IOException {
         return copyFile(file, dir, newFileName, false);
     }
 
     public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
         File newFile = null;
-        if (newFileName=="")
+        if (newFileName.equals(""))
             newFile = new File(dir, file.getName());
         else
             newFile = new File(dir, newFileName);
 
-        FileChannel outputChannel = null;
-        FileChannel inputChannel = null;
-        try {
-            outputChannel = new FileOutputStream(newFile).getChannel();
-            inputChannel = new FileInputStream(file).getChannel();
+        try (FileChannel outputChannel = new FileOutputStream(newFile).getChannel(); FileChannel inputChannel = new FileInputStream(file).getChannel()) {
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
             inputChannel.close();
             if (moveFile) file.delete();
-        } finally {
-            if (inputChannel != null) inputChannel.close();
-            if (outputChannel != null) outputChannel.close();
         }
 
         return newFile;
+    }
+
+    public interface OnDeleteImageListener {
+        void onDeleteImage(ImageUtil imgUtil);
     }
 }

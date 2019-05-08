@@ -1,6 +1,5 @@
 package com.easyfitness.intro;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -27,8 +26,6 @@ public class MainIntroActivity extends IntroActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
 
-        boolean fullscreen = false;
-        boolean scrollable = true;
         boolean customFragments = intent.getBooleanExtra(EXTRA_CUSTOM_FRAGMENTS, true);
         boolean permissions = intent.getBooleanExtra(EXTRA_PERMISSIONS, true);
         boolean showBack = intent.getBooleanExtra(EXTRA_SHOW_BACK, true);
@@ -37,7 +34,7 @@ public class MainIntroActivity extends IntroActivity {
         boolean finishEnabled = intent.getBooleanExtra(EXTRA_FINISH_ENABLED, true);
         boolean getStartedEnabled = intent.getBooleanExtra(EXTRA_GET_STARTED_ENABLED, false);
 
-        setFullscreen(fullscreen);
+        setFullscreen(false);
 
         super.onCreate(savedInstanceState);
 
@@ -49,57 +46,59 @@ public class MainIntroActivity extends IntroActivity {
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.introSlide1Title)
-                .description(R.string.introSlide1Text)
-                .image(R.drawable.web_hi_res_512)
-                .background(R.color.launcher_background)
-                .backgroundDark(R.color.background_even)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.introSlide1Title)
+            .description(R.string.introSlide1Text)
+            .image(R.drawable.web_hi_res_512)
+            .background(R.color.launcher_background)
+            .backgroundDark(R.color.background_even)
+            .scrollable(true)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.introSlide2Title)
-                .description(R.string.introSlide2Text)
-                .image(R.drawable.bench_hi_res_512)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.introSlide2Title)
+            .description(R.string.introSlide2Text)
+            .image(R.drawable.bench_hi_res_512)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(true)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.titleSlideEssential)
-                .description(R.string.textSlideEssential)
-                .image(R.drawable.idea_hi_res_485)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.titleSlideEssential)
+            .description(R.string.textSlideEssential)
+            .image(R.drawable.idea_hi_res_485)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(true)
+            .build());
 
         addSlide(new SimpleSlide.Builder()
-                .title(R.string.titleSlideOpenSource)
-                .description(R.string.textSlideOpenSource)
-                .image(R.drawable.group_hi_res_512)
-                .background(R.color.background_even)
-                .backgroundDark(R.color.background_odd)
-                .scrollable(scrollable)
-                .build());
+            .title(R.string.titleSlideOpenSource)
+            .description(R.string.textSlideOpenSource)
+            .image(R.drawable.group_hi_res_512)
+            .background(R.color.background_even)
+            .backgroundDark(R.color.background_odd)
+            .scrollable(true)
+            .build());
 
-        /*final Slide permissionsSlide;
+/*
+        final Slide permissionsSlide;
         if (permissions) {
             permissionsSlide = new SimpleSlide.Builder()
-                    .title(R.string.introSlide3Title)
-                    .description(R.string.introSlide3Text)
-                    .image(R.drawable.ic_settings_black_48dp)
-                    .background(R.color.tableheader_background)
-                    .backgroundDark(R.color.background_odd)
-                    .scrollable(scrollable)
-                    .permissions(new String[]{Manifest.permission.CAMERA,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE})
-                    .build();
+                .title(R.string.introSlide3Title)
+                .description(R.string.introSlide3Text)
+                .image(R.drawable.ic_settings_black_48dp)
+                .background(R.color.tableheader_background)
+                .backgroundDark(R.color.background_odd)
+                .scrollable(true)
+                .permissions(new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE})
+                .build();
             addSlide(permissionsSlide);
         } else {
             permissionsSlide = null;
-        }*/
+        }
+*/
 
         // Initialisation des objets DB
         DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());
@@ -109,10 +108,10 @@ public class MainIntroActivity extends IntroActivity {
             final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
             profileSlide = new FragmentSlide.Builder()
-                    .background(R.color.background_even)
-                    .backgroundDark(R.color.launcher_background)
-                    .fragment(NewProfileFragment.newInstance())
-                    .build();
+                .background(R.color.background_even)
+                .backgroundDark(R.color.launcher_background)
+                .fragment(NewProfileFragment.newInstance())
+                .build();
             addSlide(profileSlide);
         }
     }

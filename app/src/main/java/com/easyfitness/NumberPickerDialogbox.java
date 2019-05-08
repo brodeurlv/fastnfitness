@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 public class NumberPickerDialogbox extends Dialog implements
-        View.OnClickListener {
+    View.OnClickListener {
 
     public Activity c;
     public Dialog d;
@@ -73,15 +73,8 @@ public class NumberPickerDialogbox extends Dialog implements
                 break;
         }
     }
-
-  /*
-  public OnDismissListener onDismissChrono = new OnDismissListener()
-  {
-	  @Override
-	  public void onDismiss(DialogInterface dialog) {
-		  getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	  }
-  };*/
-
-
+/*
+    public OnDismissListener onDismissChrono = dialog ->
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+*/
 }

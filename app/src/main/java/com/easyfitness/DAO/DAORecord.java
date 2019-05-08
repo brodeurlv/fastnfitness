@@ -41,14 +41,14 @@ public class DAORecord extends DAOBase {
     public static final String DURATION = "duration";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-            + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
-            + " DATE, " + EXERCISE + " TEXT, " + SERIE + " INTEGER, "
-            + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
-            + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
-            + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER);";
+        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
+        + " DATE, " + EXERCISE + " TEXT, " + SERIE + " INTEGER, "
+        + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
+        + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
+        + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-            + TABLE_NAME + ";";
+        + TABLE_NAME + ";";
 
     protected Profile mProfile = null;
     protected Cursor mCursor = null;
@@ -137,9 +137,9 @@ public class DAORecord extends DAOBase {
             //Get Date
             Date date;
             try {
-                SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
             } catch (ParseException e) {
                 e.printStackTrace();
                 date = new Date();
@@ -159,25 +159,25 @@ public class DAORecord extends DAOBase {
                 machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
             }
 
-            IRecord value=null;
+            IRecord value = null;
 
-            if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE))==DAOMachine.TYPE_FONTE) {
+            if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_FONTE) {
                 value = new Fonte(date,
-                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
-                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
-                        lProfile,
-                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
-                        mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
-                        machine_key,
-                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
+                    mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                    lProfile,
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                    machine_key,
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
             } else {
                 value = new Cardio(date,
-                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
-                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
-                        mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
-                        lProfile);
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                    mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
+                    mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
+                    lProfile);
             }
 
             value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
@@ -199,9 +199,9 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+            + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+            + " AND " + PROFIL_KEY + "=" + pProfile.getId()
+            + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
         return getRecordsListCursor(selectQuery);
@@ -224,8 +224,8 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
-                " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+            " WHERE " + PROFIL_KEY + "=" + pProfile.getId() +
+            " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
         // Return value list
         return getRecordsListCursor(selectQuery);
@@ -235,10 +235,9 @@ public class DAORecord extends DAOBase {
     private Cursor getRecordsListCursor(String pRequest) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         // return value list
-        return db.rawQuery(selectQuery, null);
+        return db.rawQuery(pRequest, null);
     }
 
     // Getting All Machines
@@ -246,23 +245,23 @@ public class DAORecord extends DAOBase {
         return getAllMachinesStrList(null);
     }
 
-        // Getting All Machines
+    // Getting All Machines
     public List<String> getAllMachinesStrList(Profile pProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         String selectQuery = "";
         if (pProfile == null) {
-            selectQuery = "SELECT DISTINCT " + EXERCISE+ " FROM "
-                    + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
+            selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
+                + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
         } else {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                    + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+                + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
         }
         mCursor = db.rawQuery(selectQuery, null);
 
         int size = mCursor.getCount();
 
-        List<String> valueList = new ArrayList<String>(size);
+        List<String> valueList = new ArrayList<>(size);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -284,7 +283,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+            + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
         int size = mCursor.getCount();
@@ -312,7 +311,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT  " + EXERCISE + " FROM "
-                + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
+            + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
         int size = mCursor.getCount();
@@ -342,11 +341,11 @@ public class DAORecord extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME;
-        if (pMachine!=null) {
+        if (pMachine != null) {
             selectQuery += " WHERE " + MACHINE_KEY + "=" + pMachine.getId();
             if (pProfile != null)
                 selectQuery += " AND " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
-        }else {
+        } else {
             if (pProfile != null)
                 selectQuery += " WHERE " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
         }
@@ -355,7 +354,7 @@ public class DAORecord extends DAOBase {
         mCursor = db.rawQuery(selectQuery, null);
         int size = mCursor.getCount();
 
-        List<String> valueList = new ArrayList<String>(size);
+        List<String> valueList = new ArrayList<>(size);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -397,9 +396,9 @@ public class DAORecord extends DAOBase {
             return null;
 
         selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-                + " AND " + DATE + " IN (SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DATE + " DESC LIMIT 3)"
-                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+            + " AND " + DATE + " IN (SELECT DISTINCT " + DATE + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + DATE + " DESC LIMIT 3)"
+            + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
 
         return getRecordsListCursor(selectQuery);
     }
@@ -421,24 +420,24 @@ public class DAORecord extends DAOBase {
 
         if (lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine
-                    + "\" AND " + DATE + "=\"" + pDate
-                    + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-                    + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+                + " WHERE " + EXERCISE + "=\"" + pMachine
+                + "\" AND " + DATE + "=\"" + pDate
+                + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         } else if (!lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + DATE + "=\"" + pDate
-                    + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-                    + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-        } else if (lfilterMachine && !lfilterDate) {
+                + " WHERE " + DATE + "=\"" + pDate
+                + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+        } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine
-                    + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
-                    + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
-        } else if (!lfilterMachine && !lfilterDate) {
+                + " WHERE " + EXERCISE + "=\"" + pMachine
+                + "\" AND " + PROFIL_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+        } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-                    + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
+                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         }
 
         // return value list
@@ -455,13 +454,13 @@ public class DAORecord extends DAOBase {
         IRecord lReturn = null;
 
         // Select All Machines
-        /*String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-        ;*/
+/*
+        String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
+            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
+*/
 
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
-        ;
+            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through only the first rows.
@@ -493,10 +492,10 @@ public class DAORecord extends DAOBase {
         String selectQuery;
         if (p == null) {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + MACHINE_KEY + "=" + machineID;
+                + " WHERE " + MACHINE_KEY + "=" + machineID;
         } else {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + MACHINE_KEY + "=" + machineID + " AND " + PROFIL_KEY + "=" + p.getId();
+                + " WHERE " + MACHINE_KEY + "=" + machineID + " AND " + PROFIL_KEY + "=" + p.getId();
         }
         mCursor = db.rawQuery(selectQuery, null);
 
@@ -528,9 +527,9 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+            + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+            + " AND " + PROFIL_KEY + "=" + pProfile.getId()
+            + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
         return getRecordsList(selectQuery);
@@ -538,13 +537,12 @@ public class DAORecord extends DAOBase {
 
     // Getting All Records
     private List<IRecord> getRecordsList(String pRequest) {
-        List<IRecord> valueList = new ArrayList<IRecord>();
+        List<IRecord> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
-        String selectQuery = pRequest;
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
@@ -552,9 +550,9 @@ public class DAORecord extends DAOBase {
                 //Get Date
                 Date date;
                 try {
-                    SimpleDateFormat dateformat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateformat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();
@@ -578,21 +576,21 @@ public class DAORecord extends DAOBase {
 
                 if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_FONTE) {
                     value = new Fonte(date,
-                            mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
-                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
-                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
-                            mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
-                            lProfile,
-                            mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
-                            mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
-                            machine_key,
-                            mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.REPETITION)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                        lProfile,
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                        machine_key,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
                 } else {
                     value = new Cardio(date,
-                            mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
-                            mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
-                            mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
-                            lProfile);
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
+                        mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
+                        lProfile);
                 }
 
                 value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));
@@ -622,7 +620,7 @@ public class DAORecord extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-                new String[]{String.valueOf(m.getId())});
+            new String[]{String.valueOf(m.getId())});
     }
 
     public void closeCursor() {
