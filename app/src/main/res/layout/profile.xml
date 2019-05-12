@@ -37,8 +37,7 @@
                     android:id="@+id/photo"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
@@ -50,11 +49,12 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_profile_white"
                     android:textAlignment="center"
-                    app:civ_border_color="#EEEEEE"
-                    app:civ_border_width="0dp"
-                    app:civ_shadow="false"
-                    app:civ_shadow_color="#8BC34A"
-                    app:civ_shadow_radius="0" />
+                    app:civ_background_color="@color/gray"
+                    app:civ_border_color="@color/gray"
+                    app:civ_border_width="1dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="@color/gray"
+                    app:civ_shadow_radius="10" />
 
             </RelativeLayout>
 

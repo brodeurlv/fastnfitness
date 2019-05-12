@@ -130,6 +130,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/validate_signing_config" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
@@ -164,6 +165,7 @@
     <orderEntry type="library" name="Gradle: androidx.databinding:databinding-adapters:3.3.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0-alpha02@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:C.\Dev\fastnfitness_master\fastnfitness\app\libs\javacsv-2.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.mikhaellopez:circularimageview:3.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.coordinatorlayout:coordinatorlayout:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-v4:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.ogaclejapan.smarttablayout:library:2.0.0@aar" level="project" />
@@ -194,7 +196,6 @@
     <orderEntry type="library" name="Gradle: com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: de.psdev.licensesdialog:licensesdialog:1.8.3@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.pnikosis:materialish-progress:1.7@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.mikhaellopez:circularimageview:3.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: android-android-28" level="project" />
   </component>
 </module>
