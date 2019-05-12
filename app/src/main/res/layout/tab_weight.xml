@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:id="@+id/tab_weight"
@@ -333,7 +334,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/imcLabel"
-                            android:textSize="24sp" />
+                            android:textSize="*" />
 
                         <TextView
                             android:id="@+id/imcValue"
@@ -343,7 +344,7 @@
                             android:maxWidth="100dp"
                             android:maxLines="1"
                             android:textColor="@color/blue"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             tools:text="20" />
 
                         <TextView
@@ -352,7 +353,7 @@
                             android:layout_height="match_parent"
                             android:ellipsize="start"
                             android:gravity="center"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             android:textStyle="italic"
                             tools:text="normal" />
 
@@ -376,7 +377,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ffmiLabel"
-                            android:textSize="24sp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/ffmiValue"
@@ -386,7 +387,7 @@
                             android:maxWidth="100dp"
                             android:maxLines="1"
                             android:textColor="@color/blue"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             tools:text="20" />
 
                         <TextView
@@ -394,7 +395,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             android:textStyle="italic"
                             tools:text="normal" />
 
