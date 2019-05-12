@@ -17,13 +17,13 @@
         android:focusableInTouchMode="true"
         android:gravity="top"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp"
         android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
         android:scrollbars="vertical">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,6 @@
                         android:id="@+id/imageMachine"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
@@ -60,10 +59,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_toEndOf="@+id/imageMachine"
-                        android:layout_toLeftOf="@+id/buttonListMachine"
-                        android:layout_toRightOf="@+id/imageMachine"
                         android:layout_toStartOf="@+id/buttonListMachine"
+                        android:layout_toEndOf="@+id/imageMachine"
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
@@ -74,16 +71,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:src="@drawable/list" />
+
                 </RelativeLayout>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
@@ -98,12 +95,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="0"
                 android:gravity="center"
                 android:text="Exercise Type :" />
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -118,9 +115,9 @@
                     android:gravity="center"
                     android:text="@string/FonteLabel" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -134,7 +131,7 @@
                     android:gravity="center"
                     android:text="@string/CardioLabel" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -146,7 +143,7 @@
             android:orientation="horizontal"
             android:visibility="visible">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -172,13 +169,13 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:inputType="number"
-
                         android:minEms="2"
                         android:text="2" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -209,9 +206,9 @@
                         android:textSize="18sp" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -257,7 +254,7 @@
                     <LinearLayout
                         android:id="@+id/minmaxLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="10"
                         android:baselineAligned="false"
@@ -283,10 +280,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:paddingEnd="5dp"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="5dp"
                             android:paddingStart="20dp"
+                            android:paddingEnd="5dp"
                             android:text="@string/max" />
 
                         <TextView
@@ -295,9 +290,10 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="80 kg" />
+
                     </LinearLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <LinearLayout
@@ -309,7 +305,7 @@
             android:visibility="gone">
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
@@ -334,12 +330,10 @@
                         android:gravity="center"
                         android:inputType="numberDecimal" />
 
-
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -368,12 +362,11 @@
 
                     </EditText>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
-
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -412,7 +405,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/DateLabel" />
@@ -425,6 +417,7 @@
                             android:ems="9"
                             android:inputType="none|date"
                             android:maxLines="1" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -437,7 +430,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/activate_rest_time" />
@@ -455,7 +447,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_weight="100"
                             android:text="@string/rest_time" />
@@ -465,11 +456,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:ems="4"
                             android:inputType="none|number"
-
                             android:text="60" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -484,7 +474,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
                             android:gravity="start"
                             android:text="@string/NotesLabel" />
@@ -502,16 +491,16 @@
                             android:maxLines="5"
                             android:minHeight="40dp"
                             android:minLines="2" />
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <Button
                 android:id="@+id/addperff"
@@ -521,12 +510,11 @@
                 android:background="@drawable/round_corner_button"
                 android:text="@string/AddLabel" />
 
-
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:text="@string/TopTenLabel" />
 
         </LinearLayout>

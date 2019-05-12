@@ -46,18 +46,17 @@ public class DAOFavorites extends DAOBase {
     public void deleteFavorite(long id, Profile p) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, MACHINE_KEY + " = ? AND " + PROFIL_KEY + " = ?",
-                new String[]{String.valueOf(id), String.valueOf(p.getId())});
+            new String[]{String.valueOf(id), String.valueOf(p.getId())});
     }
 
     // Getting All Measures
     private List<Long> getFavoritesList(String pRequest) {
-        List<Long> valueList = new ArrayList<Long>();
+        List<Long> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = pRequest;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

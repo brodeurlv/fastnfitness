@@ -9,13 +9,13 @@
         android:layout_height="wrap_content"
         android:background="#EEEEEE"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
         <!--android:background="#E0E0FF" -->
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -24,7 +24,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
 
                 <!-- App Name -->
                 <LinearLayout
@@ -65,6 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="50"
                         android:text="1" />
+
                 </LinearLayout>
 
                 <!-- Author Name -->
@@ -123,13 +123,12 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
         <!-- Revision Name -->
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -147,12 +146,12 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/revision_history" />
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="fill_parent"
@@ -165,7 +164,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -175,12 +174,12 @@
                     android:id="@+id/MPAndroidChart"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/MPAndroidChart_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -189,12 +188,12 @@
                     android:id="@+id/javaCSV"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/javaCSV_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -203,12 +202,12 @@
                     android:id="@+id/antoniomChronometer"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/antoniomChronometer_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -217,12 +216,12 @@
                     android:id="@+id/LicensesDialog"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/LicensesDialog_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -231,12 +230,12 @@
                     android:id="@+id/PagerSlidingTabStrip"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/PagerSlidingTabStrip_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -245,12 +244,12 @@
                     android:id="@+id/SmartTabLayout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/SmartTabLayout_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -259,12 +258,12 @@
                     android:id="@+id/flaticonCredits"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/flaticon_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -273,12 +272,12 @@
                     android:id="@+id/freepikCredits"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/freepik_content" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -287,11 +286,12 @@
                     android:id="@+id/CircleProgress"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/circleprogress_content" />
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -300,11 +300,12 @@
                     android:id="@+id/CircularImageView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/circularImageView_content" />
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -313,11 +314,12 @@
                     android:id="@+id/ktoast"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/ktoast_content" />
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -326,11 +328,12 @@
                     android:id="@+id/SweetAlertDialog"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/SweetAlertDialog_content" />
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -339,18 +342,19 @@
                     android:id="@+id/AndroidImageCropper"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/AndroidImageCropper_content" />
 
                 <TextView
                     android:id="@+id/androidImageCropper"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/AndroidImageCropper_content" />
-            </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -359,9 +363,10 @@
                     android:id="@+id/MaterialFavoriteButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:text="@string/MaterialFavoriteButton_content" />
-            </android.support.v7.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

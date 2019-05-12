@@ -4,19 +4,19 @@
     <string name="global_warning">Attention</string>
     <string name="global_error">Erreur</string>
     <string name="global_cancel">Annuler</string>
-    <string name="global_ok">Ok</string> 
+    <string name="global_ok">Ok</string>
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
-    
+
     <string name="removedid">id supprimé</string>
     <string name="failedtocreatefolder">Echec de création du repertoire</string>
-    
-    
+
+
     <string name="app_name">Fast n Fitness</string>
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
-    
-	<string name="FunctionLabel">Affichage</string>
+
+    <string name="FunctionLabel">Affichage</string>
     <string name="HistoryLabel">Historique</string>
     <string name="GraphLabel">Graphiques</string>
     <string name="AddLabel">Ajouter</string>
@@ -24,7 +24,7 @@
     <string name="DeleteLabel">Supprimer</string>
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Editer</string>
-    
+
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Séries</string>
@@ -35,17 +35,17 @@
     <string name="LbsUnitLabel">Lbs</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Derniers enregistrements:</string>
-    
+
     <!-- Share text -->
     <string name="ShareText">Partager</string>
     <string name="ShareTitle">Partage ta performance</string>
     <string name="ShareInstruction">Edite ton texte avant de l\'envoyer:</string>
     <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ Kg sur __MACHINE__ !</string>
-    <string name="ShareParamName">__NAME__</string> 
-    <string name="ShareParamWeight">__WEIGHT__</string>  
-    <string name="ShareParamMachine">__MACHINE__</string> 
-    <string name="ShareParamExercise">__EXERCISE__</string>        
-    
+    <string name="ShareParamName">__NAME__</string>
+    <string name="ShareParamWeight">__WEIGHT__</string>
+    <string name="ShareParamMachine">__MACHINE__</string>
+    <string name="ShareParamExercise">__EXERCISE__</string>
+
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance (Km)</string>
@@ -53,7 +53,7 @@
     <string name="MilesUnitLabel">Miles</string>
     <string name="DurationLabel">Durée</string>
     <string name="ExerciceLabel">Exercices</string>
-    
+
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
@@ -65,10 +65,10 @@
     <string name="userChanged">Profil changé</string>
     <string name="renameProfilTitle">Renommer le profil</string>
     <string name="renameProfilQuestion">Choisis un nouveau nom de profil ?</string>
-    
-     
-	<!-- Pour le menu settings -->
-	<string name="SettingLabel">Paramètres</string>
+
+
+    <!-- Pour le menu settings -->
+    <string name="SettingLabel">Paramètres</string>
     <string name="menu_settings">Paramètres</string>
     <string name="export_database">Exporter la base de données</string>
     <string name="export_question">Voulez-vous exporter la base de données de </string>
@@ -77,9 +77,9 @@
     <string name="import_database">Importer des données</string>
     <string name="ResetAppLabel">Remise à zero de l\'application</string>
     <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
-     
-	<!-- Machine Fragment -->
-	<string name="MachinesLabel">Exercices</string>
+
+    <!-- Machine Fragment -->
+    <string name="MachinesLabel">Exercices</string>
     <string name="DescriptionLabel">Description</string>
 
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
@@ -98,23 +98,23 @@
     <string name="profil_edit">Editer un profil</string>
     <string name="profil_delete">Supprimer un profil</string>
     <string name="profil_select_profil_to_delete">Selectionner un profil à supprimer</string>
-    
+
     <!-- About Fragment  -->
     <string name="AboutLabel">A propos</string>
-    
+
     <!-- Navigation Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    
+
     <string-array name="fonte_units">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
     </string-array>
-    
+
     <string-array name="fonte_unitsValues">
-	    <item>1</item>
-	    <item>2</item>
-	</string-array>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
     <string-array name="fonte_unitsEnum">
         <item>0</item>
@@ -126,7 +126,7 @@
         <item>Normal</item>
         <item>Large</item>
     </string-array>
-    
+
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Somme</string>
@@ -134,10 +134,10 @@
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
-    </string-array>   
-    
-    <string name="all">All</string>	
-    
+    </string-array>
+
+    <string name="all">All</string>
+
     <!-- Muscles -->
     <string name="biceps">Biceps</string>
     <string name="triceps">Triceps</string>
@@ -146,7 +146,7 @@
 
     <string name="dorseaux">Dorseaux</string>
     <string name="abdominaux">Abdominaux</string>
-    
+
     <string name="quadriceps">Quadriceps</string>
     <string name="ischio_jambiers">Ischio Jambiers</string>
     <string name="adducteurs">Adducteurs</string>
@@ -165,7 +165,7 @@
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
 
-<!-- Graph -->
+    <!-- Graph -->
     <string name="graph_all">Tout</string>
     <string name="graph_lastyear">Cette année</string>
     <string name="graph_lastmonth">Ce Mois</string>
@@ -280,4 +280,9 @@
     <string name="RFM_male_formula">Hommes: RFM = 64 – (20 x (hauteur/circonférence de la taille))</string>
     <string name="access_granted">Accès autorisé</string>
     <string name="another_time_maybe">Une autre fois peut-être :)</string>
+    <string name="new_folder">Nouveau dossier</string>
+    <string name="ffmiLabel">FFMI</string>
+    <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
+    <string name="no_fat_available">graisse [%] non disponible</string>
+    <string name="indexLabel">Index</string>
 </resources>

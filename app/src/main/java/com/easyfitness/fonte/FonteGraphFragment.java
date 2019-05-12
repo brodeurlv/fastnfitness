@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+
 import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
@@ -25,6 +26,7 @@ import com.easyfitness.DateGraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.Graph;
+import com.easyfitness.graph.Graph.zoomType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -35,38 +37,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FonteGraphFragment extends Fragment {
-	private String name;
-	private int id;
-	//Profile mProfile = null;
-
-	private Spinner functionList = null;
-	private Spinner machineList = null;
-	private Button lastyearButton = null;
-	private Button lastmonthButton = null;
-	private Button lastweekButton = null;
-	private Button allButton = null;
-    private Graph.zoomType currentZoom = Graph.zoomType.ZOOM_ALL;
-	
-	private LineChart mChart = null;
-	private Graph mGraph = null;
-
-	MainActivity mActivity = null;
-
-	private DAOFonte mDbFonte = null;
+    MainActivity mActivity = null;
+    ArrayAdapter<String> mAdapterMachine = null;
+    //Profile mProfile = null;
+    List<String> mMachinesArray = null;
+    private String name;
+    private int id;
+    private Spinner functionList = null;
+    private Spinner machineList = null;
+    private zoomType currentZoom = zoomType.ZOOM_ALL;
+    private LineChart mChart = null;
+    private Graph mGraph = null;
+    private DAOFonte mDbFonte = null;
     private DAOCardio mDbCardio = null;
     private DAOMachine mDbMachine = null;
+    private View mFragmentView = null;
+    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
-	private View mFragmentView = null;
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+            if (parent.getId() == R.id.filterGraphMachine)
+                updateFunctionSpinner(); // Update functions only when changing exercise
+            drawGraph();
+        }
 
-	ArrayAdapter<String> mAdapterMachine = null;
-	List<String> mMachinesArray = null;
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+    private OnClickListener onZoomClick = v -> {
+        switch (v.getId()) {
+            case R.id.allbutton:
+                currentZoom = zoomType.ZOOM_ALL;
+                break;
+            case R.id.lastweekbutton:
+                currentZoom = zoomType.ZOOM_WEEK;
+                break;
+            case R.id.lastmonthbutton:
+                currentZoom = zoomType.ZOOM_MONTH;
+                break;
+            case R.id.lastyearbutton:
+                currentZoom = zoomType.ZOOM_YEAR;
+                break;
+        }
+        mGraph.setZoom(currentZoom);
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
     public static FonteGraphFragment newInstance(String name, int id) {
-    	FonteGraphFragment f = new FonteGraphFragment();
+        FonteGraphFragment f = new FonteGraphFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
@@ -77,34 +101,34 @@ public class FonteGraphFragment extends Fragment {
         return f;
     }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.tab_graph, container, false);
-		mFragmentView = view;
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.tab_graph, container, false);
+        mFragmentView = view;
         functionList = view.findViewById(R.id.filterGraphFunction);
         machineList = view.findViewById(R.id.filterGraphMachine);
-        allButton = view.findViewById(R.id.allbutton);
-        lastyearButton = view.findViewById(R.id.lastyearbutton);
-        lastmonthButton = view.findViewById(R.id.lastmonthbutton);
-        lastweekButton = view.findViewById(R.id.lastweekbutton);
-		
-		/* Initialisation des evenements */
-		machineList.setOnItemSelectedListener(onItemSelectedList);
-		functionList.setOnItemSelectedListener(onItemSelectedList);
+        Button allButton = view.findViewById(R.id.allbutton);
+        Button lastyearButton = view.findViewById(R.id.lastyearbutton);
+        Button lastmonthButton = view.findViewById(R.id.lastmonthbutton);
+        Button lastweekButton = view.findViewById(R.id.lastweekbutton);
+
+        /* Initialisation des evenements */
+        machineList.setOnItemSelectedListener(onItemSelectedList);
+        functionList.setOnItemSelectedListener(onItemSelectedList);
 
         allButton.setOnClickListener(onZoomClick);
-		lastyearButton.setOnClickListener(onZoomClick);
-		lastmonthButton.setOnClickListener(onZoomClick);
-		lastweekButton.setOnClickListener(onZoomClick);
-		
-		/* Initialise le graph */ 
-		mChart = view.findViewById(R.id.graphChart);
-		mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
+        lastyearButton.setOnClickListener(onZoomClick);
+        lastmonthButton.setOnClickListener(onZoomClick);
+        lastweekButton.setOnClickListener(onZoomClick);
 
-		/* Initialisation de l'historique */
+        /* Initialise le graph */
+        mChart = view.findViewById(R.id.graphChart);
+        mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
+
+        /* Initialisation de l'historique */
         if (mDbFonte == null) mDbFonte = new DAOFonte(getContext());
         if (mDbCardio == null) mDbCardio = new DAOCardio(getContext());
         if (mDbMachine == null) mDbMachine = new DAOMachine(getContext());
@@ -119,9 +143,9 @@ public class FonteGraphFragment extends Fragment {
         if (getProfil() != null) {
             mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
             // lMachinesArray = prepend(lMachinesArray, "All");
-            mAdapterMachine = new ArrayAdapter<String>(
-                    getContext(), android.R.layout.simple_spinner_item,
-                    mMachinesArray);
+            mAdapterMachine = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item,
+                mMachinesArray);
             mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             machineList.setAdapter(mAdapterMachine);
             mDbFonte.closeCursor();
@@ -130,12 +154,12 @@ public class FonteGraphFragment extends Fragment {
         if (this.getUserVisibleHint())
             refreshData();
     }
-	
-	@Override
+
+    @Override
     public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		this.mActivity = (MainActivity) activity;
-	}
+        super.onAttach(activity);
+        this.mActivity = (MainActivity) activity;
+    }
 
     @Override
     public void onStop() {
@@ -147,66 +171,28 @@ public class FonteGraphFragment extends Fragment {
         return this.mActivity;
     }
 
-	private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
-
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view,
-				int position, long id) {
-            if (parent.getId()==R.id.filterGraphMachine)
-                updateFunctionSpinner(); // Update functions only when changing exercise
-		    drawGraph();
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
-
-		}
-	};
-	
-	private OnClickListener onZoomClick = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			switch(v.getId()) {
-            case R.id.allbutton:
-                currentZoom=Graph.zoomType.ZOOM_ALL;
-                break;
-			case R.id.lastweekbutton:
-                currentZoom=Graph.zoomType.ZOOM_WEEK;
-				break;
-			case R.id.lastmonthbutton:
-                currentZoom=Graph.zoomType.ZOOM_MONTH;
-                break;
-			case R.id.lastyearbutton:
-                currentZoom=Graph.zoomType.ZOOM_YEAR;
-                break;
-			}
-            mGraph.setZoom(currentZoom);
-		}		
-	};
-
-	private void updateFunctionSpinner() {
-        if( machineList.getSelectedItem()==null) return;  // List not yet initialized.
+    private void updateFunctionSpinner() {
+        if (machineList.getSelectedItem() == null) return;  // List not yet initialized.
         String lMachineStr = machineList.getSelectedItem().toString();
         Machine machine = mDbMachine.getMachine(lMachineStr);
         if (machine == null) return;
 
-        ArrayAdapter<String> adapterFunction =null;
+        ArrayAdapter<String> adapterFunction = null;
 
-        if (machine.getType()==DAOMachine.TYPE_FONTE) {
-            adapterFunction = new ArrayAdapter<String>(
-                    getContext(), android.R.layout.simple_spinner_item,
-                    mActivity.getResources().getStringArray(R.array.graph_functions));
-        } else if (machine.getType()==DAOMachine.TYPE_CARDIO) {
-            adapterFunction = new ArrayAdapter<String>(
-                    getContext(), android.R.layout.simple_spinner_item,
-                    mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
+        if (machine.getType() == DAOMachine.TYPE_FONTE) {
+            adapterFunction = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item,
+                mActivity.getResources().getStringArray(R.array.graph_functions));
+        } else if (machine.getType() == DAOMachine.TYPE_CARDIO) {
+            adapterFunction = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item,
+                mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
         }
         adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         functionList.setAdapter(adapterFunction);
     }
 
-	private void drawGraph() {
+    private void drawGraph() {
 
         if (getProfil() == null) return;
 
@@ -227,8 +213,8 @@ public class FonteGraphFragment extends Fragment {
 
         DAOMachine mDbExercise = new DAOMachine(mActivity);
         Machine m = mDbExercise.getMachine(lMachine);
-        if (m==null) return;
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        if (m == null) return;
+        ArrayList<Entry> yVals = new ArrayList<>();
         Description desc = new Description();
 
         if (m.getType() == DAOMachine.TYPE_FONTE) {
@@ -287,9 +273,9 @@ public class FonteGraphFragment extends Fragment {
 
             for (int i = 0; i < valueList.size(); i++) {
                 Entry value = null;
-                if (lDAOFunction==DAOCardio.DURATION_FCT ) {
-                    value = new Entry((float) valueList.get(i).getX(), (float)DateConverter.nbMinutes( valueList.get(i).getY()));
-                } else if (lDAOFunction==DAOCardio.SPEED_FCT) { // Km/h
+                if (lDAOFunction == DAOCardio.DURATION_FCT) {
+                    value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
+                } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
                     value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
                 } else {
                     value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
@@ -298,34 +284,34 @@ public class FonteGraphFragment extends Fragment {
             }
         }
 
-		mGraph.getLineChart().setDescription(desc);
-		mGraph.draw(yVals);
-	}
+        mGraph.getLineChart().setDescription(desc);
+        mGraph.draw(yVals);
+    }
 
-	public String getName() { 
-		return getArguments().getString("name");
-	}
-	
-	public int getFragmentId() { 
-		return getArguments().getInt("id", 0);
-	}
+    public String getName() {
+        return getArguments().getString("name");
+    }
 
-	public DAOFonte getDB() {
-		return mDbFonte;
-	}
-	
-	private void refreshData(){
-		//View fragmentView = getView();
+    public int getFragmentId() {
+        return getArguments().getInt("id", 0);
+    }
 
-		if(mFragmentView != null) {
-			if (getProfil() != null) {
-				//functionList.setOnItemSelectedListener(onItemSelectedList);
+    public DAOFonte getDB() {
+        return mDbFonte;
+    }
+
+    private void refreshData() {
+        //View fragmentView = getView();
+
+        if (mFragmentView != null) {
+            if (getProfil() != null) {
+                //functionList.setOnItemSelectedListener(onItemSelectedList);
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDbFonte.getAllMachinesStrList();
                     //Data are refreshed on show
                     mAdapterMachine = new ArrayAdapter<String>(
-                            getContext(), android.R.layout.simple_spinner_item,
-                            mMachinesArray);
+                        getContext(), android.R.layout.simple_spinner_item,
+                        mMachinesArray);
                     mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     machineList.setAdapter(mAdapterMachine);
                 } else {
@@ -345,53 +331,51 @@ public class FonteGraphFragment extends Fragment {
                     if (machineList.getSelectedItemPosition() != position) {
                         machineList.setSelection(position); // Refresh drawing
                     } else {
-                      drawGraph();
+                        drawGraph();
                     }
-				} else {
+                } else {
                     mChart.clear();
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
     private ArrayAdapter<String> getAdapterMachine() {
         ArrayAdapter<String> a;
         mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
         // lMachinesArray = prepend(lMachinesArray, "All");
-        mAdapterMachine = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mMachinesArray);
+        mAdapterMachine = new ArrayAdapter<>(
+            getContext(), android.R.layout.simple_spinner_item,
+            mMachinesArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         machineList.setAdapter(mAdapterMachine);
         return mAdapterMachine;
     }
-  
-	private Profile getProfil()
-	{
-		return mActivity.getCurrentProfil();
-	}  
 
-	private String getFontesMachine()	{
-		return getMainActivity().getCurrentMachine();
-	}
+    private Profile getProfil() {
+        return mActivity.getCurrentProfil();
+    }
 
-  @Override
-  public void onHiddenChanged (boolean hidden) {
-	  //machineList
-	  if (!hidden) refreshData();
-  }
+    private String getFontesMachine() {
+        return getMainActivity().getCurrentMachine();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        //machineList
+        if (!hidden) refreshData();
+    }
 
     public void saveSharedParams(String toSave, String paramName) {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(toSave, paramName);
-        editor.commit();
+        editor.apply();
     }
 
     public String getSharedParams(String paramName) {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
-        String ret = sharedPref.getString(paramName, "");
-        return ret;
+        return sharedPref.getString(paramName, "");
     }
-	
+
 }

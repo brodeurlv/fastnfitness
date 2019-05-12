@@ -9,47 +9,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.bodymeasures.BodyPart;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
 
-public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.OnClickListener{
+public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.OnClickListener {
 
-    private ArrayList<BodyPart> dataSet;
     Context mContext;
-
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtID;
-        TextView txtName;
-        TextView txtLastMeasure;
-        ImageView logo;
-    }
+    private ArrayList<BodyPart> dataSet;
+    private int lastPosition = -1;
 
     public BodyPartListAdapter(ArrayList<BodyPart> data, Context context) {
         super(context, R.layout.bodypart_row, data);
         this.dataSet = data;
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
     public void onClick(View v) {
 
-        int position=(Integer) v.getTag();
-        Object object= getItem(position);
-        BodyPart dataModel=(BodyPart)object;
+        int position = (Integer) v.getTag();
+        Object object = getItem(position);
+        BodyPart dataModel = (BodyPart) object;
 
-        /*switch (v.getId())
-        {
+/*
+        switch (v.getId()) {
             case R.id.item_info:
-                Snackbar.make(v, "Release date " +dataModel.getFeature(), Snackbar.LENGTH_LONG)
-                        .setAction("No action", null).show();
+                Snackbar.make(v, "Release date " + dataModel.getFeature(), Snackbar.LENGTH_LONG)
+                    .setAction("No action", null).show();
                 break;
-        }*/
+        }
+*/
     }
-
-    private int lastPosition = -1;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -72,12 +63,12 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
             viewHolder.txtLastMeasure = convertView.findViewById(R.id.LIST_BODYPART_LASTRECORD);
             viewHolder.logo = convertView.findViewById(R.id.LIST_BODYPART_LOGO);
 
-            result=convertView;
+            result = convertView;
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
         //Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
@@ -85,12 +76,20 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
         //lastPosition = position;
         viewHolder.txtID.setText(String.valueOf(dataModel.getId()));
         viewHolder.txtName.setText(this.getContext().getResources().getText(dataModel.getResourceNameID()));
-        if (dataModel.getLastMeasure() != null )
+        if (dataModel.getLastMeasure() != null)
             viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
         else
             viewHolder.txtLastMeasure.setText("-");
         viewHolder.logo.setImageResource(dataModel.getResourceLogoID());
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtID;
+        TextView txtName;
+        TextView txtLastMeasure;
+        ImageView logo;
     }
 }

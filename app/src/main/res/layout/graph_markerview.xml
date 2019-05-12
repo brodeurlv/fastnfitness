@@ -2,33 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/marker2" >
+    android:background="@drawable/marker2">
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="10/10/1000"
         android:layout_marginTop="4dp"
-        android:textSize="10sp"
-        android:textColor="@android:color/black"
         android:ellipsize="end"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
+        android:text="10/10/1000"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/tvDate"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:text="70.0"
-        android:textSize="11sp"
-        android:textColor="@android:color/black"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="70.0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textSize="11sp" />
 
 </RelativeLayout>

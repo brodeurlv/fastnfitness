@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-	<string-array name="syncFrequencyValues">
+    <string-array name="syncFrequencyValues">
         <item name="1">1</item>
         <item name="7">7</item>
         <item name="30">30</item>

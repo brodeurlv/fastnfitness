@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAORecord;
@@ -39,7 +41,7 @@ public class RecordCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        android.support.v7.widget.CardView cdView = view.findViewById(R.id.CARDVIEW);
+        CardView cdView = view.findViewById(R.id.CARDVIEW);
 
         final int position = cursor.getPosition();
 
@@ -125,31 +127,27 @@ public class RecordCursorAdapter extends CursorAdapter {
             t.setVisibility(View.GONE);
         }
 
-        /*if (separatorNeeded) {
+/*
+        if (separatorNeeded) {
             LinearLayout l = view.findViewById(R.id.ROWFONTELAYOUT);
             TextView t = new TextView(context);
             t.setText(DateConverter.dateToLocalDateStr(date, mContext));
             l.addView(t, 1);
-        }*/
+        }
+*/
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
-        deletImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDeleteClickListener != null)
-                    mDeleteClickListener.onBtnClick((long) v.getTag());
-            }
+        deletImg.setOnClickListener(v -> {
+            if (mDeleteClickListener != null)
+                mDeleteClickListener.onBtnClick((long) v.getTag());
         });
 
         ImageView copyImg = view.findViewById(R.id.copyButton);
         copyImg.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
-        copyImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCopyClickListener != null)
-                    mCopyClickListener.onBtnClick((long) v.getTag());
-            }
+        copyImg.setOnClickListener(v -> {
+            if (mCopyClickListener != null)
+                mCopyClickListener.onBtnClick((long) v.getTag());
         });
     }
 

@@ -1,4 +1,4 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -7,18 +7,18 @@
 
     <!-- The main content view -->
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
         android:paddingLeft="0dp"
+        android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp">
+        android:paddingBottom="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/actionToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,6 @@
                 android:id="@+id/imageProfile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="end"
@@ -41,9 +40,9 @@
                 app:civ_shadow="false"
                 app:civ_shadow_color="#8BC34A"
                 app:civ_shadow_radius="0" />
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/musicToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,12 +102,12 @@
                         android:id="@+id/playerSeekBar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="-4dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
                         android:layout_marginStart="0dp"
-                        android:layout_marginTop="-4dp" />
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-4dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="-4dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -191,7 +190,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
             android:id="@+id/fragment_container"
@@ -199,7 +198,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/musicToolbar"
             android:layout_below="@id/actionToolbar"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </RelativeLayout>
 
@@ -215,4 +214,4 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

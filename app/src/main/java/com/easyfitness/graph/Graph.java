@@ -2,7 +2,8 @@ package com.easyfitness.graph;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
@@ -31,16 +32,14 @@ import java.util.TimeZone;
 
 public class Graph {
 
-	private LineChart mChart = null;
-	private String mChartName = null;
-	private Context mContext = null;
+    private LineChart mChart = null;
+    private String mChartName = null;
+    private Context mContext = null;
 
-	public enum zoomType {ZOOM_ALL, ZOOM_YEAR, ZOOM_MONTH, ZOOM_WEEK}
-
-	public Graph(Context context, LineChart chart, String name) {
-		mChart = chart;
-		mChartName = name;
-		mChart.setDoubleTapToZoomEnabled(true);
+    public Graph(Context context, LineChart chart, String name) {
+        mChart = chart;
+        mChartName = name;
+        mChart.setDoubleTapToZoomEnabled(true);
         mChart.setHorizontalScrollBarEnabled(true);
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setAutoScaleMinMaxEnabled(true);
@@ -69,7 +68,7 @@ public class Graph {
             public String getFormattedValue(float value, AxisBase axis) {
                 //long millis = TimeUnit.HOURS.toMillis((long) value);
                 mFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                Date tmpDate = new Date((long)DateConverter.nbMilliseconds(value)); // Convert days in milliseconds
+                Date tmpDate = new Date((long) DateConverter.nbMilliseconds(value)); // Convert days in milliseconds
                 return mFormat.format(tmpDate);
             }
         });
@@ -79,7 +78,7 @@ public class Graph {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-        leftAxis.setGranularity((float)0.5);
+        leftAxis.setGranularity((float) 0.5);
         leftAxis.resetAxisMinimum();
 
         mChart.getAxisRight().setEnabled(false);
@@ -103,15 +102,14 @@ public class Graph {
             // fill drawable only supported on api level 18 and above
             Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.fade_blue);
             set1.setFillDrawable(drawable);
-        }
-        else {
+        } else {
             set1.setFillColor(ColorTemplate.getHoloBlue());
         }
         set1.setFillAlpha(100);
         set1.setColor(mContext.getResources().getColor(R.color.toolbar_background));
         set1.setCircleColor(mContext.getResources().getColor(R.color.toolbar_background));
 
-		// Create a data object with the datasets
+        // Create a data object with the datasets
         LineData data = new LineData(set1);
 
         data.setValueFormatter(new IValueFormatter() {
@@ -123,7 +121,7 @@ public class Graph {
             }
         });
 
-		// Set data
+        // Set data
         mChart.setData(data);
 
         mChart.invalidate();
@@ -132,18 +130,18 @@ public class Graph {
     }
 
     private String arrayToString(ArrayList<Entry> entries) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         String delimiter = "\n"; // Can be new line \n tab \t etc...
         for (int i = 0; i < entries.size(); i++) {
-            output = output + entries.get(i).getY() + " / " + entries.get(i).getX() + delimiter;
+            output.append(entries.get(i).getY()).append(" / ").append(entries.get(i).getX()).append(delimiter);
         }
 
-        return output;
+        return output.toString();
     }
 
     public LineChart getLineChart() {
-		return mChart;
-	}
+        return mChart;
+    }
 
     public void setZoom(zoomType z) {
         switch (z) {
@@ -154,21 +152,21 @@ public class Graph {
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 7); // allow 20 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (1 - 7) ); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + (1 - 7)); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_MONTH:
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 30); // allow 30 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 30) ); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 30)); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_YEAR:
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 365); // allow 365 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 365) ); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 365)); // set the left edge of the chart to x-index 10
                 }
                 break;
         }
@@ -176,4 +174,6 @@ public class Graph {
         // refresh
         mChart.invalidate();
     }
+
+    public enum zoomType {ZOOM_ALL, ZOOM_YEAR, ZOOM_MONTH, ZOOM_WEEK}
 }

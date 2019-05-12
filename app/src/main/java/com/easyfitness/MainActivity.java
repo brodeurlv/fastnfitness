@@ -10,15 +10,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +20,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.CVSManager;
 import com.easyfitness.DAO.DAOCardio;
@@ -58,14 +59,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.easyfitness.utils.ImageUtil.REQUEST_PICK_GALERY_PHOTO;
-
 //import com.crashlytics.android.Crashlytics;
 
 //import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     public static String FONTESPAGER = "FontePager";
     public static String FONTES = "Fonte";
     public static String HISTORY = "History";
@@ -79,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
     public static String SETTINGS = "Settings";
     public static String MACHINES = "Machines";
     public static String MACHINESDETAILS = "MachinesDetails";
-
     public static String PREFS_NAME = "prefsfile";
+    private final int REQUEST_CODE_INTRO = 111;
+    private final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
     private FontesPagerFragment mpFontesPagerFrag = null;
@@ -105,13 +106,95 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private MusicController musicController = new MusicController(this);
     private CircularImageView roundProfile = null;
-
     private String mCurrentMachine = "";
-
     private boolean mIntro014Launched = false;
     private boolean mMigrationBD15done = false;
+    private PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
+        switch (item.getItemId()) {
+            case R.id.create_newprofil:
+                getActivity().CreateNewProfil();
+                return true;
+            case R.id.photo_profil:
+                String[] optionListArray = new String[2];
+                optionListArray[0] = getActivity().getResources().getString(R.string.camera);
+                optionListArray[1] = getActivity().getResources().getString(R.string.gallery);
+                //profilListArray[2] = "Remove Image";
 
-    private final int REQUEST_CODE_INTRO = 111;
+                //requestPermissionForWriting(pF);
+
+                AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
+                itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+
+                        switch (which) {
+                            // Galery
+                            case 1:
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, ImageUtil.REQUEST_PICK_GALERY_PHOTO);
+                                break;
+                            // Camera with Cropping
+                            case 0:
+                                //dispatchTakePictureIntent(mF);
+                                // start picker to get image for cropping and then use the image in cropping activity
+                                CropImage.activity()
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .start(getActivity());
+                                break;
+                            case 2: // Delete picture
+
+                                break;
+                            // Camera
+                            default:
+                        }
+                    }
+                });
+                itemActionbuilder.show();
+                return true;
+            case R.id.change_profil:
+                String[] profilListArray = getActivity().mDbProfils.getAllProfil();
+
+                AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
+                changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
+                    .setItems(profilListArray, (dialog, which) -> {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        Object checkedItem = lv.getAdapter().getItem(which);
+                        setCurrentProfil(checkedItem.toString());
+                        KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
+                    });
+                changeProfilbuilder.show();
+                return true;
+            case R.id.delete_profil:
+                String[] profildeleteListArray = getActivity().mDbProfils.getAllProfil();
+
+                AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
+                deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
+                    .setItems(profildeleteListArray, (dialog, which) -> {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        Object checkedItem = lv.getAdapter().getItem(which);
+                        if (getCurrentProfil().getName().equals(checkedItem.toString())) {
+                            KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        } else {
+                            Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
+                            mDbProfils.deleteProfil(profileToDelete);
+                            KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        }
+                    });
+                deleteProfilbuilder.show();
+                return true;
+            case R.id.rename_profil:
+                getActivity().renameProfil();
+                return true;
+            case R.id.param_profil:
+                showFragment(PROFILE);
+                return true;
+            default:
+                return false;
+        }
+    };
+    private long mBackPressed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        top_toolbar = (Toolbar) this.findViewById(R.id.actionToolbar);
+        top_toolbar = this.findViewById(R.id.actionToolbar);
         setSupportActionBar(top_toolbar);
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
 
@@ -156,11 +239,11 @@ public class MainActivity extends AppCompatActivity {
                 DAOCardio mDbCardio = new DAOCardio(this);
                 List<OldCardio> mList = mDbOldCardio.getAllRecords();
                 for (OldCardio record : mList) {
-                    String exerciseName="";
+                    String exerciseName = "";
                     Machine m = lDAOMachine.getMachine(record.getExercice());
                     exerciseName = record.getExercice();
                     if (m != null) { // if a machine exists
-                        if (m.getType()==DAOMachine.TYPE_FONTE) { // if it is not a Cardio type
+                        if (m.getType() == DAOMachine.TYPE_FONTE) { // if it is not a Cardio type
                             exerciseName = exerciseName + "-Cardio"; // add a suffix to
                         }
                     }
@@ -182,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
             mMigrationBD15done = true;
             savePreferences();
         }
-		
-		/* creation de l'arborescence de l'application */
+
+        /* creation de l'arborescence de l'application */
         File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
         boolean success = true;
         if (!folder.exists()) {
@@ -197,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         if (folder.exists()) {
             if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
                 Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
-                        Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
+                    Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
             }
         }
 
@@ -206,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
             currentFragmentName = FONTESPAGER;
         }
 
-        dataList = new ArrayList<DrawerItem>();
+        dataList = new ArrayList<>();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
 
@@ -222,17 +305,17 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
 
         mDrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
-                dataList);
+            dataList);
 
         mDrawerList.setAdapter(mDrawerAdapter);
 
         roundProfile = top_toolbar.findViewById(R.id.imageProfile);
 
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                top_toolbar,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open, R.string.drawer_close
+            this,                  /* host Activity */
+            mDrawerLayout,         /* DrawerLayout object */
+            top_toolbar,  /* nav drawer icon to replace 'Up' caret */
+            R.string.drawer_open, R.string.drawer_close
         );
 
         // Set the list's click listener
@@ -308,125 +391,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         final MenuItem alertMenuItem = menu.findItem(R.id.action_profil);
 
-        roundProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity(), v);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.profile_actions, popup.getMenu());
-                popup.setOnMenuItemClickListener(onMenuItemClick);
-                popup.show();
-            }
+        roundProfile.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getActivity(), v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.profile_actions, popup.getMenu());
+            popup.setOnMenuItemClickListener(onMenuItemClick);
+            popup.show();
         });
 
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private PopupMenu.OnMenuItemClickListener onMenuItemClick = new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.create_newprofil:
-                    getActivity().CreateNewProfil();
-                    return true;
-                case R.id.photo_profil:
-                    String[] optionListArray = new String[2];
-                    optionListArray[0] = getActivity().getResources().getString(R.string.camera);
-                    optionListArray[1] = getActivity().getResources().getString(R.string.gallery);
-                    //profilListArray[2] = "Remove Image";
-
-                    //requestPermissionForWriting(pF);
-
-                    AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-                    itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            ListView lv = ((AlertDialog) dialog).getListView();
-
-                            switch (which) {
-                                // Galery
-                                case 1:
-                                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                    photoPickerIntent.setType("image/*");
-                                    startActivityForResult(photoPickerIntent, REQUEST_PICK_GALERY_PHOTO);
-                                    break;
-                                // Camera with Cropping
-                                case 0:
-                                    //dispatchTakePictureIntent(mF);
-                                    // start picker to get image for cropping and then use the image in cropping activity
-                                    CropImage.activity()
-                                            .setGuidelines(CropImageView.Guidelines.ON)
-                                            .start(getActivity());
-                                    break;
-                                case 2: // Delete picture
-
-                                    break;
-                                // Camera
-                                default:
-                            }
-                        }
-                    });
-                    itemActionbuilder.show();
-                    return true;
-                case R.id.change_profil:
-                    String[] profilListArray = getActivity().mDbProfils.getAllProfil();
-
-                    AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
-                    changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
-                            .setItems(profilListArray, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ListView lv = ((AlertDialog) dialog).getListView();
-                                    Object checkedItem = lv.getAdapter().getItem(which);
-                                    setCurrentProfil(checkedItem.toString());
-                                    KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                                    //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                    changeProfilbuilder.show();
-                    return true;
-                case R.id.delete_profil:
-                    String[] profildeleteListArray = getActivity().mDbProfils.getAllProfil();
-
-                    AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
-                    deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
-                            .setItems(profildeleteListArray, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ListView lv = ((AlertDialog) dialog).getListView();
-                                    Object checkedItem = lv.getAdapter().getItem(which);
-                                    if (getCurrentProfil().getName().equals(checkedItem.toString())) {
-                                        KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                                    } else {
-                                        Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
-                                        mDbProfils.deleteProfil(profileToDelete);
-                                        KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                                    }
-                                }
-                            });
-                    deleteProfilbuilder.show();
-                    return true;
-                case R.id.rename_profil:
-                    getActivity().renameProfil();
-                    return true;
-                case R.id.param_profil:
-                    showFragment(PROFILE);
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-    };
-
-    private final int  MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
-
     private void exportDatabase() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
             // Afficher une boite de dialogue pour confirmer
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
@@ -435,27 +419,21 @@ public class MainActivity extends AppCompatActivity {
             exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
 
             // Si oui, supprimer la base de donnee et refaire un Start.
-            exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                    if (cvsMan.exportDatabase(getCurrentProfil())) {
-                        KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                    } else {
-                        KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                    }
-
-                    // Do nothing but close the dialog
-                    dialog.dismiss();
+            exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
+                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                if (cvsMan.exportDatabase(getCurrentProfil())) {
+                    KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                } else {
+                    KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
+
+                // Do nothing but close the dialog
+                dialog.dismiss();
             });
 
-            exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing
-                    dialog.dismiss();
-                }
+            exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
+                // Do nothing
+                dialog.dismiss();
             });
 
             AlertDialog exportDbDialog = exportDbBuilder.create();
@@ -479,16 +457,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.import_database:
                 // Create DirectoryChooserDialog and register a callback
                 FileChooserDialog fileChooserDialog =
-                        new FileChooserDialog(this, new FileChooserDialog.ChosenFileListener() {
-                            @Override
-                            public void onChosenFile(String chosenDir) {
-                                m_importCVSchosenDir = chosenDir;
-                                //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
-                                //  chosenDir, Toast.LENGTH_LONG).show();
-                                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil());
-                            }
-                        });
+                    new FileChooserDialog(this, chosenDir -> {
+                        m_importCVSchosenDir = chosenDir;
+                        //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
+                        //    chosenDir, Toast.LENGTH_LONG).show();
+                        CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                        cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil());
+                    });
 
                 fileChooserDialog.setFileFilter("csv");
                 fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
@@ -501,36 +476,29 @@ public class MainActivity extends AppCompatActivity {
                 deleteDbBuilder.setMessage(getActivity().getResources().getText(R.string.deleteDB_warning));
 
                 // Si oui, supprimer la base de donnee et refaire un Start.
-                deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        // recupere le premier ID de la liste.
-                        List<Profile> lList = mDbProfils.getAllProfils();
-                        for (int i = 0; i < lList.size(); i++) {
-                            Profile mTempProfile = lList.get(i);
-                            mDbProfils.deleteProfil(mTempProfile.getId());
-                        }
-                        DAOMachine mDbMachines = new DAOMachine(getActivity());
-                        // recupere le premier ID de la liste.
-                        List<Machine> lList2 = mDbMachines.getAllMachinesArray();
-                        for (int i = 0; i < lList2.size(); i++) {
-                            Machine mTemp = lList2.get(i);
-                            mDbMachines.delete(mTemp.getId());
-                        }
-                        // Do nothing but close the dialog
-                        dialog.dismiss();
-
-                        finish();
+                deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
+                    // recupere le premier ID de la liste.
+                    List<Profile> lList = mDbProfils.getAllProfils();
+                    for (int i = 0; i < lList.size(); i++) {
+                        Profile mTempProfile = lList.get(i);
+                        mDbProfils.deleteProfil(mTempProfile.getId());
                     }
+                    DAOMachine mDbMachines = new DAOMachine(getActivity());
+                    // recupere le premier ID de la liste.
+                    List<Machine> lList2 = mDbMachines.getAllMachinesArray();
+                    for (int i = 0; i < lList2.size(); i++) {
+                        Machine mTemp = lList2.get(i);
+                        mDbMachines.delete(mTemp.getId());
+                    }
+                    // Do nothing but close the dialog
+                    dialog.dismiss();
+
+                    finish();
                 });
 
-                deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                        dialog.dismiss();
-                    }
+                deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
+                    // Do nothing
+                    dialog.dismiss();
                 });
 
                 AlertDialog deleteDbDialog = deleteDbBuilder.create();
@@ -557,23 +525,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                    exportDatabase();
-                } else {
-                    KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                exportDatabase();
+            } else {
+                KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
-                }
-
-
-                }
             }
         }
-
+    }
 
     public boolean CreateNewProfil() {
         AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(this);
@@ -585,26 +548,22 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         newProfilBuilder.setView(input);
 
-        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
+        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+            String value = input.getText().toString();
 
-                if (value.isEmpty()) {
-                    CreateNewProfil();
-                } else {
-                    // Create the new profil
-                    mDbProfils.addProfil(value);
-                    // Make it the current.
-                    setCurrentProfil(value);
-                }
+            if (value.isEmpty()) {
+                CreateNewProfil();
+            } else {
+                // Create the new profil
+                mDbProfils.addProfil(value);
+                // Make it the current.
+                setCurrentProfil(value);
             }
         });
 
-        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if (getCurrentProfil() == null) {
-                    CreateNewProfil();
-                }
+        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
+            if (getCurrentProfil() == null) {
+                CreateNewProfil();
             }
         });
 
@@ -624,26 +583,22 @@ public class MainActivity extends AppCompatActivity {
         input.setText(getCurrentProfil().getName());
         newBuilder.setView(input);
 
-        newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
+        newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+            String value = input.getText().toString();
 
-                if (!value.isEmpty()) {
-                    // Get current profil
-                    Profile temp = getCurrentProfil();
-                    // Rename it
-                    temp.setName(value);
-                    // Commit it
-                    mDbProfils.updateProfile(temp);
-                    // Make it the current.
-                    setCurrentProfil(value);
-                }
+            if (!value.isEmpty()) {
+                // Get current profil
+                Profile temp = getCurrentProfil();
+                // Rename it
+                temp.setName(value);
+                // Commit it
+                mDbProfils.updateProfile(temp);
+                // Make it the current.
+                setCurrentProfil(value);
             }
         });
 
-        newBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
+        newBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
         });
 
         newBuilder.show();
@@ -685,39 +640,38 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
-    private void showFragment(String pFragmentName)
-    {
+    private void showFragment(String pFragmentName) {
         showFragment(pFragmentName, true);
     }
 
     private void showFragment(String pFragmentName, boolean addToBackStack) {
 
-        if (currentFragmentName == pFragmentName) return; // If this is already the current fragment, do no replace.
+        if (currentFragmentName.equals(pFragmentName))
+            return; // If this is already the current fragment, do no replace.
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
         // Then show the fragments
         if (pFragmentName.equals(FONTESPAGER)) {
-            ft.replace(R.id.fragment_container,getFontesPagerFragment(), FONTESPAGER);
+            ft.replace(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
         } else if (pFragmentName.equals(CARDIO)) {
-            ft.replace(R.id.fragment_container,getCardioFragment(), CARDIO);
+            ft.replace(R.id.fragment_container, getCardioFragment(), CARDIO);
         } else if (pFragmentName.equals(WEIGHT)) {
             ft.replace(R.id.fragment_container, getWeightFragment(), WEIGHT);
         } else if (pFragmentName.equals(SETTINGS)) {
-            ft.replace(R.id.fragment_container,getSettingsFragment(), SETTINGS);
+            ft.replace(R.id.fragment_container, getSettingsFragment(), SETTINGS);
         } else if (pFragmentName.equals(MACHINES)) {
-            ft.replace(R.id.fragment_container,getMachineFragment(), MACHINES);
+            ft.replace(R.id.fragment_container, getMachineFragment(), MACHINES);
         } else if (pFragmentName.equals(ABOUT)) {
-            ft.replace(R.id.fragment_container,getAboutFragment(), ABOUT);
+            ft.replace(R.id.fragment_container, getAboutFragment(), ABOUT);
         } else if (pFragmentName.equals(BODYTRACKING)) {
-            ft.replace(R.id.fragment_container,getBodyPartFragment(), BODYTRACKING);
+            ft.replace(R.id.fragment_container, getBodyPartFragment(), BODYTRACKING);
         } else if (pFragmentName.equals(PROFILE)) {
             ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
         }
         currentFragmentName = pFragmentName;
-        //if (addToBackStack)  ft.addToBackStack(null);
+        //if (addToBackStack) ft.addToBackStack(null);
         ft.commit();
 
     }
@@ -735,10 +689,6 @@ public class MainActivity extends AppCompatActivity {
 
     public Profile getCurrentProfil() {
         return mCurrentProfile;
-    }
-
-    public long getCurrentProfilID() {
-        return mCurrentProfile.getId();
     }
 
     //@SuppressLint("RestrictedApi")
@@ -771,6 +721,10 @@ public class MainActivity extends AppCompatActivity {
 
                 savePreferences();
             }
+    }
+
+    public long getCurrentProfilID() {
+        return mCurrentProfile.getId();
     }
 
     private void setPhotoProfile(String path) {
@@ -896,10 +850,12 @@ public class MainActivity extends AppCompatActivity {
         return top_toolbar;
     }
 
-    public void restoreToolbar() { if (top_toolbar != null) setSupportActionBar(top_toolbar); }
+    public void restoreToolbar() {
+        if (top_toolbar != null) setSupportActionBar(top_toolbar);
+    }
 
     public void showMP3Toolbar(boolean show) {
-        Toolbar mp3toolbar = (Toolbar) this.findViewById(R.id.musicToolbar);
+        Toolbar mp3toolbar = this.findViewById(R.id.musicToolbar);
         if (!show) {
             mp3toolbar.setVisibility(View.GONE);
         } else {
@@ -907,68 +863,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-            selectItem(position);
-
-            // Insert the fragment by replacing any existing fragment
-            switch (position) {
-                case 0:
-                    showFragment(PROFILE);
-                    setTitle(getString(R.string.ProfileLabel));
-                    break;
-                case 1:
-                    showFragment(FONTESPAGER);
-                    setTitle(getResources().getText(R.string.menu_Workout));
-                    break;
-                case 2:
-                    showFragment(MACHINES);
-                    setTitle(getResources().getText(R.string.MachinesLabel));
-                    break;
-                case 3:
-                    showFragment(WEIGHT);
-                    setTitle(getResources().getText(R.string.weightMenuLabel));
-                    break;
-                case 4:
-                    showFragment(BODYTRACKING);
-                    setTitle(getResources().getText(R.string.bodytracking));
-                    break;
-                case 5:
-                    showFragment(SETTINGS);
-                    setTitle(getResources().getText(R.string.SettingLabel));
-                    break;
-                case 6:
-                    showFragment(ABOUT);
-                    setTitle(getResources().getText(R.string.AboutLabel));
-                    break;
-                default:
-                    showFragment(FONTESPAGER);
-                    setTitle(getResources().getText(R.string.FonteLabel));
-            }
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_INTRO:
-                if (resultCode == RESULT_OK) {
-                    initActivity();
-                    mIntro014Launched = true;
-                    this.savePreferences();
-                } else {
-                    // Cancelled the intro. You can then e.g. finish this activity too.
-                    finish();
-                }
-                break;
+        if (requestCode == REQUEST_CODE_INTRO) {
+            if (resultCode == RESULT_OK) {
+                initActivity();
+                mIntro014Launched = true;
+                this.savePreferences();
+            } else {
+                // Cancelled the intro. You can then e.g. finish this activity too.
+                finish();
+            }
         }
     }
-
-    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
-    private long mBackPressed;
 
     @Override
     public void onBackPressed() {
@@ -1012,5 +920,48 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCurrentProfile != null) setCurrentProfil(mCurrentProfile.getName());
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+
+            selectItem(position);
+
+            // Insert the fragment by replacing any existing fragment
+            switch (position) {
+                case 0:
+                    showFragment(PROFILE);
+                    setTitle(getString(R.string.ProfileLabel));
+                    break;
+                case 1:
+                    showFragment(FONTESPAGER);
+                    setTitle(getResources().getText(R.string.menu_Workout));
+                    break;
+                case 2:
+                    showFragment(MACHINES);
+                    setTitle(getResources().getText(R.string.MachinesLabel));
+                    break;
+                case 3:
+                    showFragment(WEIGHT);
+                    setTitle(getResources().getText(R.string.weightMenuLabel));
+                    break;
+                case 4:
+                    showFragment(BODYTRACKING);
+                    setTitle(getResources().getText(R.string.bodytracking));
+                    break;
+                case 5:
+                    showFragment(SETTINGS);
+                    setTitle(getResources().getText(R.string.SettingLabel));
+                    break;
+                case 6:
+                    showFragment(ABOUT);
+                    setTitle(getResources().getText(R.string.AboutLabel));
+                    break;
+                default:
+                    showFragment(FONTESPAGER);
+                    setTitle(getResources().getText(R.string.FonteLabel));
+            }
+        }
     }
 }
