@@ -12,7 +12,8 @@
         android:paddingTop="0dp"
         android:paddingRight="0dp"
         android:paddingBottom="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
         <LinearLayout
             android:id="@+id/mainProfile"
