@@ -33,3 +33,7 @@ For development, [Android Studio](https://developer.android.com/studio/) with [g
 5. Do you want to add the following file to Git? (Project.xml) -> **No**
 6. Then in the Build window: Add Google Maven repository
 7. File -> Sync Project with Gradle Files
+
+## CHANGE LOG
+
+See [CHANGELOG.md](/CHANGELOG.md/)
