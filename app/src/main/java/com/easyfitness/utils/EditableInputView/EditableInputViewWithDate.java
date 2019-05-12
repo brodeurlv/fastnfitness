@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
@@ -21,7 +23,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class EditableInputViewWithDate extends EditableInputView implements DatePickerDialog.OnDateSetListener {
     private Date date;
-    private EditText dateEditView = null;
+    private TextView dateEditView = null;
 
     public EditableInputViewWithDate(Context context) {
         super(context);
@@ -53,12 +55,12 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
 
     @Override
     protected void editDialog(Context context) {
-        final EditText editDate = new EditText(getContext());
+        final TextView editDate = new TextView(getContext());
         date = DateConverter.getNewDate();
         editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
+        editDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         editDate.setGravity(Gravity.CENTER);
-        editDate.setOnFocusChangeListener((view, b) -> {
-            if (b) {
+        editDate.setOnClickListener((view) -> {
                 Calendar calendar = Calendar.getInstance();
 
                 calendar.setTime(DateConverter.getNewDate());
@@ -69,13 +71,12 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
                 dateEditView = editDate;
                 datePickerDialog.show();
-            }
         });
 
         final EditText editText = new EditText(getContext());
         if (getText().contentEquals("-")) {
             editText.setText("");
-            editText.setHint("Enter value here");
+            editText.setHint("Enter date and value here");
         } else {
             editText.setText(getText());
         }
