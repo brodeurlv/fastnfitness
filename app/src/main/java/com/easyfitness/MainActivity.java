@@ -40,6 +40,8 @@ import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
@@ -490,6 +492,10 @@ public class MainActivity extends AppCompatActivity {
                         Machine mTemp = lList2.get(i);
                         mDbMachines.delete(mTemp.getId());
                     }
+
+                    // redisplay the intro
+                    mIntro014Launched=false;
+
                     // Do nothing but close the dialog
                     dialog.dismiss();
 
@@ -698,8 +704,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentProfil(Profile newProfil) {
-        if (mCurrentProfile != null)
-            if (mCurrentProfilID != newProfil.getId() || !mCurrentProfile.equals(newProfil)) {
+        if (newProfil != null)
+            if ( mCurrentProfile == null || mCurrentProfilID != newProfil.getId() || !mCurrentProfile.equals(newProfil)) {
 
                 mCurrentProfile = newProfil;
                 mCurrentProfilID = mCurrentProfile.getId();
