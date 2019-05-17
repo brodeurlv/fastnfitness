@@ -171,7 +171,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:gravity="start|center"
+                    android:gravity="center"
                     android:maxLines="1"
                     android:text="2"
                     android:textAlignment="center" />
@@ -208,7 +208,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
-                    android:gravity="start|center"
+                    android:gravity="center"
                     android:maxLines="1"
                     android:text="3Lbs"
                     android:textAlignment="center" />
