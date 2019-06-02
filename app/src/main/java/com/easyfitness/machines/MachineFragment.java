@@ -96,12 +96,29 @@ public class MachineFragment extends Fragment {
             .setContentText("")
             .setCancelText(getResources().getText(R.string.CardioLabel).toString())
             .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
+            .setNeutralText("Static")
             .showCancelButton(true)
             .setConfirmClickListener(sDialog -> {
                 long temp_machine_key = -1;
                 String pMachine = "";
                 DAOMachine lDAOMachine = new DAOMachine(getContext());
                 temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false);
+                sDialog.dismissWithAnimation();
+
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                transaction.addToBackStack(null);
+                // Commit the transaction
+                transaction.commit();
+            })
+            .setNeutralClickListener(sDialog -> {
+                long temp_machine_key = -1;
+                String pMachine = "";
+                DAOMachine lDAOMachine = new DAOMachine(getContext());
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_STATIC, "", false);
                 sDialog.dismissWithAnimation();
 
                 ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());

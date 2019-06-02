@@ -285,4 +285,5 @@
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
     <string name="no_fat_available">graisse [%] non disponible</string>
     <string name="indexLabel">Index</string>
+    <string name="SecondsLabel_short">Secs</string>
 </resources>

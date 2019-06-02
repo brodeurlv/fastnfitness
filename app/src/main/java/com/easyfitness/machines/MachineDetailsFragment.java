@@ -252,7 +252,7 @@ public class MachineDetailsFragment extends Fragment {
                 if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
                 } else {
-                    if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                    if (mMachine.getType() == DAOMachine.TYPE_FONTE || mMachine.getType() == DAOMachine.TYPE_STATIC) {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
                     } else {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_running));

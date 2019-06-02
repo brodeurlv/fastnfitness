@@ -24,6 +24,7 @@ public class DAOMachine extends DAOBase {
 
     public static final int TYPE_FONTE = 0;
     public static final int TYPE_CARDIO = 1;
+    public static final int TYPE_STATIC = 2;
 
     public static final String TABLE_CREATE_5 = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME

@@ -295,5 +295,6 @@
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
     <string name="no_fat_available">Fett nicht verfügbar</string>
     <string name="indexLabel">Index</string>
+    <string name="SecondsLabel_short">Secs</string>
 </resources>
 

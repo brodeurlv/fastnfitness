@@ -44,10 +44,6 @@ public class FonteHistoryFragment extends Fragment {
     Button paramButton = null;
     ListView filterList = null;
 
-    TextView tSerie = null;
-    TextView tReps = null;
-    TextView tWeight = null;
-
     MainActivity mActivity = null;
 
     List<String> mExerciseArray = null;
@@ -140,10 +136,6 @@ public class FonteHistoryFragment extends Fragment {
         dateList = view.findViewById(R.id.filterDate);
         exerciseList = view.findViewById(R.id.filterMachine);
         filterList = view.findViewById(R.id.listFilterRecord);
-
-        tSerie = view.findViewById(R.id.SERIE_CELL);
-        tReps = view.findViewById(R.id.REPETITION_CELL);
-        tWeight = view.findViewById(R.id.POIDS_CELL);
 
         // Initialisation de l'historique
         mDb = new DAORecord(view.getContext());

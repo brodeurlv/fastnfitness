@@ -43,7 +43,7 @@ public class DAOCardio extends DAORecord {
      * @return
      */
     public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, Profile pProfile) {
-        return addRecord(pDate, pMachine, DAOMachine.TYPE_CARDIO, 0, 0, 0, pProfile, 0, "", pTime, pDistance, pDuration);
+        return addRecord(pDate, pMachine, DAOMachine.TYPE_CARDIO, 0, 0, 0, pProfile, 0, "", pTime, pDistance, pDuration, 0);
     }
 
     // Getting single value

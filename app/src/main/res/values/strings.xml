@@ -299,5 +299,8 @@
     <string name="FFMI_formula" translatable="false">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="no_fat_available">no fat available</string>
     <string name="indexLabel">Index</string>
+    <string name="exercise_type">Exercise Type:</string>
+    <string name="staticExercise">Static</string>
+    <string name="SecondsLabel_short">Secs</string>
 
 </resources>

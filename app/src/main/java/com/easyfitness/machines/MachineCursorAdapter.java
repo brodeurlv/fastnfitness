@@ -51,14 +51,14 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 String lThumbPath = imgUtil.getThumbPath(lPath);
                 ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
-                if (lType == DAOMachine.TYPE_FONTE)
+                if (lType == DAOMachine.TYPE_FONTE || lType == DAOMachine.TYPE_STATIC )
                     i0.setImageResource(R.drawable.ic_machine);
                 else
                     i0.setImageResource(R.drawable.ic_running);
                 e.printStackTrace();
             }
         } else {
-            if (lType == DAOMachine.TYPE_FONTE)
+            if (lType == DAOMachine.TYPE_FONTE || lType == DAOMachine.TYPE_STATIC )
                 i0.setImageResource(R.drawable.ic_machine);
             else
                 i0.setImageResource(R.drawable.ic_running);

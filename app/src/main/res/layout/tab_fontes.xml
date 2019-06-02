@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tab_fontes"
     android:name="tab_fontes"
     android:layout_width="match_parent"
@@ -82,6 +83,8 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+
+
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
             android:layout_width="match_parent"
@@ -98,7 +101,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_weight="0"
                 android:gravity="center"
-                android:text="Exercise Type :" />
+                android:text="@string/exercise_type" />
 
             <androidx.cardview.widget.CardView
                 style="@style/CardViewStyle"
@@ -113,7 +116,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/background_odd"
                     android:gravity="center"
-                    android:text="@string/FonteLabel" />
+                    android:text="@string/FonteLabel"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeTextType="uniform" />
 
             </androidx.cardview.widget.CardView>
 
@@ -129,7 +134,27 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/CardioLabel" />
+                    android:text="@string/CardioLabel"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeTextType="uniform" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:id="@+id/staticSelection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/staticExercise"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeTextType="uniform" />
 
             </androidx.cardview.widget.CardView>
 
@@ -144,6 +169,7 @@
             android:visibility="visible">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewSerie"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -170,12 +196,13 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="2"
-                        android:text="2" />
+                        tools:text="2" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewRepetition"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -202,13 +229,48 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="2"
-                        android:text="10"
+                        tools:text="10"
                         android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewSeconds"
+                style="@style/CardViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border"
+                    android:orientation="vertical">
+                    <!--android:layout_weight="40"-->
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Seconds" />
+
+                    <EditText
+                        android:id="@+id/editSeconds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:minEms="2"
+                        tools:text="10"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewWeight"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -241,7 +303,7 @@
                             android:gravity="center"
                             android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
-                            android:text="10" />
+                            tools:text="10" />
 
                         <Spinner
                             android:id="@+id/spinnerUnit"
@@ -274,7 +336,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="40 kg" />
+                            tools:text="40 kg" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -289,23 +351,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="80 kg" />
+                            tools:text="80 kg" />
 
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/cardioLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewDistance"
                 style="@style/CardViewStyle"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
@@ -334,6 +387,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewDuration"
                 style="@style/CardViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -363,6 +417,20 @@
                     </EditText>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/cardioLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+
 
         </LinearLayout>
 

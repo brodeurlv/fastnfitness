@@ -67,11 +67,10 @@ public class RecordCursorAdapter extends CursorAdapter {
         TextView tSerie = view.findViewById(R.id.SERIE_CELL);
         TextView tSerieLabel = view.findViewById(R.id.SERIE_LABEL);
         TextView tReps = view.findViewById(R.id.REPETITION_CELL);
+        TextView tRepsLabel = view.findViewById(R.id.REP_LABEL);
         TextView tWeight = view.findViewById(R.id.POIDS_CELL);
         TextView tWeightLabel = view.findViewById(R.id.WEIGHT_LABEL);
-        //LinearLayout tSerieLayout = view.findViewById(R.id.SERIE_LAYOUT);
         LinearLayout tRepsLayout = view.findViewById(R.id.REP_LAYOUT);
-        //LinearLayout tWeightLayout = view.findViewById(R.id.WEIGHT_LAYOUT);
 
         if (mCopyClickListener == null) {
             view.findViewById(R.id.copyButton).setVisibility(View.GONE);
@@ -83,10 +82,30 @@ public class RecordCursorAdapter extends CursorAdapter {
             // UI
             tSerieLabel.setText(mContext.getString(R.string.SerieLabel));
             tWeightLabel.setText(mContext.getString(R.string.PoidsLabel));
+            tRepsLabel.setText(mContext.getString(R.string.RepetitionLabel_short));
             tRepsLayout.setVisibility(View.VISIBLE);
             // Data
             tSerie.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SERIE)));
             tReps.setText(cursor.getString(cursor.getColumnIndex(DAORecord.REPETITION)));
+
+            String unit = mContext.getString(R.string.KgUnitLabel);
+            float poids = cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT));
+            if (cursor.getInt(cursor.getColumnIndex(DAORecord.UNIT)) == UnitConverter.UNIT_LBS) {
+                poids = UnitConverter.KgtoLbs(poids);
+                unit = mContext.getString(R.string.LbsUnitLabel);
+            }
+            DecimalFormat numberFormat = new DecimalFormat("#.##");
+            tWeight.setText(numberFormat.format(poids) + unit);
+
+        } else  if (recordType == DAOMachine.TYPE_STATIC) {
+            // UI
+            tSerieLabel.setText(mContext.getString(R.string.SerieLabel));
+            tWeightLabel.setText(mContext.getString(R.string.PoidsLabel));
+            tRepsLabel.setText(mContext.getString(R.string.SecondsLabel_short));
+            tRepsLayout.setVisibility(View.VISIBLE);
+            // Data
+            tSerie.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SERIE)));
+            tReps.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SECONDS)));
 
             String unit = mContext.getString(R.string.KgUnitLabel);
             float poids = cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT));
@@ -126,15 +145,6 @@ public class RecordCursorAdapter extends CursorAdapter {
             t.setText("");
             t.setVisibility(View.GONE);
         }
-
-/*
-        if (separatorNeeded) {
-            LinearLayout l = view.findViewById(R.id.ROWFONTELAYOUT);
-            TextView t = new TextView(context);
-            t.setText(DateConverter.dateToLocalDateStr(date, mContext));
-            l.addView(t, 1);
-        }
-*/
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));

@@ -40,12 +40,15 @@ public class DAORecord extends DAOBase {
     public static final String DISTANCE = "distance";
     public static final String DURATION = "duration";
 
+    // Specific to STATIC
+    public static final String SECONDS = "seconds";
+
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE
         + " DATE, " + EXERCISE + " TEXT, " + SERIE + " INTEGER, "
         + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
-        + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER);";
+        + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
         + TABLE_NAME + ";";
@@ -87,7 +90,7 @@ public class DAORecord extends DAOBase {
      * @param pMachine Machine name
      * @return id of the added record, -1 if error
      */
-    public long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration) {
+    public long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration, int pSeconds ) {
         ContentValues value = new ContentValues();
         long new_id = -1;
         long machine_key = -1;
@@ -113,6 +116,7 @@ public class DAORecord extends DAOBase {
         value.put(DAORecord.DISTANCE, pDistance);
         value.put(DAORecord.DURATION, pDuration);
         value.put(DAORecord.TYPE, pType);
+        value.put(DAORecord.SECONDS, pSeconds);
 
         SQLiteDatabase db = open();
         new_id = db.insert(DAORecord.TABLE_NAME, null, value);
@@ -170,6 +174,16 @@ public class DAORecord extends DAOBase {
                     lProfile,
                     mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
                     mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                    machine_key,
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+            } else if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_STATIC) {
+                value = new StaticExercise(date,
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.SECONDS)),
+                    mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                    lProfile,
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
                     machine_key,
                     mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
             } else {
@@ -583,6 +597,16 @@ public class DAORecord extends DAOBase {
                         lProfile,
                         mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
                         mCursor.getString(mCursor.getColumnIndex(DAORecord.NOTES)),
+                        machine_key,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                }  else if (mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)) == DAOMachine.TYPE_STATIC) {
+                    value = new StaticExercise(date,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.SERIE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.SECONDS)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAORecord.WEIGHT)),
+                        lProfile,
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.UNIT)),
                         machine_key,
                         mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
                 } else {
