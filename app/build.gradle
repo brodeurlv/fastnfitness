@@ -70,7 +70,7 @@ android {
 }
 
 dependencies {
-    implementation files('libs/javacsv-2.1.jar')
+    //implementation files('libs/javacsv-2.1.jar')
     //implementation 'net.sourceforge.javacsv:javacsv:2.1'
 
 // Support
@@ -91,7 +91,7 @@ dependencies {
     //implementation 'com.google.firebase:firebase-crash:16.2.1'
 
 // Other
-    implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3' //2.0.0
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.0.0' //2.0.0
     implementation 'com.github.hannesa2:MPAndroidChart:3.0.7'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.astuetz:pagerslidingtabstrip:1.0.1' //DEPRECATED

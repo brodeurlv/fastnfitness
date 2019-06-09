@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/MachineLabel" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/filterMachine"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/DateLabel" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/filterDate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

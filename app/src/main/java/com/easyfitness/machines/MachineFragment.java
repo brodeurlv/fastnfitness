@@ -1,6 +1,7 @@
 package com.easyfitness.machines;
 
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -92,7 +93,7 @@ public class MachineFragment extends Fragment {
 
 
         SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText("What type of exercise ?")
+            .setTitleText(getString(R.string.what_type_of_exercise))
             .setContentText("")
             .setCancelText(getResources().getText(R.string.CardioLabel).toString())
             .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
@@ -151,9 +152,14 @@ public class MachineFragment extends Fragment {
 
         dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
         dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+        }
         dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
         dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+        }
     };
     private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
