@@ -3,9 +3,11 @@ package com.easyfitness;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,7 +93,7 @@ public class ProfileFragment extends Fragment {
         /* Initialisation des boutons */
 
         genderEdit.setCustomDialogBuilder(view1 -> {
-            return new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
+            SweetAlertDialog dlg =  new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getContext().getString(R.string.edit_value))
                 .setNeutralText(getString(R.string.maleGender))
                 .setCancelText(getString(R.string.femaleGender))
@@ -120,6 +122,34 @@ public class ProfileFragment extends Fragment {
                     }
                     sDialog.dismissWithAnimation();
                 });
+
+            dlg.setOnShowListener(sDialog -> {
+                SweetAlertDialog sweetDlg = (SweetAlertDialog) sDialog;
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
+                //LayoutParams params = (LayoutParams)sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).getLayoutParams();
+                //params.setMargins(0, 0, 0, 0);
+                //dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
+
+                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
+
+                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+            });
+
+            return dlg;
         });
 
         photoButton.setOnClickListener(onClickMachinePhoto);
