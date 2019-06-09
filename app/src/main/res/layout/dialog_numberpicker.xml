@@ -25,9 +25,9 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="+0.25"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold" />
 
             <Button
@@ -36,9 +36,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="+0.5"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -48,9 +48,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="+1"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -60,9 +60,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="+5"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -72,9 +72,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="+10"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -113,9 +113,9 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="-0.25"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -125,9 +125,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="-0.5"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -137,9 +137,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="-1"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -149,9 +149,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="-5"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -161,9 +161,9 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/blue_button_background"
+                android:background="@color/design_default_color_primary"
                 android:text="-10"
-                android:textColor="#5DBCD2"
+                android:textColor="@color/background"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -191,7 +191,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/global_cancel"
-            android:textColor="#5DBCD2"
+            android:textColor="@color/background"
             android:textStyle="bold" />
 
         <Button
@@ -204,7 +204,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/global_ok"
-            android:textColor="#5DBCD2"
+            android:textColor="@color/background"
             android:textStyle="bold" />
 
     </LinearLayout>
