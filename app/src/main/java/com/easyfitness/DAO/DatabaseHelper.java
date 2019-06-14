@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DAORecord.TABLE_CREATE); // Covers Fonte and Cardio
+        db.execSQL(DAORecord.TABLE_CREATE); // Covers Fonte and Cardio and Static
         db.execSQL(DAOProfil.TABLE_CREATE);
         db.execSQL(DAOWeight.TABLE_CREATE);
         db.execSQL(DAOMachine.TABLE_CREATE);

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
@@ -19,19 +20,19 @@ import java.util.TimeZone;
 
 import static android.text.format.DateFormat.getDateFormat;
 
-public class CustomMarkerView extends MarkerView {
+public class DateGraphMarkerView extends MarkerView {
 
     private TextView tvContent;
     private TextView tvDate;
     private DecimalFormat mFormat = new DecimalFormat("#.##");
-    private LineChart lineChart = null;
+    private Chart lineChart = null;
     /**
      * Screen width in pixels.
      */
     private int uiScreenWidth;
     private MPPointF mOffset;
 
-    public CustomMarkerView(Context context, int layoutResource, LineChart chart) {
+    public DateGraphMarkerView(Context context, int layoutResource, Chart chart) {
         super(context, layoutResource);
 
         // find your layout components

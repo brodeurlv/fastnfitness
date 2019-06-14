@@ -29,7 +29,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.graph.Graph;
+import com.easyfitness.graph.DateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
@@ -52,7 +52,7 @@ public class BodyPartDetailsFragment extends Fragment {
     private String name;
     private int mBodyPartID;
     private LineChart mChart = null;
-    private Graph mGraph = null;
+    private DateGraph mDateGraph = null;
     private DAOBodyMeasure mBodyMeasureDb = null;
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
     private OnClickListener clickDateEdit = v -> showDatePickerFragment();
@@ -166,7 +166,7 @@ public class BodyPartDetailsFragment extends Fragment {
         // Add the other graph
         mChart = view.findViewById(R.id.weightChart);
         mChart.setDescription(null);
-        mGraph = new Graph(getContext(), mChart, "");
+        mDateGraph = new DateGraph(getContext(), mChart, "");
         mBodyMeasureDb = new DAOBodyMeasure(view.getContext());
 
         // Set Initial text
@@ -207,7 +207,7 @@ public class BodyPartDetailsFragment extends Fragment {
                 minBodyMeasure = valueList.get(i).getBodyMeasure();
         }
 
-        mGraph.draw(yVals);
+        mDateGraph.draw(yVals);
     }
 
     /*  */

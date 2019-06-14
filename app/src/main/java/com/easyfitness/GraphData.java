@@ -1,14 +1,14 @@
 package com.easyfitness;
 
-public class DateGraphData {
+public class GraphData {
     private double x, y;
 
-    public DateGraphData(double x, double y) {
+    public GraphData(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public DateGraphData(double x, double y, int y_unit) {
+    public GraphData(double x, double y, int y_unit) {
         this.x = x;
         this.y = y;
     }

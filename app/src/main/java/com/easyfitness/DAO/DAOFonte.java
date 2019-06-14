@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.easyfitness.DateGraphData;
+import com.easyfitness.GraphData;
 import com.easyfitness.utils.DateConverter;
 
 import java.text.ParseException;
@@ -138,8 +138,8 @@ public class DAOFonte extends DAORecord {
     }
 
     // Getting Function records
-    public List<DateGraphData> getBodyBuildingFunctionRecords(Profile pProfile, String pMachine,
-                                                              int pFunction) {
+    public List<GraphData> getBodyBuildingFunctionRecords(Profile pProfile, String pMachine,
+                                                          int pFunction) {
 
         String selectQuery = null;
 
@@ -177,7 +177,7 @@ public class DAOFonte extends DAORecord {
         }
 
         // Formation de tableau de valeur
-        List<DateGraphData> valueList = new ArrayList<>();
+        List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
@@ -198,7 +198,7 @@ public class DAOFonte extends DAORecord {
                     date = new Date();
                 }
 
-                DateGraphData value = new DateGraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
+                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
 
                 // Adding value to list
                 valueList.add(value);

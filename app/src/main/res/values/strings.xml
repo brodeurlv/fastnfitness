@@ -164,6 +164,14 @@
         <item>@string/speed</item>
     </string-array>
 
+
+    <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
+    <string name="nbSeriesPerDate">"Nb Series per Date"</string>
+    <string-array name="graph_static_functions">
+        <item>@string/maxWeightPerDuration</item>
+        <item>@string/nbSeriesPerDate</item>
+    </string-array>
+
     <string name="all">All</string>
 
     <string name="bodytracking">Body Track</string>
@@ -206,7 +214,7 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
 
-    <!-- Graph -->
+    <!-- DateGraph -->
     <string name="graph_all">All</string>
     <string name="graph_lastyear">Last Year</string>
     <string name="graph_lastmonth">Last Month</string>

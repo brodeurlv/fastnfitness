@@ -191,7 +191,7 @@
     <string name="camera">Kamera</string>
     <string name="gallery">Gallerie</string>
 
-    <!-- Graph -->
+    <!-- DateGraph -->
     <string name="graph_all">Alle</string>
     <string name="graph_lastyear">Letztes Jahr</string>
     <string name="graph_lastmonth">Letzter Monat</string>
@@ -296,5 +296,8 @@
     <string name="no_fat_available">Fett nicht verfügbar</string>
     <string name="indexLabel">Index</string>
     <string name="SecondsLabel_short">Secs</string>
+    <string name="staticExercise">"Isometrische "</string>
+    <string name="what_type_of_exercise">Welche Art von Training ?</string>
+    <string name="exercise_type">Art von Training:</string>
 </resources>
 

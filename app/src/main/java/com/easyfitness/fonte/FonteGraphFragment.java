@@ -23,15 +23,18 @@ import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOStatic;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DateGraphData;
+import com.easyfitness.GraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.graph.Graph;
-import com.easyfitness.graph.Graph.zoomType;
+import com.easyfitness.graph.BarGraph;
+import com.easyfitness.graph.DateGraph;
+import com.easyfitness.graph.DateGraph.zoomType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -47,8 +50,10 @@ public class FonteGraphFragment extends Fragment {
     private Spinner functionList = null;
     private Spinner machineList = null;
     private zoomType currentZoom = zoomType.ZOOM_ALL;
-    private LineChart mChart = null;
-    private Graph mGraph = null;
+    private DateGraph mDateGraph = null;
+    private LineChart mLineChart = null;
+    private BarGraph mBarGraph =null;
+    private BarChart mBarChart = null;
     private DAOFonte mDbFonte = null;
     private DAOCardio mDbCardio = null;
     private DAOStatic mDbStatic = null;
@@ -84,7 +89,7 @@ public class FonteGraphFragment extends Fragment {
                 currentZoom = zoomType.ZOOM_YEAR;
                 break;
         }
-        mGraph.setZoom(currentZoom);
+        mDateGraph.setZoom(currentZoom);
     };
 
     /**
@@ -127,8 +132,11 @@ public class FonteGraphFragment extends Fragment {
         lastweekButton.setOnClickListener(onZoomClick);
 
         /* Initialise le graph */
-        mChart = view.findViewById(R.id.graphChart);
-        mGraph = new Graph(getContext(), mChart, getResources().getText(R.string.weightLabel).toString());
+        mLineChart = view.findViewById(R.id.graphLineChart);
+        mDateGraph = new DateGraph(getContext(), mLineChart, getResources().getText(R.string.weightLabel).toString());
+
+        mBarChart = view.findViewById(R.id.graphBarChart);
+        mBarGraph = new BarGraph(getContext(), mBarChart, getResources().getText(R.string.weightLabel).toString());
 
         /* Initialisation de l'historique */
         if (mDbFonte == null) mDbFonte = new DAOFonte(getContext());
@@ -182,7 +190,7 @@ public class FonteGraphFragment extends Fragment {
 
         ArrayAdapter<String> adapterFunction = null;
 
-        if (machine.getType() == DAOMachine.TYPE_FONTE || machine.getType() == DAOMachine.TYPE_STATIC) {
+        if (machine.getType() == DAOMachine.TYPE_FONTE ) {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_functions));
@@ -190,6 +198,9 @@ public class FonteGraphFragment extends Fragment {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
+        } else if (machine.getType() == DAOMachine.TYPE_STATIC) {
+            adapterFunction = new ArrayAdapter<>( getContext(), android.R.layout.simple_spinner_item,
+                mActivity.getResources().getStringArray(R.array.graph_static_functions));
         }
         adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         functionList.setAdapter(adapterFunction);
@@ -203,7 +214,7 @@ public class FonteGraphFragment extends Fragment {
         String lFunction = null;
         int lDAOFunction = 0;
 
-        mChart.clear();
+        mLineChart.clear();
         if (machineList.getSelectedItem() == null) {
             return;
         }// Evite les problemes au cas ou il n'y aurait aucune machine d'enregistree
@@ -218,9 +229,10 @@ public class FonteGraphFragment extends Fragment {
         Machine m = mDbExercise.getMachine(lMachine);
         if (m == null) return;
         ArrayList<Entry> yVals = new ArrayList<>();
+        ArrayList<BarEntry> yBarVals = new ArrayList<>();
         Description desc = new Description();
 
-        if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
+        if (m.getType() == DAOMachine.TYPE_FONTE) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
                 lDAOFunction = DAOFonte.MAX1_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
@@ -230,14 +242,14 @@ public class FonteGraphFragment extends Fragment {
             }
             desc.setText(lMachine + "/" + lFunction + "(kg)");
             // Recupere les enregistrements
-            List<DateGraphData> valueList = null;
+            List<GraphData> valueList = null;
             if (m.getType() == DAOMachine.TYPE_FONTE)
                 valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfil(), lMachine, lDAOFunction);
             else
                 valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
             if (valueList.size() <= 0) {
-                // mChart.clear(); Already cleared
+                // mLineChart.clear(); Already cleared
                 return;
             }
 
@@ -258,6 +270,11 @@ public class FonteGraphFragment extends Fragment {
                 }
                 yVals.add(value);
             }
+
+            mBarGraph.getChart().setVisibility(View.GONE);
+            mDateGraph.getChart().setVisibility(View.VISIBLE);
+            mDateGraph.getChart().setDescription(desc);
+            mDateGraph.draw(yVals);
         } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
 
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
@@ -272,7 +289,7 @@ public class FonteGraphFragment extends Fragment {
             }
 
             // Recupere les enregistrements
-            List<DateGraphData> valueList = mDbCardio.getFunctionRecords(getProfil(), lMachine, lDAOFunction);
+            List<GraphData> valueList = mDbCardio.getFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
             if (valueList.size() <= 0) {
                 return;
@@ -289,10 +306,65 @@ public class FonteGraphFragment extends Fragment {
                 }
                 yVals.add(value);
             }
-        }
 
-        mGraph.getLineChart().setDescription(desc);
-        mGraph.draw(yVals);
+            mBarGraph.getChart().setVisibility(View.GONE);
+            mDateGraph.getChart().setVisibility(View.VISIBLE);
+            mDateGraph.getChart().setDescription(desc);
+            mDateGraph.draw(yVals);
+        } if (m.getType() == DAOMachine.TYPE_STATIC) {
+            if (lFunction.equals(mActivity.getResources().getString(R.string.maxWeightPerDuration))) {
+                lDAOFunction = DAOStatic.MAX_FCT;
+            } else if (lFunction.equals(mActivity.getResources().getString(R.string.nbSeriesPerDate))) {
+                lDAOFunction = DAOStatic.NBSERIE_FCT;
+            }
+            desc.setText(lMachine + "/" + lFunction);
+            // Recupere les enregistrements
+            List<GraphData> valueList = null;
+            valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
+
+            if (valueList.size() <= 0) {
+                // mLineChart.clear(); Already cleared
+                return;
+            }
+
+            if (lDAOFunction == DAOStatic.MAX_FCT) {
+                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                int defaultUnit = 0;
+                try {
+                    defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
+                } catch (NumberFormatException e) {
+                    defaultUnit = 0;
+                }
+
+                final ArrayList<String> xAxisLabel = new ArrayList<>();
+
+                for (int i = 0; i < valueList.size(); i++) {
+                    BarEntry value = null;
+                    if (defaultUnit == UnitConverter.UNIT_LBS) {
+                        value = new BarEntry(i, UnitConverter.KgtoLbs((float) valueList.get(i).getY()));
+
+                    } else {
+                        value = new BarEntry(i, (float) valueList.get(i).getY());
+                    }
+                    xAxisLabel.add(String.valueOf((int) valueList.get(i).getX()));
+                    yBarVals.add(value);
+                }
+                mBarGraph.getChart().setVisibility(View.VISIBLE);
+                mDateGraph.getChart().setVisibility(View.GONE);
+                mBarGraph.getChart().setDescription(desc);
+                mBarGraph.draw(yBarVals, xAxisLabel);
+
+            } else if (lDAOFunction == DAOStatic.NBSERIE_FCT)  {
+                for (int i = 0; i < valueList.size(); i++) {
+                    Entry value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
+                    yVals.add(value);
+                }
+                mBarGraph.getChart().setVisibility(View.GONE);
+                mDateGraph.getChart().setVisibility(View.VISIBLE);
+                mDateGraph.getChart().setDescription(desc);
+                mDateGraph.draw(yVals);
+            }
+        }
     }
 
     public String getName() {
@@ -341,7 +413,7 @@ public class FonteGraphFragment extends Fragment {
                         drawGraph();
                     }
                 } else {
-                    mChart.clear();
+                    mLineChart.clear();
                 }
             }
         }

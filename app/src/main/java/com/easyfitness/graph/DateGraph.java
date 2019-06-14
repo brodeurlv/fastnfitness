@@ -30,13 +30,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Graph {
+public class DateGraph {
 
     private LineChart mChart = null;
     private String mChartName = null;
     private Context mContext = null;
 
-    public Graph(Context context, LineChart chart, String name) {
+    public DateGraph(Context context, LineChart chart, String name) {
         mChart = chart;
         mChartName = name;
         mChart.setDoubleTapToZoomEnabled(true);
@@ -45,7 +45,7 @@ public class Graph {
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
 
-        IMarker marker = new CustomMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
+        IMarker marker = new DateGraphMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
         mChart.setMarker(marker);
 
         mContext = context;
@@ -139,7 +139,7 @@ public class Graph {
         return output.toString();
     }
 
-    public LineChart getLineChart() {
+    public LineChart getChart() {
         return mChart;
     }
 

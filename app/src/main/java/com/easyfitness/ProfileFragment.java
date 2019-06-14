@@ -227,7 +227,7 @@ public class ProfileFragment extends Fragment {
             ImageUtil.setPic(roundProfile, mProfile.getPhoto());
             roundProfile.invalidate();
         } else
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
     }
 
     private void requestForSave(View view) {

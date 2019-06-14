@@ -137,7 +137,7 @@
             app:cardCornerRadius="5dp">
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/graphChart"
+                android:id="@+id/graphLineChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -147,6 +147,19 @@
                 android:layout_marginBottom="5dp"
                 android:background="#FFFFFF"
                 android:minHeight="150dp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/graphBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#FFFFFF"
+                android:minHeight="150dp"
+                android:visibility="gone"/>
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>

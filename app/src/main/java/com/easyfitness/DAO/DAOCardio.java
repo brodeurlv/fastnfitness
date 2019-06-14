@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.easyfitness.DateGraphData;
+import com.easyfitness.GraphData;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 
@@ -135,8 +135,8 @@ public class DAOCardio extends DAORecord {
     }
 
     // Getting Function records
-    public List<DateGraphData> getFunctionRecords(Profile pProfile, String pMachine,
-                                                  int pFunction) {
+    public List<GraphData> getFunctionRecords(Profile pProfile, String pMachine,
+                                              int pFunction) {
 
         boolean lfilterMachine = true;
         boolean lfilterFunction = true;
@@ -181,7 +181,7 @@ public class DAOCardio extends DAORecord {
         // break;
 
         // Formation de tableau de valeur
-        List<DateGraphData> valueList = new ArrayList<DateGraphData>();
+        List<GraphData> valueList = new ArrayList<GraphData>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.rawQuery(selectQuery, null);
@@ -201,7 +201,7 @@ public class DAOCardio extends DAORecord {
                     date = new Date();
                 }
 
-                DateGraphData value = new DateGraphData(DateConverter.nbDays(date.getTime()),
+                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()),
                     mCursor.getDouble(0));
 
                 // Adding value to list

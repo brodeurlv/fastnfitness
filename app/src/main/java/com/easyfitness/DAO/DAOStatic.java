@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.easyfitness.DateGraphData;
+import com.easyfitness.GraphData;
 import com.easyfitness.utils.DateConverter;
 
 import java.text.ParseException;
@@ -16,10 +16,8 @@ import java.util.TimeZone;
 
 public class DAOStatic extends DAORecord {
 
-    public static final int SUM_FCT = 0;
-    public static final int MAX1_FCT = 1;
-    public static final int MAX5_FCT = 2;
-    public static final int NBSERIE_FCT = 3;
+    public static final int MAX_FCT = 1;
+    public static final int NBSERIE_FCT = 2;
 
     private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SERIE + "," + SECONDS + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY + "," + TIME;
 
@@ -137,35 +135,19 @@ public class DAOStatic extends DAORecord {
     }
 
     // Getting Function records
-    public List<DateGraphData> getStaticFunctionRecords(Profile pProfile, String pMachine,
-                                                              int pFunction) {
+    public List<GraphData> getStaticFunctionRecords(Profile pProfile, String pMachine,
+                                                    int pFunction) {
 
         String selectQuery = null;
 
         // TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
-        if (pFunction == DAOStatic.SUM_FCT) {
-            selectQuery = "SELECT SUM(" + SERIE + "*" + REPETITION + "*"
-                + WEIGHT + "), " + DATE + " FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
-        } else if (pFunction == DAOStatic.MAX5_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
+        if (pFunction == DAOStatic.MAX_FCT) {
+            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + SECONDS + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + REPETITION + ">=5"
                 + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
-        } else if (pFunction == DAOStatic.MAX1_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + REPETITION + ">=1"
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + SECONDS
+                + " ORDER BY " + SECONDS + " ASC";
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
             selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
                 + TABLE_NAME
@@ -176,7 +158,7 @@ public class DAOStatic extends DAORecord {
         }
 
         // Formation de tableau de valeur
-        List<DateGraphData> valueList = new ArrayList<>();
+        List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
@@ -185,23 +167,34 @@ public class DAOStatic extends DAORecord {
         double i = 0;
 
         // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
+        if (pFunction == DAOStatic.NBSERIE_FCT) {
+            if (mCursor.moveToFirst()) {
+                do {
 
-                DateGraphData value = new DateGraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
+                    Date date;
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                        date = dateFormat.parse(mCursor.getString(1));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        date = new Date();
+                    }
 
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
+                    GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
+
+                    // Adding value to list
+                    valueList.add(value);
+                } while (mCursor.moveToNext());
+            }
+        } else if (pFunction == DAOStatic.MAX_FCT) {
+            if (mCursor.moveToFirst()) {
+                do {
+                    GraphData value = new GraphData(mCursor.getDouble(1), mCursor.getDouble(0));
+                    valueList.add(value);
+                } while (mCursor.moveToNext());
+            }
+
         }
 
         // return value list

@@ -880,6 +880,13 @@ public class FontesFragment extends Fragment {
 
     private void updateLastRecord(Machine m) {
         IRecord lLastRecord = mDb.getLastExerciseRecord(m.getId(), getProfil());
+        // Default Values
+        serieEdit.setText("1");
+        repetitionEdit.setText("10");
+        secondsEdit.setText("60");
+        poidsEdit.setText("50");
+        distanceEdit.setText("1");
+        durationEdit.setText("10:00");
         if (lLastRecord == null) {
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
