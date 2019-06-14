@@ -70,13 +70,14 @@ public class BarGraph {
         });*/
 
         YAxis leftAxis = mChart.getAxisLeft();
-
+        leftAxis.setAxisMinimum(0f);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setGranularityEnabled(true);
         leftAxis.setGranularity((float) 1);
 
         mChart.setFitBars(true);
+        leftAxis.setAxisMinimum(0f);
 
         mChart.getAxisRight().setEnabled(false);
     }
