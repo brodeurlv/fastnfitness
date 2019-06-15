@@ -13,8 +13,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOCardio;
@@ -52,6 +54,7 @@ public class FonteGraphFragment extends Fragment {
     private zoomType currentZoom = zoomType.ZOOM_ALL;
     private DateGraph mDateGraph = null;
     private LineChart mLineChart = null;
+    private LinearLayout mGraphZoomSelector = null;
     private BarGraph mBarGraph =null;
     private BarChart mBarChart = null;
     private DAOFonte mDbFonte = null;
@@ -132,10 +135,15 @@ public class FonteGraphFragment extends Fragment {
         lastweekButton.setOnClickListener(onZoomClick);
 
         /* Initialise le graph */
+        mGraphZoomSelector = view.findViewById(R.id.graphZoomSelector);
         mLineChart = view.findViewById(R.id.graphLineChart);
+
+
         mDateGraph = new DateGraph(getContext(), mLineChart, getResources().getText(R.string.weightLabel).toString());
 
         mBarChart = view.findViewById(R.id.graphBarChart);
+
+
         mBarGraph = new BarGraph(getContext(), mBarChart, getResources().getText(R.string.weightLabel).toString());
 
         /* Initialisation de l'historique */
@@ -161,6 +169,8 @@ public class FonteGraphFragment extends Fragment {
             machineList.setAdapter(mAdapterMachine);
             mDbFonte.closeCursor();
         }
+
+
 
         if (this.getUserVisibleHint())
             refreshData();
@@ -272,6 +282,7 @@ public class FonteGraphFragment extends Fragment {
             }
 
             mBarGraph.getChart().setVisibility(View.GONE);
+            mGraphZoomSelector.setVisibility(View.VISIBLE);
             mDateGraph.getChart().setVisibility(View.VISIBLE);
             mDateGraph.getChart().setDescription(desc);
             mDateGraph.draw(yVals);
@@ -308,6 +319,7 @@ public class FonteGraphFragment extends Fragment {
             }
 
             mBarGraph.getChart().setVisibility(View.GONE);
+            mGraphZoomSelector.setVisibility(View.VISIBLE);
             mDateGraph.getChart().setVisibility(View.VISIBLE);
             mDateGraph.getChart().setDescription(desc);
             mDateGraph.draw(yVals);
@@ -350,6 +362,7 @@ public class FonteGraphFragment extends Fragment {
                     yBarVals.add(value);
                 }
                 mBarGraph.getChart().setVisibility(View.VISIBLE);
+                mGraphZoomSelector.setVisibility(View.GONE);
                 mDateGraph.getChart().setVisibility(View.GONE);
                 mBarGraph.getChart().setDescription(desc);
                 mBarGraph.draw(yBarVals, xAxisLabel);
@@ -360,11 +373,20 @@ public class FonteGraphFragment extends Fragment {
                     yVals.add(value);
                 }
                 mBarGraph.getChart().setVisibility(View.GONE);
+                mGraphZoomSelector.setVisibility(View.VISIBLE);
                 mDateGraph.getChart().setVisibility(View.VISIBLE);
                 mDateGraph.getChart().setDescription(desc);
                 mDateGraph.draw(yVals);
             }
         }
+
+        LineChart.LayoutParams layoutParams = mLineChart.getLayoutParams();
+        if ( mLineChart.getHeight() > mLineChart.getWidth() ) layoutParams.height = mLineChart.getWidth();
+        mLineChart.setLayoutParams(layoutParams);
+
+        BarChart.LayoutParams layoutParamsBar = mBarChart.getLayoutParams();
+        if ( mBarChart.getHeight() > mBarChart.getWidth() ) layoutParamsBar.height = mBarChart.getWidth();
+        mBarChart.setLayoutParams(layoutParamsBar);
     }
 
     public String getName() {

@@ -67,6 +67,7 @@
 
         <LinearLayout
             style="?android:attr/buttonBarStyle"
+            android:id="@+id/graphZoomSelector"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
@@ -132,6 +133,7 @@
 
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
+            android:id="@+id/graphCardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardCornerRadius="5dp">
