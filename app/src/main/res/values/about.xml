@@ -10,7 +10,7 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18: June 12, 2019\n
+v0.18: June 15, 2019\n
 \t- Enhancement : Added Static exercise type (#61)\n
 \t- Bug : Fixed spinner scroll issues \n
 \t- Bug : Fixed other UI issues \n

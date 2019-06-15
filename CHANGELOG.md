@@ -1,5 +1,10 @@
 ## Change Log
 
+### 0.18 : June 12, 2019
+- Enhancement : Added Static exercise type (#61)
+- Bug : Fixed spinner scroll issues
+- Bug : Fixed other UI issues
+
 ### 0.17.3 : May 12, 2019
 - Enhancement : Added FFMI index (#62)
 - Enhancement : Project refactoring & migration to androidX (Thank you TacoTheDank)
