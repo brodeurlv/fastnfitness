@@ -289,4 +289,9 @@
     <string name="exercise_type">Type d\'exercice:</string>
     <string name="staticExercise">Isometrique</string>
     <string name="what_type_of_exercise">Quel type d\'exercice ?</string>
+    <string name="global_confirm_question">Etes-vous sûr ?</string>
+    <string name="import_failed">import a échoué</string>
+    <string name="imported_successfully">import réussit</string>
+    <string name="maxWeightPerDuration">Poids max par durée</string>
+    <string name="nbSeriesPerDate">Nb séries par date</string>
 </resources>

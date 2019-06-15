@@ -299,5 +299,10 @@
     <string name="staticExercise">"Isometrische "</string>
     <string name="what_type_of_exercise">Welche Art von Training ?</string>
     <string name="exercise_type">Art von Training:</string>
+    <string name="global_confirm_question">Sind sie sicher?</string>
+    <string name="imported_successfully">import gelungen</string>
+    <string name="import_failed">import ist fehlgeschlagen</string>
+    <string name="maxWeightPerDuration">Max Gewicht pro Dauer</string>
+    <string name="nbSeriesPerDate">Nb Serien nach Datum</string>
 </resources>
 

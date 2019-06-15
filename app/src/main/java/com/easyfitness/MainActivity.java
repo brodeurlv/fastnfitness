@@ -1,6 +1,7 @@
 package com.easyfitness;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -49,6 +51,7 @@ import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
+import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
@@ -60,6 +63,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 //import com.crashlytics.android.Crashlytics;
 
@@ -458,8 +463,25 @@ public class MainActivity extends AppCompatActivity {
                         m_importCVSchosenDir = chosenDir;
                         //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
                         //    chosenDir, Toast.LENGTH_LONG).show();
-                        CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                        cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil());
+                        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(this.getResources().getString(R.string.global_confirm_question))
+                            .setConfirmText(this.getResources().getString(R.string.global_yes))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                                    if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil())) {
+                                        KToast.successToast(getActivity(), m_importCVSchosenDir + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                    } else {
+                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                    }
+                                    setCurrentProfil(getCurrentProfil()); // Refresh profile
+                                }
+
+                            })
+                            .show();
+
                     });
 
                 fileChooserDialog.setFileFilter("csv");
