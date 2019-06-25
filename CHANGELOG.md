@@ -1,5 +1,9 @@
 ## Change Log
 
+### 0.18.1 : June 25, 2019
+- Enhancement : Add Brazilian Portuguese translation (thanks rffontenelle)
+- Bug : Fixed impossible crash.
+
 ### 0.18 : June 12, 2019
 - Enhancement : Added Static exercise type (#61)
 - Bug : Fixed spinner scroll issues
