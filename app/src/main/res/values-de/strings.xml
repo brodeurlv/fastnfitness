@@ -43,10 +43,6 @@
     <string name="ShareTitle">Teile deinen Erfolg</string>
     <string name="ShareInstruction">Editiere deinen Text vor dem senden:</string>
     <string name="ShareTextDefault">Ich habe __WEIGHT__ Kg an __MACHINE__ gehoben!</string>
-    <string name="ShareParamName">__NAME__</string>
-    <string name="ShareParamWeight">__WEIGHT__</string>
-    <string name="ShareParamMachine">__MACHINE__</string>
-    <string name="ShareParamExercise">__EXERCISE__</string>
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
@@ -304,5 +300,7 @@
     <string name="import_failed">import ist fehlgeschlagen</string>
     <string name="maxWeightPerDuration">Max Gewicht pro Dauer</string>
     <string name="nbSeriesPerDate">Nb Serien nach Datum</string>
+    <string name="author_label">Author:</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
 </resources>
 

@@ -44,11 +44,7 @@
     <string name="ShareText">Compartilhar</string>
     <string name="ShareTitle">Compartilhar desempenho</string>
     <string name="ShareInstruction">Edite seu texto antes de enviar:</string>
-    <string name="ShareTextDefault">Eu levantei __PESO__ kg em __MAQUINA__ !</string>
-    <string name="ShareParamName">__NOME__</string>
-    <string name="ShareParamWeight">__PESO__</string>
-    <string name="ShareParamMachine">__MAQUINA__</string>
-    <string name="ShareParamExercise">__EXERCICIO__</string>
+    <string name="ShareTextDefault">Eu levantei __WEIGHT__ kg em __MACHINE__ !</string>
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
@@ -304,7 +300,7 @@
     <string name="access_granted">Aceso concedido</string>
     <string name="another_time_maybe">Talvez outra hora :)</string>
     <string name="new_folder">Nova pasta</string>
-    <string name="ffmiLabel">FFMI</string>
+    <string name="ffmiLabel">IMLG</string>
     <string name="FFMI_dialog_title">Índice de massa livre de gordura (IMLG)</string>
     <string name="FFMI_formula">IMLG [kg/m2] = peso [kg] × (1 − (gordura corporal [%] / 100)) / (altura [m])²</string>
     <string name="no_fat_available">nenhuma gordura disponível</string>
@@ -315,5 +311,6 @@
     <string name="SecondsLabel_short">Segs</string>
     <string name="imported_successfully"> importado com sucesso</string>
     <string name="import_failed"> importação falhou</string>
+    <string name="author_label">Author:</string>
 
 </resources>

@@ -920,6 +920,7 @@ public class FontesFragment extends Fragment {
     private void updateRecordTable(String pMachine) {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
+        if (getView()==null) return;
         getView().post(() -> {
 
             Cursor c = null;

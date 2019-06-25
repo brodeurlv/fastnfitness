@@ -45,10 +45,10 @@
     <string name="ShareTitle">Share your perf</string>
     <string name="ShareInstruction">Edit your text before sending:</string>
     <string name="ShareTextDefault">I have lifted __WEIGHT__ kg on __MACHINE__ !</string>
-    <string name="ShareParamName">__NAME__</string>
-    <string name="ShareParamWeight">__WEIGHT__</string>
-    <string name="ShareParamMachine">__MACHINE__</string>
-    <string name="ShareParamExercise">__EXERCISE__</string>
+    <string name="ShareParamName" translatable="false">__NAME__</string>
+    <string name="ShareParamWeight" translatable="false">__WEIGHT__</string>
+    <string name="ShareParamMachine" translatable="false">__MACHINE__</string>
+    <string name="ShareParamExercise" translatable="false">__EXERCISE__</string>
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
@@ -168,7 +168,7 @@
 
 
     <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
-    <string name="nbSeriesPerDate">"Nb Series per Date"</string>
+    <string name="nbSeriesPerDate">Nb Sets per Date</string>
     <string-array name="graph_static_functions">
         <item>@string/maxWeightPerDuration</item>
         <item>@string/nbSeriesPerDate</item>
@@ -233,7 +233,7 @@
     <string name="total_weight">Total weight</string>
     <string name="total_session">Total during session</string>
     <string name="total_machine">Total on exercise</string>
-    <string name="nb_serie">Nb Serie</string>
+    <string name="nb_serie">Nb Sets</string>
     <string name="exit">Exit</string>
     <string name="selectMachineDialogLabel">Select an existing exercise</string>
 
@@ -306,7 +306,7 @@
     <string name="new_folder">New folder</string>
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
-    <string name="FFMI_formula" translatable="false">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="no_fat_available">no fat available</string>
     <string name="indexLabel">Index</string>
     <string name="what_type_of_exercise">What type of exercise ?</string>
