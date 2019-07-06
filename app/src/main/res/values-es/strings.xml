@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_confirm">Confirmar</string>
+    <string name="global_confirm_question">¿Está seguro?</string>
+    <string name="global_warning">Aviso</string>
+    <string name="global_error">Error</string>
+    <string name="global_cancel">Cancelar</string>
+    <string name="global_ok">Aceptar</string>
+    <string name="global_yes">Sí</string>
+    <string name="global_no">No</string>
+
+    <string name="removedid">ID removido</string>
+    <string name="failedtocreatefolder">Error al crear carpeta</string>
+    <string name="optional">Opcional</string>
+
+    <string name="app_name">Fast N Fitness</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="DateLabel">Fechas</string>
+
+    <string name="FunctionLabel">Visualización</string>
+    <string name="HistoryLabel">Historial</string>
+    <string name="GraphLabel">Gráficos</string>
+    <string name="AddLabel">Añadir</string>
+    <string name="AddSmallLabel">Añadir</string>
+    <string name="DeleteLabel">Quitar</string>
+    <string name="ShareLabel">Compartir</string>
+    <string name="EditLabel">Editar</string>
+    <string name="DeleteRecordDialog">¿Quitar este registro?</string>
+
+    <!-- Fonte Fragment -->
+    <string name="FonteLabel">Culturismo</string>
+    <string name="RecordLabel">Registros</string>
+    <string name="SerieLabel">Series</string>
+    <string name="RepetitionLabel">Repeticiones</string>
+    <string name="RepetitionLabel_short">Reps</string>
+    <string name="MachineLabel">Ejercicio</string>
+    <string name="PoidsLabel">Peso</string>
+    <string name="KgUnitLabel">Kg</string>
+    <string name="LbsUnitLabel">Lbs</string>
+    <string name="NotesLabel">Notas</string>
+    <string name="TopTenLabel">Registros recentes:</string>
+
+    <!-- Share text -->
+    <string name="ShareText">Compartir</string>
+    <string name="ShareTitle">Comparta su desempeño</string>
+    <string name="ShareInstruction">Edite su texto antes de enviar:</string>
+    <string name="ShareTextDefault">He adelgazado __WEIGHT__ kg en __MACHINE__ !</string>
+
+    <!-- Cardio Fragment -->
+    <string name="CardioLabel">Cardio</string>
+    <string name="CardioMenuLabel">Cardio (Obsoleto)</string>
+    <string name="DistanceLabel">Distancia (Km)</string>
+    <string name="KmUnitLabel">Km</string>
+    <string name="MilesUnitLabel">Millas</string>
+    <string name="DurationLabel">Duración</string>
+    <string name="ExerciceLabel">Ejercicios</string>
+
+    <!-- Profile Fragment -->
+    <string name="weightMenuLabel">Monitoreo de peso</string>
+    <string name="weightLabel">Peso(kg)</string>
+    <string name="fatLabel">Grasa(%)</string>
+    <string name="bonesLabel">Hueso(%)</string>
+    <string name="waterLabel">Água(%)</string>
+    <string name="musclesLabel">Músculos(%)</string>
+    <string name="sizeLabel">Estatura</string>
+    <string name="measureLabel">Medida</string>
+    <string name="weightTableLabel">Registros de peso:</string>
+    <string name="sizeTableLabel">Historial de altura:</string>
+    <string name="createProfilTitle">Crear nuevo perfil</string>
+    <string name="profileSelected">Perfil seleccionado</string>
+    <string name="profileDeleteImpossible">No es posible borrar el perfil atual</string>
+    <string name="createProfilQuestion">¿Desea dar nombre a su perfil?</string>
+    <string name="userChanged">Usuario modificado</string>
+    <string name="renameProfilTitle">Renombrar perfil</string>
+    <string name="renameProfilQuestion">¿Renombrar este perfil?</string>
+    <string name="DeleteWeightDialog">¿Quitar este peso?</string>
+
+    <!-- Pour le menu settings -->
+    <string name="SettingLabel">Ajustes</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="export_database">Exportar registros</string>
+    <string name="export_question">¿Desea exportar la base de datos de </string>
+    <string name="export_success">Base de dados exportada</string>
+    <string name="export_failed">Error al exportar la base de datos</string>
+    <string name="import_database">Importar registros</string>
+
+    <string name="deleteDB_warning">
+        Esta acción reestablecerá toda la aplicación.
+        Toda información será borrada.
+        ¿Está seguro?
+        Esto saldrá la aplicación.
+    </string>
+    <string name="ResetAppLabel">Reestablecer aplicación</string>
+
+    <!-- Machine Fragment -->
+    <string name="MachinesLabel">Ejercicios</string>
+    <string name="DescriptionLabel">Descripción</string>
+
+    <!-- Preferences -->
+    <string name="pref_ui_setting">Ajustes de UI</string>
+    <string name="pref_show_mp3_player">Mostrar reproductor MP3</string>
+    <string name="pref_show_mp3_player_summary">Mouestra/oculta la barra de herramientass del reproductor MP3</string>
+
+    <string name="pref_bodybuilding_setting">Ajustes de culturismo</string>
+    <string name="pref_preferredUnitSummary">Unidad de preferencia:</string>
+    <string name="pref_preferredUnitTitle">Selecione su unidadad de peso preferida</string>
+
+    <string name="pref_user_name">Establecer nombre de usuário</string>
+    <string name="pref_user_name_summary">Defina su nombre de usuario</string>
+    <string name="pref_user_profile">Perfil de usuario</string>
+
+    <string name="profil_create_new">Crear novo perfil</string>
+    <string name="profil_change">Modificar perfil</string>
+    <string name="profil_select_profil">Seleccione un perfil</string>
+    <string name="profil_edit">Editar perfil</string>
+    <string name="profil_delete">Borrar perfil</string>
+    <string name="profil_select_profil_to_delete">Selecione un perfil para borrar</string>
+
+    <!-- About Fragment  -->
+    <string name="AboutLabel">Acerca de</string>
+
+    <!-- Navigation Drawer -->
+    <string name="drawer_open">Abrir menú de navegación</string>
+    <string name="drawer_close">Cerrar menú de navegación</string>
+
+    <string-array name="fonte_units">
+        <item>@string/KgUnitLabel</item>
+        <item>@string/LbsUnitLabel</item>
+    </string-array>
+
+    <string-array name="fonte_unitsValues">
+        <item>test0</item>
+        <item>test1</item>
+    </string-array>
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="morphology">
+        <item>Delgado</item>
+        <item>Normal</item>
+        <item>Robusto</item>
+    </string-array>
+
+    <string name="maxRep1">Máximo (Reps >= 1)</string>
+    <string name="maxRep5d">Máximo (Reps >= 5)</string>
+    <string name="sum">Soma</string>
+    <string-array name="graph_functions">
+        <item>@string/maxRep1</item>
+        <item>@string/maxRep5d</item>
+        <item>@string/sum</item>
+    </string-array>
+
+    <string name="sumDistance">Distancia</string>
+    <string name="sumDuration">Duración</string>
+    <string name="speed">Velocidad</string>
+    <string-array name="graph_cardio_functions">
+        <item>@string/sumDistance</item>
+        <item>@string/sumDuration</item>
+        <item>@string/speed</item>
+    </string-array>
+
+
+    <string name="maxWeightPerDuration">"Máx. peso por duración"</string>
+    <string name="nbSeriesPerDate">"Núm. de series por fecha"</string>
+    <string-array name="graph_static_functions">
+        <item>@string/maxWeightPerDuration</item>
+        <item>@string/nbSeriesPerDate</item>
+    </string-array>
+
+    <string name="all">Todo</string>
+
+    <string name="bodytracking">Monitor corporal</string>
+    <string name="selectMuscles">Selecionar músculos</string>
+
+    <!-- Muscles -->
+    <string name="biceps">Bíceps</string>
+    <string name="triceps">Tríceps</string>
+    <string name="pectoraux">Pectorales</string>
+    <string name="deltoids">Deltoides</string>
+
+    <string name="dorseaux">Espalda</string>
+    <string name="abdominaux">Abdominales</string>
+
+    <string name="quadriceps">Quadríceps</string>
+    <string name="ischio_jambiers">Isquiotibiales</string>
+    <string name="adducteurs">Muslos</string>
+    <string name="mollets">Pantorrillas</string>
+
+    <!-- Body Parts -->
+    <string name="left_arm">Bíceps izquierdo</string>
+    <string name="right_arm">Bíceps derecho</string>
+    <string name="neck">Cuello</string>
+    <string name="left_thigh">Muslo izquierdo</string>
+    <string name="right_thigh">Muslo derecho</string>
+    <string name="left_calves">Pantorrilla izquierda</string>
+    <string name="right_calves">Pantorrilla derecha</string>
+    <string name="waist">Cintura</string>
+    <string name="behind">Caderas</string>
+    <string name="MesureHint">Inserte el tamaño aquí</string>
+
+    <string name="backDialog_confirm_text">¿Desea guardar antes de salir?</string>
+    <string name="deleteMachine_confirm_text">¿Desea quitar este ejercicio? Todos los registros asociados serán borrados.</string>
+    <string name="deleteRecordsWithMachine_confirm_text">¿Desea quitar todos los registros asociados a esta máquina? Todos los registros asociados serán borrados.</string>
+    <string name="renameMachine_warning_text">AVISO: Este nombre de ejercicio ya existe. Los registros serán fusionados con el otro ejercicio.</string>
+    <string name="renameMachine_error_text">Este nombre ya existe, por favor seleccione otro nombre.</string>
+
+
+    <!-- Photo -->
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+
+    <!-- DateGraph -->
+    <string name="graph_all">Todos</string>
+    <string name="graph_lastyear">Último año</string>
+    <string name="graph_lastmonth">Mes anterior</string>
+    <string name="graph_lastweek">Semana anterior</string>
+
+    <!-- Chronometer -->
+    <string name="ChronometerLabel">Cronómetro</string>
+    <string name="CountdownLabel">Tiempo de descanso</string>
+    <string name="activate_rest_time">Activar cuenta regresiva restante</string>
+    <string name="rest_time">Tiempo de descanso (seg)</string>
+    <string name="lastRecordLabel">Último registro</string>
+    <string name="MachineHint">Filtrar por nombre de ejercicio</string>
+    <string name="WeightHint">Ingrese su peso aquí</string>
+    <string name="total_weight">Peso total</string>
+    <string name="total_session">Duración total de sesión</string>
+    <string name="total_machine">Total de ejercicios</string>
+    <string name="nb_serie">Núm. de serie</string>
+    <string name="exit">Salir</string>
+    <string name="selectMachineDialogLabel">Seleccionar un ejercicio existente</string>
+
+    <!-- Intro slides -->
+    <string name="fillAllFields">Por favor, rellene todos los campos</string>
+    <string name="fillNameField">Por favor, ingrese su nombre, por lo menos</string>
+    <string name="introSlide1Title">Hola</string>
+    <string name="size_cm">Tamaño en cm</string>
+    <string name="size_cm_optional">Tamaño en cm (opcional)</string>
+    <string name="create">Crear</string>
+    <string name="birthday">Fecha de nacimento</string>
+    <string name="birthday_optional">Fecha de nacimento (opcional)</string>
+    <string name="name_or_pseudo">Nome / seudónimo</string>
+    <string name="name_is_required">Nombre es requerido</string>
+    <string name="create_a_profile">Crear un perfil</string>
+    <string name="introSlide1Text">¡Bienvenido a Fast N Fitness! Esta aplicación es un forma simple y rápida de registrar su entrenamiento y monitorear su progreso y evolución corporal.</string>
+    <string name="introSlide2Text">Escriba el nombre de ejercicio y sus detalles, este será creado automáticamente. Usted puede encontrarlo nuevamente con facilidade en la lista.</string>
+    <string name="introSlide2Title">Rápido e fácil</string>
+    <string name="introSlide3Text">Para tomar fotos de sus máquinas, la aplicación necesita autorización para acceder a la cámara y al almacenamiento de su teléfono.</string>
+    <string name="introSlide3Title">Permisos necesarios</string>
+    <string name="titleSlideEssential">Vamos a los escencial</string>
+    <string name="textSlideEssential">No hay ejercicio preestablecido. Usted crea sus propios ejercicios simplemente dependiendo del nombre de la máquina que tenga en su gimnasio / lugar de entrenamiento.</string>
+    <string name="pressBackAgain">Clic en ATRÁS nuevamente para salir</string>
+    <string name="titleSlideOpenSource">¡Es de código abierto!</string>
+    <string name="textSlideOpenSource">¡Únase a la comunidad y juntos construyamos una aplicación de fitness mejorada! Visítenos en https://github.com/brodeurlv/fastnfitness</string>
+    <string name="profileCreated">Perfil creado</string>
+    <string name="missinginfo">Faltando informações</string>
+    <string name="createExerciseFirst">Primero debes crear un ejercicio</string>
+    <string name="impossibleToDeleteProfile">No es posible borrar el perfil actual</string>
+    <string name="profileDeleted">Perfil borrado</string>
+    <string name="min">Mín</string>
+    <string name="max">Máx</string>
+    <string name="areyousure">¿Está seguro certeza?</string>
+    <string name="Take_profile_picture">Imagen de perfil</string>
+    <string name="edit_soon_available">Edición disponible en breve</string>
+    <string name="name">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="muscles">Músculos</string>
+    <string name="start">Iniciar</string>
+    <string name="reset">Reiniciar</string>
+    <string name="weight_missing">Por favor, ingrese un peso</string>
+    <string name="profileEnterYourSize">Su tamaño</string>
+    <string name="profileEnterYourBirthday">Su fecha de nacimiento</string>
+    <string name="profile_page">Página de perfil</string>
+    <string name="ProfileLabel">Perfil</string>
+    <string name="edit_value">Editar valor</string>
+    <string name="obsoleteCardioTab">Ahora puede utilizar el menú Registro para culturismo y cardio. Esta pestaña desaparecerá en una futura actualización.</string>
+    <string name="menu_Workout">Entrenamiento</string>
+    <string name="renameMachine_error_text2">ERROR: El nombre de ejercicio ya existe. No es posible fusionar dos ejercicios con el mismo nombre y diferentes tipos.</string>
+    <string name="recordcopied">Registro copiado</string>
+    <string name="imcLabel">IMC</string>
+    <string name="rfmLabel">IGR</string>
+    <string name="underweight">infrapeso</string>
+    <string name="normal">normal</string>
+    <string name="overweight">sobrepeso</string>
+    <string name="obese">obeso</string>
+    <string name="maleGender">Masculino</string>
+    <string name="femaleGender">Feminino</string>
+    <string name="otherGender">Otro</string>
+    <string name="enter_gender_here">Ingrese el gênero</string>
+    <string name="no_size_available">Sin altura disponible</string>
+    <string name="no_weight_available"Sin peso disponible</string>
+    <string name="BMI_dialog_title">Índice de masa corporal (IMC)</string>
+    <string name="BMI_formula">IMC = peso(kg) / altura(m)²</string>
+    <string name="RFM_dialog_title">Índice de Grasa Relativa (IGR)</string>
+    <string name="RFM_female_formula">Mujeres: IGR = 76 – (20 x (altura/circuferencia de cintura))</string>
+    <string name="RFM_male_formula">Varones: IGR = 64 – (20 x (altura/circuferencia de cintura))</string>
+    <string name="access_granted">Acceso autorizado</string>
+    <string name="another_time_maybe">Quizá en otro tiempo :)</string>
+    <string name="new_folder">Nueva carpeta</string>
+    <string name="ffmiLabel">IMLG</string>
+    <string name="FFMI_dialog_title">Índice de masa libre de grasa (IMLG)</string>
+    <string name="FFMI_formula">IMLG [kg/m2] = peso [kg] × (1 − (grasa corporal [%] / 100)) / (altura [m])²</string>
+    <string name="no_fat_available">sin grasa disponible</string>
+    <string name="indexLabel">Índice</string>
+    <string name="what_type_of_exercise">¿Qué tipo de ejercicio?</string>
+    <string name="exercise_type">Tipo de ejercicio:</string>
+    <string name="staticExercise">Isométrico</string>
+    <string name="SecondsLabel_short">Segs</string>
+    <string name="imported_successfully"> importado con éxito</string>
+    <string name="import_failed"> importación fallida</string>
+    <string name="author_label">Autor:</string>
+
+</resources>
