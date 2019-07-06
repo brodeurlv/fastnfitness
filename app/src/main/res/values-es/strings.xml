@@ -99,7 +99,7 @@
     <!-- Preferences -->
     <string name="pref_ui_setting">Ajustes de UI</string>
     <string name="pref_show_mp3_player">Mostrar reproductor MP3</string>
-    <string name="pref_show_mp3_player_summary">Mouestra/oculta la barra de herramientass del reproductor MP3</string>
+    <string name="pref_show_mp3_player_summary">Muestra/oculta la barra de herramientass del reproductor MP3</string>
 
     <string name="pref_bodybuilding_setting">Ajustes de culturismo</string>
     <string name="pref_preferredUnitSummary">Unidad de preferencia:</string>
