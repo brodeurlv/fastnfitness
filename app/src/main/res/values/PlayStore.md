@@ -1,0 +1,37 @@
+Create your customized sport training with FastNFitness!
+
+Simple and intuitive, the application doesn’t impose any programs and leaves you a TOTAL FREEDOM for the creation of your workouts. Customize your exercises according to your desires and follow your progress session after session, all in music thanks to the integrated audio player.
+
+WORKOUT, RECORD, FOLLOW
+1- Workout:
+
+          • Bodybuilding
+          • Cardio
+          • Fitness
+          • Isometric exercises (Static)
+          • Integrated stopwatch
+
+2- Record:
+
+          • Fast and intuitive exercises creation
+          • Customizable 
+          • Unlimited
+
+3- Follow your progress:
+
+          • Workout history
+          • Performance monitoring (max weight, repetitions, endurance, ...)
+          • Weight tracking
+          • Body measurements tracking (arm circumference, waist circumference, ...)
+          • BMI calculation (Body Mass Index)
+          • FFMI calculation (Fat-Free Mass Index)
+
+FastNFitness, it’s also:
+
+          • 0 ADVERTISING!
+          • 100% FREE!
+          • 100% OPEN SOURCE!
+          • For a 100% PERFECT BODY!
+
+Sportsman and Geek? Participate in the development of this Open Source application on:
+https://github.com/brodeurlv/fastnfitness
