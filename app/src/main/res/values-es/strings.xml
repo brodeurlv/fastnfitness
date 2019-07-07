@@ -291,7 +291,7 @@
     <string name="otherGender">Otro</string>
     <string name="enter_gender_here">Ingrese el gênero</string>
     <string name="no_size_available">Sin altura disponible</string>
-    <string name="no_weight_available"Sin peso disponible</string>
+    <string name="no_weight_available">Sin peso disponible</string>
     <string name="BMI_dialog_title">Índice de masa corporal (IMC)</string>
     <string name="BMI_formula">IMC = peso(kg) / altura(m)²</string>
     <string name="RFM_dialog_title">Índice de Grasa Relativa (IGR)</string>
@@ -312,5 +312,6 @@
     <string name="imported_successfully"> importado con éxito</string>
     <string name="import_failed"> importación fallida</string>
     <string name="author_label">Autor:</string>
+    <string name="import_new_exercise_first">(importa nuevos ejercicios primero)</string>
 
 </resources>
