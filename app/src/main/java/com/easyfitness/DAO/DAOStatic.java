@@ -34,6 +34,12 @@ public class DAOStatic extends DAORecord {
         return addRecord(pDate, pMachine, DAOMachine.TYPE_STATIC, pSerie, 0, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, pSeconds);
     }
 
+    public void addStaticList(List<StaticExercise> staticExerciseList) {
+        for (StaticExercise staticExercise: staticExerciseList) {
+            addRecord(staticExercise.mDate, staticExercise.getExercise(), DAOMachine.TYPE_CARDIO, staticExercise.getSerie(), 0, staticExercise.getPoids(), staticExercise.getProfil(), 0, "", staticExercise.getTime(), 0, 0, staticExercise.getSecond());
+        }
+    }
+
     // Getting single value
     public StaticExercise getStaticRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
@@ -78,7 +84,7 @@ public class DAOStatic extends DAORecord {
                 //Test is Machine exists. If not create it.
                 DAOMachine lDAOMachine = new DAOMachine(mContext);
                 if (mCursor.getString(mCursor.getColumnIndex(DAOStatic.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOStatic.EXERCISE)), "", DAOMachine.TYPE_STATIC, "", false);
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOStatic.EXERCISE)), "", DAOMachine.TYPE_STATIC, "", false, "");
                 } else {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOStatic.MACHINE_KEY));
                 }

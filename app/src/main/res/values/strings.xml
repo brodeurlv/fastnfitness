@@ -315,5 +315,6 @@
     <string name="SecondsLabel_short">Secs</string>
     <string name="imported_successfully"> imported successfully</string>
     <string name="import_failed"> import failed</string>
+    <string name="import_new_exercise_first">(Make sure to import new exercises first)</string>
 
 </resources>

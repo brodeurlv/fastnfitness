@@ -98,7 +98,7 @@ public class DAORecord extends DAOBase {
         //Test is Machine exists. If not create it.
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         if (!lDAOMachine.machineExists(pMachine)) {
-            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "", false);
+            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "", false, "");
         } else {
             machine_key = lDAOMachine.getMachine(pMachine).getId();
         }
@@ -158,7 +158,7 @@ public class DAORecord extends DAOBase {
             //Test is Machine exists. If not create it.
             DAOMachine lDAOMachine = new DAOMachine(mContext);
             if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false);
+                machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false, "");
             } else {
                 machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
             }
@@ -191,7 +191,8 @@ public class DAORecord extends DAOBase {
                     mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
                     mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
                     mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
-                    lProfile);
+                    lProfile,
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
             }
 
             value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
@@ -581,7 +582,7 @@ public class DAORecord extends DAOBase {
                 //Test if machine_key is properly fill. If not add it.
                 DAOMachine lDAOMachine = new DAOMachine(mContext);
                 if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)), "", false);
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)), "", mCursor.getInt(mCursor.getColumnIndex(DAORecord.TYPE)), "", false, "");
                 } else {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
                 }
@@ -614,7 +615,8 @@ public class DAORecord extends DAOBase {
                         mCursor.getString(mCursor.getColumnIndex(DAORecord.EXERCISE)),
                         mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
                         mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
-                        lProfile);
+                        lProfile,
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
                 }
 
                 value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));

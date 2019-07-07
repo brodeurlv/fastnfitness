@@ -8,12 +8,13 @@ public class Cardio extends ARecord {
     private float mDistance;
     private long mDuration;
 
-    public Cardio(Date pDate, String pExercice, float pDistance, long pDuration, Profile pProfile) {
+    public Cardio(Date pDate, String pExercice, float pDistance, long pDuration, Profile pProfile, String pTime) {
         this.mDate = pDate;
         this.mExercise = pExercice;
         this.mDistance = pDistance;
         this.mDuration = pDuration;
         this.mProfile = pProfile;
+        this.mTime = pTime;
         this.mType = DAOMachine.TYPE_CARDIO;
     }
 

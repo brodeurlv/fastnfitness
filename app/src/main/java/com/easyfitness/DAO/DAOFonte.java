@@ -36,6 +36,15 @@ public class DAOFonte extends DAORecord {
         return addRecord(pDate, pMachine, DAOMachine.TYPE_FONTE, pSerie, pRepetition, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, 0);
     }
 
+    /**
+     * @param fonteList List of Fonte records
+     */
+    public void addBodyBuildingList(List<Fonte> fonteList) {
+        for (Fonte fonte: fonteList) {
+            addRecord(fonte.mDate, fonte.mExercise, DAOMachine.TYPE_FONTE, fonte.getSerie(), fonte.getRepetition(), fonte.getPoids(), fonte.mProfile, fonte.getUnit(), fonte.getNote(), fonte.mTime, 0, 0, 0);
+        }
+    }
+
     // Getting single value
     public Fonte getBodyBuildingRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
@@ -80,7 +89,7 @@ public class DAOFonte extends DAORecord {
                 //Test is Machine exists. If not create it.
                 DAOMachine lDAOMachine = new DAOMachine(mContext);
                 if (mCursor.getString(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false);
+                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOFonte.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false, "");
                 } else {
                     machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOFonte.MACHINE_KEY));
                 }

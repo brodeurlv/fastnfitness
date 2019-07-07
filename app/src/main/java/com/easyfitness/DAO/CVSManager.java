@@ -10,6 +10,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.utils.DateConverter;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +49,7 @@ public class CVSManager {
         if (!Environment.MEDIA_MOUNTED.equals(state)) {
             return false;
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s_");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s_", Locale.getDefault());
             Date date = new Date();
 
             //We use the FastNFitness directory for saving our .csv file.
@@ -61,7 +63,7 @@ public class CVSManager {
                 exportFontes(exportDir, pProfile);
                 exportCardio(exportDir, pProfile);
                 exportIsometric(exportDir, pProfile);
-                exportProfileWeight(exportDir, pProfile);
+                //exportProfileWeight(exportDir, pProfile); No more Profile Weight in this version. Everything is in BodyMeasures
                 exportBodyMeasures(exportDir, pProfile);
                 exportExercise(exportDir, pProfile);
             } catch (Exception e) {
@@ -77,10 +79,10 @@ public class CVSManager {
         }
     }
 
-    public boolean exportFontes(File exportDir, Profile pProfile) {
+    private boolean exportFontes(File exportDir, Profile pProfile) {
         try {
             // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
             CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyBuilding_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
@@ -103,6 +105,7 @@ public class CVSManager {
             csvOutputFonte.write(TABLE_HEAD);
             csvOutputFonte.write(ID_HEAD);
             csvOutputFonte.write(DAOFonte.DATE);
+            csvOutputFonte.write(DAOFonte.TIME);
             csvOutputFonte.write(DAOFonte.EXERCISE);
             csvOutputFonte.write(DAOFonte.WEIGHT);
             csvOutputFonte.write(DAOFonte.REPETITION);
@@ -110,6 +113,7 @@ public class CVSManager {
             csvOutputFonte.write(DAOFonte.PROFIL_KEY);
             csvOutputFonte.write(DAOFonte.UNIT);
             csvOutputFonte.write(DAOFonte.NOTES);
+            csvOutputFonte.write(DAORecord.TYPE);
             csvOutputFonte.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
@@ -118,9 +122,8 @@ public class CVSManager {
 
                 Date dateRecord = records.get(i).getDate();
 
-                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-
-                csvOutputFonte.write(dateFormatcsv.format(dateRecord));
+                csvOutputFonte.write(DateConverter.dateToDBDateStr(dateRecord));
+                csvOutputFonte.write(records.get(i).getTime());
                 csvOutputFonte.write(records.get(i).getExercise());
                 csvOutputFonte.write(Float.toString(records.get(i).getPoids()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getRepetition()));
@@ -131,6 +134,7 @@ public class CVSManager {
                 csvOutputFonte.write(Integer.toString(records.get(i).getUnit()));
                 if (records.get(i).getNote() == null) csvOutputFonte.write("");
                 else csvOutputFonte.write(records.get(i).getNote());
+                csvOutputFonte.write(Integer.toString(DAOMachine.TYPE_FONTE));
                 csvOutputFonte.endRecord();
             }
             csvOutputFonte.close();
@@ -144,21 +148,21 @@ public class CVSManager {
         return true;
     }
 
-    public boolean exportIsometric(File exportDir, Profile pProfile) {
+    private boolean exportIsometric(File exportDir, Profile pProfile) {
         try {
             // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
             CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Isometric_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
-            /**This is our database connector class that reads the data from the database.
+            /* This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
              */
             DAOStatic daoStatic = new DAOStatic(mContext);
             daoStatic.open();
 
-            /**Let's read the first table of the database.
+            /*Let's read the first table of the database.
              * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
              * containing all records of the table (all fields).
              * The code of this class is omitted for brevity.
@@ -170,6 +174,7 @@ public class CVSManager {
             csvOutput.write(TABLE_HEAD);
             csvOutput.write(ID_HEAD);
             csvOutput.write(DAOStatic.DATE);
+            csvOutput.write(DAOStatic.TIME);
             csvOutput.write(DAOStatic.EXERCISE);
             csvOutput.write(DAOStatic.WEIGHT);
             csvOutput.write(DAOStatic.SECONDS);
@@ -177,6 +182,7 @@ public class CVSManager {
             csvOutput.write(DAOStatic.PROFIL_KEY);
             csvOutput.write(DAOStatic.UNIT);
             csvOutput.write(DAOStatic.NOTES);
+
             csvOutput.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
@@ -185,9 +191,8 @@ public class CVSManager {
 
                 Date dateRecord = records.get(i).getDate();
 
-                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-
-                csvOutput.write(dateFormatcsv.format(dateRecord));
+                csvOutput.write(DateConverter.dateToDBDateStr(dateRecord));
+                csvOutput.write(records.get(i).getTime());
                 csvOutput.write(records.get(i).getExercise());
                 csvOutput.write(Float.toString(records.get(i).getPoids()));
                 csvOutput.write(Integer.toString(records.get(i).getSecond()));
@@ -198,6 +203,7 @@ public class CVSManager {
                 csvOutput.write(Integer.toString(records.get(i).getUnit()));
                 if (records.get(i).getNote() == null) csvOutput.write("");
                 else csvOutput.write(records.get(i).getNote());
+                csvOutput.write(Integer.toString(DAOMachine.TYPE_STATIC));
                 csvOutput.endRecord();
             }
             csvOutput.close();
@@ -211,10 +217,10 @@ public class CVSManager {
         return true;
     }
 
-    public boolean exportProfileWeight(File exportDir, Profile pProfile) {
+    private boolean exportProfileWeight(File exportDir, Profile pProfile) {
         try {
             // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
             // use FileWriter constructor that specifies open for appending
@@ -237,9 +243,7 @@ public class CVSManager {
                 csvOutputWeight.write(Float.toString(weightRecords.get(i).getWeight()));
 
                 Date dateRecord = weightRecords.get(i).getDate();
-                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                csvOutputWeight.write(dateFormatcsv.format(dateRecord));
-
+                csvOutputWeight.write(DateConverter.dateToDBDateStr(dateRecord));
                 csvOutputWeight.endRecord();
             }
             csvOutputWeight.close();
@@ -253,10 +257,9 @@ public class CVSManager {
         return true;
     }
 
-    public boolean exportBodyMeasures(File exportDir, Profile pProfile) {
+    private boolean exportBodyMeasures(File exportDir, Profile pProfile) {
         try {
-            // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
             // use FileWriter constructor that specifies open for appending
@@ -300,13 +303,13 @@ public class CVSManager {
         return true;
     }
 
-    public boolean exportCardio(File exportDir, Profile pProfile) {
+    private boolean exportCardio(File exportDir, Profile pProfile) {
         try {
             // CARDIO
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
-            CsvWriter csvOutputCardio = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Cardio_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -323,36 +326,36 @@ public class CVSManager {
             cardioRecords = dbcCardio.getAllCardioRecordsByProfile(pProfile);
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
-            csvOutputCardio.write(TABLE_HEAD);
-            csvOutputCardio.write(ID_HEAD);
-            csvOutputCardio.write(DAOCardio.DATE);
-            csvOutputCardio.write(DAOCardio.TIME);
-            csvOutputCardio.write(DAOCardio.EXERCISE);
-            csvOutputCardio.write(DAOCardio.DURATION);
-            csvOutputCardio.write(DAOCardio.DISTANCE);
-            csvOutputCardio.write(DAOCardio.PROFIL_KEY);
-            csvOutputCardio.endRecord();
+            csvOutput.write(TABLE_HEAD);
+            csvOutput.write(ID_HEAD);
+            csvOutput.write(DAOCardio.DATE);
+            csvOutput.write(DAOCardio.TIME);
+            csvOutput.write(DAOCardio.EXERCISE);
+            csvOutput.write(DAOCardio.DURATION);
+            csvOutput.write(DAOCardio.DISTANCE);
+            csvOutput.write(DAOCardio.PROFIL_KEY);
+            csvOutput.write(DAOCardio.TYPE);
+            csvOutput.endRecord();
 
             for (int i = 0; i < cardioRecords.size(); i++) {
-                csvOutputCardio.write(DAOCardio.TABLE_NAME);
-                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getId()));
+                csvOutput.write(DAOCardio.TABLE_NAME);
+                csvOutput.write(Long.toString(cardioRecords.get(i).getId()));
 
                 Date dateRecord = cardioRecords.get(i).getDate();
 
-                SimpleDateFormat dateFormatcsv = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-
-                csvOutputCardio.write(dateFormatcsv.format(dateRecord));
-                csvOutputCardio.write(cardioRecords.get(i).getTime());
-                csvOutputCardio.write(cardioRecords.get(i).getExercise());
-                csvOutputCardio.write(Long.toString(cardioRecords.get(i).getDuration()));
-                csvOutputCardio.write(Float.toString(cardioRecords.get(i).getDistance()));
+                csvOutput.write(DateConverter.dateToDBDateStr(dateRecord));
+                csvOutput.write(cardioRecords.get(i).getTime());
+                csvOutput.write(cardioRecords.get(i).getExercise());
+                csvOutput.write(Long.toString(cardioRecords.get(i).getDuration()));
+                csvOutput.write(Float.toString(cardioRecords.get(i).getDistance()));
                 if (cardioRecords.get(i).getProfil() != null)
-                    csvOutputCardio.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
-                else csvOutputCardio.write("-1");
+                    csvOutput.write(Long.toString(cardioRecords.get(i).getProfil().getId()));
+                else csvOutput.write("-1");
                 //write the record in the .csv file
-                csvOutputCardio.endRecord();
+                csvOutput.write(Integer.toString(DAOMachine.TYPE_CARDIO));
+                csvOutput.endRecord();
             }
-            csvOutputCardio.close();
+            csvOutput.close();
             dbcCardio.close();
         } catch (Exception e) {
             //if there are any exceptions, return false
@@ -363,10 +366,10 @@ public class CVSManager {
         return true;
     }
 
-    public boolean exportExercise(File exportDir, Profile pProfile) {
+    private boolean exportExercise(File exportDir, Profile pProfile) {
         try {
             // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
 
             CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
@@ -419,8 +422,7 @@ public class CVSManager {
     }
 
     /*
-     * TODO : Renforcer cette fonction.
-     */
+     * TODO : Renforcer cette fonction.     */
     public boolean importDatabase(String file, Profile pProfile) {
 
         boolean ret = true;
@@ -430,20 +432,20 @@ public class CVSManager {
 
             csvRecords.readHeaders();
 
+            ArrayList<Fonte> fonteList = new ArrayList<Fonte>() ;
+            ArrayList<Cardio> cardioList = new ArrayList<Cardio>() ;
+            ArrayList<StaticExercise> staticExerciseList = new ArrayList<StaticExercise>() ;
+
+            DAOMachine dbcMachine = new DAOMachine(mContext);
+
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
-                    case DAOFonte.TABLE_NAME: {
-                        DAOFonte dbcFonte = new DAOFonte(mContext);
-                        DAOCardio dbcCardio = new DAOCardio(mContext);
-                        DAOStatic dbcStatic = new DAOStatic(mContext);
-                        DAOMachine dbcMachine = new DAOMachine(mContext);
-                        dbcFonte.open();
+                    case DAORecord.TABLE_NAME: {
                         Date date;
-                        try {
-                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                                .parse(csvRecords.get(DAOFonte.DATE));
-
-                            String machine = csvRecords.get(DAOFonte.EXERCISE);
+                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOFonte.DATE));
+                        String time = csvRecords.get(DAOFonte.TIME);
+                        String machine = csvRecords.get(DAOFonte.EXERCISE);
+                        if ( dbcMachine.getMachine(machine) != null ) {
                             if (dbcMachine.getMachine(machine).getType() == DAOMachine.TYPE_FONTE) {
                                 float poids = Float.valueOf(csvRecords.get(DAOFonte.WEIGHT));
                                 int repetition = Integer.valueOf(csvRecords.get(DAOFonte.REPETITION));
@@ -453,16 +455,15 @@ public class CVSManager {
                                     unit = Integer.valueOf(csvRecords.get(DAOFonte.UNIT));
                                 }
                                 String notes = csvRecords.get(DAOFonte.NOTES);
-                                String time = csvRecords.get(DAOFonte.TIME);
-                                dbcFonte.addBodyBuildingRecord(date, machine, serie, repetition, poids, pProfile, unit, notes, time);
-                                dbcFonte.close();
+
+                                Fonte fonte = new Fonte(date, machine, serie, repetition, poids, pProfile, unit, notes, dbcMachine.getMachine(machine).getId(), time);
+                                fonteList.add(fonte);
                             } else if (dbcMachine.getMachine(machine).getType() == DAOMachine.TYPE_CARDIO) {
-                                String time = csvRecords.get(DAOCardio.TIME);
                                 String exercise = csvRecords.get(DAOCardio.EXERCISE);
                                 float distance = Float.valueOf(csvRecords.get(DAOCardio.DISTANCE));
                                 int duration = Integer.valueOf(csvRecords.get(DAOCardio.DURATION));
-                                dbcCardio.addCardioRecord(date, time, exercise, distance, duration, pProfile);
-                                dbcCardio.close();
+                                Cardio cardio = new Cardio(date, exercise, distance, duration, pProfile, time);
+                                cardioList.add(cardio);
                             } else if (dbcMachine.getMachine(machine).getType() == DAOMachine.TYPE_STATIC) {
                                 float poids = Float.valueOf(csvRecords.get(DAOStatic.WEIGHT));
                                 int second = Integer.valueOf(csvRecords.get(DAOStatic.SECONDS));
@@ -471,50 +472,49 @@ public class CVSManager {
                                 if (!csvRecords.get(DAOStatic.UNIT).isEmpty()) {
                                     unit = Integer.valueOf(csvRecords.get(DAOStatic.UNIT));
                                 }
-                                String notes = csvRecords.get(DAOStatic.NOTES);
-                                String time = csvRecords.get(DAOStatic.TIME);
-                                dbcStatic.addStaticRecord(date, machine, serie, second, poids, pProfile, unit, notes, time);
-                                dbcStatic.close();
+                                StaticExercise staticExercise = new StaticExercise(date, machine, serie, second, poids, pProfile, unit, dbcMachine.getMachine(machine).getId(), time);
+                                staticExerciseList.add(staticExercise);
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            ret = false;
+                        } else {
+                            return false;
                         }
+
                         break;
                     }
                     case DAOOldCardio.TABLE_NAME: {
                         DAOCardio dbcCardio = new DAOCardio(mContext);
                         dbcCardio.open();
                         Date date;
-                        try {
-                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                                .parse(csvRecords.get(DAOCardio.DATE));
 
-                            String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
-                            float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
-                            int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
-                            dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile);
-                            dbcCardio.close();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            ret = false;
-                        }
+                        date =DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
+
+                        String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
+                        float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
+                        int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
+                        dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile);
+                        dbcCardio.close();
+
                         break;
                     }
                     case DAOWeight.TABLE_NAME: {
-                        DAOWeight dbcWeight = new DAOWeight(mContext);
+                        DAOBodyMeasure dbcWeight = new DAOBodyMeasure(mContext);
                         dbcWeight.open();
                         Date date;
-                        try {
-                            date = new SimpleDateFormat(DAOUtils.DATE_FORMAT)
-                                .parse(csvRecords.get(DAOWeight.DATE));
+                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOWeight.DATE));
 
-                            float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
-                            dbcWeight.addWeight(date, poids, pProfile);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            ret = false;
-                        }
+                        float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
+                        dbcWeight.addBodyMeasure(date, BodyPart.WEIGHT, poids, pProfile.getId());
+
+                        break;
+                    }
+                    case DAOBodyMeasure.TABLE_NAME: {
+                        DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
+                        dbcBodyMeasure.open();
+                        Date date;
+                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
+                        int bodyPart = Integer.valueOf(csvRecords.get(DAOBodyMeasure.BODYPART_KEY));
+                        float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
+                        dbcBodyMeasure.addBodyMeasure(date, bodyPart, measure, pProfile.getId());
                         break;
                     }
                     case DAOProfil.TABLE_NAME:
@@ -526,15 +526,31 @@ public class CVSManager {
                         String description = csvRecords.get(DAOMachine.DESCRIPTION);
                         int type = Integer.valueOf(csvRecords.get(DAOMachine.TYPE));
                         boolean favorite = Boolean.valueOf(csvRecords.get(DAOMachine.FAVORITES));
+                        String bodyParts = csvRecords.get(DAOMachine.BODYPARTS);
+
                         // Check if this machine doesn't exist
                         if (dbc.getMachine(name) == null) {
-                            dbc.addMachine(name, description, type, "", favorite);
+                            dbc.addMachine(name, description, type, "", favorite, bodyParts);
+                        } else {
+                            Machine m = dbc.getMachine(name);
+                            m.setDescription(description);
+                            m.setFavorite(favorite);
+                            m.setBodyParts(bodyParts);
+                            dbc.updateMachine(m);
                         }
                         break;
                 }
             }
 
             csvRecords.close();
+
+            // In case of success
+            DAOFonte dbcFonte = new DAOFonte(mContext);
+            dbcFonte.addBodyBuildingList(fonteList);
+            DAOCardio dbcCardio = new DAOCardio(mContext);
+            dbcCardio.addCardioList(cardioList);
+            DAOStatic dbcStatic = new DAOStatic(mContext);
+            dbcStatic.addStaticList(staticExerciseList);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -543,6 +559,8 @@ public class CVSManager {
             e.printStackTrace();
             ret = false;
         }
+
+
 
         return ret;
     }

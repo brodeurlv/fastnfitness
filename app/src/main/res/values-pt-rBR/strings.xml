@@ -312,5 +312,6 @@
     <string name="imported_successfully"> importado com sucesso</string>
     <string name="import_failed"> importação falhou</string>
     <string name="author_label">Author:</string>
+    <string name="import_new_exercise_first">(importe novos exercícios primeiro)</string>
 
 </resources>

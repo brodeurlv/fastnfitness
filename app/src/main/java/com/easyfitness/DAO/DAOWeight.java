@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.utils.DateConverter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,14 +73,7 @@ public class DAOWeight extends DAOBase {
             mCursor.moveToFirst();
 
         Date date;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(mCursor.getString(1));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            date = new Date();
-        }
+        date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
         ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
             date,

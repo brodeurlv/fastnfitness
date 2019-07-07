@@ -38,6 +38,7 @@ import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfil;
+import com.easyfitness.DAO.DAOStatic;
 import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
@@ -51,6 +52,7 @@ import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
+import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
@@ -62,6 +64,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -344,11 +347,34 @@ public class MainActivity extends AppCompatActivity {
 
         if (mIntro014Launched) {
             initActivity();
+            initDEBUGdata();
         }
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
         this.showMP3Toolbar(bShowMP3);
+    }
+
+    private void initDEBUGdata() {
+        if (BuildConfig.DEBUG) {
+            // do something for a debug build
+            DAOFonte lDbFonte = new DAOFonte(this);
+            if(lDbFonte.getCount()==0) {
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfil(), 0, "", "12:34:56");
+            }
+            DAOCardio lDbCardio = new DAOCardio(this);
+            if(lDbCardio.getCount()==0) {
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfil());
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfil());
+            }
+
+            DAOStatic lDbStatic = new DAOStatic(this);
+            if(lDbStatic.getCount()==0) {
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfil(), 0, "", "12:34:56");
+            }
+        }
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -465,21 +491,19 @@ public class MainActivity extends AppCompatActivity {
                         //    chosenDir, Toast.LENGTH_LONG).show();
                         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText(this.getResources().getString(R.string.global_confirm_question))
+                            .setContentText(this.getResources().getString(R.string.import_new_exercise_first))
                             .setConfirmText(this.getResources().getString(R.string.global_yes))
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                    if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil())) {
-                                        KToast.successToast(getActivity(), m_importCVSchosenDir + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
-                                    } else {
-                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
-                                    }
-                                    setCurrentProfil(getCurrentProfil()); // Refresh profile
+                            .setConfirmClickListener(sDialog -> {
+                                sDialog.dismissWithAnimation();
+                                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil())) {
+                                    KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                } else {
+                                    KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
                                 }
-
+                                setCurrentProfil(getCurrentProfil()); // Refresh profile
                             })
+                            .setCancelText(this.getResources().getString(R.string.global_no))
                             .show();
 
                     });
@@ -883,6 +907,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 initActivity();
                 mIntro014Launched = true;
+                initDEBUGdata();
                 this.savePreferences();
             } else {
                 // Cancelled the intro. You can then e.g. finish this activity too.
