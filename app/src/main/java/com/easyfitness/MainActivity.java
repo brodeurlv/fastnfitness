@@ -69,10 +69,6 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-//import com.crashlytics.android.Crashlytics;
-
-//import io.fabric.sdk.android.Fabric;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
