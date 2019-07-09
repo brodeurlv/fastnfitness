@@ -2,10 +2,10 @@
 
 ### 0.18.2: July 09, 2019
 - Bug : CSV export fixes (#74, #75, #76, #77)
-- Enhancement : Spanish traduction (Thanks to sguinetti)
+- Enhancement : Spanish traduction (Thanks to @sguinetti)
 
 ### 0.18.1 : June 25, 2019
-- Enhancement : Add Brazilian Portuguese translation (thanks rffontenelle)
+- Enhancement : Add Brazilian Portuguese translation (Thanks to @rffontenelle)
 - Bug : Fixed impossible crash.
 
 ### 0.18 : June 12, 2019
@@ -15,7 +15,7 @@
 
 ### 0.17.3 : May 12, 2019
 - Enhancement : Added FFMI index (#62)
-- Enhancement : Project refactoring & migration to androidX (Thank you TacoTheDank)
+- Enhancement : Project refactoring & migration to androidX (Thank to @TacoTheDank)
 - Bug : Fixed crash after app reset (#65)
 
 ### 0.17.2 : April 5, 2019
