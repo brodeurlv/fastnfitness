@@ -1,5 +1,8 @@
 ## Change Log
 
+### 0.18.3: July 19, 2019
+- Enhancement : Removed Firebase
+
 ### 0.18.2: July 09, 2019
 - Bug : CSV export fixes (#74, #75, #76, #77)
 - Enhancement : Spanish traduction (Thanks to @sguinetti)

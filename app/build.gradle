@@ -8,8 +8,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 34
-        versionName "0.18.2"
+        versionCode 35
+        versionName "0.18.3"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
 // Firebase
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    //implementation 'com.google.firebase:firebase-core:17.0.0'
 
 // Other
     implementation 'de.psdev.licensesdialog:licensesdialog:2.0.0' //2.0.0
