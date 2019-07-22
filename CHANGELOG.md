@@ -1,5 +1,9 @@
 ## Change Log
 
+
+### 0.18.4: July 22, 2019
+- Enhancement : Removed Google play services for FDroid compatibility (#84)
+
 ### 0.18.3: July 19, 2019
 - Enhancement : Removed Firebase
 
