@@ -45,8 +45,8 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         date = DateConverter.dateToDate(year, month, dayOfMonth);
         if (dateEditView != null)
             dateEditView.setText(DateConverter.dateToLocalDateStr(date, getContext()));
-        if (mConfirmClickListener != null)
-            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+        /*if (mConfirmClickListener != null)
+            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);*/
     }
 
     private EditableInputViewWithDate getEditableInputViewWithDate() {

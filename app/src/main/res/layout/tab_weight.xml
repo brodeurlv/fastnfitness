@@ -74,17 +74,33 @@
                         app:iconVisible="false"
                         tools:text="70.5" />
 
-                    <ImageButton
-                        android:id="@+id/weightDetailsButton"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/weightGraph"
                         android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="#FFFFFF"
+                        android:minHeight="50dp" />
+
+                    <Button
+                        android:id="@+id/weightDetailsButton"
+                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
+                        android:minHeight="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Details" />
+
 
                 </LinearLayout>
 
@@ -136,17 +152,32 @@
                         android:textSize="30sp"
                         tools:text="50.9" />
 
-                    <ImageButton
-                        android:id="@+id/fatDetailsButton"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/fatGraph"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="#FFFFFF"
+                        android:minHeight="50dp" />
+
+                    <Button
+                        android:id="@+id/fatDetailsButton"
+                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
+                        android:minHeight="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Details" />
 
                 </LinearLayout>
 
@@ -207,17 +238,33 @@
                         android:textSize="30sp"
                         tools:text="20.2" />
 
-                    <ImageButton
-                        android:id="@+id/musclesDetailsButton"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/musclesGraph"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
+                        android:background="#FFFFFF"
+                        android:minHeight="50dp" />
+
+                    <Button
+                        android:id="@+id/musclesDetailsButton"
+                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
+                        android:minHeight="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Details" />
+
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -268,17 +315,32 @@
                         android:textSize="30sp"
                         tools:text="20.5" />
 
-                    <ImageButton
-                        android:id="@+id/waterDetailsButton"
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/waterGraph"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="#FFFFFF"
+                        android:minHeight="50dp" />
+
+                    <Button
+                        android:id="@+id/waterDetailsButton"
+                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
                         android:adjustViewBounds="false"
                         android:background="@color/background"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        app:srcCompat="@drawable/ic_baseline_list_alt_24px" />
+                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
+                        android:minHeight="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Details" />
                 </LinearLayout>
 
 

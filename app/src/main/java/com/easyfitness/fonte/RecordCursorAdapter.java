@@ -121,7 +121,7 @@ public class RecordCursorAdapter extends CursorAdapter {
             tWeightLabel.setText(mContext.getString(R.string.DurationLabel));
             tRepsLayout.setVisibility(View.GONE);
             tSerie.setText(cursor.getString(cursor.getColumnIndex(DAORecord.DISTANCE)));
-            tWeight.setText(DateConverter.durationToHoursMinutesStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
+            tWeight.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
         }
 
         // Add separator if needed

@@ -26,7 +26,7 @@ public class DateConverter {
     }
 
     static public double nbMinutes(double millisecondes) {
-        return (int) (millisecondes / (60 * 1000));
+        return (double) (millisecondes / (60 * 1000));
     }
 
     static public double nbMilliseconds(double days) {
@@ -154,5 +154,20 @@ public class DateConverter {
         //int secs = remainder;
 
         return String.format("%02d:%02d", hours, mins);
+    }
+
+    /**
+     * @param longVal in milliseconds
+     * @return duration in format "HH:MM"
+     */
+    public static String durationToHoursMinutesSecondsStr(long longVal) {
+        longVal = longVal / 1000;
+        int hours = (int) longVal / 3600;
+        int remainder = (int) longVal - hours * 3600;
+        int mins = remainder / 60;
+        remainder = remainder - mins * 60;
+        int secs = remainder;
+
+        return String.format("%02d:%02d:%02d", hours, mins, secs);
     }
 }

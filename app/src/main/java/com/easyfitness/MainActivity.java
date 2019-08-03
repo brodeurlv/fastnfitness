@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    mDbCardio.addCardioRecord(record.getDate(), "00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil());
+                    mDbCardio.addCardioRecord(record.getDate(), "00:00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil());
                 }
                 mDbOldCardio.dropTable();
 

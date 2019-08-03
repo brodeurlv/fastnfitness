@@ -159,6 +159,21 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     /**
+     * Getting All Measures associated to a Body part for a specific Profile
+     *
+     * @param pBodyPartID
+     * @param pProfile
+     * @return List<BodyMeasure>
+     */
+    public List<BodyMeasure> getBodyPartMeasuresListTop4(long pBodyPartID, Profile pProfile) {
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_KEY + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
+
+        // return value list
+        return getMeasuresList(selectQuery);
+    }
+
+    /**
      * Getting All Measures for a specific Profile
      *
      * @param pProfile

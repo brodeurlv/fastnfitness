@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.18.4</string>
+    <string name="app_version" translatable="false">0.18.5</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,10 +10,11 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18.4: July 22, 2019\n
-        \t- Bug : CSV export fixes (#74, #75, #76, #77)\n
-        \t- Enhancement : Spanish traduction (Thanks to sguinetti)\n
-        \t- Enhancement : Removed Google Play Services (#84)\n
+v0.18.5: August 03, 2019\n
+        \t- Bug : Fixed issue on Weight fragment adding unexpected value when changing date\n
+        \t- Enhancement : Added graph in weight fragment\n
+        \t- Bug : Fixed issue not showing the keyboard on WOrkout fragment (#86)\n
+        \t- Enhancement : Added seconds to Duration for cardio records (#83)\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
