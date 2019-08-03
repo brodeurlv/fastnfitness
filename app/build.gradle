@@ -8,8 +8,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 36
-        versionName "0.18.4"
+        versionCode 37
+        versionName "0.18.5"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -90,6 +90,7 @@ dependencies {
     //implementation 'com.google.firebase:firebase-core:17.0.0'
 
 // Other
+    implementation 'com.kovachcode:timePickerWithSeconds:1.0.1'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.0.0' //2.0.0
     implementation 'com.github.hannesa2:MPAndroidChart:3.0.7'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

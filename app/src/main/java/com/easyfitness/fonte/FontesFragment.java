@@ -3,7 +3,6 @@ package com.easyfitness.fonte;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +61,7 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
+import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -122,17 +122,20 @@ public class FontesFragment extends Fragment {
     CardView durationCardView = null;
 
 
-    public TimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute) -> {
+    public MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         String strMinute = "00";
         String strHour = "00";
+        String strSecond = "00";
 
         if (minute < 10) strMinute = "0" + Integer.toString(minute);
         else strMinute = Integer.toString(minute);
         if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
         else strHour = Integer.toString(hourOfDay);
+        if (second < 10) strSecond = "0" + Integer.toString(second);
+        else strSecond = Integer.toString(second);
 
-        String date = strHour + ":" + strMinute;
+        String date = strHour + ":" + strMinute + ":" + strSecond;
         durationEdit.setText(date);
         hideKeyboard(durationEdit);
     };
@@ -197,7 +200,7 @@ public class FontesFragment extends Fragment {
                 Cardio c = (Cardio) r;
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 distanceEdit.setText(numberFormat.format(c.getDistance()));
-                durationEdit.setText(DateConverter.durationToHoursMinutesStr(c.getDuration()));
+                durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(c.getDuration()));
             }
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
@@ -337,7 +340,7 @@ public class FontesFragment extends Fragment {
 
             long duration;
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 Date tmpDate = dateFormat.parse(durationEdit.getText().toString());
                 duration = tmpDate.getTime();
@@ -498,6 +501,10 @@ public class FontesFragment extends Fragment {
                     showExerciseTypeSelector(true);
                     break;
             }
+            v.post(() -> {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
+            });
         } else if (!hasFocus) {
             switch (v.getId()) {
                 case R.id.editMachine:
@@ -742,12 +749,24 @@ public class FontesFragment extends Fragment {
     }
 
     private void showTimePicker() {
+        String tx =  durationEdit.getText().toString();
+        int hour = Integer.valueOf(tx.substring(0, 2));
+        int min = Integer.valueOf(tx.substring(3, 5));
+        int sec = Integer.valueOf(tx.substring(6));
+
         if (mDurationFrag == null) {
-            mDurationFrag = TimePickerDialogFragment.newInstance(timeSet);
+            mDurationFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
+            //mDurationFrag.setTime(hour, min, sec);
             mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
         } else {
-            if (!mDurationFrag.isVisible())
+            if (!mDurationFrag.isVisible()) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("HOUR", hour);
+                bundle.putInt("MINUTE", min);
+                bundle.putInt("SECOND", sec);
+                mDurationFrag.setArguments(bundle);
                 mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+            }
         }
     }
 
@@ -902,7 +921,7 @@ public class FontesFragment extends Fragment {
         } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
             Cardio lLastCardioRecord = (Cardio) lLastRecord;
             distanceEdit.setText(String.valueOf(lLastCardioRecord.getDistance()));
-            durationEdit.setText(DateConverter.durationToHoursMinutesStr(lLastCardioRecord.getDuration()));
+            durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
             StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
             serieEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
