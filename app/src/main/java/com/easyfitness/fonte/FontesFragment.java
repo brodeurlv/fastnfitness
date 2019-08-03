@@ -750,9 +750,24 @@ public class FontesFragment extends Fragment {
 
     private void showTimePicker() {
         String tx =  durationEdit.getText().toString();
-        int hour = Integer.valueOf(tx.substring(0, 2));
-        int min = Integer.valueOf(tx.substring(3, 5));
-        int sec = Integer.valueOf(tx.substring(6));
+        int hour;
+        try {
+            hour = Integer.valueOf(tx.substring(0, 2));
+        } catch (NumberFormatException e) {
+            hour=0;
+        }
+        int min;
+        try {
+            min = Integer.valueOf(tx.substring(3, 5));
+         } catch (NumberFormatException e) {
+        min=0;
+        }
+        int sec;
+        try {
+        sec = Integer.valueOf(tx.substring(6));
+        } catch (NumberFormatException e) {
+            sec=0;
+        }
 
         if (mDurationFrag == null) {
             mDurationFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
@@ -905,7 +920,7 @@ public class FontesFragment extends Fragment {
         secondsEdit.setText("60");
         poidsEdit.setText("50");
         distanceEdit.setText("1");
-        durationEdit.setText("10:00");
+        durationEdit.setText("00:10:00");
         if (lLastRecord == null) {
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
@@ -1001,7 +1016,7 @@ public class FontesFragment extends Fragment {
                         secondsEdit.setText("60");
                         poidsEdit.setText("50");
                         distanceEdit.setText("1");
-                        durationEdit.setText("10:00");
+                        durationEdit.setText("00:10:00");
                         setCurrentMachine("");
                         changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
                     }
