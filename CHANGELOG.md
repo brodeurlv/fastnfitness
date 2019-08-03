@@ -3,7 +3,7 @@
 ### 0.18.5: August 3, 2019
 - Bug : Fixed issue on Weight fragment adding unexpected value when changing date
 - Enhancement : Added graph in weight fragment
-- Bug : Fixed issue not showing the keyboard on WOrkout fragment (#86)
+- Bug : Fixed issue not showing the keyboard on Workout fragment (#86)
 - Enhancement : Added seconds to Duration for cardio records (#83)
 
 ### 0.18.4: July 22, 2019
