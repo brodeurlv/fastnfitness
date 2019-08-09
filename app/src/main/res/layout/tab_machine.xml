@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:hint="@string/MachineHint"
+        android:hint="@string/FilterHint"
         android:imeOptions="actionNext"
         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
         android:nextFocusForward="@+id/editSerie"

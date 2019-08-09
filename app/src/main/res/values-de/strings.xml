@@ -200,7 +200,7 @@
     <string name="activate_rest_time">Aktiviere Pause</string>
     <string name="rest_time">Pausezeit (sek)</string>
     <string name="lastRecordLabel">Letzte Aufzeichnung</string>
-    <string name="MachineHint">Filtern nach Übungsname</string>
+    <string name="FilterHint">Filtern nach Übungsname</string>
     <string name="WeightHint">Gib dein Gewicht hier ein</string>
     <string name="total_weight">Gesamtgewicht</string>
     <string name="total_session">Gesamt wärend der Einheit</string>
@@ -303,5 +303,6 @@
     <string name="author_label">Author:</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="import_new_exercise_first">(Bitte importieren Sie zuerst neue Übungen)</string>
+    <string name="MachineHint">Name Ihrer Übung</string>
 </resources>
 

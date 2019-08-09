@@ -224,7 +224,7 @@
     <string name="activate_rest_time">Ativar contagem regressiva de repouso</string>
     <string name="rest_time">Tempo de descanso (seg)</string>
     <string name="lastRecordLabel">Último registro</string>
-    <string name="MachineHint">Filtrar por nome de exercício</string>
+    <string name="FilterHint">Filtrar por nome de exercício</string>
     <string name="WeightHint">Insira seu peso aqui</string>
     <string name="total_weight">Peso total</string>
     <string name="total_session">Total durante a seção</string>
@@ -313,5 +313,6 @@
     <string name="import_failed"> importação falhou</string>
     <string name="author_label">Author:</string>
     <string name="import_new_exercise_first">(importe novos exercícios primeiro)</string>
+    <string name="MachineHint">Nome do seu exercício</string>
 
 </resources>

@@ -55,7 +55,7 @@ public class MachineDetailsFragment extends Fragment {
     protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs", "Uranus", "Neptune", "Neptune"};
     protected boolean[] _selections = new boolean[_muscles.length];
     Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
-    EditText musclesList = null;
+    TextView musclesList = null;
     EditText machineName = null;
     EditText machineDescription = null;
     ImageView machinePhoto = null;
@@ -108,23 +108,6 @@ public class MachineDetailsFragment extends Fragment {
         }
     };
 
-    // Get the cursor, positioned to the corresponding row in the result set
-    //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-    private OnClickListener clickExerciseTypeSelector = v -> {
-        switch (v.getId()) {
-            case R.id.cardioSelection:
-                cardioSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
-                bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                selectedType = DAOMachine.TYPE_CARDIO;
-                break;
-            case R.id.bodyBuildingSelection:
-            default:
-                cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
-                selectedType = DAOMachine.TYPE_FONTE;
-                break;
-        }
-    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -313,10 +296,10 @@ public class MachineDetailsFragment extends Fragment {
 
         isCreateMuscleDialogActive = true;
 
-        AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(this.getActivity());
+        AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
-        newProfilBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newProfilBuilder.setMultiChoiceItems(_muscles, _selections, (arg0, arg1, arg2) -> {
+        newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
+        newMuscleBuilder.setMultiChoiceItems(_muscles, _selections, (arg0, arg1, arg2) -> {
             if (arg2) {
                 // If user select a item then add it in selected items
                 selectMuscleList.add(arg1);
@@ -327,7 +310,7 @@ public class MachineDetailsFragment extends Fragment {
         });
 
         // Set an EditText view to get user input
-        newProfilBuilder.setPositiveButton(getResources().getString(R.string.global_ok), (dialog, whichButton) -> {
+        newMuscleBuilder.setPositiveButton(getResources().getString(R.string.global_ok), (dialog, whichButton) -> {
             StringBuilder msg = new StringBuilder();
             int i = 0;
             boolean firstSelection = true;
@@ -344,9 +327,9 @@ public class MachineDetailsFragment extends Fragment {
             setMuscleText(msg.toString());
             isCreateMuscleDialogActive = false;
         });
-        newProfilBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
+        newMuscleBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
 
-        newProfilBuilder.show();
+        newMuscleBuilder.show();
 
         return true;
     }
