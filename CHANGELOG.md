@@ -2,7 +2,7 @@
 
 ### 0.18.6: August 10, 2019
 - Enhancement : Added Czech Translation (#90) (Thanks @venous)
-- Bug : Fixed behavior on muscle checklist
+- Bug : Fixed behavior on muscle checklist (#92)
 
 ### 0.18.5: August 3, 2019
 - Bug : Fixed issue on Weight fragment adding unexpected value when changing date
