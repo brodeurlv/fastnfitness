@@ -8,8 +8,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 37
-        versionName "0.18.5"
+        versionCode 38
+        versionName "0.18.6"
 
         vectorDrawables.useSupportLibrary = true
     }
