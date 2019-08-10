@@ -63,8 +63,10 @@ public class MachineFragment extends Fragment {
 //                mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
                 refreshData();
             } else {
-                mTableAdapter.getFilter().filter(charSequence);
-                mTableAdapter.notifyDataSetChanged();
+                if (mTableAdapter != null) {
+                        mTableAdapter.getFilter().filter(charSequence);
+                        mTableAdapter.notifyDataSetChanged();
+                }
             }
         }
 
