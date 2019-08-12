@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
@@ -54,7 +55,7 @@ public class NewProfileFragment extends SlideFragment {
 
     private EditText mName;
     private EditText mSize;
-    private EditText mBirthday;
+    private TextView mBirthday;
     private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
@@ -144,12 +145,8 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+        mBirthday.setOnClickListener((View v)-> {
                 showDatePickerFragment();
-            }
         });
 
         /* Initialisation des boutons */

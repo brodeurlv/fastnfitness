@@ -124,16 +124,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
 
-                <EditText
+                <TextView
                     android:id="@+id/profileBirthday"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/editTextBackground"
                     android:hint="@string/birthday_optional"
                     android:importantForAutofill="no"
-                    android:inputType="date"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
