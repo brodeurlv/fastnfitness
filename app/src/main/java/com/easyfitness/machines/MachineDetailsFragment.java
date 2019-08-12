@@ -52,7 +52,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MachineDetailsFragment extends Fragment {
     public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     // http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
-    protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs", "Uranus", "Neptune", "Neptune"};
+    protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
     protected boolean[] _selections = new boolean[_muscles.length];
     Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
     TextView musclesList = null;
