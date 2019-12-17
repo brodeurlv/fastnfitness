@@ -67,8 +67,11 @@ public class FonteGraphFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
-            if (parent.getId() == R.id.filterGraphMachine)
+            if (parent.getId() == R.id.filterGraphMachine) {
                 updateFunctionSpinner(); // Update functions only when changing exercise
+            } else if(parent.getId() == R.id.filterGraphFunction ) {
+                saveSharedParams();
+            }
             drawGraph();
         }
 
@@ -137,13 +140,8 @@ public class FonteGraphFragment extends Fragment {
         /* Initialise le graph */
         mGraphZoomSelector = view.findViewById(R.id.graphZoomSelector);
         mLineChart = view.findViewById(R.id.graphLineChart);
-
-
         mDateGraph = new DateGraph(getContext(), mLineChart, getResources().getText(R.string.weightLabel).toString());
-
         mBarChart = view.findViewById(R.id.graphBarChart);
-
-
         mBarGraph = new BarGraph(getContext(), mBarChart, getResources().getText(R.string.weightLabel).toString());
 
         /* Initialisation de l'historique */
@@ -188,6 +186,11 @@ public class FonteGraphFragment extends Fragment {
         // Save Shared Preferences
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     public MainActivity getMainActivity() {
         return this.mActivity;
     }
@@ -199,7 +202,7 @@ public class FonteGraphFragment extends Fragment {
         if (machine == null) return;
 
         ArrayAdapter<String> adapterFunction = null;
-
+        int arraysize = 0;
         if (machine.getType() == DAOMachine.TYPE_FONTE ) {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
@@ -214,6 +217,11 @@ public class FonteGraphFragment extends Fragment {
         }
         adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         functionList.setAdapter(adapterFunction);
+        if (functionList.getSelectedItemPosition()!=getFunctionListPositionParams()) {
+            if (getFunctionListPositionParams() <= (adapterFunction.getCount()-1)) {
+                functionList.setSelection(getFunctionListPositionParams());
+            }
+        }
     }
 
     private void drawGraph() {
@@ -467,16 +475,21 @@ public class FonteGraphFragment extends Fragment {
         if (!hidden) refreshData();
     }
 
-    public void saveSharedParams(String toSave, String paramName) {
+    public void saveSharedParams() {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(toSave, paramName);
+        editor.putInt("FunctionListPosition", functionList.getSelectedItemPosition());
         editor.apply();
     }
 
     public String getSharedParams(String paramName) {
         SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
         return sharedPref.getString(paramName, "");
+    }
+
+    public int getFunctionListPositionParams() {
+        SharedPreferences sharedPref = this.mActivity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getInt("FunctionListPosition", 0);
     }
 
 }

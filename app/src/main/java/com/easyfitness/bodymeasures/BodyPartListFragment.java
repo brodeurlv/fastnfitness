@@ -84,8 +84,8 @@ public class BodyPartListFragment extends Fragment {
 
         dataModels = new ArrayList<>();
 
-        dataModels.add(new BodyPart(BodyPart.LEFTARM, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTARM, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.RIGHTARM, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTARM, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.LEFTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPart.RIGHTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.PECTORAUX, mdbMeasure.getLastBodyMeasures(BodyPart.PECTORAUX, ((MainActivity) getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.WAIST, mdbMeasure.getLastBodyMeasures(BodyPart.WAIST, ((MainActivity) getActivity()).getCurrentProfil())));
         dataModels.add(new BodyPart(BodyPart.BEHIND, mdbMeasure.getLastBodyMeasures(BodyPart.BEHIND, ((MainActivity) getActivity()).getCurrentProfil())));

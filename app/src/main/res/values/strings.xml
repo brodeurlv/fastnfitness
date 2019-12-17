@@ -317,5 +317,8 @@
     <string name="import_failed"> import failed</string>
     <string name="import_new_exercise_first">(Make sure to import new exercises first)</string>
     <string name="MachineHint">Name of your exercise</string>
+    <string name="trapezius">Trapezius</string>
+    <string name="obliques">Obliques</string>
+    <string name="shoulders">Shoulders</string>
 
 </resources>

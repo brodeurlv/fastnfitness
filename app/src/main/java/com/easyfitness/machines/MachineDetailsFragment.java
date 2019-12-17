@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -52,8 +53,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MachineDetailsFragment extends Fragment {
     public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     // http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
-    protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
-    protected boolean[] _selections = new boolean[_muscles.length];
+    //protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
+    protected List<String> _musclesArray = new ArrayList<String>();
+    protected boolean[] _selections;
     Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
     TextView musclesList = null;
     EditText machineName = null;
@@ -299,7 +301,7 @@ public class MachineDetailsFragment extends Fragment {
         AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
         newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newMuscleBuilder.setMultiChoiceItems(_muscles, _selections, (arg0, arg1, arg2) -> {
+        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[_musclesArray.size()]), _selections, (arg0, arg1, arg2) -> {
             if (arg2) {
                 // If user select a item then add it in selected items
                 selectMuscleList.add(arg1);
@@ -317,10 +319,10 @@ public class MachineDetailsFragment extends Fragment {
             // ( selectMuscleList.size() > 0 ) { // Si on a au moins selectionne un muscle
             for (i = 0; i < _selections.length; i++) {
                 if (_selections[i] && firstSelection) {
-                    msg = new StringBuilder(_muscles[i].toString());
+                    msg = new StringBuilder(_musclesArray.get(i));
                     firstSelection = false;
                 } else if (_selections[i] && !firstSelection) {
-                    msg.append(";").append(_muscles[i]);
+                    msg.append(";").append(_musclesArray.get(i));
                 }
             }
             //}
@@ -426,16 +428,21 @@ public class MachineDetailsFragment extends Fragment {
 
 
     public void buildMusclesTable() {
-        _muscles[0] = getActivity().getResources().getString(R.string.biceps);
-        _muscles[1] = getActivity().getResources().getString(R.string.triceps);
-        _muscles[2] = getActivity().getResources().getString(R.string.pectoraux);
-        _muscles[3] = getActivity().getResources().getString(R.string.dorseaux);
-        _muscles[4] = getActivity().getResources().getString(R.string.abdominaux);
-        _muscles[5] = getActivity().getResources().getString(R.string.quadriceps);
-        _muscles[6] = getActivity().getResources().getString(R.string.ischio_jambiers);
-        _muscles[7] = getActivity().getResources().getString(R.string.adducteurs);
-        _muscles[8] = getActivity().getResources().getString(R.string.mollets);
-        _muscles[9] = getActivity().getResources().getString(R.string.deltoids);
+        _musclesArray.add(getActivity().getResources().getString(R.string.biceps));
+        _musclesArray.add(getActivity().getResources().getString(R.string.triceps));
+        _musclesArray.add(getActivity().getResources().getString(R.string.pectoraux));
+        _musclesArray.add(getActivity().getResources().getString(R.string.dorseaux));
+        _musclesArray.add(getActivity().getResources().getString(R.string.abdominaux));
+        _musclesArray.add(getActivity().getResources().getString(R.string.quadriceps));
+        _musclesArray.add(getActivity().getResources().getString(R.string.ischio_jambiers));
+        _musclesArray.add(getActivity().getResources().getString(R.string.adducteurs));
+        _musclesArray.add(getActivity().getResources().getString(R.string.mollets));
+        _musclesArray.add(getActivity().getResources().getString(R.string.deltoids));
+        _musclesArray.add(getActivity().getResources().getString(R.string.trapezius));
+        _musclesArray.add(getActivity().getResources().getString(R.string.shoulders));
+        _musclesArray.add(getActivity().getResources().getString(R.string.obliques));
+
+         _selections = new boolean[_musclesArray.size()];
     }
 
     /*
@@ -444,7 +451,7 @@ public class MachineDetailsFragment extends Fragment {
     public String getMuscleNameFromId(int id) {
         String ret = "";
         try {
-            ret = _muscles[id].toString();
+            ret = _musclesArray.get(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -455,8 +462,8 @@ public class MachineDetailsFragment extends Fragment {
      * @return the name of the Muscle depending on the language
      */
     public int getMuscleIdFromName(String pName) {
-        for (int i = 0; i < _muscles.length; i++) {
-            if (_muscles[i].toString().equals(pName)) return i;
+        for (int i = 0; i < _musclesArray.size(); i++) {
+            if (_musclesArray.get(i).equals(pName)) return i;
         }
         return -1;
     }

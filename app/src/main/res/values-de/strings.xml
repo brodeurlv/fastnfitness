@@ -304,5 +304,8 @@
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="import_new_exercise_first">(Bitte importieren Sie zuerst neue Übungen)</string>
     <string name="MachineHint">Name Ihrer Übung</string>
+    <string name="obliques">Schräge</string>
+    <string name="trapezius">Trapezius</string>
+    <string name="shoulders">Schultern</string>
 </resources>
 

@@ -314,5 +314,8 @@
     <string name="author_label">Autor:</string>
     <string name="import_new_exercise_first">(importa nuevos ejercicios primero)</string>
     <string name="MachineHint">Nombre de tu ejercicio</string>
+    <string name="trapezius">Trapezius</string>
+    <string name="shoulders">Espalda</string>
+    <string name="obliques">Oblicuos</string>
 
 </resources>

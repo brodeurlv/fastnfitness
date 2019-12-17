@@ -14,8 +14,8 @@ public class BodyPart {
     public static final int DORSEAUX = 7;
     public static final int QUADRICEPS = 8;
     public static final int ISCHIOJAMBIERS = 9;
-    public static final int LEFTARM = 10;
-    public static final int RIGHTARM = 11;
+    public static final int LEFTBICEPS = 10;
+    public static final int RIGHTBICEPS = 11;
     public static final int LEFTTHIGH = 12;
     public static final int RIGHTTHIGH = 13;
     public static final int LEFTCALVES = 14;
@@ -28,6 +28,11 @@ public class BodyPart {
     public static final int BONES = 21;
     public static final int WATER = 22;
     public static final int MUSCLES = 23;
+    public static final int TRAPEZIUS = 24;
+    public static final int OBLIQUES = 25;
+    public static final int SHOULDERS = 26;
+
+
     private int id;    // Notez que l'identifiant est un long
     private BodyMeasure mLastMeasure;
 
@@ -65,9 +70,9 @@ public class BodyPart {
                 return R.string.quadriceps;
             case ISCHIOJAMBIERS:
                 return R.string.ischio_jambiers;
-            case LEFTARM:
+            case LEFTBICEPS:
                 return R.string.left_arm;
-            case RIGHTARM:
+            case RIGHTBICEPS:
                 return R.string.right_arm;
             case LEFTTHIGH:
                 return R.string.left_thigh;
@@ -81,6 +86,12 @@ public class BodyPart {
                 return R.string.waist;
             case NECK:
                 return R.string.neck;
+            case TRAPEZIUS:
+                return R.string.trapezius;
+            case OBLIQUES:
+                return R.string.obliques;
+            case SHOULDERS:
+                return R.string.shoulders;
             case BEHIND:
                 return R.string.behind;
             case WEIGHT:
@@ -120,9 +131,9 @@ public class BodyPart {
                 return R.drawable.ic_leg;
             case ISCHIOJAMBIERS:
                 return R.drawable.ic_leg;
-            case LEFTARM:
+            case LEFTBICEPS:
                 return R.drawable.ic_arm_measure;
-            case RIGHTARM:
+            case RIGHTBICEPS:
                 return R.drawable.ic_arm_measure;
             case LEFTTHIGH:
                 return R.drawable.ic_tight_measure;
@@ -138,9 +149,15 @@ public class BodyPart {
                 return R.drawable.ic_neck;
             case BEHIND:
                 return R.drawable.ic_buttock_measure;
+            case TRAPEZIUS:
+                return R.drawable.ic_neck;
+            case OBLIQUES:
+                return R.string.obliques;
+            case SHOULDERS:
+                return R.drawable.ic_neck;
         }
 
-        return 0;
+        return -1;
     }
 
     public long getId() {

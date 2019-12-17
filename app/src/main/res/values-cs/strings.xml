@@ -45,10 +45,6 @@
     <string name="ShareTitle">Sdílet váš výkon</string>
     <string name="ShareInstruction">Editujte text před odesláním:</string>
     <string name="ShareTextDefault">Zvedl jsem __WEIGHT__ kg na __MACHINE__ !</string>
-    <string name="ShareParamName" translatable="false">__NAME__</string>
-    <string name="ShareParamWeight" translatable="false">__WEIGHT__</string>
-    <string name="ShareParamMachine" translatable="false">__MACHINE__</string>
-    <string name="ShareParamExercise" translatable="false">__EXERCISE__</string>
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Kardio</string>
@@ -316,5 +312,10 @@
     <string name="imported_successfully"> úspěšně importováno</string>
     <string name="import_failed"> chyba importu</string>
     <string name="import_new_exercise_first">(Nejprve naimportujte nová cvičení)</string>
+    <string name="FilterHint">Filtrujte podle názvu cvičení</string>
+    <string name="author_label">Autor:</string>
+    <string name="obliques">Šikmé svaly</string>
+    <string name="shoulders">Ramena</string>
+    <string name="trapezius">Trapezius</string>
 
 </resources>
