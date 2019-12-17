@@ -35,6 +35,7 @@ import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.RealPathUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -297,6 +298,8 @@ public class MachineDetailsFragment extends Fragment {
             return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
 
         isCreateMuscleDialogActive = true;
+
+        Keyboard.hide(getContext(), getView());
 
         AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
