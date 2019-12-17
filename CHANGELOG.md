@@ -1,5 +1,9 @@
 ## Change Log
 
+### 0.18.7: August 10, 2019
+- Enhancement : Added muscles (#81)
+- Bug : Fixed behavior on muscle checklist (#95)
+
 ### 0.18.6: August 10, 2019
 - Enhancement : Added Czech Translation (#90) (Thanks @venous)
 - Bug : Fixed behavior on muscle checklist (#92)

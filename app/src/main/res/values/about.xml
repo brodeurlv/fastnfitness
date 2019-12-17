@@ -10,9 +10,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18.6: August 10, 2019\n
-        \t- Enhancement : Added Czech Translation (#90) (Thanks venous)\n
-        \t- Bug : Fixed behavior on muscle checklist\n
+v0.18.7: December 17, 2019\n
+\t- Enhancement : Added muscles (#81)\n
+\t- Bug : Fixed behavior on muscle checklist (#95)\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

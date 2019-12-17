@@ -186,11 +186,6 @@ public class FonteGraphFragment extends Fragment {
         // Save Shared Preferences
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
     public MainActivity getMainActivity() {
         return this.mActivity;
     }
@@ -202,7 +197,6 @@ public class FonteGraphFragment extends Fragment {
         if (machine == null) return;
 
         ArrayAdapter<String> adapterFunction = null;
-        int arraysize = 0;
         if (machine.getType() == DAOMachine.TYPE_FONTE ) {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
