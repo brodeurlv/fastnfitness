@@ -33,7 +33,7 @@ public class DAOFonte extends DAORecord {
      *                 Le Record a ajouter a la base
      */
     public long addBodyBuildingRecord(Date pDate, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
-        return addRecord(pDate, pMachine, DAOMachine.TYPE_FONTE, pSerie, pRepetition, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, 0);
+        return addRecord(pDate, pMachine, DAOMachine.TYPE_FONTE, pSerie, pRepetition, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, 0, 0);
     }
 
     /**
@@ -41,7 +41,7 @@ public class DAOFonte extends DAORecord {
      */
     public void addBodyBuildingList(List<Fonte> fonteList) {
         for (Fonte fonte: fonteList) {
-            addRecord(fonte.mDate, fonte.mExercise, DAOMachine.TYPE_FONTE, fonte.getSerie(), fonte.getRepetition(), fonte.getPoids(), fonte.mProfile, fonte.getUnit(), fonte.getNote(), fonte.mTime, 0, 0, 0);
+            addRecord(fonte.mDate, fonte.mExercise, DAOMachine.TYPE_FONTE, fonte.getSerie(), fonte.getRepetition(), fonte.getPoids(), fonte.mProfile, fonte.getUnit(), fonte.getNote(), fonte.mTime, 0, 0, 0, 0);
         }
     }
 

@@ -46,9 +46,7 @@
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
-    <string name="DistanceLabel">Entfernung (KM)</string>
-    <string name="KmUnitLabel">KM</string>
-    <string name="MilesUnitLabel">Milen</string>
+    <string name="DistanceLabel">Entfernung</string>
     <string name="DurationLabel">Dauer</string>
     <string name="ExerciceLabel">Übung</string>
 
@@ -113,7 +111,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string-array name="fonte_units">
+    <string-array name="weight_units">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
     </string-array>

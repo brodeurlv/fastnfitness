@@ -49,9 +49,7 @@
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Kardio</string>
     <string name="CardioMenuLabel">Kardio (zastaralé)</string>
-    <string name="DistanceLabel">Vzdálenost (Km)</string>
-    <string name="KmUnitLabel">Km</string>
-    <string name="MilesUnitLabel">Míle</string>
+    <string name="DistanceLabel">Vzdálenost</string>
     <string name="DurationLabel">Trvání</string>
     <string name="ExerciceLabel">Cvik</string>
 
@@ -123,7 +121,7 @@
     <string name="drawer_open">Otevřít panel navigace</string>
     <string name="drawer_close">Zavřít panel navigace</string>
 
-    <string-array name="fonte_units">
+    <string-array name="weight_units">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
     </string-array>

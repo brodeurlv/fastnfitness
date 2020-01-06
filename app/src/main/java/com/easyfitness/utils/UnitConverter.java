@@ -4,6 +4,10 @@ public class UnitConverter {
 
     public static final int UNIT_KG = 0;
     public static final int UNIT_LBS = 1;
+    public static final int UNIT_STONES = 2;
+
+    public static final int UNIT_KM = 0;
+    public static final int UNIT_MILES = 1;
 
     public UnitConverter() {
     }
@@ -33,20 +37,19 @@ public class UnitConverter {
                 return pWeight;
         }
     }
-
-    /*
-     * convert Kg to Lbs
-     */
+    
     static public float KgtoLbs(float pKg) {
         return pKg / (float) 0.45359237;
     }
 
-    /*
-     * convert Lbs to Kg
-     */
     static public float LbstoKg(float pLbs) {
         return pLbs * (float) 0.45359237;
     }
+
+    static public float KmToMiles(float pKm) { return pKm * (float) 1.609344; }
+
+    static public float MilesToKm(float pMiles) { return pMiles / (float) 1.609344; }
+
 
     /**
      * Function to convert milliseconds time to

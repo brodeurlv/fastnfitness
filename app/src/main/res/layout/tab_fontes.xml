@@ -294,6 +294,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:background="@drawable/border"
                         android:orientation="horizontal">
 
@@ -310,7 +311,7 @@
                             android:id="@+id/spinnerUnit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:entries="@array/fonte_units"
+                            android:entries="@array/weight_units"
                             android:minEms="3" />
                     </LinearLayout>
 
@@ -377,13 +378,29 @@
                         android:gravity="center"
                         android:text="@string/DistanceLabel" />
 
-                    <EditText
-                        android:id="@+id/editDistance"
-                        android:layout_width="fill_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:inputType="numberDecimal" />
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/border"
+                        android:orientation="horizontal">
 
+                        <EditText
+                            android:id="@+id/editDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:inputType="numberDecimal|numberSigned"
+                            android:minEms="3"
+                            tools:text="10" />
+
+                        <Spinner
+                            android:id="@+id/spinnerDistanceUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/distance_units"
+                            android:minEms="3" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

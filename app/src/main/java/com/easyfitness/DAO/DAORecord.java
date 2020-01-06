@@ -39,6 +39,7 @@ public class DAORecord extends DAOBase {
     // Specific to Cardio
     public static final String DISTANCE = "distance";
     public static final String DURATION = "duration";
+    public static final String DISTANCE_UNIT = "distance_unit"; // 0:km 1:mi
 
     // Specific to STATIC
     public static final String SECONDS = "seconds";
@@ -48,7 +49,7 @@ public class DAORecord extends DAOBase {
         + " DATE, " + EXERCISE + " TEXT, " + SERIE + " INTEGER, "
         + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
-        + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER);";
+        + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER, " + DISTANCE_UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
         + TABLE_NAME + ";";
@@ -90,7 +91,7 @@ public class DAORecord extends DAOBase {
      * @param pMachine Machine name
      * @return id of the added record, -1 if error
      */
-    public long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration, int pSeconds ) {
+    public long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration, int pSeconds, int distance_unit ) {
         ContentValues value = new ContentValues();
         long new_id = -1;
         long machine_key = -1;
@@ -117,6 +118,7 @@ public class DAORecord extends DAOBase {
         value.put(DAORecord.DURATION, pDuration);
         value.put(DAORecord.TYPE, pType);
         value.put(DAORecord.SECONDS, pSeconds);
+        value.put(DAORecord.DISTANCE_UNIT, distance_unit);
 
         SQLiteDatabase db = open();
         new_id = db.insert(DAORecord.TABLE_NAME, null, value);
@@ -192,7 +194,8 @@ public class DAORecord extends DAOBase {
                     mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
                     mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
                     lProfile,
-                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                    mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAORecord.DISTANCE_UNIT)));
             }
 
             value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
@@ -616,7 +619,8 @@ public class DAORecord extends DAOBase {
                         mCursor.getFloat(mCursor.getColumnIndex(DAORecord.DISTANCE)),
                         mCursor.getLong(mCursor.getColumnIndex(DAORecord.DURATION)),
                         lProfile,
-                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)));
+                        mCursor.getString(mCursor.getColumnIndex(DAORecord.TIME)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAORecord.DISTANCE_UNIT)));
                 }
 
                 value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.KEY)));

@@ -26,7 +26,7 @@ public class DAOCardio extends DAORecord {
 
     private static final String OLD_TABLE_NAME = "EFcardio";
 
-    private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + DISTANCE + "," + DURATION + "," + PROFIL_KEY + "," + TIME;
+    private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + DISTANCE + "," + DURATION + "," + PROFIL_KEY + "," + TIME + "," + DISTANCE_UNIT;
 
     public DAOCardio(Context context) {
         super(context);
@@ -42,17 +42,16 @@ public class DAOCardio extends DAORecord {
      * @param pProfile
      * @return
      */
-    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, Profile pProfile) {
-        return addRecord(pDate, pMachine, DAOMachine.TYPE_CARDIO, 0, 0, 0, pProfile, 0, "", pTime, pDistance, pDuration, 0);
+    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, Profile pProfile, int pDistanceUnit) {
+        return addRecord(pDate, pMachine, DAOMachine.TYPE_CARDIO, 0, 0, 0, pProfile, 0, "", pTime, pDistance, pDuration, 0, pDistanceUnit);
     }
 
     public void addCardioList(List<Cardio> cardioList) {
         for (Cardio cardio: cardioList) {
-            addRecord(cardio.mDate, cardio.getExercise(), DAOMachine.TYPE_CARDIO, 0, 0, 0, cardio.getProfil(), 0, "", cardio.getTime(), cardio.getDistance(), cardio.getDuration(), 0);
+            addRecord(cardio.mDate, cardio.getExercise(), DAOMachine.TYPE_CARDIO, 0, 0, 0, cardio.getProfil(), 0, "", cardio.getTime(), cardio.getDistance(), cardio.getDuration(), 0, cardio.getDistanceUnit());
         }
     }
 
-    // Getting single value
     public Cardio getRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
             + " WHERE " + KEY + "=" + id;
@@ -90,7 +89,8 @@ public class DAOCardio extends DAORecord {
                     mCursor.getFloat(mCursor.getColumnIndex(DAOCardio.DISTANCE)),
                     mCursor.getLong(mCursor.getColumnIndex(DAOCardio.DURATION)),
                     lProfile,
-                    mCursor.getString(mCursor.getColumnIndex(DAOFonte.TIME)));
+                    mCursor.getString(mCursor.getColumnIndex(DAOFonte.TIME)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAOFonte.DISTANCE_UNIT)));
 
                 value.setId(Long.parseLong(mCursor.getString(mCursor.getColumnIndex(DAOCardio.KEY))));
 
@@ -268,6 +268,7 @@ public class DAOCardio extends DAORecord {
         value.put(DAOCardio.DISTANCE, m.getDistance());
         value.put(DAOCardio.DURATION, m.getDuration());
         value.put(DAOCardio.PROFIL_KEY, pProfile.getId());
+        value.put(DAOCardio.DISTANCE_UNIT, m.getDistanceUnit());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -283,7 +284,7 @@ public class DAOCardio extends DAORecord {
         for (int i = 1; i <= 5; i++) {
             String machine = "Tapis";
             date.setDate(date.getDay() + i * 10);
-            addCardioRecord(date, "00:00", machine, (float) i * 20, 120000 * i, mProfile);
+            addCardioRecord(date, "00:00", machine, (float) i * 20, 120000 * i, mProfile, 0);
         }
 
         date = new Date();
@@ -292,7 +293,7 @@ public class DAOCardio extends DAORecord {
         for (int i = 1; i <= 5; i++) {
             String machine = "Rameur";
             date.setDate(date.getDay() + i * 10);
-            addCardioRecord(date, "00:00", machine, 0, 120000 * i * 3, mProfile);
+            addCardioRecord(date, "00:00", machine, 0, 120000 * i * 3, mProfile, 0);
         }
     }
 

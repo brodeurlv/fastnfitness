@@ -89,6 +89,7 @@ public class FontesFragment extends Fragment {
     String[] machineListArray = null;
     ImageButton machineListButton = null;
     Spinner unitSpinner = null;
+    Spinner unitDistanceSpinner = null;
     ImageButton detailsExpandArrow = null;
     EditText restTimeEdit = null;
     CheckBox restTimeCheck = null;
@@ -189,7 +190,14 @@ public class FontesFragment extends Fragment {
                 repetitionEdit.setText(String.format("%d", f.getRepetition()));
                 serieEdit.setText(String.format("%d", f.getSerie()));
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
-                poidsEdit.setText(numberFormat.format(f.getPoids()));
+
+                Float poids = f.getPoids();
+                if (f.getUnit() == UnitConverter.UNIT_LBS) {
+                    poids = UnitConverter.KgtoLbs(poids);
+                }
+                unitSpinner.setSelection(f.getUnit());
+
+                poidsEdit.setText(numberFormat.format(poids));
             } else if (r.getType() == DAOMachine.TYPE_STATIC) {
                 StaticExercise f = (StaticExercise) r;
                 secondsEdit.setText(String.format("%d", f.getSecond()));
@@ -199,7 +207,14 @@ public class FontesFragment extends Fragment {
             }else if (r.getType() == DAOMachine.TYPE_CARDIO) {
                 Cardio c = (Cardio) r;
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
-                distanceEdit.setText(numberFormat.format(c.getDistance()));
+
+                float distance = c.getDistance();
+                if (c.getDistanceUnit() == UnitConverter.UNIT_MILES) {
+                    distance = UnitConverter.KmToMiles((c.getDistance()));
+                }
+                unitDistanceSpinner.setSelection(c.getDistanceUnit());
+                distanceEdit.setText(numberFormat.format(distance));
+
                 durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(c.getDuration()));
             }
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
@@ -353,7 +368,13 @@ public class FontesFragment extends Fragment {
             if (distanceEdit.getText().toString().isEmpty()) {
                 distance = 0;
             } else {
-                distance = Float.parseFloat(distanceEdit.getText().toString());
+                distance = Float.parseFloat(distanceEdit.getText().toString().replaceAll(",", "."));
+            }
+
+            int unitDistance = UnitConverter.UNIT_KM;
+            if (unitDistanceSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.MilesUnitLabel))) {
+                distance = UnitConverter.MilesToKm(distance); // Always convert to KG
+                unitDistance = UnitConverter.UNIT_MILES;
             }
 
             mDbCardio.addCardioRecord(date,
@@ -361,7 +382,8 @@ public class FontesFragment extends Fragment {
                 machineEdit.getText().toString(),
                 distance,
                 duration,
-                getProfil());
+                getProfil(),
+                unitDistance);
 
             // No Countdown for Cardio
         }
@@ -617,6 +639,7 @@ public class FontesFragment extends Fragment {
         machineListButton = view.findViewById(R.id.buttonListMachine);
         addButton = view.findViewById(R.id.addperff);
         unitSpinner = view.findViewById(R.id.spinnerUnit);
+        unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit);
         detailsLayout = view.findViewById(R.id.notesLayout);
         detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
         restTimeEdit = view.findViewById(R.id.editRestTime);
@@ -935,8 +958,13 @@ public class FontesFragment extends Fragment {
                 poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
             Cardio lLastCardioRecord = (Cardio) lLastRecord;
-            distanceEdit.setText(String.valueOf(lLastCardioRecord.getDistance()));
-            durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
+                        durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
+            unitDistanceSpinner.setSelection(lLastCardioRecord.getDistanceUnit());
+            DecimalFormat numberFormat = new DecimalFormat("#.##");
+            if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
+                distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.getDistance())));
+            else
+                distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
             StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
             serieEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));

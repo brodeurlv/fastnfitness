@@ -31,12 +31,12 @@ public class DAOStatic extends DAORecord {
      *                 Le Record a ajouter a la base
      */
     public long addStaticRecord(Date pDate, String pMachine, int pSerie, int pSeconds, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime) {
-        return addRecord(pDate, pMachine, DAOMachine.TYPE_STATIC, pSerie, 0, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, pSeconds);
+        return addRecord(pDate, pMachine, DAOMachine.TYPE_STATIC, pSerie, 0, pPoids, pProfile, pUnit, pNote, pTime, 0, 0, pSeconds, 0);
     }
 
     public void addStaticList(List<StaticExercise> staticExerciseList) {
         for (StaticExercise staticExercise: staticExerciseList) {
-            addRecord(staticExercise.mDate, staticExercise.getExercise(), DAOMachine.TYPE_CARDIO, staticExercise.getSerie(), 0, staticExercise.getPoids(), staticExercise.getProfil(), 0, "", staticExercise.getTime(), 0, 0, staticExercise.getSecond());
+            addRecord(staticExercise.mDate, staticExercise.getExercise(), DAOMachine.TYPE_CARDIO, staticExercise.getSerie(), 0, staticExercise.getPoids(), staticExercise.getProfil(), 0, "", staticExercise.getTime(), 0, 0, staticExercise.getSecond(), 0);
         }
     }
 

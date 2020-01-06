@@ -120,7 +120,16 @@ public class RecordCursorAdapter extends CursorAdapter {
             tSerieLabel.setText(mContext.getString(R.string.DistanceLabel));
             tWeightLabel.setText(mContext.getString(R.string.DurationLabel));
             tRepsLayout.setVisibility(View.GONE);
-            tSerie.setText(cursor.getString(cursor.getColumnIndex(DAORecord.DISTANCE)));
+
+            float distance = cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE));
+            String unit = mContext.getString(R.string.KmUnitLabel);
+            if (cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT)) == UnitConverter.UNIT_MILES) {
+                distance = UnitConverter.KmToMiles(distance); // Always convert to KG
+                unit = mContext.getString(R.string.MilesUnitLabel);
+            }
+            DecimalFormat numberFormat = new DecimalFormat("#.##");
+            tSerie.setText(numberFormat.format(distance) + unit);
+
             tWeight.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
         }
 
