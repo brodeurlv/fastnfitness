@@ -50,7 +50,8 @@
                 android:id="@+id/signup_input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/gray">
 
                 <EditText
                     android:id="@+id/profileName"
@@ -122,7 +123,8 @@
                 android:id="@+id/signup_input_layout_name2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:textColorHint="@color/gray">
 
                 <TextView
                     android:id="@+id/profileBirthday"
@@ -142,7 +144,8 @@
                 android:id="@+id/signup_input_layout_name3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:textColorHint="@color/gray">
 
                 <EditText
                     android:id="@+id/profileSize"
@@ -153,7 +156,7 @@
                     android:inputType="numberSigned"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@color/gray" />
+                    android:textColorHint="@color/enabled_color" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
