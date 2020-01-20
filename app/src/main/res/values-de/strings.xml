@@ -255,7 +255,7 @@
     <string name="CardioMenuLabel">Cardio (Obsolete)</string>
     <string name="sumDistance">Entfernung</string>
     <string name="sumDuration">Dauer</string>
-    <string name="speed">Geshwindigkeit</string>
+    <string name="speed">Geschwindigkeit</string>
     <string name="obsoleteCardioTab">Sie können direkt die grundlegende Seite für den bodybuilding und den cardio jetzt benutzen. Diese Seite wird bald verschwinden.</string>
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
