@@ -12,6 +12,8 @@
     <string name="revision_history" translatable="false">\n
 v0.18.8: January 06, 2019\n
 \t- Enhancement : Added Miles unit to distance\n
+\t- Enhancement : Added possibility to set custom times\n
+\t- Bug : Fixed Brazilian trapezius translation\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

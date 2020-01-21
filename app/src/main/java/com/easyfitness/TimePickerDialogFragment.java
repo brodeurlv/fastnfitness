@@ -3,6 +3,8 @@ package com.easyfitness;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
@@ -23,8 +25,6 @@ public class TimePickerDialogFragment extends DialogFragment {
         bundle.putInt("HOUR", hour);
         bundle.putInt("MINUTE", min);
         bundle.putInt("SECOND", sec);
-
-
         pickerFragment.setArguments(bundle);
         return pickerFragment;
     }
@@ -37,10 +37,6 @@ public class TimePickerDialogFragment extends DialogFragment {
 
         // Create a new instance of TimePickerDialog and return it
         return new MyTimePickerDialog(getActivity(), onTimeSetListener, hour, min, sec, true);
-    }
-
-    static public void setTime(int hour, int min, int sec) {
-
     }
 
     private void setOnTimeSetListener(MyTimePickerDialog.OnTimeSetListener listener) {

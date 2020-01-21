@@ -37,7 +37,7 @@ public class UnitConverter {
                 return pWeight;
         }
     }
-    
+
     static public float KgtoLbs(float pKg) {
         return pKg / (float) 0.45359237;
     }

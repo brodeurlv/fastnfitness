@@ -14,6 +14,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Toolbar top_toolbar = null;
     MainActivity mActivity = null;
 
+    public final static String WEIGHT_UNIT_PARAM =  "defaultUnit";
+    public final static String DISTANCE_UNIT_PARAM =  "defaultDistanceUnit";
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -61,6 +64,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         });
+
+        Preference myPref3 = findPreference("defaultDistanceUnit");
+        myPref3.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                String boolVal = (String) newValue;
+
+                //find the index of changed value in settings.
+                updateSummary(listPreference, boolVal);
+            }
+
+            return true;
+        });
     }
 
     @Override
@@ -74,6 +90,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference myPref2 = (ListPreference) findPreference("defaultUnit");
         String boolVal = sharedPreferences.getString("defaultUnit", "0");
         updateSummary(myPref2, boolVal);
+
+        ListPreference myPref3 = (ListPreference) findPreference("defaultDistanceUnit");
+        String boolVal3 = sharedPreferences.getString("defaultDistanceUnit", "0");
+        updateSummary(myPref3, boolVal3);
     }
 
     private void updateSummary(ListPreference pref, String val) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/pref_bodybuilding_setting">
+    <PreferenceCategory android:title="Unit settings">
         <androidx.preference.ListPreference
             android:defaultValue="0"
             android:entries="@array/weight_units"
@@ -8,6 +8,14 @@
             android:key="defaultUnit"
             android:summary=""
             android:title="@string/pref_preferredUnitTitle" />
+
+        <androidx.preference.ListPreference
+            android:defaultValue="0"
+            android:entries="@array/distance_units"
+            android:entryValues="@array/distance_unitsEnum"
+            android:key="defaultDistanceUnit"
+            android:summary=""
+            android:title="@string/pref_preferredDistanceUnitTitle" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_ui_setting">
@@ -15,7 +23,7 @@
             android:defaultValue="false"
             android:key="prefShowMP3"
             android:summary="@string/pref_show_mp3_player_summary"
-            android:title="@string/pref_show_mp3_player"></CheckBoxPreference>
+            android:title="@string/pref_show_mp3_player" />
 
     </PreferenceCategory>
 

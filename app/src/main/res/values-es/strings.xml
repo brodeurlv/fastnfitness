@@ -315,5 +315,6 @@
     <string name="trapezius">Trapezius</string>
     <string name="shoulders">Espalda</string>
     <string name="obliques">Oblicuos</string>
+    <string name="pref_preferredDistanceUnitTitle">Seleccione su unidad de distancia preferida</string>
 
 </resources>

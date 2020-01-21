@@ -7,4 +7,6 @@
     <color name="background">#FFFFFF</color>
     <color name="tableheader_background">#FFFFFF</color>
     <color name="launcher_background">#0dadf4</color>
+    <color name="enabled_color">@color/text_color</color>
+    <color name="disabled_color">#bababa</color>
 </resources>

@@ -315,5 +315,6 @@
     <string name="obliques">Šikmé svaly</string>
     <string name="shoulders">Ramena</string>
     <string name="trapezius">Trapezius</string>
+    <string name="pref_preferredDistanceUnitTitle">Vyberte preferovanou jednotku vzdálenosti</string>
 
 </resources>

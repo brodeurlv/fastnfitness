@@ -315,5 +315,6 @@
     <string name="trapezius">Trapézios</string>
     <string name="shoulders">Ombros</string>
     <string name="obliques">Oblíquos</string>
+    <string name="pref_preferredDistanceUnitTitle">Selecione sua unidade de distância preferida</string>
 
 </resources>

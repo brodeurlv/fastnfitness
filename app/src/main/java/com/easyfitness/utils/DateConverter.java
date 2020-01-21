@@ -46,7 +46,7 @@ public class DateConverter {
             date = dateFormat.parse(editText);
         } catch (ParseException e) {
             e.printStackTrace();
-            date = new Date(0);
+            date = new Date();
         }
 
         return date;
@@ -85,7 +85,7 @@ public class DateConverter {
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
-            date = new Date(0);
+            date = new Date();
         }
         return date;
     }

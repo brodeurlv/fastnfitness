@@ -252,7 +252,6 @@ public class FonteGraphFragment extends Fragment {
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sum))) {
                 lDAOFunction = DAOFonte.SUM_FCT;
             }
-            desc.setText(lMachine + "/" + lFunction + "(kg)");
             // Recupere les enregistrements
             List<GraphData> valueList = null;
             if (m.getType() == DAOMachine.TYPE_FONTE)
@@ -276,8 +275,10 @@ public class FonteGraphFragment extends Fragment {
             for (int i = 0; i < valueList.size(); i++) {
                 Entry value = null;
                 if (defaultUnit == UnitConverter.UNIT_LBS) {
+                    desc.setText(lMachine + "/" + lFunction + "(lbs)");
                     value = new Entry((float) valueList.get(i).getX(), UnitConverter.KgtoLbs((float) valueList.get(i).getY()));//-minDate)/86400000));
                 } else {
+                    desc.setText(lMachine + "/" + lFunction + "(kg)");
                     value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());//-minDate)/86400000));
                 }
                 yVals.add(value);
@@ -290,15 +291,31 @@ public class FonteGraphFragment extends Fragment {
             mDateGraph.draw(yVals);
         } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
 
+            SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int defaultDistanceUnit = UnitConverter.UNIT_KM;
+            try {
+                defaultDistanceUnit = Integer.valueOf(SP.getString("defaultDistanceUnit", "0"));
+            } catch (NumberFormatException e) {
+                defaultDistanceUnit = UnitConverter.UNIT_KM;
+            }
+
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
                 lDAOFunction = DAOCardio.DISTANCE_FCT;
-                desc.setText(lMachine + "/" + lFunction + "(km)");
+                if ( defaultDistanceUnit==UnitConverter.UNIT_KM){
+                    desc.setText(lMachine + "/" + lFunction + "(km)");
+                } else {
+                    desc.setText(lMachine + "/" + lFunction + "(miles)");
+                }
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sumDuration))) {
                 lDAOFunction = DAOCardio.DURATION_FCT;
                 desc.setText(lMachine + "/" + lFunction + "(min)");
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.speed))) {
                 lDAOFunction = DAOCardio.SPEED_FCT;
-                desc.setText(lMachine + "/" + lFunction + "(km/h)");
+                if ( defaultDistanceUnit==UnitConverter.UNIT_KM) {
+                    desc.setText(lMachine + "/" + lFunction + "(km/h)");
+                }else {
+                    desc.setText(lMachine + "/" + lFunction + "(miles/h)");
+                }
             }
 
             // Recupere les enregistrements
@@ -313,9 +330,15 @@ public class FonteGraphFragment extends Fragment {
                 if (lDAOFunction == DAOCardio.DURATION_FCT) {
                     value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
                 } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
-                    value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
+                    if ( defaultDistanceUnit == UnitConverter.UNIT_MILES)
+                        value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float)valueList.get(i).getY()) * (60 * 60 * 1000));
+                    else
+                        value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
                 } else {
-                    value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
+                    if ( defaultDistanceUnit == UnitConverter.UNIT_MILES)
+                        value = new Entry((float) valueList.get(i).getX(), (float)UnitConverter.KmToMiles((float)valueList.get(i).getY()));
+                    else
+                        value = new Entry((float) valueList.get(i).getX(), (float)valueList.get(i).getY());
                 }
                 yVals.add(value);
             }
@@ -343,11 +366,11 @@ public class FonteGraphFragment extends Fragment {
 
             if (lDAOFunction == DAOStatic.MAX_FCT) {
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                int defaultUnit = 0;
+                int defaultUnit = UnitConverter.UNIT_KG;
                 try {
                     defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
                 } catch (NumberFormatException e) {
-                    defaultUnit = 0;
+                    defaultUnit = UnitConverter.UNIT_KG;
                 }
 
                 final ArrayList<String> xAxisLabel = new ArrayList<>();
@@ -356,7 +379,6 @@ public class FonteGraphFragment extends Fragment {
                     BarEntry value = null;
                     if (defaultUnit == UnitConverter.UNIT_LBS) {
                         value = new BarEntry(i, UnitConverter.KgtoLbs((float) valueList.get(i).getY()));
-
                     } else {
                         value = new BarEntry(i, (float) valueList.get(i).getY());
                     }

@@ -295,4 +295,6 @@
     <string name="obliques">Obliques</string>
     <string name="trapezius">Trapèzes</string>
     <string name="shoulders">Epaules</string>
+    <string name="timeLabel">Heure</string>
+    <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
 </resources>
