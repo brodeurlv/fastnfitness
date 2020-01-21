@@ -102,6 +102,7 @@
     <string name="pref_bodybuilding_setting">Configurações de musculação</string>
     <string name="pref_preferredUnitSummary">Unidade preferida:</string>
     <string name="pref_preferredUnitTitle">Selecione sua unidade de peso preferida</string>
+    <string name="pref_preferredDistanceUnitTitle">Selecione sua unidade de distância preferida</string>
 
     <string name="pref_user_name">Definir nome de usuário</string>
     <string name="pref_user_name_summary">Defina seu nome de usuário</string>
@@ -313,8 +314,8 @@
     <string name="import_new_exercise_first">(importe novos exercícios primeiro)</string>
     <string name="MachineHint">Nome do seu exercício</string>
     <string name="trapezius">Trapézios</string>
-    <string name="shoulders">Ombros</string>
     <string name="obliques">Oblíquos</string>
-    <string name="pref_preferredDistanceUnitTitle">Selecione sua unidade de distância preferida</string>
+    <string name="shoulders">Ombros</string>
+    <string name="timeLabel">Tempo</string>
 
 </resources>
