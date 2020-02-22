@@ -10,10 +10,12 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18.8: January 06, 2019\n
-\t- Enhancement : Added Miles unit to distance\n
-\t- Enhancement : Added possibility to set custom times\n
-\t- Bug : Fixed Brazilian trapezius translation\n
+v0.18.8: February 22, 2019\n
+\t- Enhancement : Added Miles unit to distance #104\n
+\t- Enhancement : Added possibility to set custom times #106\n
+\t- Enhancement : Better visibility in intro\n
+\t- Bug : Fixed Brazilian trapezius translation (Thanks Rafael) #105\n
+\t- Bug: Fixed german typo (Thanks Matthias #100)\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

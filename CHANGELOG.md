@@ -1,5 +1,12 @@
 ## Change Log
 
+### 0.18.8: February 22, 2020
+- Enhancement : Added Miles unit to distance #104
+- Enhancement : Added possibility to set custom times #106
+- Enhancement : Better visibility in intro
+- Bug : Fixed Brazilian trapezius translation (Thanks Rafael) #105
+- Bug: Fixed german typo (Thanks Matthias #100)
+
 ### 0.18.7: August 10, 2019
 - Enhancement : Added muscles (#81)
 - Bug : Fixed behavior on muscle checklist (#95)
