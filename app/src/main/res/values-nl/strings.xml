@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_confirm">Bevestig</string>
+    <string name="global_confirm_question">Weet je het zeker?</string>
+    <string name="global_warning">Waarschuwing</string>
+    <string name="global_error">Error</string>
+    <string name="global_cancel">Annuleer</string>
+    <string name="global_ok">OK</string>
+    <string name="global_yes">Ja</string>
+    <string name="global_no">Nee</string>
+
+    <string name="removedid">Verwijderde id</string>
+    <string name="failedtocreatefolder">Folder maken mislukt</string>
+    <string name="optional">Optioneel</string>
+
+    <string name="app_name">Fast N Fitness</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="DateLabel">Datum</string>
+
+    <string name="FunctionLabel">Scherm</string>
+    <string name="HistoryLabel">Geschiedenis</string>
+    <string name="GraphLabel">Grafieken</string>
+    <string name="AddLabel">Voeg toe</string>
+    <string name="AddSmallLabel">Voeg toe</string>
+    <string name="DeleteLabel">Verwijderen</string>
+    <string name="ShareLabel">Delen</string>
+    <string name="EditLabel">Bewerken</string>
+    <string name="DeleteRecordDialog">Dit record verwijderen?</string>
+
+    <!-- Fonte Fragment -->
+    <string name="FonteLabel">Bodybuilding</string>
+    <string name="RecordLabel">Records</string>
+    <string name="SerieLabel">Sets</string>
+    <string name="RepetitionLabel">Herhalingen</string>
+    <string name="RepetitionLabel_short">Herhalingen</string>
+    <string name="MachineLabel">Oefening</string>
+    <string name="PoidsLabel">Gewicht</string>
+    <string name="KgUnitLabel">Kg</string>
+    <string name="LbsUnitLabel">Lbs</string>
+    <string name="NotesLabel">Notities</string>
+    <string name="TopTenLabel">Laatste records:</string>
+
+    <!-- Share text -->
+    <string name="ShareText">Delen</string>
+    <string name="ShareTitle">Deel je perf</string>
+    <string name="ShareInstruction">Bewerk je text voor het verzenden:</string>
+    <string name="ShareTextDefault">Ik heb __GEWICHT__ kg getild op __Machine__!</string>
+
+    <!-- Cardio Fragment -->
+    <string name="CardioLabel">Cardio</string>
+    <string name="CardioMenuLabel">Cardio (Verouderd)</string>
+    <string name="DistanceLabel">Afstand</string>
+    <string name="DurationLabel">Duur</string>
+    <string name="ExerciceLabel">Oefeningen</string>
+
+    <!-- Profile Fragment -->
+    <string name="weightMenuLabel">Gewicht Track</string>
+    <string name="weightLabel">Gewicht(kg)</string>
+    <string name="fatLabel">Vet(%)</string>
+    <string name="bonesLabel">Botten(%)</string>
+    <string name="waterLabel">Water(%)</string>
+    <string name="musclesLabel">Spieren(%)</string>
+    <string name="sizeLabel">Maat</string>
+    <string name="measureLabel">Afmetingen</string>
+    <string name="weightTableLabel">Gewicht records:</string>
+    <string name="sizeTableLabel">Afmetingen history:</string>
+    <string name="createProfilTitle">Maak nieuw profiel</string>
+    <string name="profileSelected">Profiel geselecteerd</string>
+    <string name="profileDeleteImpossible">Huidig profiel verwijderen niet mogelijk</string>
+    <string name="createProfilQuestion">Kies je profielnaam?</string>
+    <string name="userChanged">Gebruiker gewisseld</string>
+    <string name="renameProfilTitle">Hernoem profiel</string>
+    <string name="renameProfilQuestion">Dit profiel hernoemen?</string>
+    <string name="DeleteWeightDialog">Dit gewicht verwijderen?</string>
+
+    <!-- Pour le menu settings -->
+    <string name="SettingLabel">Instellingen</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="export_database">Records exporteren</string>
+    <string name="export_question">Wil je de database van … Exporteren</string>
+    <string name="export_success">Database geexporteerd</string>
+    <string name="export_failed">Database exporteren mislukt</string>
+    <string name="import_database">Records importeren</string>
+
+    <string name="deleteDB_warning">
+        Deze actie zal de hele app resetten.
+        Alle data gaat verloren.
+        Weet je het zeker?
+        Dit al de app sluiten.
+    </string>
+    <string name="ResetAppLabel">Reset applicatie</string>
+
+    <!-- Machine Fragment -->
+    <string name="MachinesLabel">Oefeningen</string>
+    <string name="DescriptionLabel">Beschrijving</string>
+
+    <!-- Preferences -->
+    <string name="pref_ui_setting">UI Instellingen</string>
+    <string name="pref_show_mp3_player">Mp3 speler weergeven</string>
+    <string name="pref_show_mp3_player_summary">Toon/verberg mp3 speler</string>
+
+    <string name="pref_bodybuilding_setting">Bodybuilding Instellingen</string>
+    <string name="pref_preferredUnitSummary">Voorkeurs unit:</string>
+    <string name="pref_preferredUnitTitle">Selecteer je gewenste gewicht unit</string>
+    <string name="pref_preferredDistanceUnitTitle">Selecteer je gewenste afstand unit</string>
+
+    <string name="pref_user_name">Gebruikersnaam Instellen</string>
+    <string name="pref_user_name_summary">Stel je gebruikersnaam in</string>
+    <string name="pref_user_profile">Gebruikers profiel </string>
+
+    <string name="profil_create_new">Nieuw profiel creeren</string>
+    <string name="profil_change">Profiel wisselen</string>
+    <string name="profil_select_profil">Selecteer een profiel</string>
+    <string name="profil_edit">Profiel bewerken</string>
+    <string name="profil_delete">Verwijder een profiel</string>
+    <string name="profil_select_profil_to_delete">Kies een profiel om te verwijderen</string>
+
+    <!-- About Fragment  -->
+    <string name="AboutLabel">Over</string>
+
+    <!-- Navigation Drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="weight_units">
+        <item>@string/KgUnitLabel</item>
+        <item>@string/LbsUnitLabel</item>
+    </string-array>
+
+    <string-array name="fonte_unitsValues">
+        <item>test0</item>
+        <item>test1</item>
+    </string-array>
+
+    <string-array name="fonte_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="distance_units">
+        <item>@string/KmUnitLabel</item>
+        <item>@string/MilesUnitLabel</item>
+    </string-array>
+
+    <string-array name="distanceShortUnits">
+        <item>@string/KmUnitLabel</item>
+        <item>@string/MilesShortLabel</item>
+    </string-array>
+
+    <string-array name="distance_unitsEnum">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="morphology">
+        <item>Thin</item>
+        <item>Straight</item>
+        <item>Bold</item>
+    </string-array>
+
+    <string name="maxRep1">Maximum (Reps >= 1)</string>
+    <string name="maxRep5d">Maximum (Reps >= 5)</string>
+    <string name="sum">Sum</string>
+    <string-array name="graph_functions">
+        <item>@string/maxRep1</item>
+        <item>@string/maxRep5d</item>
+        <item>@string/sum</item>
+    </string-array>
+
+    <string name="sumDistance">Distance</string>
+    <string name="sumDuration">Duration</string>
+    <string name="speed">Speed</string>
+    <string-array name="graph_cardio_functions">
+        <item>@string/sumDistance</item>
+        <item>@string/sumDuration</item>
+        <item>@string/speed</item>
+    </string-array>
+
+
+    <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
+    <string name="nbSeriesPerDate">Nb Sets per Date</string>
+    <string-array name="graph_static_functions">
+        <item>@string/maxWeightPerDuration</item>
+        <item>@string/nbSeriesPerDate</item>
+    </string-array>
+
+    <string name="all">Alle</string>
+
+    <string name="bodytracking">Lichaam Track</string>
+    <string name="selectMuscles">Kies Spieren</string>
+
+    <!-- Muscles -->
+    <string name="biceps">Biceps</string>
+    <string name="triceps">Triceps</string>
+    <string name="pectoraux">Borst</string>
+    <string name="deltoids">Schouders</string>
+
+    <string name="dorseaux">Rug</string>
+    <string name="abdominaux">Buikspieren</string>
+
+    <string name="quadriceps">Quadriceps</string>
+    <string name="ischio_jambiers">Hamstrings</string>
+    <string name="adducteurs">Dijen</string>
+    <string name="mollets">Kuiten</string>
+
+    <!-- Body Parts -->
+    <string name="left_arm">Linker biceps</string>
+    <string name="right_arm">Rechter biceps</string>
+    <string name="neck">Nek</string>
+    <string name="left_thigh">Linker dij</string>
+    <string name="right_thigh">Rechter dij</string>
+    <string name="left_calves">linker kuit</string>
+    <string name="right_calves">Rechter kuit</string>
+    <string name="waist">Heup</string>
+    <string name="behind">Heupen</string>
+    <string name="MesureHint">Voeg afmeting toe</string>
+
+    <string name="backDialog_confirm_text">Wil je opslaan voor het afsluiten?</string>
+    <string name="deleteMachine_confirm_text">Wil je deze oefening verwijderen? Alle gelinkte data wordt verwijderd.</string>
+    <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine? Alle gelinkte data wordt verwijderd.</string>
+    <string name="renameMachine_warning_text">WAARSCHUWING:Deze naam bestaat al. Data wordt samengevoegd met andere oefening.</string>
+    <string name="renameMachine_error_text">Deze naam bestaat al, selecteer alstublieft een andere.</string>
+
+
+    <!-- Photo -->
+    <string name="camera">Camera</string>
+    <string name="gallery">Galerij</string>
+
+    <!-- DateGraph -->
+    <string name="graph_all">Alle</string>
+    <string name="graph_lastyear">Vorig jaar</string>
+    <string name="graph_lastmonth">Vorige maand</string>
+    <string name="graph_lastweek">Vorige week</string>
+
+    <!-- Chronometer -->
+    <string name="ChronometerLabel">Chronometer</string>
+    <string name="CountdownLabel">Rust tijd</string>
+    <string name="activate_rest_time">Activeer rust timer</string>
+    <string name="rest_time">Rust tijd(sec)</string>
+    <string name="lastRecordLabel">Vorige record</string>
+    <string name="FilterHint">Filter op oefeningnaam</string>
+    <string name="WeightHint">Voeg hier je gewicht toe</string>
+    <string name="total_weight">Totale gewicht</string>
+    <string name="total_session">Totaal tijdens sessie</string>
+    <string name="total_machine">Totaal op oefening</string>
+    <string name="nb_serie">Nb Sets</string>
+    <string name="exit">Afsluiten</string>
+    <string name="selectMachineDialogLabel">Selecteer een bestaande oefening</string>
+
+    <!-- Intro slides -->
+    <string name="fillAllFields">Vul alle velden in</string>
+    <string name="fillNameField">Vul in ieder geval je naam in</string>
+    <string name="introSlide1Title">Hallo</string>
+    <string name="size_cm">Maat in cm</string>
+    <string name="size_cm_optional">Maat in cm (optioneel)</string>
+    <string name="create">Creeer</string>
+    <string name="birthday">Verjaardag</string>
+    <string name="birthday_optional">Verjaardag (Optioneel)</string>
+    <string name="name_or_pseudo">Naam / pseudoniem</string>
+    <string name="name_is_required">Naam is vereist</string>
+    <string name="create_a_profile">Maak een profel aan</string>
+    <string name="introSlide1Text">Welkom bij Fast n Fitness! Deze app is een snelle en simpele manier om je trainingen en vooruitgang bij te houden, evenals de vooruitgang van je lichaam.</string>
+    <string name="introSlide2Title">Snel en makkelijk</string>
+    <string name="introSlide3Text">Om fotos te maken van je machines heeft de app toegang nodig tot je camera en opslag.</string>
+    <string name="introSlide3Title">Toestemming vereist</string>
+    <string name="titleSlideEssential">ga naar de essentials</string>
+    <string name="textSlideEssential">Geen van de oefeningen zijn pre-created. Creeer je eigen oefeningen gebaseerd op de naam van de machine(s) die je gebruikt.</string>
+    <string name="pressBackAgain">Klik nog een keer op nack om af te sluiten</string>
+    <string name="titleSlideOpenSource">It\'s open-source!</string>
+    <string name="textSlideOpenSource">Join the community! Laten we samen de beste fitness app maken! Bezoek ons op https://github.com/brodeurlv/fastnfitness</string>
+    <string name="createExerciseFirst">Je moet eerst een oefening toevoegen</string>
+    <string name="impossibleToDeleteProfile">Kan huidig profiel niet verwijderen</string>
+    <string name="profileDeleted">Profiel verwijderd</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="areyousure">Weet je het zeker?</string>
+    <string name="Take_profile_picture">Profielfoto</string>
+    <string name="edit_soon_available">Bewerken binnekort beschikbaar</string>
+    <string name="name">Naam</string>
+    <string name="description">Beschrijving</string>
+    <string name="muscles">Spieren</string>
+    <string name="start">Start</string>
+    <string name="reset">Herstel</string>
+    <string name="weight_missing">Voeg alstublieft een gewicht toe</string>
+    <string name="profileEnterYourSize">Je maat</string>
+    <string name="profileEnterYourBirthday">Je verjaardag</string>
+    <string name="profile_page">Profiel Pagina</string>
+    <string name="ProfileLabel">Profiel</string>
+    <string name="edit_value">Waarde bewerken</string>
+    <string name="obsoleteCardioTab">Je kan nu het Record menu voor bodybuilding EN cardio gebruiken. Deze tab zal verdwijnen in een toekomstige update.</string>
+    <string name="menu_Workout">Workout</string>
+    <string name="renameMachine_error_text2">ERROR: Deze naam bestaat al. Het is niet mogelijk om 2 oefeningen van verschillende types met dezelfde naam te koppelen.</string>
+    <string name="recordcopied">Record gekopieerd</string>
+    <string name="imcLabel">BMI</string>
+    <string name="rfmLabel">RFM</string>
+    <string name="underweight">Ondergewicht</string>
+    <string name="normal">Normaal</string>
+    <string name="overweight">Overgewicht</string>
+    <string name="obese">Obesitas</string>
+    <string name="maleGender">Man</string>
+    <string name="femaleGender">Vrouw</string>
+    <string name="otherGender">Andere</string>
+    <string name="enter_gender_here">Voeg geslacht toe</string>
+    <string name="no_size_available">geen maat beschikbaar</string>
+    <string name="no_weight_available">geen gewicht beschikbaar</string>
+    <string name="BMI_dialog_title">Body Mass Index (BMI)</string>
+    <string name="BMI_formula">BMI = gewicht(kg) / lengte(m)Â²</string>
+    <string name="RFM_dialog_title">Relative Fat Mass Index (RFM)</string>
+    <string name="RFM_female_formula">Women: RFM = 76 â€“ (20 x (maat/heup omtrek))</string>
+    <string name="RFM_male_formula">Men: RFM = 64 â€“ (20 x (maat/heup omtrek))</string>
+    <string name="access_granted">Toegang verleend</string>
+    <string name="another_time_maybe">Misschien een andere keer:)</string>
+    <string name="new_folder">Nieuwe map</string>
+    <string name="ffmiLabel">VVMI</string>
+    <string name="FFMI_dialog_title">Vet-vrije massa Index(VVMI)</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = gewicht [kg] Ã— (1 âˆ’ (lichaamsvet[%] / 100)) / (lengte [m])Â²</string>
+    <string name="no_fat_available">geen vet beschikbaar</string>
+    <string name="indexLabel">Index</string>
+    <string name="what_type_of_exercise">Welke oefening?</string>
+    <string name="exercise_type">Oefening soort:</string>
+    <string name="staticExercise">Isometric</string>
+    <string name="SecondsLabel_short">Secs</string>
+    <string name="imported_successfully"> importeren succesvol</string>
+    <string name="import_failed"> importeren mislukt</string>
+    <string name="import_new_exercise_first">(Importeer eerst nieuwe oefeningen)</string>
+    <string name="MachineHint">Naam van oefening</string>
+    <string name="trapezius">Trapezius</string>
+    <string name="obliques">Schuine buikspier</string>
+    <string name="shoulders">Schouders</string>
+    <string name="timeLabel">Tijd</string>
+
+</resources>
+
