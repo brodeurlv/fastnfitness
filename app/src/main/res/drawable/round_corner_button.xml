@@ -4,14 +4,14 @@
         <shape android:shape="rectangle">
             <corners android:radius="3dip" />
             <stroke android:width="1dip" android:color="#5e7974" />
-            <gradient android:angle="-90" android:endColor="@android:color/white" android:startColor="@color/background_even" />
+            <gradient android:angle="-90" android:endColor="@android:color/white" android:startColor="@color/record_background_even" />
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <corners android:radius="3dip" />
             <stroke android:width="1dip" android:color="#5e7974" />
-            <solid android:color="@color/background_even" />
+            <solid android:color="@color/record_background_even" />
         </shape>
     </item>
     <item>

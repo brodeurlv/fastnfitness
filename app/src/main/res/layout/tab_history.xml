@@ -4,7 +4,6 @@
     android:name="tab_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
     android:orientation="vertical"
     android:paddingLeft="0dp"
     android:paddingTop="0dp"

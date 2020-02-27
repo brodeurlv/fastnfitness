@@ -23,14 +23,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      */
     public static SettingsFragment newInstance(String name, int id) {
         SettingsFragment f = new SettingsFragment();
-
-        // Supply index input as an argument.
-/*
-        Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putInt("id", id);
-        f.setArguments(args);
-*/
         return f;
     }
 
@@ -56,10 +48,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         myPref2.setOnPreferenceChangeListener((preference, newValue) -> {
             ListPreference listPreference = (ListPreference) preference;
             if (newValue instanceof String) {
-                String boolVal = (String) newValue;
-
                 //find the index of changed value in settings.
-                updateSummary(listPreference, boolVal);
+                updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredUnitSummary));
             }
 
             return true;
@@ -69,10 +59,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         myPref3.setOnPreferenceChangeListener((preference, newValue) -> {
             ListPreference listPreference = (ListPreference) preference;
             if (newValue instanceof String) {
-                String boolVal = (String) newValue;
-
                 //find the index of changed value in settings.
-                updateSummary(listPreference, boolVal);
+                updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredUnitSummary));
+            }
+
+            return true;
+        });
+
+        Preference dayNightModePref = findPreference("dayNightAuto");
+        dayNightModePref.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                updateSummary(listPreference, (String) newValue, "");
             }
 
             return true;
@@ -89,18 +87,23 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         ListPreference myPref2 = (ListPreference) findPreference("defaultUnit");
         String boolVal = sharedPreferences.getString("defaultUnit", "0");
-        updateSummary(myPref2, boolVal);
+        updateSummary(myPref2, boolVal, getString(R.string.pref_preferredUnitSummary));
 
         ListPreference myPref3 = (ListPreference) findPreference("defaultDistanceUnit");
         String boolVal3 = sharedPreferences.getString("defaultDistanceUnit", "0");
-        updateSummary(myPref3, boolVal3);
+        updateSummary(myPref3, boolVal3, getString(R.string.pref_preferredUnitSummary));
+
+        ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
+        String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
+        updateSummary(dayNightModePref, dayNightValue, "");
+
     }
 
-    private void updateSummary(ListPreference pref, String val) {
+    private void updateSummary(ListPreference pref, String val, String prefix) {
         int prefIndex = pref.findIndexOfValue(val);
         if (prefIndex >= 0) {
             //finally set's it value changed
-            pref.setSummary(getString(R.string.pref_preferredUnitSummary) + pref.getEntries()[prefIndex]);
+            pref.setSummary(prefix + pref.getEntries()[prefIndex]);
         }
     }
 }

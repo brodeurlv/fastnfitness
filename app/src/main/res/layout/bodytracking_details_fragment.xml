@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tab_bodytracking_details"
     android:name="tab_bodytracking_details"
     android:layout_width="match_parent"
@@ -17,7 +18,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
         android:fillViewport="true"
         android:orientation="vertical"
         android:paddingLeft="0dp"
@@ -59,80 +59,75 @@
                         android:text="+"
                         android:textSize="24sp" />
 
-                    <LinearLayout
-                        android:id="@+id/layoutup"
-                        android:layout_width="fill_parent"
+                    <TableLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/buttonAddWeight"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:stretchColumns="1"
+                        android:layout_toStartOf="@id/buttonAddWeight">
 
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="40"
-                            android:text="@string/DateLabel" />
+                        <TableRow android:gravity="center_vertical">
 
-                        <EditText
-                            android:id="@+id/profilEditDate"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_weight="10"
-                            android:inputType="none"
-                            android:nextFocusDown="@+id/editWeight" />
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/DateLabel" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/profilEditDate"
+                                style="@style/editableTextView"
+                                android:gravity="start"
+                                android:enabled="true"
+                                tools:text="10/05/20"/>
+                        </TableRow>
 
-                    <LinearLayout
-                        android:id="@+id/layoutdown"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/layoutup"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/buttonAddWeight"
-                        android:orientation="horizontal">
+                        <TableRow
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center_vertical">
 
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="40"
-                            android:text="@string/measureLabel" />
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="40"
+                                android:text="@string/measureLabel" />
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="10"
-                            android:orientation="horizontal">
-
-                            <EditText
-                                android:id="@+id/editWeight"
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="10"
-                                android:hint="@string/MesureHint"
-                                android:inputType="numberDecimal" />
+                                android:orientation="horizontal">
 
-                            <!--com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:id="@+id/buttonAddWeight"
-                                android:layout_width="250dp"
-                                android:layout_height="250dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="1dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginBottom="1dp"
-                                android:layout_weight="40"
-                                android:background="@color/background"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:minHeight="?attr/actionBarSize"
-                                android:text="+"
-                                app:backgroundTint="@color/launcher_background" /-->
+                                <EditText
+                                    android:id="@+id/editWeight"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="10"
+                                    android:hint="@string/MesureHint"
+                                    android:inputType="numberDecimal" />
 
-                        </LinearLayout>
-                    </LinearLayout>
+                                <!--com.google.android.material.floatingactionbutton.FloatingActionButton
+                                    android:id="@+id/buttonAddWeight"
+                                    android:layout_width="250dp"
+                                    android:layout_height="250dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginBottom="1dp"
+                                    android:layout_weight="40"
+                                    android:background="@color/background"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:minHeight="?attr/actionBarSize"
+                                    android:text="+"
+                                    app:backgroundTint="@color/launcher_background" /-->
+
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -145,9 +140,10 @@
                     android:id="@+id/weightChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dip"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="#FFFFFF" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -155,6 +151,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
                 android:text="@string/sizeTableLabel" />
 
             <include layout="@layout/bodymeasure_rowheader" />

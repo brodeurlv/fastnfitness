@@ -3,10 +3,13 @@ package com.easyfitness.utils.EditableInputView;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -17,22 +20,25 @@ import android.widget.TextView;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Keyboard;
 
 import java.util.Calendar;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class EditableInputView extends RelativeLayout implements DatePickerDialog.OnDateSetListener {
     protected View rootView;
     protected TextView valueTextView;
     protected View editButton;
-    protected SweetAlertDialog customDialog = null;
     protected OnTextChangedListener mConfirmClickListener = null;
     private int textViewInputType = InputType.TYPE_CLASS_NUMBER;
     /**
      * when CustomerDialogBuilder is used the OnTextChangedListener is not triggered
      */
     private CustomerDialogBuilder mCustomerDialogBuilder = null;
+
+    private Context mContext;
 
     public EditableInputView(Context context) {
         super(context);
@@ -58,7 +64,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
     protected void init(Context context, AttributeSet attrs) {
         //do setup work here
-
+        mContext = context;
         rootView = inflate(context, R.layout.editableinput_view, this);
         valueTextView = rootView.findViewById(R.id.valueTextView);
         editButton = rootView.findViewById(R.id.editButton);
@@ -109,6 +115,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
             } else {
                 final EditText editText = new EditText(context);
                 editText.setText(getText());
+                editText.setGravity(Gravity.CENTER);
                 editText.setInputType(textViewInputType);
                 editText.requestFocus();
 
@@ -118,16 +125,31 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
                     .setTitleText(getContext().getString(R.string.edit_value))
+                    .setCancelText(getContext().getString(R.string.global_cancel))
+                    .setHideKeyBoardOnDismiss(true)
+                    .setCancelClickListener(sDialog -> {
+                        editText.clearFocus();
+                        Keyboard.hide(context, editText);
+                        sDialog.dismissWithAnimation();})
                     .setConfirmClickListener(sDialog -> {
-                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                        }
+                        editText.clearFocus();
+                        Keyboard.hide(context, editText);
                         setText(editText.getText().toString());
                         sDialog.dismissWithAnimation();
                         if (mConfirmClickListener != null)
                             mConfirmClickListener.onTextChanged(EditableInputView.this);
                     });
+                    dialog.setOnDismissListener(sDialog -> {
+                        rootView.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        if ( imm !=null)
+                            imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);});
+                        //Keyboard.hide(context, editText);});
+                    dialog.setOnShowListener(sDialog -> {
+                        editText.requestFocus();
+                        Keyboard.show(context, editText);
+                    });
+
                 dialog.setCustomView(linearLayout);
                 dialog.show();
             }
@@ -141,7 +163,6 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     public void setText(String newValue) {
         String oldValue = valueTextView.getText().toString();
         valueTextView.setText(newValue);
-
     }
 
     public void setHint(String newValue) {

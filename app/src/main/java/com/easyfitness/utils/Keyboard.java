@@ -9,7 +9,19 @@ public class Keyboard {
 
     public static void hide(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if ( imm !=null)
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void show(Context context, View view) {
+        if (view.requestFocus()) {
+            view.postDelayed(() -> {
+                InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            }, 300);
+            /*InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);*/
+        }
     }
 
 }

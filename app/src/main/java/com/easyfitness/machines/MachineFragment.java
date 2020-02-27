@@ -152,13 +152,13 @@ public class MachineFragment extends Fragment {
 
         dlg.show();
 
-        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.background_odd);
+        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
         dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
         dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
         }
-        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.background_odd);
+        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
         dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
         dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
 
@@ -166,7 +166,7 @@ public class MachineFragment extends Fragment {
             dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
         }
 
-        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.background_odd);
+        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
         dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
         dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
 
@@ -298,7 +298,7 @@ public class MachineFragment extends Fragment {
                     machineList.setAdapter(null);
                 } else {
                     if (machineList.getAdapter() == null) {
-                        mTableAdapter = new MachineCursorAdapter(this.getView().getContext(), c, 0, mDbMachine);
+                        mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
                         machineList.setAdapter(mTableAdapter);
                     } else {
                         mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());

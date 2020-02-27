@@ -11,12 +11,10 @@
         app:stl_clickable="true"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="true"
-        app:stl_defaultTabTextColor="#FC000000"
         app:stl_defaultTabTextHorizontalPadding="16dp"
         app:stl_defaultTabTextMinWidth="0dp"
         app:stl_defaultTabTextSize="12sp"
         app:stl_distributeEvenly="true"
-        app:stl_dividerColor="#4D000000"
         app:stl_dividerThickness="1dp"
         app:stl_drawDecorationAfterTab="false"
         app:stl_indicatorAlwaysInCenter="false"
@@ -28,11 +26,10 @@
         app:stl_indicatorThickness="4dp"
         app:stl_indicatorWidth="auto"
         app:stl_indicatorWithoutPadding="false"
-        app:stl_overlineColor="#4D000000"
         app:stl_overlineThickness="0dp"
         app:stl_titleOffset="24dp"
-        app:stl_underlineColor="#4D000000"
-        app:stl_underlineThickness="1dp" />
+        app:stl_underlineThickness="1dp"
+        app:stl_defaultTabTextColor="@color/enabled_color"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"

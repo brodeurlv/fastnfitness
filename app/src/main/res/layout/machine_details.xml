@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="@color/background_even"
+                android:background="@color/record_background_even"
                 android:cropToPadding="false"
                 android:maxHeight="200dp"
                 android:minHeight="60dp"
@@ -63,7 +63,7 @@
                             android:id="@+id/bodyBuildingSelection"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/background_odd"
+                            android:background="@color/record_background_odd"
                             android:gravity="center"
                             android:text="@string/FonteLabel" />
 

@@ -20,7 +20,7 @@
         android:maxLines="1"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:textColor="@color/gray"
+        android:textColor="@color/cardview_title_color"
         android:textSize="12sp"
         android:textStyle="bold|italic"
         android:visibility="gone"
@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="40"
-        android:padding="5dp">
+        android:padding="5dp"
+        app:cardCornerRadius="5dp">
 
         <LinearLayout
 
@@ -53,24 +54,11 @@
 
                 <TextView
                     android:id="@+id/MACHINE_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|start"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_weight="40"
-                    android:gravity="start"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="1"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
                     android:text="Machine"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
                     app:autoSizeMaxTextSize="16sp"
                     app:autoSizeMinTextSize="12sp"
-                    app:autoSizeTextType="uniform" />
+                    app:autoSizeTextType="uniform"
+                    style="@style/machine_record_title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,7 +84,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginStart="5dp"
                         android:paddingTop="0dp"
-                        android:text="00:00:00"
+                        tool:text="00:00:00"
                         android:textSize="10sp" />
 
                 </LinearLayout>
@@ -113,18 +101,8 @@
 
                 <TextView
                     android:id="@+id/SERIE_LABEL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
                     android:text="@string/SerieLabel"
-                    android:textColor="@color/gray"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    style="@style/record_param_title" />
 
                 <TextView
                     android:id="@+id/SERIE_CELL"
@@ -150,18 +128,9 @@
 
                 <TextView
                     android:id="@+id/REP_LABEL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/RepetitionLabel_short"
-                    android:textColor="@color/gray"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+
+                    style="@style/record_param_title"
+                    android:text="@string/RepetitionLabel_short" />
 
                 <TextView
                     android:id="@+id/REPETITION_CELL"
@@ -187,18 +156,8 @@
 
                 <TextView
                     android:id="@+id/WEIGHT_LABEL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/PoidsLabel"
-                    android:textColor="@color/gray"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    style="@style/record_param_title"
+                    android:text="@string/PoidsLabel" />
 
                 <TextView
                     android:id="@+id/POIDS_CELL"
