@@ -339,4 +339,25 @@
     <string name="shoulders">Shoulders</string>
     <string name="timeLabel">Time</string>
 
+    <string-array name="daynightauto">
+        <item>@string/light_mode</item>
+        <item>@string/dark_mode</item>
+        <item>@string/autoui_mode</item>
+    </string-array>
+
+    <integer name="light_mode_value">0</integer>
+    <integer name="dark_mode_value">1</integer>
+    <integer name="autoui_mode_value">2</integer>
+
+    <string-array name="daynightauto_enum">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="light_mode">Light</string>
+    <string name="dark_mode">Dark</string>
+    <string name="autoui_mode">Auto</string>
+    <string name="daynightmode_settingtitle">Select your theme</string>
+
 </resources>

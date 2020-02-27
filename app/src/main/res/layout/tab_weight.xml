@@ -2,15 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEEEEE">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/tab_weight"
         android:name="tab_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEEEEE"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="0dp"
@@ -43,62 +41,23 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:autoSizeMaxTextSize="18sp"
-                        android:autoSizeMinTextSize="14sp"
-                        android:autoSizeStepGranularity="1dp"
-                        android:gravity="center_horizontal"
-                        android:lines="1"
                         android:text="@string/weightLabel"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp" />
+                        style="@style/CardViewTitle" />
 
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/weightInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:inputType="numberSigned|numberDecimal"
-                        android:lines="1"
-                        android:maxWidth="100dp"
-                        android:maxLines="1"
                         android:text=" - "
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
                         app:iconVisible="false"
-                        tools:text="70.5" />
+                        tools:text="70.5"
+                        style="@style/PrimaryWeightMeasure" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/weightGraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="0dp"
-                        android:background="#FFFFFF"
-                        android:minHeight="50dp" />
+                        style="@style/MiniLineChart" />
 
                     <Button
                         android:id="@+id/weightDetailsButton"
-                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:adjustViewBounds="false"
-                        android:background="@color/background"
-                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
-                        android:minHeight="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="Details" />
 
 
@@ -124,32 +83,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:autoSizeMaxTextSize="18sp"
-                        android:autoSizeMinTextSize="14sp"
-                        android:autoSizeStepGranularity="1dp"
-                        android:gravity="center_horizontal"
-                        android:lines="1"
                         android:text="@string/fatLabel"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp" />
+                        style="@style/CardViewTitle" />
 
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/fatInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:inputType="number|numberSigned|numberDecimal"
-                        android:lines="1"
-                        android:maxWidth="100dp"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
+                        style="@style/PrimaryWeightMeasure"
                         tools:text="50.9" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -160,23 +99,11 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="0dp"
-                        android:background="#FFFFFF"
                         android:minHeight="50dp" />
 
                     <Button
                         android:id="@+id/fatDetailsButton"
-                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:adjustViewBounds="false"
-                        android:background="@color/background"
-                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
-                        android:minHeight="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="Details" />
 
                 </LinearLayout>
@@ -210,32 +137,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:autoSizeMaxTextSize="18sp"
-                        android:autoSizeMinTextSize="14sp"
-                        android:autoSizeStepGranularity="1dp"
-                        android:gravity="center_horizontal"
-                        android:lines="1"
-                        android:text="@string/musclesLabel"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp" />
+                        style="@style/CardViewTitle"
+                        android:text="@string/musclesLabel" />
 
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/musclesInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center|clip_vertical"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:inputType="numberSigned|numberDecimal"
-                        android:lines="1"
-                        android:maxWidth="100dp"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
+                        style="@style/PrimaryWeightMeasure"
                         tools:text="20.2" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -245,23 +152,11 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
-                        android:background="#FFFFFF"
                         android:minHeight="50dp" />
 
                     <Button
                         android:id="@+id/musclesDetailsButton"
-                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:adjustViewBounds="false"
-                        android:background="@color/background"
-                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
-                        android:minHeight="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="Details" />
 
 
@@ -287,32 +182,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:autoSizeMaxTextSize="18sp"
-                        android:autoSizeMinTextSize="14sp"
-                        android:autoSizeStepGranularity="1dp"
-                        android:gravity="center_horizontal"
-                        android:lines="1"
-                        android:text="@string/waterLabel"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp" />
+                        style="@style/CardViewTitle"
+                        android:text="@string/waterLabel"/>
 
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/waterInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:inputType="numberSigned|numberDecimal"
-                        android:lines="1"
-                        android:maxWidth="100dp"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
+                        style="@style/PrimaryWeightMeasure"
                         tools:text="20.5" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -323,23 +198,11 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="0dp"
-                        android:background="#FFFFFF"
                         android:minHeight="50dp" />
 
                     <Button
                         android:id="@+id/waterDetailsButton"
-                        style="@android:style/Widget.DeviceDefault.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:adjustViewBounds="false"
-                        android:background="@color/background"
-                        android:drawableStart="@drawable/ic_baseline_list_alt_24px"
-                        android:minHeight="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="Details" />
                 </LinearLayout>
 
@@ -376,14 +239,11 @@
 
                         <TextView
                             android:id="@+id/indexTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/CardViewTitle"
+                            android:layout_marginTop="0dp"
                             android:layout_span="4"
-                            android:gravity="center_horizontal"
                             android:text="@string/indexLabel"
-                            android:textColor="@color/gray"
-                            android:textSize="24sp"
-                            android:textStyle="italic" />
+                            android:textSize="24sp" />
 
                     </TableRow>
 
@@ -400,14 +260,8 @@
 
                         <TextView
                             android:id="@+id/imcValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:maxWidth="100dp"
-                            android:maxLines="1"
-                            android:textColor="@color/blue"
-                            android:textSize="20sp"
-                            tools:text="20" />
+                            tools:text="20"
+                            style="@style/WeightIndexStyle" />
 
                         <TextView
                             android:id="@+id/imcViewText"
@@ -421,13 +275,8 @@
 
                         <ImageButton
                             android:id="@+id/imcHelp"
-                            android:layout_width="match_parent"
-                            android:layout_height="25sp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="false"
-                            android:background="@color/background"
-                            android:cropToPadding="false"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24px"
+                            style="@style/InfoButton" />
                     </TableRow>
 
                     <TableRow
@@ -443,13 +292,7 @@
 
                         <TextView
                             android:id="@+id/ffmiValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxWidth="100dp"
-                            android:maxLines="1"
-                            android:textColor="@color/blue"
-                            android:textSize="20sp"
+                            style="@style/WeightIndexStyle"
                             tools:text="20" />
 
                         <TextView
@@ -463,14 +306,9 @@
 
                         <ImageButton
                             android:id="@+id/ffmiHelp"
-                            android:layout_width="25sp"
-                            android:layout_height="25sp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="false"
-                            android:background="@color/background"
-                            android:cropToPadding="false"
                             app:srcCompat="@drawable/ic_baseline_help_outline_24px"
-                            tools:ignore="ContentDescription" />
+                            style="@style/InfoButton"
+                            />
 
                     </TableRow>
 

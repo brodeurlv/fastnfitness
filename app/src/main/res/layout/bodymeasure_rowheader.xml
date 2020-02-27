@@ -14,7 +14,8 @@
         android:layout_weight="50"
         android:gravity="center_vertical"
         android:text="@string/DateLabel"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginStart="3dp"/>
 
     <TextView
         android:layout_width="0dp"

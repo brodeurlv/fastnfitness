@@ -17,7 +17,7 @@
         android:layout_width="128px"
         android:layout_height="match_parent"
         android:layout_marginEnd="6dip"
-        android:background="@color/background_even"
+        android:background="@color/record_background_even"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_machine"
         android:visibility="gone" />

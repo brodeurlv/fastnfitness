@@ -214,7 +214,7 @@ public class MachineDetailsFragment extends Fragment {
         exerciseTypeSelectorLayout.setVisibility(View.GONE);
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+            cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
             bodybuildingSelector.setVisibility(View.GONE);
             bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
             selectedType = mMachine.getType();
@@ -223,7 +223,7 @@ public class MachineDetailsFragment extends Fragment {
         } else {
             cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
             cardioSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
             selectedType = mMachine.getType();
         }
 

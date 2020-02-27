@@ -8,8 +8,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 40
-        versionName "0.18.8"
+        versionCode 41
+        versionName "0.18.9"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -100,7 +100,7 @@ dependencies {
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'com.heinrichreimersoftware:material-intro:1.6' //1.6.2
     implementation 'com.mikhaellopez:circularimageview:3.2.0' //3.2.0
-    implementation 'com.github.f0ris.sweetalert:library:1.5.6'
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation 'com.github.onurkagan:ktoast:1.0.3'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'

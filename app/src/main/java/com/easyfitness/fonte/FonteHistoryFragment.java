@@ -223,7 +223,7 @@ public class FonteHistoryFragment extends Fragment {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
-                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(this.getView().getContext(), c, 0, itemClickDeleteRecord, null);
+                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, null);
                 filterList.setAdapter(mTableAdapter);
             } else {
                 oldCursor = ((RecordCursorAdapter) filterList.getAdapter()).swapCursor(c);

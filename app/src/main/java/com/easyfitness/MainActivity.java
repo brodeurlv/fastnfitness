@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -205,6 +206,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String dayNightAuto = SP.getString("dayNightAuto", Integer.toString(getResources().getInteger(R.integer.autoui_mode_value)));
+        int dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            SweetAlertDialog.DARK_STYLE=true;
+        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            SweetAlertDialog.DARK_STYLE=false;
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    SweetAlertDialog.DARK_STYLE=false; break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    SweetAlertDialog.DARK_STYLE=true; break;
+                default:
+                    SweetAlertDialog.DARK_STYLE=false;
+            }
+        }
 
         setContentView(R.layout.activity_main);
 

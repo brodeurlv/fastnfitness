@@ -3,6 +3,7 @@ package com.easyfitness.utils.EditableInputView;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Keyboard;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -73,7 +75,7 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
                 datePickerDialog.show();
         });
 
-        final EditText editText = new EditText(getContext());
+        final EditText editText = new EditText(context);
         if (getText().contentEquals("-")) {
             editText.setText("");
             editText.setHint("Enter date and value here");
@@ -90,22 +92,24 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         linearLayout.addView(editDate);
         linearLayout.addView(editText);
 
-        SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+        SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
             .setTitleText(getContext().getString(R.string.edit_value))
             .showCancelButton(true)
+            .setCancelClickListener(sDialog -> {
+                editText.clearFocus();
+                Keyboard.hide(context, editText);
+                sDialog.dismissWithAnimation();})
             .setCancelText(getContext().getString(R.string.global_cancel))
             .setConfirmText(getContext().getString(R.string.AddLabel))
             .setConfirmClickListener(sDialog -> {
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
+                Keyboard.hide(sDialog.getContext(), editText);
                 setText(editText.getText().toString());
                 if (mConfirmClickListener != null)
                     mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
                 sDialog.dismissWithAnimation();
             });
         dialog.setCustomView(linearLayout);
+        dialog.setOnShowListener(sDialog -> Keyboard.show(getContext(), editText));
         dialog.show();
     }
 

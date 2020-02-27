@@ -66,7 +66,6 @@ import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -113,7 +112,6 @@ public class FontesFragment extends Fragment {
     int selectedType = DAOMachine.TYPE_FONTE;
     // Cardio Part
     LinearLayout bodyBuildingLayout = null;
-    LinearLayout cardioLayout = null;
     LinearLayout restTimeLayout = null;
     EditText distanceEdit = null;
     TextView durationEdit = null;
@@ -458,7 +456,7 @@ public class FontesFragment extends Fragment {
                 machineList.setAdapter(null);
             } else {
                 if (machineList.getAdapter() == null) {
-                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(v.getContext(), c, 0, mDbMachine);
+                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
                     machineList.setAdapter(mTableAdapter);
                 } else {
@@ -681,7 +679,6 @@ public class FontesFragment extends Fragment {
         minText = view.findViewById(R.id.minText);
         maxText = view.findViewById(R.id.maxText);
         bodyBuildingLayout = view.findViewById(R.id.bodybuildingLayout);
-        cardioLayout = view.findViewById(R.id.cardioLayout);
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
         cardioSelector = view.findViewById(R.id.cardioSelection);
         staticExerciseSelector = view.findViewById(R.id.staticSelection);
@@ -1064,7 +1061,7 @@ public class FontesFragment extends Fragment {
                 recordList.setAdapter(null);
             } else {
                 if (recordList.getAdapter() == null) {
-                    RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(getContext(), c, 0, itemClickDeleteRecord, itemClickCopyRecord);
+                    RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickCopyRecord);
                     mTableAdapter.setFirstColorOdd(lTableColor);
                     recordList.setAdapter(mTableAdapter);
                 } else {
@@ -1136,7 +1133,7 @@ public class FontesFragment extends Fragment {
         showExerciseTypeSelector(displaySelector);
         switch (pType) {
             case DAOMachine.TYPE_CARDIO:
-                cardioSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+                cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
                 bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 serieCardView.setVisibility(View.GONE);
@@ -1151,7 +1148,7 @@ public class FontesFragment extends Fragment {
             case DAOMachine.TYPE_STATIC:
                 cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+                staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
                 serieCardView.setVisibility(View.VISIBLE);
                 repetitionCardView.setVisibility(View.GONE);
                 secondsCardView.setVisibility(View.VISIBLE);
@@ -1164,7 +1161,7 @@ public class FontesFragment extends Fragment {
             case DAOMachine.TYPE_FONTE:
             default:
                 cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background_odd));
+                bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
                 staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 serieCardView.setVisibility(View.VISIBLE);
                 repetitionCardView.setVisibility(View.VISIBLE);

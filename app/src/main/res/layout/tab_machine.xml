@@ -13,10 +13,7 @@
 
     <Button
         android:id="@+id/addExercise"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@android:color/white"
+        style="@style/Widget.AppCompat.Button.AddButton"
         android:text="@string/AddLabel" />
 
     <AutoCompleteTextView

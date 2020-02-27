@@ -65,7 +65,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 
         int mFirstColorOdd = 0;
         if (cursor.getPosition() % 2 == mFirstColorOdd) {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
+            cdView.setBackgroundColor(context.getResources().getColor(R.color.record_background_even));
         } else {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
         }

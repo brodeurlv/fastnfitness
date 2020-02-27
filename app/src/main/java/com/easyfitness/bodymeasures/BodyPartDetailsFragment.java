@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -45,7 +46,7 @@ import java.util.List;
 public class BodyPartDetailsFragment extends Fragment {
     Button addButton = null;
     EditText measureEdit = null;
-    EditText dateEdit = null;
+    TextView dateEdit = null;
     ExpandedListView measureList = null;
     Toolbar bodyToolbar = null;
     DatePickerDialogFragment mDateFrag = null;
@@ -56,11 +57,6 @@ public class BodyPartDetailsFragment extends Fragment {
     private DAOBodyMeasure mBodyMeasureDb = null;
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
     private OnClickListener clickDateEdit = v -> showDatePickerFragment();
-    private OnFocusChangeListener focusDateEdit = (v, hasFocus) -> {
-        if (hasFocus) {
-            showDatePickerFragment();
-        }
-    };
     private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
@@ -127,10 +123,11 @@ public class BodyPartDetailsFragment extends Fragment {
     private void showDatePickerFragment() {
         if (mDateFrag == null) {
             mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+            mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog");
+        } else {
+            if (!mDateFrag.isVisible())
+                mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog");
         }
-
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        mDateFrag.show(ft, "dialog");
     }
 
     @Override
@@ -158,7 +155,6 @@ public class BodyPartDetailsFragment extends Fragment {
         /* Initialisation des boutons */
         addButton.setOnClickListener(onClickAddMeasure);
         dateEdit.setOnClickListener(clickDateEdit);
-        dateEdit.setOnFocusChangeListener(focusDateEdit);
         measureList.setOnItemLongClickListener(itemlongclickDeleteRecord);
 
         /* Initialisation des evenements */
@@ -220,7 +216,7 @@ public class BodyPartDetailsFragment extends Fragment {
         } else {
             // ...
             if (measureList.getAdapter() == null) {
-                BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter(this.getView().getContext(), mBodyMeasureDb.getCursor(), 0, itemClickDeleteRecord);
+                BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter(getActivity(), mBodyMeasureDb.getCursor(), 0, itemClickDeleteRecord);
                 measureList.setAdapter(mTableAdapter);
             } else {
                 oldCursor = ((BodyMeasureCursorAdapter) measureList.getAdapter()).swapCursor(mBodyMeasureDb.getCursor());

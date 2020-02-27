@@ -46,9 +46,9 @@ public class RecordCursorAdapter extends CursorAdapter {
         final int position = cursor.getPosition();
 
         if (position % 2 == mFirstColorOdd) {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
+            cdView.setBackgroundColor(context.getResources().getColor(R.color.record_background_odd));
         } else {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
+            cdView.setBackgroundColor(context.getResources().getColor(R.color.record_background_even));
         }
 
         /* Commun display */

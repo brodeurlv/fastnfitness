@@ -35,7 +35,7 @@ public class WeightCursorAdapter extends CursorAdapter {
         CardView cdView = view.findViewById(R.id.CARDVIEW);
 
         if (cursor.getPosition() % 2 == 1) {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.background_even));
+            cdView.setBackgroundColor(context.getResources().getColor(R.color.record_background_even));
         } else {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
         }

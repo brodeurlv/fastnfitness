@@ -5,7 +5,6 @@
     android:name="tab_fontes"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEEEEE"
     android:fillViewport="true">
 
     <LinearLayout
@@ -13,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:animateLayoutChanges="true"
-        android:background="#EEEEEE"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="top"
@@ -48,12 +46,9 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_machine"
-                        app:civ_background_color="@color/background_even"
-                        app:civ_border_color="#EEEEEE"
+                        app:civ_background_color="@color/record_background_even"
                         app:civ_border_width="0dp"
-                        app:civ_shadow="false"
-                        app:civ_shadow_color="#8BC34A"
-                        app:civ_shadow_radius="0" />
+                        app:civ_shadow="false" />
 
                     <AutoCompleteTextView
                         android:id="@+id/editMachine"
@@ -85,7 +80,6 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
             android:layout_width="match_parent"
@@ -96,6 +90,7 @@
 
             <TextView
                 android:id="@+id/maxText2"
+                style="@style/Widget.AppCompat.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -115,7 +110,7 @@
                     android:id="@+id/bodyBuildingSelection"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_odd"
+                    android:background="@color/record_background_odd"
                     android:gravity="center"
                     android:text="@string/FonteLabel"
                     app:autoSizeMaxTextSize="14sp"
@@ -169,19 +164,19 @@
             android:orientation="horizontal"
             android:visibility="visible">
 
+            <!-- SETS -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewSerie"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/border"
                     android:orientation="vertical">
 
                     <TextView
@@ -203,19 +198,19 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- REPS -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewRepetition"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/border"
                     android:orientation="vertical">
                     <!--android:layout_weight="40"-->
                     <TextView
@@ -232,25 +227,25 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="2"
-                        tools:text="10"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:text="10" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- SECONDS -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewSeconds"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/border"
                     android:orientation="vertical">
                     <!--android:layout_weight="40"-->
                     <TextView
@@ -267,25 +262,25 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="2"
-                        tools:text="10"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:text="10" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- WEIGHT -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewWeight"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
@@ -299,7 +294,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/border"
                         android:orientation="horizontal">
 
                         <EditText
@@ -327,7 +321,7 @@
                         android:layout_weight="10"
                         android:baselineAligned="false"
                         android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -363,13 +357,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- DISTANCE -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewDistance"
                 style="@style/CardViewStyle"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
-                app:cardCornerRadius="5dp"
-                android:visibility="visible">
+                android:visibility="gone"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -408,13 +403,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- DURATION -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardviewDuration"
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="30"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
@@ -446,20 +442,6 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-
-
-        <LinearLayout
-            android:id="@+id/cardioLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-
-
-
-        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
@@ -526,17 +508,9 @@
 
                         <TextView
                             android:id="@+id/editDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="?attr/editTextBackground"
-                            android:ems="9"
-                            android:enabled="false"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:textColor="@drawable/edittext_selector"
-                            android:textSize="18sp"
-                            tools:text="10/05/20" />
+                            tools:text="10/05/20"
+                            style="@style/editableTextView"
+                            android:enabled="false"/>
 
                     </LinearLayout>
 
@@ -556,17 +530,9 @@
 
                         <TextView
                             android:id="@+id/editTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="?attr/editTextBackground"
-                            android:ems="9"
-                            android:enabled="false"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:textColor="@drawable/edittext_selector"
-                            android:textSize="18sp"
-                            tools:text="18:26:10" />
+                            style="@style/editableTextView"
+                            tools:text="18:26:10"
+                            android:enabled="false"/>
 
                     </LinearLayout>
 
@@ -655,10 +621,7 @@
 
             <Button
                 android:id="@+id/addperff"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/round_corner_button"
+                style="@style/Widget.AppCompat.Button.AddButton"
                 android:text="@string/AddLabel" />
 
             <TextView

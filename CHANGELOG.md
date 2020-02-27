@@ -1,5 +1,9 @@
 ## Change Log
 
+### 0.18.9: February 27, 2020
+- Enhancement : DarkMode (#96)\n
+- Enhancement : Added dutch translation (Thanks Rishabh)\n
+
 ### 0.18.8: February 22, 2020
 - Enhancement : Added Miles unit to distance #104
 - Enhancement : Added possibility to set custom times #106
