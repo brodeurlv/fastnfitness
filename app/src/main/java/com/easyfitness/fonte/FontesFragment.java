@@ -566,6 +566,10 @@ public class FontesFragment extends Fragment {
     private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
         dateEdit.setEnabled(!isChecked);
         timeEdit.setEnabled(!isChecked);
+        if (isChecked) {
+            dateEdit.setText(DateConverter.currentDate());
+            timeEdit.setText(DateConverter.currentTime());
+        }
     };
 
     /**
@@ -742,8 +746,6 @@ public class FontesFragment extends Fragment {
         }
         unitDistanceSpinner.setSelection(distanceUnit);
 
-
-
         // Initialisation de la base de donnee
         mDbBodyBuilding = new DAOFonte(getContext());
         mDbCardio = new DAOCardio(getContext());
@@ -752,6 +754,7 @@ public class FontesFragment extends Fragment {
 
         mDbMachine = new DAOMachine(getContext());
         dateEdit.setText(DateConverter.currentDate());
+        timeEdit.setText(DateConverter.currentTime());
         selectedType = DAOMachine.TYPE_FONTE;
 
         machineImage.setOnClickListener(v -> {
@@ -818,19 +821,19 @@ public class FontesFragment extends Fragment {
         int hour;
         try {
             hour = Integer.valueOf(tx.substring(0, 2));
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             hour=0;
         }
         int min;
         try {
             min = Integer.valueOf(tx.substring(3, 5));
-         } catch (NumberFormatException e) {
-        min=0;
+        } catch (Exception e) {
+            min=0;
         }
         int sec;
         try {
         sec = Integer.valueOf(tx.substring(6));
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             sec=0;
         }
 

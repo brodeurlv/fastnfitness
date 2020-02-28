@@ -316,5 +316,7 @@
     <string name="shoulders">Ramena</string>
     <string name="trapezius">Trapezius</string>
     <string name="pref_preferredDistanceUnitTitle">Vyberte preferovanou jednotku vzdálenosti</string>
+    <string name="daynightmode_settingtitle">Vyberte téma (je třeba restartovat)</string>
+    <string name="timeLabel">Čas</string>
 
 </resources>

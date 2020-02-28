@@ -297,4 +297,5 @@
     <string name="shoulders">Epaules</string>
     <string name="timeLabel">Heure</string>
     <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
+    <string name="daynightmode_settingtitle">Thème graphique (redémarrage nécessaire)</string>
 </resources>

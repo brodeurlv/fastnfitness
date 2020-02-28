@@ -267,7 +267,7 @@
     <string name="name_is_required">Name is required</string>
     <string name="create_a_profile">Create a profile</string>
     <string name="introSlide1Text">Welcome to Fast N Fitness! This application is a quick and simple way to record your workout and follow your progression and the evolution of your body.</string>
-    <string name="introSlide2Text">Write the name of the exercise and the details, and it will created automatically. You can find it back easily in the list.</string>
+    <string name="introSlide2Text">Write the name of the exercise and the details, and it will be created automatically. You can find it back easily in the list.</string>
     <string name="introSlide2Title">Quick and easy</string>
     <string name="introSlide3Text">To take pictures of your machines, the app needs authorization to access your camera and phone storage.</string>
     <string name="introSlide3Title">Required permissions</string>
@@ -355,9 +355,9 @@
         <item>2</item>
     </string-array>
 
-    <string name="light_mode">Light</string>
-    <string name="dark_mode">Dark</string>
-    <string name="autoui_mode">Auto</string>
-    <string name="daynightmode_settingtitle">Select your theme</string>
+    <string name="light_mode" translatable="false">Light</string>
+    <string name="dark_mode" translatable="false">Dark</string>
+    <string name="autoui_mode" translatable="false">Auto</string>
+    <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
 
 </resources>

@@ -328,6 +328,10 @@
     <string name="obliques">Schuine buikspier</string>
     <string name="shoulders">Schouders</string>
     <string name="timeLabel">Tijd</string>
+    <string name="missinginfo">Ontbrekende info</string>
+    <string name="profileCreated">Profiel gemaakt</string>
+    <string name="introSlide2Text">Schrijf de naam van de oefening en de details en deze worden automatisch gemaakt. Je vindt het gemakkelijk terug in de lijst.</string>
+    <string name="daynightmode_settingtitle">Selecteer uw thema (opnieuw opstarten vereist)</string>
 
 </resources>
 

@@ -307,5 +307,6 @@
     <string name="shoulders">Schultern</string>
     <string name="timeLabel">Zeit</string>
     <string name="pref_preferredDistanceUnitTitle">Wähle deine gewünschte Entfernungseinheit</string>
+    <string name="daynightmode_settingtitle">Wählen Sie Ihr Thema (Neustart erforderlich)</string>
 </resources>
 

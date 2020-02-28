@@ -427,14 +427,7 @@
 
                     <TextView
                         android:id="@+id/editDuration"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/editTextBackground"
-                        android:ems="3"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/text_color"
-                        android:textSize="18sp"
+                        style="@style/editableTextView"
                         tools:text="01:23:45">
 
                     </TextView>

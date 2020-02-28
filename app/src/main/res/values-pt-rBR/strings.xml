@@ -317,5 +317,6 @@
     <string name="obliques">Oblíquos</string>
     <string name="shoulders">Ombros</string>
     <string name="timeLabel">Tempo</string>
+    <string name="daynightmode_settingtitle">Selecione seu tema (é necessário reiniciar)</string>
 
 </resources>

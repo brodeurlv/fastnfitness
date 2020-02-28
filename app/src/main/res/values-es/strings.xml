@@ -316,5 +316,7 @@
     <string name="shoulders">Espalda</string>
     <string name="obliques">Oblicuos</string>
     <string name="pref_preferredDistanceUnitTitle">Seleccione su unidad de distancia preferida</string>
+    <string name="daynightmode_settingtitle">Seleccione su tema (reinicio necesario)</string>
+    <string name="timeLabel">Hora</string>
 
 </resources>
