@@ -1,5 +1,8 @@
 ## Change Log
 
+### 0.18.10: March 02, 2020
+- Bug: Fixed crash on start!!
+
 ### 0.18.9: February 27, 2020
 - Enhancement : DarkMode (#96)
 - Enhancement : Added dutch translation (Thanks Rishabh)

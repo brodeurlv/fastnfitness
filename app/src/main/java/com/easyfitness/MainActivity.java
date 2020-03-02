@@ -207,9 +207,37 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            /* creation de l'arborescence de l'application */
+            File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+            if (success) {
+                folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport");
+                success = folder.mkdir();
+            }
+
+            if (folder.exists()) {
+                if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
+                    Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
+                        Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
+                }
+            }
+        }
+
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String dayNightAuto = SP.getString("dayNightAuto", Integer.toString(getResources().getInteger(R.integer.autoui_mode_value)));
-        int dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        int dayNightAutoValue;
+        try {
+            dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        }catch(NumberFormatException e) {
+            dayNightAutoValue = getResources().getInteger(R.integer.autoui_mode_value);
+        }
         if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             SweetAlertDialog.DARK_STYLE=true;
@@ -294,23 +322,7 @@ public class MainActivity extends AppCompatActivity {
             savePreferences();
         }
 
-        /* creation de l'arborescence de l'application */
-        File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
-        boolean success = true;
-        if (!folder.exists()) {
-            success = folder.mkdir();
-        }
-        if (success) {
-            folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport");
-            success = folder.mkdir();
-        }
 
-        if (folder.exists()) {
-            if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-                Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
-                    Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
-            }
-        }
 
         if (savedInstanceState == null) {
             showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack

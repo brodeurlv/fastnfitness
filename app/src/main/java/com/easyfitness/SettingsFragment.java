@@ -95,7 +95,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
-        updateSummary(dayNightModePref, dayNightValue, "");
+        updateSummary(dayNightModePref, dayNightValue, "Theme: ");
 
     }
 
