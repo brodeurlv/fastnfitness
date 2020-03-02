@@ -20,7 +20,7 @@
 
     <PreferenceCategory android:title="@string/pref_ui_setting">
         <androidx.preference.ListPreference
-            android:defaultValue="@string/autoui_mode"
+            android:defaultValue="2"
             android:entries="@array/daynightauto"
             android:entryValues="@array/daynightauto_enum"
             android:key="dayNightAuto"
