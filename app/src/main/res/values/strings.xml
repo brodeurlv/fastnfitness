@@ -359,5 +359,7 @@
     <string name="dark_mode" translatable="false">Dark</string>
     <string name="autoui_mode" translatable="false">Auto</string>
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
+    <string name="fitness_programs">Programs</string>
+    <string name="manu_programs">Programs</string>
 
 </resources>

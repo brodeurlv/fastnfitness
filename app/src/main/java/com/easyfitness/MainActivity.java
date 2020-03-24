@@ -52,6 +52,7 @@ import com.easyfitness.bodymeasures.BodyPartListFragment;
 import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
+import com.easyfitness.programs.ProgramsPagerFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.EditableInputView.EditableInputView;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public static String CARDIO = "Cardio";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
+    public static String PROGRAMS = "Programs";
     public static String BODYTRACKING = "BodyTracking";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
     private FontesPagerFragment mpFontesPagerFrag = null;
+    private ProgramsPagerFragment mpProgramPagerFrag = null;
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
@@ -337,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_barbell, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.ic_arm, true));
         //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
@@ -422,6 +426,8 @@ public class MainActivity extends AppCompatActivity {
         //Save the fragment's instance
         if (getFontesPagerFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, FONTESPAGER, mpFontesPagerFrag);
+        if (getProgramsFragment().isAdded())
+            getSupportFragmentManager().putFragment(outState, PROGRAMS, mpProgramPagerFrag);
         if (getWeightFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, WEIGHT, mpWeightFrag);
         if (getProfileFragment().isAdded())
@@ -735,6 +741,8 @@ public class MainActivity extends AppCompatActivity {
         // Then show the fragments
         if (pFragmentName.equals(FONTESPAGER)) {
             ft.replace(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
+        } else if (pFragmentName.equals(PROGRAMS)) {
+            ft.replace(R.id.fragment_container, getProgramsFragment(), PROGRAMS);
         } else if (pFragmentName.equals(WEIGHT)) {
             ft.replace(R.id.fragment_container, getWeightFragment(), WEIGHT);
         } else if (pFragmentName.equals(SETTINGS)) {
@@ -801,9 +809,9 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    public long getCurrentProfilID() {
-        return mCurrentProfile.getId();
-    }
+//    public long getCurrentProfilID() {
+//        return mCurrentProfile.getId();
+//    }
 
     private void setPhotoProfile(String path) {
         ImageUtil imgUtil = new ImageUtil();
@@ -824,10 +832,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void savePhotoProfile(String path) {
-        mCurrentProfile.setPhoto(path);// Enregistrer sur le profile le path de la photo.
-        mDbProfils.updateProfile(mCurrentProfile);
-    }
+//    private void savePhotoProfile(String path) {
+//        mCurrentProfile.setPhoto(path);// Enregistrer sur le profile le path de la photo.
+//        mDbProfils.updateProfile(mCurrentProfile);
+//    }
 
     public String getCurrentMachine() {
         return mCurrentMachine;
@@ -874,6 +882,15 @@ public class MainActivity extends AppCompatActivity {
         if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
 
         return mpWeightFrag;
+    }
+
+    private ProgramsPagerFragment getProgramsFragment() {
+        if (mpProgramPagerFrag == null)
+            mpProgramPagerFrag = (ProgramsPagerFragment) getSupportFragmentManager().findFragmentByTag(PROGRAMS);
+        if (mpProgramPagerFrag == null)
+            mpProgramPagerFrag = ProgramsPagerFragment.newInstance(PROGRAMS, 11);
+
+        return mpProgramPagerFrag;
     }
 
     private ProfileFragment getProfileFragment() {
@@ -1010,26 +1027,30 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.menu_Workout));
                     break;
                 case 2:
+                    showFragment(PROGRAMS);
+                    setTitle(getResources().getText(R.string.fitness_programs));
+                    break;
+                case 3:
                     showFragment(MACHINES);
                     setTitle(getResources().getText(R.string.MachinesLabel));
                     break;
-                case 3:
+                case 4:
                     showFragment(WEIGHT);
                     setTitle(getResources().getText(R.string.weightMenuLabel));
                     break;
-                case 4:
+                case 5:
                     showFragment(BODYTRACKING);
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
-                case 5:
+                case 6:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 6:
+                case 7:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;
-                default:
+                 default:
                     showFragment(FONTESPAGER);
                     setTitle(getResources().getText(R.string.FonteLabel));
             }
