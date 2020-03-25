@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 19;
+    public static final int DATABASE_VERSION = 20;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOWeight.TABLE_CREATE);
         db.execSQL(DAOMachine.TABLE_CREATE);
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
+        db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
     }
 
     @Override
@@ -138,6 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 case 19:
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE_UNIT + " INTEGER DEFAULT 0");
                     break;
+                case 20:
+                    db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
             }
             upgradeTo++;
         }

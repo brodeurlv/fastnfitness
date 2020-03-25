@@ -2,7 +2,6 @@ package com.easyfitness.programs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,25 +32,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
-import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
-import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.DAOExerciseInProgram;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAORecord;
+import com.easyfitness.DAO.DAOProgram;
 import com.easyfitness.DAO.DAOStatic;
-import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.Program;
 import com.easyfitness.DAO.StaticExercise;
-import com.easyfitness.DAO.Weight;
-import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
-import com.easyfitness.TimePickerDialogFragment;
-import com.easyfitness.fonte.RecordCursorAdapter;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
@@ -59,7 +53,6 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
-import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -78,8 +71,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class ProgramsFragment extends Fragment {
     MainActivity mActivity = null;
     Profile mProfile = null;
-    TextView dateEdit = null;
-    TextView timeEdit = null;
     AutoCompleteTextView machineEdit = null;
     MachineArrayFullAdapter machineEditAdapter = null;
     EditText serieEdit = null;
@@ -88,16 +79,13 @@ public class ProgramsFragment extends Fragment {
     LinearLayout detailsLayout = null;
     Button addButton = null;
     ExpandedListView recordList = null;
-    String[] machineListArray = null;
+//    String[] machineListArray = null;
     ImageButton machineListButton = null;
     Spinner unitSpinner = null;
     Spinner unitDistanceSpinner = null;
     ImageButton detailsExpandArrow = null;
     EditText restTimeEdit = null;
     CheckBox restTimeCheck = null;
-//    DatePickerDialogFragment mDateFrag = null;
-//    TimePickerDialogFragment mDurationFrag = null;
-//    TimePickerDialogFragment mTimeFrag = null;
     CircularImageView machineImage = null;
     TextView minText = null;
     TextView maxText = null;
@@ -126,50 +114,51 @@ public class ProgramsFragment extends Fragment {
     CardView durationCardView = null;
 
 
-    public MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
-        // Do something with the time chosen by the user
-        String strMinute = "00";
-        String strHour = "00";
-        String strSecond = "00";
+//    public MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
+//        // Do something with the time chosen by the user
+//        String strMinute = "00";
+//        String strHour = "00";
+//        String strSecond = "00";
+//
+//        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+//        else strMinute = Integer.toString(minute);
+//        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+//        else strHour = Integer.toString(hourOfDay);
+//        if (second < 10) strSecond = "0" + Integer.toString(second);
+//        else strSecond = Integer.toString(second);
+//
+////        View viewT = view.getRootView();
+//
+//        String date = strHour + ":" + strMinute + ":" + strSecond;
+//        timeEdit.setText(date);
+//        hideKeyboard(timeEdit);
+//    };
 
-        if (minute < 10) strMinute = "0" + Integer.toString(minute);
-        else strMinute = Integer.toString(minute);
-        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-        else strHour = Integer.toString(hourOfDay);
-        if (second < 10) strSecond = "0" + Integer.toString(second);
-        else strSecond = Integer.toString(second);
-
-        View viewT = view.getRootView();
-
-        String date = strHour + ":" + strMinute + ":" + strSecond;
-        timeEdit.setText(date);
-        hideKeyboard(timeEdit);
-    };
-
-    public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
-        // Do something with the time chosen by the user
-        String strMinute = "00";
-        String strHour = "00";
-        String strSecond = "00";
-
-        if (minute < 10) strMinute = "0" + Integer.toString(minute);
-        else strMinute = Integer.toString(minute);
-        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-        else strHour = Integer.toString(hourOfDay);
-        if (second < 10) strSecond = "0" + Integer.toString(second);
-        else strSecond = Integer.toString(second);
-
-        View viewT = view.getRootView();
-
-        String date = strHour + ":" + strMinute + ":" + strSecond;
-        durationEdit.setText(date);
-        hideKeyboard(durationEdit);
-    };
-    private DAOFonte mDbBodyBuilding = null;
+//    public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
+//        // Do something with the time chosen by the user
+//        String strMinute = "00";
+//        String strHour = "00";
+//        String strSecond = "00";
+//
+//        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+//        else strMinute = Integer.toString(minute);
+//        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+//        else strHour = Integer.toString(hourOfDay);
+//        if (second < 10) strSecond = "0" + Integer.toString(second);
+//        else strSecond = Integer.toString(second);
+//
+//        View viewT = view.getRootView();
+//
+//        String date = strHour + ":" + strMinute + ":" + strSecond;
+//        durationEdit.setText(date);
+//        hideKeyboard(durationEdit);
+//    };
+    private DAOProgram mDbBodyBuilding = null;
     private DAOCardio mDbCardio = null;
     private DAOStatic mDbStatic = null;
-    private DAORecord mDb = null;
+    private DAOExerciseInProgram mDb = null;
     private DAOMachine mDbMachine = null;
+
     private OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
         detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
@@ -211,7 +200,7 @@ public class ProgramsFragment extends Fragment {
             // Copy values above
             setCurrentMachine(r.getExercise());
             if (r.getType() == DAOMachine.TYPE_FONTE) {
-                Fonte f = (Fonte) r;
+                Program f = (Program) r;
                 repetitionEdit.setText(String.format("%d", f.getRepetition()));
                 serieEdit.setText(String.format("%d", f.getSerie()));
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
@@ -251,18 +240,18 @@ public class ProgramsFragment extends Fragment {
             return;
         }
 
-        String timeStr;
+//        String timeStr = null;
         Date date;
 
-        if (autoTimeCheckBox.isChecked()) {
-            date = new Date();
-            timeStr = DateConverter.currentTime();
-        }else {
-            date = DateConverter.editToDate(dateEdit.getText().toString());
-            timeStr = timeEdit.getText().toString();
-        }
+//        if (autoTimeCheckBox.isChecked()) {
+//            date = new Date();
+//            timeStr = DateConverter.currentTime();
+//        }else {
+//            date = DateConverter.editToDate(dateEdit.getText().toString());
+//            timeStr = timeEdit.getText().toString();
+//        }
 
-        int exerciseType = DAOMachine.TYPE_FONTE;
+        int exerciseType;// = DAOMachine.TYPE_FONTE;
         Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
         if (lMachine == null) {
             exerciseType = selectedType;
@@ -286,24 +275,6 @@ public class ProgramsFragment extends Fragment {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
-
-            mDbBodyBuilding.addBodyBuildingRecord(date,
-                machineEdit.getText().toString(),
-                Integer.parseInt(serieEdit.getText().toString()),
-                Integer.parseInt(repetitionEdit.getText().toString()),
-                tmpPoids, // Always save in KG
-                getProfil(),
-                unitPoids, // Store Unit for future display
-                "", //Notes
-                timeStr
-            );
-
-            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
-            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
-            int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
-
-            //--Launch Rest Dialog
-            boolean bLaunchRest = restTimeCheck.isChecked();
             int restTime = 60;
             try {
                 restTime = Integer.valueOf(restTimeEdit.getText().toString());
@@ -312,14 +283,38 @@ public class ProgramsFragment extends Fragment {
                 restTimeEdit.setText("60");
             }
 
-            // Launch Countdown
-            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-                cdd.setNbSeries(iNbSeries);
-                cdd.setTotalWeightMachine(iTotalWeight);
-                cdd.setTotalWeightSession(iTotalWeightSession);
-                cdd.show();
+            mDbBodyBuilding.addProgramRecord(restTime,
+                machineEdit.getText().toString(),
+                Integer.parseInt(serieEdit.getText().toString()),
+                Integer.parseInt(repetitionEdit.getText().toString()),
+                tmpPoids, // Always save in KG
+                getProfil(),
+                unitPoids, // Store Unit for future display
+                "" //Notes
+//                timeStr
+            );
+
+//            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
+//            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
+//            int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
+
+            //--Launch Rest Dialog
+//            boolean bLaunchRest = restTimeCheck.isChecked();
+            try {
+                restTime = Integer.valueOf(restTimeEdit.getText().toString());
+            } catch (NumberFormatException e) {
+                restTime = 60;
+                restTimeEdit.setText("60");
             }
+
+//            // Launch Countdown
+//            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+//                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+//                cdd.setNbSeries(iNbSeries);
+//                cdd.setTotalWeightMachine(iTotalWeight);
+//                cdd.setTotalWeightSession(iTotalWeightSession);
+//                cdd.show();
+//            }
         } else if (exerciseType == DAOMachine.TYPE_STATIC) {
             // Verifie que les infos sont completes
             if (serieEdit.getText().toString().isEmpty() ||
@@ -336,45 +331,46 @@ public class ProgramsFragment extends Fragment {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
-
-            mDbStatic.addStaticRecord(date,
-                machineEdit.getText().toString(),
-                Integer.parseInt(serieEdit.getText().toString()),
-                Integer.parseInt(secondsEdit.getText().toString()),
-                tmpPoids, // Always save in KG
-                getProfil(),
-                unitPoids, // Store Unit for future display
-                "", //Notes
-                timeStr
-            );
-
-            float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
-            float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString());
-            int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
-
-            //--Launch Rest Dialog
-            boolean bLaunchRest = restTimeCheck.isChecked();
-            int restTime = 60;
+            int restTime = 0;
             try {
                 restTime = Integer.valueOf(restTimeEdit.getText().toString());
             } catch (NumberFormatException e) {
-                restTime = 60;
-                restTimeEdit.setText("60");
+                restTime = 0;
+                restTimeEdit.setText("0");
             }
+//            mDbStatic.addStaticRecord(restTime,
+//                machineEdit.getText().toString(),
+//                Integer.parseInt(serieEdit.getText().toString()),
+//                Integer.parseInt(secondsEdit.getText().toString()),
+//                tmpPoids, // Always save in KG
+//                getProfil(),
+//                unitPoids, // Store Unit for future display
+//                "" //Notes
+//            );
+
+//            float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
+//            float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString());
+//            int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
+
+            //--Launch Rest Dialog
+            boolean bLaunchRest = restTimeCheck.isChecked();
+
 
             // Launch Countdown
-            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-                cdd.setNbSeries(iNbSeries);
-                cdd.setTotalWeightMachine(iTotalWeight);
-                cdd.setTotalWeightSession(iTotalWeightSession);
-                cdd.show();
-            }
+//            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+//                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+//                cdd.setNbSeries(iNbSeries);
+//                cdd.setTotalWeightMachine(iTotalWeight);
+//                cdd.setTotalWeightSession(iTotalWeightSession);
+//                cdd.show();
+//            }
         } else if (exerciseType == DAOMachine.TYPE_CARDIO) {
             // Verifie que les infos sont completes
             if (durationEdit.getText().toString().isEmpty() && // Only one is mandatory
                 distanceEdit.getText().toString().isEmpty()) {
-                KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                KToast.warningToast(getActivity(),
+                    getResources().getText(R.string.missinginfo).toString()+" Distance missing",
+                    Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
 
@@ -402,13 +398,13 @@ public class ProgramsFragment extends Fragment {
                 unitDistance = UnitConverter.UNIT_MILES;
             }
 
-            mDbCardio.addCardioRecord(date,
-                timeStr,
-                machineEdit.getText().toString(),
-                distance,
-                duration,
-                getProfil(),
-                unitDistance);
+//            mDbCardio.addCardioRecord(date,
+//                timeStr,
+//                machineEdit.getText().toString(),
+//                distance,
+//                duration,
+//                getProfil(),
+//                unitDistance);
 
             // No Countdown for Cardio
         }
@@ -562,14 +558,14 @@ public class ProgramsFragment extends Fragment {
         }
     };
 
-    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
-        dateEdit.setEnabled(!isChecked);
-        timeEdit.setEnabled(!isChecked);
-        if (isChecked) {
-            dateEdit.setText(DateConverter.currentDate());
-            timeEdit.setText(DateConverter.currentTime());
-        }
-    };
+//    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
+////        dateEdit.setEnabled(!isChecked);
+////        timeEdit.setEnabled(!isChecked);
+////        if (isChecked) {
+////            dateEdit.setText(DateConverter.currentDate());
+////            timeEdit.setText(DateConverter.currentTime());
+////        }
+//    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -615,7 +611,7 @@ public class ProgramsFragment extends Fragment {
                     IRecord r = mDb.getRecord(id);
                     String text = "";
                     if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
-                        Fonte fonte = (Fonte) r;
+                        Program fonte = (Program) r;
                         // Build text
                         text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
                         text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
@@ -663,8 +659,8 @@ public class ProgramsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
-        dateEdit = view.findViewById(R.id.editDate);
-        timeEdit = view.findViewById(R.id.editTime);
+//        dateEdit = view.findViewById(R.id.editDate);
+//        timeEdit = view.findViewById(R.id.editTime);
         machineEdit = view.findViewById(R.id.editMachine);
         serieEdit = view.findViewById(R.id.editSerie);
         repetitionEdit = view.findViewById(R.id.editRepetition);
@@ -704,9 +700,9 @@ public class ProgramsFragment extends Fragment {
         addButton.setOnClickListener(clickAddButton);
         machineListButton.setOnClickListener(onClickMachineListWithIcons); //onClickMachineList
 
-        dateEdit.setOnClickListener(clickDateEdit);
-        timeEdit.setOnClickListener(clickDateEdit);
-        autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
+//        dateEdit.setOnClickListener(clickDateEdit);
+//        timeEdit.setOnClickListener(clickDateEdit);
+//        autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
 
         serieEdit.setOnFocusChangeListener(touchRazEdit);
         repetitionEdit.setOnFocusChangeListener(touchRazEdit);
@@ -746,14 +742,14 @@ public class ProgramsFragment extends Fragment {
         unitDistanceSpinner.setSelection(distanceUnit);
 
         // Initialisation de la base de donnee
-        mDbBodyBuilding = new DAOFonte(getContext());
+        mDbBodyBuilding = new DAOProgram(getContext());
         mDbCardio = new DAOCardio(getContext());
         mDbStatic = new DAOStatic(getContext());
-        mDb = new DAORecord(getContext());
+        mDb = new DAOExerciseInProgram(getContext());
 
         mDbMachine = new DAOMachine(getContext());
-        dateEdit.setText(DateConverter.currentDate());
-        timeEdit.setText(DateConverter.currentTime());
+//        dateEdit.setText(DateConverter.currentDate());
+//        timeEdit.setText(DateConverter.currentTime());
         selectedType = DAOMachine.TYPE_FONTE;
 
         machineImage.setOnClickListener(v -> {
@@ -932,7 +928,7 @@ public class ProgramsFragment extends Fragment {
             machineEdit.setText("");
             machineImage.setImageResource(R.drawable.ic_machine); // Default image
             changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
-            updateMinMax(null);
+//            updateMinMax(null);
             return;
         }
 
@@ -950,55 +946,55 @@ public class ProgramsFragment extends Fragment {
 
         // Depending on the machine type :
         // Update Min Max
-        updateMinMax(lMachine);
+//        updateMinMax(lMachine);
         // Update last values
         updateLastRecord(lMachine);
     }
 
-    private void updateMinMax(Machine m) {
-        String unitStr = "";
-        float weight = 0;
-        if (getProfil() != null && m != null) {
-            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
-                Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
-                if (minValue != null) {
-                    minMaxLayout.setVisibility(View.VISIBLE);
-                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
-                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-                    } else {
-                        weight = minValue.getStoredWeight();
-                        unitStr = getContext().getString(R.string.KgUnitLabel);
-                    }
-                    DecimalFormat numberFormat = new DecimalFormat("#.##");
-                    minText.setText(numberFormat.format(weight) + " " + unitStr);
-
-                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
-                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
-                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-                    } else {
-                        weight = maxValue.getStoredWeight();
-                        unitStr = getContext().getString(R.string.KgUnitLabel);
-                    }
-                    maxText.setText(numberFormat.format(weight) + " " + unitStr);
-                } else {
-                    minText.setText("-");
-                    maxText.setText("-");
-                    minMaxLayout.setVisibility(View.GONE);
-                }
-            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
-                minMaxLayout.setVisibility(View.GONE);
-            }
-        } else {
-            minText.setText("-");
-            maxText.setText("-");
-            minMaxLayout.setVisibility(View.GONE);
-        }
-    }
+//    private void updateMinMax(Machine m) {
+//        String unitStr = "";
+//        float weight = 0;
+//        if (getProfil() != null && m != null) {
+//            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
+//                Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
+//                if (minValue != null) {
+//                    minMaxLayout.setVisibility(View.VISIBLE);
+//                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+//                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
+//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
+//                    } else {
+//                        weight = minValue.getStoredWeight();
+//                        unitStr = getContext().getString(R.string.KgUnitLabel);
+//                    }
+//                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+//                    minText.setText(numberFormat.format(weight) + " " + unitStr);
+//
+//                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
+//                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+//                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
+//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
+//                    } else {
+//                        weight = maxValue.getStoredWeight();
+//                        unitStr = getContext().getString(R.string.KgUnitLabel);
+//                    }
+//                    maxText.setText(numberFormat.format(weight) + " " + unitStr);
+//                } else {
+//                    minText.setText("-");
+//                    maxText.setText("-");
+//                    minMaxLayout.setVisibility(View.GONE);
+//                }
+//            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
+//                minMaxLayout.setVisibility(View.GONE);
+//            }
+//        } else {
+//            minText.setText("-");
+//            maxText.setText("-");
+//            minMaxLayout.setVisibility(View.GONE);
+//        }
+//    }
 
     private void updateLastRecord(Machine m) {
-        IRecord lLastRecord = mDb.getLastExerciseRecord(m.getId(), getProfil());
+        IRecord lLastRecord = mDb.getLastRecord(m.getId(), getProfil());
         // Default Values
         serieEdit.setText("1");
         repetitionEdit.setText("10");
@@ -1009,7 +1005,7 @@ public class ProgramsFragment extends Fragment {
         if (lLastRecord == null) {
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            Fonte lLastBodyBuildingRecord = (Fonte) lLastRecord;
+            Program lLastBodyBuildingRecord = (Program) lLastRecord;
             serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
             repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
             unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
@@ -1115,10 +1111,10 @@ public class ProgramsFragment extends Fragment {
                 }
 
                 // Set Initial text
-                if (autoTimeCheckBox.isChecked()) {
-                    dateEdit.setText(DateConverter.currentDate());
-                    timeEdit.setText(DateConverter.currentTime());
-                }
+//                if (autoTimeCheckBox.isChecked()) {
+////                    dateEdit.setText(DateConverter.currentDate());
+////                    timeEdit.setText(DateConverter.currentTime());
+//                }
 
                 // Set Table
                 updateRecordTable(machineEdit.getText().toString());

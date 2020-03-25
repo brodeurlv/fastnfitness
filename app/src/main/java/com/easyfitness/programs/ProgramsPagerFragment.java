@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.easyfitness.R;
-import com.easyfitness.fonte.FonteGraphFragment;
-import com.easyfitness.fonte.FonteHistoryFragment;
-import com.easyfitness.fonte.FontesFragment;
+//import com.easyfitness.fonte.FonteGraphFragment;
+//import com.easyfitness.fonte.FonteHistoryFragment;
+//import com.easyfitness.fonte.FontesFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -60,9 +60,9 @@ public class ProgramsPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add(R.string.ExerciceLabel, FontesFragment.class)
-                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
-                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
+                .add(R.string.ExerciceLabel, ProgramsFragment.class)
+//                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
+//                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
                 .create());
 
             mViewPager.setAdapter(pagerAdapter);
