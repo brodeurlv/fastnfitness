@@ -24,7 +24,6 @@ import com.easyfitness.utils.Keyboard;
 
 import java.util.Calendar;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class EditableInputView extends RelativeLayout implements DatePickerDialog.OnDateSetListener {

@@ -36,7 +36,7 @@
                 android:maxHeight="200dp"
                 android:minHeight="60dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_machine" />
+                android:src="@drawable/ic_gym_bench_50dp" />
 
 
             <LinearLayout
@@ -87,7 +87,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/machine_name_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -106,7 +105,6 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/machine_description_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

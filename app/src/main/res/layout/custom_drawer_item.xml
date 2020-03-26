@@ -36,7 +36,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_profile_black"
+            android:src="@drawable/ic_person_black_24dp"
             app:civ_border_color="#EEEEEE"
             app:civ_border_width="0dp"
             app:civ_shadow="false"
@@ -65,11 +65,15 @@
 
         <ImageView
             android:id="@+id/drawer_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            tools:src="@drawable/ic_running" />
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/ic_training_white_50dp" />
 
         <TextView
             android:id="@+id/drawer_itemName"

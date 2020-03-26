@@ -3,7 +3,6 @@
     <string name="global_confirm">Bevestig</string>
     <string name="global_confirm_question">Weet je het zeker?</string>
     <string name="global_warning">Waarschuwing</string>
-    <string name="global_error">Error</string>
     <string name="global_cancel">Annuleer</string>
     <string name="global_ok">OK</string>
     <string name="global_yes">Ja</string>
@@ -11,7 +10,6 @@
 
     <string name="removedid">Verwijderde id</string>
     <string name="failedtocreatefolder">Folder maken mislukt</string>
-    <string name="optional">Optioneel</string>
 
     <string name="app_name">Fast N Fitness</string>
     <string name="action_settings">Instellingen</string>
@@ -21,7 +19,6 @@
     <string name="HistoryLabel">Geschiedenis</string>
     <string name="GraphLabel">Grafieken</string>
     <string name="AddLabel">Voeg toe</string>
-    <string name="AddSmallLabel">Voeg toe</string>
     <string name="DeleteLabel">Verwijderen</string>
     <string name="ShareLabel">Delen</string>
     <string name="EditLabel">Bewerken</string>
@@ -31,7 +28,6 @@
     <string name="FonteLabel">Bodybuilding</string>
     <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
-    <string name="RepetitionLabel">Herhalingen</string>
     <string name="RepetitionLabel_short">Herhalingen</string>
     <string name="MachineLabel">Oefening</string>
     <string name="PoidsLabel">Gewicht</string>
@@ -48,7 +44,6 @@
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
-    <string name="CardioMenuLabel">Cardio (Verouderd)</string>
     <string name="DistanceLabel">Afstand</string>
     <string name="DurationLabel">Duur</string>
     <string name="ExerciceLabel">Oefeningen</string>
@@ -60,22 +55,17 @@
     <string name="bonesLabel">Botten(%)</string>
     <string name="waterLabel">Water(%)</string>
     <string name="musclesLabel">Spieren(%)</string>
-    <string name="sizeLabel">Maat</string>
     <string name="measureLabel">Afmetingen</string>
-    <string name="weightTableLabel">Gewicht records:</string>
     <string name="sizeTableLabel">Afmetingen history:</string>
     <string name="createProfilTitle">Maak nieuw profiel</string>
     <string name="profileSelected">Profiel geselecteerd</string>
-    <string name="profileDeleteImpossible">Huidig profiel verwijderen niet mogelijk</string>
     <string name="createProfilQuestion">Kies je profielnaam?</string>
     <string name="userChanged">Gebruiker gewisseld</string>
     <string name="renameProfilTitle">Hernoem profiel</string>
     <string name="renameProfilQuestion">Dit profiel hernoemen?</string>
-    <string name="DeleteWeightDialog">Dit gewicht verwijderen?</string>
 
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Instellingen</string>
-    <string name="menu_settings">Instellingen</string>
     <string name="export_database">Records exporteren</string>
     <string name="export_question">Wil je de database van … Exporteren</string>
     <string name="export_success">Database geexporteerd</string>
@@ -92,26 +82,19 @@
 
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Oefeningen</string>
-    <string name="DescriptionLabel">Beschrijving</string>
 
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Instellingen</string>
     <string name="pref_show_mp3_player">Mp3 speler weergeven</string>
     <string name="pref_show_mp3_player_summary">Toon/verberg mp3 speler</string>
 
-    <string name="pref_bodybuilding_setting">Bodybuilding Instellingen</string>
     <string name="pref_preferredUnitSummary">Voorkeurs unit:</string>
     <string name="pref_preferredUnitTitle">Selecteer je gewenste gewicht unit</string>
     <string name="pref_preferredDistanceUnitTitle">Selecteer je gewenste afstand unit</string>
 
-    <string name="pref_user_name">Gebruikersnaam Instellen</string>
-    <string name="pref_user_name_summary">Stel je gebruikersnaam in</string>
-    <string name="pref_user_profile">Gebruikers profiel </string>
-
     <string name="profil_create_new">Nieuw profiel creeren</string>
     <string name="profil_change">Profiel wisselen</string>
     <string name="profil_select_profil">Selecteer een profiel</string>
-    <string name="profil_edit">Profiel bewerken</string>
     <string name="profil_delete">Verwijder een profiel</string>
     <string name="profil_select_profil_to_delete">Kies een profiel om te verwijderen</string>
 
@@ -127,11 +110,6 @@
         <item>@string/LbsUnitLabel</item>
     </string-array>
 
-    <string-array name="fonte_unitsValues">
-        <item>test0</item>
-        <item>test1</item>
-    </string-array>
-
     <string-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
@@ -142,20 +120,9 @@
         <item>@string/MilesUnitLabel</item>
     </string-array>
 
-    <string-array name="distanceShortUnits">
-        <item>@string/KmUnitLabel</item>
-        <item>@string/MilesShortLabel</item>
-    </string-array>
-
     <string-array name="distance_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </string-array>
-
-    <string-array name="morphology">
-        <item>Thin</item>
-        <item>Straight</item>
-        <item>Bold</item>
     </string-array>
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
@@ -217,9 +184,7 @@
 
     <string name="backDialog_confirm_text">Wil je opslaan voor het afsluiten?</string>
     <string name="deleteMachine_confirm_text">Wil je deze oefening verwijderen? Alle gelinkte data wordt verwijderd.</string>
-    <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine? Alle gelinkte data wordt verwijderd.</string>
     <string name="renameMachine_warning_text">WAARSCHUWING:Deze naam bestaat al. Data wordt samengevoegd met andere oefening.</string>
-    <string name="renameMachine_error_text">Deze naam bestaat al, selecteer alstublieft een andere.</string>
 
 
     <!-- Photo -->
@@ -239,7 +204,6 @@
     <string name="rest_time">Rust tijd(sec)</string>
     <string name="lastRecordLabel">Vorige record</string>
     <string name="FilterHint">Filter op oefeningnaam</string>
-    <string name="WeightHint">Voeg hier je gewicht toe</string>
     <string name="total_weight">Totale gewicht</string>
     <string name="total_session">Totaal tijdens sessie</string>
     <string name="total_machine">Totaal op oefening</string>
@@ -248,21 +212,16 @@
     <string name="selectMachineDialogLabel">Selecteer een bestaande oefening</string>
 
     <!-- Intro slides -->
-    <string name="fillAllFields">Vul alle velden in</string>
     <string name="fillNameField">Vul in ieder geval je naam in</string>
     <string name="introSlide1Title">Hallo</string>
-    <string name="size_cm">Maat in cm</string>
     <string name="size_cm_optional">Maat in cm (optioneel)</string>
     <string name="create">Creeer</string>
-    <string name="birthday">Verjaardag</string>
     <string name="birthday_optional">Verjaardag (Optioneel)</string>
     <string name="name_or_pseudo">Naam / pseudoniem</string>
     <string name="name_is_required">Naam is vereist</string>
     <string name="create_a_profile">Maak een profel aan</string>
     <string name="introSlide1Text">Welkom bij Fast n Fitness! Deze app is een snelle en simpele manier om je trainingen en vooruitgang bij te houden, evenals de vooruitgang van je lichaam.</string>
     <string name="introSlide2Title">Snel en makkelijk</string>
-    <string name="introSlide3Text">Om fotos te maken van je machines heeft de app toegang nodig tot je camera en opslag.</string>
-    <string name="introSlide3Title">Toestemming vereist</string>
     <string name="titleSlideEssential">ga naar de essentials</string>
     <string name="textSlideEssential">Geen van de oefeningen zijn pre-created. Creeer je eigen oefeningen gebaseerd op de naam van de machine(s) die je gebruikt.</string>
     <string name="pressBackAgain">Klik nog een keer op nack om af te sluiten</string>
@@ -274,20 +233,17 @@
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="areyousure">Weet je het zeker?</string>
-    <string name="Take_profile_picture">Profielfoto</string>
     <string name="edit_soon_available">Bewerken binnekort beschikbaar</string>
     <string name="name">Naam</string>
     <string name="description">Beschrijving</string>
     <string name="muscles">Spieren</string>
     <string name="start">Start</string>
     <string name="reset">Herstel</string>
-    <string name="weight_missing">Voeg alstublieft een gewicht toe</string>
     <string name="profileEnterYourSize">Je maat</string>
     <string name="profileEnterYourBirthday">Je verjaardag</string>
     <string name="profile_page">Profiel Pagina</string>
     <string name="ProfileLabel">Profiel</string>
     <string name="edit_value">Waarde bewerken</string>
-    <string name="obsoleteCardioTab">Je kan nu het Record menu voor bodybuilding EN cardio gebruiken. Deze tab zal verdwijnen in een toekomstige update.</string>
     <string name="menu_Workout">Workout</string>
     <string name="renameMachine_error_text2">ERROR: Deze naam bestaat al. Het is niet mogelijk om 2 oefeningen van verschillende types met dezelfde naam te koppelen.</string>
     <string name="recordcopied">Record gekopieerd</string>

@@ -238,12 +238,14 @@ public class MachineDetailsFragment extends Fragment {
                 if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
                 } else {
-                    if (mMachine.getType() == DAOMachine.TYPE_FONTE || mMachine.getType() == DAOMachine.TYPE_STATIC) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                    if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+                    } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
                     } else {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_running));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
                     }
-                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
                 machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2)); // Taille initiale
             }
@@ -254,7 +256,14 @@ public class MachineDetailsFragment extends Fragment {
         musclesList.addTextChangedListener(watcher);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+            if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+            } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+            } else {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+            }
+            machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
             mCurrentPhotoPath = null;
             requestForSave();
         });

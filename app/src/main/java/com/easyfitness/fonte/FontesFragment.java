@@ -26,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -172,7 +173,7 @@ public class FontesFragment extends Fragment {
     private DAOMachine mDbMachine = null;
     private OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
+        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
         saveSharedParams();
     };
     private OnClickListener clickExerciseTypeSelector = v -> {
@@ -543,7 +544,17 @@ public class FontesFragment extends Fragment {
                     break;
                 case R.id.editMachine:
                     machineEdit.setText("");
-                    machineImage.setImageResource(R.drawable.ic_machine);
+                    switch (selectedType) {
+                        case DAOMachine.TYPE_CARDIO:
+                            machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                            break;
+                        case DAOMachine.TYPE_STATIC:
+                            machineImage.setImageResource(R.drawable.ic_static);
+                            break;
+                        default:
+                            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+                    }
+
                     minMaxLayout.setVisibility(View.GONE);
                     showExerciseTypeSelector(true);
                     break;
@@ -922,7 +933,18 @@ public class FontesFragment extends Fragment {
 
     public void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
-            machineImage.setImageResource(R.drawable.ic_machine); // Default image
+            switch (selectedType) {
+                case DAOMachine.TYPE_CARDIO:
+                    machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                    break;
+                case DAOMachine.TYPE_STATIC:
+                    machineImage.setImageResource(R.drawable.ic_static);
+                    break;
+                default:
+                    machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+            }
+            machineImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            // Default image
             showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
             return;
@@ -931,7 +953,7 @@ public class FontesFragment extends Fragment {
         Machine lMachine = mDbMachine.getMachine(machineStr);
         if (lMachine == null) {
             machineEdit.setText("");
-            machineImage.setImageResource(R.drawable.ic_machine); // Default image
+            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp); // Default image
             changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
             updateMinMax(null);
             return;
@@ -940,7 +962,7 @@ public class FontesFragment extends Fragment {
         // Update EditView
         machineEdit.setText(lMachine.getName());
         // Update exercise Image
-        machineImage.setImageResource(R.drawable.ic_machine); // Default image
+        machineImage.setImageResource(R.drawable.ic_gym_bench_50dp); // Default image
         ImageUtil imgUtil = new ImageUtil();
         ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 
@@ -1196,7 +1218,7 @@ public class FontesFragment extends Fragment {
         } else {
             detailsLayout.setVisibility(View.GONE);
         }
-        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
+        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
     }
 
     @Override

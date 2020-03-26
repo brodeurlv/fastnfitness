@@ -23,7 +23,7 @@
         android:layout_marginBottom="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/edit"
+        android:src="@drawable/ic_edit_text_black_24dp"
         android:visibility="gone" />
 
 </RelativeLayout>

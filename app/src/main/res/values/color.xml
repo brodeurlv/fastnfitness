@@ -11,4 +11,5 @@
     <color name="cardview_title_color">#485460</color>
     <color name="index_color">#3c40c6</color>
     <color name="add_button_background">#FFFFFF</color>
+    <color name="dark_icon_background">#5E5E5E</color>
 </resources>

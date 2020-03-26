@@ -155,7 +155,7 @@ public class ProfileFragment extends Fragment {
         photoButton.setOnClickListener(onClickMachinePhoto);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
             mCurrentPhotoPath = null;
             requestForSave(imgUtil.getView());
         });

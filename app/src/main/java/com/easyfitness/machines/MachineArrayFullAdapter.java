@@ -54,11 +54,13 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
                 String lThumbPath = imgUtil.getThumbPath(lPath);
                 ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
-                i0.setImageResource(R.drawable.ic_machine);
+                i0.setImageResource(R.drawable.ic_gym_bench_50dp);
+                i0.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 e.printStackTrace();
             }
         } else {
-            i0.setImageResource(R.drawable.ic_machine);
+            i0.setImageResource(R.drawable.ic_gym_bench_50dp);
+            i0.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);

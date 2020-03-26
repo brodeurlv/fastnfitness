@@ -34,7 +34,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_profile_black"
+                android:src="@drawable/ic_person_black_24dp"
                 app:civ_border_color="#EEEEEE"
                 app:civ_border_width="0dp"
                 app:civ_shadow="false"
@@ -63,7 +63,6 @@
                 android:padding="0dp">
 
                 <LinearLayout
-                    android:id="@+id/playerTopLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
@@ -117,76 +116,81 @@
 
                     <ImageButton
                         android:id="@+id/playerPrevious"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="true"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_skip_previous_black_36dp" />
+                        android:cropToPadding="false"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_skip_previous_black_24dp" />
 
                     <ImageButton
                         android:id="@+id/playerStop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="true"
-                        android:src="@drawable/ic_stop_black_36dp" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_stop_black_24dp" />
 
                     <ImageButton
                         android:id="@+id/playerPlay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
-                        android:adjustViewBounds="false"
+                        android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="true"
-                        android:src="@drawable/ic_play_arrow_black_36dp" />
+                        android:cropToPadding="false"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_play_arrow_black_24dp" />
 
                     <ImageButton
                         android:id="@+id/playerNext"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="true"
-                        android:src="@drawable/ic_skip_next_black_36dp" />
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_skip_next_black_24dp" />
 
                     <ImageButton
                         android:id="@+id/playerLoop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="true"
-                        android:src="@drawable/ic_replay_blue_36dp" />
+                        android:cropToPadding="false"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_replay_blue_24dp" />
 
                     <ImageButton
                         android:id="@+id/playerList"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="5"
                         android:adjustViewBounds="false"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
-                        android:cropToPadding="true"
-                        android:src="@drawable/ic_library_music_black_36dp" />
+                        android:cropToPadding="false"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_library_music_black_24dp" />
 
                 </LinearLayout>
             </LinearLayout>

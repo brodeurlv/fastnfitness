@@ -3,7 +3,6 @@
     <string name="global_confirm">Confirmar</string>
     <string name="global_confirm_question">Tem certeza?</string>
     <string name="global_warning">Aviso</string>
-    <string name="global_error">Erro</string>
     <string name="global_cancel">Cancelar</string>
     <string name="global_ok">OK</string>
     <string name="global_yes">Sim</string>
@@ -11,7 +10,6 @@
 
     <string name="removedid">ID removido</string>
     <string name="failedtocreatefolder">Falha ao criar pasta</string>
-    <string name="optional">Opcional</string>
 
     <string name="app_name">Fast N Fitness</string>
     <string name="action_settings">Configurações</string>
@@ -21,7 +19,6 @@
     <string name="HistoryLabel">Histórico</string>
     <string name="GraphLabel">Gráficos</string>
     <string name="AddLabel">Adicionar</string>
-    <string name="AddSmallLabel">Adicionar</string>
     <string name="DeleteLabel">Excluir</string>
     <string name="ShareLabel">Compartilhar</string>
     <string name="EditLabel">Editar</string>
@@ -31,7 +28,6 @@
     <string name="FonteLabel">Musculação</string>
     <string name="RecordLabel">Registros</string>
     <string name="SerieLabel">Séries</string>
-    <string name="RepetitionLabel">Repetições</string>
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercício</string>
     <string name="PoidsLabel">Peso</string>
@@ -48,7 +44,6 @@
 
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
-    <string name="CardioMenuLabel">Cardio (Obsoleto)</string>
     <string name="DistanceLabel">Distância</string>
     <string name="DurationLabel">Duração</string>
     <string name="ExerciceLabel">Exercícios</string>
@@ -60,22 +55,17 @@
     <string name="bonesLabel">Ossos(%)</string>
     <string name="waterLabel">Água(%)</string>
     <string name="musclesLabel">Músculos(%)</string>
-    <string name="sizeLabel">Tamanho</string>
     <string name="measureLabel">Medida</string>
-    <string name="weightTableLabel">Registros de peso:</string>
     <string name="sizeTableLabel">Histórico de medida:</string>
     <string name="createProfilTitle">Criar novo perfil</string>
     <string name="profileSelected">Perfil selecionado</string>
-    <string name="profileDeleteImpossible">Não é possível excluir o perfil atual</string>
     <string name="createProfilQuestion">Escolher o nome do seu perfil?</string>
     <string name="userChanged">Usuário alterado</string>
     <string name="renameProfilTitle">Renomear perfil</string>
     <string name="renameProfilQuestion">Renomear este perfil?</string>
-    <string name="DeleteWeightDialog">Remover este peso?</string>
 
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Configurações</string>
-    <string name="menu_settings">Configurações</string>
     <string name="export_database">Exportar registros</string>
     <string name="export_question">Deseja exportar o banco de dados de </string>
     <string name="export_success">Banco de dados exportado</string>
@@ -92,26 +82,19 @@
 
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Exercícios</string>
-    <string name="DescriptionLabel">Descrição</string>
 
     <!-- Preferences -->
     <string name="pref_ui_setting">Configurações da UI</string>
     <string name="pref_show_mp3_player">Mostrar tocador de MP3</string>
     <string name="pref_show_mp3_player_summary">Mostra/oculta a barra de ferramentas do tocador de MP3</string>
 
-    <string name="pref_bodybuilding_setting">Configurações de musculação</string>
     <string name="pref_preferredUnitSummary">Unidade preferida:</string>
     <string name="pref_preferredUnitTitle">Selecione sua unidade de peso preferida</string>
     <string name="pref_preferredDistanceUnitTitle">Selecione sua unidade de distância preferida</string>
 
-    <string name="pref_user_name">Definir nome de usuário</string>
-    <string name="pref_user_name_summary">Defina seu nome de usuário</string>
-    <string name="pref_user_profile">Perfil do usuário</string>
-
     <string name="profil_create_new">Criar novo perfil</string>
     <string name="profil_change">Alterar perfil</string>
     <string name="profil_select_profil">Selecione um perfil</string>
-    <string name="profil_edit">Editar perfil</string>
     <string name="profil_delete">Excluir um perfil</string>
     <string name="profil_select_profil_to_delete">Selecione um perfil para excluir</string>
 
@@ -127,20 +110,9 @@
         <item>@string/LbsUnitLabel</item>
     </string-array>
 
-    <string-array name="fonte_unitsValues">
-        <item>test0</item>
-        <item>test1</item>
-    </string-array>
-
     <string-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </string-array>
-
-    <string-array name="morphology">
-        <item>Fino</item>
-        <item>Normal</item>
-        <item>Gordo</item>
     </string-array>
 
     <string name="maxRep1">Máximo (Reps >= 1)</string>
@@ -202,9 +174,7 @@
 
     <string name="backDialog_confirm_text">Deseja salvar antes de sair?</string>
     <string name="deleteMachine_confirm_text">Deseja excluir este exercício? Todos os registros associados serão excluídos.</string>
-    <string name="deleteRecordsWithMachine_confirm_text">Deseja excluir todos os registros associados a esta máquina? Todos os registros associados serão excluídos.</string>
     <string name="renameMachine_warning_text">AVISO: Este nome de exercício já existe. Os registros serão mesclados com o outro exercício.</string>
-    <string name="renameMachine_error_text">Este nome já existe, por favor selecione outro nome.</string>
 
 
     <!-- Photo -->
@@ -224,7 +194,6 @@
     <string name="rest_time">Tempo de descanso (seg)</string>
     <string name="lastRecordLabel">Último registro</string>
     <string name="FilterHint">Filtrar por nome de exercício</string>
-    <string name="WeightHint">Insira seu peso aqui</string>
     <string name="total_weight">Peso total</string>
     <string name="total_session">Total durante a seção</string>
     <string name="total_machine">Total em exercícios</string>
@@ -233,13 +202,10 @@
     <string name="selectMachineDialogLabel">Selecionar um exercício existente</string>
 
     <!-- Intro slides -->
-    <string name="fillAllFields">Por favor, preencha todos os campos</string>
     <string name="fillNameField">Por favor, insira seu nome, pelo menos</string>
     <string name="introSlide1Title">Olá</string>
-    <string name="size_cm">Tamanho em cm</string>
     <string name="size_cm_optional">Tamanho em cm (opcional)</string>
     <string name="create">Criar</string>
-    <string name="birthday">Data de nascimento</string>
     <string name="birthday_optional">Data de nascimento (opcional)</string>
     <string name="name_or_pseudo">Nome / pseudônimo</string>
     <string name="name_is_required">Nome é necessário</string>
@@ -247,8 +213,6 @@
     <string name="introSlide1Text">Bem-vindo ao Fast N Fitness! esse aplicativo é uma forma simples e rápida de registrar seu treino e monitorar seu progresso e evolução de seu corpo.</string>
     <string name="introSlide2Text">Escreva o nome do exercício e os detalhes, e ele será criado automaticamente. Você pode encontrá-lo novamente com facilidade na lista.</string>
     <string name="introSlide2Title">Rápido e fácil</string>
-    <string name="introSlide3Text">Para tirar fotos de suas máquinas, o aplicativo precisa de autorização para acessar a câmera e o armazenamento do seu telefone.</string>
-    <string name="introSlide3Title">Permissões necessárias</string>
     <string name="titleSlideEssential">Vá ao essencial</string>
     <string name="textSlideEssential">Não há exercício predefinido. Você cria seus próprios exercícios simplesmente dependendo do nome da máquina que você tem na sua academia / local de treino.</string>
     <string name="pressBackAgain">Clique VOLTAR novamente para sair</string>
@@ -262,20 +226,17 @@
     <string name="min">Mín</string>
     <string name="max">Máx</string>
     <string name="areyousure">Tem certeza?</string>
-    <string name="Take_profile_picture">Imagem do perfil</string>
     <string name="edit_soon_available">Edição disponível em breve</string>
     <string name="name">Nome</string>
     <string name="description">Descrição</string>
     <string name="muscles">Músculos</string>
     <string name="start">Iniciar</string>
     <string name="reset">Redefinir</string>
-    <string name="weight_missing">Por favor, insira um peso</string>
     <string name="profileEnterYourSize">Seu tamanho</string>
     <string name="profileEnterYourBirthday">Sua data de nascimento</string>
     <string name="profile_page">Página do perfil</string>
     <string name="ProfileLabel">Perfil</string>
     <string name="edit_value">Editar valor</string>
-    <string name="obsoleteCardioTab">Você pode agora usar o menu Registro para musculação E cardio. Essa aba vai desaparecer uma uma atualização futura.</string>
     <string name="menu_Workout">Treino</string>
     <string name="renameMachine_error_text2">ERRO: Este nome do exercício já existe. Não é possível mesclar dois exercícios com o mesmo nome e tipos diferentes.</string>
     <string name="recordcopied">Registro copiado</string>

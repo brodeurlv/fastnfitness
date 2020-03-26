@@ -1,7 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tab_fontes"
     android:name="tab_fontes"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
-                        android:src="@drawable/ic_machine"
+                        android:src="@drawable/ic_gym_bench_50dp"
                         app:civ_background_color="@color/record_background_even"
                         app:civ_border_width="0dp"
                         app:civ_shadow="false" />
@@ -65,15 +64,15 @@
 
                     <ImageButton
                         android:id="@+id/buttonListMachine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
-                        android:src="@drawable/list" />
+                        android:src="@drawable/ic_baseline_list_alt_24px" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -89,7 +88,6 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/maxText2"
                 style="@style/Widget.AppCompat.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -285,7 +283,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/poidsLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/PoidsLabel" />
@@ -372,7 +369,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textDistance"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -419,7 +415,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textDuration"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -457,7 +452,7 @@
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:src="@drawable/baseline_keyboard_arrow_up_black_36" />
+                    android:src="@drawable/ic_expand_more_black_24dp" />
 
                 <LinearLayout
                     android:id="@+id/notesLayout"
@@ -472,7 +467,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -552,7 +546,6 @@
                             android:text="" />
 
                         <TextView
-                            android:id="@+id/restTimeLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -580,7 +573,6 @@
                         android:visibility="gone">
 
                         <TextView
-                            android:id="@+id/textFonteNote"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
@@ -589,7 +581,6 @@
                             android:text="@string/NotesLabel" />
 
                         <EditText
-                            android:id="@+id/editFonteNote"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"

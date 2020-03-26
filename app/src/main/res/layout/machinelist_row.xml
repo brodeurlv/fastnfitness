@@ -23,7 +23,7 @@
         android:layout_marginEnd="6dip"
         android:background="@color/record_background_even"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_machine" />
+        android:src="@drawable/ic_gym_bench_50dp" />
 
     <com.github.ivbaranov.mfb.MaterialFavoriteButton
         android:id="@+id/LIST_MACHINE_FAVORITE"
@@ -34,9 +34,9 @@
         app:mfb_animate_favorite="true"
         app:mfb_animate_unfavorite="true"
         app:mfb_bounce_duration="700"
-        app:mfb_color="black"
         app:mfb_rotation_angle="216"
         app:mfb_rotation_duration="400"
+        app:mfb_color="@color/dark_icon_background"
         app:mfb_type="star" />
 
     <TextView

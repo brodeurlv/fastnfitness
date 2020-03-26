@@ -2,7 +2,6 @@
 <resources>
     <string name="global_confirm">Confirmer</string>
     <string name="global_warning">Attention</string>
-    <string name="global_error">Erreur</string>
     <string name="global_cancel">Annuler</string>
     <string name="global_ok">Ok</string>
     <string name="global_yes">Oui</string>
@@ -20,7 +19,6 @@
     <string name="HistoryLabel">Historique</string>
     <string name="GraphLabel">Graphiques</string>
     <string name="AddLabel">Ajouter</string>
-    <string name="AddSmallLabel">+</string>
     <string name="DeleteLabel">Supprimer</string>
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Editer</string>
@@ -28,7 +26,6 @@
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Séries</string>
-    <string name="RepetitionLabel">Répétitions</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
     <string name="KgUnitLabel">Kg</string>
@@ -51,9 +48,7 @@
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
-    <string name="sizeLabel">Taille</string>
     <string name="measureLabel">Mesure</string>
-    <string name="weightTableLabel">Enregistrements : </string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
     <string name="userChanged">Profil changé</string>
@@ -63,7 +58,6 @@
 
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Paramètres</string>
-    <string name="menu_settings">Paramètres</string>
     <string name="export_database">Exporter la base de données</string>
     <string name="export_question">Voulez-vous exporter la base de données de </string>
     <string name="export_success">Base de données exportée</string>
@@ -74,22 +68,16 @@
 
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Exercices</string>
-    <string name="DescriptionLabel">Description</string>
 
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
     <string name="pref_show_mp3_player_summary">Affiche ou Cache la barre du lecteur MP3</string>
 
-    <string name="pref_user_name">Set username</string>
-    <string name="pref_user_name_summary">Set your username</string>
-
-    <string name="pref_user_profile">Profil utilisateur</string>
     <string name="pref_ui_setting">Paramètre d\'affichage</string>
 
     <string name="profil_create_new">Créer un nouveau profil</string>
 
     <string name="profil_change">Changer de profil</string>
     <string name="profil_select_profil">Selectionner un profil</string>
-    <string name="profil_edit">Editer un profil</string>
     <string name="profil_delete">Supprimer un profil</string>
     <string name="profil_select_profil_to_delete">Selectionner un profil à supprimer</string>
 
@@ -105,20 +93,9 @@
         <item>@string/LbsUnitLabel</item>
     </string-array>
 
-    <string-array name="fonte_unitsValues">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </string-array>
-
-    <string-array name="morphology">
-        <item>Fin</item>
-        <item>Normal</item>
-        <item>Large</item>
     </string-array>
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
@@ -151,9 +128,7 @@
 
     <string name="backDialog_confirm_text">Voulez-vous sauver avant de quitter ?</string>
     <string name="deleteMachine_confirm_text">Voulez-vous supprimer cette machine ? Tous les enregistrements associés seront supprimés</string>
-    <string name="deleteRecordsWithMachine_confirm_text">Do you want to delete all records associated with this machine ? All associated records will be deleted</string>
     <string name="renameMachine_warning_text">ATTENTION: Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
-    <string name="renameMachine_error_text">Ce nom existe déjà, merci d\'en selectionner un autre.</string>
 
     <!-- Photo -->
     <string name="camera">Appareil Photo</string>
@@ -170,7 +145,6 @@
     <string name="CountdownLabel">Repos</string>
     <string name="rest_time">Temps de repos (sec)</string>
     <string name="activate_rest_time">Activer le Compteur de repos</string>
-    <string name="pref_bodybuilding_setting">Body Building - Paramètres</string>
     <string name="sizeTableLabel">Historique</string>
     <string name="neck">Cou</string>
     <string name="left_arm">Biceps gauche</string>
@@ -185,8 +159,6 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="DeleteRecordDialog">Supprimer cet enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
-    <string name="WeightHint">Entre ton poids ici</string>
-    <string name="profileDeleteImpossible">Impossible de supprimer le profil actuel</string>
     <string name="profileSelected">Profil selectionné</string>
     <string name="FilterHint">Filtrer par nom d\'exercice</string>
     <string name="MesureHint">Entre ta mesure ici</string>
@@ -201,19 +173,14 @@
     <string name="introSlide2Title">Facile et Rapide</string>
     <string name="introSlide2Text">Ecris le nom de ton exercice et les details de ta série et la machine s\'enregistre automatiquement quand tu cliques sur \"ajouter\". Retrouve la ensuite facilement dans la liste déroulante.</string>
     <string name="introSlide1Text">Bienvenue chez Fast n Fitness, une application simple et rapide pour enregistrer vos séances de sport et suivre votre progression et l\'évolution de votre corps.</string>
-    <string name="introSlide3Title">Autorisation nécessaire</string>
-    <string name="introSlide3Text">Pour prendre des photos de vos machines, il me faut l\'autorisation d\'utiliser votre camera ainsi que d\'écrire dans la mémoire de votre téléphone.</string>
-    <string name="birthday">Date de naissance</string>
     <string name="birthday_optional">Date de naissance (optionel)</string>
     <string name="create">Créer</string>
     <string name="create_a_profile">Créer un profil</string>
-    <string name="fillAllFields">Tous les champs sont nécessaires</string>
     <string name="fillNameField">Entrez au moins votre nom ou pseudo!</string>
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
     <string name="name_is_required">Nom est obligatoire</string>
     <string name="size_cm_optional">Taille en cm (optionel)</string>
-    <string name="size_cm">Taille en cm</string>
     <string name="titleSlideEssential">Allez à l\'essentiel</string>
     <string name="textSlideEssential">Ici, pas d\'exercices ou de machines pré-créés. Vous créez vos propres exercices très simplement en fonction des machines que vous avez dans votre salle.</string>
     <string name="pressBackAgain">Appuyer à nouveau pour quitter</string>
@@ -227,14 +194,10 @@
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="areyousure">Etes-vous sûr ?</string>
-    <string name="DeleteWeightDialog">Supprimer cette mesure?</string>
-    <string name="Take_profile_picture">Photo de profil</string>
     <string name="description">Description</string>
     <string name="muscles">Muscles</string>
     <string name="start">Start</string>
     <string name="reset">Reset</string>
-    <string name="optional">optionel</string>
-    <string name="weight_missing">Merci de rentrer votre poids</string>
     <string name="profileEnterYourSize">Votre taille</string>
     <string name="profileEnterYourBirthday">Votre date de naissance</string>
     <string name="edit_soon_available">Bientôt disponible</string>
@@ -242,12 +205,10 @@
     <string name="ProfileLabel">Profil</string>
     <string name="profile_page">Details</string>
     <string name="edit_value">Nouvelle valeur</string>
-    <string name="CardioMenuLabel">Cardio (Obsolete)</string>
     <string name="RecordLabel">Enregistrements</string>
     <string name="speed">Vitesse</string>
     <string name="sumDuration">Durée</string>
     <string name="sumDistance">Distance</string>
-    <string name="obsoleteCardioTab">"Vous pouvez maintenant utiliser directement la page principale pour le bodybuilding et le cardio. Cette page va bientot disparaitre. "</string>
     <string name="menu_Workout">Entrainement</string>
     <string name="renameMachine_error_text2">ERREUR: cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
     <string name="recordcopied">Enregistrement copié</string>
