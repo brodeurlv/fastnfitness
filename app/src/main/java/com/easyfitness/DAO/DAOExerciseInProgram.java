@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.R;
-import com.easyfitness.utils.DateConverter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -166,7 +165,7 @@ public class DAOExerciseInProgram extends DAOBase {
             IRecord value = null;
 
             if (mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.TYPE)) == DAOMachine.TYPE_FONTE) {
-                value = new Program(mCursor.getColumnIndex(DAOExerciseInProgram.SECONDS),
+                value = new ExerciseInProgram(mCursor.getColumnIndex(DAOExerciseInProgram.SECONDS),
                     mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)),
                     mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.SERIE)),
                     mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.REPETITION)),

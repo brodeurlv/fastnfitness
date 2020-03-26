@@ -41,7 +41,7 @@ import com.easyfitness.DAO.DAOStatic;
 import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.Program;
+import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.DAO.StaticExercise;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -200,7 +200,7 @@ public class ProgramsFragment extends Fragment {
             // Copy values above
             setCurrentMachine(r.getExercise());
             if (r.getType() == DAOMachine.TYPE_FONTE) {
-                Program f = (Program) r;
+                ExerciseInProgram f = (ExerciseInProgram) r;
                 repetitionEdit.setText(String.format("%d", f.getRepetition()));
                 serieEdit.setText(String.format("%d", f.getSerie()));
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
@@ -241,7 +241,7 @@ public class ProgramsFragment extends Fragment {
         }
 
 //        String timeStr = null;
-        Date date;
+//        Date date;
 
 //        if (autoTimeCheckBox.isChecked()) {
 //            date = new Date();
@@ -296,7 +296,7 @@ public class ProgramsFragment extends Fragment {
 
 //            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
 //            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
-//            int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
+            int iNbSeries = mDbBodyBuilding.getNbSeries(  machineEdit.getText().toString());
 
             //--Launch Rest Dialog
 //            boolean bLaunchRest = restTimeCheck.isChecked();
@@ -611,7 +611,7 @@ public class ProgramsFragment extends Fragment {
                     IRecord r = mDb.getRecord(id);
                     String text = "";
                     if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
-                        Program fonte = (Program) r;
+                        ExerciseInProgram fonte = (ExerciseInProgram) r;
                         // Build text
                         text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
                         text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
@@ -1005,7 +1005,7 @@ public class ProgramsFragment extends Fragment {
         if (lLastRecord == null) {
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            Program lLastBodyBuildingRecord = (Program) lLastRecord;
+            ExerciseInProgram lLastBodyBuildingRecord = (ExerciseInProgram) lLastRecord;
             serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
             repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
             unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());

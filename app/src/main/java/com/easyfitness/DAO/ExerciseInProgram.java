@@ -3,7 +3,7 @@ package com.easyfitness.DAO;
 import java.util.Date;
 
 /* DataBase Object */
-public class Program extends ARecord {
+public class ExerciseInProgram extends ARecord {
     // Notez que l'identifiant est un long
     private int mSerie;
     private int mRepetition;
@@ -31,7 +31,7 @@ public class Program extends ARecord {
 //        this.mType = DAOMachine.TYPE_FONTE;
 //    }
 
-    public Program(int secRest, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
+    public ExerciseInProgram(int secRest, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime) {
         super();
         this.secRest=secRest;
         this.mExercise = pMachine;

@@ -13,13 +13,11 @@ import android.widget.TextView;
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOExerciseInProgram;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
-import java.util.Date;
 
 import androidx.cardview.widget.CardView;
 
@@ -53,17 +51,17 @@ public class RecordCursorAdapter extends CursorAdapter {
         }
 
         /* Commun display */
-        TextView tDate = view.findViewById(R.id.DATE_CELL);
+//        TextView tDate = view.findViewById(R.id.DATE_CELL);
 //        Date date;
 //        String dateString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE));
 //        date = DateConverter.DBDateStrToDate(dateString);
 //        tDate.setText(DateConverter.dateToLocalDateStr(date, mContext));
 
-        TextView tTime = view.findViewById(R.id.TIME_CELL);
-        tTime.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TIME)));
+//        TextView tTime = view.findViewById(R.id.TIME_CELL);
+//        tTime.setText(cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.TIME)));
 
         TextView tExercise = view.findViewById(R.id.MACHINE_CELL);
-        tExercise.setText(cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)));
+        tExercise.setText(cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)));
 
         TextView tSerie = view.findViewById(R.id.SERIE_CELL);
         TextView tSerieLabel = view.findViewById(R.id.SERIE_LABEL);
@@ -90,7 +88,7 @@ public class RecordCursorAdapter extends CursorAdapter {
             tReps.setText(cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.REPETITION)));
 
             String unit = mContext.getString(R.string.KgUnitLabel);
-            float poids = cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT));
+            float poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT));
             if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
                 poids = UnitConverter.KgtoLbs(poids);
                 unit = mContext.getString(R.string.LbsUnitLabel);
@@ -109,8 +107,8 @@ public class RecordCursorAdapter extends CursorAdapter {
             tReps.setText(cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SECONDS)));
 
             String unit = mContext.getString(R.string.KgUnitLabel);
-            float poids = cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT));
-            if (cursor.getInt(cursor.getColumnIndex(DAORecord.UNIT)) == UnitConverter.UNIT_LBS) {
+            float poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT));
+            if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
                 poids = UnitConverter.KgtoLbs(poids);
                 unit = mContext.getString(R.string.LbsUnitLabel);
             }
@@ -122,9 +120,9 @@ public class RecordCursorAdapter extends CursorAdapter {
             tWeightLabel.setText(mContext.getString(R.string.DurationLabel));
             tRepsLayout.setVisibility(View.GONE);
 
-            float distance = cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE));
+            float distance = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE));
             String unit = mContext.getString(R.string.KmUnitLabel);
-            if (cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT)) == UnitConverter.UNIT_MILES) {
+            if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE_UNIT)) == UnitConverter.UNIT_MILES) {
                 distance = UnitConverter.KmToMiles(distance); // Always convert to KG
                 unit = mContext.getString(R.string.MilesUnitLabel);
             }
@@ -136,29 +134,29 @@ public class RecordCursorAdapter extends CursorAdapter {
 
         // Add separator if needed
         boolean separatorNeeded = false;
-//        if (position == 0) {
-//            separatorNeeded = true;
-//        } else {
-//            cursor.moveToPosition(position - 1);
-//            String datePreviousString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE));
-//            if (datePreviousString.compareTo(dateString) != 0) {
-//                separatorNeeded = true;
-//            }
-//            cursor.moveToPosition(position);
-//        }
-
-        TextView t = view.findViewById(R.id.SEPARATOR_CELL);
-        if (separatorNeeded) {
-//            t.setText("- " + DateConverter.dateToLocalDateStr(date, mContext) + " -");
-            t.setVisibility(View.VISIBLE);
+        if (position == 0) {
+            separatorNeeded = true;
         } else {
-            t.setText("");
-            t.setVisibility(View.GONE);
+            cursor.moveToPosition(position - 1);
+//            String datePreviousString = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.DATE));
+//            if (datePreviousString.compareTo(dateString) != 0) {
+                separatorNeeded = true;
+//            }
+            cursor.moveToPosition(position);
         }
 
-        ImageView deletImg = view.findViewById(R.id.deleteButton);
-        deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOExerciseInProgram.KEY)));
-        deletImg.setOnClickListener(v -> {
+//        TextView t = view.findViewById(R.id.SEPARATOR_CELL);
+//        if (separatorNeeded) {
+//            t.setText("- " + DateConverter.dateToLocalDateStr(date, mContext) + " -");
+//            t.setVisibility(View.VISIBLE);
+//        } else {
+//            t.setText("");
+//            t.setVisibility(View.GONE);
+//        }
+
+        ImageView deleteImg = view.findViewById(R.id.deleteButton);
+        deleteImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOExerciseInProgram.KEY)));
+        deleteImg.setOnClickListener(v -> {
             if (mDeleteClickListener != null)
                 mDeleteClickListener.onBtnClick((long) v.getTag());
         });
