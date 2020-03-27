@@ -42,16 +42,18 @@ public class DAOExerciseInProgram extends DAOBase {
 
     // Specific to STATIC
     public static final String SECONDS = "seconds";
+    //rest between exercises
+    private static final String RESTSECONDS = "rest_seconds";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, " + SERIE + " INTEGER, "
+        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, "
+        + RESTSECONDS + " INTEGER, " + SERIE + " INTEGER, "
         + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
         + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER, " + DISTANCE_UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
         + TABLE_NAME + ";";
-    private static final String RESTSECONDS = "rest_seconds";
 
     protected Profile mProfile = null;
     protected Cursor mCursor = null;
@@ -103,7 +105,6 @@ public class DAOExerciseInProgram extends DAOBase {
             machine_key = lDAOMachine.getMachine(pMachine).getId();
         }
 
-//        value.put(DAOExerciseInProgram.DATE, DateConverter.dateToDBDateStr(pDate));
         value.put(DAOExerciseInProgram.RESTSECONDS,restSeconds);
         value.put(DAOExerciseInProgram.EXERCISE, pMachine);
         value.put(DAOExerciseInProgram.SERIE, pSerie);
@@ -140,17 +141,6 @@ public class DAOExerciseInProgram extends DAOBase {
 
         mCursor = getRecordsListCursor(selectQuery);
         if (mCursor.moveToFirst()) {
-            //Get Date
-//            Date date;
-//            try {
-//                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//                date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOFonte.DATE)));
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//                date = new Date();
-//            }
-
             //Get Profile
             DAOProfil lDAOProfil = new DAOProfil(mContext);
             Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.PROFIL_KEY)));
