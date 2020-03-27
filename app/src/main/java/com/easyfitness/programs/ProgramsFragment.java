@@ -32,17 +32,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOExerciseInProgram;
+import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOProgram;
+//import com.easyfitness.DAO.DAOProgram;
+import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.DAOStatic;
+import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.DAO.StaticExercise;
+import com.easyfitness.DAO.Weight;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
@@ -153,7 +158,7 @@ public class ProgramsFragment extends Fragment {
 //        durationEdit.setText(date);
 //        hideKeyboard(durationEdit);
 //    };
-    private DAOProgram mDbBodyBuilding = null;
+    private DAOFonte mDbBodyBuilding = null;
     private DAOCardio mDbCardio = null;
     private DAOStatic mDbStatic = null;
     private DAOExerciseInProgram mDb = null;
@@ -282,21 +287,23 @@ public class ProgramsFragment extends Fragment {
                 restTime = 60;
                 restTimeEdit.setText("60");
             }
-
-            mDbBodyBuilding.addProgramRecord(restTime,
+Date date = new Date();
+            mDbBodyBuilding.addRecord(date,
+//                restTime,
                 machineEdit.getText().toString(),
+                exerciseType,
                 Integer.parseInt(serieEdit.getText().toString()),
                 Integer.parseInt(repetitionEdit.getText().toString()),
                 tmpPoids, // Always save in KG
                 getProfil(),
                 unitPoids, // Store Unit for future display
-                "" //Notes
-//                timeStr
+                "", //Notes,
+                "",0,0,0,0
             );
 
-//            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
-//            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
-            int iNbSeries = mDbBodyBuilding.getNbSeries(  machineEdit.getText().toString());
+            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
+            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
+            int iNbSeries = mDbBodyBuilding.getNbSeries(  date,  machineEdit.getText().toString());
 
             //--Launch Rest Dialog
 //            boolean bLaunchRest = restTimeCheck.isChecked();
@@ -742,7 +749,7 @@ public class ProgramsFragment extends Fragment {
         unitDistanceSpinner.setSelection(distanceUnit);
 
         // Initialisation de la base de donnee
-        mDbBodyBuilding = new DAOProgram(getContext());
+        mDbBodyBuilding = new DAOFonte(getContext());
         mDbCardio = new DAOCardio(getContext());
         mDbStatic = new DAOStatic(getContext());
         mDb = new DAOExerciseInProgram(getContext());
@@ -928,7 +935,7 @@ public class ProgramsFragment extends Fragment {
             machineEdit.setText("");
             machineImage.setImageResource(R.drawable.ic_machine); // Default image
             changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
-//            updateMinMax(null);
+            updateMinMax(null);
             return;
         }
 
@@ -951,50 +958,50 @@ public class ProgramsFragment extends Fragment {
         updateLastRecord(lMachine);
     }
 
-//    private void updateMinMax(Machine m) {
-//        String unitStr = "";
-//        float weight = 0;
-//        if (getProfil() != null && m != null) {
-//            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
-//                Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
-//                if (minValue != null) {
-//                    minMaxLayout.setVisibility(View.VISIBLE);
-//                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-//                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
-//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-//                    } else {
-//                        weight = minValue.getStoredWeight();
-//                        unitStr = getContext().getString(R.string.KgUnitLabel);
-//                    }
-//                    DecimalFormat numberFormat = new DecimalFormat("#.##");
-//                    minText.setText(numberFormat.format(weight) + " " + unitStr);
-//
-//                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
-//                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-//                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
-//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-//                    } else {
-//                        weight = maxValue.getStoredWeight();
-//                        unitStr = getContext().getString(R.string.KgUnitLabel);
-//                    }
-//                    maxText.setText(numberFormat.format(weight) + " " + unitStr);
-//                } else {
-//                    minText.setText("-");
-//                    maxText.setText("-");
-//                    minMaxLayout.setVisibility(View.GONE);
-//                }
-//            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
-//                minMaxLayout.setVisibility(View.GONE);
-//            }
-//        } else {
-//            minText.setText("-");
-//            maxText.setText("-");
-//            minMaxLayout.setVisibility(View.GONE);
-//        }
-//    }
+    private void updateMinMax(Machine m) {
+        String unitStr = "";
+        float weight = 0;
+        if (getProfil() != null && m != null) {
+            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
+                Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
+                if (minValue != null) {
+                    minMaxLayout.setVisibility(View.VISIBLE);
+                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
+                        unitStr = getContext().getString(R.string.LbsUnitLabel);
+                    } else {
+                        weight = minValue.getStoredWeight();
+                        unitStr = getContext().getString(R.string.KgUnitLabel);
+                    }
+                    DecimalFormat numberFormat = new DecimalFormat("#.##");
+                    minText.setText(numberFormat.format(weight) + " " + unitStr);
+
+                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
+                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
+                        unitStr = getContext().getString(R.string.LbsUnitLabel);
+                    } else {
+                        weight = maxValue.getStoredWeight();
+                        unitStr = getContext().getString(R.string.KgUnitLabel);
+                    }
+                    maxText.setText(numberFormat.format(weight) + " " + unitStr);
+                } else {
+                    minText.setText("-");
+                    maxText.setText("-");
+                    minMaxLayout.setVisibility(View.GONE);
+                }
+            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
+                minMaxLayout.setVisibility(View.GONE);
+            }
+        } else {
+            minText.setText("-");
+            maxText.setText("-");
+            minMaxLayout.setVisibility(View.GONE);
+        }
+    }
 
     private void updateLastRecord(Machine m) {
-        IRecord lLastRecord = mDb.getLastRecord(m.getId(), getProfil());
+        IRecord lLastRecord = mDb.getLastRecord(getProfil());
         // Default Values
         serieEdit.setText("1");
         repetitionEdit.setText("10");

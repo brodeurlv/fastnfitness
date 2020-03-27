@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOExerciseInProgram;
+//import com.easyfitness.DAO.DAOExerciseInProgram;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import androidx.cardview.widget.CardView;
 
@@ -51,9 +53,9 @@ public class RecordCursorAdapter extends CursorAdapter {
         }
 
         /* Commun display */
-//        TextView tDate = view.findViewById(R.id.DATE_CELL);
-//        Date date;
-//        String dateString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE));
+        TextView tDate = view.findViewById(R.id.DATE_CELL);
+        Date date;
+//        String dateString = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.DATE));
 //        date = DateConverter.DBDateStrToDate(dateString);
 //        tDate.setText(DateConverter.dateToLocalDateStr(date, mContext));
 
@@ -133,21 +135,21 @@ public class RecordCursorAdapter extends CursorAdapter {
         }
 
         // Add separator if needed
-        boolean separatorNeeded = false;
-        if (position == 0) {
-            separatorNeeded = true;
-        } else {
-            cursor.moveToPosition(position - 1);
+//        boolean separatorNeeded = false;
+//        if (position == 0) {
+//            separatorNeeded = true;
+//        } else {
+//            cursor.moveToPosition(position - 1);
 //            String datePreviousString = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.DATE));
 //            if (datePreviousString.compareTo(dateString) != 0) {
-                separatorNeeded = true;
+//                separatorNeeded = true;
 //            }
-            cursor.moveToPosition(position);
-        }
+//            cursor.moveToPosition(position);
+//        }
 
 //        TextView t = view.findViewById(R.id.SEPARATOR_CELL);
 //        if (separatorNeeded) {
-//            t.setText("- " + DateConverter.dateToLocalDateStr(date, mContext) + " -");
+//            t.setText("- " + "TEST " + " -");
 //            t.setVisibility(View.VISIBLE);
 //        } else {
 //            t.setText("");
