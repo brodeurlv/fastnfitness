@@ -471,11 +471,6 @@ public class DAOExerciseInProgram extends DAOBase {
         IRecord lReturn = null;
 
         // Select All Machines
-/*
-        String selectQuery = "SELECT " + KEY + " FROM " + TABLE_NAME
-            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " AND " + DATE + "=(SELECT MAX(" + DATE + ") FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + ");";
-*/
-
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
             + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
         mCursor = db.rawQuery(selectQuery, null);
@@ -564,17 +559,6 @@ public class DAOExerciseInProgram extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
             do {
-                //Get Date
-//                Date date;
-//                try {
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.DATE)));
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                    date = new Date();
-//                }
-
                 //Get Profile
                 DAOProfil lDAOProfil = new DAOProfil(mContext);
                 Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.PROFIL_KEY)));
