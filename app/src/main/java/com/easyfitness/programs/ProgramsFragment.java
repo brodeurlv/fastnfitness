@@ -87,7 +87,7 @@ public class ProgramsFragment extends Fragment {
     private TextView bodybuildingSelector = null;
     private TextView cardioSelector = null;
     private TextView staticExerciseSelector = null;
-    int selectedType = DAOMachine.TYPE_FONTE;
+    private int selectedType = DAOMachine.TYPE_FONTE;
     // Cardio Part
     private LinearLayout bodyBuildingLayout = null;
     private LinearLayout restTimeLayout = null;
@@ -103,9 +103,9 @@ public class ProgramsFragment extends Fragment {
 
     private MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
-        String strMinute = "00";
-        String strHour = "00";
-        String strSecond = "00";
+        String strMinute;
+        String strHour;
+        String strSecond;
 
         if (minute < 10) strMinute = "0" + minute;
         else strMinute = Integer.toString(minute);
@@ -211,7 +211,6 @@ public class ProgramsFragment extends Fragment {
         try {
             restTime = Integer.parseInt(restTimeEdit.getText().toString());
         } catch (NumberFormatException e) {
-            restTime = 60;
             restTimeEdit.setText("60");
         }
         if (exerciseType == DAOMachine.TYPE_FONTE) {
@@ -550,7 +549,7 @@ public class ProgramsFragment extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int weightUnit=UnitConverter.UNIT_KG;
         try {
-            if(SP != null) {
+            if(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0") != null) {
                 weightUnit = Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
             }
         } catch (NumberFormatException e) {
@@ -559,7 +558,7 @@ public class ProgramsFragment extends Fragment {
 
         int distanceUnit;
         try {
-            distanceUnit = Integer.valueOf(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0"));
+            distanceUnit = Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0"));
         } catch (NumberFormatException e) {
             distanceUnit = UnitConverter.UNIT_KM;
         }
@@ -640,23 +639,10 @@ public class ProgramsFragment extends Fragment {
             sec=0;
         }
 
-        switch(timeTextView.getId()) {
-            case R.id.editDuration:
-                TimePickerDialogFragment mDurationFrag = null;
-                if (mDurationFrag == null) {
-                    mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
-                    mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-                } else {
-                    if (!mDurationFrag.isVisible()) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("HOUR", hour);
-                        bundle.putInt("MINUTE", min);
-                        bundle.putInt("SECOND", sec);
-                        mDurationFrag.setArguments(bundle);
-                        mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-                    }
-                }
-                break;
+        if (timeTextView.getId() == R.id.editDuration) {
+            TimePickerDialogFragment mDurationFrag = null;
+                mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
+                mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
         }
     }
 
@@ -792,9 +778,6 @@ public class ProgramsFragment extends Fragment {
                 /* Init machines list*/
                 ProgramInExerciseArrayFullAdapter exerciseArrayFullAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), exerciseInProgramArrayList);
                 machineEdit.setAdapter(exerciseArrayFullAdapter);
-
-                // If profile has changed
-                Profile mProfile = getProfil();
 
                 if (machineEdit.getText().toString().isEmpty()) {
                     IRecord lLastRecord = mDb.getLastRecord(getProfil());
