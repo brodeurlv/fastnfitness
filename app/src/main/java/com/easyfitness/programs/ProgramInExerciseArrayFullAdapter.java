@@ -5,15 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.R;
-import com.easyfitness.utils.ImageUtil;
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
-
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 /**
  * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
@@ -23,15 +20,19 @@ import java.util.ArrayList;
 
 public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInProgram> {
 
-    public ProgramInExerciseArrayFullAdapter(Context context, ArrayList<ExerciseInProgram> machines) {
+    ProgramInExerciseArrayFullAdapter(Context context, ArrayList<ExerciseInProgram> machines) {
         super(context, 0, machines);
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         ExerciseInProgram exercise = getItem(position);
-        if (exercise == null) return convertView;
+        if (exercise == null) {
+            assert convertView != null;
+            return convertView;
+        }
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

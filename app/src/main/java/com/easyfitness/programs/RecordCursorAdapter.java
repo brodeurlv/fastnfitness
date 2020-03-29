@@ -9,28 +9,24 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOExerciseInProgram;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
-
 import java.text.DecimalFormat;
-import java.util.Date;
-
 import androidx.cardview.widget.CardView;
 
 public class RecordCursorAdapter extends CursorAdapter {
 
     private LayoutInflater mInflater;
     private int mFirstColorOdd = 0;
-    private Context mContext = null;
-    private BtnClickListener mDeleteClickListener = null;
-    private BtnClickListener mCopyClickListener = null;
+    private Context mContext;
+    private BtnClickListener mDeleteClickListener;
+    private BtnClickListener mCopyClickListener;
 
-    public RecordCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickDelete, BtnClickListener clickCopy) {
+    RecordCursorAdapter(Context context, Cursor c, int flags, BtnClickListener clickDelete, BtnClickListener clickCopy) {
         super(context, c, flags);
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -178,7 +174,7 @@ public class RecordCursorAdapter extends CursorAdapter {
     /*
      * @pColor : si 1 alors affiche la couleur Odd en premier. Sinon, a couleur Even.
      */
-    public void setFirstColorOdd(int pColor) {
+    void setFirstColorOdd(int pColor) {
         mFirstColorOdd = pColor;
     }
 }
