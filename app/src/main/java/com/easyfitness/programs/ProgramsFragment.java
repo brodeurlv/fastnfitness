@@ -3,8 +3,6 @@ package com.easyfitness.programs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -32,22 +30,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
-import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOExerciseInProgram;
-//import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-//import com.easyfitness.DAO.DAOProgram;
-import com.easyfitness.DAO.DAORecord;
 import com.easyfitness.DAO.DAOStatic;
-import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.DAO.StaticExercise;
-import com.easyfitness.DAO.Weight;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
@@ -77,14 +69,13 @@ public class ProgramsFragment extends Fragment {
     MainActivity mActivity = null;
     Profile mProfile = null;
     AutoCompleteTextView machineEdit = null;
-    MachineArrayFullAdapter machineEditAdapter = null;
-    EditText serieEdit = null;
+    ProgramInExerciseArrayFullAdapter machineEditAdapter = null;
+    private EditText seriesEdit = null;
     EditText repetitionEdit = null;
     EditText poidsEdit = null;
     LinearLayout detailsLayout = null;
     Button addButton = null;
     ExpandedListView recordList = null;
-//    String[] machineListArray = null;
     ImageButton machineListButton = null;
     Spinner unitSpinner = null;
     Spinner unitDistanceSpinner = null;
@@ -111,7 +102,7 @@ public class ProgramsFragment extends Fragment {
     EditText secondsEdit = null;
     CheckBox autoTimeCheckBox = null;
 
-    CardView serieCardView = null;
+    private CardView seriesCardView = null;
     CardView repetitionCardView = null;
     CardView secondsCardView = null;
     CardView weightCardView = null;
@@ -157,7 +148,7 @@ public class ProgramsFragment extends Fragment {
 //        String date = strHour + ":" + strMinute + ":" + strSecond;
 //        durationEdit.setText(date);
 //        hideKeyboard(durationEdit);
-//    };
+//    };`
     private DAOExerciseInProgram mDbBodyBuilding = null;
     private DAOCardio mDbCardio = null;
     private DAOStatic mDbStatic = null;
@@ -207,7 +198,7 @@ public class ProgramsFragment extends Fragment {
             if (r.getType() == DAOMachine.TYPE_FONTE) {
                 ExerciseInProgram f = (ExerciseInProgram) r;
                 repetitionEdit.setText(String.format("%d", f.getRepetition()));
-                serieEdit.setText(String.format("%d", f.getSerie()));
+                seriesEdit.setText(String.format("%d", f.getSerie()));
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
 
                 Float poids = f.getPoids();
@@ -219,10 +210,10 @@ public class ProgramsFragment extends Fragment {
             } else if (r.getType() == DAOMachine.TYPE_STATIC) {
                 StaticExercise f = (StaticExercise) r;
                 secondsEdit.setText(String.format("%d", f.getSecond()));
-                serieEdit.setText(String.format("%d", f.getSerie()));
+                seriesEdit.setText(String.format("%d", f.getSerie()));
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 poidsEdit.setText(numberFormat.format(f.getPoids()));
-            }else if (r.getType() == DAOMachine.TYPE_CARDIO) {
+            } else if (r.getType() == DAOMachine.TYPE_CARDIO) {
                 Cardio c = (Cardio) r;
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
 
@@ -239,7 +230,6 @@ public class ProgramsFragment extends Fragment {
         }
     };
     private OnClickListener clickAddButton = v -> {
-        // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             return;
@@ -256,7 +246,7 @@ public class ProgramsFragment extends Fragment {
 //            timeStr = timeEdit.getText().toString();
 //        }
 
-        int exerciseType;// = DAOMachine.TYPE_FONTE;
+        int exerciseType;
         Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
         if (lMachine == null) {
             exerciseType = selectedType;
@@ -264,36 +254,34 @@ public class ProgramsFragment extends Fragment {
             exerciseType = lMachine.getType();
         }
 
+        int restTime = 60;
+        try {
+            restTime = Integer.valueOf(restTimeEdit.getText().toString());
+        } catch (NumberFormatException e) {
+            restTime = 60;
+            restTimeEdit.setText("60");
+        }
         if (exerciseType == DAOMachine.TYPE_FONTE) {
-            // Verifie que les infos sont completes
-            if (serieEdit.getText().toString().isEmpty() ||
+            if (seriesEdit.getText().toString().isEmpty() ||
                 repetitionEdit.getText().toString().isEmpty() ||
                 poidsEdit.getText().toString().isEmpty()) {
                 KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
 
-            /* Convertion du poid */
+            /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
             if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
-            int restTime = 60;
-            try {
-                restTime = Integer.valueOf(restTimeEdit.getText().toString());
-            } catch (NumberFormatException e) {
-                restTime = 60;
-                restTimeEdit.setText("60");
-            }
-Date date = new Date();
+
             mDbBodyBuilding.addRecord(
-//                date,
                 restTime,
                 machineEdit.getText().toString(),
                 exerciseType,
-                Integer.parseInt(serieEdit.getText().toString()),
+                Integer.parseInt(seriesEdit.getText().toString()),
                 Integer.parseInt(repetitionEdit.getText().toString()),
                 tmpPoids, // Always save in KG
                 getProfil(),
@@ -302,78 +290,39 @@ Date date = new Date();
                 "",0,0,0,0
             );
 
-//            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
-//            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
-//            int iNbSeries = mDbBodyBuilding.getNbSeries(  date,  machineEdit.getText().toString());
-
-            //--Launch Rest Dialog
-//            boolean bLaunchRest = restTimeCheck.isChecked();
-            try {
-                restTime = Integer.valueOf(restTimeEdit.getText().toString());
-            } catch (NumberFormatException e) {
-                restTime = 60;
-                restTimeEdit.setText("60");
-            }
-
-//            // Launch Countdown
-//            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-//                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-//                cdd.setNbSeries(iNbSeries);
-//                cdd.setTotalWeightMachine(iTotalWeight);
-//                cdd.setTotalWeightSession(iTotalWeightSession);
-//                cdd.show();
-//            }
         } else if (exerciseType == DAOMachine.TYPE_STATIC) {
-            // Verifie que les infos sont completes
-            if (serieEdit.getText().toString().isEmpty() ||
+            if (seriesEdit.getText().toString().isEmpty() ||
                 secondsEdit.getText().toString().isEmpty() ||
                 poidsEdit.getText().toString().isEmpty()) {
                 KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
 
-            /* Convertion du poid */
+            /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
             if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
-            int restTime = 0;
             try {
                 restTime = Integer.valueOf(restTimeEdit.getText().toString());
             } catch (NumberFormatException e) {
                 restTime = 0;
                 restTimeEdit.setText("0");
             }
-//            mDbStatic.addStaticRecord(restTime,
-//                machineEdit.getText().toString(),
-//                Integer.parseInt(serieEdit.getText().toString()),
-//                Integer.parseInt(secondsEdit.getText().toString()),
-//                tmpPoids, // Always save in KG
-//                getProfil(),
-//                unitPoids, // Store Unit for future display
-//                "" //Notes
-//            );
-
-//            float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
-//            float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString());
-//            int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
-
-            //--Launch Rest Dialog
-            boolean bLaunchRest = restTimeCheck.isChecked();
-
-
-            // Launch Countdown
-//            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-//                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-//                cdd.setNbSeries(iNbSeries);
-//                cdd.setTotalWeightMachine(iTotalWeight);
-//                cdd.setTotalWeightSession(iTotalWeightSession);
-//                cdd.show();
-//            }
+            mDbBodyBuilding.addRecord(restTime,
+                machineEdit.getText().toString(),
+                Integer.parseInt(seriesEdit.getText().toString()),
+                Integer.parseInt(secondsEdit.getText().toString()),
+                1,
+                tmpPoids, // Always save in KG
+                getProfil(),
+                unitPoids, // Store Unit for future display
+                "" //Notes
+                ,"",0,0,0,0
+            );
         } else if (exerciseType == DAOMachine.TYPE_CARDIO) {
-            // Verifie que les infos sont completes
             if (durationEdit.getText().toString().isEmpty() && // Only one is mandatory
                 distanceEdit.getText().toString().isEmpty()) {
                 KToast.warningToast(getActivity(),
@@ -406,13 +355,20 @@ Date date = new Date();
                 unitDistance = UnitConverter.UNIT_MILES;
             }
 
-//            mDbCardio.addCardioRecord(date,
-//                timeStr,
-//                machineEdit.getText().toString(),
-//                distance,
-//                duration,
-//                getProfil(),
-//                unitDistance);
+            mDbBodyBuilding.addRecord(restTime,
+                machineEdit.getText().toString(),
+                exerciseType,
+                1,
+                1,
+                0,
+                getProfil(),
+                1,
+                "",
+                "",
+                distance,
+                duration,
+                0,
+                unitDistance);
 
             // No Countdown for Cardio
         }
@@ -420,7 +376,7 @@ Date date = new Date();
         getActivity().findViewById(R.id.drawer_layout).requestFocus();
         hideKeyboard(v);
 
-        lTableColor = (lTableColor + 1) % 2; // Change la couleur a chaque ajout de donnees
+        lTableColor = (lTableColor + 1) % 2; // Change the color each time you add data
 
         refreshData();
 
@@ -429,7 +385,7 @@ Date date = new Date();
             android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
         machineEdit.setAdapter(adapter);
 
-        //Rajoute le moment du dernier ajout dans le bouton Add
+        //Add the time of the last addition in the Add button
         addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
 
         mDbCardio.closeCursor();
@@ -450,7 +406,6 @@ Date date = new Date();
 
             ListView machineList = new ListView(v.getContext());
 
-            // Version avec table Machine
             c = mDbMachine.getAllMachines();
 
             if (c == null || c.getCount() == 0) {
@@ -494,16 +449,14 @@ Date date = new Date();
         }
     };
 
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
-        showRecordListMenu(id);
-        return true;
-    };
+//    private OnItemLongClickListener itemLongClickDeleteRecord = (listView, view, position, id) -> {
+//        showRecordListMenu(id);
+//        return true;
+//    };
 
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
-//    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
-//        dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-//        hideKeyboard(dateEdit);
-//    };
+
+    //Required for cardio/duration
     private OnClickListener clickDateEdit = v -> {
         switch (v.getId()) {
 //            case R.id.editDate:
@@ -527,7 +480,7 @@ Date date = new Date();
         if (hasFocus) {
             switch (v.getId()) {
                 case R.id.editSerie:
-                    serieEdit.setText("");
+                    seriesEdit.setText("");
                     break;
                 case R.id.editRepetition:
                     repetitionEdit.setText("");
@@ -555,7 +508,7 @@ Date date = new Date();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
             });
-        } else if (!hasFocus) {
+        } else {
             switch (v.getId()) {
                 case R.id.editMachine:
                     // If a creation of a new machine is not ongoing.
@@ -591,54 +544,52 @@ Date date = new Date();
         return f;
     }
 
-    private void showRecordListMenu(final long id) {
-        // Get the cursor, positioned to the corresponding row in the result set
-        //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-
-        String[] profilListArray = new String[3];
-        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
-        profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
-        profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
-
-        AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
-        itemActionbuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
-            ListView lv = ((AlertDialog) dialog).getListView();
-
-            switch (which) {
-                // Delete
-                case 0:
-                    showDeleteDialog(id);
-                    break;
-                // Edit
-                case 1:
-                    Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
-                    break;
-                // Share
-                case 2:
-                    //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
-                    IRecord r = mDb.getRecord(id);
-                    String text = "";
-                    if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
-                        ExerciseInProgram fonte = (ExerciseInProgram) r;
-                        // Build text
-                        text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getExercise());
-                    } else {
-                        Cardio cardio = (Cardio) r;
-                        // Build text
-                        text = "I have done __METER__ in __TIME__ on __MACHINE__.";
-                        text = text.replace("__METER__", String.valueOf(cardio.getDistance()));
-                        text = text.replace("__TIME__", String.valueOf(cardio.getDuration()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), cardio.getExercise());
-                    }
-                    shareRecord(text);
-                    break;
-                default:
-            }
-        });
-        itemActionbuilder.show();
-    }
+//    private void showRecordListMenu(final long id) {
+//        // Get the cursor, positioned to the corresponding row in the result set //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+//
+//        String[] profilListArray = new String[3];
+//        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
+//        profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
+//        profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
+//
+//        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(getView().getContext());
+//        itemActionBuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
+////            ListView lv = ((AlertDialog) dialog).getListView();
+////
+////            switch (which) {
+////                // Delete
+////                case 0:
+////                    showDeleteDialog(id);
+////                    break;
+////                // Edit
+////                case 1:
+////                    Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
+////                    break;
+////                // Share
+////                case 2:
+//////                    IRecord r = mDb.getRecord(id);//Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
+//////                    String text = "";
+//////                    if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
+//////                        ExerciseInProgram exercise = (ExerciseInProgram) r;
+//////                        // Build text
+//////                        text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
+//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(exercise.getPoids()));
+//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), exercise.getExercise());
+//////                    } else {
+//////                        Cardio cardio = (Cardio) r;
+//////                        // Build text
+//////                        text = "I have done __METER__ in __TIME__ on __MACHINE__.";
+//////                        text = text.replace("__METER__", String.valueOf(cardio.getDistance()));
+//////                        text = text.replace("__TIME__", String.valueOf(cardio.getDuration()));
+//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), cardio.getExercise());
+//////                    }
+//////                    shareRecord(text);
+////                    break;
+////                default:
+////            }
+//        });
+//        itemActionBuilder.show();
+//    }
 
     private void showDeleteDialog(final long idToDelete) {
 
@@ -649,12 +600,8 @@ Date date = new Date();
             .setConfirmText(getResources().getText(R.string.global_yes).toString())
             .showCancelButton(true)
             .setConfirmClickListener(sDialog -> {
-                mDb.deleteRecord(idToDelete);
-
+                mDb.deleteRecord(idToDelete);//Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
                 updateRecordTable(machineEdit.getText().toString());
-
-                //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                // Info
                 KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 sDialog.dismissWithAnimation();
             })
@@ -667,7 +614,7 @@ Date date = new Date();
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
         machineEdit = view.findViewById(R.id.editMachine);
-        serieEdit = view.findViewById(R.id.editSerie);
+        seriesEdit = view.findViewById(R.id.editSerie);
         repetitionEdit = view.findViewById(R.id.editRepetition);
         poidsEdit = view.findViewById(R.id.editPoids);
         recordList = view.findViewById(R.id.listRecord);
@@ -694,14 +641,13 @@ Date date = new Date();
         secondsEdit = view.findViewById(R.id.editSeconds);
         autoTimeCheckBox = view.findViewById(R.id.autoTimeCheckBox);
 
-        serieCardView = view.findViewById(R.id.cardviewSerie);
+        seriesCardView = view.findViewById(R.id.cardviewSerie);
         repetitionCardView = view.findViewById(R.id.cardviewRepetition);
         secondsCardView = view.findViewById(R.id.cardviewSeconds);
         weightCardView = view.findViewById(R.id.cardviewWeight);
         distanceCardView = view.findViewById(R.id.cardviewDistance);
         durationCardView = view.findViewById(R.id.cardviewDuration);
 
-        /* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);
         machineListButton.setOnClickListener(onClickMachineListWithIcons); //onClickMachineList
 
@@ -709,7 +655,7 @@ Date date = new Date();
 //        timeEdit.setOnClickListener(clickDateEdit);
 //        autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
 
-        serieEdit.setOnFocusChangeListener(touchRazEdit);
+        seriesEdit.setOnFocusChangeListener(touchRazEdit);
         repetitionEdit.setOnFocusChangeListener(touchRazEdit);
         poidsEdit.setOnFocusChangeListener(touchRazEdit);
         distanceEdit.setOnFocusChangeListener(touchRazEdit);
@@ -718,10 +664,10 @@ Date date = new Date();
         machineEdit.setOnKeyListener(checkExerciseExists);
         machineEdit.setOnFocusChangeListener(touchRazEdit);
         machineEdit.setOnItemClickListener(onItemClickFilterList);
-        recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
+//        recordList.setOnItemLongClickListener(itemLongClickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
         restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
-        restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange); //.setOnFocusChangeListener(restTimeEditChange);
+        restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange);
 
         bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
         cardioSelector.setOnClickListener(clickExerciseTypeSelector);
@@ -730,7 +676,7 @@ Date date = new Date();
         restoreSharedParams();
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int weightUnit = UnitConverter.UNIT_KG;
+        int weightUnit;
         try {
             weightUnit = Integer.valueOf(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
         } catch (NumberFormatException e) {
@@ -738,7 +684,7 @@ Date date = new Date();
         }
         unitSpinner.setSelection(weightUnit);
 
-        int distanceUnit = UnitConverter.UNIT_KM;
+        int distanceUnit;
         try {
             distanceUnit = Integer.valueOf(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0"));
         } catch (NumberFormatException e) {
@@ -746,7 +692,7 @@ Date date = new Date();
         }
         unitDistanceSpinner.setSelection(distanceUnit);
 
-        // Initialisation de la base de donnee
+        // Initialization of the database
         mDbBodyBuilding = new DAOExerciseInProgram(getContext());
         mDbCardio = new DAOCardio(getContext());
         mDbStatic = new DAOStatic(getContext());
@@ -798,9 +744,9 @@ Date date = new Date();
         return getArguments().getString("name");
     }
 
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
+//    public int getFragmentId() {
+//        return getArguments().getInt("id", 0);
+//    }
 
     public MainActivity getMainActivity() {
         return this.mActivity;
@@ -872,39 +818,39 @@ Date date = new Date();
 //    }
 
     // Share your performances with friends
-    public boolean shareRecord(String text) {
-        AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
-
-        newProfilBuilder.setTitle(getView().getContext().getResources().getText(R.string.ShareTitle));
-        newProfilBuilder.setMessage(getView().getContext().getResources().getText(R.string.ShareInstruction));
-
-        // Set an EditText view to get user input
-        final EditText input = new EditText(getView().getContext());
-        input.setText(text);
-        newProfilBuilder.setView(input);
-
-        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
-
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, value);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
-            }
-        });
-
-        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-            }
-        });
-
-        newProfilBuilder.show();
-
-        return true;
-    }
+//    public boolean shareRecord(String text) {
+//        AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
+//
+//        newProfilBuilder.setTitle(getView().getContext().getResources().getText(R.string.ShareTitle));
+//        newProfilBuilder.setMessage(getView().getContext().getResources().getText(R.string.ShareInstruction));
+//
+//        // Set an EditText view to get user input
+//        final EditText input = new EditText(getView().getContext());
+//        input.setText(text);
+//        newProfilBuilder.setView(input);
+//
+//        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                String value = input.getText().toString();
+//
+//                Intent sendIntent = new Intent();
+//                sendIntent.setAction(Intent.ACTION_SEND);
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, value);
+//                sendIntent.setType("text/plain");
+//                startActivity(sendIntent);
+//            }
+//        });
+//
+//        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//            }
+//        });
+//
+//        newProfilBuilder.show();
+//
+//        return true;
+//    }
 
     public ProgramsFragment getFragment() {
         return this;
@@ -915,8 +861,6 @@ Date date = new Date();
     }
 
     public String getMachine() {
-        /*if (machineEdit == null)
-            machineEdit = this.getView().findViewById(R.id.editMachine);*/
         return machineEdit.getText().toString();
     }
 
@@ -933,7 +877,6 @@ Date date = new Date();
             machineEdit.setText("");
             machineImage.setImageResource(R.drawable.ic_machine); // Default image
             changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
-//            updateMinMax(null);
             return;
         }
 
@@ -949,59 +892,14 @@ Date date = new Date();
         // Update display type
         changeExerciseTypeUI(lMachine.getType(), false);
 
-        // Depending on the machine type :
-        // Update Min Max
-//        updateMinMax(lMachine);
         // Update last values
         updateLastRecord(lMachine);
     }
 
-//    private void updateMinMax(Machine m) {
-//        String unitStr = "";
-//        float weight = 0;
-//        if (getProfil() != null && m != null) {
-//            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
-//                Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
-//                if (minValue != null) {
-//                    minMaxLayout.setVisibility(View.VISIBLE);
-//                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-//                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
-//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-//                    } else {
-//                        weight = minValue.getStoredWeight();
-//                        unitStr = getContext().getString(R.string.KgUnitLabel);
-//                    }
-//                    DecimalFormat numberFormat = new DecimalFormat("#.##");
-//                    minText.setText(numberFormat.format(weight) + " " + unitStr);
-//
-//                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
-//                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
-//                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
-//                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-//                    } else {
-//                        weight = maxValue.getStoredWeight();
-//                        unitStr = getContext().getString(R.string.KgUnitLabel);
-//                    }
-//                    maxText.setText(numberFormat.format(weight) + " " + unitStr);
-//                } else {
-//                    minText.setText("-");
-//                    maxText.setText("-");
-//                    minMaxLayout.setVisibility(View.GONE);
-//                }
-//            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
-//                minMaxLayout.setVisibility(View.GONE);
-//            }
-//        } else {
-//            minText.setText("-");
-//            maxText.setText("-");
-//            minMaxLayout.setVisibility(View.GONE);
-//        }
-//    }
-
     private void updateLastRecord(Machine m) {
         IRecord lLastRecord = mDb.getLastRecord(getProfil());
         // Default Values
-        serieEdit.setText("1");
+        seriesEdit.setText("1");
         repetitionEdit.setText("10");
         secondsEdit.setText("60");
         poidsEdit.setText("50");
@@ -1011,7 +909,7 @@ Date date = new Date();
             // Set default values or nothing.
         } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
             ExerciseInProgram lLastBodyBuildingRecord = (ExerciseInProgram) lLastRecord;
-            serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
+            seriesEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
             repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
             unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
             DecimalFormat numberFormat = new DecimalFormat("#.##");
@@ -1030,7 +928,7 @@ Date date = new Date();
                 distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
         } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
             StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
-            serieEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
+            seriesEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
             secondsEdit.setText(String.valueOf(lLastStaticRecord.getSecond()));
             unitSpinner.setSelection(lLastStaticRecord.getUnit());
             DecimalFormat numberFormat = new DecimalFormat("#.##");
@@ -1053,8 +951,7 @@ Date date = new Date();
 
             IRecord r = mDb.getLastRecord(getProfil());
 
-            // Recupere les valeurs
-            //if (pMachine == null || pMachine.isEmpty()) {
+            //Get results
             if (r != null)
                 c = mDb.getTop3DatesRecords(getProfil());
             else
@@ -1083,12 +980,12 @@ Date date = new Date();
             if (getProfil() != null) {
                 mDb.setProfile(getProfil());
 
-                ArrayList<Machine> machineListArray;
-                // Version avec table Machine
-                machineListArray = mDbMachine.getAllMachinesArray();
-
+//                ArrayList<Machine> machineListArray;
+//                machineListArray = mDbMachine.getAllMachinesArray();
+                ArrayList<ExerciseInProgram> machineListArray;
+                machineListArray = mDb.getAllExerciseInProgramArray();
                 /* Init machines list*/
-                machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
+                machineEditAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), machineListArray);
                 machineEdit.setAdapter(machineEditAdapter);
 
                 // If profile has changed
@@ -1102,7 +999,7 @@ Date date = new Date();
                     } else {
                         // Default Values
                         machineEdit.setText("");
-                        serieEdit.setText("1");
+                        seriesEdit.setText("1");
                         repetitionEdit.setText("10");
                         secondsEdit.setText("60");
                         poidsEdit.setText("50");
@@ -1139,7 +1036,7 @@ Date date = new Date();
                 cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
                 bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                serieCardView.setVisibility(View.GONE);
+                seriesCardView.setVisibility(View.GONE);
                 repetitionCardView.setVisibility(View.GONE);
                 weightCardView.setVisibility(View.GONE);
                 secondsCardView.setVisibility(View.GONE);
@@ -1152,7 +1049,7 @@ Date date = new Date();
                 cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
-                serieCardView.setVisibility(View.VISIBLE);
+                seriesCardView.setVisibility(View.VISIBLE);
                 repetitionCardView.setVisibility(View.GONE);
                 secondsCardView.setVisibility(View.VISIBLE);
                 weightCardView.setVisibility(View.VISIBLE);
@@ -1166,7 +1063,7 @@ Date date = new Date();
                 cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
                 bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
                 staticExerciseSelector.setBackgroundColor(getResources().getColor(R.color.background));
-                serieCardView.setVisibility(View.VISIBLE);
+                seriesCardView.setVisibility(View.VISIBLE);
                 repetitionCardView.setVisibility(View.VISIBLE);
                 secondsCardView.setVisibility(View.GONE);
                 weightCardView.setVisibility(View.VISIBLE);
