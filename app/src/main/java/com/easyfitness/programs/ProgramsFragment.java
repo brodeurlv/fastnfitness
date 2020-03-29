@@ -505,7 +505,7 @@ public class ProgramsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.tab_fontes, container, false);
+        View view = inflater.inflate(R.layout.tab_program_with_exercises, container, false);
         machineEdit = view.findViewById(R.id.editMachine);
         seriesEdit = view.findViewById(R.id.editSerie);
         repetitionEdit = view.findViewById(R.id.editRepetition);
