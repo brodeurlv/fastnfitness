@@ -2,7 +2,6 @@ package com.easyfitness.programs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -27,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Cardio;
@@ -45,7 +43,6 @@ import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.machines.ExerciseDetailsPager;
-import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
@@ -71,7 +68,7 @@ public class ProgramsFragment extends Fragment {
     MainActivity mActivity = null;
     Profile mProfile = null;
     AutoCompleteTextView machineEdit = null;
-    ProgramInExerciseArrayFullAdapter machineEditAdapter = null;
+    ProgramInExerciseArrayFullAdapter exerciseArrayFullAdapter = null;
     private EditText seriesEdit = null;
     EditText repetitionEdit = null;
     EditText poidsEdit = null;
@@ -460,12 +457,6 @@ public class ProgramsFragment extends Fragment {
     //Required for cardio/duration
     private OnClickListener clickDateEdit = v -> {
         switch (v.getId()) {
-//            case R.id.editDate:
-//                showDatePickerFragment();
-//                break;
-//            case R.id.editTime:
-//                showTimePicker(timeEdit);
-//                break;
             case R.id.editDuration:
                 showTimePicker(durationEdit);
                 break;
@@ -519,15 +510,6 @@ public class ProgramsFragment extends Fragment {
             }
         }
     };
-
-//    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
-////        dateEdit.setEnabled(!isChecked);
-////        timeEdit.setEnabled(!isChecked);
-////        if (isChecked) {
-////            dateEdit.setText(DateConverter.currentDate());
-////            timeEdit.setText(DateConverter.currentTime());
-////        }
-//    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -651,11 +633,6 @@ public class ProgramsFragment extends Fragment {
 
         addButton.setOnClickListener(clickAddButton);
         machineListButton.setOnClickListener(onClickMachineListWithIcons); //onClickMachineList
-
-//        dateEdit.setOnClickListener(clickDateEdit);
-//        timeEdit.setOnClickListener(clickDateEdit);
-//        autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
-
         seriesEdit.setOnFocusChangeListener(touchRazEdit);
         repetitionEdit.setOnFocusChangeListener(touchRazEdit);
         poidsEdit.setOnFocusChangeListener(touchRazEdit);
@@ -665,7 +642,6 @@ public class ProgramsFragment extends Fragment {
         machineEdit.setOnKeyListener(checkExerciseExists);
         machineEdit.setOnFocusChangeListener(touchRazEdit);
         machineEdit.setOnItemClickListener(onItemClickFilterList);
-//        recordList.setOnItemLongClickListener(itemLongClickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
         restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange);
@@ -700,8 +676,6 @@ public class ProgramsFragment extends Fragment {
         mDb = new DAOExerciseInProgram(getContext());
 
         mDbMachine = new DAOMachine(getContext());
-//        dateEdit.setText(DateConverter.currentDate());
-//        timeEdit.setText(DateConverter.currentTime());
         selectedType = DAOMachine.TYPE_FONTE;
 
         machineImage.setOnClickListener(v -> {
@@ -745,23 +719,9 @@ public class ProgramsFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-//    public int getFragmentId() {
-//        return getArguments().getInt("id", 0);
-//    }
-
     public MainActivity getMainActivity() {
         return this.mActivity;
     }
-
-//    private void showDatePickerFragment() {
-//        if (mDateFrag == null) {
-//            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-//            mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog");
-//        } else {
-//            if (!mDateFrag.isVisible())
-//                mDateFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog");
-//        }
-//    }
 
     private void showTimePicker(TextView timeTextView) {
         String tx =  timeTextView.getText().toString();
@@ -785,21 +745,6 @@ public class ProgramsFragment extends Fragment {
         }
 
         switch(timeTextView.getId()) {
-//            case R.id.editTime:
-//                if (mTimeFrag == null) {
-//                    mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
-//                    mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-//                } else {
-//                    if (!mTimeFrag.isVisible()) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putInt("HOUR", hour);
-//                        bundle.putInt("MINUTE", min);
-//                        bundle.putInt("SECOND", sec);
-//                        mTimeFrag.setArguments(bundle);
-//                        mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-//                    }
-//                }
-//                break;
             case R.id.editDuration:
                 TimePickerDialogFragment mDurationFrag = null;
                 if (mDurationFrag == null) {
@@ -818,41 +763,6 @@ public class ProgramsFragment extends Fragment {
                 break;
         }
     }
-
-    // Share your performances with friends
-//    public boolean shareRecord(String text) {
-//        AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
-//
-//        newProfilBuilder.setTitle(getView().getContext().getResources().getText(R.string.ShareTitle));
-//        newProfilBuilder.setMessage(getView().getContext().getResources().getText(R.string.ShareInstruction));
-//
-//        // Set an EditText view to get user input
-//        final EditText input = new EditText(getView().getContext());
-//        input.setText(text);
-//        newProfilBuilder.setView(input);
-//
-//        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String value = input.getText().toString();
-//
-//                Intent sendIntent = new Intent();
-//                sendIntent.setAction(Intent.ACTION_SEND);
-//                sendIntent.putExtra(Intent.EXTRA_TEXT, value);
-//                sendIntent.setType("text/plain");
-//                startActivity(sendIntent);
-//            }
-//        });
-//
-//        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//
-//            }
-//        });
-//
-//        newProfilBuilder.show();
-//
-//        return true;
-//    }
 
     public ProgramsFragment getFragment() {
         return this;
@@ -981,14 +891,11 @@ public class ProgramsFragment extends Fragment {
         if (fragmentView != null) {
             if (getProfil() != null) {
                 mDb.setProfile(getProfil());
-
-//                ArrayList<Machine> machineListArray;
-//                machineListArray = mDbMachine.getAllMachinesArray();
-                ArrayList<ExerciseInProgram> machineListArray;
-                machineListArray = mDb.getAllExerciseInProgramArray();
+                ArrayList<ExerciseInProgram> exerciseInProgramArrayList;
+                exerciseInProgramArrayList = mDb.getAllExerciseInProgramArray();
                 /* Init machines list*/
-                machineEditAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), machineListArray);
-                machineEdit.setAdapter(machineEditAdapter);
+                exerciseArrayFullAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), exerciseInProgramArrayList);
+                machineEdit.setAdapter(exerciseArrayFullAdapter);
 
                 // If profile has changed
                 mProfile = getProfil();
@@ -1013,13 +920,6 @@ public class ProgramsFragment extends Fragment {
                 } else { // Restore on fragment restore.
                     setCurrentMachine(machineEdit.getText().toString());
                 }
-
-                // Set Initial text
-//                if (autoTimeCheckBox.isChecked()) {
-////                    dateEdit.setText(DateConverter.currentDate());
-////                    timeEdit.setText(DateConverter.currentTime());
-//                }
-
                 // Set Table
                 updateRecordTable(machineEdit.getText().toString());
             }
