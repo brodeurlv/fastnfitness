@@ -2,6 +2,7 @@ package com.easyfitness.programs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,7 +16,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -43,6 +43,7 @@ import com.easyfitness.DAO.StaticExercise;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
+import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
@@ -50,6 +51,7 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
+import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
@@ -130,25 +132,25 @@ public class ProgramsFragment extends Fragment {
 //        hideKeyboard(timeEdit);
 //    };
 
-//    public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
-//        // Do something with the time chosen by the user
-//        String strMinute = "00";
-//        String strHour = "00";
-//        String strSecond = "00";
-//
-//        if (minute < 10) strMinute = "0" + Integer.toString(minute);
-//        else strMinute = Integer.toString(minute);
-//        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-//        else strHour = Integer.toString(hourOfDay);
-//        if (second < 10) strSecond = "0" + Integer.toString(second);
-//        else strSecond = Integer.toString(second);
-//
-//        View viewT = view.getRootView();
-//
-//        String date = strHour + ":" + strMinute + ":" + strSecond;
-//        durationEdit.setText(date);
-//        hideKeyboard(durationEdit);
-//    };`
+    public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
+        // Do something with the time chosen by the user
+        String strMinute = "00";
+        String strHour = "00";
+        String strSecond = "00";
+
+        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+        else strMinute = Integer.toString(minute);
+        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+        else strHour = Integer.toString(hourOfDay);
+        if (second < 10) strSecond = "0" + Integer.toString(second);
+        else strSecond = Integer.toString(second);
+
+        View viewT = view.getRootView();
+
+        String date = strHour + ":" + strMinute + ":" + strSecond;
+        durationEdit.setText(date);
+        hideKeyboard(durationEdit);
+    };
     private DAOExerciseInProgram mDbBodyBuilding = null;
     private DAOCardio mDbCardio = null;
     private DAOStatic mDbStatic = null;
@@ -415,7 +417,6 @@ public class ProgramsFragment extends Fragment {
             } else {
                 if (machineList.getAdapter() == null) {
                     MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
-                    //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
                     machineList.setAdapter(mTableAdapter);
                 } else {
                     MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
@@ -465,9 +466,9 @@ public class ProgramsFragment extends Fragment {
 //            case R.id.editTime:
 //                showTimePicker(timeEdit);
 //                break;
-//            case R.id.editDuration:
-//                showTimePicker(durationEdit);
-//                break;
+            case R.id.editDuration:
+                showTimePicker(durationEdit);
+                break;
             case R.id.editMachine:
                 //InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 //imm.showSoftInput(machineEdit, InputMethodManager.SHOW_IMPLICIT);
@@ -491,9 +492,9 @@ public class ProgramsFragment extends Fragment {
                 case R.id.editPoids:
                     poidsEdit.setText("");
                     break;
-//                case R.id.editDuration:
-//                    showTimePicker(durationEdit);
-//                    break;
+                case R.id.editDuration:
+                    showTimePicker(durationEdit);
+                    break;
                 case R.id.editDistance:
                     distanceEdit.setText("");
                     break;
@@ -762,60 +763,61 @@ public class ProgramsFragment extends Fragment {
 //        }
 //    }
 
-//    private void showTimePicker(TextView timeTextView) {
-//        String tx =  timeTextView.getText().toString();
-//        int hour;
-//        try {
-//            hour = Integer.valueOf(tx.substring(0, 2));
-//        } catch (Exception e) {
-//            hour=0;
-//        }
-//        int min;
-//        try {
-//            min = Integer.valueOf(tx.substring(3, 5));
-//        } catch (Exception e) {
-//            min=0;
-//        }
-//        int sec;
-//        try {
-//        sec = Integer.valueOf(tx.substring(6));
-//        } catch (Exception e) {
-//            sec=0;
-//        }
-//
-////        switch(timeTextView.getId()) {
-////            case R.id.editTime:
-////                if (mTimeFrag == null) {
-////                    mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
-////                    mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-////                } else {
-////                    if (!mTimeFrag.isVisible()) {
-////                        Bundle bundle = new Bundle();
-////                        bundle.putInt("HOUR", hour);
-////                        bundle.putInt("MINUTE", min);
-////                        bundle.putInt("SECOND", sec);
-////                        mTimeFrag.setArguments(bundle);
-////                        mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-////                    }
-////                }
-////                break;
-////            case R.id.editDuration:
-////                if (mDurationFrag == null) {
-////                    mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
-////                    mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-////                } else {
-////                    if (!mDurationFrag.isVisible()) {
-////                        Bundle bundle = new Bundle();
-////                        bundle.putInt("HOUR", hour);
-////                        bundle.putInt("MINUTE", min);
-////                        bundle.putInt("SECOND", sec);
-////                        mDurationFrag.setArguments(bundle);
-////                        mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
-////                    }
-////                }
-////                break;
-////        }
-//    }
+    private void showTimePicker(TextView timeTextView) {
+        String tx =  timeTextView.getText().toString();
+        int hour;
+        try {
+            hour = Integer.valueOf(tx.substring(0, 2));
+        } catch (Exception e) {
+            hour=0;
+        }
+        int min;
+        try {
+            min = Integer.valueOf(tx.substring(3, 5));
+        } catch (Exception e) {
+            min=0;
+        }
+        int sec;
+        try {
+        sec = Integer.valueOf(tx.substring(6));
+        } catch (Exception e) {
+            sec=0;
+        }
+
+        switch(timeTextView.getId()) {
+//            case R.id.editTime:
+//                if (mTimeFrag == null) {
+//                    mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
+//                    mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+//                } else {
+//                    if (!mTimeFrag.isVisible()) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putInt("HOUR", hour);
+//                        bundle.putInt("MINUTE", min);
+//                        bundle.putInt("SECOND", sec);
+//                        mTimeFrag.setArguments(bundle);
+//                        mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+//                    }
+//                }
+//                break;
+            case R.id.editDuration:
+                TimePickerDialogFragment mDurationFrag = null;
+                if (mDurationFrag == null) {
+                    mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
+                    mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                } else {
+                    if (!mDurationFrag.isVisible()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("HOUR", hour);
+                        bundle.putInt("MINUTE", min);
+                        bundle.putInt("SECOND", sec);
+                        mDurationFrag.setArguments(bundle);
+                        mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                    }
+                }
+                break;
+        }
+    }
 
     // Share your performances with friends
 //    public boolean shareRecord(String text) {
