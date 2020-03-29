@@ -78,7 +78,6 @@ public class ProgramsFragment extends Fragment {
     ImageButton machineListButton = null;
     Spinner unitSpinner = null;
     Spinner unitDistanceSpinner = null;
-    ImageButton detailsExpandArrow = null;
     EditText restTimeEdit = null;
     CheckBox restTimeCheck = null;
     CircularImageView machineImage = null;
@@ -108,27 +107,6 @@ public class ProgramsFragment extends Fragment {
     CardView distanceCardView = null;
     CardView durationCardView = null;
 
-
-//    public MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
-//        // Do something with the time chosen by the user
-//        String strMinute = "00";
-//        String strHour = "00";
-//        String strSecond = "00";
-//
-//        if (minute < 10) strMinute = "0" + Integer.toString(minute);
-//        else strMinute = Integer.toString(minute);
-//        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
-//        else strHour = Integer.toString(hourOfDay);
-//        if (second < 10) strSecond = "0" + Integer.toString(second);
-//        else strSecond = Integer.toString(second);
-//
-////        View viewT = view.getRootView();
-//
-//        String date = strHour + ":" + strMinute + ":" + strSecond;
-//        timeEdit.setText(date);
-//        hideKeyboard(timeEdit);
-//    };
-
     public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         String strMinute = "00";
@@ -154,11 +132,6 @@ public class ProgramsFragment extends Fragment {
     private DAOExerciseInProgram mDb = null;
     private DAOMachine mDbMachine = null;
 
-    private OnClickListener collapseDetailsClick = v -> {
-        detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
-        saveSharedParams();
-    };
     private OnClickListener clickExerciseTypeSelector = v -> {
         switch (v.getId()) {
             case R.id.staticSelection:
@@ -233,17 +206,6 @@ public class ProgramsFragment extends Fragment {
             KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             return;
         }
-
-//        String timeStr = null;
-//        Date date;
-
-//        if (autoTimeCheckBox.isChecked()) {
-//            date = new Date();
-//            timeStr = DateConverter.currentTime();
-//        }else {
-//            date = DateConverter.editToDate(dateEdit.getText().toString());
-//            timeStr = timeEdit.getText().toString();
-//        }
 
         int exerciseType;
         Machine lMachine = mDbMachine.getMachine(machineEdit.getText().toString());
@@ -447,11 +409,6 @@ public class ProgramsFragment extends Fragment {
         }
     };
 
-//    private OnItemLongClickListener itemLongClickDeleteRecord = (listView, view, position, id) -> {
-//        showRecordListMenu(id);
-//        return true;
-//    };
-
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
 
     //Required for cardio/duration
@@ -527,53 +484,6 @@ public class ProgramsFragment extends Fragment {
         return f;
     }
 
-//    private void showRecordListMenu(final long id) {
-//        // Get the cursor, positioned to the corresponding row in the result set //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-//
-//        String[] profilListArray = new String[3];
-//        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
-//        profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
-//        profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
-//
-//        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(getView().getContext());
-//        itemActionBuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
-////            ListView lv = ((AlertDialog) dialog).getListView();
-////
-////            switch (which) {
-////                // Delete
-////                case 0:
-////                    showDeleteDialog(id);
-////                    break;
-////                // Edit
-////                case 1:
-////                    Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
-////                    break;
-////                // Share
-////                case 2:
-//////                    IRecord r = mDb.getRecord(id);//Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
-//////                    String text = "";
-//////                    if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
-//////                        ExerciseInProgram exercise = (ExerciseInProgram) r;
-//////                        // Build text
-//////                        text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
-//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(exercise.getPoids()));
-//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), exercise.getExercise());
-//////                    } else {
-//////                        Cardio cardio = (Cardio) r;
-//////                        // Build text
-//////                        text = "I have done __METER__ in __TIME__ on __MACHINE__.";
-//////                        text = text.replace("__METER__", String.valueOf(cardio.getDistance()));
-//////                        text = text.replace("__TIME__", String.valueOf(cardio.getDuration()));
-//////                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), cardio.getExercise());
-//////                    }
-//////                    shareRecord(text);
-////                    break;
-////                default:
-////            }
-//        });
-//        itemActionBuilder.show();
-//    }
-
     private void showDeleteDialog(final long idToDelete) {
 
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
@@ -606,7 +516,7 @@ public class ProgramsFragment extends Fragment {
         unitSpinner = view.findViewById(R.id.spinnerUnit);
         unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit);
         detailsLayout = view.findViewById(R.id.notesLayout);
-        detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
+        detailsLayout.setVisibility(View.VISIBLE);
         restTimeEdit = view.findViewById(R.id.editRestTime);
         restTimeCheck = view.findViewById(R.id.restTimecheckBox);
         machineImage = view.findViewById(R.id.imageMachine);
@@ -642,7 +552,6 @@ public class ProgramsFragment extends Fragment {
         machineEdit.setOnKeyListener(checkExerciseExists);
         machineEdit.setOnFocusChangeListener(touchRazEdit);
         machineEdit.setOnItemClickListener(onItemClickFilterList);
-        detailsExpandArrow.setOnClickListener(collapseDetailsClick);
         restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange);
 
@@ -989,14 +898,7 @@ public class ProgramsFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         restTimeEdit.setText(sharedPref.getString("restTime", ""));
         restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
-
-        if (sharedPref.getBoolean("showDetails", false)) {
-            detailsLayout.setVisibility(View.VISIBLE);
-        } else {
-            detailsLayout.setVisibility(View.GONE);
-        }
-        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.baseline_keyboard_arrow_up_black_36 : R.drawable.baseline_keyboard_arrow_down_black_36);
-    }
+   }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
