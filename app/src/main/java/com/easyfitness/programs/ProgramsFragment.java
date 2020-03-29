@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -558,11 +560,12 @@ public class ProgramsFragment extends Fragment {
         restoreSharedParams();
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int weightUnit;
+        int weightUnit=UnitConverter.UNIT_KG;
         try {
-            weightUnit = Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
+            if(SP != null) {
+                weightUnit = Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
+            }
         } catch (NumberFormatException e) {
-            weightUnit = UnitConverter.UNIT_KG;
         }
         unitSpinner.setSelection(weightUnit);
 
@@ -615,7 +618,7 @@ public class ProgramsFragment extends Fragment {
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
     }
@@ -722,37 +725,37 @@ public class ProgramsFragment extends Fragment {
         poidsEdit.setText("50");
         distanceEdit.setText("1");
         durationEdit.setText("00:10:00");
-        if (lLastRecord == null) {
-            // Set default values or nothing.
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            ExerciseInProgram lLastBodyBuildingRecord = (ExerciseInProgram) lLastRecord;
-            seriesEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
-            repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
-            unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
-                poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids())));
-            else
-                poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
-            Cardio lLastCardioRecord = (Cardio) lLastRecord;
-                        durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
-            unitDistanceSpinner.setSelection(lLastCardioRecord.getDistanceUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
-                distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.getDistance())));
-            else
-                distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
-            StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
-            seriesEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
-            secondsEdit.setText(String.valueOf(lLastStaticRecord.getSecond()));
-            unitSpinner.setSelection(lLastStaticRecord.getUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastStaticRecord.getUnit() == UnitConverter.UNIT_LBS)
-                poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastStaticRecord.getPoids())));
-            else
-                poidsEdit.setText(numberFormat.format(lLastStaticRecord.getPoids()));
+        if (lLastRecord != null) {
+            if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
+                ExerciseInProgram lLastBodyBuildingRecord = (ExerciseInProgram) lLastRecord;
+                seriesEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
+                repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
+                unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
+                    poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids())));
+                else
+                    poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
+            } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
+                Cardio lLastCardioRecord = (Cardio) lLastRecord;
+                durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
+                unitDistanceSpinner.setSelection(lLastCardioRecord.getDistanceUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
+                    distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.getDistance())));
+                else
+                    distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
+            } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
+                StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
+                seriesEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
+                secondsEdit.setText(String.valueOf(lLastStaticRecord.getSecond()));
+                unitSpinner.setSelection(lLastStaticRecord.getUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastStaticRecord.getUnit() == UnitConverter.UNIT_LBS)
+                    poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastStaticRecord.getPoids())));
+                else
+                    poidsEdit.setText(numberFormat.format(lLastStaticRecord.getPoids()));
+            }
         }
     }
 
