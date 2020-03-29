@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +67,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramsFragment extends Fragment {
     private MainActivity mActivity = null;
-    private Profile mProfile = null;
     private AutoCompleteTextView machineEdit = null;
     private EditText seriesEdit = null;
     private EditText repetitionEdit = null;
@@ -76,14 +74,11 @@ public class ProgramsFragment extends Fragment {
     private LinearLayout detailsLayout = null;
     private Button addButton = null;
     private ExpandedListView recordList = null;
-    private ImageButton machineListButton = null;
     private Spinner unitSpinner = null;
     private Spinner unitDistanceSpinner = null;
     private EditText restTimeEdit = null;
     private CheckBox restTimeCheck = null;
     private CircularImageView machineImage = null;
-    private TextView minText = null;
-    private TextView maxText = null;
     private int lTableColor = 1;
     private AlertDialog machineListDialog;
     private LinearLayout minMaxLayout = null;
@@ -106,7 +101,7 @@ public class ProgramsFragment extends Fragment {
     private CardView distanceCardView = null;
     private CardView durationCardView = null;
 
-    public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
+    private MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         String strMinute = "00";
         String strHour = "00";
@@ -118,8 +113,6 @@ public class ProgramsFragment extends Fragment {
         else strHour = Integer.toString(hourOfDay);
         if (second < 10) strSecond = "0" + second;
         else strSecond = Integer.toString(second);
-
-        View viewT = view.getRootView();
 
         String date = strHour + ":" + strMinute + ":" + strSecond;
         durationEdit.setText(date);
@@ -457,12 +450,9 @@ public class ProgramsFragment extends Fragment {
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
             });
         } else {
-            switch (v.getId()) {
-                case R.id.editMachine:
-                    // If a creation of a new machine is not ongoing.
-                    if (exerciseTypeSelectorLayout.getVisibility() == View.GONE)
-                        setCurrentMachine(machineEdit.getText().toString());
-                    break;
+            if (v.getId() == R.id.editMachine) {// If a creation of a new machine is not ongoing.
+                if (exerciseTypeSelectorLayout.getVisibility() == View.GONE)
+                    setCurrentMachine(machineEdit.getText().toString());
             }
         }
     };
@@ -510,7 +500,7 @@ public class ProgramsFragment extends Fragment {
         repetitionEdit = view.findViewById(R.id.editRepetition);
         poidsEdit = view.findViewById(R.id.editPoids);
         recordList = view.findViewById(R.id.listRecord);
-        machineListButton = view.findViewById(R.id.buttonListMachine);
+        ImageButton machineListButton = view.findViewById(R.id.buttonListMachine);
         addButton = view.findViewById(R.id.addperff);
         unitSpinner = view.findViewById(R.id.spinnerUnit);
         unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit);
@@ -519,8 +509,6 @@ public class ProgramsFragment extends Fragment {
         restTimeEdit = view.findViewById(R.id.editRestTime);
         restTimeCheck = view.findViewById(R.id.restTimecheckBox);
         machineImage = view.findViewById(R.id.imageMachine);
-        minText = view.findViewById(R.id.minText);
-        maxText = view.findViewById(R.id.maxText);
         bodyBuildingLayout = view.findViewById(R.id.bodybuildingLayout);
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
         cardioSelector = view.findViewById(R.id.cardioSelection);
@@ -806,7 +794,7 @@ public class ProgramsFragment extends Fragment {
                 machineEdit.setAdapter(exerciseArrayFullAdapter);
 
                 // If profile has changed
-                mProfile = getProfil();
+                Profile mProfile = getProfil();
 
                 if (machineEdit.getText().toString().isEmpty()) {
                     IRecord lLastRecord = mDb.getLastRecord(getProfil());
