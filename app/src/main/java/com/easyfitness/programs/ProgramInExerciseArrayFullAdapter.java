@@ -12,12 +12,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 
-/**
- * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
- * de jonction de table
- */
-
-
 public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInProgram> {
 
     ProgramInExerciseArrayFullAdapter(Context context, ArrayList<ExerciseInProgram> machines) {
