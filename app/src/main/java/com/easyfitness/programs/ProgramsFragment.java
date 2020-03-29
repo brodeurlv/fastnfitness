@@ -227,11 +227,13 @@ public class ProgramsFragment extends Fragment {
             /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
-                if (unitSpinner.getSelectedItem().toString().equals(Objects.requireNonNull(getView().getContext()).getString(R.string.LbsUnitLabel))) {
-                   tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-                   unitPoids = UnitConverter.UNIT_LBS; // LBS
+            Context mContext = getContext();
+            if(mContext!=null) {
+                if (unitSpinner.getSelectedItem().toString().equals(mContext.getString(R.string.LbsUnitLabel))) {
+                    tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
+                    unitPoids = UnitConverter.UNIT_LBS; // LBS
                 }
-
+            }
             mDbBodyBuilding.addRecord(
                 restTime,
                 machineEdit.getText().toString(),
@@ -448,10 +450,9 @@ public class ProgramsFragment extends Fragment {
                     break;
             }
             v.post(() -> {
-                if(getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)!=null) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm =
+                        (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE));
                     imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
-                }
             });
         } else {
             if (v.getId() == R.id.editMachine) {// If a creation of a new machine is not ongoing.
@@ -625,6 +626,7 @@ public class ProgramsFragment extends Fragment {
         return this.mActivity;
     }
 
+    @SuppressLint("CommitTransaction")
     private void showTimePicker(TextView timeTextView) {
         String tx =  timeTextView.getText().toString();
         int hour;
@@ -864,7 +866,8 @@ public class ProgramsFragment extends Fragment {
     }
 
     private void saveSharedParams() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("restTime", restTimeEdit.getText().toString());
         editor.putBoolean("restCheck", restTimeCheck.isChecked());
@@ -885,7 +888,8 @@ public class ProgramsFragment extends Fragment {
     }
 
     private void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE));
+        InputMethodManager inputMethodManager =
+            (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Activity.INPUT_METHOD_SERVICE));
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
