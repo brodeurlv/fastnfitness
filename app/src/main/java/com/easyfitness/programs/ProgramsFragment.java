@@ -65,47 +65,44 @@ import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramsFragment extends Fragment {
-    MainActivity mActivity = null;
-    Profile mProfile = null;
-    AutoCompleteTextView machineEdit = null;
-    ProgramInExerciseArrayFullAdapter exerciseArrayFullAdapter = null;
+    private MainActivity mActivity = null;
+    private Profile mProfile = null;
+    private AutoCompleteTextView machineEdit = null;
     private EditText seriesEdit = null;
-    EditText repetitionEdit = null;
-    EditText poidsEdit = null;
-    LinearLayout detailsLayout = null;
-    Button addButton = null;
-    ExpandedListView recordList = null;
-    ImageButton machineListButton = null;
-    Spinner unitSpinner = null;
-    Spinner unitDistanceSpinner = null;
-    EditText restTimeEdit = null;
-    CheckBox restTimeCheck = null;
-    CircularImageView machineImage = null;
-    TextView minText = null;
-    TextView maxText = null;
-    int lTableColor = 1;
-    AlertDialog machineListDialog;
-    LinearLayout minMaxLayout = null;
+    private EditText repetitionEdit = null;
+    private EditText poidsEdit = null;
+    private LinearLayout detailsLayout = null;
+    private Button addButton = null;
+    private ExpandedListView recordList = null;
+    private ImageButton machineListButton = null;
+    private Spinner unitSpinner = null;
+    private Spinner unitDistanceSpinner = null;
+    private EditText restTimeEdit = null;
+    private CheckBox restTimeCheck = null;
+    private CircularImageView machineImage = null;
+    private TextView minText = null;
+    private TextView maxText = null;
+    private int lTableColor = 1;
+    private AlertDialog machineListDialog;
+    private LinearLayout minMaxLayout = null;
     // Selection part
-    LinearLayout exerciseTypeSelectorLayout = null;
-    TextView bodybuildingSelector = null;
-    TextView cardioSelector = null;
-    TextView staticExerciseSelector = null;
+    private LinearLayout exerciseTypeSelectorLayout = null;
+    private TextView bodybuildingSelector = null;
+    private TextView cardioSelector = null;
+    private TextView staticExerciseSelector = null;
     int selectedType = DAOMachine.TYPE_FONTE;
     // Cardio Part
-    LinearLayout bodyBuildingLayout = null;
-    LinearLayout restTimeLayout = null;
-    EditText distanceEdit = null;
-    TextView durationEdit = null;
-    EditText secondsEdit = null;
-    CheckBox autoTimeCheckBox = null;
-
+    private LinearLayout bodyBuildingLayout = null;
+    private LinearLayout restTimeLayout = null;
+    private EditText distanceEdit = null;
+    private TextView durationEdit = null;
+    private EditText secondsEdit = null;
     private CardView seriesCardView = null;
-    CardView repetitionCardView = null;
-    CardView secondsCardView = null;
-    CardView weightCardView = null;
-    CardView distanceCardView = null;
-    CardView durationCardView = null;
+    private CardView repetitionCardView = null;
+    private CardView secondsCardView = null;
+    private CardView weightCardView = null;
+    private CardView distanceCardView = null;
+    private CardView durationCardView = null;
 
     public MyTimePickerDialog.OnTimeSetListener durationSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
@@ -113,11 +110,11 @@ public class ProgramsFragment extends Fragment {
         String strHour = "00";
         String strSecond = "00";
 
-        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+        if (minute < 10) strMinute = "0" + minute;
         else strMinute = Integer.toString(minute);
-        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+        if (hourOfDay < 10) strHour = "0" + hourOfDay;
         else strHour = Integer.toString(hourOfDay);
-        if (second < 10) strSecond = "0" + Integer.toString(second);
+        if (second < 10) strSecond = "0" + second;
         else strSecond = Integer.toString(second);
 
         View viewT = view.getRootView();
@@ -217,7 +214,7 @@ public class ProgramsFragment extends Fragment {
 
         int restTime = 60;
         try {
-            restTime = Integer.valueOf(restTimeEdit.getText().toString());
+            restTime = Integer.parseInt(restTimeEdit.getText().toString());
         } catch (NumberFormatException e) {
             restTime = 60;
             restTimeEdit.setText("60");
@@ -267,7 +264,7 @@ public class ProgramsFragment extends Fragment {
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
             try {
-                restTime = Integer.valueOf(restTimeEdit.getText().toString());
+                restTime = Integer.parseInt(restTimeEdit.getText().toString());
             } catch (NumberFormatException e) {
                 restTime = 0;
                 restTimeEdit.setText("0");
@@ -532,7 +529,6 @@ public class ProgramsFragment extends Fragment {
         durationEdit = view.findViewById(R.id.editDuration);
         distanceEdit = view.findViewById(R.id.editDistance);
         secondsEdit = view.findViewById(R.id.editSeconds);
-        autoTimeCheckBox = view.findViewById(R.id.autoTimeCheckBox);
 
         seriesCardView = view.findViewById(R.id.cardviewSerie);
         repetitionCardView = view.findViewById(R.id.cardviewRepetition);
@@ -564,7 +560,7 @@ public class ProgramsFragment extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int weightUnit;
         try {
-            weightUnit = Integer.valueOf(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
+            weightUnit = Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
         } catch (NumberFormatException e) {
             weightUnit = UnitConverter.UNIT_KG;
         }
@@ -636,19 +632,19 @@ public class ProgramsFragment extends Fragment {
         String tx =  timeTextView.getText().toString();
         int hour;
         try {
-            hour = Integer.valueOf(tx.substring(0, 2));
+            hour = Integer.parseInt(tx.substring(0, 2));
         } catch (Exception e) {
             hour=0;
         }
         int min;
         try {
-            min = Integer.valueOf(tx.substring(3, 5));
+            min = Integer.parseInt(tx.substring(3, 5));
         } catch (Exception e) {
             min=0;
         }
         int sec;
         try {
-        sec = Integer.valueOf(tx.substring(6));
+        sec = Integer.parseInt(tx.substring(6));
         } catch (Exception e) {
             sec=0;
         }
@@ -767,8 +763,8 @@ public class ProgramsFragment extends Fragment {
         if (getView()==null) return;
         getView().post(() -> {
 
-            Cursor c = null;
-            Cursor oldCursor = null;
+            Cursor c;
+            Cursor oldCursor;
 
             IRecord r = mDb.getLastRecord(getProfil());
 
@@ -803,7 +799,7 @@ public class ProgramsFragment extends Fragment {
                 ArrayList<ExerciseInProgram> exerciseInProgramArrayList;
                 exerciseInProgramArrayList = mDb.getAllExerciseInProgramArray();
                 /* Init machines list*/
-                exerciseArrayFullAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), exerciseInProgramArrayList);
+                ProgramInExerciseArrayFullAdapter exerciseArrayFullAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), exerciseInProgramArrayList);
                 machineEdit.setAdapter(exerciseArrayFullAdapter);
 
                 // If profile has changed
@@ -885,7 +881,7 @@ public class ProgramsFragment extends Fragment {
         }
     }
 
-    public void saveSharedParams() {
+    private void saveSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("restTime", restTimeEdit.getText().toString());
@@ -894,7 +890,7 @@ public class ProgramsFragment extends Fragment {
         editor.apply();
     }
 
-    public void restoreSharedParams() {
+    private void restoreSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         restTimeEdit.setText(sharedPref.getString("restTime", ""));
         restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
