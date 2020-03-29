@@ -21,6 +21,7 @@ import com.easyfitness.DAO.DAOWeight;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.graph.MiniDateGraph;
@@ -61,19 +62,19 @@ public class WeightFragment extends Fragment {
     private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOProfil mDb = null;
     private AdapterView.OnClickListener showDetailsFragment = v -> {
-        int bodyPartID = BodyPart.WEIGHT;
+        int bodyPartID = BodyPartExtensions.WEIGHT;
         switch (v.getId()) {
             case R.id.weightDetailsButton:
-                bodyPartID = BodyPart.WEIGHT;
+                bodyPartID = BodyPartExtensions.WEIGHT;
                 break;
             case R.id.fatDetailsButton:
-                bodyPartID = BodyPart.FAT;
+                bodyPartID = BodyPartExtensions.FAT;
                 break;
             case R.id.musclesDetailsButton:
-                bodyPartID = BodyPart.MUSCLES;
+                bodyPartID = BodyPartExtensions.MUSCLES;
                 break;
             case R.id.waterDetailsButton:
-                bodyPartID = BodyPart.WATER;
+                bodyPartID = BodyPartExtensions.WATER;
                 break;
         }
 
@@ -108,19 +109,19 @@ public class WeightFragment extends Fragment {
                 case R.id.weightInput:
                     // push value to database
                     float weightValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WEIGHT, weightValue, getProfile().getId());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPartExtensions.WEIGHT, weightValue, getProfile().getId());
                     break;
                 case R.id.fatInput:
                     float fatValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.FAT, fatValue, getProfile().getId());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPartExtensions.FAT, fatValue, getProfile().getId());
                     break;
                 case R.id.musclesInput:
                     float musclesValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.MUSCLES, musclesValue, getProfile().getId());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPartExtensions.MUSCLES, musclesValue, getProfile().getId());
                     break;
                 case R.id.waterInput:
                     float waterValue = Float.parseFloat(v.getText());
-                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPart.WATER, waterValue, getProfile().getId());
+                    mDbBodyMeasure.addBodyMeasure(v.getDate(), BodyPartExtensions.WATER, waterValue, getProfile().getId());
                     break;
             }
         } catch (NumberFormatException e) {
@@ -242,7 +243,7 @@ public class WeightFragment extends Fragment {
     private void DrawGraph() {
         if (getView()==null) return;
         getView().post(() -> {
-            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPart.WEIGHT, getProfile());
+            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPartExtensions.WEIGHT, getProfile());
 
             // Recupere les enregistrements
             if (valueList.size() < 1) {
@@ -266,7 +267,7 @@ public class WeightFragment extends Fragment {
         });
 
         getView().post(() -> {
-            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPart.FAT, getProfile());
+            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPartExtensions.FAT, getProfile());
 
             // Recupere les enregistrements
             if (valueList.size() < 1) {
@@ -289,7 +290,7 @@ public class WeightFragment extends Fragment {
             }
         });
         getView().post(() -> {
-            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPart.MUSCLES, getProfile());
+            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPartExtensions.MUSCLES, getProfile());
 
             // Recupere les enregistrements
             if (valueList.size() < 1) {
@@ -313,7 +314,7 @@ public class WeightFragment extends Fragment {
         });
 
         getView().post(() -> {
-            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPart.WATER, getProfile());
+            List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(BodyPartExtensions.WATER, getProfile());
 
             // Recupere les enregistrements
             if (valueList.size() < 1) {
@@ -501,10 +502,10 @@ public class WeightFragment extends Fragment {
                 BodyMeasure lastMusclesValue = null;
 
                 if (getProfile() != null) {
-                    lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.WEIGHT, getProfile());
-                    lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.WATER, getProfile());
-                    lastFatValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.FAT, getProfile());
-                    lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(BodyPart.MUSCLES, getProfile());
+                    lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(BodyPartExtensions.WEIGHT, getProfile());
+                    lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(BodyPartExtensions.WATER, getProfile());
+                    lastFatValue = mDbBodyMeasure.getLastBodyMeasures(BodyPartExtensions.FAT, getProfile());
+                    lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(BodyPartExtensions.MUSCLES, getProfile());
                 }
 
                 if (lastWeightValue != null) {

@@ -245,9 +245,9 @@ public class MachineDetailsFragment extends Fragment {
                     } else {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
                     }
-                    machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
-                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2)); // Taille initiale
+                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2));
             }
         });
 
@@ -263,7 +263,7 @@ public class MachineDetailsFragment extends Fragment {
             } else {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
             }
-            machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;
             requestForSave();
         });

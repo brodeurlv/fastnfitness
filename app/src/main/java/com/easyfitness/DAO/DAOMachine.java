@@ -32,7 +32,7 @@ public class DAOMachine extends DAOBase {
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-        + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT, " + FAVORITES + " INTEGER);"; //", " + PICTURE + " INTEGER);";
+        + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT, " + FAVORITES + " INTEGER);"; //", " + PICTURE_RES + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
         + TABLE_NAME + ";";

@@ -943,7 +943,7 @@ public class FontesFragment extends Fragment {
                 default:
                     machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
             }
-            machineImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            machineImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             // Default image
             showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);

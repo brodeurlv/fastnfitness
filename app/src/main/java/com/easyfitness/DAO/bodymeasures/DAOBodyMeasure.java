@@ -53,7 +53,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         ContentValues value = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);;
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         value.put(DAOBodyMeasure.DATE, dateFormat.format(pDate));

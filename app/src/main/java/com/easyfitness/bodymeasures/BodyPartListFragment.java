@@ -16,22 +16,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
 
 public class BodyPartListFragment extends Fragment {
-    Spinner typeList = null;
-    Spinner musclesList = null;
-    EditText description = null;
-    ImageButton renameMachineButton = null;
     ArrayList<BodyPart> dataModels;
     ListView measureList = null;
-    private String name;
-    private int id;
-    private DAOBodyMeasure mDbBodyMeasures = null;
+
     private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 
         TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
@@ -64,13 +60,6 @@ public class BodyPartListFragment extends Fragment {
         return f;
     }
 
-    private static String[] prepend(String[] a, String el) {
-        String[] c = new String[a.length + 1];
-        c[0] = el;
-        System.arraycopy(a, 0, c, 1, a.length);
-        return c;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,57 +68,36 @@ public class BodyPartListFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_bodytracking, container, false);
 
         DAOBodyMeasure mdbMeasure = new DAOBodyMeasure(this.getContext());
+        DAOBodyPart mdbBodyPart = new DAOBodyPart(this.getContext());
 
         measureList = view.findViewById(R.id.listBodyMeasures);
 
         dataModels = new ArrayList<>();
 
-        dataModels.add(new BodyPart(BodyPart.LEFTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.RIGHTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.PECTORAUX, mdbMeasure.getLastBodyMeasures(BodyPart.PECTORAUX, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.WAIST, mdbMeasure.getLastBodyMeasures(BodyPart.WAIST, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.BEHIND, mdbMeasure.getLastBodyMeasures(BodyPart.BEHIND, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.LEFTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTTHIGH, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.RIGHTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTTHIGH, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.LEFTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.LEFTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
-        dataModels.add(new BodyPart(BodyPart.RIGHTCALVES, mdbMeasure.getLastBodyMeasures(BodyPart.RIGHTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
+        /*
+        dataModels.add(new BodyPart(BodyPartExtensions.LEFTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.LEFTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.RIGHTBICEPS, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.RIGHTBICEPS, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.PECTORAUX, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.PECTORAUX, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.WAIST, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.WAIST, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.BEHIND, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.BEHIND, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.LEFTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.LEFTTHIGH, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.RIGHTTHIGH, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.RIGHTTHIGH, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.LEFTCALVES, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.LEFTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
+        dataModels.add(new BodyPart(BodyPartExtensions.RIGHTCALVES, mdbMeasure.getLastBodyMeasures(BodyPartExtensions.RIGHTCALVES, ((MainActivity) getActivity()).getCurrentProfil())));
+        */
+
+        dataModels.addAll(mdbBodyPart.getBodyPartList());
 
         BodyPartListAdapter adapter = new BodyPartListAdapter(dataModels, getContext());
 
         measureList.setAdapter(adapter);
-        measureList.setOnItemClickListener((parent, view1, position, id) -> {
-            BodyPart dataModel = dataModels.get(position);
-        });
-
         measureList.setOnItemClickListener(onClickListItem);
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    public String getName() {
-        return getArguments().getString("name");
-    }
-
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
     public BodyPartListFragment getThis() {
         return this;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-
-    }
-
-    private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfil();
     }
 
 }

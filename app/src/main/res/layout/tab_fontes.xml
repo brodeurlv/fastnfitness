@@ -461,6 +461,7 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -494,10 +495,12 @@
                             android:text="@string/DateLabel" />
 
                         <TextView
+                            android:layout_width="wrap_content"
                             android:id="@+id/editDate"
-                            tools:text="10/05/20"
                             style="@style/editableTextView"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:ems="8"
+                            tools:text="10/05/20" />
 
                     </LinearLayout>
 
@@ -516,10 +519,12 @@
                             android:text="@string/timeLabel" />
 
                         <TextView
+                            android:layout_width="wrap_content"
                             android:id="@+id/editTime"
                             style="@style/editableTextView"
-                            tools:text="18:26:10"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:ems="8"
+                            tools:text="18:26:10" />
 
                     </LinearLayout>
 

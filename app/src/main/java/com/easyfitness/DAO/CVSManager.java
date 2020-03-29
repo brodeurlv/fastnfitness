@@ -7,7 +7,9 @@ import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
@@ -268,6 +270,8 @@ public class CVSManager {
             DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
             daoBodyMeasure.open();
 
+            DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
+
             List<BodyMeasure> bodyMeasures;
             bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
 
@@ -286,7 +290,7 @@ public class CVSManager {
                 Date dateRecord = bodyMeasures.get(i).getDate();
                 cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getBodyPartID()));
-                BodyPart bp = new BodyPart(bodyMeasures.get(i).getBodyPartID());
+                BodyPart bp = daoBodyPart.getBodyPart(bodyMeasures.get(i).getBodyPartID());
                 cvsOutput.write(this.mContext.getString(bp.getResourceNameID())); // Write the full name of the BodyPart
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
@@ -400,7 +404,7 @@ public class CVSManager {
             csvOutput.write(DAOMachine.TYPE);
             csvOutput.write(DAOMachine.BODYPARTS);
             csvOutput.write(DAOMachine.FAVORITES);
-            //csvOutput.write(DAOMachine.PICTURE);
+            //csvOutput.write(DAOMachine.PICTURE_RES);
             csvOutput.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
@@ -511,7 +515,7 @@ public class CVSManager {
                         date = DateConverter.DBDateStrToDate(csvRecords.get(DAOWeight.DATE));
 
                         float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
-                        dbcWeight.addBodyMeasure(date, BodyPart.WEIGHT, poids, pProfile.getId());
+                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId());
 
                         break;
                     }

@@ -23,10 +23,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -55,6 +57,8 @@ public class BodyPartDetailsFragment extends Fragment {
     private LineChart mChart = null;
     private DateGraph mDateGraph = null;
     private DAOBodyMeasure mBodyMeasureDb = null;
+    private DAOBodyPart mDbBodyPart;
+
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
     private OnClickListener clickDateEdit = v -> showDatePickerFragment();
     private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
@@ -104,6 +108,8 @@ public class BodyPartDetailsFragment extends Fragment {
         return true;
     };
 
+
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -137,6 +143,8 @@ public class BodyPartDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bodytracking_details_fragment, container, false);
 
+        mDbBodyPart = new DAOBodyPart(view.getContext());
+
         addButton = view.findViewById(R.id.buttonAddWeight);
         measureEdit = view.findViewById(R.id.editWeight);
         dateEdit = view.findViewById(R.id.profilEditDate);
@@ -146,7 +154,7 @@ public class BodyPartDetailsFragment extends Fragment {
 
         /* Initialisation BodyPart */
         mBodyPartID = getArguments().getInt("bodyPartID", 0);
-        BodyPart mBodyPart = new BodyPart(mBodyPartID);
+        BodyPart mBodyPart = mDbBodyPart.getBodyPart(mBodyPartID);
 
         // Hide Input if needed.
         if (!getArguments().getBoolean("showInput", true))
