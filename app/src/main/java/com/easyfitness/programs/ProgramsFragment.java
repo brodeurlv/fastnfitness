@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,8 +91,6 @@ public class ProgramsFragment extends Fragment {
     private TextView cardioSelector = null;
     private TextView staticExerciseSelector = null;
     private int selectedType = DAOMachine.TYPE_FONTE;
-    // Cardio Part
-    private LinearLayout bodyBuildingLayout = null;
     private LinearLayout restTimeLayout = null;
     private EditText distanceEdit = null;
     private TextView durationEdit = null;
@@ -156,6 +155,7 @@ public class ProgramsFragment extends Fragment {
     };
     private CompoundButton.OnCheckedChangeListener restTimeCheckChange = (buttonView, isChecked) -> saveSharedParams();
     private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    @SuppressLint("DefaultLocale")
     private BtnClickListener itemClickCopyRecord = id -> {
         IRecord r = mDb.getRecord(id);
         if (r != null) {
@@ -195,6 +195,7 @@ public class ProgramsFragment extends Fragment {
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     };
+    @SuppressLint("SetTextI18n")
     private OnClickListener clickAddButton = v -> {
         if (machineEdit.getText().toString().isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
@@ -226,12 +227,10 @@ public class ProgramsFragment extends Fragment {
             /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
-            if(getView().getContext()!=null){
-                if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
+                if (unitSpinner.getSelectedItem().toString().equals(Objects.requireNonNull(getView().getContext()).getString(R.string.LbsUnitLabel))) {
                    tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                    unitPoids = UnitConverter.UNIT_LBS; // LBS
                 }
-            }
 
             mDbBodyBuilding.addRecord(
                 restTime,
@@ -289,7 +288,7 @@ public class ProgramsFragment extends Fragment {
 
             long duration;
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 Date tmpDate = dateFormat.parse(durationEdit.getText().toString());
                 duration = tmpDate.getTime();
@@ -306,7 +305,8 @@ public class ProgramsFragment extends Fragment {
             }
 
             int unitDistance = UnitConverter.UNIT_KM;
-            if (unitDistanceSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.MilesUnitLabel))) {
+            if (unitDistanceSpinner.getSelectedItem().toString()
+                .equals(Objects.requireNonNull(getView()).getContext().getString(R.string.MilesUnitLabel))) {
                 distance = UnitConverter.MilesToKm(distance); // Always convert to KG
                 unitDistance = UnitConverter.UNIT_MILES;
             }
@@ -329,7 +329,7 @@ public class ProgramsFragment extends Fragment {
             // No Countdown for Cardio
         }
 
-        getActivity().findViewById(R.id.drawer_layout).requestFocus();
+        Objects.requireNonNull(getActivity()).findViewById(R.id.drawer_layout).requestFocus();
         hideKeyboard(v);
 
         lTableColor = (lTableColor + 1) % 2; // Change the color each time you add data
@@ -341,8 +341,7 @@ public class ProgramsFragment extends Fragment {
             android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
         machineEdit.setAdapter(adapter);
 
-        //Add the time of the last addition in the Add button
-        addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
+        addButton.setText(R.string.AddLabel);
 
         mDbCardio.closeCursor();
         mDbBodyBuilding.closeCursor();
@@ -449,7 +448,7 @@ public class ProgramsFragment extends Fragment {
                     break;
             }
             v.post(() -> {
-                if(getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)!=null){
+                if(getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)!=null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -514,7 +513,7 @@ public class ProgramsFragment extends Fragment {
         restTimeEdit = view.findViewById(R.id.editRestTime);
         restTimeCheck = view.findViewById(R.id.restTimecheckBox);
         machineImage = view.findViewById(R.id.imageMachine);
-        bodyBuildingLayout = view.findViewById(R.id.bodybuildingLayout);
+        // Cardio Part
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
         cardioSelector = view.findViewById(R.id.cardioSelection);
         staticExerciseSelector = view.findViewById(R.id.staticSelection);
@@ -555,16 +554,15 @@ public class ProgramsFragment extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int weightUnit=UnitConverter.UNIT_KG;
         try {
-            if(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0") != null) {
-                weightUnit = Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0"));
-            }
+                weightUnit = Integer.parseInt(Objects.requireNonNull(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
         } catch (NumberFormatException e) {
+            Log.d("Conversion","Not important");
         }
         unitSpinner.setSelection(weightUnit);
 
         int distanceUnit;
         try {
-            distanceUnit = Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0"));
+            distanceUnit = Integer.parseInt(Objects.requireNonNull(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
         } catch (NumberFormatException e) {
             distanceUnit = UnitConverter.UNIT_KM;
         }
@@ -582,7 +580,9 @@ public class ProgramsFragment extends Fragment {
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
             if (m != null) {
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                long profileId;
+                profileId=((MainActivity) Objects.requireNonNull(getActivity())).getCurrentProfil().getId();
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), profileId);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -617,10 +617,11 @@ public class ProgramsFragment extends Fragment {
     }
 
     public String getName() {
+        assert getArguments() != null;
         return getArguments().getString("name");
     }
 
-    public MainActivity getMainActivity() {
+    private MainActivity getMainActivity() {
         return this.mActivity;
     }
 
@@ -646,8 +647,7 @@ public class ProgramsFragment extends Fragment {
         }
 
         if (timeTextView.getId() == R.id.editDuration) {
-            TimePickerDialogFragment mDurationFrag = null;
-                mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
+            TimePickerDialogFragment mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
                 mDurationFrag.show(Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction(), "dialog_time");
         }
     }
@@ -664,7 +664,7 @@ public class ProgramsFragment extends Fragment {
         return machineEdit.getText().toString();
     }
 
-    public void setCurrentMachine(String machineStr) {
+    private void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
             machineImage.setImageResource(R.drawable.ic_machine); // Default image
             showExerciseTypeSelector(true);
@@ -696,6 +696,7 @@ public class ProgramsFragment extends Fragment {
         updateLastRecord();
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateLastRecord() {
         IRecord lLastRecord = mDb.getLastRecord(getProfil());
         // Default Values
@@ -872,7 +873,7 @@ public class ProgramsFragment extends Fragment {
     }
 
     private void restoreSharedParams() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         restTimeEdit.setText(sharedPref.getString("restTime", ""));
         restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
    }
@@ -883,8 +884,8 @@ public class ProgramsFragment extends Fragment {
             refreshData();
     }
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE));
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
