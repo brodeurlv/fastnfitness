@@ -1,5 +1,6 @@
 package com.easyfitness.programs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -57,6 +58,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
@@ -224,9 +226,11 @@ public class ProgramsFragment extends Fragment {
             /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
-            if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
-                tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-                unitPoids = UnitConverter.UNIT_LBS; // LBS
+            if(getView().getContext()!=null){
+                if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
+                   tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
+                   unitPoids = UnitConverter.UNIT_LBS; // LBS
+                }
             }
 
             mDbBodyBuilding.addRecord(
@@ -253,7 +257,7 @@ public class ProgramsFragment extends Fragment {
             /* Weight conversion */
             float tmpPoids = Float.parseFloat(poidsEdit.getText().toString().replaceAll(",", "."));
             int unitPoids = UnitConverter.UNIT_KG; // Kg
-            if (unitSpinner.getSelectedItem().toString().equals(getView().getContext().getString(R.string.LbsUnitLabel))) {
+            if (unitSpinner.getSelectedItem().toString().equals(Objects.requireNonNull(getView()).getContext().getString(R.string.LbsUnitLabel))) {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
@@ -333,7 +337,7 @@ public class ProgramsFragment extends Fragment {
         refreshData();
 
         /* Reinitialisation des machines */
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getView()).getContext(),
             android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
         machineEdit.setAdapter(adapter);
 
@@ -445,8 +449,10 @@ public class ProgramsFragment extends Fragment {
                     break;
             }
             v.post(() -> {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
+                if(getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)!=null){
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
+                }
             });
         } else {
             if (v.getId() == R.id.editMachine) {// If a creation of a new machine is not ongoing.
@@ -474,7 +480,7 @@ public class ProgramsFragment extends Fragment {
 
     private void showDeleteDialog(final long idToDelete) {
 
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(Objects.requireNonNull(getContext()), SweetAlertDialog.WARNING_TYPE)
             .setTitleText(getString(R.string.DeleteRecordDialog))
             .setContentText(getResources().getText(R.string.areyousure).toString())
             .setCancelText(getResources().getText(R.string.global_no).toString())
@@ -642,7 +648,7 @@ public class ProgramsFragment extends Fragment {
         if (timeTextView.getId() == R.id.editDuration) {
             TimePickerDialogFragment mDurationFrag = null;
                 mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
-                mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                mDurationFrag.show(Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction(), "dialog_time");
         }
     }
 
@@ -687,10 +693,10 @@ public class ProgramsFragment extends Fragment {
         changeExerciseTypeUI(lMachine.getType(), false);
 
         // Update last values
-        updateLastRecord(lMachine);
+        updateLastRecord();
     }
 
-    private void updateLastRecord(Machine m) {
+    private void updateLastRecord() {
         IRecord lLastRecord = mDb.getLastRecord(getProfil());
         // Default Values
         seriesEdit.setText("1");
@@ -768,6 +774,7 @@ public class ProgramsFragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
