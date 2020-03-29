@@ -40,7 +40,7 @@ public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInPr
 
         TextView t2 = convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
         t2.setText(exercise.getNote());
-
+//        TODO if this is not used than probably could be removed, still not sure what this is for
 //        ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
 //        String lPath = exercise.();
 //        if (lPath != null && !lPath.isEmpty()) {
