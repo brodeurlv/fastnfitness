@@ -2,466 +2,137 @@ package com.easyfitness.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.easyfitness.GraphData;
-import com.easyfitness.utils.DateConverter;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-public class DAOProgram  extends DAOExerciseInProgram{
+public class DAOProgram extends DAOBase{
+    public static final String TABLE_NAME = "EFProgram";
+    public static final String KEY = "_id";
+    public static final String PROGRAM_NAME = "name";
+    public static final String PROFIL_KEY = "profil_key";
+    protected Context mContext;
+    protected Cursor mCursor = null;
 
-    public static final int SUM_FCT = 0;
-    public static final int MAX1_FCT = 1;
-    public static final int MAX5_FCT = 2;
-    public static final int NBSERIE_FCT = 3;
-
-    private static final String TABLE_ARCHI = KEY + "," + SECONDS + "," + EXERCISE + "," + SERIE + "," + REPETITION + "," + WEIGHT + "," + UNIT + "," + PROFIL_KEY + "," + NOTES + "," + MACHINE_KEY;// + "," + TIME;
+    private static final String TABLE_ARCHI = KEY + "," + PROGRAM_NAME + "," + PROFIL_KEY;
 
     public DAOProgram(Context context) {
         super(context);
     }
 
     /**
-     * @param pMachine Machine name
-     *                 Le Record a ajouter a la base
+     * @param programName program name
      */
-    public long addProgramRecord(int restSecond, String pMachine, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote) {
-        return this.addRecord(pMachine, DAOMachine.TYPE_FONTE, pSerie, pRepetition, pPoids, pProfile, pUnit, pNote, 0, 0, restSecond, 0);
+    public long addProgramRecord(String programName) {
+        return this.addRecord(programName);
     }
 
-    public long addRecord(String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, float pDistance, long pDuration, int pSeconds, int distance_unit ) {
+    public long addRecord(String programName ) {
         ContentValues value = new ContentValues();
         long new_id = -1;
-        long machine_key = -1;
-
-        //Test is Machine exists. If not create it.
-        DAOMachine lDAOMachine = new DAOMachine(mContext);
-        if (!lDAOMachine.machineExists(pMachine)) {
-            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "", false, "");
-        } else {
-            machine_key = lDAOMachine.getMachine(pMachine).getId();
+        //Test is Program exists. If not create it.
+        DAOProgram daoProgram = new DAOProgram(mContext);
+        if (daoProgram.programExists(programName)) {
+            return -1;
         }
-
-        value.put(DAOExerciseInProgram.EXERCISE, pMachine);
-        value.put(DAOExerciseInProgram.SERIE, pSerie);
-        value.put(DAOExerciseInProgram.REPETITION, pRepetition);
-        value.put(DAOExerciseInProgram.WEIGHT, pPoids);
-        value.put(DAOExerciseInProgram.PROFIL_KEY, pProfile.getId());
-        value.put(DAOExerciseInProgram.UNIT, pUnit);
-        value.put(DAOExerciseInProgram.NOTES, pNote);
-        value.put(DAOExerciseInProgram.MACHINE_KEY, machine_key);
-        value.put(DAOExerciseInProgram.DISTANCE, pDistance);
-        value.put(DAOExerciseInProgram.DURATION, pDuration);
-        value.put(DAOExerciseInProgram.TYPE, pType);
-        value.put(DAOExerciseInProgram.SECONDS, pSeconds);
-        value.put(DAOExerciseInProgram.DISTANCE_UNIT, distance_unit);
-
+        value.put(DAOProgram.PROGRAM_NAME, programName);
         SQLiteDatabase db = open();
-        new_id = db.insert(DAOExerciseInProgram.TABLE_NAME, null, value);
+        new_id = db.insert(DAOProgram.TABLE_NAME, null, value);
         close();
-
         return new_id;
     }
-//    /**
-//     * @param programList List of Program records
-//     *
-//     */
-    //TODO adding programs, oz urrentl only exercsies to program done
-//    public void addProgramList(List<Program> programList) {
-//        for (Program program: programList) {
-//            addRecord(program.getSecRest(), program.mExercise, DAOMachine.TYPE_FONTE, program.getSerie(), program.getRepetition(), program.getPoids(), program.mProfile, program.getUnit(), program.getNote(), program.mTime, 0, 0, 0, 0);
-//        }
-//    }
-
 
     // Getting single value
-    public ExerciseInProgram getProgramRecord(long id) {
+    public Program getProgramRecord(long id) {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
-        List<ExerciseInProgram> valueList;
-
-        valueList = getRecordsList(selectQuery);
+        List<Program> valueList = getRecordsList(selectQuery);
         if (valueList.isEmpty())
             return null;
         else
             return valueList.get(0);
     }
 
-    // Getting All Records
-    private List<ExerciseInProgram> getRecordsList(String pRequest) {
-        List<ExerciseInProgram> valueList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        // Select All Query
+    public Program getProgramRecord(String programName) {
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + "=" + programName;
+        List<Program> valueList = getRecordsList(selectQuery);
+        if (valueList.isEmpty())
+            return null;
+        else
+            return valueList.get(0);
+    }
 
-        mCursor = null;
-        mCursor = db.rawQuery(pRequest, null);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
-            do {
-                //Get Date
-//                Date date;
-//                try {
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//                    date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DAOProgram.DATE)));
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                    date = new Date();
-//                }
-
-                //Get Profile
-                DAOProfil lDAOProfil = new DAOProfil(mContext);
-                Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.PROFIL_KEY)));
-
-                long machine_key = -1;
-
-                //Test is Machine exists. If not create it.
-                DAOMachine lDAOMachine = new DAOMachine(mContext);
-                if (mCursor.getString(mCursor.getColumnIndex(DAOProgram.MACHINE_KEY)) == null) {
-                    machine_key = lDAOMachine.addMachine(mCursor.getString(mCursor.getColumnIndex(DAOProgram.EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false, "");
-                } else {
-                    machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOProgram.MACHINE_KEY));
-                }
-                int defaultRestSec=60;
-                ExerciseInProgram value = new ExerciseInProgram(defaultRestSec, mCursor.getString(mCursor.getColumnIndex(DAOProgram.EXERCISE)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgram.SERIE)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgram.REPETITION)),
-                    mCursor.getFloat(mCursor.getColumnIndex(DAOProgram.WEIGHT)),
-                    lProfile,
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgram.UNIT)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.NOTES)),
-                    machine_key,
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.TIME)));
-
-                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)));
-
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
-        }
-        // return value list
-        return valueList;
+    public boolean programExists(String programName) {
+        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + "=" + programName;
+        List<Program> valueList = getRecordsList(selectQuery);
+        if (valueList.isEmpty())
+            return false;
+        else
+            return true;
     }
 
     // Getting All Records
-    public List<ExerciseInProgram> getAllProgramRecords() {
-        // Select All Query
+    private List<Program> getRecordsList(String pRequest) {
+
+        List<Program> valueList = new ArrayList<>();
+            // Select All Query
+            SQLiteDatabase db = this.getReadableDatabase();
+            mCursor = null;
+            mCursor = db.rawQuery(pRequest, null);
+            if (mCursor.moveToFirst()) {
+                do {
+                    Program value = new Program(
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.PROGRAM_NAME)),
+                        mCursor.getLong(mCursor.getColumnIndex(DAOProgram.PROFIL_KEY))
+                    );
+                    valueList.add(value);
+                } while (mCursor.moveToNext());
+            }
+            close();
+            return valueList;
+        }
+
+    // Getting All Records
+    public List<Program> getAllProgramRecords() {
         String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
-            + " WHERE " + TYPE + "=" + DAOMachine.TYPE_FONTE
-            + " ORDER BY " + KEY + " DESC";
-
-        // return value list
+//            + " WHERE "
+            + " ORDER BY " + PROGRAM_NAME + " DESC";
         return getRecordsList(selectQuery);
     }
 
-    // Getting All Records
-    public List<ExerciseInProgram> getAllProgramRecordsByProfileArray(Profile pProfile) {
-        return getAllProgramRecordsByProfileArray(pProfile, -1);
-    }
-
-    private List<ExerciseInProgram> getAllProgramRecordsByProfileArray(Profile pProfile, int pNbRecords) {
-        String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
-
-
-        // Select All Query
-        String selectQuery = "SELECT " + TABLE_ARCHI + " FROM " + TABLE_NAME
-            + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
-            + " AND " + TYPE + "=" + DAOMachine.TYPE_FONTE
-            + " ORDER BY " + KEY + " DESC" + mTop;
-
-        // Return value list
-        return getRecordsList(selectQuery);
-    }
-
-    // Getting Function records
-    public List<GraphData> getProgramFunctionRecords(Profile pProfile, String pMachine,
-                                                          int pFunction) {
-
-        String selectQuery = null;
-
-        // TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
-        if (pFunction == DAOProgram.SUM_FCT) {
-            selectQuery = "SELECT SUM(" + SERIE + "*" + REPETITION + "*"
-                + WEIGHT + "), " + " FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-//                + " GROUP BY " + DATE
-                + " ORDER BY "+KEY+" ASC";
-        } else if (pFunction == DAOProgram.MAX5_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + REPETITION + ">=5"
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-//                + " GROUP BY " + DATE
-                + " ORDER BY " + KEY + " ASC";
-        } else if (pFunction == DAOProgram.MAX1_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") " + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + REPETITION + ">=1"
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-//                + " GROUP BY " + DATE
-                + " ORDER BY date(" + KEY + ") ASC";
-        } else if (pFunction == DAOProgram.NBSERIE_FCT) {
-            selectQuery = "SELECT count(" + KEY + ") , " + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFIL_KEY + "=" + pProfile.getId()
-//                + " GROUP BY " + DATE
-                + " ORDER BY date(" + KEY + ") ASC";
-        }
-
-        // Formation de tableau de valeur
-        List<GraphData> valueList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
-
-        double i = 0;
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
-
-                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
-
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
-        }
-
-        // return value list
-        return valueList;
+    public Cursor getAllPrograms() {
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
+            + PROGRAM_NAME + " DESC";
+        return getProgramListCursor(selectQuery);
     }
 
     /**
-     *
-     * @return the number of series for this machine for this day
+     * @return List of Machine object ordered by Favorite and Name
      */
-    public int getNbSeries(String pMachine) {
-
-
-        int lReturn = 0;
-
-        //Test is Machine exists. If not create it.
-        DAOMachine lDAOMachine = new DAOMachine(mContext);
-        long machine_key = lDAOMachine.getMachine(pMachine).getId();
-
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//        String lDate = dateFormat.format(pDate);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-
-        // Select All Machines
-        String selectQuery = "SELECT SUM(" + SERIE + ") FROM " + TABLE_NAME
-            + " WHERE " + MACHINE_KEY + "=" + machine_key;
-        mCursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        mCursor.moveToFirst();
-        try {
-            lReturn = mCursor.getInt(0);
-        } catch (NumberFormatException e) {
-            //Date date = new Date();
-            lReturn = 0; // Return une valeur
-        }
-
-        close();
-
-        // return value
-        return lReturn;
+    public Cursor getFilteredPrograms(CharSequence filterString) {
+        // Select All Query
+        // like '%"+inputText+"%'";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + " LIKE " + "'%" + filterString + "%' " + " ORDER BY "
+//            + FAVORITES + " DESC,"
+            + PROGRAM_NAME + " ASC";
+        // return value list
+        return getProgramListCursor(selectQuery);
     }
 
-//    /**
-//     * @return the total weight for this machine for this day
-//     */
-//    public float getTotalWeightMachine(Date pDate, String pMachine) {
-//
-//        float lReturn = 0;
-//
-//        //Test is Machine exists. If not create it.
-//        DAOMachine lDAOMachine = new DAOMachine(mContext);
-//        long machine_key = lDAOMachine.getMachine(pMachine).getId();
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//        String lDate = dateFormat.format(pDate);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        mCursor = null;
-//        // Select All Machines
-//        String selectQuery = "SELECT " + SERIE + ", " + WEIGHT + ", " + REPETITION + " FROM " + TABLE_NAME
-//            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + MACHINE_KEY + "=" + machine_key;
-//        mCursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            int i = 0;
-//            do {
-//                float value = mCursor.getInt(0) * mCursor.getFloat(1) * mCursor.getInt(2);
-//                lReturn += value;
-//                i++;
-//            } while (mCursor.moveToNext());
-//        }
-//        close();
-//
-//        // return value
-//        return lReturn;
-//    }
+    private Cursor getProgramListCursor(String pRequest) {
+        ArrayList<Program> valueList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(pRequest, null);
+    }
 
-
-//    /**
-//     * @return the total weight for this day
-//     */
-//    public float getTotalWeightSession(Date pDate) {
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        mCursor = null;
-//        float lReturn = 0;
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//        String lDate = dateFormat.format(pDate);
-//
-//        // Select All Machines
-//        String selectQuery = "SELECT " + SERIE + ", " + WEIGHT + ", " + REPETITION + " FROM " + TABLE_NAME
-//            + " WHERE " + DATE + "=\"" + lDate + "\"";
-//        mCursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            int i = 0;
-//            do {
-//                float value = mCursor.getInt(0) * mCursor.getFloat(1) * mCursor.getInt(2);
-//                lReturn += value;
-//                i++;
-//            } while (mCursor.moveToNext());
-//        }
-//        close();
-//
-//        // return value
-//        return lReturn;
-//    }
-
-//    /**
-//     * @return Max weight for a profile p and a machine m
-//     */
-//    public Weight getMax(Profile p, Machine m) {
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        mCursor = null;
-//        Weight w = null;
-//
-//        // Select All Machines
-//        String selectQuery = "SELECT MAX(" + WEIGHT + "), " + UNIT + " FROM " + TABLE_NAME
-//            + " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
-//        mCursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            do {
-//                w = new Weight(mCursor.getFloat(0), mCursor.getInt(1));
-//            } while (mCursor.moveToNext());
-//        }
-//        close();
-//
-//        // return value
-//        return w;
-//    }
-//
-//    /**
-//     * @return Min weight for a profile p and a machine m
-//     */
-//    public Weight getMin(Profile p, Machine m) {
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        mCursor = null;
-//        Weight w = null;
-//
-//        // Select All Machines
-//        String selectQuery = "SELECT MIN(" + WEIGHT + "), " + UNIT + " FROM " + TABLE_NAME
-//            + " WHERE " + PROFIL_KEY + "=" + p.getId() + " AND " + MACHINE_KEY + "=" + m.getId();
-//        mCursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            do {
-//                w = new Weight(mCursor.getFloat(0), mCursor.getInt(1));
-//            } while (mCursor.moveToNext());
-//        }
-//        close();
-//
-//        // return value
-//        return w;
-//    }
 
     // Updating single value
-    public int updateRecord(ExerciseInProgram m) {
+    public int updateRecord(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues value = new ContentValues();
-
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        value.put(DAOProgram.SECONDS, m.getSecRest());
-//        value.put(DAOProgram.DATE, dateFormat.format(m.getDate()));
-        value.put(DAOProgram.EXERCISE, m.getExercise());
-        value.put(DAOProgram.MACHINE_KEY, m.getExerciseKey());
-        value.put(DAOProgram.SERIE, m.getSerie());
-        value.put(DAOProgram.REPETITION, m.getRepetition());
-        value.put(DAOProgram.WEIGHT, m.getPoids());
-        value.put(DAOProgram.UNIT, m.getUnit());
-        value.put(DAOProgram.NOTES, m.getNote());
-        value.put(DAOProgram.PROFIL_KEY, m.getProfilKey());
-        value.put(DAOProgram.TIME, m.getTime());
-        value.put(DAOProgram.TYPE, DAOMachine.TYPE_FONTE);
-
+        value.put(DAOProgram.PROGRAM_NAME, m.getProgramName());
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
             new String[]{String.valueOf(m.getId())});
     }
-
-
-//    public void populate() {
-//        // DBORecord(long id, Date pDate, String pMachine, int pSerie, int
-//        // pRepetition, int pPoids)
-//        Date date = new Date();
-//        int poids = 10;
-//
-//        for (int i = 1; i <= 5; i++) {
-//            String machine = "Biceps";
-//            date.setDate(date.getDay() + i * 10);
-//            addProgramRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
-//        }
-//
-//        date = new Date();
-//        poids = 12;
-//
-//        for (int i = 1; i <= 5; i++) {
-//            String machine = "Dev Couche";
-//            date.setDate(date.getDay() + i * 10);
-//            addProgramRecord(date, machine, i * 2, 10 + i, poids * i, mProfile, 0, "", "12:34:56");
-//        }
-//    }
 }

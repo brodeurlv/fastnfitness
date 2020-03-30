@@ -38,62 +38,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-<!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                        android:id="@+id/imageMachine"-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:layout_alignParentStart="true"-->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        android:layout_gravity="center_vertical|center"-->
-<!--                        android:src="@drawable/ic_machine"-->
-<!--                        app:civ_background_color="@color/record_background_even"-->
-<!--                        app:civ_border_width="0dp"-->
-<!--                        app:civ_shadow="false" />-->
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editProgram"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toStartOf="@+id/buttonListPrograms"
-                        android:hint="@string/NewProgramHint"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                        android:singleLine="true" />
-
-                    <ImageButton
-                        android:id="@+id/buttonListPrograms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
-                        android:src="@drawable/list" />
-
-                </RelativeLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            style="@style/CardViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="2dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/imageMachine"
                         android:layout_width="40dp"
@@ -134,6 +78,7 @@
                 </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
@@ -503,12 +448,86 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
+                <ImageButton
+                    android:id="@+id/buttonExpandArrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/baseline_keyboard_arrow_up_black_36" />
+
                 <LinearLayout
                     android:id="@+id/notesLayout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="Automatic time" />
+
+                        <CheckBox
+                            android:id="@+id/autoTimeCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="50"
+                            android:gravity="right|end"
+                            android:text="@string/DateLabel" />
+
+                        <TextView
+                            android:id="@+id/editDate"
+                            tools:text="10/05/20"
+                            style="@style/editableTextView"
+                            android:enabled="false"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="100"
+                            android:gravity="right"
+                            android:text="@string/timeLabel" />
+
+                        <TextView
+                            android:id="@+id/editTime"
+                            style="@style/editableTextView"
+                            tools:text="18:26:10"
+                            android:enabled="false"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/restTimeLayout"

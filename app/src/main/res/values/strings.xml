@@ -28,7 +28,7 @@
     <string name="DeleteRecordDialog">Remove this record?</string>
 
     <!-- Fonte Fragment -->
-    <string name="FonteLabel">Bodybuilding</string>
+    <string name="FonteLabel">Strength</string>
     <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel">Repetitions</string>
@@ -361,5 +361,8 @@
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
     <string name="fitness_programs">Programs</string>
     <string name="manu_programs">Programs</string>
+    <string name="FromProgramLabel">Programs</string>
+    <string name="NewProgramHint">Name of your training program</string>
+    <string name="ProgramsLabel">Programs</string>
 
 </resources>
