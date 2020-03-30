@@ -155,46 +155,7 @@ public class ProgramsFragment extends Fragment {
     };
     private CompoundButton.OnCheckedChangeListener restTimeCheckChange = (buttonView, isChecked) -> saveSharedParams();
     private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
-    @SuppressLint("DefaultLocale")
-    private BtnClickListener itemClickCopyRecord = id -> {
-        IRecord r = mDb.getRecord(id);
-        if (r != null) {
-            // Copy values above
-            setCurrentMachine(r.getExercise());
-            if (r.getType() == DAOMachine.TYPE_FONTE) {
-                ExerciseInProgram f = (ExerciseInProgram) r;
-                repetitionEdit.setText(String.format("%d", f.getRepetition()));
-                seriesEdit.setText(String.format("%d", f.getSerie()));
-                DecimalFormat numberFormat = new DecimalFormat("#.##");
 
-                Float poids = f.getPoids();
-                if (f.getUnit() == UnitConverter.UNIT_LBS) {
-                    poids = UnitConverter.KgtoLbs(poids);
-                }
-                unitSpinner.setSelection(f.getUnit());
-                poidsEdit.setText(numberFormat.format(poids));
-            } else if (r.getType() == DAOMachine.TYPE_STATIC) {
-                StaticExercise f = (StaticExercise) r;
-                secondsEdit.setText(String.format("%d", f.getSecond()));
-                seriesEdit.setText(String.format("%d", f.getSerie()));
-                DecimalFormat numberFormat = new DecimalFormat("#.##");
-                poidsEdit.setText(numberFormat.format(f.getPoids()));
-            } else if (r.getType() == DAOMachine.TYPE_CARDIO) {
-                Cardio c = (Cardio) r;
-                DecimalFormat numberFormat = new DecimalFormat("#.##");
-
-                float distance = c.getDistance();
-                if (c.getDistanceUnit() == UnitConverter.UNIT_MILES) {
-                    distance = UnitConverter.KmToMiles((c.getDistance()));
-                }
-                unitDistanceSpinner.setSelection(c.getDistanceUnit());
-                distanceEdit.setText(numberFormat.format(distance));
-
-                durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(c.getDuration()));
-            }
-            KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-        }
-    };
     @SuppressLint("SetTextI18n")
     private OnClickListener clickAddButton = v -> {
         if (machineEdit.getText().toString().isEmpty()) {
@@ -742,9 +703,8 @@ public class ProgramsFragment extends Fragment {
         }
     }
 
-    /*  */
     private void updateRecordTable(String pMachine) {
-        // Informe l'activité de la machine courante
+        // Exercises in program list
         this.getMainActivity().setCurrentMachine(pMachine);
         if (getView()==null) return;
         getView().post(() -> {
@@ -764,7 +724,7 @@ public class ProgramsFragment extends Fragment {
                 recordList.setAdapter(null);
             } else {
                 if (recordList.getAdapter() == null) {
-                    RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickCopyRecord);
+                    RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord);
                     mTableAdapter.setFirstColorOdd(lTableColor);
                     recordList.setAdapter(mTableAdapter);
                 } else {
