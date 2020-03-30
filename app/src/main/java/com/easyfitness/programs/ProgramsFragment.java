@@ -198,7 +198,7 @@ public class ProgramsFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private OnClickListener clickAddButton = v -> {
         if (machineEdit.getText().toString().isEmpty()) {
-            KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            KToast.warningToast(Objects.requireNonNull(getActivity()), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             return;
         }
 
@@ -220,7 +220,7 @@ public class ProgramsFragment extends Fragment {
             if (seriesEdit.getText().toString().isEmpty() ||
                 repetitionEdit.getText().toString().isEmpty() ||
                 poidsEdit.getText().toString().isEmpty()) {
-                KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                KToast.warningToast(Objects.requireNonNull(getActivity()), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
 
@@ -251,7 +251,7 @@ public class ProgramsFragment extends Fragment {
             if (seriesEdit.getText().toString().isEmpty() ||
                 secondsEdit.getText().toString().isEmpty() ||
                 poidsEdit.getText().toString().isEmpty()) {
-                KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                KToast.warningToast(Objects.requireNonNull(getActivity()), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
             }
 
@@ -282,7 +282,7 @@ public class ProgramsFragment extends Fragment {
         } else if (exerciseType == DAOMachine.TYPE_CARDIO) {
             if (durationEdit.getText().toString().isEmpty() && // Only one is mandatory
                 distanceEdit.getText().toString().isEmpty()) {
-                KToast.warningToast(getActivity(),
+                KToast.warningToast(Objects.requireNonNull(getActivity()),
                     getResources().getText(R.string.missinginfo).toString()+" Distance missing",
                     Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 return;
@@ -367,7 +367,7 @@ public class ProgramsFragment extends Fragment {
 
             if (c == null || c.getCount() == 0) {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                KToast.warningToast(Objects.requireNonNull(getActivity()), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 machineList.setAdapter(null);
             } else {
                 if (machineList.getAdapter() == null) {
@@ -489,7 +489,7 @@ public class ProgramsFragment extends Fragment {
             .setConfirmClickListener(sDialog -> {
                 mDb.deleteRecord(idToDelete);//Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
                 updateRecordTable(machineEdit.getText().toString());
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                KToast.infoToast(Objects.requireNonNull(getActivity()), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 sDialog.dismissWithAnimation();
             })
             .show();
