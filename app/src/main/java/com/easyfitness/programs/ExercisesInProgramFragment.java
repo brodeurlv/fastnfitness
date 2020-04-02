@@ -254,7 +254,7 @@ public class ExercisesInProgramFragment extends Fragment {
         }
     };
     private View.OnKeyListener checkProgramExists = (v, keyCode, event) -> {
-        Program lMach = mDbProgram.getProgramRecord(programEdit.getText().toString());
+        Program lMach = mDbProgram.getRecord(programEdit.getText().toString());
         if (lMach == null) {
 
         } else {
@@ -307,6 +307,7 @@ public class ExercisesInProgramFragment extends Fragment {
         } catch (NumberFormatException e) {
             restTimeEdit.setText("60");
         }
+        long programId=1;//TODO z prawdziwego zdarzenia to zrobić
         if (exerciseType == DAOMachine.TYPE_FONTE) {
             if (seriesEdit.getText().toString().isEmpty() ||
                 repetitionEdit.getText().toString().isEmpty() ||
@@ -326,7 +327,7 @@ public class ExercisesInProgramFragment extends Fragment {
                 }
             }
             mDbBodyBuilding.addRecord(
-                restTime,
+                programId, restTime,
                 machineEdit.getText().toString(),
                 exerciseType,
                 Integer.parseInt(seriesEdit.getText().toString()),
@@ -359,7 +360,8 @@ public class ExercisesInProgramFragment extends Fragment {
                 restTime = 0;
                 restTimeEdit.setText("0");
             }
-            mDbBodyBuilding.addRecord(restTime,
+            mDbBodyBuilding.addRecord(programId,
+                restTime,
                 machineEdit.getText().toString(),
                 Integer.parseInt(seriesEdit.getText().toString()),
                 Integer.parseInt(secondsEdit.getText().toString()),
@@ -404,7 +406,7 @@ public class ExercisesInProgramFragment extends Fragment {
                 unitDistance = UnitConverter.UNIT_MILES;
             }
 
-            mDbBodyBuilding.addRecord(restTime,
+            mDbBodyBuilding.addRecord(programId, restTime,
                 machineEdit.getText().toString(),
                 exerciseType,
                 1,

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DAOExerciseInProgram extends DAOBase {
 
@@ -15,6 +16,7 @@ public class DAOExerciseInProgram extends DAOBase {
     public static final String KEY = "_id";
     public static final String DATE = "date";
     public static final String TIME = "time";
+
     public static final String EXERCISE = "machine";
     public static final String PROFIL_KEY = "profil_id";
     public static final String MACHINE_KEY = "machine_id";
@@ -36,9 +38,11 @@ public class DAOExerciseInProgram extends DAOBase {
     public static final String SECONDS = "seconds";
     //rest between exercises
     private static final String REST_SECONDS = "rest_seconds";
+    private static final String PROGRAM_ID = "program_id";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, "
+        + PROGRAM_ID + " INTEGER, "
         + REST_SECONDS + " INTEGER, " + SERIE + " INTEGER, "
         + REPETITION + " INTEGER, " + WEIGHT + " REAL, " + PROFIL_KEY
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
@@ -83,21 +87,19 @@ public class DAOExerciseInProgram extends DAOBase {
      * @param pMachine Machine name
      * @return id of the added record, -1 if error
      */
-    public long addRecord(int restSeconds, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote,
+    public long addRecord(long programId, int restSeconds, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote,
                           String pTime, float pDistance, long pDuration, int pSeconds, int distance_unit ) {
         ContentValues value = new ContentValues();
         long new_id = -1;
         long machine_key = -1;
 
-        //Test is Machine exists. If not create it.
-        DAOMachine lDAOMachine = new DAOMachine(mContext);
-        if (!lDAOMachine.machineExists(pMachine)) {
-            machine_key = lDAOMachine.addMachine(pMachine, "", pType, "", false, "");
-        } else {
-            machine_key = lDAOMachine.getMachine(pMachine).getId();
+        DAOExerciseInProgram lDAOMachine = new DAOExerciseInProgram(mContext);
+        if (lDAOMachine.exerciseExists(pMachine)) {
+            return new_id;
         }
 
-        value.put(DAOExerciseInProgram.REST_SECONDS,restSeconds);
+        value.put(DAOExerciseInProgram.PROGRAM_ID, programId);
+        value.put(DAOExerciseInProgram.REST_SECONDS, restSeconds);
         value.put(DAOExerciseInProgram.EXERCISE, pMachine);
         value.put(DAOExerciseInProgram.SERIE, pSerie);
         value.put(DAOExerciseInProgram.REPETITION, pRepetition);
@@ -118,6 +120,15 @@ public class DAOExerciseInProgram extends DAOBase {
         close();
 
         return new_id;
+    }
+
+    public boolean exerciseExists(String name) {
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + EXERCISE + "=" + name;
+        List<ExerciseInProgram> valueList = getExerciseList(selectQuery);
+        if (valueList.isEmpty())
+            return false;
+        else
+            return true;
     }
 
     // Deleting single Record

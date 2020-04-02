@@ -6,7 +6,7 @@
     android:padding="6dip">
 
     <TextView
-        android:id="@+id/LIST_Program"
+        android:id="@+id/LIST_Program_ID"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentEnd="true"

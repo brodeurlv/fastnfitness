@@ -1,11 +1,9 @@
 package com.easyfitness.programs;
 
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,35 +13,24 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import com.easyfitness.DAO.DAOProgram;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Program;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.machines.ExerciseDetailsPager;
+import com.easyfitness.machines.MachineCursorAdapter;
+//import com.easyfitness.machines.ExerciseDetailsPager;
 import java.util.ArrayList;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import cn.pedant.SweetAlert.SweetAlertDialog;
+//import androidx.fragment.app.FragmentTransaction;
 
 public class ProgramsFragment extends Fragment {
     final int addId = 555;  //for add Programs menu
-//    Spinner typeList = null;
-//    Spinner musclesList = null;
-//    EditText description = null;
-//    ImageButton renameMachineButton = null;
     ListView machineList = null;
     Button addButton = null;
     AutoCompleteTextView searchField = null;
     ProgramCursorAdapter mTableAdapter;
-    private String name;
-    private int id;
-//    private DAOFonte mDbFonte = null;
 
     private DAOProgram mDbMachine = null;
     public TextWatcher onTextChangeListener = new TextWatcher() {
@@ -55,8 +42,8 @@ public class ProgramsFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             if (charSequence.length() == 0) {
-//                mTableAdapter.notifyDataSetChanged();
-//                mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
+                mTableAdapter.notifyDataSetChanged();
+                mTableAdapter = ((ProgramCursorAdapter) machineList.getAdapter());
                 refreshData();
             } else {
                 if (mTableAdapter != null) {
@@ -71,104 +58,118 @@ public class ProgramsFragment extends Fragment {
         }
     };
     private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
-        // Get Machine Name selected
-        TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
-        long machineId = Long.valueOf(textViewID.getText().toString());
+//        // Get Machine Name selected
+//        TextView textViewID = view.findViewById(R.id.LIST_Program);
+//        long machineId = Long.valueOf(textViewID.getText().toString());
 
-        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
+//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
+//        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+//        transaction.addToBackStack(null);
+//        // Commit the transaction
+//        transaction.commit();
     };
     private View.OnClickListener clickAddButton = v -> {
 
         // create a temporarily exercise with name="" and open it like any other existing exercises
         long new_id = -1;
+        String pMachine = "Prog2";
 
+//        DAOMachine lDAOProgram = new DAOMachine(getContext());
+//                long temp_machine_key = lDAOProgram.addMachine(pMachine,"",);
+                DAOProgram lDAOProgram = new DAOProgram(getContext());
+                long temp_machine_key = lDAOProgram.addRecord(pMachine);
 
-        SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getString(R.string.what_type_of_exercise))
-            .setContentText("")
-            .setCancelText(getResources().getText(R.string.CardioLabel).toString())
-            .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
-            .setNeutralText("Static")
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOProgram lDAOMachine = new DAOProgram(getContext());
-                temp_machine_key = lDAOMachine.addRecord(pMachine);
-                sDialog.dismissWithAnimation();
+//        ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+//                transaction.addToBackStack(null);
+//                // Commit the transaction
+//                transaction.commit();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            })
-            .setNeutralClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOProgram lDAOMachine = new DAOProgram(getContext());
-                temp_machine_key = lDAOMachine.addRecord(pMachine);
-                sDialog.dismissWithAnimation();
-
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            })
-            .setCancelClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOProgram lDAOMachine = new DAOProgram(getContext());
-                temp_machine_key = lDAOMachine.addRecord(pMachine);
-                sDialog.dismissWithAnimation();
-
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            });
-
-        dlg.show();
-
-        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
-        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
-        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-        }
-        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
-        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-        }
-
-        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
-        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-        }
+//        SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+//            .setTitleText(getString(R.string.what_type_of_exercise))
+//            .setContentText("")
+//            .setCancelText(getResources().getText(R.string.CardioLabel).toString())
+//            .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
+//            .setNeutralText("Static")
+//            .showCancelButton(true)
+//            .setConfirmClickListener(sDialog -> {
+//                long temp_machine_key = -1;
+//                String pMachine = "";
+//                DAOProgram lDAOMachine = new DAOProgram(getContext());
+//                temp_machine_key = lDAOMachine.addRecord(pMachine);
+//                sDialog.dismissWithAnimation();
+//
+//                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+//                transaction.addToBackStack(null);
+//                // Commit the transaction
+//                transaction.commit();
+//            })
+//            .setNeutralClickListener(sDialog -> {
+//                long temp_machine_key = -1;
+//                String pMachine = "";
+//                DAOProgram lDAOMachine = new DAOProgram(getContext());
+//                temp_machine_key = lDAOMachine.addRecord(pMachine);
+//                sDialog.dismissWithAnimation();
+//
+//                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+//                transaction.addToBackStack(null);
+//                // Commit the transaction
+//                transaction.commit();
+//            })
+//            .setCancelClickListener(sDialog -> {
+//                long temp_machine_key = -1;
+//                String pMachine = "";
+//                DAOProgram lDAOMachine = new DAOProgram(getContext());
+//                temp_machine_key = lDAOMachine.addRecord(pMachine);
+//                sDialog.dismissWithAnimation();
+//
+//                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+//                transaction.addToBackStack(null);
+//                // Commit the transaction
+//                transaction.commit();
+//            });
+//
+//        dlg.show();
+//
+//        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
+//        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
+//        dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+//        }
+//        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
+//        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+//        dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+//        }
+//
+//        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
+//        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+//        dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+//        }
     };
     private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
@@ -266,9 +267,9 @@ public class ProgramsFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
+//    public int getFragmentId() {
+//        return getArguments().getInt("id", 0);
+//    }
 
 //    public DAOFonte getDB() {
 //        return mDbFonte;
@@ -287,16 +288,19 @@ public class ProgramsFragment extends Fragment {
         if (fragmentView != null) {
             if (getProfil() != null) {
 
+//                c = mDbMachine.getAllPrograms();
                 c = mDbMachine.getAllPrograms();
-                if (c == null || c.getCount() == 0) {
+                if (c == null || c.getCount() <= 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     machineList.setAdapter(null);
                 } else {
                     if (machineList.getAdapter() == null) {
                         mTableAdapter = new ProgramCursorAdapter(getActivity(), c, 0, mDbMachine);
+//                        mTableAdapter = new ProgramCursorAdapter(getActivity(), c, 0, mDbMachine);
                         machineList.setAdapter(mTableAdapter);
                     } else {
-                        mTableAdapter = ((ProgramCursorAdapter) machineList.getAdapter());
+//                        mTableAdapter = ((ProgramCursorAdapter) machineList.getAdapter());
+                        mTableAdapter = ((ProgramCursorAdapter)machineList.getAdapter());
                         oldCursor = mTableAdapter.swapCursor(c);
                         if (oldCursor != null) oldCursor.close();
                     }

@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
-    private Context mContext = null;
+    private Context mContext;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOWeight.TABLE_CREATE);
         db.execSQL(DAOMachine.TABLE_CREATE);
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
+        db.execSQL(DAOProgram.TABLE_CREATE);
         db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
     }
 
@@ -140,6 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE_UNIT + " INTEGER DEFAULT 0");
                     break;
                 case 20:
+                    db.execSQL(DAOProgram.TABLE_CREATE);
                     db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
             }
             upgradeTo++;

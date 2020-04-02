@@ -153,7 +153,6 @@ public class DAOMachine extends DAOBase {
 
     // Getting All Records
     private Cursor getMachineListCursor(String pRequest) {
-        ArrayList<Machine> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
 

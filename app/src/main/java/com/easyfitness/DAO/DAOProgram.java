@@ -12,10 +12,14 @@ public class DAOProgram extends DAOBase{
     public static final String KEY = "_id";
     public static final String PROGRAM_NAME = "name";
     public static final String PROFIL_KEY = "profil_key";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
+        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROGRAM_NAME
+        + " TEXT, " + PROFIL_KEY + " INTEGER);";
+    ;
     protected Context mContext;
     protected Cursor mCursor = null;
 
-    private static final String TABLE_ARCHI = KEY + "," + PROGRAM_NAME + "," + PROFIL_KEY;
+    private static final String TABLE_FIELDS =KEY+", name, profit_key";//KEY + "," + PROGRAM_NAME + "," + "profil_key";
 
     public DAOProgram(Context context) {
         super(context);
@@ -37,6 +41,7 @@ public class DAOProgram extends DAOBase{
             return -1;
         }
         value.put(DAOProgram.PROGRAM_NAME, programName);
+        value.put(DAOProgram.PROFIL_KEY, 1);
         SQLiteDatabase db = open();
         new_id = db.insert(DAOProgram.TABLE_NAME, null, value);
         close();
@@ -44,31 +49,70 @@ public class DAOProgram extends DAOBase{
     }
 
     // Getting single value
-    public Program getProgramRecord(long id) {
-        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
-        List<Program> valueList = getRecordsList(selectQuery);
-        if (valueList.isEmpty())
-            return null;
-        else
-            return valueList.get(0);
-    }
+//    public Program getProgramRecord(long id) {
+//        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
+//        List<Program> valueList = getRecordsList(selectQuery);
+//        if (valueList.isEmpty())
+//            return null;
+//        else
+//            return valueList.get(0);
+//    }
 
-    public Program getProgramRecord(String programName) {
-        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + "=" + programName;
-        List<Program> valueList = getRecordsList(selectQuery);
-        if (valueList.isEmpty())
-            return null;
-        else
-            return valueList.get(0);
-    }
+//    public Program getProgramRecord(String programName) {
+//        final String TABLE_FIELDS ="*";//"_id, name, profit_key";
+//        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME;// + " WHERE " + PROGRAM_NAME + "=" + programName;
+//        List<Program> valueList = getRecordsList(selectQuery);
+//        if (valueList.isEmpty())
+//            return null;
+//        else
+//            return valueList.get(0);
+//    }
 
     public boolean programExists(String programName) {
-        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + "=" + programName;
-        List<Program> valueList = getRecordsList(selectQuery);
-        if (valueList.isEmpty())
-            return false;
-        else
-            return true;
+        Program lMach = getRecord(programName);
+        return lMach != null;
+    }
+
+    public Program getRecord(String pName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        mCursor = db.query(TABLE_NAME, new String[]{KEY, PROGRAM_NAME, PROFIL_KEY}, PROGRAM_NAME + "=?",
+            new String[]{pName}, null, null, null, null);
+        if (mCursor != null)
+            mCursor.moveToFirst();
+
+        if (mCursor.getCount() == 0)
+            return null;
+
+        Program value = new Program(
+            mCursor.getString(1),
+            mCursor.getLong(2));
+
+        value.setId(mCursor.getLong(0));
+        // return value
+        mCursor.close();
+        close();
+        return value;
+    }
+
+    public Program getRecord(Long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        mCursor = db.query(TABLE_NAME, new String[]{KEY, PROGRAM_NAME,PROFIL_KEY}, KEY + "=?",
+            new String[]{String.valueOf(id)}, null, null, null, null);
+        if (mCursor != null)
+            mCursor.moveToFirst();
+
+        if (mCursor.getCount() == 0)
+            return null;
+
+        Program value = new Program(mCursor.getString(1), mCursor.getLong(2));
+
+        value.setId(mCursor.getLong(0));
+        // return value
+        mCursor.close();
+        close();
+        return value;
     }
 
     // Getting All Records
@@ -94,7 +138,7 @@ public class DAOProgram extends DAOBase{
 
     // Getting All Records
     public List<Program> getAllProgramRecords() {
-        String selectQuery = "SELECT  " + TABLE_ARCHI + " FROM " + TABLE_NAME
+        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME
 //            + " WHERE "
             + " ORDER BY " + PROGRAM_NAME + " DESC";
         return getRecordsList(selectQuery);
@@ -120,9 +164,9 @@ public class DAOProgram extends DAOBase{
     }
 
     private Cursor getProgramListCursor(String pRequest) {
-        ArrayList<Program> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(pRequest, null);
+        return db.rawQuery(pRequest,null);
+//        return db.query(TABLE_NAME, , "name=?",new String[]{ PROGRAM_NAME},null,null,null);
     }
 
 
@@ -134,5 +178,14 @@ public class DAOProgram extends DAOBase{
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
             new String[]{String.valueOf(m.getId())});
+    }
+
+    public void delete(Program m) {
+        if (m != null) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(TABLE_NAME, KEY + " = ?",
+                new String[]{String.valueOf(m.getId())});
+            db.close();
+        }
     }
 }

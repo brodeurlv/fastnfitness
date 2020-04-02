@@ -177,6 +177,7 @@ public class ProgramRunner extends Fragment {
         } catch (NumberFormatException e) {
             restTimeEdit.setText("60");
         }
+        long programId=1;
         if (exerciseType == DAOMachine.TYPE_FONTE) {
             if (seriesEdit.getText().toString().isEmpty() ||
                 repetitionEdit.getText().toString().isEmpty() ||
@@ -196,6 +197,7 @@ public class ProgramRunner extends Fragment {
                 }
             }
             mDbBodyBuilding.addRecord(
+                programId,
                 restTime,
                 machineEdit.getText().toString(),
                 exerciseType,
@@ -229,7 +231,9 @@ public class ProgramRunner extends Fragment {
                 restTime = 0;
                 restTimeEdit.setText("0");
             }
-            mDbBodyBuilding.addRecord(restTime,
+            mDbBodyBuilding.addRecord(
+                programId,
+                restTime,
                 machineEdit.getText().toString(),
                 Integer.parseInt(seriesEdit.getText().toString()),
                 Integer.parseInt(secondsEdit.getText().toString()),
@@ -274,7 +278,9 @@ public class ProgramRunner extends Fragment {
                 unitDistance = UnitConverter.UNIT_MILES;
             }
 
-            mDbBodyBuilding.addRecord(restTime,
+            mDbBodyBuilding.addRecord(
+                programId,
+                restTime,
                 machineEdit.getText().toString(),
                 exerciseType,
                 1,
