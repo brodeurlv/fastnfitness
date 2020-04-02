@@ -231,8 +231,6 @@ public class ProgramsFragment extends Fragment {
 
         machineList.setOnItemClickListener(onClickListItem);
 
-        // Initialisation de l'historique
-//        mDbFonte = new DAOFonte(view.getContext());
         mDbMachine = new DAOProgram(view.getContext());
 
         return view;
@@ -259,7 +257,6 @@ public class ProgramsFragment extends Fragment {
         // for resetting the search field at the start:
         searchField.setText("");
 
-        // Initialisation des evenements
         machineList.setOnItemSelectedListener(onItemSelectedList);
     }
 
@@ -267,28 +264,18 @@ public class ProgramsFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-//    public int getFragmentId() {
-//        return getArguments().getInt("id", 0);
-//    }
-
-//    public DAOFonte getDB() {
-//        return mDbFonte;
-//    }
-
     public ProgramsFragment getThis() {
         return this;
     }
 
     private void refreshData() {
-        Cursor c = null;
-        Cursor oldCursor = null;
-        ArrayList<Program> records = null;
+        Cursor c;
+        Cursor oldCursor;
 
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfil() != null) {
 
-//                c = mDbMachine.getAllPrograms();
                 c = mDbMachine.getAllPrograms();
                 if (c == null || c.getCount() <= 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
@@ -296,10 +283,8 @@ public class ProgramsFragment extends Fragment {
                 } else {
                     if (machineList.getAdapter() == null) {
                         mTableAdapter = new ProgramCursorAdapter(getActivity(), c, 0, mDbMachine);
-//                        mTableAdapter = new ProgramCursorAdapter(getActivity(), c, 0, mDbMachine);
                         machineList.setAdapter(mTableAdapter);
                     } else {
-//                        mTableAdapter = ((ProgramCursorAdapter) machineList.getAdapter());
                         mTableAdapter = ((ProgramCursorAdapter)machineList.getAdapter());
                         oldCursor = mTableAdapter.swapCursor(c);
                         if (oldCursor != null) oldCursor.close();

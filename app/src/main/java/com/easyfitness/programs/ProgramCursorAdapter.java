@@ -10,9 +10,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProgram;
-//import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Program;
 import com.easyfitness.R;
 import com.easyfitness.utils.ImageUtil;

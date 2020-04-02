@@ -283,9 +283,8 @@ public class MachineFragment extends Fragment {
     }
 
     private void refreshData() {
-        Cursor c = null;
-        Cursor oldCursor = null;
-        ArrayList<Machine> records = null;
+        Cursor c;
+        Cursor oldCursor;
 
         View fragmentView = getView();
         if (fragmentView != null) {
