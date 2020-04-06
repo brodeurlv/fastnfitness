@@ -59,13 +59,13 @@ public class ProgramDetailsFragment extends Fragment {
     //protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
     protected List<String> _musclesArray = new ArrayList<>();
     protected boolean[] _selections;
-    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
+//    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
     TextView musclesList = null;
     EditText machineName = null;
-    EditText machineDescription = null;
+//    EditText machineDescription = null;
     ImageView machinePhoto = null;
-    FloatingActionButton machineAction = null;
-    LinearLayout machinePhotoLayout = null;
+//    FloatingActionButton machineAction = null;
+//    LinearLayout machinePhotoLayout = null;
     // Selection part
     LinearLayout exerciseTypeSelectorLayout = null;
     TextView bodybuildingSelector = null;
@@ -74,8 +74,8 @@ public class ProgramDetailsFragment extends Fragment {
     String machineNameArg = null;
     long machineIdArg = 0;
     long machineProfilIdArg = 0;
-    boolean isImageFitToScreen = false;
-    ExerciseDetailsPager pager = null;
+//    boolean isImageFitToScreen = false;
+    ProgramDetailsPager pager = null;
     ArrayList selectMuscleList = new ArrayList();
     DAOProgram mDbMachine = null;
     DAORecord mDbRecord = null;
@@ -103,16 +103,8 @@ public class ProgramDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
-    private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
-    private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
-        if (arg1) {
-            CreateMuscleDialog();
-        }
-    };
-
+//    private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
+//    private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -134,7 +126,7 @@ public class ProgramDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.machine_details, container, false);
+        View view = inflater.inflate(R.layout.program_details, container, false);
         fragmentView = view;
 
         // Initialisation de l'historique
@@ -142,65 +134,14 @@ public class ProgramDetailsFragment extends Fragment {
         mDbRecord = new DAORecord(view.getContext());
 
         machineName = view.findViewById(R.id.machine_name);
-        machineDescription = view.findViewById(R.id.machine_description);
-        musclesList = view.findViewById(R.id.machine_muscles);
-        machinePhoto = view.findViewById(R.id.machine_photo);
-
-        machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
-        cardioSelector = view.findViewById(R.id.cardioSelection);
-        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
-
-        machineAction = view.findViewById(R.id.actionCamera);
-
-        imgUtil = new ImageUtil(machinePhoto);
-
-//        buildMusclesTable();
-
         Bundle args = this.getArguments();
 
         machineIdArg = args.getLong("machineID");
         machineProfilIdArg = args.getLong("machineProfile");
 
         // set events
-
-        //machineFavorite.setOnClickListener(onClickFavoriteItem);
-        musclesList.setOnClickListener(onClickMusclesList);
-        musclesList.setOnFocusChangeListener(onFocusMachineList);
-        //bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
-        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
-        machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
-        machinePhoto.setOnClickListener(v -> {
-            if (isImageFitToScreen) {
-                isImageFitToScreen = false;
-                machinePhoto.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                machinePhoto.setAdjustViewBounds(true);
-                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2));
-                machinePhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            } else {
-                if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
-                    File f = new File(mCurrentPhotoPath);
-                    if (f.exists()) {
-
-                        isImageFitToScreen = true;
-
-                        // Get the dimensions of the bitmap
-                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                        bmOptions.inJustDecodeBounds = true;
-                        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-                        float photoW = bmOptions.outWidth;
-                        float photoH = bmOptions.outHeight;
-
-                        // Determine how much to scale down the image
-                        int scaleFactor = (int) (photoW / (machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                        machinePhoto.setAdjustViewBounds(true);
-                        machinePhoto.setMaxHeight((int) (photoH / scaleFactor));
-                        machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    }
-                }
-            }
-        });
-        machineAction.setOnClickListener(onClickMachinePhoto);
+//        musclesList.setOnClickListener(onClickMusclesList);
+//        machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
 
         mMachine = mDbMachine.getRecord(machineNameArg);
         machineNameArg = mMachine.getProgramName();
@@ -210,9 +151,6 @@ public class ProgramDetailsFragment extends Fragment {
         }
 
         machineName.setText(machineNameArg);
-//        machineDescription.setText(mMachine.getDescription());
-//        musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
-//        mCurrentPhotoPath = mMachine.getPicture();
         exerciseTypeSelectorLayout.setVisibility(View.GONE);
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
@@ -252,17 +190,9 @@ public class ProgramDetailsFragment extends Fragment {
         });
 
         machineName.addTextChangedListener(watcher);
-        machineDescription.addTextChangedListener(watcher);
-        musclesList.addTextChangedListener(watcher);
 
-        imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
-            mCurrentPhotoPath = null;
-            requestForSave();
-        });
-
-        if (getParentFragment() instanceof ExerciseDetailsPager) {
-            pager = (ExerciseDetailsPager) getParentFragment();
+        if (getParentFragment() instanceof ProgramDetailsPager) {
+            pager = (ProgramDetailsPager) getParentFragment();
         }
 
         return view;
@@ -293,59 +223,6 @@ public class ProgramDetailsFragment extends Fragment {
                 sDialog.dismissWithAnimation();
             })
             .show();
-    }
-
-    private boolean CreateMuscleDialog() {
-        if (isCreateMuscleDialogActive)
-            return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
-
-        isCreateMuscleDialogActive = true;
-
-        Keyboard.hide(getContext(), getView());
-
-        AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
-
-        newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[_musclesArray.size()]), _selections, (arg0, arg1, arg2) -> {
-            if (arg2) {
-                // If user select a item then add it in selected items
-                selectMuscleList.add(arg1);
-            } else if (selectMuscleList.contains(arg1)) {
-                // if the item is already selected then remove it
-                selectMuscleList.remove(Integer.valueOf(arg1));
-            }
-        });
-
-        // Set an EditText view to get user input
-        newMuscleBuilder.setPositiveButton(getResources().getString(R.string.global_ok), (dialog, whichButton) -> {
-            StringBuilder msg = new StringBuilder();
-            int i = 0;
-            boolean firstSelection = true;
-            // ( selectMuscleList.size() > 0 ) { // Si on a au moins selectionne un muscle
-            for (i = 0; i < _selections.length; i++) {
-                if (_selections[i] && firstSelection) {
-                    msg = new StringBuilder(_musclesArray.get(i));
-                    firstSelection = false;
-                } else if (_selections[i] && !firstSelection) {
-                    msg.append(";").append(_musclesArray.get(i));
-                }
-            }
-            //}
-            setMuscleText(msg.toString());
-            isCreateMuscleDialogActive = false;
-        });
-        newMuscleBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
-
-        newMuscleBuilder.show();
-
-        return true;
-    }
-
-    private boolean CreatePhotoSourceDialog() {
-        if (imgUtil == null)
-            imgUtil = new ImageUtil();
-
-        return imgUtil.CreatePhotoSourceDialog(this);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -473,87 +350,87 @@ public class ProgramDetailsFragment extends Fragment {
         return -1;
     }
 
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public String getDBStringFromInput(String pInput) {
-        String[] data = pInput.split(";");
-        StringBuilder output = new StringBuilder();
+//    /*
+//     * @return the name of the Muscle depending on the language
+//     */
+//    public String getDBStringFromInput(String pInput) {
+//        String[] data = pInput.split(";");
+//        StringBuilder output = new StringBuilder();
+//
+//        if (pInput.isEmpty()) return "";
+//
+//        int i = 0;
+//        if (data.length > 0) {
+//            output = new StringBuilder(String.valueOf(getMuscleIdFromName(data[i])));
+//            for (i = 1; i < data.length; i++) {
+//                output.append(";").append(getMuscleIdFromName(data[i]));
+//            }
+//        }
+//
+//        return output.toString();
+//    }
 
-        if (pInput.isEmpty()) return "";
 
-        int i = 0;
-        if (data.length > 0) {
-            output = new StringBuilder(String.valueOf(getMuscleIdFromName(data[i])));
-            for (i = 1; i < data.length; i++) {
-                output.append(";").append(getMuscleIdFromName(data[i]));
-            }
-        }
+//    /*
+//     * @return the name of the Muscle depending on the language
+//     */
+//    public String getInputFromDBString(String pDBString) {
+//        String[] data = pDBString.split(";");
+//        StringBuilder output = new StringBuilder();
+//
+//        int i = 0;
+//
+//        try {
+//            if (data.length > 0) {
+//                if (data[0].isEmpty()) return "";
+//
+//                if (!data[i].equals("-1")) {
+//                    output = new StringBuilder(getMuscleNameFromId(Integer.valueOf(data[i])));
+//                    _selections[Integer.valueOf(data[i])] = true;
+//                    for (i = 1; i < data.length; i++) {
+//                        if (!data[i].equals("-1")) {
+//                            output.append(";").append(getMuscleNameFromId(Integer.valueOf(data[i])));
+//                            _selections[Integer.valueOf(data[i])] = true;
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (NumberFormatException e) {
+//            output = new StringBuilder();
+//            e.printStackTrace();
+//        }
+//
+//        return output.toString();
+//    }
 
-        return output.toString();
-    }
-
-
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public String getInputFromDBString(String pDBString) {
-        String[] data = pDBString.split(";");
-        StringBuilder output = new StringBuilder();
-
-        int i = 0;
-
-        try {
-            if (data.length > 0) {
-                if (data[0].isEmpty()) return "";
-
-                if (!data[i].equals("-1")) {
-                    output = new StringBuilder(getMuscleNameFromId(Integer.valueOf(data[i])));
-                    _selections[Integer.valueOf(data[i])] = true;
-                    for (i = 1; i < data.length; i++) {
-                        if (!data[i].equals("-1")) {
-                            output.append(";").append(getMuscleNameFromId(Integer.valueOf(data[i])));
-                            _selections[Integer.valueOf(data[i])] = true;
-                        }
-                    }
-                }
-            }
-        } catch (NumberFormatException e) {
-            output = new StringBuilder();
-            e.printStackTrace();
-        }
-
-        return output.toString();
-    }
-
-    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath) {
-        int rotate = 0;
-        try {
-            context.getContentResolver().notifyChange(imageUri, null);
-            File imageFile = new File(imagePath);
-
-            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-            }
-
-            //Log.i("RotateImage", "Exif orientation: " + orientation);
-            //Log.i("RotateImage", "Rotate value: " + rotate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rotate;
-    }
+//    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath) {
+//        int rotate = 0;
+//        try {
+//            context.getContentResolver().notifyChange(imageUri, null);
+//            File imageFile = new File(imagePath);
+//
+//            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+//            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+//
+//            switch (orientation) {
+//                case ExifInterface.ORIENTATION_ROTATE_270:
+//                    rotate = 270;
+//                    break;
+//                case ExifInterface.ORIENTATION_ROTATE_180:
+//                    rotate = 180;
+//                    break;
+//                case ExifInterface.ORIENTATION_ROTATE_90:
+//                    rotate = 90;
+//                    break;
+//            }
+//
+//            //Log.i("RotateImage", "Exif orientation: " + orientation);
+//            //Log.i("RotateImage", "Rotate value: " + rotate);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return rotate;
+//    }
 
     public boolean toBeSaved() {
         return toBeSaved;

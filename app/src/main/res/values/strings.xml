@@ -364,5 +364,8 @@
     <string name="FromProgramLabel">Programs</string>
     <string name="NewProgramHint">Name of your training program</string>
     <string name="ProgramsLabel">Programs</string>
+    <string name="machine_name">Machine Name</string>
+    <string name="program_name">Program name</string>
+    <string name="program_hint">Enter program name</string>
 
 </resources>

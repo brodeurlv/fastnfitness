@@ -52,20 +52,20 @@ public class ProgramDetailsPager extends Fragment {
     DAORecord mDbRecord = null;
     private String name;
     private int id;
-    private View.OnClickListener onClickToolbarItem = v -> {
-        // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.action_machine_save:
-                saveMachine();
-                getActivity().findViewById(R.id.tab_machine_details).requestFocus();
-                break;
-            case R.id.action_machine_delete:
-                deleteMachine();
-                break;
-            default:
-                saveMachineDialog();
-        }
-    };
+//    private View.OnClickListener onClickToolbarItem = v -> {
+//        // Handle presses on the action bar items
+//        switch (v.getId()) {
+//            case R.id.action_machine_save:
+//                saveMachine();
+//                getActivity().findViewById(R.id.tab_machine_details).requestFocus();
+//                break;
+//            case R.id.action_machine_delete:
+//                deleteMachine();
+//                break;
+//            default:
+//                saveMachineDialog();
+//        }
+//    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -133,7 +133,7 @@ public class ProgramDetailsPager extends Fragment {
         ((MainActivity) getActivity()).getActivityToolbar().setVisibility(View.GONE);
         top_toolbar = view.findViewById(R.id.actionToolbarMachine);
         top_toolbar.setNavigationIcon(R.drawable.ic_back);
-        top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
+//        top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 
         machineDelete = view.findViewById(R.id.action_machine_delete);
         machineSave = view.findViewById(R.id.action_machine_save);
@@ -149,10 +149,10 @@ public class ProgramDetailsPager extends Fragment {
         // TODO gérer quand il n'y  a pas de machine existante.
 //        machineFavorite.setFavorite(program.getFavorite());
 
-        machineSave.setOnClickListener(onClickToolbarItem);
+//        machineSave.setOnClickListener(onClickToolbarItem);
         machineSave.setVisibility(View.GONE); // Hide Save button by default
 
-        machineDelete.setOnClickListener(onClickToolbarItem);
+//        machineDelete.setOnClickListener(onClickToolbarItem);
 
         // Inflate the layout for this fragment
         return view;
@@ -284,13 +284,11 @@ public class ProgramDetailsPager extends Fragment {
     }
 
     private void deleteMachine() {
-        // afficher un message d'alerte
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this.getActivity());
 
         deleteDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
         deleteDialogBuilder.setMessage(getActivity().getResources().getText(R.string.deleteMachine_confirm_text));
 
-        // Si oui, supprimer la base de donnee et refaire un Start.
         deleteDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), (dialog, which) -> {
             // Suppress the machine
             mDbProgram.delete(program);

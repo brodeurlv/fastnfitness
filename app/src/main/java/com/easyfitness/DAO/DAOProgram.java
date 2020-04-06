@@ -19,17 +19,8 @@ public class DAOProgram extends DAOBase{
     protected Context mContext;
     protected Cursor mCursor = null;
 
-    private static final String TABLE_FIELDS =KEY+", name, profit_key";//KEY + "," + PROGRAM_NAME + "," + "profil_key";
-
     public DAOProgram(Context context) {
         super(context);
-    }
-
-    /**
-     * @param programName program name
-     */
-    public long addProgramRecord(String programName) {
-        return this.addRecord(programName);
     }
 
     public long addRecord(String programName ) {
@@ -47,26 +38,6 @@ public class DAOProgram extends DAOBase{
         close();
         return new_id;
     }
-
-    // Getting single value
-//    public Program getProgramRecord(long id) {
-//        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
-//        List<Program> valueList = getRecordsList(selectQuery);
-//        if (valueList.isEmpty())
-//            return null;
-//        else
-//            return valueList.get(0);
-//    }
-
-//    public Program getProgramRecord(String programName) {
-//        final String TABLE_FIELDS ="*";//"_id, name, profit_key";
-//        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME;// + " WHERE " + PROGRAM_NAME + "=" + programName;
-//        List<Program> valueList = getRecordsList(selectQuery);
-//        if (valueList.isEmpty())
-//            return null;
-//        else
-//            return valueList.get(0);
-//    }
 
     public boolean programExists(String programName) {
         Program lMach = getRecord(programName);
@@ -136,14 +107,6 @@ public class DAOProgram extends DAOBase{
             return valueList;
         }
 
-    // Getting All Records
-    public List<Program> getAllProgramRecords() {
-        String selectQuery = "SELECT  " + TABLE_FIELDS + " FROM " + TABLE_NAME
-//            + " WHERE "
-            + " ORDER BY " + PROGRAM_NAME + " DESC";
-        return getRecordsList(selectQuery);
-    }
-
     public Cursor getAllPrograms() {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
             + PROGRAM_NAME + " DESC";
@@ -166,7 +129,6 @@ public class DAOProgram extends DAOBase{
     private Cursor getProgramListCursor(String pRequest) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(pRequest,null);
-//        return db.query(TABLE_NAME, , "name=?",new String[]{ PROGRAM_NAME},null,null,null);
     }
 
 

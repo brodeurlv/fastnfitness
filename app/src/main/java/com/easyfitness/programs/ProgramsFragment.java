@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.easyfitness.DAO.DAOProgram;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Program;
@@ -27,10 +28,10 @@ import androidx.fragment.app.Fragment;
 
 public class ProgramsFragment extends Fragment {
     final int addId = 555;  //for add Programs menu
-    ListView machineList = null;
-    Button addButton = null;
-    AutoCompleteTextView searchField = null;
-    ProgramCursorAdapter mTableAdapter;
+    private ListView machineList = null;
+    private Button addButton = null;
+    private AutoCompleteTextView searchField = null;
+    private ProgramCursorAdapter mTableAdapter;
 
     private DAOProgram mDbMachine = null;
     public TextWatcher onTextChangeListener = new TextWatcher() {
@@ -58,29 +59,29 @@ public class ProgramsFragment extends Fragment {
         }
     };
     private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
-//        // Get Machine Name selected
-//        TextView textViewID = view.findViewById(R.id.LIST_Program);
-//        long machineId = Long.valueOf(textViewID.getText().toString());
+        // Get Machine Name selected
+        TextView textViewID = view.findViewById(R.id.LIST_Program_ID);
+        long machineId = Long.parseLong(textViewID.getText().toString());
 
-//        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(machineId, ((MainActivity) Objects.requireNonNull(getActivity())).getCurrentProfil().getId());
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-//        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-//        transaction.addToBackStack(null);
-//        // Commit the transaction
-//        transaction.commit();
+        transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     };
     private View.OnClickListener clickAddButton = v -> {
 
         // create a temporarily exercise with name="" and open it like any other existing exercises
         long new_id = -1;
-        String pMachine = "Prog2";
+        String programName = "Prog2";
 
 //        DAOMachine lDAOProgram = new DAOMachine(getContext());
 //                long temp_machine_key = lDAOProgram.addMachine(pMachine,"",);
                 DAOProgram lDAOProgram = new DAOProgram(getContext());
-                long temp_machine_key = lDAOProgram.addRecord(pMachine);
+                long temp_machine_key = lDAOProgram.addRecord(programName);
 
 //        ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
 //                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -200,13 +201,6 @@ public class ProgramsFragment extends Fragment {
         return f;
     }
 
-    private static String[] prepend(String[] a, String el) {
-        String[] c = new String[a.length + 1];
-        c[0] = el;
-        System.arraycopy(a, 0, c, 1, a.length);
-        return c;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -230,9 +224,7 @@ public class ProgramsFragment extends Fragment {
         //musclesList = view.findViewById(R.id.listFilterRecord);
 
         machineList.setOnItemClickListener(onClickListItem);
-
         mDbMachine = new DAOProgram(view.getContext());
-
         return view;
     }
 
