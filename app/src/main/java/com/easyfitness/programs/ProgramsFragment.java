@@ -27,15 +27,13 @@ import java.util.ArrayList;
 import androidx.fragment.app.Fragment;
 
 public class ProgramsFragment extends Fragment {
-    final int addId = 555;  //for add Programs menu
     private ListView programsList = null;
-    private Button addButton = null;
     private AutoCompleteTextView searchField = null;
     private ProgramCursorAdapter mTableAdapter;
     private EditText programNewName = null;
 
     private DAOProgram daoProgram = null;
-    public TextWatcher onTextChangeListener = new TextWatcher() {
+    private TextWatcher onTextChangeListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
@@ -74,16 +72,15 @@ public class ProgramsFragment extends Fragment {
 //        transaction.commit();
 //    };
     private View.OnClickListener clickAddButton = v -> {
-
-        // create a temporarily exercise with name="" and open it like any other existing exercises
-        long new_id = -1;
         String programName = programNewName.getText().toString();
         if(programName.isEmpty()){
             Toast.makeText(getContext(),"Enter not empty program name",Toast.LENGTH_LONG).show();
         }else{
             DAOProgram lDAOProgram = new DAOProgram(getContext());
-            long temp_machine_key = lDAOProgram.addRecord(programName);
+            lDAOProgram.addRecord(programName);
+            programNewName.setText("");
             mTableAdapter.notifyDataSetChanged();
+            refreshData();
         }
 
 //    ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
@@ -138,7 +135,7 @@ public class ProgramsFragment extends Fragment {
 
         programNewName = view.findViewById(R.id.new_program_name);
 
-        addButton = view.findViewById(R.id.addExercise);
+        Button addButton = view.findViewById(R.id.addExercise);
         addButton.setOnClickListener(clickAddButton);
 
         searchField = view.findViewById(R.id.searchField);
@@ -154,9 +151,10 @@ public class ProgramsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
 
-        switch (item.getItemId()) {
-            case addId:
-                clickAddButton.onClick(getView());
+        //for add Programs menu
+        int addId = 555;
+        if (item.getItemId() == addId) {
+            clickAddButton.onClick(getView());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -175,7 +173,7 @@ public class ProgramsFragment extends Fragment {
     }
 
     public String getName() {
-        return getArguments().getString("name");
+        return Objects.requireNonNull(getArguments()).getString("name");
     }
 
     public ProgramsFragment getThis() {
@@ -216,7 +214,7 @@ public class ProgramsFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfil();
+        return ((MainActivity) Objects.requireNonNull(getActivity())).getCurrentProfil();
     }
 
 }

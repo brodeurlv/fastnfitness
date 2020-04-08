@@ -109,7 +109,7 @@ public class DAOProgram extends DAOBase{
 
     public Cursor getAllPrograms() {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-            + PROGRAM_NAME + " DESC";
+            + PROGRAM_NAME + " ASC";
         return getProgramListCursor(selectQuery);
     }
 
