@@ -81,6 +81,7 @@ public class ProgramsFragment extends Fragment {
             programNewName.setText("");
             mTableAdapter.notifyDataSetChanged();
             refreshData();
+            Toast.makeText(getContext(),"Added to program list",Toast.LENGTH_LONG).show();
         }
 
 //    ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());

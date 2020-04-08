@@ -15,7 +15,6 @@ public class DAOProgram extends DAOBase{
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROGRAM_NAME
         + " TEXT, " + PROFIL_KEY + " INTEGER);";
-    ;
     protected Context mContext;
     protected Cursor mCursor = null;
 
@@ -120,9 +119,7 @@ public class DAOProgram extends DAOBase{
         // Select All Query
         // like '%"+inputText+"%'";
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + PROGRAM_NAME + " LIKE " + "'%" + filterString + "%' " + " ORDER BY "
-//            + FAVORITES + " DESC,"
             + PROGRAM_NAME + " ASC";
-        // return value list
         return getProgramListCursor(selectQuery);
     }
 
@@ -131,13 +128,10 @@ public class DAOProgram extends DAOBase{
         return db.rawQuery(pRequest,null);
     }
 
-
-    // Updating single value
     public int updateRecord(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues value = new ContentValues();
         value.put(DAOProgram.PROGRAM_NAME, m.getProgramName());
-        // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
             new String[]{String.valueOf(m.getId())});
     }
