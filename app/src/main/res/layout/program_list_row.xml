@@ -14,44 +14,6 @@
         android:singleLine="true"
         android:visibility="gone" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/LIST_MACHINE_PHOTO"-->
-<!--        android:layout_width="45dp"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginEnd="6dip"-->
-<!--        android:background="@color/record_background_even"-->
-<!--        android:scaleType="fitCenter"-->
-<!--        android:src="@drawable/ic_machine" />-->
-
-<!--    <com.github.ivbaranov.mfb.MaterialFavoriteButton-->
-<!--        android:id="@+id/LIST_MACHINE_FAVORITE"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        app:mfb_animate_favorite="true"-->
-<!--        app:mfb_animate_unfavorite="true"-->
-<!--        app:mfb_bounce_duration="700"-->
-<!--        app:mfb_color="black"-->
-<!--        app:mfb_rotation_angle="216"-->
-<!--        app:mfb_rotation_duration="400"-->
-<!--        app:mfb_type="star" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/LIST_MACHINE_SHORT_DESCRIPTION"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="26dip"-->
-<!--        android:layout_alignParentEnd="false"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_toStartOf="@+id/LIST_MACHINE_FAVORITE"-->
-<!--        android:layout_toEndOf="@id/LIST_MACHINE_PHOTO"-->
-<!--        android:ellipsize="marquee"-->
-<!--        android:singleLine="true"-->
-<!--        android:text="@string/description"-->
-<!--        android:textSize="12sp" />-->
-
     <TextView
         android:id="@+id/LIST_Program_name"
         android:layout_width="wrap_content"

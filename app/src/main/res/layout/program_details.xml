@@ -3,24 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/program_name_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/name"
-                    android:textSize="12sp" />
+    <TextView
+        android:id="@+id/program_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/name"
+        android:textSize="12sp" />
 
-                <EditText
-                    android:id="@+id/program_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="text"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:hint="@string/program_name"
-                    android:autofillHints="@string/program_hint"
-                    android:text="@string/program_name"
-                    android:textSize="14sp" />
+    <EditText
+        android:id="@+id/program_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLines="1"
+        android:hint="@string/program_name"
+        android:autofillHints="@string/program_hint"
+        android:text="@string/program_name"
+        android:textSize="14sp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
