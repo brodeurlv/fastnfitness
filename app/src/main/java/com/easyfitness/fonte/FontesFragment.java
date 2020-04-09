@@ -959,10 +959,22 @@ public class FontesFragment extends Fragment {
             return;
         }
 
+
+
         // Update EditView
         machineEdit.setText(lMachine.getName());
         // Update exercise Image
-        machineImage.setImageResource(R.drawable.ic_gym_bench_50dp); // Default image
+        // Default image
+        switch (lMachine.getType()) {
+            case DAOMachine.TYPE_CARDIO:
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                break;
+            case DAOMachine.TYPE_STATIC:
+                machineImage.setImageResource(R.drawable.ic_static);
+                break;
+            default:
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        }
         ImageUtil imgUtil = new ImageUtil();
         ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 

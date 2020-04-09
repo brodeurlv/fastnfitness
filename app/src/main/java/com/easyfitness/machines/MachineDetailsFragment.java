@@ -64,8 +64,6 @@ public class MachineDetailsFragment extends Fragment {
     ImageView machinePhoto = null;
     FloatingActionButton machineAction = null;
     LinearLayout machinePhotoLayout = null;
-    TextView bodybuildingSelector = null;
-    TextView cardioSelector = null;
     int selectedType = DAOMachine.TYPE_FONTE;
     String machineNameArg = null;
     long machineIdArg = 0;
@@ -143,9 +141,6 @@ public class MachineDetailsFragment extends Fragment {
         machinePhoto = view.findViewById(R.id.machine_photo);
 
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
-        cardioSelector = view.findViewById(R.id.cardioSelection);
-
         machineAction = view.findViewById(R.id.actionCamera);
 
         imgUtil = new ImageUtil(machinePhoto);
@@ -206,17 +201,13 @@ public class MachineDetailsFragment extends Fragment {
         mCurrentPhotoPath = mMachine.getPicture();
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
-            bodybuildingSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
             selectedType = mMachine.getType();
             view.findViewById(R.id.machine_muscles).setVisibility(View.GONE);
             view.findViewById(R.id.machine_muscles_textview).setVisibility(View.GONE);
         } else {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
-            cardioSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
             selectedType = mMachine.getType();
+            view.findViewById(R.id.machine_muscles).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.machine_muscles_textview).setVisibility(View.VISIBLE);
         }
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

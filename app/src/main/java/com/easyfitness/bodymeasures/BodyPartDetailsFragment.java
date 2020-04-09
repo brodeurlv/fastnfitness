@@ -270,6 +270,9 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         }
 
         /* Initialisation des boutons */
+        if (mInitialBodyPart.getType()==BodyPartExtensions.TYPE_WEIGHT) {
+            nameEdit.ActivateDialog(false);
+        }
         nameEdit.setOnTextChangeListener(onTextChangeListener);
         addButton.setOnClickListener(onClickAddMeasure);
         measureList.setOnItemLongClickListener(itemlongclickDeleteRecord);

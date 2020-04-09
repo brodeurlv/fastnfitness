@@ -40,6 +40,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     private CustomerDialogBuilder mCustomerDialogBuilder = null;
 
     private Context mContext;
+    private boolean mActivateDialog = true;
 
     public EditableInputView(Context context) {
         super(context);
@@ -100,6 +101,8 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     }
 
     protected void editDialog(Context context) {
+        if (!mActivateDialog) return;
+
         if (mCustomerDialogBuilder != null) {
             mCustomerDialogBuilder.customerDialogBuilder(this).show();
         } else {
@@ -172,6 +175,10 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
     public TextView getTextView() {
         return valueTextView;
+    }
+
+    public void ActivateDialog(boolean activate) {
+        mActivateDialog = activate;
     }
 
     public void setOnTextChangeListener(OnTextChangedListener listener) {
