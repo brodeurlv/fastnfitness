@@ -35,7 +35,7 @@ public class BodyPartExtensions {
     public static final int TYPE_MUSCLE = 0;
     public static final int TYPE_WEIGHT = 1;
 
-    public static int getBodyResourceID(int pBodyID) {
+    public static int getBodyStringID(int pBodyID) {
         switch (pBodyID) {
             case ABDOMINAUX:
                 return R.string.abdominaux;
@@ -93,7 +93,7 @@ public class BodyPartExtensions {
                 return R.string.musclesLabel;
         }
 
-        return 0;
+        return -1;
     }
 
     public static int getBodyLogoID(int pBodyID) {

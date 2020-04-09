@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:name="tab_bodytracking_details"
     android:layout_width="match_parent"
@@ -12,7 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbar_background"
-        android:elevation="4dp" />
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="end"
+            android:layout_weight="5"
+            android:adjustViewBounds="false"
+            android:background="@android:color/transparent"
+            android:baselineAlignBottom="false"
+            android:cropToPadding="false"
+            android:src="@drawable/ic_delete_black_24dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,104 +46,55 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/addMeasureCardView"
+                android:id="@+id/nameCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp">
+                    android:layout_height="?android:attr/listPreferredItemHeight"
+                    android:orientation="horizontal"
+                    android:padding="6dip">
 
-                    <Button
-                        android:id="@+id/buttonAddWeight"
+                    <ImageView
+                        android:id="@+id/BODYPART_LOGO"
+                        android:layout_width="45dp"
+                        android:layout_height="fill_parent"
+                        android:layout_marginEnd="6dip"
+                        android:background="@color/record_background_even"
+                        android:scaleType="centerInside"
+                        tools:src="@drawable/ic_fitness_center_white_24dp" />
+
+                    <com.easyfitness.utils.EditableInputView.EditableInputView
+                        android:id="@+id/BODYPART_NAME"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="50"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:hint="@string/name"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text=""
+                        tools:text="Bodypart Name"
+                        android:textSize="24sp"
+                        android:title="@string/enter_bodypart_name"/>
+
+                    <TextView
+                        android:id="@+id/buttonAdd"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="false"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="1dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="1dp"
                         android:background="@drawable/round_button"
                         android:gravity="center_vertical|center"
+                        android:scaleType="center"
                         android:text="+"
                         android:textSize="24sp" />
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:stretchColumns="1"
-                        android:layout_toStartOf="@id/buttonAddWeight">
-
-                        <TableRow android:gravity="center_vertical">
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/DateLabel" />
-
-                            <TextView
-                                android:id="@+id/profilEditDate"
-                                style="@style/editableTextView"
-                                android:gravity="start"
-                                android:enabled="true"
-                                tools:text="10/05/20"/>
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_marginBottom="5dp"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="40"
-                                android:text="@string/measureLabel" />
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="10"
-                                android:orientation="horizontal">
-
-                                <EditText
-                                    android:id="@+id/editWeight"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="10"
-                                    android:hint="@string/MesureHint"
-                                    android:inputType="numberDecimal" />
-
-                                <!--com.google.android.material.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/buttonAddWeight"
-                                    android:layout_width="250dp"
-                                    android:layout_height="250dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="1dp"
-                                    android:layout_marginRight="5dp"
-                                    android:layout_marginBottom="1dp"
-                                    android:layout_weight="40"
-                                    android:background="@color/background"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:minHeight="?attr/actionBarSize"
-                                    android:text="+"
-                                    app:backgroundTint="@color/launcher_background" /-->
-
-                            </LinearLayout>
-                        </TableRow>
-                    </TableLayout>
-                </RelativeLayout>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

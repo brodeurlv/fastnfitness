@@ -10,10 +10,15 @@
     android:paddingRight="0dp"
     android:paddingBottom="0dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/addBodyPart"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:text="@string/AddLabel" />
 
         <ListView
             android:id="@+id/listBodyMeasures"
@@ -22,6 +27,6 @@
             android:drawSelectorOnTop="false"
             android:minHeight="300dip" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -10,13 +10,10 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18.10: February 26, 2019\n
-\t- Enhancement : DarkMode (#96)\n
-\t- Enhancement : Added dutch translation (Thanks Rishabh)\n
-
-v0.18.9: February 26, 2019\n
-\t- Enhancement : DarkMode (#96)\n
-\t- Enhancement : Added dutch translation (Thanks Rishabh)\n
+v0.18.11: February 26, 2019\n
+\t- Enhancement : Possibility to add new body part\n
+\t- Enhancement : Clarified unit for size (#118)\n
+\t- Enhancement : Renammed bodybuilding category to strength (#117)\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

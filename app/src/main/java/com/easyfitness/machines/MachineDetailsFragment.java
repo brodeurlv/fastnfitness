@@ -64,8 +64,6 @@ public class MachineDetailsFragment extends Fragment {
     ImageView machinePhoto = null;
     FloatingActionButton machineAction = null;
     LinearLayout machinePhotoLayout = null;
-    // Selection part
-    LinearLayout exerciseTypeSelectorLayout = null;
     TextView bodybuildingSelector = null;
     TextView cardioSelector = null;
     int selectedType = DAOMachine.TYPE_FONTE;
@@ -147,7 +145,6 @@ public class MachineDetailsFragment extends Fragment {
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
         cardioSelector = view.findViewById(R.id.cardioSelection);
-        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
 
         machineAction = view.findViewById(R.id.actionCamera);
 
@@ -161,12 +158,8 @@ public class MachineDetailsFragment extends Fragment {
         machineProfilIdArg = args.getLong("machineProfile");
 
         // set events
-
-        //machineFavorite.setOnClickListener(onClickFavoriteItem);
         musclesList.setOnClickListener(onClickMusclesList);
         musclesList.setOnFocusChangeListener(onFocusMachineList);
-        //bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
-        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
         machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
         machinePhoto.setOnClickListener(v -> {
             if (isImageFitToScreen) {
@@ -211,7 +204,6 @@ public class MachineDetailsFragment extends Fragment {
         machineDescription.setText(mMachine.getDescription());
         musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
         mCurrentPhotoPath = mMachine.getPicture();
-        exerciseTypeSelectorLayout.setVisibility(View.GONE);
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
             cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));

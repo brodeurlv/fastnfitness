@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/record_background_odd"
                     android:gravity="center"
-                    android:text="@string/FonteLabel"
+                    android:text="@string/strength_category"
                     app:autoSizeMaxTextSize="14sp"
                     app:autoSizeTextType="uniform" />
 

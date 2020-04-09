@@ -48,6 +48,7 @@
                         android:text=" - "
                         app:iconVisible="false"
                         tools:text="70.5"
+                        android:title="@string/weightLabel"
                         style="@style/PrimaryWeightMeasure" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -88,6 +89,7 @@
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/fatInput"
                         style="@style/PrimaryWeightMeasure"
+                        android:title="@string/fatLabel"
                         tools:text="50.9" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -142,6 +144,7 @@
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/musclesInput"
                         style="@style/PrimaryWeightMeasure"
+                        android:title="@string/musclesLabel"
                         tools:text="20.2" />
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -187,6 +190,7 @@
                     <com.easyfitness.utils.EditableInputView.EditableInputViewWithDate
                         android:id="@+id/waterInput"
                         style="@style/PrimaryWeightMeasure"
+                        android:title="@string/waterLabel"
                         tools:text="20.5" />
 
                     <com.github.mikephil.charting.charts.LineChart

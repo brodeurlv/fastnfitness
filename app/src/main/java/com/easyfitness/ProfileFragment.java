@@ -275,7 +275,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfil();
+        return ((MainActivity) getActivity()).getCurrentProfile();
     }
 
     public Fragment getFragment() {

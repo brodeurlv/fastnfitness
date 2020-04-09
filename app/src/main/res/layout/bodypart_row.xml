@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="6dip">
 
     <TextView
         android:id="@+id/LIST_BODYPART_ID"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
-
     <ImageView
         android:id="@+id/LIST_BODYPART_LOGO"
         android:layout_width="45dp"
@@ -20,20 +20,33 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_fitness_center_white_24dp" />
 
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:padding="0dip"
+            android:weightSum="100">
+
     <TextView
         android:id="@+id/LIST_BODYPART"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="50"
+        android:layout_weight="25"
         android:gravity="center_vertical"
         android:text="Example Body Part"
         android:textSize="16sp" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/LIST_BODYPART_MINIGRAPH"
+        style="@style/MiniLineChart"
+        android:layout_weight="35"
+        android:layout_width="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_weight="90"
+        android:layout_weight="40"
         android:orientation="vertical">
 
         <TextView
@@ -48,7 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="50 cm"
+            tools:text="50 cm"
             android:textSize="20sp" />
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>

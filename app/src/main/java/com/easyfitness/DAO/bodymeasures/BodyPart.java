@@ -1,9 +1,11 @@
 package com.easyfitness.DAO.bodymeasures;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
 /* DataBase Object */
 public class BodyPart {
-    private long mNameRes = 0;
-    private long mPictureRes = 0;
+    private int mBodyPartKey = 0;
     private String mCustomName ="";
     private String mCustomPicture ="";
     private int mDisplayOrder = 0;
@@ -12,11 +14,10 @@ public class BodyPart {
 
     private BodyMeasure mLastMeasure;
 
-    public BodyPart(long id, long pNameRes, long pPictureRes, String pCustomName, String pCustomPicture, int pDisplayOrder, int pType) {
+    public BodyPart(long id, int pBodyPartId, String pCustomName, String pCustomPicture, int pDisplayOrder, int pType) {
         super();
         this.id = id;
-        mNameRes = pNameRes;
-        mPictureRes = pPictureRes;
+        mBodyPartKey = pBodyPartId;
         mDisplayOrder = pDisplayOrder;
         mCustomName = pCustomName;
         mCustomPicture = pCustomPicture;
@@ -24,29 +25,51 @@ public class BodyPart {
         this.mLastMeasure = null;
     }
 
-    /*public BodyPart(long id, BodyMeasure lastMeasure) {
-        super();
-        this.id = id;
-        this.mLastMeasure = lastMeasure;
-    }*/
-
-
     public long getId() {
         return id;
     }
 
-    public long getNameRes() {return mNameRes;}
-    public long getPictureRes() {return mPictureRes;}
+    /**
+     * Return legacy Resource Key.
+     * @return
+     */
+    public int getBodyPartResKey() {return mBodyPartKey;}
+
+    public String getName(Context context) {
+        if (!mCustomName.isEmpty()) return mCustomName;
+        else {
+            if (mBodyPartKey !=-1)
+                return context.getResources().getString(BodyPartExtensions.getBodyStringID((int) mBodyPartKey));
+            else
+                return "";
+        }
+    }
+
+    public Drawable getPicture(Context context) {
+            if (mBodyPartKey !=-1)
+                if ( BodyPartExtensions.getBodyLogoID((int) mBodyPartKey) != -1)
+                    return context.getDrawable( BodyPartExtensions.getBodyLogoID((int) mBodyPartKey) );
+
+            return null;
+    }
+
+
     public String getCustomName() {return mCustomName;}
+    public void setCustomName(String customName) {  mCustomName = customName;}
+
     public String getCustomPicture() {return mCustomPicture;}
+    public void setCustomPicture(String path) { mCustomPicture = path;}
+
     public int getDisplayOrder() {return mDisplayOrder;}
+    public void setDisplayOrder(int displayOrder) { mDisplayOrder = displayOrder;}
+
     public int getType() {return mType;}
 
     /**
      * @return Resource ID of the name of the body part
      */
     public int getResourceNameID() {
-        return BodyPartExtensions.getBodyResourceID((int) id);
+        return BodyPartExtensions.getBodyStringID((int) id);
     }
 
     /**
@@ -55,7 +78,6 @@ public class BodyPart {
     public int getResourceLogoID() {
         return BodyPartExtensions.getBodyLogoID((int) id);
     }
-
 
     public BodyMeasure getLastMeasure() {
         return this.mLastMeasure;

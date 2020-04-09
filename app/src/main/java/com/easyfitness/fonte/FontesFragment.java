@@ -771,7 +771,7 @@ public class FontesFragment extends Fragment {
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
             if (m != null) {
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfile().getId());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -922,7 +922,7 @@ public class FontesFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return mActivity.getCurrentProfil();
+        return mActivity.getCurrentProfile();
     }
 
     public String getMachine() {
