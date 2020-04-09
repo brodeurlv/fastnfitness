@@ -617,7 +617,7 @@ public class ProgramRunner extends Fragment {
 
         if (timeTextView.getId() == R.id.editDuration) {
             TimePickerDialogFragment mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
-            mDurationFrag.show(Objects.requireNonNull(getActivity()).getFragmentManager().beginTransaction(), "dialog_time");
+            mDurationFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
         }
     }
 

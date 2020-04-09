@@ -7,7 +7,10 @@
     android:layout_height="wrap_content"
     android:fillViewport="true">
 
+
+
     <LinearLayout
+        android:id="@+id/programSelectionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -22,21 +25,28 @@
         android:paddingBottom="0dp"
         android:scrollbars="vertical">
 
-        <androidx.cardview.widget.CardView
-            style="@style/CardViewStyle"
+
+        <Spinner
+            android:id="@+id/programSelect"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="2dp">
+        </Spinner>
+<!--        <androidx.cardview.widget.CardView-->
+<!--            style="@style/CardViewStyle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cardCornerRadius="5dp">-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="2dp">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
 
 <!--                    <com.mikhaellopez.circularimageview.CircularImageView-->
 <!--                        android:id="@+id/imageMachine"-->
@@ -50,33 +60,33 @@
 <!--                        app:civ_border_width="0dp"-->
 <!--                        app:civ_shadow="false" />-->
 
-                    <AutoCompleteTextView
-                        android:id="@+id/editProgram"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toStartOf="@+id/buttonListPrograms"
-                        android:hint="@string/NewProgramHint"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-                        android:singleLine="true" />
+<!--                    <AutoCompleteTextView-->
+<!--                        android:id="@+id/editProgram"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_toStartOf="@+id/buttonListPrograms"-->
+<!--                        android:hint="@string/NewProgramHint"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"-->
+<!--                        android:singleLine="true" />-->
 
-                    <ImageButton
-                        android:id="@+id/buttonListPrograms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
-                        android:src="@drawable/list" />
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/buttonListPrograms"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:background="@android:color/transparent"-->
+<!--                        android:baselineAlignBottom="false"-->
+<!--                        android:cropToPadding="false"-->
+<!--                        android:src="@drawable/list" />-->
 
-                </RelativeLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+<!--                </RelativeLayout>-->
+<!--            </LinearLayout>-->
+<!--        </androidx.cardview.widget.CardView>-->
 
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"

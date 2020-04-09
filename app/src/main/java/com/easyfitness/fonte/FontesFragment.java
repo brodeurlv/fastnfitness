@@ -841,7 +841,7 @@ public class FontesFragment extends Fragment {
             case R.id.editTime:
                 if (mTimeFrag == null) {
                     mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
-                    mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                    mTimeFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
                 } else {
                     if (!mTimeFrag.isVisible()) {
                         Bundle bundle = new Bundle();
@@ -849,14 +849,14 @@ public class FontesFragment extends Fragment {
                         bundle.putInt("MINUTE", min);
                         bundle.putInt("SECOND", sec);
                         mTimeFrag.setArguments(bundle);
-                        mTimeFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                        mTimeFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
                     }
                 }
                 break;
             case R.id.editDuration:
                 if (mDurationFrag == null) {
                     mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec);
-                    mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                    mDurationFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
                 } else {
                     if (!mDurationFrag.isVisible()) {
                         Bundle bundle = new Bundle();
@@ -864,7 +864,7 @@ public class FontesFragment extends Fragment {
                         bundle.putInt("MINUTE", min);
                         bundle.putInt("SECOND", sec);
                         mDurationFrag.setArguments(bundle);
-                        mDurationFrag.show(getActivity().getFragmentManager().beginTransaction(), "dialog_time");
+                        mDurationFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
                     }
                 }
                 break;

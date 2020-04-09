@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -107,6 +109,12 @@ dependencies {
     //implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar', {
     //    transitive = true
     //})
+    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
 
 //apply plugin: 'com.google.gms.google-services'

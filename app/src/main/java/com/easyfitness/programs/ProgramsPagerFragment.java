@@ -60,7 +60,7 @@ public class ProgramsPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-//                .add(R.string.ExerciceLabel, ExercisesInProgramFragment.class)
+                .add(R.string.ExerciceLabel, ExercisesInProgramFragment.class)
                 .add(R.string.ProgramsLabel, ProgramsFragment.class)
 //                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
 //                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
