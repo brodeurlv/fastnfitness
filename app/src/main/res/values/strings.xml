@@ -8,10 +8,10 @@
     <string name="global_yes">Yes</string>
     <string name="global_no">No</string>
 
-    <string name="removedid">Removed id</string>
+    <string name="removedid">Removed ID</string>
     <string name="failedtocreatefolder">Failed to create folder</string>
 
-    <string name="app_name">Fast N Fitness</string>
+    <string name="app_name" translatable="false">Fast N Fitness</string>
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
 
@@ -31,8 +31,8 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercise</string>
     <string name="PoidsLabel">Weight</string>
-    <string name="KgUnitLabel">Kg</string>
-    <string name="LbsUnitLabel">Lbs</string>
+    <string name="KgUnitLabel" translatable="false">Kg</string>
+    <string name="LbsUnitLabel" translatable="false">Lbs</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Last records:</string>
 
@@ -313,4 +313,13 @@
     <string name="autoui_mode" translatable="false">Auto</string>
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
 
+
+    <string name="delete_bodypart_confirm">Do you want to delete this bodypart ? All associated measures will be deleted.</string>
+    <string name="new_measure">New measure</string>
+    <string name="enter_profile_name">Enter profile name</string>
+    <string name="enter_size_cm">Enter size (cm)</string>
+    <string name="enter_birthday">Enter birthday</string>
+    <string name="enter_bodypart_name">Enter Bodypart name</string>
+
+    <string name="strength_category">Strength</string>
 </resources>
