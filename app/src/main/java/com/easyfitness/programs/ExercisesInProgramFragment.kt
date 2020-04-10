@@ -159,9 +159,8 @@ class ExercisesInProgramFragment : Fragment() {
         }
         unitDistanceSpinner.setSelection(distanceUnit)
         // Initialization of the database
-        mDbBodyBuilding = DAOExerciseInProgram(context)
-        mDbCardio = DAOCardio(context)
-        mDbStatic = DAOStatic(context)
+//        mDbCardio = DAOCardio(context)
+//        mDbStatic = DAOStatic(context)
         daoExerciseInProgram = DAOExerciseInProgram(context)
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
@@ -179,7 +178,6 @@ class ExercisesInProgramFragment : Fragment() {
                 transaction.commit()
             }
         }
-        // Inflate the layout for this fragment
         return view
     }
 
@@ -191,9 +189,8 @@ class ExercisesInProgramFragment : Fragment() {
         durationEdit.text = date
         hideKeyboard(durationEdit)
     }
-    private lateinit var mDbBodyBuilding: DAOExerciseInProgram
-    private lateinit var mDbCardio: DAOCardio
-    private lateinit var mDbStatic: DAOStatic
+//    private lateinit var mDbCardio: DAOCardio
+//    private lateinit var mDbStatic: DAOStatic
     private lateinit var daoExerciseInProgram: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
     private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
@@ -246,14 +243,13 @@ class ExercisesInProgramFragment : Fragment() {
             /* Weight conversion */
             var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()
             var unitPoids = UnitConverter.UNIT_KG // Kg
-            val mContext = context
-            if (mContext != null) {
+            val mContext = context!!
                 if (unitSpinner.selectedItem.toString() == mContext.getString(R.string.LbsUnitLabel)) {
                     tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
                     unitPoids = UnitConverter.UNIT_LBS // LBS
                 }
-            }
-            mDbBodyBuilding.addRecord(
+
+            daoExerciseInProgram.addRecord(
                 programId, restTime,
                 exerciseEdit.text.toString(),
                 exerciseType, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
@@ -283,7 +279,7 @@ class ExercisesInProgramFragment : Fragment() {
                 restTime = 0
                 restTimeEdit.setText("0")
             }
-            mDbBodyBuilding.addRecord(programId,
+            daoExerciseInProgram.addRecord(programId,
                 restTime,
                 exerciseEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
                 1,
@@ -323,7 +319,7 @@ class ExercisesInProgramFragment : Fragment() {
                 distance = UnitConverter.MilesToKm(distance) // Always convert to KG
                 unitDistance = UnitConverter.UNIT_MILES
             }
-            mDbBodyBuilding.addRecord(programId, restTime,
+            daoExerciseInProgram.addRecord(programId, restTime,
                 exerciseEdit.text.toString(),
                 exerciseType,
                 1,
@@ -343,13 +339,12 @@ class ExercisesInProgramFragment : Fragment() {
         lTableColor = (lTableColor + 1) % 2 // Change the color each time you add data
         refreshData()
         /* Reinitialisation des machines */
-        val adapter = ArrayAdapter(Objects.requireNonNull(view)!!.context,
+        val adapter = ArrayAdapter(view!!.context,
             android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllMachines(profil))
         exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)
-        mDbCardio.closeCursor()
-        mDbBodyBuilding.closeCursor()
-        mDbStatic.closeCursor()
+//        mDbCardio.closeCursor()
+//        mDbStatic.closeCursor()
         daoExerciseInProgram.closeCursor()
     }
     private val onClickMachineListWithIcons = View.OnClickListener { v ->
