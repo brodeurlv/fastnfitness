@@ -31,7 +31,6 @@ public class ProgramsFragment extends Fragment {
     private AutoCompleteTextView searchField = null;
     private ProgramCursorAdapter mTableAdapter;
     private EditText programNewName = null;
-
     private DAOProgram daoProgram = null;
     private TextWatcher onTextChangeListener = new TextWatcher() {
         @Override
@@ -47,8 +46,8 @@ public class ProgramsFragment extends Fragment {
                 refreshData();
             } else {
                 if (mTableAdapter != null) {
-                        mTableAdapter.getFilter().filter(charSequence);
-                        mTableAdapter.notifyDataSetChanged();
+                    mTableAdapter.getFilter().filter(charSequence);
+                    mTableAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -57,7 +56,8 @@ public class ProgramsFragment extends Fragment {
         public void afterTextChanged(Editable editable) {
         }
     };
-//    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+
+    //    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 //        // Get Machine Name selected
 //        TextView textViewID = view.findViewById(R.id.LIST_Program_ID);
 //        long machineId = Long.parseLong(textViewID.getText().toString());
@@ -73,27 +73,16 @@ public class ProgramsFragment extends Fragment {
 //    };
     private View.OnClickListener clickAddButton = v -> {
         String programName = programNewName.getText().toString();
-        if(programName.isEmpty()){
-            Toast.makeText(getContext(),"Enter not empty program name",Toast.LENGTH_LONG).show();
-        }else{
+        if (programName.isEmpty()) {
+            Toast.makeText(getContext(), "Enter not empty program name", Toast.LENGTH_LONG).show();
+        } else {
             DAOProgram lDAOProgram = new DAOProgram(getContext());
             lDAOProgram.addRecord(programName);
             programNewName.setText("");
             mTableAdapter.notifyDataSetChanged();
             refreshData();
-            Toast.makeText(getContext(),"Added to program list",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Added to program list", Toast.LENGTH_LONG).show();
         }
-
-//    ProgramDetailsPager machineDetailsFragment = ProgramDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
-//    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//    // Replace whatever is in the fragment_container view with this fragment,
-//    // and add the transaction to the back stack so the user can navigate back
-//    transaction.replace(R.id.fragment_container, machineDetailsFragment);
-//    transaction.addToBackStack(null);
-//    // Commit the transaction
-//    transaction.commit();
-//    }
-
     };
     private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
@@ -108,10 +97,6 @@ public class ProgramsFragment extends Fragment {
         }
     };
 
-    /**
-     * Create a new instance of DetailsFragment, initialized to
-     * show the text at 'index'.
-     */
     public static ProgramsFragment newInstance(String name, int id) {
         ProgramsFragment f = new ProgramsFragment();
 
@@ -163,8 +148,6 @@ public class ProgramsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-//        mDbMachine.deleteAllEmptyExercises();//TODO not sure this is need
         refreshData();
 
         // for resetting the search field at the start:

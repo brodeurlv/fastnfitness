@@ -70,30 +70,33 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var distanceCardView: CardView
     private lateinit var durationCardView: CardView
     private lateinit var programSelect: Spinner
+    //        machineList.setOnItemClickListener(onClickListItem);
+    private lateinit var daoProgram: DAOProgram
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
-        val languages = arrayOf("BOI", "SBI", "HDFC", "PNB", "OBC")
+        daoProgram = DAOProgram(context)
+        val programs = daoProgram.allProgramsNames.toTypedArray()
         programSelect = view.findViewById(R.id.programSelect)
 
-            val adapter = ArrayAdapter(context,
-                android.R.layout.simple_spinner_item, languages)
-            programSelect.adapter = adapter
+        val adapter = ArrayAdapter(context,
+            android.R.layout.simple_spinner_item, programs)
+        programSelect.adapter = adapter
 
-            programSelect.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
-                    Toast.makeText(context,
-                        "" + " " +
-                            "" + languages[position], Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
+        programSelect.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>,
+                                        view: View, position: Int, id: Long) {
+                Toast.makeText(context,
+                    "" + " " +
+                        "" + programs[position], Toast.LENGTH_SHORT).show()
             }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
         exerciseEdit = view.findViewById(R.id.editMachine)
         seriesEdit = view.findViewById(R.id.editSerie)
         repetitionEdit = view.findViewById(R.id.editRepetition)
@@ -195,7 +198,7 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var mDbStatic: DAOStatic
     private lateinit var mDb: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
-//    private var mDbProgram: DAOProgram?=null
+    //    private var mDbProgram: DAOProgram?=null
     private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
         when (v.id) {
             R.id.staticSelection -> changeExerciseTypeUI(TYPE_STATIC, true)
@@ -204,7 +207,7 @@ class ExercisesInProgramFragment : Fragment() {
             else -> changeExerciseTypeUI(TYPE_FONTE, true)
         }
     }
-//    private val checkProgramExists = View.OnKeyListener { v: View?, keyCode: Int, event: KeyEvent? ->
+    //    private val checkProgramExists = View.OnKeyListener { v: View?, keyCode: Int, event: KeyEvent? ->
 //        val lMach = mDbProgram!!.getRecord(programEdit!!.text.toString())
 //        if (lMach == null) {
 //        } else { ////            TODO
@@ -404,8 +407,7 @@ class ExercisesInProgramFragment : Fragment() {
             machineListDialog.show()
         }
     }
-    private val onItemClickFilterList = OnItemClickListener {
-        _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentExercise(exerciseEdit.text.toString()) }
+    private val onItemClickFilterList = OnItemClickListener { _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentExercise(exerciseEdit.text.toString()) }
     //Required for cardio/duration
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
@@ -463,15 +465,6 @@ class ExercisesInProgramFragment : Fragment() {
         refreshData()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
-    // invoked when the activity may be temporarily destroyed, save the instance state here
-    override fun onSaveInstanceState(outState: Bundle) { // call superclass to save any view hierarchy
-        super.onSaveInstanceState(outState)
-    }
-
     val name: String?
         get() {
             return arguments!!.getString("name")
@@ -500,10 +493,10 @@ class ExercisesInProgramFragment : Fragment() {
         }
         if (timeTextView!!.id == R.id.editDuration) {
             val mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec)
-            val fm =requireActivity().supportFragmentManager
+            val fm = requireActivity().supportFragmentManager
             mDurationFrag.show(fm.beginTransaction(), "dialog_time")
         }
-        }
+    }
 
     val fragment: ExercisesInProgramFragment
         get() = this

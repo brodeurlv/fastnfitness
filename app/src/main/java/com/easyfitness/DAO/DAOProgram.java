@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,26 +87,61 @@ public class DAOProgram extends DAOBase{
         return value;
     }
 
-    // Getting All Records
-    private List<Program> getRecordsList(String pRequest) {
+//    // Getting All Records
+//    private List<Program> getRecordsList(String pRequest) {
+//
+//        List<Program> valueList = new ArrayList<>();
+//            // Select All Query
+//            SQLiteDatabase db = this.getReadableDatabase();
+//            mCursor = null;
+//            mCursor = db.rawQuery(pRequest, null);
+//            if (mCursor.moveToFirst()) {
+//                do {
+//                    Program value = new Program(
+//                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.PROGRAM_NAME)),
+//                        mCursor.getLong(mCursor.getColumnIndex(DAOProgram.PROFIL_KEY))
+//                    );
+//                    valueList.add(value);
+//                } while (mCursor.moveToNext());
+//            }
+//            close();
+//            return valueList;
+//        }
 
-        List<Program> valueList = new ArrayList<>();
-            // Select All Query
-            SQLiteDatabase db = this.getReadableDatabase();
-            mCursor = null;
-            mCursor = db.rawQuery(pRequest, null);
-            if (mCursor.moveToFirst()) {
-                do {
-                    Program value = new Program(
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.PROGRAM_NAME)),
-                        mCursor.getLong(mCursor.getColumnIndex(DAOProgram.PROFIL_KEY))
-                    );
-                    valueList.add(value);
-                } while (mCursor.moveToNext());
-            }
-            close();
-            return valueList;
+//    public List<String> getAllProgramsNames() {
+//        List<String> programs = new ArrayList<>();
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        mCursor = null;
+//        String selectProgramsNames = "SELECT * " + " FROM " + TABLE_NAME + " ORDER BY "
+//            + PROGRAM_NAME + " ASC";
+//        mCursor = db.rawQuery(selectProgramsNames, null);
+//        if (mCursor.moveToFirst()) {
+//            do {
+//                programs.add(mCursor.getString(mCursor.getColumnIndex(DAOProgram.PROGRAM_NAME)));
+//            } while (mCursor.moveToNext());
+//        }
+//        close();
+//        return programs;
+//    }
+
+    public List<String> getAllProgramsNames() {
+        List<String> programs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        mCursor = db.query(TABLE_NAME, new String[]{ PROGRAM_NAME}, null, null, null, null, null);
+        if (mCursor != null)
+            mCursor.moveToFirst();
+        if (mCursor.getCount() == 0)
+            return null;
+        if (mCursor.moveToFirst()) {
+            do {
+                programs.add(mCursor.getString(mCursor.getColumnIndex(DAOProgram.PROGRAM_NAME)));
+            } while (mCursor.moveToNext());
         }
+        mCursor.close();
+        close();
+        return programs;
+    }
 
     public Cursor getAllPrograms() {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
