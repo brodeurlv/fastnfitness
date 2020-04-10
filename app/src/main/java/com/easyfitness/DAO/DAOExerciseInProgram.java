@@ -362,7 +362,7 @@ public class DAOExerciseInProgram extends DAOBase {
     }
 
     public ArrayList<ExerciseInProgram> getAllExerciseInProgram(Long programId) {
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + "WHERE "
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE "
             + PROGRAM_ID + " = "+ programId +" ORDER BY "
             + KEY + " DESC;";
         return getExerciseList(selectQuery);
