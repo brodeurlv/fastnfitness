@@ -6,15 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.easyfitness.DAO.ARecord;
 import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.R;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 
-public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInProgram> {
+public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ARecord> {
 
-    ProgramInExerciseArrayFullAdapter(Context context, ArrayList<ExerciseInProgram> machines) {
+    ProgramInExerciseArrayFullAdapter(Context context, ArrayList<ARecord> machines) {
         super(context, 0, machines);
     }
 
@@ -22,7 +24,7 @@ public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInPr
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        ExerciseInProgram exercise = getItem(position);
+        ARecord exercise = getItem(position);
         if (exercise == null) {
             assert convertView != null;
             return convertView;
@@ -38,8 +40,8 @@ public class ProgramInExerciseArrayFullAdapter extends ArrayAdapter<ExerciseInPr
         TextView t1 = convertView.findViewById(R.id.LIST_MACHINE_NAME);
         t1.setText(exercise.getExercise());
 
-        TextView t2 = convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
-        t2.setText(exercise.getNote());
+//        TextView t2 = convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
+//        t2.setText(exercise.getNote());
 //        TODO if this is not used than probably could be removed, still not sure what this is for
 //        ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
 //        String lPath = exercise.();

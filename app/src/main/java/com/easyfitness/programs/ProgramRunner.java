@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.ARecord;
 import com.easyfitness.DAO.Cardio;
 import com.easyfitness.DAO.DAOCardio;
 import com.easyfitness.DAO.DAOExerciseInProgram;
@@ -749,7 +750,7 @@ public class ProgramRunner extends Fragment {
         if (fragmentView != null) {
             if (getProfil() != null) {
                 mDb.setProfile(getProfil());
-                ArrayList<ExerciseInProgram> exerciseInProgramArrayList;
+                ArrayList<ARecord> exerciseInProgramArrayList;
                 exerciseInProgramArrayList = mDb.getAllExerciseInProgramArray();
                 /* Init machines list*/
                 ProgramInExerciseArrayFullAdapter exerciseArrayFullAdapter = new ProgramInExerciseArrayFullAdapter(getContext(), exerciseInProgramArrayList);

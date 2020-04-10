@@ -545,31 +545,31 @@ class ExercisesInProgramFragment : Fragment() {
 //        }
 //    }
 
-//    private fun updateRecordTable(pMachine: String) { // Exercises in program list
-//        mainActivity.currentMachine = pMachine
-//        if (view == null) return
-//        view!!.post {
-//            val c: Cursor?
-//            val oldCursor: Cursor
-//            val r = daoExerciseInProgram.getLastRecord(profil)
-//            //Get results
-//            c = if (r != null) daoExerciseInProgram.getTop3DatesRecords(profil) else return@post
-//            if (c == null || c.count == 0) {
-//                recordList.adapter = null
-//            } else {
-//                if (recordList.adapter == null) {
-//                    val mTableAdapter = RecordCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
-//                    mTableAdapter.setFirstColorOdd(lTableColor)
-//                    recordList.adapter = mTableAdapter
-//                } else {
-//                    val mTableAdapter = recordList.adapter as RecordCursorAdapter
-//                    mTableAdapter.setFirstColorOdd(lTableColor)
-//                    oldCursor = mTableAdapter.swapCursor(c)
-//                    oldCursor?.close()
-//                }
-//            }
-//        }
-//    }
+    private fun updateRecordTable(pMachine: String) { // Exercises in program list
+        mainActivity.currentMachine = pMachine
+        if (view == null) return
+        view!!.post {
+            val c: Cursor?
+            val oldCursor: Cursor
+            val r = daoExerciseInProgram.getLastRecord(profil)
+            //Get results
+            c = if (r != null) daoExerciseInProgram.getTop3DatesRecords(profil) else return@post
+            if (c == null || c.count == 0) {
+                recordList.adapter = null
+            } else {
+                if (recordList.adapter == null) {
+                    val mTableAdapter = RecordCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
+                    mTableAdapter.setFirstColorOdd(lTableColor)
+                    recordList.adapter = mTableAdapter
+                } else {
+                    val mTableAdapter = recordList.adapter as RecordCursorAdapter
+                    mTableAdapter.setFirstColorOdd(lTableColor)
+                    oldCursor = mTableAdapter.swapCursor(c)
+                    oldCursor?.close()
+                }
+            }
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     private fun refreshData() {
@@ -577,8 +577,10 @@ class ExercisesInProgramFragment : Fragment() {
         if (fragmentView != null) {
             if (profil != null) {
                 daoExerciseInProgram.setProfile(profil)
-//                val exerciseInProgramArrayList: ArrayList<ExerciseInProgram> = daoExerciseInProgram.getAllExerciseInProgram(programId)
-                val exerciseInProgramArrayList: ArrayList<ExerciseInProgram> = daoExerciseInProgram.allExerciseInProgramArray
+//                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.allExerciseInProgramArray
+//                Toast.
+
                 /* Init exercises list*/
                 val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
                 exerciseEdit.setAdapter(exerciseArrayFullAdapter)
@@ -601,7 +603,7 @@ class ExercisesInProgramFragment : Fragment() {
                     setCurrentExercise(exerciseEdit.text.toString())
                 }
                 // Set Table
-//                updateRecordTable(exerciseEdit.text.toString())
+                updateRecordTable(exerciseEdit.text.toString())
             }
         }
     }

@@ -451,20 +451,20 @@ public class DAOExerciseInProgram extends DAOBase {
         if (mCursor != null) mCursor.close();
     }
 
-    public ArrayList<ExerciseInProgram> getAllExerciseInProgramArray() {
+    public ArrayList<ARecord> getAllExerciseInProgramArray() {
         String selectQuery = "SELECT * FROM " + TABLE_NAME +";";//+ " ORDER BY "
            // + KEY + " ASC;";
         return getExerciseList(selectQuery);
     }
 
-    public ArrayList<ExerciseInProgram> getAllExerciseInProgram(Long programId) {
+    public ArrayList<ARecord> getAllExerciseInProgram(Long programId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
             + " ORDER BY " + KEY + " DESC;";
         return getExerciseList(selectQuery);
     }
 
-    private ArrayList<ExerciseInProgram> getExerciseList(String pRequest) {
-        ArrayList<ExerciseInProgram> valueList = new ArrayList<>();
+    private ArrayList<ARecord> getExerciseList(String pRequest) {
+        ArrayList<ARecord> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         try {
@@ -489,7 +489,7 @@ public class DAOExerciseInProgram extends DAOBase {
                     mCursor.getString(mCursor.getColumnIndex(TIME))
                 );
 
-                value.setId(mCursor.getLong(0));
+                value.setId(mCursor.getLong(mCursor.getColumnIndex(KEY)));
                 valueList.add(value);
             } while (mCursor.moveToNext());
         }
