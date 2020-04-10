@@ -72,27 +72,25 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var programSelect: Spinner
     //        machineList.setOnItemClickListener(onClickListItem);
     private lateinit var daoProgram: DAOProgram
+    private var programId: Long=1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
-        val programs = daoProgram.allProgramsNames.toTypedArray()
+        val programs = daoProgram.allProgramsNames
+        programId = daoProgram.getRecord(programs[1]).id
         programSelect = view.findViewById(R.id.programSelect)
-
-        val adapter = ArrayAdapter(context,
-            android.R.layout.simple_spinner_item, programs)
+        val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, programs)
         programSelect.adapter = adapter
-
         programSelect.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
-                Toast.makeText(context,
-                    "" + " " +
-                        "" + programs[position], Toast.LENGTH_SHORT).show()
+                programId = daoProgram.getRecord(programs[position]).id
+                refreshData()
+                Toast.makeText(context, "" + programs[position], Toast.LENGTH_SHORT).show()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
             }
@@ -164,10 +162,10 @@ class ExercisesInProgramFragment : Fragment() {
         mDbBodyBuilding = DAOExerciseInProgram(context)
         mDbCardio = DAOCardio(context)
         mDbStatic = DAOStatic(context)
-        mDb = DAOExerciseInProgram(context)
+        daoExerciseInProgram = DAOExerciseInProgram(context)
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
-        exerciseImage.setOnClickListener(View.OnClickListener { _: View? ->
+        exerciseImage.setOnClickListener {
             val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
                 val profileId: Long = (Objects.requireNonNull(activity) as MainActivity).currentProfil.id
@@ -180,7 +178,7 @@ class ExercisesInProgramFragment : Fragment() {
                 // Commit the transaction
                 transaction.commit()
             }
-        })
+        }
         // Inflate the layout for this fragment
         return view
     }
@@ -196,9 +194,8 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var mDbBodyBuilding: DAOExerciseInProgram
     private lateinit var mDbCardio: DAOCardio
     private lateinit var mDbStatic: DAOStatic
-    private lateinit var mDb: DAOExerciseInProgram
+    private lateinit var daoExerciseInProgram: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
-    //    private var mDbProgram: DAOProgram?=null
     private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
         when (v.id) {
             R.id.staticSelection -> changeExerciseTypeUI(TYPE_STATIC, true)
@@ -207,18 +204,6 @@ class ExercisesInProgramFragment : Fragment() {
             else -> changeExerciseTypeUI(TYPE_FONTE, true)
         }
     }
-    //    private val checkProgramExists = View.OnKeyListener { v: View?, keyCode: Int, event: KeyEvent? ->
-//        val lMach = mDbProgram!!.getRecord(programEdit!!.text.toString())
-//        if (lMach == null) {
-//        } else { ////            TODO
-//////            changeExerciseTypeUI(lMach.getType(), false);
-//        }
-//        false
-//    }
-    //    private void showProgramSelector(boolean displaySelector) {
-//            if (displaySelector) programTypeSelectorLayout.setVisibility(View.VISIBLE);
-//            else programTypeSelectorLayout.setVisibility(View.GONE);
-//    }
     private val checkExerciseExists = View.OnKeyListener { _: View?, _: Int, _: KeyEvent? ->
         val lMach = mDbMachine.getMachine(exerciseEdit.text.toString())
         if (lMach == null) {
@@ -251,7 +236,6 @@ class ExercisesInProgramFragment : Fragment() {
         } catch (e: NumberFormatException) {
             restTimeEdit.setText("60")
         }
-        val programId: Long = 1 //TODO z prawdziwego zdarzenia to zrobić
         if (exerciseType == TYPE_FONTE) {
             if (seriesEdit.text.toString().isEmpty() ||
                 repetitionEdit.text.toString().isEmpty() ||
@@ -360,13 +344,13 @@ class ExercisesInProgramFragment : Fragment() {
         refreshData()
         /* Reinitialisation des machines */
         val adapter = ArrayAdapter(Objects.requireNonNull(view)!!.context,
-            android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(profil))
+            android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllMachines(profil))
         exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)
         mDbCardio.closeCursor()
         mDbBodyBuilding.closeCursor()
         mDbStatic.closeCursor()
-        mDb.closeCursor()
+        daoExerciseInProgram.closeCursor()
     }
     private val onClickMachineListWithIcons = View.OnClickListener { v ->
         val oldCursor: Cursor
@@ -451,7 +435,7 @@ class ExercisesInProgramFragment : Fragment() {
             .setConfirmText(resources.getText(R.string.global_yes).toString())
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
-                mDb.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                daoExerciseInProgram.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
                 updateRecordTable(exerciseEdit.text.toString())
                 KToast.infoToast(Objects.requireNonNull(activity), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
@@ -537,7 +521,7 @@ class ExercisesInProgramFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateLastRecord() {
-        val lLastRecord = mDb.getLastRecord(profil)
+        val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
         // Default Values
         seriesEdit.setText("1")
         repetitionEdit.setText("10")
@@ -576,9 +560,9 @@ class ExercisesInProgramFragment : Fragment() {
         view!!.post {
             val c: Cursor?
             val oldCursor: Cursor
-            val r = mDb.getLastRecord(profil)
+            val r = daoExerciseInProgram.getLastRecord(profil)
             //Get results
-            c = if (r != null) mDb.getTop3DatesRecords(profil) else return@post
+            c = if (r != null) daoExerciseInProgram.getTop3DatesRecords(profil) else return@post
             if (c == null || c.count == 0) {
                 recordList.adapter = null
             } else {
@@ -601,14 +585,13 @@ class ExercisesInProgramFragment : Fragment() {
         val fragmentView = view
         if (fragmentView != null) {
             if (profil != null) {
-                mDb.setProfile(profil)
-                val exerciseInProgramArrayList: ArrayList<ExerciseInProgram>
-                exerciseInProgramArrayList = mDb.allExerciseInProgramArray
+                daoExerciseInProgram.setProfile(profil)
+                val exerciseInProgramArrayList: ArrayList<ExerciseInProgram> = daoExerciseInProgram.getAllExerciseInProgram(programId)
                 /* Init machines list*/
                 val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
                 exerciseEdit.setAdapter(exerciseArrayFullAdapter)
                 if (exerciseEdit.text.toString().isEmpty()) {
-                    val lLastRecord = mDb.getLastRecord(profil)
+                    val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
                     if (lLastRecord != null) { // Last recorded exercise
                         setCurrentExercise(lLastRecord.exercise)
                     } else { // Default Values

@@ -128,7 +128,7 @@ public class DAOProgram extends DAOBase{
         List<String> programs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
-        mCursor = db.query(TABLE_NAME, new String[]{ PROGRAM_NAME}, null, null, null, null, null);
+        mCursor = db.query(TABLE_NAME, new String[]{PROGRAM_NAME}, null, null, null, null, PROGRAM_NAME);
         if (mCursor != null)
             mCursor.moveToFirst();
         if (mCursor.getCount() == 0)

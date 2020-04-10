@@ -48,8 +48,8 @@ public class DAOExerciseInProgram extends DAOBase {
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
         + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER, " + DISTANCE_UNIT + " INTEGER);";
 
-    public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-        + TABLE_NAME + ";";
+//    public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
+//        + TABLE_NAME + ";";
 
     protected Profile mProfile = null;
     protected Cursor mCursor = null;
@@ -320,17 +320,12 @@ public class DAOExerciseInProgram extends DAOBase {
 //    }
 
     public Cursor getTop3DatesRecords(Profile pProfile) {
-
-        String selectQuery = null;
-
         if (pProfile == null)
             return null;
-
-        selectQuery = "SELECT * FROM " + TABLE_NAME
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + PROFIL_KEY + "=" + pProfile.getId()
             + " AND " + KEY + " IN (SELECT DISTINCT " + KEY + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY " + KEY + " ASC LIMIT 10)"
             + " ORDER BY " + KEY + " ASC";
-
         return getRecordsListCursor(selectQuery);
     }
 
@@ -338,17 +333,12 @@ public class DAOExerciseInProgram extends DAOBase {
      * @return the last record for a profile p
      */
     public IRecord getLastRecord(Profile pProfile) {
-
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         IRecord lReturn = null;
-
-        // Select All Machines
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
             + " WHERE " + PROFIL_KEY + "=" + pProfile.getId();
         mCursor = db.rawQuery(selectQuery, null);
-
-        // looping through only the first rows.
         if (mCursor.moveToFirst()) {
             try {
                 long value = mCursor.getLong(0);
@@ -357,10 +347,7 @@ public class DAOExerciseInProgram extends DAOBase {
                 lReturn = null; // Return une valeur
             }
         }
-
         close();
-
-        // return value list
         return lReturn;
     }
 
@@ -371,10 +358,14 @@ public class DAOExerciseInProgram extends DAOBase {
     public ArrayList<ExerciseInProgram> getAllExerciseInProgramArray() {
             String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
                 + KEY + " DESC;";
-
-            // return value list
-
             return getExerciseList(selectQuery);
+    }
+
+    public ArrayList<ExerciseInProgram> getAllExerciseInProgram(Long programId) {
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + "WHERE "
+            + PROGRAM_ID + " = "+ programId +" ORDER BY "
+            + KEY + " DESC;";
+        return getExerciseList(selectQuery);
     }
 
     private ArrayList<ExerciseInProgram> getExerciseList(String pRequest) {
