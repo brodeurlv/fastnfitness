@@ -1,19 +1,13 @@
 package com.easyfitness.programs;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.easyfitness.R;
-//import com.easyfitness.fonte.FonteGraphFragment;
-//import com.easyfitness.fonte.FonteHistoryFragment;
-//import com.easyfitness.fonte.FontesFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
@@ -21,20 +15,12 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 public class ProgramsPagerFragment extends Fragment {
     FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
-//    private String name;
-//    private int id;
-//    private FontesFragment mpFontesFrag = null;
-//    private FonteHistoryFragment mpHistoryFrag = null;
-//    private FonteGraphFragment mpGraphFrag = null;
-
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
     public static ProgramsPagerFragment newInstance(String name, int id) {
         ProgramsPagerFragment f = new ProgramsPagerFragment();
-
-        // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putString("name", name);
         args.putInt("id", id);
@@ -48,7 +34,6 @@ public class ProgramsPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pager, container, false);
-
         // Locate the viewpager in activity_main.xml
         mViewPager = view.findViewById(R.id.pager);
 
@@ -62,8 +47,6 @@ public class ProgramsPagerFragment extends Fragment {
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
                 .add(R.string.ExerciceLabel, ExercisesInProgramFragment.class)
                 .add(R.string.ProgramsLabel, ProgramsFragment.class)
-//                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
-//                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
                 .create());
 
             mViewPager.setAdapter(pagerAdapter);
