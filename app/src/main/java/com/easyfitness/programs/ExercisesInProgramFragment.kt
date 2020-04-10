@@ -37,8 +37,7 @@ import java.util.*
 
 class ExercisesInProgramFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
-//    private lateinit val programEdit: AutoCompleteTextView
-    private lateinit var machineEdit: AutoCompleteTextView
+    private lateinit var exerciseEdit: AutoCompleteTextView
     private lateinit var seriesEdit: EditText
     private lateinit var repetitionEdit: EditText
     private lateinit var poidsEdit: EditText
@@ -49,7 +48,7 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var unitDistanceSpinner: Spinner
     private lateinit var restTimeEdit: EditText
     private lateinit var restTimeCheck: CheckBox
-    private lateinit var machineImage: CircularImageView
+    private lateinit var exerciseImage: CircularImageView
     private var lTableColor = 1
     private lateinit var machineListDialog: AlertDialog
     private lateinit var minMaxLayout: LinearLayout
@@ -70,15 +69,32 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var weightCardView: CardView
     private lateinit var distanceCardView: CardView
     private lateinit var durationCardView: CardView
-    var programSelect: Spinner? = null
+    private lateinit var programSelect: Spinner
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
+        val languages = arrayOf("BOI", "SBI", "HDFC", "PNB", "OBC")
         programSelect = view.findViewById(R.id.programSelect)
-        //        programSelect.setOnItemSelectedListener();
-//        programEdit = view.findViewById(R.id.editProgram);
-//        ImageButton programsListButton = view.findViewById(R.id.buttonListPrograms);
-        machineEdit = view.findViewById(R.id.editMachine)
+
+            val adapter = ArrayAdapter(context,
+                android.R.layout.simple_spinner_item, languages)
+            programSelect.adapter = adapter
+
+            programSelect.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>,
+                                            view: View, position: Int, id: Long) {
+                    Toast.makeText(context,
+                        "" + " " +
+                            "" + languages[position], Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
+            }
+        exerciseEdit = view.findViewById(R.id.editMachine)
         seriesEdit = view.findViewById(R.id.editSerie)
         repetitionEdit = view.findViewById(R.id.editRepetition)
         poidsEdit = view.findViewById(R.id.editPoids)
@@ -91,7 +107,7 @@ class ExercisesInProgramFragment : Fragment() {
         detailsLayout.visibility = View.VISIBLE
         restTimeEdit = view.findViewById(R.id.editRestTime)
         restTimeCheck = view.findViewById(R.id.restTimecheckBox)
-        machineImage = view.findViewById(R.id.imageMachine)
+        exerciseImage = view.findViewById(R.id.imageMachine)
         // Cardio Part
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
         cardioSelector = view.findViewById(R.id.cardioSelection)
@@ -117,29 +133,26 @@ class ExercisesInProgramFragment : Fragment() {
         distanceEdit.onFocusChangeListener = touchRazEdit
         durationEdit.setOnClickListener(clickDateEdit)
         secondsEdit.onFocusChangeListener = touchRazEdit
-//        programEdit!!.setOnKeyListener(checkExerciseExists)
-//        programEdit.onFocusChangeListener = touchRazEdit //TODO
-//        programEdit.onItemClickListener = onItemClickFilterList //TODO
-        machineEdit.setOnKeyListener(checkExerciseExists)
-        machineEdit.onFocusChangeListener = touchRazEdit
-        machineEdit.onItemClickListener = onItemClickFilterList
+        exerciseEdit.setOnKeyListener(checkExerciseExists)
+        exerciseEdit.onFocusChangeListener = touchRazEdit
+        exerciseEdit.onItemClickListener = onItemClickFilterList
         restTimeEdit.onFocusChangeListener = restTimeEditChange
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange)
         bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector)
         cardioSelector.setOnClickListener(clickExerciseTypeSelector)
         staticExerciseSelector.setOnClickListener(clickExerciseTypeSelector)
         restoreSharedParams()
-        val SP = PreferenceManager.getDefaultSharedPreferences(activity)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         var weightUnit = UnitConverter.UNIT_KG
         try {
-            weightUnit = SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
+            weightUnit = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
         } catch (e: NumberFormatException) {
             Log.d("Conversion", "Not important")
         }
         unitSpinner.setSelection(weightUnit)
         val distanceUnit: Int
         distanceUnit = try {
-            SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")?.toInt()!!
+            sharedPreferences.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")?.toInt()!!
         } catch (e: NumberFormatException) {
             UnitConverter.UNIT_KM
         }
@@ -151,14 +164,14 @@ class ExercisesInProgramFragment : Fragment() {
         mDb = DAOExerciseInProgram(context)
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
-        machineImage.setOnClickListener(View.OnClickListener { _: View? ->
-            val m = mDbMachine.getMachine(machineEdit.text.toString())
+        exerciseImage.setOnClickListener(View.OnClickListener { _: View? ->
+            val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
                 val profileId: Long = (Objects.requireNonNull(activity) as MainActivity).currentProfil.id
                 val machineDetailsFragment = ExerciseDetailsPager.newInstance(m.id, profileId)
                 val transaction = activity!!.supportFragmentManager.beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
+                // and add the transaction to the back stack so the user can navigate back
                 transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS)
                 transaction.addToBackStack(null)
                 // Commit the transaction
@@ -170,13 +183,9 @@ class ExercisesInProgramFragment : Fragment() {
     }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
-        // Do something with the time chosen by the user
-        val strMinute: String
-        val strHour: String
-        val strSecond: String
-        strMinute = if (minute < 10) "0$minute" else minute.toString()
-        strHour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay.toString()
-        strSecond = if (second < 10) "0$second" else second.toString()
+        val strMinute: String = if (minute < 10) "0$minute" else minute.toString()
+        val strHour: String = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay.toString()
+        val strSecond: String = if (second < 10) "0$second" else second.toString()
         val date = "$strHour:$strMinute:$strSecond"
         durationEdit.text = date
         hideKeyboard(durationEdit)
@@ -208,7 +217,7 @@ class ExercisesInProgramFragment : Fragment() {
 //            else programTypeSelectorLayout.setVisibility(View.GONE);
 //    }
     private val checkExerciseExists = View.OnKeyListener { _: View?, _: Int, _: KeyEvent? ->
-        val lMach = mDbMachine.getMachine(machineEdit.text.toString())
+        val lMach = mDbMachine.getMachine(exerciseEdit.text.toString())
         if (lMach == null) {
             showExerciseTypeSelector(true)
         } else {
@@ -223,17 +232,15 @@ class ExercisesInProgramFragment : Fragment() {
     }
     private val restTimeCheckChange = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, _: Boolean -> saveSharedParams() }
     private val itemClickDeleteRecord = BtnClickListener { idToDelete: Long -> showDeleteDialog(idToDelete) }
-    //    private OnItemSelectedListener = v -> {
-//
-//    }
+
     @SuppressLint("SetTextI18n")
     private val clickAddButton = View.OnClickListener { v: View? ->
-        if (machineEdit.text.toString().isEmpty()) {
+        if (exerciseEdit.text.toString().isEmpty()) {
             KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
             return@OnClickListener
         }
         val exerciseType: Int
-        val lMachine = mDbMachine.getMachine(machineEdit.text.toString())
+        val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
         exerciseType = lMachine?.type ?: selectedType
         var restTime = 60
         try {
@@ -261,7 +268,7 @@ class ExercisesInProgramFragment : Fragment() {
             }
             mDbBodyBuilding.addRecord(
                 programId, restTime,
-                machineEdit.text.toString(),
+                exerciseEdit.text.toString(),
                 exerciseType, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
                 tmpPoids,  // Always save in KG
                 profil,
@@ -291,7 +298,7 @@ class ExercisesInProgramFragment : Fragment() {
             }
             mDbBodyBuilding.addRecord(programId,
                 restTime,
-                machineEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
+                exerciseEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
                 1,
                 tmpPoids,  // Always save in KG
                 profil,
@@ -330,7 +337,7 @@ class ExercisesInProgramFragment : Fragment() {
                 unitDistance = UnitConverter.UNIT_MILES
             }
             mDbBodyBuilding.addRecord(programId, restTime,
-                machineEdit.text.toString(),
+                exerciseEdit.text.toString(),
                 exerciseType,
                 1,
                 1, 0f,
@@ -351,7 +358,7 @@ class ExercisesInProgramFragment : Fragment() {
         /* Reinitialisation des machines */
         val adapter = ArrayAdapter(Objects.requireNonNull(view)!!.context,
             android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(profil))
-        machineEdit.setAdapter(adapter)
+        exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)
         mDbCardio.closeCursor()
         mDbBodyBuilding.closeCursor()
@@ -383,7 +390,7 @@ class ExercisesInProgramFragment : Fragment() {
                 val machineID = textView.text.toString().toLong()
                 val lMachineDb = DAOMachine(context)
                 val lMachine = lMachineDb.getMachine(machineID)
-                setCurrentMachine(lMachine.name)
+                setCurrentExercise(lMachine.name)
                 mainActivity.findViewById<View>(R.id.drawer_layout).requestFocus()
                 hideKeyboard(mainActivity.findViewById(R.id.drawer_layout))
                 if (machineListDialog.isShowing) {
@@ -398,7 +405,7 @@ class ExercisesInProgramFragment : Fragment() {
         }
     }
     private val onItemClickFilterList = OnItemClickListener {
-        _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentMachine(machineEdit.text.toString()) }
+        _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentExercise(exerciseEdit.text.toString()) }
     //Required for cardio/duration
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
@@ -417,8 +424,8 @@ class ExercisesInProgramFragment : Fragment() {
                 R.id.editDuration -> showTimePicker(durationEdit)
                 R.id.editDistance -> distanceEdit.setText("")
                 R.id.editMachine -> {
-                    machineEdit.setText("")
-                    machineImage.setImageResource(R.drawable.ic_machine)
+                    exerciseEdit.setText("")
+                    exerciseImage.setImageResource(R.drawable.ic_machine)
                     minMaxLayout.visibility = View.GONE
                     showExerciseTypeSelector(true)
                 }
@@ -429,7 +436,7 @@ class ExercisesInProgramFragment : Fragment() {
             }
         } else {
             if (v.id == R.id.editMachine) { // If a creation of a new machine is not ongoing.
-                if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentMachine(machineEdit.text.toString())
+                if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentExercise(exerciseEdit.text.toString())
             }
         }
     }
@@ -443,7 +450,7 @@ class ExercisesInProgramFragment : Fragment() {
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 mDb.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                updateRecordTable(machineEdit.text.toString())
+                updateRecordTable(exerciseEdit.text.toString())
                 KToast.infoToast(Objects.requireNonNull(activity), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -505,28 +512,28 @@ class ExercisesInProgramFragment : Fragment() {
         get() = mainActivity.currentProfil
 
     val machine: String
-        get() = machineEdit.text.toString()
+        get() = exerciseEdit.text.toString()
 
-    private fun setCurrentMachine(machineStr: String) {
+    private fun setCurrentExercise(machineStr: String) {
         if (machineStr.isEmpty()) {
-            machineImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
             showExerciseTypeSelector(true)
             minMaxLayout.visibility = View.GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
-            machineEdit.setText("")
-            machineImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseEdit.setText("")
+            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
             changeExerciseTypeUI(TYPE_FONTE, true)
             return
         }
         // Update EditView
-        machineEdit.setText(lMachine.name)
+        exerciseEdit.setText(lMachine.name)
         // Update exercise Image
-        machineImage.setImageResource(R.drawable.ic_machine) // Default image
+        exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
         val imgUtil = ImageUtil()
-        ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
+        ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         // Update Table
         updateRecordTable(lMachine.name)
         // Update display type
@@ -606,27 +613,27 @@ class ExercisesInProgramFragment : Fragment() {
                 exerciseInProgramArrayList = mDb.allExerciseInProgramArray
                 /* Init machines list*/
                 val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
-                machineEdit.setAdapter(exerciseArrayFullAdapter)
-                if (machineEdit.text.toString().isEmpty()) {
+                exerciseEdit.setAdapter(exerciseArrayFullAdapter)
+                if (exerciseEdit.text.toString().isEmpty()) {
                     val lLastRecord = mDb.getLastRecord(profil)
                     if (lLastRecord != null) { // Last recorded exercise
-                        setCurrentMachine(lLastRecord.exercise)
+                        setCurrentExercise(lLastRecord.exercise)
                     } else { // Default Values
-                        machineEdit.setText("")
+                        exerciseEdit.setText("")
                         seriesEdit.setText("1")
                         repetitionEdit.setText("10")
                         secondsEdit.setText("60")
                         poidsEdit.setText("50")
                         distanceEdit.setText("1")
                         durationEdit.text = "00:10:00"
-                        setCurrentMachine("")
+                        setCurrentExercise("")
                         changeExerciseTypeUI(TYPE_FONTE, true)
                     }
                 } else { // Restore on fragment restore.
-                    setCurrentMachine(machineEdit.text.toString())
+                    setCurrentExercise(exerciseEdit.text.toString())
                 }
                 // Set Table
-                updateRecordTable(machineEdit.text.toString())
+                updateRecordTable(exerciseEdit.text.toString())
             }
         }
     }
