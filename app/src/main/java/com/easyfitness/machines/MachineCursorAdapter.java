@@ -58,7 +58,7 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 }
                 else {
                     i0.setImageResource(R.drawable.ic_training_white_50dp);
-                i0.setScaleType(ImageView.ScaleType.FIT_CENTER); }
+                i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE); }
                 e.printStackTrace();
             }
         } else {
@@ -70,7 +70,7 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
             else {
                 i0.setImageResource(R.drawable.ic_training_white_50dp); }
 
-            i0.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
 
         iFav = view.findViewById(R.id.LIST_MACHINE_FAVORITE);

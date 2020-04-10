@@ -64,10 +64,6 @@ public class MachineDetailsFragment extends Fragment {
     ImageView machinePhoto = null;
     FloatingActionButton machineAction = null;
     LinearLayout machinePhotoLayout = null;
-    // Selection part
-    LinearLayout exerciseTypeSelectorLayout = null;
-    TextView bodybuildingSelector = null;
-    TextView cardioSelector = null;
     int selectedType = DAOMachine.TYPE_FONTE;
     String machineNameArg = null;
     long machineIdArg = 0;
@@ -145,10 +141,6 @@ public class MachineDetailsFragment extends Fragment {
         machinePhoto = view.findViewById(R.id.machine_photo);
 
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
-        cardioSelector = view.findViewById(R.id.cardioSelection);
-        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
-
         machineAction = view.findViewById(R.id.actionCamera);
 
         imgUtil = new ImageUtil(machinePhoto);
@@ -161,12 +153,8 @@ public class MachineDetailsFragment extends Fragment {
         machineProfilIdArg = args.getLong("machineProfile");
 
         // set events
-
-        //machineFavorite.setOnClickListener(onClickFavoriteItem);
         musclesList.setOnClickListener(onClickMusclesList);
         musclesList.setOnFocusChangeListener(onFocusMachineList);
-        //bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
-        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
         machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
         machinePhoto.setOnClickListener(v -> {
             if (isImageFitToScreen) {
@@ -211,20 +199,15 @@ public class MachineDetailsFragment extends Fragment {
         machineDescription.setText(mMachine.getDescription());
         musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
         mCurrentPhotoPath = mMachine.getPicture();
-        exerciseTypeSelectorLayout.setVisibility(View.GONE);
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
-            bodybuildingSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
             selectedType = mMachine.getType();
             view.findViewById(R.id.machine_muscles).setVisibility(View.GONE);
             view.findViewById(R.id.machine_muscles_textview).setVisibility(View.GONE);
         } else {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
-            cardioSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
             selectedType = mMachine.getType();
+            view.findViewById(R.id.machine_muscles).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.machine_muscles_textview).setVisibility(View.VISIBLE);
         }
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -245,9 +228,9 @@ public class MachineDetailsFragment extends Fragment {
                     } else {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
                     }
-                    machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
-                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2)); // Taille initiale
+                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2));
             }
         });
 
@@ -263,7 +246,7 @@ public class MachineDetailsFragment extends Fragment {
             } else {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
             }
-            machinePhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;
             requestForSave();
         });

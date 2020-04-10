@@ -3,6 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="250dp"
     android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -66,7 +67,7 @@
 
             <TextView
                 android:id="@+id/idTotalWeightMachine"
-                android:text="X"
+                tool:text="X"
                 style="@style/restdialog_value" />
 
         </LinearLayout>
@@ -88,7 +89,7 @@
 
             <TextView
                 android:id="@+id/idNbSeries"
-                android:text="X"
+                tool:text="X"
                 style="@style/restdialog_value"/>
 
         </LinearLayout>
@@ -130,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="X"
+                tool:text="X"
                 android:textColor="#5DBCD2"
                 android:textSize="15sp" />
 

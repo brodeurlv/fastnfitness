@@ -31,7 +31,7 @@
                 app:mfb_type="star" />
 
             <ImageButton
-                android:id="@+id/action_machine_delete"
+                android:id="@+id/deleteButton"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="end"
@@ -43,7 +43,7 @@
                 android:src="@drawable/ic_delete_black_24dp" />
 
             <ImageButton
-                android:id="@+id/action_machine_save"
+                android:id="@+id/saveButton"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="end"

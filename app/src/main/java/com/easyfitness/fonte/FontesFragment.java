@@ -771,7 +771,7 @@ public class FontesFragment extends Fragment {
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
             if (m != null) {
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfil().getId());
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(m.getId(), ((MainActivity) getActivity()).getCurrentProfile().getId());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -922,7 +922,7 @@ public class FontesFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return mActivity.getCurrentProfil();
+        return mActivity.getCurrentProfile();
     }
 
     public String getMachine() {
@@ -943,7 +943,7 @@ public class FontesFragment extends Fragment {
                 default:
                     machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
             }
-            machineImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            machineImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             // Default image
             showExerciseTypeSelector(true);
             minMaxLayout.setVisibility(View.GONE);
@@ -959,10 +959,22 @@ public class FontesFragment extends Fragment {
             return;
         }
 
+
+
         // Update EditView
         machineEdit.setText(lMachine.getName());
         // Update exercise Image
-        machineImage.setImageResource(R.drawable.ic_gym_bench_50dp); // Default image
+        // Default image
+        switch (lMachine.getType()) {
+            case DAOMachine.TYPE_CARDIO:
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                break;
+            case DAOMachine.TYPE_STATIC:
+                machineImage.setImageResource(R.drawable.ic_static);
+                break;
+            default:
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        }
         ImageUtil imgUtil = new ImageUtil();
         ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 

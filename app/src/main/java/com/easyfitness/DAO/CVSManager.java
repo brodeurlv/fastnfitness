@@ -7,11 +7,12 @@ import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
-import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +67,7 @@ public class CVSManager {
                 //exportProfileWeight(exportDir, pProfile); No more Profile Weight in this version. Everything is in BodyMeasures
                 exportBodyMeasures(exportDir, pProfile);
                 exportExercise(exportDir, pProfile);
+                exportBodyParts(exportDir, pProfile);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -268,13 +269,14 @@ public class CVSManager {
             DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
             daoBodyMeasure.open();
 
+            DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
+
             List<BodyMeasure> bodyMeasures;
             bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
 
             cvsOutput.write(TABLE_HEAD);
             cvsOutput.write(ID_HEAD);
             cvsOutput.write(DAOBodyMeasure.DATE);
-            cvsOutput.write(DAOBodyMeasure.BODYPART_KEY);
             cvsOutput.write("bodypart_label");
             cvsOutput.write(DAOBodyMeasure.MEASURE);
             cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
@@ -285,9 +287,8 @@ public class CVSManager {
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getId()));
                 Date dateRecord = bodyMeasures.get(i).getDate();
                 cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
-                cvsOutput.write(Long.toString(bodyMeasures.get(i).getBodyPartID()));
-                BodyPart bp = new BodyPart(bodyMeasures.get(i).getBodyPartID());
-                cvsOutput.write(this.mContext.getString(bp.getResourceNameID())); // Write the full name of the BodyPart
+                BodyPart bp = daoBodyPart.getBodyPart(bodyMeasures.get(i).getBodyPartID());
+                cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
 
@@ -295,6 +296,46 @@ public class CVSManager {
             }
             cvsOutput.close();
             daoBodyMeasure.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
+    private boolean exportBodyParts(File exportDir, Profile pProfile) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
+            Date date = new Date();
+
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
+            daoBodyPart.open();
+
+
+            List<BodyPart> bodyParts;
+            bodyParts = daoBodyPart.getList();
+
+            cvsOutput.write(TABLE_HEAD);
+            cvsOutput.write(DAOBodyPart.KEY);
+            cvsOutput.write(DAOBodyPart.CUSTOM_NAME);
+            cvsOutput.write(DAOBodyPart.CUSTOM_PICTURE);
+            cvsOutput.endRecord();
+
+            for (BodyPart bp : bodyParts ) {
+                if (bp.getBodyPartResKey()==-1) { // Only custom BodyPart are exported
+                    cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
+                    cvsOutput.write(Long.toString(bp.getId()));
+                    cvsOutput.write(bp.getName(mContext));
+                    cvsOutput.write(bp.getCustomPicture());
+                    cvsOutput.endRecord();
+                }
+            }
+            cvsOutput.close();
+            daoBodyPart.close();
         } catch (Exception e) {
             //if there are any exceptions, return false
             e.printStackTrace();
@@ -400,7 +441,7 @@ public class CVSManager {
             csvOutput.write(DAOMachine.TYPE);
             csvOutput.write(DAOMachine.BODYPARTS);
             csvOutput.write(DAOMachine.FAVORITES);
-            //csvOutput.write(DAOMachine.PICTURE);
+            //csvOutput.write(DAOMachine.PICTURE_RES);
             csvOutput.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
@@ -511,7 +552,7 @@ public class CVSManager {
                         date = DateConverter.DBDateStrToDate(csvRecords.get(DAOWeight.DATE));
 
                         float poids = Float.valueOf(csvRecords.get(DAOWeight.POIDS));
-                        dbcWeight.addBodyMeasure(date, BodyPart.WEIGHT, poids, pProfile.getId());
+                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId());
 
                         break;
                     }
@@ -520,9 +561,28 @@ public class CVSManager {
                         dbcBodyMeasure.open();
                         Date date;
                         date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
-                        int bodyPart = Integer.valueOf(csvRecords.get(DAOBodyMeasure.BODYPART_KEY));
-                        float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
-                        dbcBodyMeasure.addBodyMeasure(date, bodyPart, measure, pProfile.getId());
+                        String bodyPartName = csvRecords.get("bodypart_label");
+                        DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
+                        dbcBodyPart.open();
+                        List<BodyPart> bodyParts;
+                        bodyParts = dbcBodyPart.getList();
+                        for (BodyPart bp : bodyParts) {
+                            if (bp.getName(mContext).equals(bodyPartName)) {
+                                float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
+                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId());
+                                dbcBodyPart.close();
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case DAOBodyPart.TABLE_NAME: {
+                        DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
+                        dbcBodyPart.open();
+                        int bodyPartId = -1;
+                        String customName = csvRecords.get(DAOBodyPart.CUSTOM_NAME);
+                        String customPicture = csvRecords.get(DAOBodyPart.CUSTOM_PICTURE);
+                        dbcBodyPart.add(bodyPartId, customName, customPicture, 0, BodyPartExtensions.TYPE_MUSCLE);
                         break;
                     }
                     case DAOProfil.TABLE_NAME:
@@ -567,8 +627,6 @@ public class CVSManager {
             e.printStackTrace();
             ret = false;
         }
-
-
 
         return ret;
     }

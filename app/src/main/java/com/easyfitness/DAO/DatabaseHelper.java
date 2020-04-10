@@ -8,8 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 19;
+    public static final int DATABASE_VERSION = 20;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -54,6 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOWeight.TABLE_CREATE);
         db.execSQL(DAOMachine.TABLE_CREATE);
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
+        db.execSQL(DAOBodyPart.TABLE_CREATE);
+        initBodyPartTable(db);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 case 16:
                     // Merge of Cardio DB and Fonte DB
                     db.execSQL("ALTER TABLE " + DAOBodyMeasure.TABLE_NAME + " ADD COLUMN " + DAOBodyMeasure.UNIT + " INTEGER");
-                    migrateWeightTable(db, mContext);
+                    migrateWeightTable(db);
                     break;
                 case 17:
                     db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.GENDER + " INTEGER");
@@ -138,6 +141,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 case 19:
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE_UNIT + " INTEGER DEFAULT 0");
                     break;
+                case 20:
+                    db.execSQL(DAOBodyPart.TABLE_CREATE);
+                    initBodyPartTable(db);
+                    break;
+
             }
             upgradeTo++;
         }
@@ -198,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isExist;
     }
 
-    private void migrateWeightTable(SQLiteDatabase db, Context context) {
+    private void migrateWeightTable(SQLiteDatabase db) {
         List<ProfileWeight> valueList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + DAOWeight.TABLE_NAME;
@@ -212,16 +220,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues value = new ContentValues();
 
                 value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));
-                value.put(DAOBodyMeasure.BODYPART_KEY, BodyPart.WEIGHT);
+                value.put(DAOBodyMeasure.BODYPART_ID, BodyPartExtensions.WEIGHT);
                 value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOWeight.POIDS)));
                 value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOWeight.PROFIL_KEY)));
 
                 db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
-
             } while (mCursor.moveToNext());
             mCursor.close();
             //db.close(); // Closing database connection
         }
+    }
+
+    public void initBodyPartTable(SQLiteDatabase db){
+        int display_order=0;
+
+        addInitialBodyPart(db, BodyPartExtensions.LEFTBICEPS, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTBICEPS, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.PECTORAUX,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.WAIST, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.BEHIND,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.LEFTTHIGH,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTTHIGH,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.LEFTCALVES, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTCALVES,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.WEIGHT,"","", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.MUSCLES, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.WATER, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.FAT, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
+    }
+
+    public void addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
+        //SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues value = new ContentValues();
+
+        value.put(DAOBodyPart.KEY, pKey);
+        value.put(DAOBodyPart.BODYPART_RESID, pKey);
+        value.put(DAOBodyPart.CUSTOM_NAME, pCustomName);
+        value.put(DAOBodyPart.CUSTOM_PICTURE, pCustomPicture);
+        value.put(DAOBodyPart.DISPLAY_ORDER, pDisplay);
+        value.put(DAOBodyPart.TYPE, pType);
+
+        db.insert(DAOBodyPart.TABLE_NAME, null, value);
+
 
     }
 }

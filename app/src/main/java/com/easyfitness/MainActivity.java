@@ -1,7 +1,6 @@
 package com.easyfitness;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,8 +42,6 @@ import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.bodymeasures.BodyMeasure;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
@@ -54,7 +50,6 @@ import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
@@ -66,7 +61,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -181,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     .setItems(profildeleteListArray, (dialog, which) -> {
                         ListView lv = ((AlertDialog) dialog).getListView();
                         Object checkedItem = lv.getAdapter().getItem(which);
-                        if (getCurrentProfil().getName().equals(checkedItem.toString())) {
+                        if (getCurrentProfile().getName().equals(checkedItem.toString())) {
                             KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                         } else {
                             Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
@@ -393,19 +387,19 @@ public class MainActivity extends AppCompatActivity {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
             if(lDbFonte.getCount()==0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfil(), 0, "", "12:34:56");
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfile(), 0, "", "12:34:56");
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfil(), UnitConverter.UNIT_KM);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfil(), UnitConverter.UNIT_MILES);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfile(), UnitConverter.UNIT_KM);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfile(), UnitConverter.UNIT_MILES);
             }
 
             DAOStatic lDbStatic = new DAOStatic(this);
             if(lDbStatic.getCount()==0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfil(), 0, "", "12:34:56");
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfile(), 0, "", "12:34:56");
             }
         }
     }
@@ -477,15 +471,15 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
             exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
+            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
 
             // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                if (cvsMan.exportDatabase(getCurrentProfil())) {
-                    KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                if (cvsMan.exportDatabase(getCurrentProfile())) {
+                    KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
-                    KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
 
                 // Do nothing but close the dialog
@@ -529,12 +523,12 @@ public class MainActivity extends AppCompatActivity {
                             .setConfirmClickListener(sDialog -> {
                                 sDialog.dismissWithAnimation();
                                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil())) {
+                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
                                     KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
                                 } else {
                                     KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
                                 }
-                                setCurrentProfil(getCurrentProfil()); // Refresh profile
+                                setCurrentProfil(getCurrentProfile()); // Refresh profile
                             })
                             .setCancelText(this.getResources().getString(R.string.global_no))
                             .show();
@@ -642,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
-            if (getCurrentProfil() == null) {
+            if (getCurrentProfile() == null) {
                 CreateNewProfil();
             }
         });
@@ -660,7 +654,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
-        input.setText(getCurrentProfil().getName());
+        input.setText(getCurrentProfile().getName());
         newBuilder.setView(input);
 
         newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
@@ -668,7 +662,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (!value.isEmpty()) {
                 // Get current profil
-                Profile temp = getCurrentProfil();
+                Profile temp = getCurrentProfile();
                 // Rename it
                 temp.setName(value);
                 // Commit it
@@ -765,7 +759,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public Profile getCurrentProfil() {
+    public Profile getCurrentProfile() {
         return mCurrentProfile;
     }
 

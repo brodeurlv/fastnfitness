@@ -7,12 +7,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,28 +23,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
-import java.util.ArrayList;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {
-    final int addId = 555;  //for add exercise menu
-    Spinner typeList = null;
-    Spinner musclesList = null;
-    EditText description = null;
-    ImageButton renameMachineButton = null;
     ListView machineList = null;
     Button addButton = null;
     AutoCompleteTextView searchField = null;
     MachineCursorAdapter mTableAdapter;
-    private String name;
-    private int id;
-    private DAOFonte mDbFonte = null;
 
     private DAOMachine mDbMachine = null;
     public TextWatcher onTextChangeListener = new TextWatcher() {
@@ -79,7 +65,7 @@ public class MachineFragment extends Fragment {
         TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
         long machineId = Long.valueOf(textViewID.getText().toString());
 
-        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfil().getId());
+        ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfile().getId());
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
@@ -98,8 +84,8 @@ public class MachineFragment extends Fragment {
             .setTitleText(getString(R.string.what_type_of_exercise))
             .setContentText("")
             .setCancelText(getResources().getText(R.string.CardioLabel).toString())
-            .setConfirmText(getResources().getText(R.string.FonteLabel).toString())
-            .setNeutralText("Static")
+            .setConfirmText(getResources().getText(R.string.strength_category).toString())
+            .setNeutralText(getResources().getText(R.string.staticExercise).toString())
             .showCancelButton(true)
             .setConfirmClickListener(sDialog -> {
                 long temp_machine_key = -1;
@@ -108,7 +94,7 @@ public class MachineFragment extends Fragment {
                 temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false,"");
                 sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -124,7 +110,7 @@ public class MachineFragment extends Fragment {
                 temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_STATIC, "", false, "");
                 sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -140,7 +126,7 @@ public class MachineFragment extends Fragment {
                 temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false, "");
                 sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfil().getId());
+                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -174,18 +160,6 @@ public class MachineFragment extends Fragment {
             dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
         }
     };
-    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view,
-                                   int position, long id) {
-            //refreshData();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -201,13 +175,6 @@ public class MachineFragment extends Fragment {
         f.setArguments(args);
 
         return f;
-    }
-
-    private static String[] prepend(String[] a, String el) {
-        String[] c = new String[a.length + 1];
-        c[0] = el;
-        System.arraycopy(a, 0, c, 1, a.length);
-        return c;
     }
 
     @Override
@@ -226,30 +193,13 @@ public class MachineFragment extends Fragment {
         searchField = view.findViewById(R.id.searchField);
         searchField.addTextChangedListener(onTextChangeListener);
 
-        //typeList = view.findViewById(R.id.filterDate);
-        //machineList = (Spinner) view.findViewById(R.id.filterMachine);
-        //renameMachineButton = view.findViewById(R.id.imageMachineRename);
         machineList = view.findViewById(R.id.listMachine);
-        //musclesList = view.findViewById(R.id.listFilterRecord);
-
         machineList.setOnItemClickListener(onClickListItem);
 
         // Initialisation de l'historique
-        mDbFonte = new DAOFonte(view.getContext());
-        mDbMachine = new DAOMachine(view.getContext());
+        mDbMachine = new DAOMachine(getContext());
 
         return view;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-
-        switch (item.getItemId()) {
-            case addId:
-                clickAddButton.onClick(getView());
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -262,20 +212,10 @@ public class MachineFragment extends Fragment {
         // for resetting the search field at the start:
         searchField.setText("");
 
-        // Initialisation des evenements
-        machineList.setOnItemSelectedListener(onItemSelectedList);
     }
 
     public String getName() {
         return getArguments().getString("name");
-    }
-
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
-    public DAOFonte getDB() {
-        return mDbFonte;
     }
 
     public MachineFragment getThis() {
@@ -285,7 +225,6 @@ public class MachineFragment extends Fragment {
     private void refreshData() {
         Cursor c = null;
         Cursor oldCursor = null;
-        ArrayList<Machine> records = null;
 
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -318,7 +257,7 @@ public class MachineFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfil();
+        return ((MainActivity) getActivity()).getCurrentProfile();
     }
 
 }

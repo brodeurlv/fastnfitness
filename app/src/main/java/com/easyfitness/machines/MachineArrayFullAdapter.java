@@ -55,12 +55,12 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
                 ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
                 i0.setImageResource(R.drawable.ic_gym_bench_50dp);
-                i0.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 e.printStackTrace();
             }
         } else {
             i0.setImageResource(R.drawable.ic_gym_bench_50dp);
-            i0.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);

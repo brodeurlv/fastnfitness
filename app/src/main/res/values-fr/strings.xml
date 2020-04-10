@@ -7,11 +7,10 @@
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
 
-    <string name="removedid">id supprimé</string>
+    <string name="removedid">ID supprimé</string>
     <string name="failedtocreatefolder">Echec de création du repertoire</string>
 
 
-    <string name="app_name">Fast n Fitness</string>
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
 
@@ -28,8 +27,6 @@
     <string name="SerieLabel">Séries</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
-    <string name="KgUnitLabel">Kg</string>
-    <string name="LbsUnitLabel">Lbs</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Derniers enregistrements:</string>
 
@@ -47,7 +44,7 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
-    <string name="weightLabel">Poids</string>
+    <string name="weightLabel">Poids(kg)</string>
     <string name="measureLabel">Mesure</string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
@@ -259,4 +256,11 @@
     <string name="timeLabel">Heure</string>
     <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
     <string name="daynightmode_settingtitle">Thème graphique (redémarrage nécessaire)</string>
+    <string name="delete_bodypart_confirm">Voulez-vous supprimer cette partie du corps? Toutes les mesures associées seront supprimées.</string>
+    <string name="new_measure">Nouvelle mesure</string>
+    <string name="enter_profile_name">Entrez le nom du profil</string>
+    <string name="enter_size_cm">Entrez votre taille  (cm)</string>
+    <string name="enter_birthday">Entrez la date d\'anniversaire</string>
+    <string name="enter_bodypart_name">Entrez le nom de la partie du corps</string>
+    <string name="strength_category">Force</string>
 </resources>

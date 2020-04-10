@@ -11,7 +11,6 @@
     <string name="removedid">ID removido</string>
     <string name="failedtocreatefolder">Error al crear carpeta</string>
 
-    <string name="app_name">Fast N Fitness</string>
     <string name="action_settings">Ajustes</string>
     <string name="DateLabel">Fechas</string>
 
@@ -31,8 +30,6 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Ejercicio</string>
     <string name="PoidsLabel">Peso</string>
-    <string name="KgUnitLabel">Kg</string>
-    <string name="LbsUnitLabel">Lbs</string>
     <string name="NotesLabel">Notas</string>
     <string name="TopTenLabel">Registros recentes:</string>
 
@@ -279,5 +276,12 @@
     <string name="pref_preferredDistanceUnitTitle">Seleccione su unidad de distancia preferida</string>
     <string name="daynightmode_settingtitle">Seleccione su tema (reinicio necesario)</string>
     <string name="timeLabel">Hora</string>
+    <string name="new_measure">Nueva medida</string>
+    <string name="delete_bodypart_confirm">¿Quieres eliminar esta parte del cuerpo? Se eliminarán todas las medidas asociadas.</string>
+    <string name="enter_profile_name">Introduzca el nombre del perfil</string>
+    <string name="enter_size_cm">Introduzca el tamaño (cm)</string>
+    <string name="enter_birthday">Introduzca la fecha de nacimiento</string>
+    <string name="enter_bodypart_name">Introduzca el nombre de la entidad</string>
+    <string name="strength_category">Fuerza</string>
 
 </resources>
