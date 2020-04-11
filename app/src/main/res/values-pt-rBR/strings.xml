@@ -281,7 +281,7 @@
     <string name="enter_profile_name">Digite o nome do perfil</string>
     <string name="enter_size_cm">Digite o tamanho (cm)</string>
     <string name="enter_birthday">Digite o aniversário</string>
-    <string name="enter_bodypart_name">Digite o nome do organismo</string>
+    <string name="enter_bodypart_name">Digite o nome da parte do corpo</string>
     <string name="strength_category">Força</string>
 
 </resources>
