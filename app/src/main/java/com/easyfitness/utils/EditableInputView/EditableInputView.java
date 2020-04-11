@@ -41,6 +41,8 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
     private Context mContext;
     private boolean mActivateDialog = true;
+    private String mSuffix;
+    private String mTextValue;
 
     public EditableInputView(Context context) {
         super(context);
@@ -70,6 +72,8 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         rootView = inflate(context, R.layout.editableinput_view, this);
         valueTextView = rootView.findViewById(R.id.valueTextView);
         editButton = rootView.findViewById(R.id.editButton);
+        mTextValue = "";
+        mSuffix = "";
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -78,7 +82,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 0, 0);
             try {
                 mTitle = a.getString(R.styleable.editableinput_view_android_title);
-                valueTextView.setText(a.getString(R.styleable.editableinput_view_android_text));
+                this.setText(a.getString(R.styleable.editableinput_view_android_text));
                 valueTextView.setGravity(a.getInt(R.styleable.editableinput_view_android_gravity, 0));
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.editableinput_view_android_textSize, 0));
                 valueTextView.setMaxLines(a.getInt(R.styleable.editableinput_view_android_maxLines, 1));
@@ -119,7 +123,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 datePickerDialog.show();
             } else {
                 final EditText editText = new EditText(context);
-                editText.setText(getText());
+                editText.setText(mTextValue);
                 editText.setGravity(Gravity.CENTER);
                 editText.setInputType(textViewInputType);
                 editText.requestFocus();
@@ -162,15 +166,20 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     }
 
     public String getText() {
-        return valueTextView.getText().toString();
+        return mTextValue;
     }
 
     public void setText(String newValue) {
-        valueTextView.setText(newValue);
+        mTextValue = newValue;
+        valueTextView.setText(newValue + mSuffix);
     }
 
     public void setHint(String newValue) {
         valueTextView.setHint(newValue);
+    }
+
+    public void setTextSuffix(String newValue) {
+        mSuffix = newValue;
     }
 
     public TextView getTextView() {

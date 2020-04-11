@@ -82,6 +82,7 @@ public class ProfileFragment extends Fragment {
         roundProfile = view.findViewById(R.id.photo);
         photoButton = view.findViewById(R.id.actionCamera);
 
+        sizeEdit.setTextSuffix(" cm");
 
         mDb = new DAOProfil(view.getContext());
         mProfile = getProfil();
@@ -219,6 +220,7 @@ public class ProfileFragment extends Fragment {
             birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
             //sizeEdit.setNormalColor();
         }
+
         nameEdit.setText(mProfile.getName());
 
         if (mProfile.getPhoto() != null) {

@@ -44,7 +44,7 @@ public class BodyPartListFragment extends Fragment {
         linearLayout.addView(editText);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getContext().getString(R.string.edit_value))
+            .setTitleText(getContext().getString(R.string.enter_bodypart_name))
             .setCancelText(getContext().getString(R.string.global_cancel))
             .setHideKeyBoardOnDismiss(true)
             .setCancelClickListener(sDialog -> {
