@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class DAOExerciseInProgram extends DAOBase {
 
@@ -17,7 +15,7 @@ public class DAOExerciseInProgram extends DAOBase {
     public static final String TABLE_NAME = "EFExerciseInProgram";
     public static final String KEY = "_id";
     public static final String DATE = "date";
-    public static final String TIME = "time";
+    private static final String TIME = "time";
 
     public static final String EXERCISE = "machine";
     public static final String PROFIL_KEY = "profil_id";
@@ -25,7 +23,7 @@ public class DAOExerciseInProgram extends DAOBase {
     public static final String NOTES = "notes";
     public static final String TYPE = "type";
 
-    // Specific to BodyBuilding
+    // Specific to Strength
     public static final String SERIE = "serie";
     public static final String REPETITION = "repetition";
     public static final String WEIGHT = "poids";
@@ -41,6 +39,7 @@ public class DAOExerciseInProgram extends DAOBase {
     //rest between exercises
     private static final String REST_SECONDS = "rest_seconds";
     private static final String PROGRAM_ID = "program_id";
+    private static final String ORDER_EXECUTION = "order_in_program";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, "
@@ -49,12 +48,12 @@ public class DAOExerciseInProgram extends DAOBase {
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
         + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, "
         + TYPE + " INTEGER, " + SECONDS + " INTEGER, " + DISTANCE_UNIT + " INTEGER, "
-        + PROGRAM_ID + " INTEGER);";
+        + PROGRAM_ID + " INTEGER, " + ORDER_EXECUTION + " INTEGER);";
 
-    private String allFieldsExceptProgramId = REST_SECONDS + "," + EXERCISE + "," + SERIE + ","
-        + REPETITION + "," + WEIGHT + "," + WEIGHT + "," + PROFIL_KEY + ","
-        + UNIT + "," + NOTES + "," + MACHINE_KEY + "," + TIME + "," + DISTANCE + "," +
-        DURATION + "," + TYPE + "," + SECONDS + "," + DISTANCE_UNIT;
+//    private String allFieldsExceptProgramId = REST_SECONDS + "," + EXERCISE + "," + SERIE + ","
+//        + REPETITION + "," + WEIGHT + "," + WEIGHT + "," + PROFIL_KEY + ","
+//        + UNIT + "," + NOTES + "," + MACHINE_KEY + "," + TIME + "," + DISTANCE + "," +
+//        DURATION + "," + TYPE + "," + SECONDS + "," + DISTANCE_UNIT+ ","+ORDER_EXECUTION;
 //    public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
 //        + TABLE_NAME + ";";
 
@@ -75,18 +74,14 @@ public class DAOExerciseInProgram extends DAOBase {
         return mCursor;
     }
 
-    // Getting Count
     public int getCount() {
         String countQuery = "SELECT " + KEY + " FROM " + TABLE_NAME;
         open();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-
         int value = cursor.getCount();
         cursor.close();
         close();
-
-        // return count
         return value;
     }
 
@@ -94,7 +89,7 @@ public class DAOExerciseInProgram extends DAOBase {
      * @param pMachine Machine name
      * @return id of the added record, -1 if error
      */
-    public long addRecord(long programId, int restSeconds, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote,
+    public long addRecord(long order, long programId, int restSeconds, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote,
                           String pTime, float pDistance, long pDuration, int pSeconds, int distance_unit) {
         ContentValues value = new ContentValues();
         long new_id = -1;
@@ -121,120 +116,56 @@ public class DAOExerciseInProgram extends DAOBase {
         value.put(DAOExerciseInProgram.TYPE, pType);
         value.put(DAOExerciseInProgram.SECONDS, pSeconds);
         value.put(DAOExerciseInProgram.DISTANCE_UNIT, distance_unit);
-
+        value.put(DAOExerciseInProgram.ORDER_EXECUTION, order);
         SQLiteDatabase db = open();
         new_id = db.insert(DAOExerciseInProgram.TABLE_NAME, null, value);
         close();
         return new_id;
     }
 
-    public boolean exerciseExists(String name) {
+    private boolean exerciseExists(String name) {
         ExerciseInProgram lMach = getRecord(name);
         return lMach != null;
     }
 
-        public ExerciseInProgram getRecord(String pName) {
-            SQLiteDatabase db = this.getReadableDatabase();
-            mCursor = null;
-            mCursor = db.query(TABLE_NAME, new String[]{EXERCISE}, EXERCISE + "=?",
-                new String[]{pName}, null, null, null, null);
-            if (mCursor != null)
-                mCursor.moveToFirst();
+    private ExerciseInProgram getRecord(String pName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        mCursor = db.query(TABLE_NAME, new String[]{EXERCISE}, EXERCISE + "=?",
+            new String[]{pName}, null, null, null, null);
+        if (mCursor != null)
+            mCursor.moveToFirst();
 
-            if (mCursor.getCount() == 0)
-                return null;
-            DAOProfil lDAOProfil = new DAOProfil(mContext);
-            Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.PROFIL_KEY)));
-            ExerciseInProgram value = new ExerciseInProgram(
-                mCursor.getInt(mCursor.getColumnIndex(REST_SECONDS)),
-                mCursor.getString(mCursor.getColumnIndex(EXERCISE)),
-                mCursor.getInt(mCursor.getColumnIndex(SERIE)),
-                mCursor.getInt(mCursor.getColumnIndex(REPETITION)),
-                mCursor.getFloat(mCursor.getColumnIndex(WEIGHT)),
-                lProfile,
-                mCursor.getInt(mCursor.getColumnIndex(UNIT)),
-                mCursor.getString(mCursor.getColumnIndex(NOTES)),
-                mCursor.getInt(mCursor.getColumnIndex(MACHINE_KEY)),
-                mCursor.getString(mCursor.getColumnIndex(TIME))
-            );
+        if (mCursor.getCount() == 0)
+            return null;
+        DAOProfil lDAOProfil = new DAOProfil(mContext);
+        Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOFonte.PROFIL_KEY)));
+        ExerciseInProgram value = new ExerciseInProgram(
+            mCursor.getInt(mCursor.getColumnIndex(REST_SECONDS)),
+            mCursor.getString(mCursor.getColumnIndex(EXERCISE)),
+            mCursor.getInt(mCursor.getColumnIndex(SERIE)),
+            mCursor.getInt(mCursor.getColumnIndex(REPETITION)),
+            mCursor.getFloat(mCursor.getColumnIndex(WEIGHT)),
+            lProfile,
+            mCursor.getInt(mCursor.getColumnIndex(UNIT)),
+            mCursor.getString(mCursor.getColumnIndex(NOTES)),
+            mCursor.getInt(mCursor.getColumnIndex(MACHINE_KEY)),
+            mCursor.getString(mCursor.getColumnIndex(TIME))
+        );
 
-            value.setId(mCursor.getLong(0));
-            // return value
-            mCursor.close();
-            close();
-            return value;
-}
-//    public ExerciseInProgram getRecord(String name) {
-//        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + EXERCISE + "like" + name;
-//
-//        mCursor = getRecordsListCursor(selectQuery);
-//        if (mCursor.moveToFirst()) {
-//            //Get Profile
-//            DAOProfil lDAOProfil = new DAOProfil(mContext);
-//            Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.PROFIL_KEY)));
-//
-////            long machine_key = -1;
-//
-//            //Test is Machine exists. If not create it.
-////            DAOMachine lDAOMachine = new DAOMachine(mContext);
-////            DAOExerciseInProgram lDAOMachine = DAOExerciseInProgram(mContext);
-////            if (mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.MACHINE_KEY)) == null) {
-////                machine_key = lDAOMachine.addRecord(mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.PROGRAM_ID)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.REST_SECONDS)),
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)),
-////                    "", DAOMachine.TYPE_FONTE, "", false, "");
-////            } else {
-////                machine_key = mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.MACHINE_KEY));
-////            }
-////
-////            IRecord value = null;
-////
-////            if (mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.TYPE)) == DAOMachine.TYPE_FONTE) {
-////                value = new ExerciseInProgram(mCursor.getColumnIndex(DAOExerciseInProgram.SECONDS),
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.SERIE)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.REPETITION)),
-////                    mCursor.getFloat(mCursor.getColumnIndex(DAOExerciseInProgram.WEIGHT)),
-////                    lProfile,
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.UNIT)),
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.NOTES)),
-////                    machine_key,
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.TIME)));
-////            } else if (mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.TYPE)) == DAOMachine.TYPE_STATIC) {
-////                value = new StaticExercise(new Date(),
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.SERIE)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.SECONDS)),
-////                    mCursor.getFloat(mCursor.getColumnIndex(DAOExerciseInProgram.WEIGHT)),
-////                    lProfile,
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.UNIT)),
-////                    machine_key,
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.TIME)));
-////            } else {
-////                value = new Cardio(new Date(),
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.EXERCISE)),
-////                    mCursor.getFloat(mCursor.getColumnIndex(DAOExerciseInProgram.DISTANCE)),
-////                    mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.DURATION)),
-////                    lProfile,
-////                    mCursor.getString(mCursor.getColumnIndex(DAOExerciseInProgram.TIME)),
-////                    mCursor.getInt(mCursor.getColumnIndex(DAOExerciseInProgram.DISTANCE_UNIT)));
-////            }
-////
-////            value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOExerciseInProgram.KEY)));
-////            return value;
-////        } else {
-////            return null;
-////        }
-//    }
+        value.setId(mCursor.getLong(0));
+        // return value
+        mCursor.close();
+        close();
+        return value;
+    }
 
-    // Deleting single Record
     public void deleteRecord(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
-    // Getting single value
     public IRecord getRecord(long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
@@ -297,9 +228,6 @@ public class DAOExerciseInProgram extends DAOBase {
     // Getting All Records
     private Cursor getRecordsListCursor(String pRequest) {
         SQLiteDatabase db = this.getReadableDatabase();
-        // Select All Query
-
-        // return value list
         return db.rawQuery(pRequest, null);
     }
 
@@ -330,90 +258,6 @@ public class DAOExerciseInProgram extends DAOBase {
         // return value list
         return valueList;
     }
-
-//    // Getting All Machines
-//    public String[] getAllMachines() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        mCursor = null;
-//
-//        // Select All Machines
-//        String selectQuery = "SELECT DISTINCT  " + EXERCISE + " FROM "
-//            + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
-//        mCursor = db.rawQuery(selectQuery, null);
-//
-//        int size = mCursor.getCount();
-//
-//        String[] valueList = new String[size];
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            int i = 0;
-//            do {
-//                String value = mCursor.getString(0);
-//                valueList[i] = value;
-//                i++;
-//            } while (mCursor.moveToNext());
-//        }
-//        close();
-//        // return value list
-//        return valueList;
-//    }
-
-//    // Getting All Dates
-//    public List<String> getAllDatesList(Profile pProfile, Machine pMachine) {
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        mCursor = null;
-//
-//        // Select All Machines
-//        String selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM " + TABLE_NAME;
-//        if (pMachine != null) {
-//            selectQuery += " WHERE " + MACHINE_KEY + "=" + pMachine.getId();
-//            if (pProfile != null)
-//                selectQuery += " AND " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
-//        } else {
-//            if (pProfile != null)
-//                selectQuery += " WHERE " + PROFIL_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
-//        }
-//        selectQuery += " ORDER BY " + KEY + " DESC";
-//
-//        mCursor = db.rawQuery(selectQuery, null);
-//        int size = mCursor.getCount();
-//
-//        List<String> valueList = new ArrayList<>(size);
-//
-//        // looping through all rows and adding to list
-//        if (mCursor.moveToFirst()) {
-//            do {
-//                int i = 0;
-//                //String date;
-//                //date = mCursor.getString(0);
-//                // Change Date format
-//                //date = date.substring(0, 3) + "-" + date.substring(5, 6) + "-"
-//
-//                Date date;
-//                try {
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-//                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-//                    date = dateFormat.parse(mCursor.getString(0));
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                    date = new Date();
-//                }
-//
-//                DateFormat dateFormat3 = android.text.format.DateFormat.getDateFormat(mContext.getApplicationContext());
-//                dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
-//                valueList.add(dateFormat3.format(date));
-//                i++;
-//            } while (mCursor.moveToNext());
-//        }
-//
-//        close();
-//
-//        // return value list
-//        return valueList;
-//    }
 
     public Cursor getTop3DatesRecords(Profile pProfile) {
         if (pProfile == null)
@@ -452,8 +296,8 @@ public class DAOExerciseInProgram extends DAOBase {
     }
 
     public ArrayList<ARecord> getAllExerciseInProgramArray() {
-        String selectQuery = "SELECT * FROM " + TABLE_NAME +";";//+ " ORDER BY "
-           // + KEY + " ASC;";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + ";";//+ " ORDER BY "
+        // + KEY + " ASC;";
         return getExerciseList(selectQuery);
     }
 
@@ -469,9 +313,9 @@ public class DAOExerciseInProgram extends DAOBase {
         mCursor = null;
         try {
             mCursor = db.rawQuery(pRequest, null);
-        } catch (Exception ex){
-            Log.e("Err MU","EX "+ex);
-            Toast.makeText(mContext,"Ex"+ ex,Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Log.e("Err MU", "EX " + ex);
+            Toast.makeText(mContext, "Ex" + ex, Toast.LENGTH_LONG).show();
         }
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

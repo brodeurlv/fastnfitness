@@ -1,5 +1,7 @@
 package com.easyfitness.programs
 
+//import java.time.Instant.now
+//import java.time.LocalDa?SteTime.now
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -22,7 +24,6 @@ import com.easyfitness.DAO.*
 import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
-import com.easyfitness.utils.DateConverter
 import com.easyfitness.utils.ExpandedListView
 import com.easyfitness.utils.ImageUtil
 import com.easyfitness.utils.UnitConverter
@@ -30,7 +31,6 @@ import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.onurkaganaldemir.ktoastlib.KToast
-import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,6 +52,7 @@ class ExercisesInProgramFragment : Fragment() {
     private var lTableColor = 1
     private lateinit var machineListDialog: AlertDialog
     private lateinit var minMaxLayout: LinearLayout
+
     // Selection part
     private lateinit var exerciseTypeSelectorLayout: LinearLayout
     private var programSelectorLayout: LinearLayout? = null
@@ -70,16 +71,15 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var distanceCardView: CardView
     private lateinit var durationCardView: CardView
     private lateinit var programSelect: Spinner
+
     //        machineList.setOnItemClickListener(onClickListItem);
     private lateinit var daoProgram: DAOProgram
-    private var programId: Long=1
+    private var programId: Long = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
-//        val programs = arrayOf("a", "b")
-//        programId=2
         val programs = daoProgram.allProgramsNames
         programId = daoProgram.getRecord(programs[1]).id
         programSelect = view.findViewById(R.id.programSelect)
@@ -91,10 +91,10 @@ class ExercisesInProgramFragment : Fragment() {
                                         view: View, position: Int, id: Long) {
                 programId = daoProgram.getRecord(programs[position]).id
                 refreshData()
-                Toast.makeText(context, "" + programs[position], Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
             }
         }
         exerciseEdit = view.findViewById(R.id.editMachine)
@@ -224,113 +224,123 @@ class ExercisesInProgramFragment : Fragment() {
         }
         val exerciseType: Int
         val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
-        exerciseType = lMachine?.type ?: selectedType
+            exerciseType = lMachine?.type ?: selectedType
         var restTime = 60
         try {
             restTime = restTimeEdit.text.toString().toInt()
         } catch (e: NumberFormatException) {
             restTimeEdit.setText("60")
         }
-        if (exerciseType == TYPE_FONTE) {
-            if (seriesEdit.text.toString().isEmpty() ||
-                repetitionEdit.text.toString().isEmpty() ||
-                poidsEdit.text.toString().isEmpty()) {
-                KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
-                return@OnClickListener
-            }
-            /* Weight conversion */
-            var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()
-            var unitPoids = UnitConverter.UNIT_KG // Kg
-            val mContext = context!!
+        val currentTimeAsOrder: Long= System.currentTimeMillis()
+        when (exerciseType) {
+            TYPE_FONTE -> {
+                if (seriesEdit.text.toString().isEmpty() ||
+                    repetitionEdit.text.toString().isEmpty() ||
+                    poidsEdit.text.toString().isEmpty()) {
+                    KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
+                    return@OnClickListener
+                }
+                var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()  /* Weight conversion */
+                var unitPoids = UnitConverter.UNIT_KG // Kg
+                val mContext = context!!
                 if (unitSpinner.selectedItem.toString() == mContext.getString(R.string.LbsUnitLabel)) {
                     tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
                     unitPoids = UnitConverter.UNIT_LBS // LBS
                 }
-
-            daoExerciseInProgram.addRecord(
-                programId, restTime,
-                exerciseEdit.text.toString(),
-                exerciseType, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
-                tmpPoids,  // Always save in KG
-                profil,
-                unitPoids,  // Store Unit for future display
-                "",  //Notes,
-                "", 0f, 0, 0, 0
-            )
-        } else if (exerciseType == TYPE_STATIC) {
-            if (seriesEdit.text.toString().isEmpty() ||
-                secondsEdit.text.toString().isEmpty() ||
-                poidsEdit.text.toString().isEmpty()) {
-                KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
-                return@OnClickListener
+                daoExerciseInProgram.addRecord(
+                    currentTimeAsOrder,
+                    programId, restTime,
+                    exerciseEdit.text.toString(),
+                    exerciseType, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
+                    tmpPoids,  // Always save in KG
+                    profil,
+                    unitPoids,  // Store Unit for future display
+                    "",  //Notes,
+                    "", 0f, 0, 0, 0
+                )
             }
-            /* Weight conversion */
-            var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()
-            var unitPoids = UnitConverter.UNIT_KG // Kg
-            if (unitSpinner.selectedItem.toString() == Objects.requireNonNull(view)!!.context.getString(R.string.LbsUnitLabel)) {
-                tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
-                unitPoids = UnitConverter.UNIT_LBS // LBS
+            TYPE_STATIC -> {
+                if (seriesEdit.text.toString().isEmpty() ||
+                    secondsEdit.text.toString().isEmpty() ||
+                    poidsEdit.text.toString().isEmpty()) {
+                    KToast.warningToast(requireActivity(), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
+                    return@OnClickListener
+                }
+                /* Weight conversion */
+                var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()
+                var unitPoids = UnitConverter.UNIT_KG // Kg
+                if (unitSpinner.selectedItem.toString() == view!!.context.getString(R.string.LbsUnitLabel)) {
+                    tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
+                    unitPoids = UnitConverter.UNIT_LBS // LBS
+                }
+                try {
+                    restTime = restTimeEdit.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    restTime = 0
+                    restTimeEdit.setText("0")
+                }
+                daoExerciseInProgram.addRecord(
+                    currentTimeAsOrder,
+                    programId,
+                    restTime,
+                    exerciseEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
+                    1,
+                    tmpPoids,  // Always save in KG
+                    profil,
+                    unitPoids,  // Store Unit for future display
+                    "" //Notes
+                    ,
+                    "", 0f, 0, 0, 0
+                )
             }
-            try {
-                restTime = restTimeEdit.text.toString().toInt()
-            } catch (e: NumberFormatException) {
-                restTime = 0
-                restTimeEdit.setText("0")
+            TYPE_CARDIO -> {
+                if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
+                    distanceEdit.text.toString().isEmpty()) {
+                    KToast.warningToast(Objects.requireNonNull(activity),
+                        resources.getText(R.string.missinginfo).toString() + " Distance missing",
+                        Gravity.BOTTOM, KToast.LENGTH_SHORT)
+                    return@OnClickListener
+                }
+                var duration: Long
+                try {
+                    @SuppressLint("SimpleDateFormat") val dateFormat = SimpleDateFormat("HH:mm:ss")
+                    dateFormat.timeZone = TimeZone.getTimeZone("GMT")
+                    val tmpDate = dateFormat.parse(durationEdit.text.toString())
+                    duration = tmpDate.time
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                    duration = 0
+                }
+                var distance: Float
+                distance = if (distanceEdit.text.toString().isEmpty()) {
+                    0f
+                } else {
+                    distanceEdit.text.toString().replace(",".toRegex(), ".").toFloat()
+                }
+                var unitDistance = UnitConverter.UNIT_KM
+                if (unitDistanceSpinner.selectedItem.toString()
+                    == view?.context?.getString(R.string.MilesUnitLabel)) {
+                    distance = UnitConverter.MilesToKm(distance) // Always convert to KG
+                    unitDistance = UnitConverter.UNIT_MILES
+                }
+                daoExerciseInProgram.addRecord(
+                    currentTimeAsOrder,
+                    programId, restTime,
+                    exerciseEdit.text.toString(),
+                    exerciseType,
+                    1,
+                    1, 0f,
+                    profil,
+                    1,
+                    "",
+                    "",
+                    distance,
+                    duration,
+                    0,
+                    unitDistance)
+                // No Countdown for Cardio
             }
-            daoExerciseInProgram.addRecord(programId,
-                restTime,
-                exerciseEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
-                1,
-                tmpPoids,  // Always save in KG
-                profil,
-                unitPoids,  // Store Unit for future display
-                "" //Notes
-                , "", 0f, 0, 0, 0
-            )
-        } else if (exerciseType == TYPE_CARDIO) {
-            if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
-                distanceEdit.text.toString().isEmpty()) {
-                KToast.warningToast(Objects.requireNonNull(activity),
-                    resources.getText(R.string.missinginfo).toString() + " Distance missing",
-                    Gravity.BOTTOM, KToast.LENGTH_SHORT)
-                return@OnClickListener
-            }
-            var duration: Long
-            try {
-                @SuppressLint("SimpleDateFormat") val dateFormat = SimpleDateFormat("HH:mm:ss")
-                dateFormat.timeZone = TimeZone.getTimeZone("GMT")
-                val tmpDate = dateFormat.parse(durationEdit.text.toString())
-                duration = tmpDate.time
-            } catch (e: ParseException) {
-                e.printStackTrace()
-                duration = 0
-            }
-            var distance: Float
-            distance = if (distanceEdit.text.toString().isEmpty()) {
-                0f
-            } else {
-                distanceEdit.text.toString().replace(",".toRegex(), ".").toFloat()
-            }
-            var unitDistance = UnitConverter.UNIT_KM
-            if (unitDistanceSpinner.selectedItem.toString()
-                == view?.context?.getString(R.string.MilesUnitLabel)) {
-                distance = UnitConverter.MilesToKm(distance) // Always convert to KG
-                unitDistance = UnitConverter.UNIT_MILES
-            }
-            daoExerciseInProgram.addRecord(programId, restTime,
-                exerciseEdit.text.toString(),
-                exerciseType,
-                1,
-                1, 0f,
-                profil,
-                1,
-                "",
-                "",
-                distance,
-                duration,
-                0,
-                unitDistance)
-            // No Countdown for Cardio
+//        daoExerciseInProgram.closeCursor()
         }
         activity?.findViewById<View>(R.id.drawer_layout)?.requestFocus()
         hideKeyboard(v)
@@ -345,14 +355,13 @@ class ExercisesInProgramFragment : Fragment() {
     }
     private val onClickMachineListWithIcons = View.OnClickListener { v ->
         val oldCursor: Cursor
-        // In case the dialog is already open
-        if (machineListDialog.isShowing) {
+        if (machineListDialog.isShowing) {        // In case the dialog is already open
             return@OnClickListener
         }
         val machineList = ListView(v.context)
         val c: Cursor? = mDbMachine.allMachines
-        if (c == null || c.count == 0) { //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-            KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
+        if (c == null || c.count == 0) {
+            KToast.warningToast(requireActivity(), resources.getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
             machineList.adapter = null
         } else {
             if (machineList.adapter == null) {
@@ -383,6 +392,7 @@ class ExercisesInProgramFragment : Fragment() {
         }
     }
     private val onItemClickFilterList = OnItemClickListener { _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentExercise(exerciseEdit.text.toString()) }
+
     //Required for cardio/duration
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
@@ -408,7 +418,7 @@ class ExercisesInProgramFragment : Fragment() {
                 }
             }
             v.post {
-                val imm = Objects.requireNonNull(Objects.requireNonNull(activity)!!.getSystemService(Context.INPUT_METHOD_SERVICE)) as InputMethodManager
+                val imm = Objects.requireNonNull(requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)) as InputMethodManager
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             }
         } else {
@@ -427,7 +437,7 @@ class ExercisesInProgramFragment : Fragment() {
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-//                updateRecordTable(exerciseEdit.text.toString())
+                updateRecordTable(exerciseEdit.text.toString())
                 KToast.infoToast(Objects.requireNonNull(activity), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -577,9 +587,7 @@ class ExercisesInProgramFragment : Fragment() {
         if (fragmentView != null) {
             if (profil != null) {
                 daoExerciseInProgram.setProfile(profil)
-//                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgram(programId)
-                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.allExerciseInProgramArray
-//                Toast.
+                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgram(programId)
 
                 /* Init exercises list*/
                 val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)

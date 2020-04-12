@@ -367,5 +367,7 @@
     <string name="machine_name">Machine Name</string>
     <string name="program_name">Program name</string>
     <string name="program_hint">Enter program name</string>
+    <string name="ExercisesInProgram">Exercses in program:</string>
+    <string name="program_selection">Selected program:</string>
 
 </resources>
