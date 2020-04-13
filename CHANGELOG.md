@@ -3,7 +3,7 @@
 ### 0.18.11: April 04, 2020
 - Enhancement : Possibility to add new body part
 - Enhancement : Clarified unit for size (#118)
-- Enhancement : Renammed bodybuilding category to strength (#117)
+- Enhancement : Renamed bodybuilding category to strength (#117)
 - Enhancement : Some icons update
 
 ### 0.18.10: March 02, 2020
