@@ -1,7 +1,5 @@
 package com.easyfitness.programs
 
-//import java.time.Instant.now
-//import java.time.LocalDa?SteTime.now
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -18,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
 import com.easyfitness.DAO.*
@@ -64,7 +63,7 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var distanceEdit: EditText
     private lateinit var durationEdit: TextView
     private lateinit var secondsEdit: EditText
-    private lateinit var seriesCardView: CardView
+    private lateinit var serieCardView: CardView
     private lateinit var repetitionCardView: CardView
     private lateinit var secondsCardView: CardView
     private lateinit var weightCardView: CardView
@@ -81,20 +80,33 @@ class ExercisesInProgramFragment : Fragment() {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
         val programs = daoProgram.allProgramsNames
-        programId = daoProgram.getRecord(programs[1]).id
-        programSelect = view.findViewById(R.id.programSelect)
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, programs)
-        programSelect.adapter = adapter
-        programSelect.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>,
-                                        view: View, position: Int, id: Long) {
-                programId = daoProgram.getRecord(programs[position]).id
-                refreshData()
-                Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
-            }
+        if(programs==null || programs.size<=0){
+            val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
+            val programsFragment = ProgramsFragment.newInstance("", profileId)
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            Toast.makeText(context,"Add program first",Toast.LENGTH_LONG).show()
+            transaction.replace(R.id.fragment_container, programsFragment)
+            transaction.addToBackStack(null)
+            // Commit the transaction
+            transaction.commit()
+        }else {
+            programId = daoProgram.getRecord(programs[0]).id
+            programSelect = view.findViewById(R.id.programSelect)
+            val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, programs)
+            programSelect.adapter = adapter
+            programSelect.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>,
+                                            view: View, position: Int, id: Long) {
+                    programId = daoProgram.getRecord(programs[position]).id
+                    refreshData()
+                    Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                }
             }
         }
         exerciseEdit = view.findViewById(R.id.editMachine)
@@ -122,7 +134,7 @@ class ExercisesInProgramFragment : Fragment() {
         durationEdit = view.findViewById(R.id.editDuration)
         distanceEdit = view.findViewById(R.id.editDistance)
         secondsEdit = view.findViewById(R.id.editSeconds)
-        seriesCardView = view.findViewById(R.id.cardviewSerie)
+        serieCardView = view.findViewById(R.id.cardviewSerie)
         repetitionCardView = view.findViewById(R.id.cardviewRepetition)
         secondsCardView = view.findViewById(R.id.cardviewSeconds)
         weightCardView = view.findViewById(R.id.cardviewWeight)
@@ -340,7 +352,6 @@ class ExercisesInProgramFragment : Fragment() {
                     unitDistance)
                 // No Countdown for Cardio
             }
-//        daoExerciseInProgram.closeCursor()
         }
         activity?.findViewById<View>(R.id.drawer_layout)?.requestFocus()
         hideKeyboard(v)
@@ -627,7 +638,7 @@ class ExercisesInProgramFragment : Fragment() {
                 cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                seriesCardView.visibility = View.GONE
+                serieCardView.visibility = View.GONE
                 repetitionCardView.visibility = View.GONE
                 weightCardView.visibility = View.GONE
                 secondsCardView.visibility = View.GONE
@@ -640,7 +651,7 @@ class ExercisesInProgramFragment : Fragment() {
                 cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
-                seriesCardView.visibility = View.VISIBLE
+                serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.GONE
                 secondsCardView.visibility = View.VISIBLE
                 weightCardView.visibility = View.VISIBLE
@@ -653,7 +664,7 @@ class ExercisesInProgramFragment : Fragment() {
                 cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                seriesCardView.visibility = View.VISIBLE
+                serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
                 secondsCardView.visibility = View.GONE
                 weightCardView.visibility = View.VISIBLE
@@ -666,7 +677,7 @@ class ExercisesInProgramFragment : Fragment() {
                 cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                seriesCardView.visibility = View.VISIBLE
+                serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
                 secondsCardView.visibility = View.GONE
                 weightCardView.visibility = View.VISIBLE
