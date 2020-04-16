@@ -1,12 +1,27 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tab_fontes"
-    android:name="tab_fontes"
+    android:id="@+id/tab_program_runner"
+    android:name="tab_program_runner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
-
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:animateLayoutChanges="true"-->
+<!--        android:focusable="true"-->
+<!--        android:focusableInTouchMode="true"-->
+<!--        android:gravity="top"-->
+<!--        android:orientation="vertical"-->
+<!--        android:paddingLeft="0dp"-->
+<!--        android:paddingTop="0dp"-->
+<!--        android:paddingRight="0dp"-->
+<!--        android:paddingBottom="0dp"-->
+<!--        android:scrollbars="vertical">-->
+<!--    -->
+<!--    </LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +37,18 @@
         android:paddingBottom="0dp"
         android:scrollbars="vertical">
 
+        <TextView
+            android:text="@string/program_selection"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/programSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/mi_baseline"
+            android:padding="2dp"
+            style="@style/TextAppearance.AppCompat.Large" />
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
@@ -218,6 +245,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/RepetitionLabel_short" />
+
 
                     <EditText
                         android:id="@+id/editRepetition"
@@ -606,6 +634,20 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <it.sephiroth.android.library.numberpicker.NumberPicker
+            style="@style/NumberPicker.Filled"
+            app:picker_max="100"
+            app:picker_min="0"
+            android:progress="50"
+            app:picker_stepSize="1"
+            app:picker_tracker="exponential"
+            app:picker_orientation="horizontal"
+            android:id="@+id/repsPicker"
+            android:minHeight="@dimen/mi_button_cta_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"

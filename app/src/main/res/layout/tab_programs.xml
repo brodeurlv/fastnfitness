@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tab_machines"
-    android:name="tab_machines"
+    android:id="@+id/tab_programs"
+    android:name="tab_programs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
