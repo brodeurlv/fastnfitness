@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
+    viewBinding.enabled = true
 
     defaultConfig {
         applicationId "com.easyfitness"
@@ -112,9 +113,11 @@ dependencies {
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
 }
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 //apply plugin: 'com.google.gms.google-services'
