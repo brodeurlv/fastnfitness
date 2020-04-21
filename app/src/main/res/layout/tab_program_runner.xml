@@ -6,23 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:animateLayoutChanges="true"-->
-<!--        android:focusable="true"-->
-<!--        android:focusableInTouchMode="true"-->
-<!--        android:gravity="top"-->
-<!--        android:orientation="vertical"-->
-<!--        android:paddingLeft="0dp"-->
-<!--        android:paddingTop="0dp"-->
-<!--        android:paddingRight="0dp"-->
-<!--        android:paddingBottom="0dp"-->
-<!--        android:scrollbars="vertical">-->
-<!--    -->
-<!--    </LinearLayout>-->
+
     <LinearLayout
+        android:id="@+id/layoutProgramSelect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -53,7 +39,7 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp">
+            >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -72,7 +58,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
-                        android:src="@drawable/ic_machine"
+                        app:srcCompat="@drawable/ic_machine"
                         app:civ_background_color="@color/record_background_even"
                         app:civ_border_width="0dp"
                         app:civ_shadow="false" />
@@ -100,12 +86,12 @@
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
-                        android:src="@drawable/list" />
+                        app:srcCompat="@drawable/list"
+                        android:contentDescription="TODO" />
 
                 </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
 
         <LinearLayout
             android:id="@+id/exerciseTypeSelectionLayout"
@@ -131,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp">
+                >
 
                 <TextView
                     android:id="@+id/bodyBuildingSelection"
@@ -150,7 +136,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp">
+                >
 
                 <TextView
                     android:id="@+id/cardioSelection"
@@ -168,7 +154,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="40"
-                app:cardCornerRadius="5dp">
+                >
 
                 <TextView
                     android:id="@+id/staticSelection"
@@ -199,7 +185,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="40"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -233,7 +219,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="40"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -246,16 +232,50 @@
                         android:gravity="center"
                         android:text="@string/RepetitionLabel_short" />
 
+<!--                    <it.sephiroth.android.library.numberpicker.NumberPicker-->
+<!--                        app:picker_max="100"-->
+<!--                        app:picker_min="0"-->
+<!--                        android:progress="10"-->
+<!--                        app:picker_stepSize="1"-->
+<!--                        app:picker_tracker="exponential"-->
+<!--                        app:picker_orientation="vertical"-->
+<!--                        android:id="@+id/numberPicker"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content" />-->
+<!--                    <it.sephiroth.android.library.numberpicker.NumberPicker-->
+<!--                        style="@style/NumberPicker.Filled"-->
+<!--                        app:picker_max="100"-->
+<!--                        app:picker_min="0"-->
+<!--                        android:progress="50"-->
+<!--                        app:picker_stepSize="1"-->
+<!--                        app:picker_tracker="exponential"-->
+<!--                        app:picker_orientation="horizontal"-->
+<!--                        android:id="@+id/repsPicker"-->
+<!--                        android:minHeight="@dimen/mi_button_cta_height"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        />-->
 
-                    <EditText
-                        android:id="@+id/editRepetition"
+<!--                    android:progress="50"-->
+
+                    <it.sephiroth.android.library.numberpicker.NumberPicker
+                        android:id="@+id/numberPicker"
+                        app:picker_max="100"
+                        app:picker_min="0"
+                        app:picker_stepSize="1"
+                        app:picker_tracker="exponential"
+                        app:picker_orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:minEms="2"
-                        android:textSize="18sp"
+                        android:layout_height="wrap_content" />
+<!--                                        <EditText-->
+<!--                        android:id="@+id/editRepetition"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:inputType="number"-->
+<!--                        android:minEms="2"-->
+<!--                        android:textSize="18sp"-->
                         tools:text="10" />
 
                 </LinearLayout>
@@ -269,7 +289,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="40"
                 android:visibility="gone"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -280,7 +300,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Seconds" />
+                        android:text="@string/SecondsLabel_short" />
 
                     <EditText
                         android:id="@+id/editSeconds"
@@ -304,7 +324,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="40"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -392,7 +412,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
                 android:visibility="gone"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -439,7 +459,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="30"
                 android:visibility="gone"
-                app:cardCornerRadius="5dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -468,7 +488,7 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp">
+            >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -485,7 +505,8 @@
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:src="@drawable/baseline_keyboard_arrow_up_black_36" />
+                    app:srcCompat="@drawable/baseline_keyboard_arrow_up_black_36"
+                    android:contentDescription="expandadditionaldetailsarrow" />
 
                 <LinearLayout
                     android:id="@+id/notesLayout"
@@ -494,68 +515,68 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="Automatic time" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="8dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="right"-->
+<!--                            android:text="Automatic time" />-->
 
-                        <CheckBox
-                            android:id="@+id/autoTimeCheckBox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:text="" />
+<!--                        <CheckBox-->
+<!--                            android:id="@+id/autoTimeCheckBox"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:checked="true"-->
+<!--                            android:text="" />-->
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="50"
-                            android:gravity="right|end"
-                            android:text="@string/DateLabel" />
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="8dp"-->
+<!--                            android:layout_weight="50"-->
+<!--                            android:gravity="right|end"-->
+<!--                            android:text="@string/DateLabel" />-->
 
-                        <TextView
-                            android:id="@+id/editDate"
-                            tools:text="10/05/20"
-                            style="@style/editableTextView"
-                            android:enabled="false"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/editDate"-->
+<!--                            tools:text="10/05/20"-->
+<!--                            style="@style/editableTextView"-->
+<!--                            android:enabled="false"/>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="fill_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="100"
-                            android:gravity="right"
-                            android:text="@string/timeLabel" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="8dp"-->
+<!--                            android:layout_weight="100"-->
+<!--                            android:gravity="right"-->
+<!--                            android:text="@string/timeLabel" />-->
 
-                        <TextView
-                            android:id="@+id/editTime"
-                            style="@style/editableTextView"
-                            tools:text="18:26:10"
-                            android:enabled="false"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/editTime"-->
+<!--                            style="@style/editableTextView"-->
+<!--                            tools:text="18:26:10"-->
+<!--                            android:enabled="false"/>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:id="@+id/restTimeLayout"
@@ -597,7 +618,6 @@
                             android:inputType="number"
                             android:singleLine="true"
                             android:text="60" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -635,19 +655,15 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <it.sephiroth.android.library.numberpicker.NumberPicker
-            style="@style/NumberPicker.Filled"
-            app:picker_max="100"
-            app:picker_min="0"
-            android:progress="50"
-            app:picker_stepSize="1"
-            app:picker_tracker="exponential"
-            app:picker_orientation="horizontal"
-            android:id="@+id/repsPicker"
-            android:minHeight="@dimen/mi_button_cta_height"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        />
+<!--        <it.sephiroth.android.library.numberpicker.NumberPicker-->
+<!--            android:id="@+id/numberPicker"-->
+<!--            app:picker_max="100"-->
+<!--            app:picker_min="0"-->
+<!--            app:picker_stepSize="1"-->
+<!--            app:picker_tracker="exponential"-->
+<!--            app:picker_orientation="vertical"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
 
         <LinearLayout
             android:layout_width="match_parent"

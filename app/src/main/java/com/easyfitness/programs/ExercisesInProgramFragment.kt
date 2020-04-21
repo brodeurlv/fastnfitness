@@ -16,7 +16,6 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
 import com.easyfitness.DAO.*
@@ -80,21 +79,21 @@ class ExercisesInProgramFragment : Fragment() {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
         val programs = daoProgram.allProgramsNames
-        if(programs==null || programs.size<=0){
+        if (programs == null || programs.size == 0) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
-            Toast.makeText(context,"Add program first",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Add program first", Toast.LENGTH_LONG).show()
             transaction.replace(R.id.fragment_container, programsFragment)
             transaction.addToBackStack(null)
             // Commit the transaction
             transaction.commit()
-        }else {
+        } else {
             programId = daoProgram.getRecord(programs[0]).id
             programSelect = view.findViewById(R.id.programSelect)
-            val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, programs)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
             programSelect.adapter = adapter
             programSelect.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
@@ -179,9 +178,9 @@ class ExercisesInProgramFragment : Fragment() {
         exerciseImage.setOnClickListener {
             val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
-                val profileId: Long = (Objects.requireNonNull(activity) as MainActivity).currentProfil.id
+                val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
                 val machineDetailsFragment = ExerciseDetailsPager.newInstance(m.id, profileId)
-                val transaction = activity!!.supportFragmentManager.beginTransaction()
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
                 transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS)
@@ -199,7 +198,7 @@ class ExercisesInProgramFragment : Fragment() {
         val strSecond: String = if (second < 10) "0$second" else second.toString()
         val date = "$strHour:$strMinute:$strSecond"
         durationEdit.text = date
-        hideKeyboard(durationEdit)
+        hideKeyboard()
     }
     private lateinit var daoExerciseInProgram: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
@@ -229,32 +228,32 @@ class ExercisesInProgramFragment : Fragment() {
     private val itemClickDeleteRecord = BtnClickListener { idToDelete: Long -> showDeleteDialog(idToDelete) }
 
     @SuppressLint("SetTextI18n")
-    private val clickAddButton = View.OnClickListener { v: View? ->
+    private val clickAddButton = View.OnClickListener { _: View? ->
         if (exerciseEdit.text.toString().isEmpty()) {
-            KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
+            KToast.warningToast(requireActivity(), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
             return@OnClickListener
         }
         val exerciseType: Int
         val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
-            exerciseType = lMachine?.type ?: selectedType
+        exerciseType = lMachine?.type ?: selectedType
         var restTime = 60
         try {
             restTime = restTimeEdit.text.toString().toInt()
         } catch (e: NumberFormatException) {
             restTimeEdit.setText("60")
         }
-        val currentTimeAsOrder: Long= System.currentTimeMillis()
+        val currentTimeAsOrder: Long = System.currentTimeMillis()
         when (exerciseType) {
             TYPE_FONTE -> {
                 if (seriesEdit.text.toString().isEmpty() ||
                     repetitionEdit.text.toString().isEmpty() ||
                     poidsEdit.text.toString().isEmpty()) {
-                    KToast.warningToast(Objects.requireNonNull(activity), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
+                    KToast.warningToast(requireActivity(), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
                     return@OnClickListener
                 }
                 var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()  /* Weight conversion */
                 var unitPoids = UnitConverter.UNIT_KG // Kg
-                val mContext = context!!
+                val mContext = requireContext()
                 if (unitSpinner.selectedItem.toString() == mContext.getString(R.string.LbsUnitLabel)) {
                     tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
                     unitPoids = UnitConverter.UNIT_LBS // LBS
@@ -281,7 +280,7 @@ class ExercisesInProgramFragment : Fragment() {
                 /* Weight conversion */
                 var tmpPoids = poidsEdit.text.toString().replace(",".toRegex(), ".").toFloat()
                 var unitPoids = UnitConverter.UNIT_KG // Kg
-                if (unitSpinner.selectedItem.toString() == view!!.context.getString(R.string.LbsUnitLabel)) {
+                if (unitSpinner.selectedItem.toString() == requireContext().getString(R.string.LbsUnitLabel)) {
                     tmpPoids = UnitConverter.LbstoKg(tmpPoids) // Always convert to KG
                     unitPoids = UnitConverter.UNIT_LBS // LBS
                 }
@@ -308,7 +307,7 @@ class ExercisesInProgramFragment : Fragment() {
             TYPE_CARDIO -> {
                 if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
                     distanceEdit.text.toString().isEmpty()) {
-                    KToast.warningToast(Objects.requireNonNull(activity),
+                    KToast.warningToast(requireActivity(),
                         resources.getText(R.string.missinginfo).toString() + " Distance missing",
                         Gravity.BOTTOM, KToast.LENGTH_SHORT)
                     return@OnClickListener
@@ -354,11 +353,11 @@ class ExercisesInProgramFragment : Fragment() {
             }
         }
         activity?.findViewById<View>(R.id.drawer_layout)?.requestFocus()
-        hideKeyboard(v)
+        hideKeyboard()
         lTableColor = (lTableColor + 1) % 2 // Change the color each time you add data
         refreshData()
         /* Reinitialisation des machines */
-        val adapter = ArrayAdapter(view!!.context,
+        val adapter = ArrayAdapter(requireView().context,
             android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllMachines(profil))
         exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)
@@ -390,7 +389,7 @@ class ExercisesInProgramFragment : Fragment() {
                 val lMachine = lMachineDb.getMachine(machineID)
                 setCurrentExercise(lMachine.name)
                 mainActivity.findViewById<View>(R.id.drawer_layout).requestFocus()
-                hideKeyboard(mainActivity.findViewById(R.id.drawer_layout))
+                hideKeyboard()
                 if (machineListDialog.isShowing) {
                     machineListDialog.dismiss()
                 }
@@ -440,7 +439,7 @@ class ExercisesInProgramFragment : Fragment() {
     }
 
     private fun showDeleteDialog(idToDelete: Long) {
-        SweetAlertDialog(Objects.requireNonNull(context), SweetAlertDialog.WARNING_TYPE)
+        SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
             .setTitleText(getString(R.string.DeleteRecordDialog))
             .setContentText(resources.getText(R.string.areyousure).toString())
             .setCancelText(resources.getText(R.string.global_no).toString())
@@ -449,7 +448,7 @@ class ExercisesInProgramFragment : Fragment() {
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
                 updateRecordTable(exerciseEdit.text.toString())
-                KToast.infoToast(Objects.requireNonNull(activity), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
+                KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
             .show()
@@ -463,7 +462,7 @@ class ExercisesInProgramFragment : Fragment() {
 
     val name: String?
         get() {
-            return arguments!!.getString("name")
+            return requireArguments().getString("name")
         }
 
     @SuppressLint("CommitTransaction")
@@ -568,8 +567,8 @@ class ExercisesInProgramFragment : Fragment() {
 
     private fun updateRecordTable(pMachine: String) { // Exercises in program list
         mainActivity.currentMachine = pMachine
-        if (view == null) return
-        view!!.post {
+//        if (view == null) return
+        requireView().post {
             val c: Cursor?
             val oldCursor: Cursor
             val r = daoExerciseInProgram.getLastRecord(profil)
@@ -598,7 +597,7 @@ class ExercisesInProgramFragment : Fragment() {
         if (fragmentView != null) {
             if (profil != null) {
                 daoExerciseInProgram.setProfile(profil)
-                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
 
                 /* Init exercises list*/
                 val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
@@ -708,9 +707,9 @@ class ExercisesInProgramFragment : Fragment() {
         if (!hidden) refreshData()
     }
 
-    private fun hideKeyboard(view: View?) {
-        val inputMethodManager = Objects.requireNonNull(Objects.requireNonNull(activity)!!.getSystemService(Activity.INPUT_METHOD_SERVICE)) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view!!.windowToken, 0)
+    private fun hideKeyboard() {
+        val inputMethodManager = Objects.requireNonNull(requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE)) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
     companion object {
