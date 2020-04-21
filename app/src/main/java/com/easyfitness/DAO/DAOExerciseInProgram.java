@@ -39,7 +39,7 @@ public class DAOExerciseInProgram extends DAOBase {
     //rest between exercises
     private static final String REST_SECONDS = "rest_seconds";
     private static final String PROGRAM_ID = "program_id";
-    private static final String ORDER_EXECUTION = "order_in_program";
+    public static final String ORDER_EXECUTION = "order_in_program";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, "
@@ -54,8 +54,6 @@ public class DAOExerciseInProgram extends DAOBase {
 //        + REPETITION + "," + WEIGHT + "," + WEIGHT + "," + PROFIL_KEY + ","
 //        + UNIT + "," + NOTES + "," + MACHINE_KEY + "," + TIME + "," + DISTANCE + "," +
 //        DURATION + "," + TYPE + "," + SECONDS + "," + DISTANCE_UNIT+ ","+ORDER_EXECUTION;
-//    public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-//        + TABLE_NAME + ";";
 
     protected Profile mProfile = null;
     protected Cursor mCursor = null;
@@ -296,18 +294,67 @@ public class DAOExerciseInProgram extends DAOBase {
     }
 
     public ArrayList<ARecord> getAllExerciseInProgramArray() {
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + ";";//+ " ORDER BY "
-        // + KEY + " ASC;";
-        return getExerciseList(selectQuery);
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY "
+         + ORDER_EXECUTION + " DESC;";
+        return getExerciseListToList(selectQuery);
     }
 
-    public ArrayList<ARecord> getAllExerciseInProgram(Long programId) {
+    public ArrayList<ARecord> getAllExerciseInProgramAsList(Long programId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
-            + " ORDER BY " + KEY + " DESC;";
+            + " ORDER BY " + ORDER_EXECUTION + " DESC;";
+        return getExerciseListToList(selectQuery);
+    }
+
+    public ArrayList<ExerciseInProgram> getAllExerciseInProgram(Long programId) {
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
+            + " ORDER BY " + ORDER_EXECUTION + " DESC;";
         return getExerciseList(selectQuery);
     }
 
-    private ArrayList<ARecord> getExerciseList(String pRequest) {
+    private ArrayList<ExerciseInProgram> getExerciseList(String pRequest) {
+        ArrayList<ExerciseInProgram> valueList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        try {
+            mCursor = db.rawQuery(pRequest, null);
+        } catch (Exception ex) {
+            Log.e("Err MU", "EX " + ex);
+            Toast.makeText(mContext, "Ex" + ex, Toast.LENGTH_LONG).show();
+        }
+        // looping through all rows and adding to list
+        if (mCursor.moveToFirst()) {
+            do {
+                ExerciseInProgram value = new ExerciseInProgram(
+                    //int secRest, String pMachine, int pSerie, int pRepetition, float pPoids,
+                    //                             Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime,
+                    //                             int type, int distance, String duration, int seconds, int distanceUnit,
+                    //                             long order
+                    mCursor.getInt(mCursor.getColumnIndex(REST_SECONDS)),
+                    mCursor.getString(mCursor.getColumnIndex(EXERCISE)),
+                    mCursor.getInt(mCursor.getColumnIndex(SERIE)),
+                    mCursor.getInt(mCursor.getColumnIndex(REPETITION)),
+                    mCursor.getInt(mCursor.getColumnIndex(WEIGHT)),
+                    mProfile,
+                    mCursor.getInt(mCursor.getColumnIndex(UNIT)),
+                    mCursor.getString(mCursor.getColumnIndex(NOTES)),
+                    mCursor.getInt(mCursor.getColumnIndex(MACHINE_KEY)),
+                    mCursor.getString(mCursor.getColumnIndex(TIME)),
+                    mCursor.getInt(mCursor.getColumnIndex(TYPE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DISTANCE)),
+                    mCursor.getString(mCursor.getColumnIndex(DURATION)),
+                    mCursor.getInt(mCursor.getColumnIndex(SECONDS)),
+                    mCursor.getInt(mCursor.getColumnIndex(DISTANCE_UNIT)),
+                    mCursor.getLong(mCursor.getColumnIndex(ORDER_EXECUTION))
+                    );
+
+                value.setId(mCursor.getLong(mCursor.getColumnIndex(KEY)));
+                valueList.add(value);
+            } while (mCursor.moveToNext());
+        }
+        return valueList;
+    }
+
+    private ArrayList<ARecord> getExerciseListToList(String pRequest) {
         ArrayList<ARecord> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;

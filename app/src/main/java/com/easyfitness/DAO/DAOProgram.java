@@ -81,7 +81,7 @@ public class DAOProgram extends DAOBase{
         return value;
     }
 
-    public List<String> getAllProgramsNames() {
+    public List<String>     getAllProgramsNames() {
         List<String> programs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
