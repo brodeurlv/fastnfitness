@@ -36,7 +36,7 @@
                 android:maxHeight="200dp"
                 android:minHeight="60dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_machine" />
+                app:srcCompat="@drawable/ic_machine" />
 
 
             <LinearLayout

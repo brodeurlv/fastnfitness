@@ -49,7 +49,7 @@
                     android:maxHeight="200dp"
                     android:minHeight="60dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/profile"
+                    app:srcCompat="@drawable/profile"
                     android:textAlignment="center"
                     app:civ_background_color="@color/gray"
                     app:civ_border_color="@color/gray"
