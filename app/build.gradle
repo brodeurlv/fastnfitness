@@ -78,16 +78,15 @@ dependencies {
 
 // Support
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
-    implementation 'androidx.core:core:1.0.2'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'androidx.core:core:1.2.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.0.0'
-    implementation 'androidx.fragment:fragment:1.0.0'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
+    implementation 'androidx.fragment:fragment:1.2.4'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
 
 // Firebase
     //implementation 'com.google.firebase:firebase-core:17.0.0'
@@ -111,9 +110,10 @@ dependencies {
     //    transitive = true
     //})
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.2.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.github.senpl:NumberSlidingPicker:2cd87266c8e7d7656df9eef964bf062da95833a3' //from https://github.com/senpl/NumberSlidingPicker/commit/2cd87266c8e7d7656df9eef964bf062da95833a3
 }
 repositories {
     mavenCentral()
