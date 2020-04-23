@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="toolbar_background">#0CACF4</color>
+    <color name="design_default_color_primary">@color/text_color</color>
     <color name="record_background_odd">#99D6EA</color>
     <color name="record_background_even">#CCEAF4</color>
     <color name="background">#FFFFFF</color>
