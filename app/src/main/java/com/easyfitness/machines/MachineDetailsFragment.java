@@ -55,35 +55,35 @@ public class MachineDetailsFragment extends Fragment {
     public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     // http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
     //protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
-    protected List<String> _musclesArray = new ArrayList<String>();
-    protected boolean[] _selections;
-    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
-    TextView musclesList = null;
-    EditText machineName = null;
-    EditText machineDescription = null;
-    ImageView machinePhoto = null;
-    FloatingActionButton machineAction = null;
-    LinearLayout machinePhotoLayout = null;
+    private List<String> _musclesArray = new ArrayList<String>();
+    private boolean[] _selections;
+//    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
+    private TextView musclesList = null;
+    private EditText machineName = null;
+    private EditText machineDescription = null;
+    private ImageView machinePhoto = null;
+    private FloatingActionButton machineAction = null;
+    private LinearLayout machinePhotoLayout = null;
     // Selection part
-    LinearLayout exerciseTypeSelectorLayout = null;
-    TextView bodybuildingSelector = null;
-    TextView cardioSelector = null;
-    int selectedType = DAOMachine.TYPE_FONTE;
-    String machineNameArg = null;
-    long machineIdArg = 0;
-    long machineProfilIdArg = 0;
-    boolean isImageFitToScreen = false;
-    ExerciseDetailsPager pager = null;
-    ArrayList selectMuscleList = new ArrayList();
-    DAOMachine mDbMachine = null;
-    DAORecord mDbRecord = null;
-    Machine mMachine;
+    private LinearLayout exerciseTypeSelectorLayout = null;
+    private TextView bodybuildingSelector = null;
+    private TextView cardioSelector = null;
+    private int selectedType = DAOMachine.TYPE_FONTE;
+    private String machineNameArg = null;
+    private long machineIdArg = 0;
+    private long machineProfilIdArg = 0;
+    private boolean isImageFitToScreen = false;
+    private ExerciseDetailsPager pager = null;
+    private ArrayList selectMuscleList = new ArrayList();
+    private DAOMachine mDbMachine = null;
+    private DAORecord mDbRecord = null;
+    private Machine mMachine;
 
-    View fragmentView = null;
+    private View fragmentView = null;
 
-    ImageUtil imgUtil = null;
-    boolean isCreateMuscleDialogActive = false;
-    String mCurrentPhotoPath = null;
+    private ImageUtil imgUtil = null;
+    private boolean isCreateMuscleDialogActive = false;
+    private String mCurrentPhotoPath = null;
     private boolean toBeSaved;
     public TextWatcher watcher = new TextWatcher() {
         @Override
@@ -101,7 +101,6 @@ public class MachineDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
     private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
     private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
@@ -266,22 +265,6 @@ public class MachineDetailsFragment extends Fragment {
         return view;
     }
 
-    private void showDeleteDialog(final long idToDelete) {
-
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-            .setTitleText(getString(R.string.DeleteRecordDialog))
-            .setContentText(getResources().getText(R.string.areyousure).toString())
-            .setCancelText(getResources().getText(R.string.global_no).toString())
-            .setConfirmText(getResources().getText(R.string.global_yes).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                mDbRecord.deleteRecord(idToDelete);
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                sDialog.dismissWithAnimation();
-            })
-            .show();
-    }
-
     private boolean CreateMuscleDialog() {
         if (isCreateMuscleDialogActive)
             return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
@@ -405,7 +388,7 @@ public class MachineDetailsFragment extends Fragment {
         }
     }
 
-    public void setMuscleText(String t) {
+    private void setMuscleText(String t) {
         musclesList.setText(t);
     }
 
@@ -419,7 +402,7 @@ public class MachineDetailsFragment extends Fragment {
     }
 
 
-    public void buildMusclesTable() {
+    private void buildMusclesTable() {
         _musclesArray.add(getActivity().getResources().getString(R.string.biceps));
         _musclesArray.add(getActivity().getResources().getString(R.string.triceps));
         _musclesArray.add(getActivity().getResources().getString(R.string.pectoraux));
@@ -440,7 +423,7 @@ public class MachineDetailsFragment extends Fragment {
     /*
      * @return the name of the Muscle depending on the language
      */
-    public String getMuscleNameFromId(int id) {
+    private String getMuscleNameFromId(int id) {
         String ret = "";
         try {
             ret = _musclesArray.get(id);
@@ -453,7 +436,7 @@ public class MachineDetailsFragment extends Fragment {
     /*
      * @return the name of the Muscle depending on the language
      */
-    public int getMuscleIdFromName(String pName) {
+    private int getMuscleIdFromName(String pName) {
         for (int i = 0; i < _musclesArray.size(); i++) {
             if (_musclesArray.get(i).equals(pName)) return i;
         }
@@ -463,7 +446,7 @@ public class MachineDetailsFragment extends Fragment {
     /*
      * @return the name of the Muscle depending on the language
      */
-    public String getDBStringFromInput(String pInput) {
+    private String getDBStringFromInput(String pInput) {
         String[] data = pInput.split(";");
         StringBuilder output = new StringBuilder();
 
@@ -480,11 +463,10 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
-
     /*
      * @return the name of the Muscle depending on the language
      */
-    public String getInputFromDBString(String pDBString) {
+    private String getInputFromDBString(String pDBString) {
         String[] data = pDBString.split(";");
         StringBuilder output = new StringBuilder();
 
@@ -513,40 +495,11 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
-    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath) {
-        int rotate = 0;
-        try {
-            context.getContentResolver().notifyChange(imageUri, null);
-            File imageFile = new File(imagePath);
-
-            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-            }
-
-            //Log.i("RotateImage", "Exif orientation: " + orientation);
-            //Log.i("RotateImage", "Rotate value: " + rotate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rotate;
-    }
-
-    public boolean toBeSaved() {
+    boolean toBeSaved() {
         return toBeSaved;
     }
 
-    public void machineSaved() {
+    void machineSaved() {
         toBeSaved = false;
     }
 
