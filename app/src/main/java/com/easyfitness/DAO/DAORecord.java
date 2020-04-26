@@ -26,8 +26,8 @@ public class DAORecord extends DAOBase {
     public static final String TIME = "time";
     public static final String EXERCISE = "machine";
     public static final String PROFIL_KEY = "profil_id";
-    public static final String MACHINE_KEY = "machine_id";
-    public static final String NOTES = "notes";
+    static final String MACHINE_KEY = "machine_id";
+    static final String NOTES = "notes";
     public static final String TYPE = "type";
 
     // Specific to BodyBuilding
@@ -51,7 +51,7 @@ public class DAORecord extends DAOBase {
         + " INTEGER, " + UNIT + " INTEGER, " + NOTES + " TEXT, " + MACHINE_KEY
         + " INTEGER," + TIME + " TEXT," + DISTANCE + " REAL, " + DURATION + " TEXT, " + TYPE + " INTEGER, " + SECONDS + " INTEGER, " + DISTANCE_UNIT + " INTEGER);";
 
-    public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
+    static final String TABLE_DROP = "DROP TABLE IF EXISTS "
         + TABLE_NAME + ";";
 
     protected Profile mProfile = null;
@@ -91,7 +91,7 @@ public class DAORecord extends DAOBase {
      * @param pMachine Machine name
      * @return id of the added record, -1 if error
      */
-    public long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration, int pSeconds, int distance_unit ) {
+    long addRecord(Date pDate, String pMachine, int pType, int pSerie, int pRepetition, float pPoids, Profile pProfile, int pUnit, String pNote, String pTime, float pDistance, long pDuration, int pSeconds, int distance_unit ) {
         ContentValues value = new ContentValues();
         long new_id = -1;
         long machine_key = -1;
@@ -210,7 +210,7 @@ public class DAORecord extends DAOBase {
         return getAllRecordByMachines(pProfile, pMachines, -1);
     }
 
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
+    private Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
@@ -235,7 +235,7 @@ public class DAORecord extends DAOBase {
      * @param pNbRecords max number of records requested
      * @return pNbRecords number of records for a specified pProfile
      */
-    public Cursor getAllRecordsByProfile(Profile pProfile, int pNbRecords) {
+    private Cursor getAllRecordsByProfile(Profile pProfile, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
@@ -538,7 +538,7 @@ public class DAORecord extends DAOBase {
         return getAllRecordByMachinesArray(pProfile, pMachines, -1);
     }
 
-    public List<IRecord> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
+    private List<IRecord> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
@@ -657,7 +657,7 @@ public class DAORecord extends DAOBase {
         if (mCursor != null) mCursor.close();
     }
 
-    public void closeAll() {
+    void closeAll() {
         if (mCursor != null) mCursor.close();
         close();
     }
