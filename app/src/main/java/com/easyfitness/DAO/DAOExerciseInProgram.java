@@ -19,8 +19,8 @@ public class DAOExerciseInProgram extends DAOBase {
 
     public static final String EXERCISE = "machine";
     public static final String PROFIL_KEY = "profil_id";
-    public static final String MACHINE_KEY = "machine_id";
-    public static final String NOTES = "notes";
+    private static final String MACHINE_KEY = "machine_id";
+    private static final String NOTES = "notes";
     public static final String TYPE = "type";
 
     // Specific to Strength
@@ -39,7 +39,7 @@ public class DAOExerciseInProgram extends DAOBase {
     //rest between exercises
     private static final String REST_SECONDS = "rest_seconds";
     private static final String PROGRAM_ID = "program_id";
-    public static final String ORDER_EXECUTION = "order_in_program";
+    static final String ORDER_EXECUTION = "order_in_program";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE + " TEXT, "
@@ -164,7 +164,7 @@ public class DAOExerciseInProgram extends DAOBase {
         db.close();
     }
 
-    public IRecord getRecord(long id) {
+    private IRecord getRecord(long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
         mCursor = getRecordsListCursor(selectQuery);
@@ -301,13 +301,13 @@ public class DAOExerciseInProgram extends DAOBase {
 
     public ArrayList<ARecord> getAllExerciseInProgramAsList(Long programId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
-            + " ORDER BY " + ORDER_EXECUTION + " DESC;";
+            + " ORDER BY " + ORDER_EXECUTION + " ASC;";
         return getExerciseListToList(selectQuery);
     }
 
     public ArrayList<ExerciseInProgram> getAllExerciseInProgram(Long programId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
-            + " ORDER BY " + ORDER_EXECUTION + " DESC;";
+            + " ORDER BY " + ORDER_EXECUTION + " ASC;";
         return getExerciseList(selectQuery);
     }
 
