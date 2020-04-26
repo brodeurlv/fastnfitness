@@ -48,7 +48,7 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var restTimeCheck: CheckBox
     private lateinit var exerciseImage: CircularImageView
     private var lTableColor = 1
-    private lateinit var machineListDialog: AlertDialog
+    private var machineListDialog: AlertDialog? = null
     private lateinit var minMaxLayout: LinearLayout
 
     // Selection part
@@ -365,7 +365,7 @@ class ExercisesInProgramFragment : Fragment() {
     }
     private val onClickMachineListWithIcons = View.OnClickListener { v ->
         val oldCursor: Cursor
-        if (machineListDialog.isShowing) {        // In case the dialog is already open
+        if (machineListDialog != null && machineListDialog!!.isShowing) {        // In case the dialog is already open
             return@OnClickListener
         }
         val machineList = ListView(v.context)
@@ -390,15 +390,15 @@ class ExercisesInProgramFragment : Fragment() {
                 setCurrentExercise(lMachine.name)
                 mainActivity.findViewById<View>(R.id.drawer_layout).requestFocus()
                 hideKeyboard()
-                if (machineListDialog.isShowing) {
-                    machineListDialog.dismiss()
+                if (machineListDialog!!.isShowing) {
+                    machineListDialog!!.dismiss()
                 }
             }
             val builder = AlertDialog.Builder(v.context)
             builder.setTitle(R.string.selectMachineDialogLabel)
             builder.setView(machineList)
             machineListDialog = builder.create()
-            machineListDialog.show()
+            machineListDialog!!.show()
         }
     }
     private val onItemClickFilterList = OnItemClickListener { _: AdapterView<*>?, _: View?, _: Int, _: Long -> setCurrentExercise(exerciseEdit.text.toString()) }
@@ -567,7 +567,6 @@ class ExercisesInProgramFragment : Fragment() {
 
     private fun updateRecordTable(pMachine: String) { // Exercises in program list
         mainActivity.currentMachine = pMachine
-//        if (view == null) return
         requireView().post {
             val c: Cursor?
             val oldCursor: Cursor
@@ -604,7 +603,7 @@ class ExercisesInProgramFragment : Fragment() {
                 exerciseEdit.setAdapter(exerciseArrayFullAdapter)
                 if (exerciseEdit.text.toString().isEmpty()) {
                     val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
-                    if (lLastRecord != null) { // Last recorded exercise
+                    if (lLastRecord != null && lLastRecord.exercise!=null) { // Last recorded exercise
                         setCurrentExercise(lLastRecord.exercise)
                     } else { // Default Values
                         exerciseEdit.setText("")
