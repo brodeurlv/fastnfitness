@@ -1,7 +1,6 @@
 package com.easyfitness;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,8 +42,6 @@ import com.easyfitness.DAO.DatabaseHelper;
 import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.bodymeasures.BodyMeasure;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
@@ -55,11 +51,11 @@ import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.programs.ProgramsPagerFragment;
 import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.EditableInputView.EditableInputView;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
 import com.easyfitness.utils.UnitConverter;
+import com.facebook.stetho.Stetho;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -67,7 +63,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -76,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     public static String FONTESPAGER = "FontePager";
-    public static String FONTES = "Fonte";
-    public static String HISTORY = "History";
-    public static String GRAPHIC = "Graphics";
-    public static String CARDIO = "Cardio";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String PROGRAMS = "Programs";
@@ -209,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
 
         if (ContextCompat.checkSelfPermission(this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -340,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_barbell, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.ic_arm, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.outline_assignment_24, true));
         //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
@@ -987,7 +979,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void initActivity() {
+    public void  initActivity() {
         // Initialisation des objets DB
         mDbProfils = new DAOProfil(this.getApplicationContext());
 

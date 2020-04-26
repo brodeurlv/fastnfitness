@@ -360,7 +360,7 @@
     <string name="autoui_mode" translatable="false">Auto</string>
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
     <string name="fitness_programs">Programs</string>
-    <string name="manu_programs">Programs</string>
+    <string name="manu_programs"> Programs</string>
     <string name="FromProgramLabel">Programs</string>
     <string name="NewProgramHint">Name of your training program</string>
     <string name="ProgramsLabel">Programs</string>
@@ -369,5 +369,7 @@
     <string name="program_hint">Enter program name</string>
     <string name="ExercisesInProgram">Exercses in program:</string>
     <string name="program_selection">Selected program:</string>
+    <string name="arrowPreviousAsText"><![CDATA[<]]></string>
+    <string name="arrowNextAsText"><![CDATA[>]]></string>
 
 </resources>
