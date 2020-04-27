@@ -13,8 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class ProgramsPagerFragment extends Fragment {
-    FragmentPagerItemAdapter pagerAdapter = null;
-    ViewPager mViewPager = null;
+    private FragmentPagerItemAdapter pagerAdapter = null;
+    private ViewPager mViewPager = null;
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -84,7 +84,7 @@ public class ProgramsPagerFragment extends Fragment {
 //        return (ViewPager) getView().findViewById(R.id.pager);
 //    }
 
-    public FragmentPagerItemAdapter getViewPagerAdapter() {
+    private FragmentPagerItemAdapter getViewPagerAdapter() {
         return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
     }
 
