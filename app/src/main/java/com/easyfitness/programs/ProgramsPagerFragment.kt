@@ -46,7 +46,7 @@ class ProgramsPagerFragment : Fragment() {
     }
 
     private val viewPagerAdapter: FragmentPagerItemAdapter?
-        get() = (view!!.findViewById<View>(R.id.pager) as ViewPager).adapter as FragmentPagerItemAdapter?
+        get() = (requireView().findViewById<View>(R.id.pager) as ViewPager).adapter as FragmentPagerItemAdapter?
 
     override fun onHiddenChanged(hidden: Boolean) {
         if (!hidden) {
@@ -61,7 +61,7 @@ class ProgramsPagerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(name: String?, id: Int): ProgramsPagerFragment {
+        fun newInstance(name: String, id: Int): ProgramsPagerFragment {
             val f = ProgramsPagerFragment()
             val args = Bundle()
             args.putString("name", name)
@@ -69,5 +69,10 @@ class ProgramsPagerFragment : Fragment() {
             f.arguments = args
             return f
         }
+
+//        @JvmStatic
+//        fun newInstance(PROGRAMS: String, i: Int): ProgramsPagerFragment {
+//
+//        }
     }
 }

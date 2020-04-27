@@ -116,14 +116,14 @@ class ProgramsFragment : Fragment() {
                     programsList!!.adapter = null
                 } else {
                     if (programsList!!.adapter == null) {
-                        mTableAdapter = ProgramCursorAdapter(activity, c, 0, daoProgram)
+                        mTableAdapter = ProgramCursorAdapter(requireContext(), c, 0, daoProgram)
                         programsList!!.adapter = mTableAdapter
                     } else {
                         mTableAdapter = programsList!!.adapter as ProgramCursorAdapter
                         oldCursor = mTableAdapter!!.swapCursor(c)
                         oldCursor?.close()
                     }
-                    mTableAdapter!!.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? -> daoProgram!!.getFilteredPrograms(constraint) }
+                    mTableAdapter!!.filterQueryProvider = FilterQueryProvider { constraint: CharSequence -> daoProgram!!.getFilteredPrograms(constraint) }
                 }
             }
         }

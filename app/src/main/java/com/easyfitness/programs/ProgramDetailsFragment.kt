@@ -75,7 +75,7 @@ class ProgramDetailsFragment : Fragment() {
         val args = this.arguments
         machineIdArg = args!!.getLong("machineID")
         machineProfilIdArg = args.getLong("machineProfile")
-        mMachine = mDbMachine!!.getRecord(machineNameArg)
+        mMachine = mDbMachine!!.getRecord(machineNameArg)!!
         machineNameArg = mMachine.programName
         if (machineNameArg == "") {
             requestForSave()

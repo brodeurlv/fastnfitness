@@ -102,8 +102,8 @@ class ProgramRunner : Fragment() {
         daoStatic = DAOStatic(context)
         mDbMachine = DAOMachine(context)
         val programs = daoProgram.allProgramsNames
-        daoExerciseInProgram = DAOExerciseInProgram(context)
-        if (programs == null || programs.size == 0) {
+        daoExerciseInProgram = DAOExerciseInProgram(requireContext())
+        if (programs == null || programs.isEmpty()) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -115,25 +115,28 @@ class ProgramRunner : Fragment() {
             // Commit the transaction
             transaction.commit()
         } else {
-            programId = daoProgram.getRecord(programs[0]).id
-            programSelect = view.findViewById(R.id.programSelect)
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
-            programSelect.adapter = adapter
-            programSelect.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
-                    programId = daoProgram.getRecord(programs[position]).id
-                    currentExerciseOrder = 0
+            var programFirst=daoProgram.getRecord(programs[0])
+            if(programFirst!=null) {
+                programId = programFirst.id
+                programSelect = view.findViewById(R.id.programSelect)
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
+                programSelect.adapter = adapter
+                programSelect.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>,
+                                                view: View, position: Int, id: Long) {
+                        var program: Program? = daoProgram.getRecord(programs[position])
+                        if (program != null) {
+                            programId = program.id
+                            currentExerciseOrder = 0
+                            exercisesFromProgram = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                            refreshData()
+                            Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-                    exercisesFromProgram = daoExerciseInProgram.getAllExerciseInProgram(programId)
-//                    Toast.makeText(context, getString(R.string.program_selection) + " " + exercisesFromProgram[0]+"  "+exercisesFromProgram[1], Toast.LENGTH_SHORT).show()
-
-                    refreshData()
-                    Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                    }
                 }
             }
         }

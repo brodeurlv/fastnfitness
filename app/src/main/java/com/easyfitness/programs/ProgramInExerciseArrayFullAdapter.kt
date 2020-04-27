@@ -10,7 +10,7 @@ import com.easyfitness.DAO.ARecord
 import com.easyfitness.R
 import java.util.*
 
-class ProgramInExerciseArrayFullAdapter internal constructor(context: Context?, machines: ArrayList<ARecord?>?) : ArrayAdapter<ARecord?>(context, 0, machines) {
+class ProgramInExerciseArrayFullAdapter internal constructor(context: Context?, machines: ArrayList<ARecord>) : ArrayAdapter<ARecord>(context, 0, machines) {
     override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
         // Get the data item for this position
         var convertView = convertView

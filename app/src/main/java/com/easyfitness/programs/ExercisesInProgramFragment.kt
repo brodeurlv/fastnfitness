@@ -91,7 +91,7 @@ class ExercisesInProgramFragment : Fragment() {
             // Commit the transaction
             transaction.commit()
         } else {
-            programId = daoProgram.getRecord(programs[0]).id
+            programId = daoProgram.getRecord(programs[0])!!.id
             programSelect = view.findViewById(R.id.programSelect)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
             programSelect.adapter = adapter
@@ -99,7 +99,7 @@ class ExercisesInProgramFragment : Fragment() {
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>,
                                             view: View, position: Int, id: Long) {
-                    programId = daoProgram.getRecord(programs[position]).id
+                    programId = daoProgram.getRecord(programs[position])!!.id
                     refreshData()
                     Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
                 }
@@ -172,7 +172,7 @@ class ExercisesInProgramFragment : Fragment() {
         }
         unitDistanceSpinner.setSelection(distanceUnit)
         // Initialization of the database
-        daoExerciseInProgram = DAOExerciseInProgram(context)
+        daoExerciseInProgram = DAOExerciseInProgram(requireContext())
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
         exerciseImage.setOnClickListener {
@@ -496,7 +496,7 @@ class ExercisesInProgramFragment : Fragment() {
     val fragment: ExercisesInProgramFragment
         get() = this
 
-    private val profil: Profile?
+    private val profil: Profile
         get() = mainActivity.currentProfil
 
     val machine: String

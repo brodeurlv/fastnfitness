@@ -880,8 +880,7 @@ public class MainActivity extends AppCompatActivity {
         if (mpProgramPagerFrag == null)
             mpProgramPagerFrag = (ProgramsPagerFragment) getSupportFragmentManager().findFragmentByTag(PROGRAMS);
         if (mpProgramPagerFrag == null)
-            mpProgramPagerFrag = ProgramsPagerFragment.newInstance(PROGRAMS, 11);
-
+            mpProgramPagerFrag = ProgramsPagerFragment.Companion.newInstance(PROGRAMS, Integer.valueOf(11));
         return mpProgramPagerFrag;
     }
 
