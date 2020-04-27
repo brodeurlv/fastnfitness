@@ -25,7 +25,6 @@ public class ProgramsPagerFragment extends Fragment {
         args.putString("name", name);
         args.putInt("id", id);
         f.setArguments(args);
-
         return f;
     }
 
