@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
     private MusicController musicController = new MusicController(this);
     private CircularImageView roundProfile = null;
     private String mCurrentMachine = "";
@@ -124,31 +122,27 @@ public class MainActivity extends AppCompatActivity {
                 //requestPermissionForWriting(pF);
 
                 AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-                itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ListView lv = ((AlertDialog) dialog).getListView();
+                itemActionbuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
+                    switch (which) {
+                        // Galery
+                        case 1:
+                            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                            photoPickerIntent.setType("image/*");
+                            startActivityForResult(photoPickerIntent, ImageUtil.REQUEST_PICK_GALERY_PHOTO);
+                            break;
+                        // Camera with Cropping
+                        case 0:
+                            //dispatchTakePictureIntent(mF);
+                            // start picker to get image for cropping and then use the image in cropping activity
+                            CropImage.activity()
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(getActivity());
+                            break;
+                        case 2: // Delete picture
 
-                        switch (which) {
-                            // Galery
-                            case 1:
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, ImageUtil.REQUEST_PICK_GALERY_PHOTO);
-                                break;
-                            // Camera with Cropping
-                            case 0:
-                                //dispatchTakePictureIntent(mF);
-                                // start picker to get image for cropping and then use the image in cropping activity
-                                CropImage.activity()
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(getActivity());
-                                break;
-                            case 2: // Delete picture
-
-                                break;
-                            // Camera
-                            default:
-                        }
+                            break;
+                        // Camera
+                        default:
                     }
                 });
                 itemActionbuilder.show();
@@ -926,10 +920,6 @@ public class MainActivity extends AppCompatActivity {
 
     public Toolbar getActivityToolbar() {
         return top_toolbar;
-    }
-
-    public void restoreToolbar() {
-        if (top_toolbar != null) setSupportActionBar(top_toolbar);
     }
 
     public void showMP3Toolbar(boolean show) {
