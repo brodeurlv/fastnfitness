@@ -29,6 +29,7 @@ import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.onurkaganaldemir.ktoastlib.KToast
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,7 +80,7 @@ class ExercisesInProgramFragment : Fragment() {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
         val programs = daoProgram.allProgramsNames
-        if (programs == null || programs.size == 0) {
+        if (programs == null || programs.isEmpty()) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -161,7 +162,7 @@ class ExercisesInProgramFragment : Fragment() {
         try {
             weightUnit = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
         } catch (e: NumberFormatException) {
-            Log.d("Conversion", "Not important")
+            Timber.d("Conversion", "Not important")
         }
         unitSpinner.setSelection(weightUnit)
         val distanceUnit: Int
@@ -358,10 +359,9 @@ class ExercisesInProgramFragment : Fragment() {
         refreshData()
         /* Reinitialisation des machines */
         val adapter = ArrayAdapter(requireView().context,
-            android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllMachines(profil))
+            android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllExerciseInProgramAsList(programId))
         exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)
-//        daoExerciseInProgram.closeCursor()
     }
     private val onClickMachineListWithIcons = View.OnClickListener { v ->
         val oldCursor: Cursor
@@ -447,7 +447,7 @@ class ExercisesInProgramFragment : Fragment() {
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                updateRecordTable(exerciseEdit.text.toString())
+                updateRecordTable(exerciseEdit.text.toString(),programId)
                 KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -565,14 +565,13 @@ class ExercisesInProgramFragment : Fragment() {
 //        }
 //    }
 
-    private fun updateRecordTable(pMachine: String) { // Exercises in program list
+    private fun updateRecordTable(pMachine: String, programId :Long) { // Exercises in program list
         mainActivity.currentMachine = pMachine
         requireView().post {
-            val c: Cursor?
             val oldCursor: Cursor
-            val r = daoExerciseInProgram.getLastRecord(profil)
+            val r = daoExerciseInProgram.getAllExerciseInProgram(programId)
             //Get results
-            c = if (r != null) daoExerciseInProgram.getTop3DatesRecords(profil) else return@post
+            val c: Cursor? = daoExerciseInProgram.getAllExerciseInProgramToRecord(programId)
             if (c == null || c.count == 0) {
                 recordList.adapter = null
             } else {
@@ -594,34 +593,32 @@ class ExercisesInProgramFragment : Fragment() {
     private fun refreshData() {
         val fragmentView = view
         if (fragmentView != null) {
-            if (profil != null) {
-                daoExerciseInProgram.setProfile(profil)
-                val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
+            daoExerciseInProgram.setProfile(profil)
+            val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
 
-                /* Init exercises list*/
-                val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
-                exerciseEdit.setAdapter(exerciseArrayFullAdapter)
-                if (exerciseEdit.text.toString().isEmpty()) {
-                    val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
-                    if (lLastRecord != null && lLastRecord.exercise!=null) { // Last recorded exercise
-                        setCurrentExercise(lLastRecord.exercise)
-                    } else { // Default Values
-                        exerciseEdit.setText("")
-                        seriesEdit.setText("1")
-                        repetitionEdit.setText("10")
-                        secondsEdit.setText("60")
-                        poidsEdit.setText("50")
-                        distanceEdit.setText("1")
-                        durationEdit.text = "00:10:00"
-                        setCurrentExercise("")
-                        changeExerciseTypeUI(TYPE_FONTE, true)
-                    }
-                } else { // Restore on fragment restore.
-                    setCurrentExercise(exerciseEdit.text.toString())
-                }
-                // Set Table
-                updateRecordTable(exerciseEdit.text.toString())
-            }
+            /* Init exercises list*/
+            val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
+            exerciseEdit.setAdapter(exerciseArrayFullAdapter)
+//            if (exerciseEdit.text.toString().isEmpty()) {
+//                val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
+//                if (lLastRecord != null && lLastRecord.exercise!=null) { // Last recorded exercise
+//                    setCurrentExercise(lLastRecord.exercise)
+//                } else { // Default Values
+//                    exerciseEdit.setText("")
+//                    seriesEdit.setText("1")
+//                    repetitionEdit.setText("10")
+//                    secondsEdit.setText("60")
+//                    poidsEdit.setText("50")
+//                    distanceEdit.setText("1")
+//                    durationEdit.text = "00:10:00"
+//                    setCurrentExercise("")
+//                    changeExerciseTypeUI(TYPE_FONTE, true)
+//                }
+//            } else { // Restore on fragment restore.
+//                setCurrentExercise(exerciseEdit.text.toString())
+//            }
+//            // Set Table
+            updateRecordTable(exerciseEdit.text.toString(),programId)
         }
     }
 

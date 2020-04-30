@@ -3,18 +3,17 @@ package com.easyfitness.DAO
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.util.Log
 import android.widget.Toast
+import timber.log.Timber
 import java.util.*
 
-class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) {
+class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
     //    private String allFieldsExceptProgramId = REST_SECONDS + "," + EXERCISE + "," + SERIE + ","
     //        + REPETITION + "," + WEIGHT + "," + WEIGHT + "," + PROFIL_KEY + ","
     //        + UNIT + "," + NOTES + "," + MACHINE_KEY + "," + TIME + "," + DISTANCE + "," +
     //        DURATION + "," + TYPE + "," + SECONDS + "," + DISTANCE_UNIT+ ","+ORDER_EXECUTION;
-    protected var mProfile: Profile? = null
+    var mProfile: Profile? = null
     var cursor: Cursor? = null
-        protected set
 
     fun setProfile(pProfile: Profile?) {
         mProfile = pProfile
@@ -39,11 +38,11 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
     fun addRecord(order: Long, programId: Long, restSeconds: Int, pMachine: String, pType: Int, pSerie: Int, pRepetition: Int, pPoids: Float, pProfile: Profile, pUnit: Int, pNote: String?,
                   pTime: String?, pDistance: Float, pDuration: Long, pSeconds: Int, distance_unit: Int): Long {
         val value = ContentValues()
-        var new_id: Long = -1
-        val machine_key: Long = -1
+        var newId: Long = -1
+        val machineKey: Long = -1
         val daoExerciseInProgram = DAOExerciseInProgram(mContext)
         if (daoExerciseInProgram.exerciseExists(pMachine)) {
-            return new_id
+            return newId
         }
         value.put(PROGRAM_ID, programId)
         value.put(REST_SECONDS, restSeconds)
@@ -54,7 +53,7 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         value.put(PROFIL_KEY, pProfile.id)
         value.put(UNIT, pUnit)
         value.put(NOTES, pNote)
-        value.put(MACHINE_KEY, machine_key)
+        value.put(MACHINE_KEY, machineKey)
         value.put(TIME, pTime)
         value.put(DISTANCE, pDistance)
         value.put(DURATION, pDuration)
@@ -63,9 +62,9 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         value.put(DISTANCE_UNIT, distance_unit)
         value.put(ORDER_EXECUTION, order)
         val db = open()
-        new_id = db.insert(TABLE_NAME, null, value)
+        newId = db.insert(TABLE_NAME, null, value)
         close()
-        return new_id
+        return newId
     }
 
     private fun exerciseExists(name: String): Boolean {
@@ -78,7 +77,9 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         cursor = null
         cursor = db.query(TABLE_NAME, arrayOf(EXERCISE), "$EXERCISE=?", arrayOf(pName), null, null, null, null)
         if (cursor != null) cursor!!.moveToFirst()
-        if (cursor!!.getCount() == 0) return null
+        if (0 == cursor!!.count) { close()
+            cursor!!.close()
+            return null}
         val lDAOProfil = DAOProfil(mContext)
         val lProfile = lDAOProfil.getProfil(cursor!!.getLong(cursor!!.getColumnIndex(DAOFonte.PROFIL_KEY)))
         val value = ExerciseInProgram(
@@ -94,9 +95,9 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
             cursor!!.getString(cursor!!.getColumnIndex(TIME))
         )
         value.setId(cursor!!.getLong(0))
-        // return value
-        cursor!!.close()
+
         close()
+        cursor!!.close()
         return value
     }
 
@@ -106,133 +107,19 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         db.close()
     }
 
-    private fun getRecord(id: Long): IRecord? {
-        val selectQuery = "SELECT  * FROM $TABLE_NAME WHERE $KEY=$id"
-        cursor = getRecordsListCursor(selectQuery)
-        return if (cursor!!.moveToFirst()) {
-            //Get Profile
-            val lDAOProfil = DAOProfil(mContext)
-            val lProfile = lDAOProfil.getProfil(cursor!!.getLong(cursor!!.getColumnIndex(PROFIL_KEY)))
-            var machine_key: Long = -1
-
-            //Test is Machine exists. If not create it.
-            val lDAOMachine = DAOMachine(mContext)
-            machine_key = if (cursor!!.getString(cursor!!.getColumnIndex(MACHINE_KEY)) == null) {
-                lDAOMachine.addMachine(cursor!!.getString(cursor!!.getColumnIndex(EXERCISE)), "", DAOMachine.TYPE_FONTE, "", false, "")
-            } else {
-                cursor!!.getLong(cursor!!.getColumnIndex(MACHINE_KEY))
-            }
-            var value: IRecord? = null
-            value = if (cursor!!.getInt(cursor!!.getColumnIndex(TYPE)) == DAOMachine.TYPE_FONTE) {
-                ExerciseInProgram(cursor!!.getColumnIndex(SECONDS),
-                    cursor!!.getString(cursor!!.getColumnIndex(EXERCISE)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(SERIE)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(REPETITION)),
-                    cursor!!.getFloat(cursor!!.getColumnIndex(WEIGHT)),
-                    lProfile,
-                    cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
-                    cursor!!.getString(cursor!!.getColumnIndex(NOTES)),
-                    machine_key,
-                    cursor!!.getString(cursor!!.getColumnIndex(TIME)))
-            } else if (cursor!!.getInt(cursor!!.getColumnIndex(TYPE)) == DAOMachine.TYPE_STATIC) {
-                StaticExercise(Date(),
-                    cursor!!.getString(cursor!!.getColumnIndex(EXERCISE)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(SERIE)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(SECONDS)),
-                    cursor!!.getFloat(cursor!!.getColumnIndex(WEIGHT)),
-                    lProfile,
-                    cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
-                    machine_key,
-                    cursor!!.getString(cursor!!.getColumnIndex(TIME)))
-            } else {
-                Cardio(Date(),
-                    cursor!!.getString(cursor!!.getColumnIndex(EXERCISE)),
-                    cursor!!.getFloat(cursor!!.getColumnIndex(DISTANCE)),
-                    cursor!!.getLong(cursor!!.getColumnIndex(DURATION)),
-                    lProfile,
-                    cursor!!.getString(cursor!!.getColumnIndex(TIME)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(DISTANCE_UNIT)))
-            }
-            value.id = cursor!!.getLong(cursor!!.getColumnIndex(KEY))
-            value
-        } else {
-            null
-        }
-    }
-
     // Getting All Records
     private fun getRecordsListCursor(pRequest: String): Cursor {
         val db = this.readableDatabase
         return db.rawQuery(pRequest, null)
     }
 
-    // Getting All Machines
-    fun getAllMachines(pProfile: Profile): Array<String?> {
-        val db = this.readableDatabase
-        cursor = null
-
-        // Select All Machines
-        val selectQuery = ("SELECT DISTINCT " + EXERCISE + " FROM "
-            + TABLE_NAME + "  WHERE " + PROFIL_KEY + "=" + pProfile.id + " ORDER BY " + KEY + " ASC")
-        cursor = db.rawQuery(selectQuery, null)
-        val size = cursor!!.getCount()
-        val valueList = arrayOfNulls<String>(size)
-
-        // looping through all rows and adding to list
-        if (cursor!!.moveToFirst()) {
-            var i = 0
-            do {
-                val value = cursor!!.getString(0)
-                valueList[i] = value
-                i++
-            } while (cursor!!.moveToNext())
-        }
-        close()
-        // return value list
-        return valueList
-    }
-
-    fun getTop3DatesRecords(pProfile: Profile?): Cursor? {
-        if (pProfile == null) return null
+    fun getAllExerciseInProgramToRecord(programId: Long): Cursor? {
         val selectQuery = ("SELECT * FROM " + TABLE_NAME
-            + " WHERE " + PROFIL_KEY + "=" + pProfile.id
-            + " AND " + KEY + " IN (SELECT DISTINCT " + KEY + " FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.id + " ORDER BY " + KEY + " ASC LIMIT 10)"
+            + " WHERE " + PROGRAM_ID + "=" + programId
+            + " AND " + KEY + " IN (SELECT DISTINCT " + KEY + " FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + "=" + programId + " ORDER BY " + ORDER_EXECUTION + " ASC)"
             + " ORDER BY " + KEY + " ASC")
         return getRecordsListCursor(selectQuery)
     }
-
-    /**
-     * @return the last record for a profile p
-     */
-    fun getLastRecord(pProfile: Profile): IRecord? {
-        val db = this.readableDatabase
-        cursor = null
-        var lReturn: IRecord? = null
-        val selectQuery = ("SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-            + " WHERE " + PROFIL_KEY + "=" + pProfile.id)
-        cursor = db.rawQuery(selectQuery, null)
-        if (cursor!!.moveToFirst()) {
-            lReturn = try {
-                val value = cursor!!.getLong(0)
-                getRecord(value)
-            } catch (e: NumberFormatException) {
-                null // Return une valeur
-            }
-        }
-        close()
-        return lReturn
-    }
-
-    fun closeCursor() {
-        if (cursor != null) cursor!!.close()
-    }
-
-    val allExerciseInProgramArray: ArrayList<ARecord>
-        get() {
-            val selectQuery = ("SELECT * FROM " + TABLE_NAME + " ORDER BY "
-                + ORDER_EXECUTION + " DESC;")
-            return getExerciseListToList(selectQuery)
-        }
 
     fun getAllExerciseInProgramAsList(programId: Long): ArrayList<ARecord> {
         val selectQuery = ("SELECT * FROM " + TABLE_NAME + " WHERE " + PROGRAM_ID + " = " + programId
@@ -253,7 +140,7 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         try {
             cursor = db.rawQuery(pRequest, null)
         } catch (ex: Exception) {
-            Log.e("Err MU", "EX $ex")
+            Timber.e("Err in getExList $ex")
             Toast.makeText(mContext, "Ex$ex", Toast.LENGTH_LONG).show()
         }
         // looping through all rows and adding to list
@@ -284,6 +171,8 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
                 valueList.add(value)
             } while (cursor!!.moveToNext())
         }
+        cursor!!.close()
+        close()
         return valueList
     }
 
@@ -294,7 +183,7 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
         try {
             cursor = db.rawQuery(pRequest, null)
         } catch (ex: Exception) {
-            Log.e("Err MU", "EX $ex")
+            Timber.e("Err in getExToList $ex")
             Toast.makeText(mContext, "Ex$ex", Toast.LENGTH_LONG).show()
         }
         // looping through all rows and adding to list
@@ -316,6 +205,8 @@ class DAOExerciseInProgram(protected var mContext: Context) : DAOBase(mContext) 
                 valueList.add(value)
             } while (cursor!!.moveToNext())
         }
+        close()
+        cursor!!.close()
         return valueList
     }
 
