@@ -162,7 +162,7 @@ class ExercisesInProgramFragment : Fragment() {
         try {
             weightUnit = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
         } catch (e: NumberFormatException) {
-            Timber.d("Conversion", "Not important")
+            Timber.d("Conversion "+ "Not important")
         }
         unitSpinner.setSelection(weightUnit)
         val distanceUnit: Int

@@ -115,8 +115,8 @@ class ProgramRunner : Fragment() {
             // Commit the transaction
             transaction.commit()
         } else {
-            var programFirst=daoProgram.getRecord(programs[0])
-            if(programFirst!=null) {
+            var programFirst = daoProgram.getRecord(programs[0])
+            if (programFirst != null) {
                 programId = programFirst.id
                 programSelect = view.findViewById(R.id.programSelect)
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
@@ -233,19 +233,19 @@ class ProgramRunner : Fragment() {
         return view
     }
 
-    private fun nextExercise(){
-        if(exercisesFromProgram.isNotEmpty() && currentExerciseOrder<exercisesFromProgram.size-1) {
+    private fun nextExercise() {
+        if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder < exercisesFromProgram.size - 1) {
             currentExerciseOrder++
             refreshData()
         }
     }
 
-    private fun previousExercise(){
-        if(exercisesFromProgram.size!=0  && currentExerciseOrder>0) {
-        currentExerciseOrder--
-        refreshData()
+    private fun previousExercise() {
+        if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder > 0) {
+            currentExerciseOrder--
+            refreshData()
+        }
     }
-}
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
         val strMinute: String = if (minute < 10) "0$minute" else minute.toString()
@@ -437,15 +437,14 @@ class ProgramRunner : Fragment() {
                     e.printStackTrace()
                     duration = 0
                 }
-                var distance: Float
-                distance = if (distanceEdit.text.toString().isEmpty()) {
+                var distance: Float = if (distanceEdit.text.toString().isEmpty()) {
                     0f
                 } else {
                     distanceEdit.text.toString().replace(",".toRegex(), ".").toFloat()
                 }
                 var unitDistance = UnitConverter.UNIT_KM
                 if (unitDistanceSpinner.selectedItem.toString()
-                    == view?.context?.getString(R.string.MilesUnitLabel)) {
+                    == context?.getString(R.string.MilesUnitLabel)) {
                     distance = UnitConverter.MilesToKm(distance) // Always convert to KG
                     unitDistance = UnitConverter.UNIT_MILES
                 }
@@ -656,23 +655,29 @@ class ProgramRunner : Fragment() {
         exerciseEdit.setText(exercise.exerciseName)
         // Update exercise Image
         exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
-//        val imgUtil = ImageUtil() //TODO images currently not supported in program runner
-//        ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(exercise.picture)) // Overwrite image is there is one
-        // Update Table
+        val lMachine = mDbMachine.getMachine(exercise.exerciseName)
+        if(lMachine!=null) {
+            val imgUtil = ImageUtil()
+            ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
+        }// Update Table
         // Update display type
         changeExerciseTypeUI(exercise.type, false)
         updateRecordTable(exercise.exerciseName)
-        if (exercise.type == TYPE_FONTE) {
-            repsPicker.progress = exercise.repetition
-            seriesEdit.setText(exercise.serie.toString())
-            restTimeEdit.setText(exercise.secRest.toString())
-            poidsEdit.setText(exercise.poids.toString())
-        } else if (exercise.type == TYPE_CARDIO) {
-            durationEdit.text = exercise.duration
-            distanceEdit.setText(exercise.distance)
-            unitDistanceSpinner.setSelection(exercise.distanceUnit, false)
-        } else if (exercise.type == TYPE_STATIC) {
-            secondsEdit.setText(exercise.seconds)
+        when (exercise.type) {
+            TYPE_FONTE -> {
+                repsPicker.progress = exercise.repetition
+                seriesEdit.setText(exercise.serie.toString())
+                restTimeEdit.setText(exercise.secRest.toString())
+                poidsEdit.setText(exercise.poids.toString())
+            }
+            TYPE_CARDIO -> {
+                durationEdit.text = exercise.duration
+                distanceEdit.setText(exercise.distance)
+                unitDistanceSpinner.setSelection(exercise.distanceUnit, false)
+            }
+            TYPE_STATIC -> {
+                secondsEdit.setText(exercise.seconds)
+            }
         }
     }
 

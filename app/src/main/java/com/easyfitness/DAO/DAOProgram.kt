@@ -6,11 +6,11 @@ import android.database.Cursor
 import java.util.*
 
 class DAOProgram(context: Context?) : DAOBase(context) {
-    protected var mContext: Context? = null
-    protected var mCursor: Cursor? = null
+    private var mContext: Context? = null
+    private var mCursor: Cursor? = null
     fun addRecord(programName: String?): Long {
         val value = ContentValues()
-        var new_id: Long = -1
+        var newId: Long = -1
         val daoProgram = DAOProgram(mContext)
         if (daoProgram.programExists(programName)) {
             return -1
@@ -18,12 +18,12 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         value.put(PROGRAM_NAME, programName)
         value.put(PROFIL_KEY, 1)
         val db = open()
-        new_id = db.insert(TABLE_NAME, null, value)
+        newId = db.insert(TABLE_NAME, null, value)
         close()
-        return new_id
+        return newId
     }
 
-    fun programExists(programName: String?): Boolean {
+    private fun programExists(programName: String?): Boolean {
         val lMach = getRecord(programName)
         return lMach != null
     }
@@ -48,7 +48,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         mCursor = null
         mCursor = db.query(TABLE_NAME, arrayOf(KEY, PROGRAM_NAME, PROFIL_KEY), "$KEY=?", arrayOf(id.toString()), null, null, null, null)
         if (mCursor != null) mCursor!!.moveToFirst()
-        if (mCursor!!.getCount() == 0) return null
+        if (mCursor!!.count == 0) return null
         val value = Program(mCursor!!.getString(1), mCursor!!.getLong(2))
         value.setId(mCursor!!.getLong(0))
         mCursor!!.close()
