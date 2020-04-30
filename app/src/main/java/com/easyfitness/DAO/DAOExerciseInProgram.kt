@@ -210,6 +210,13 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
         return valueList
     }
 
+    fun updateString(exerciseInProgram: ExerciseInProgram , field: String, newValue: String):Int {
+            val db = this.writableDatabase
+            val value = ContentValues()
+            value.put(field, newValue)
+            return db.update(TABLE_NAME, value, "$KEY = ?", arrayOf(exerciseInProgram.id.toString()))
+    }
+
     companion object {
         // Contacts table name
         const val TABLE_NAME = "EFExerciseInProgram"
@@ -219,7 +226,7 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
         const val EXERCISE = "machine"
         const val PROFIL_KEY = "profil_id"
         private const val MACHINE_KEY = "machine_id"
-        private const val NOTES = "notes"
+        const val NOTES = "notes"
         const val TYPE = "type"
 
         // Specific to Strength

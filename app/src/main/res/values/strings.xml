@@ -371,5 +371,8 @@
     <string name="program_selection">Selected program:</string>
     <string name="arrowPreviousAsText"><![CDATA[<]]></string>
     <string name="arrowNextAsText"><![CDATA[>]]></string>
+    <string name="seconds">Seconds</string>
+    <string name="expandad_aditional_details_arrow">expandad aditional details arrow</string>
+    <string name="automatic_time">Automatic time</string>
 
 </resources>

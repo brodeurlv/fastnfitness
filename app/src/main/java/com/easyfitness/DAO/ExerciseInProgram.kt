@@ -7,7 +7,7 @@ class ExerciseInProgram : ARecord {
     var repetition: Int private set
     var poids: Float private set
     var unit: Int private set
-    private var note: String
+    var note: String
     var exType: Int = 0
     var secRest: Int private set
     var distance = 0

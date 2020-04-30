@@ -440,6 +440,7 @@
                             android:gravity="center"
                             android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
+                            android:hint="@string/DistanceLabel"
                             tools:text="10" />
 
                         <Spinner
@@ -497,17 +498,15 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/buttonExpandArrow"
+                <EditText
+                    android:id="@+id/notesInExercise"
                     android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center_vertical"
-                    android:adjustViewBounds="false"
-                    android:background="@android:color/transparent"
-                    android:baselineAlignBottom="false"
-                    android:cropToPadding="false"
-                    app:srcCompat="@drawable/baseline_keyboard_arrow_up_black_36"
-                    android:contentDescription="expandadditionaldetailsarrow" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:tooltipText="@string/NotesLabel"
+                    android:hint="@string/NotesLabel"
+                    />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -533,8 +532,8 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="8dp"
                                 android:layout_weight="1"
-                                android:gravity="right"
-                                android:text="Automatic time" />
+                                android:gravity="end"
+                                android:text="@string/automatic_time" />
 
                             <CheckBox
                                 android:id="@+id/autoTimeCheckBox"
@@ -663,16 +662,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-<!--        <it.sephiroth.android.library.numberpicker.NumberPicker-->
-<!--            android:id="@+id/numberPicker"-->
-<!--            app:picker_max="100"-->
-<!--            app:picker_min="0"-->
-<!--            app:picker_stepSize="1"-->
-<!--            app:picker_tracker="exponential"-->
-<!--            app:picker_orientation="vertical"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -717,6 +706,7 @@
                     android:text="@string/arrowNextAsText" />
 
             </RelativeLayout>
+
 
 
             <TextView

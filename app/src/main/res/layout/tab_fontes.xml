@@ -252,7 +252,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Seconds" />
+                        android:text="@string/seconds" />
 
                     <EditText
                         android:id="@+id/editSeconds"

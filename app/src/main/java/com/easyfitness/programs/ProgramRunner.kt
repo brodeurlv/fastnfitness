@@ -6,6 +6,8 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
@@ -13,6 +15,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
@@ -88,12 +91,14 @@ class ProgramRunner : Fragment() {
     private lateinit var maxText: TextView
     private lateinit var machineImage: CircularImageView
     private lateinit var nextExerciseArrow: Button
-    private lateinit var previouseExerciseArrow: Button
+    private lateinit var previousExerciseArrow: Button
+    private lateinit var notes: EditText
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_runner, container, false)
         repsPicker = view.findViewById(R.id.numberPicker)
+        notes = view.findViewById(R.id.notesInExercise)
         // Initialization of the database
         daoProgram = DAOProgram(context)
         daoRecord = DAORecord(context)
@@ -115,7 +120,7 @@ class ProgramRunner : Fragment() {
             // Commit the transaction
             transaction.commit()
         } else {
-            var programFirst = daoProgram.getRecord(programs[0])
+            val programFirst = daoProgram.getRecord(programs[0])
             if (programFirst != null) {
                 programId = programFirst.id
                 programSelect = view.findViewById(R.id.programSelect)
@@ -179,8 +184,8 @@ class ProgramRunner : Fragment() {
         durationCardView = view.findViewById(R.id.cardviewDuration)
         nextExerciseArrow = view.findViewById(R.id.nextExerciseArrow)
         nextExerciseArrow.setOnClickListener(clickArrows)
-        previouseExerciseArrow = view.findViewById(R.id.previousExerciseArrow)
-        previouseExerciseArrow.setOnClickListener(clickArrows)
+        previousExerciseArrow = view.findViewById(R.id.previousExerciseArrow)
+        previousExerciseArrow.setOnClickListener(clickArrows)
         durationCardView = view.findViewById(R.id.cardviewDuration)
         addButton.setOnClickListener(clickAddButton)
         machineListButton.setOnClickListener(onClickMachineListWithIcons) //onClickMachineList
@@ -192,6 +197,13 @@ class ProgramRunner : Fragment() {
         exerciseEdit.setOnKeyListener(checkExerciseExists)
         exerciseEdit.onFocusChangeListener = touchRazEdit
         exerciseEdit.onItemClickListener = onItemClickFilterList
+        notes.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                updateNote()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         restTimeEdit.onFocusChangeListener = restTimeEditChange
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange)
         bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector)
@@ -352,8 +364,8 @@ class ProgramRunner : Fragment() {
             date = DateConverter.editToDate(dateEdit.text.toString())
             timeStr = timeEdit.text.toString()
         }
-        var iTotalWeightSession: Float = 0F
-        var iTotalWeight: Float = 0F
+        var iTotalWeightSession = 0F
+        var iTotalWeight = 0F
         var iNbSeries: Int = 1
         when (exerciseType) {
             TYPE_FONTE -> {
@@ -559,6 +571,14 @@ class ProgramRunner : Fragment() {
         }
     }
 
+    private fun updateNote() {
+        var previousNote=exercisesFromProgram[currentExerciseOrder].note
+        if(notes.text.toString() != previousNote) {
+            daoExerciseInProgram.updateString(exercisesFromProgram[currentExerciseOrder],
+                DAOExerciseInProgram.NOTES, notes.text.toString())
+        }
+    }
+
     private fun showDeleteDialog(idToDelete: Long) {
         SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
             .setTitleText(getString(R.string.DeleteRecordDialog))
@@ -663,6 +683,7 @@ class ProgramRunner : Fragment() {
         // Update display type
         changeExerciseTypeUI(exercise.type, false)
         updateRecordTable(exercise.exerciseName)
+        notes.setText(exercise.note)
         when (exercise.type) {
             TYPE_FONTE -> {
                 repsPicker.progress = exercise.repetition
