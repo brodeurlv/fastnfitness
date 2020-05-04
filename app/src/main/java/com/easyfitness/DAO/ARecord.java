@@ -10,7 +10,7 @@ public abstract class ARecord implements IRecord {
     protected long mExerciseId;
     protected Profile mProfile;
     protected String mTime; // Time in HH:MM:SS
-    protected int mType; // Time in HH:MM:SS
+    protected int mType; // TYPE_FONTE or TYPE_STATIC or TYPE_CARDIO
 
 
     public ARecord() {
