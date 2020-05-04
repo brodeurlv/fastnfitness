@@ -15,7 +15,6 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
@@ -23,7 +22,10 @@ import com.easyfitness.DAO.*
 import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
-import com.easyfitness.utils.*
+import com.easyfitness.utils.DateConverter
+import com.easyfitness.utils.ExpandedListView
+import com.easyfitness.utils.ImageUtil
+import com.easyfitness.utils.UnitConverter
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -57,9 +59,9 @@ class ProgramRunner : Fragment() {
     // Selection part
     private lateinit var exerciseTypeSelectorLayout: LinearLayout
     private var programSelectorLayout: LinearLayout? = null
-    private lateinit var bodybuildingSelector: TextView
-    private lateinit var cardioSelector: TextView
-    private lateinit var staticExerciseSelector: TextView
+//    private lateinit var bodybuildingSelector: TextView
+//    private lateinit var cardioSelector: TextView
+//    private lateinit var staticExerciseSelector: TextView
     private var selectedType = TYPE_FONTE
     private lateinit var restTimeLayout: LinearLayout
     private lateinit var distanceEdit: EditText
@@ -130,7 +132,7 @@ class ProgramRunner : Fragment() {
                     AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>,
                                                 view: View, position: Int, id: Long) {
-                        var program: Program? = daoProgram.getRecord(programs[position])
+                        val program: Program? = daoProgram.getRecord(programs[position])
                         if (program != null) {
                             programId = program.id
                             currentExerciseOrder = 0
@@ -166,9 +168,9 @@ class ProgramRunner : Fragment() {
         timeEdit = view.findViewById(R.id.editTime)
 
         // Cardio Part
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
-        cardioSelector = view.findViewById(R.id.cardioSelection)
-        staticExerciseSelector = view.findViewById(R.id.staticSelection)
+//        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
+//        cardioSelector = view.findViewById(R.id.cardioSelection)
+//        staticExerciseSelector = view.findViewById(R.id.staticSelection)
         programSelectorLayout = view.findViewById(R.id.programSelectionLayout)
         exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout)
         minMaxLayout = view.findViewById(R.id.minmaxLayout)
@@ -188,27 +190,28 @@ class ProgramRunner : Fragment() {
         previousExerciseArrow.setOnClickListener(clickArrows)
         durationCardView = view.findViewById(R.id.cardviewDuration)
         addButton.setOnClickListener(clickAddButton)
-        machineListButton.setOnClickListener(onClickMachineListWithIcons) //onClickMachineList
-        seriesEdit.onFocusChangeListener = touchRazEdit
-        poidsEdit.onFocusChangeListener = touchRazEdit
-        distanceEdit.onFocusChangeListener = touchRazEdit
+        machineListButton.setOnClickListener(onClickMachineListWithIcons)
+//        seriesEdit.onFocusChangeListener = touchRazEdit
+//        poidsEdit.onFocusChangeListener = touchRazEdit
+//        distanceEdit.onFocusChangeListener = touchRazEdit
         durationEdit.setOnClickListener(clickDateEdit)
-        secondsEdit.onFocusChangeListener = touchRazEdit
+//        secondsEdit.onFocusChangeListener = touchRazEdit
         exerciseEdit.setOnKeyListener(checkExerciseExists)
-        exerciseEdit.onFocusChangeListener = touchRazEdit
+//        exerciseEdit.onFocusChangeListener = touchRazEdit
         exerciseEdit.onItemClickListener = onItemClickFilterList
-        notes.addTextChangedListener(object : TextWatcher{
+        notes.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 updateNote()
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
         restTimeEdit.onFocusChangeListener = restTimeEditChange
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange)
-        bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector)
-        cardioSelector.setOnClickListener(clickExerciseTypeSelector)
-        staticExerciseSelector.setOnClickListener(clickExerciseTypeSelector)
+//        bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector)
+//        cardioSelector.setOnClickListener(clickExerciseTypeSelector)
+//        staticExerciseSelector.setOnClickListener(clickExerciseTypeSelector)
         restoreSharedParams()
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         var weightUnit = UnitConverter.UNIT_KG
@@ -268,14 +271,14 @@ class ProgramRunner : Fragment() {
         hideKeyboard()
     }
 
-    private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
-        when (v.id) {
-            R.id.staticSelection -> changeExerciseTypeUI(TYPE_STATIC, true)
-            R.id.cardioSelection -> changeExerciseTypeUI(TYPE_CARDIO, true)
-            R.id.bodyBuildingSelection -> changeExerciseTypeUI(TYPE_FONTE, true)
-            else -> changeExerciseTypeUI(TYPE_FONTE, true)
-        }
-    }
+//    private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
+//        when (v.id) {
+//            R.id.staticSelection -> changeExerciseTypeUI(TYPE_STATIC, true)
+//            R.id.cardioSelection -> changeExerciseTypeUI(TYPE_CARDIO, true)
+//            R.id.bodyBuildingSelection -> changeExerciseTypeUI(TYPE_FONTE, true)
+//            else -> changeExerciseTypeUI(TYPE_FONTE, true)
+//        }
+//    }
 
     private val clickArrows = View.OnClickListener { v: View ->
         when (v.id) {
@@ -355,8 +358,8 @@ class ProgramRunner : Fragment() {
         } catch (e: NumberFormatException) {
             restTimeEdit.setText("60")
         }
-        var timeStr: String
-        var date: Date
+        val timeStr: String
+        val date: Date
         if (autoTimeCheckBox.isChecked) {
             date = Date()
             timeStr = DateConverter.currentTime()
@@ -366,7 +369,7 @@ class ProgramRunner : Fragment() {
         }
         var iTotalWeightSession = 0F
         var iTotalWeight = 0F
-        var iNbSeries: Int = 1
+        var iNbSeries = 1
         when (exerciseType) {
             TYPE_FONTE -> {
                 if (seriesEdit.text.toString().isEmpty() ||
@@ -393,8 +396,8 @@ class ProgramRunner : Fragment() {
                     timeStr
                 )
                 iTotalWeightSession = strengthRecordsDao.getTotalWeightSession(date)
-                iTotalWeight = strengthRecordsDao.getTotalWeightMachine(date, exerciseEdit.getText().toString())
-                iNbSeries = strengthRecordsDao.getNbSeries(date, exerciseEdit.getText().toString())
+                iTotalWeight = strengthRecordsDao.getTotalWeightMachine(date, exerciseEdit.text.toString())
+                iNbSeries = strengthRecordsDao.getNbSeries(date, exerciseEdit.text.toString())
             }
             TYPE_STATIC -> {
                 if (seriesEdit.text.toString().isEmpty() ||
@@ -546,34 +549,32 @@ class ProgramRunner : Fragment() {
             }
         }
     }
-    private val touchRazEdit = OnFocusChangeListener { v: View, hasFocus: Boolean ->
-        if (hasFocus) {
-            when (v.id) {
-                R.id.editSerie -> seriesEdit.setText("")
-//                repsPicker.progress=8
-//                R.id.editRepetition -> repetitionEdit.setText("")
-                R.id.editSeconds -> secondsEdit.setText("")
-                R.id.editPoids -> poidsEdit.setText("")
-                R.id.editDuration -> showTimePicker(durationEdit)
-                R.id.editDistance -> distanceEdit.setText("")
-                R.id.editMachine -> {
-                    exerciseEdit.setText("")
-                    exerciseImage.setImageResource(R.drawable.ic_machine)
-                    minMaxLayout.visibility = View.GONE
-                    showExerciseTypeSelector(true)
-                }
-            }
-            hideKeyboard()
-        } else {
-            if (v.id == R.id.editMachine) { // If a creation of a new machine is not ongoing.
-                if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentExercise(exerciseEdit.text.toString())
-            }
-        }
-    }
+//    private val touchRazEdit = OnFocusChangeListener { v: View, hasFocus: Boolean ->
+//        if (hasFocus) {
+//            when (v.id) {
+//                R.id.editSerie -> seriesEdit.setText("")
+//                R.id.editSeconds -> secondsEdit.setText("")
+//                R.id.editPoids -> poidsEdit.setText("")
+//                R.id.editDuration -> showTimePicker(durationEdit)
+//                R.id.editDistance -> distanceEdit.setText("")
+//                R.id.editMachine -> {
+//                    exerciseEdit.setText("")
+//                    exerciseImage.setImageResource(R.drawable.ic_machine)
+//                    minMaxLayout.visibility = View.GONE
+//                    showExerciseTypeSelector(true)
+//                }
+//            }
+//            hideKeyboard()
+//        } else {
+//            if (v.id == R.id.editMachine) { // If a creation of a new machine is not ongoing.
+//                if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentExercise(exerciseEdit.text.toString())
+//            }
+//        }
+//    }
 
     private fun updateNote() {
-        var previousNote=exercisesFromProgram[currentExerciseOrder].note
-        if(notes.text.toString() != previousNote) {
+        val previousNote = exercisesFromProgram[currentExerciseOrder].note
+        if (notes.text.toString() != previousNote) {
             daoExerciseInProgram.updateString(exercisesFromProgram[currentExerciseOrder],
                 DAOExerciseInProgram.NOTES, notes.text.toString())
         }
@@ -676,7 +677,7 @@ class ProgramRunner : Fragment() {
         // Update exercise Image
         exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
         val lMachine = mDbMachine.getMachine(exercise.exerciseName)
-        if(lMachine!=null) {
+        if (lMachine != null) {
             val imgUtil = ImageUtil()
             ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         }// Update Table
@@ -692,12 +693,15 @@ class ProgramRunner : Fragment() {
                 poidsEdit.setText(exercise.poids.toString())
             }
             TYPE_CARDIO -> {
-                durationEdit.text = exercise.duration
-                distanceEdit.setText(exercise.distance)
+                durationEdit.text = DateConverter.durationToHoursMinutesSecondsStr(exercise.duration)
+                distanceEdit.setText(exercise.distance.toString())
                 unitDistanceSpinner.setSelection(exercise.distanceUnit, false)
             }
             TYPE_STATIC -> {
-                secondsEdit.setText(exercise.seconds)
+                seriesEdit.setText(exercise.serie.toString())
+                secondsEdit.setText(exercise.seconds.toString())
+                poidsEdit.setText(exercise.poids.toString())
+                restTimeEdit.setText(exercise.secRest.toString())
             }
         }
     }
@@ -845,15 +849,12 @@ class ProgramRunner : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun refreshData() {
-        val fragmentView = view
-        if (fragmentView != null) {
-            if (profil != null) {
-                daoExerciseInProgram.setProfile(profil)
-                if (exercisesFromProgram.isNotEmpty()) {
-                    val currentExercise = exercisesFromProgram[currentExerciseOrder]
-                    setRunningExercise(currentExercise)
-                    updateRecordTable(currentExercise.exerciseName)
-                }
+        if (profil != null) {
+            daoExerciseInProgram.setProfile(profil)
+            if (exercisesFromProgram.isNotEmpty()) {
+                val currentExercise = exercisesFromProgram[currentExerciseOrder]
+                setRunningExercise(currentExercise)
+                updateRecordTable(currentExercise.exerciseName)
             }
         }
     }
@@ -866,9 +867,9 @@ class ProgramRunner : Fragment() {
         showExerciseTypeSelector(displaySelector)
         when (pType) {
             TYPE_CARDIO -> {
-                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
-                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
+//                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 serieCardView.visibility = View.GONE
                 repetitionCardView.visibility = View.GONE
                 weightCardView.visibility = View.GONE
@@ -879,9 +880,9 @@ class ProgramRunner : Fragment() {
                 selectedType = TYPE_CARDIO
             }
             TYPE_STATIC -> {
-                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
+//                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.GONE
                 secondsCardView.visibility = View.VISIBLE
@@ -892,9 +893,7 @@ class ProgramRunner : Fragment() {
                 selectedType = TYPE_STATIC
             }
             TYPE_FONTE -> {
-                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
-                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                cardioSele9seSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
                 secondsCardView.visibility = View.GONE
@@ -905,9 +904,9 @@ class ProgramRunner : Fragment() {
                 selectedType = TYPE_FONTE
             }
             else -> {
-                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
-                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
+//                bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
+//                staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
                 secondsCardView.visibility = View.GONE
@@ -930,13 +929,9 @@ class ProgramRunner : Fragment() {
     }
 
     private fun restoreSharedParams() {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         restTimeEdit.setText(sharedPref?.getString("restTime", ""))
         restTimeCheck.isChecked = sharedPref!!.getBoolean("restCheck", true)
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden) refreshData()
     }
 
     private fun hideKeyboard() {

@@ -120,7 +120,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
             drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
 
-            drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+            drawerHolder.icon.setImageDrawable(context.getDrawable(dItem.getImgResID()));
 
             if (!dItem.isActive()) {
                 drawerHolder.ItemName.setAlpha((float) 0.5);

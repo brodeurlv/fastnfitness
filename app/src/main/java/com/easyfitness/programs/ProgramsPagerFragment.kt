@@ -20,13 +20,13 @@ class ProgramsPagerFragment : Fragment() {
         val view = inflater.inflate(R.layout.pager, container, false)
         // Locate the viewpager in activity_main.xml
         mViewPager = view.findViewById(R.id.pager)
-        if (mViewPager.getAdapter() == null) {
+        if (mViewPager.adapter == null) {
             val args = this.arguments
             args!!.putLong("machineID", -1)
             args.putLong("machineProfile", -1)
             pagerAdapter = FragmentPagerItemAdapter(
                 childFragmentManager, FragmentPagerItems.with(this.context)
-                .add(R.string.ExerciceLabel, ExercisesInProgramFragment::class.java)
+                .add(R.string.ExercisesInProgramLabel, ExercisesInProgramFragment::class.java)
                 .add(R.string.ProgramsLabel, ProgramsFragment::class.java)
                 .create())
             mViewPager.adapter = pagerAdapter

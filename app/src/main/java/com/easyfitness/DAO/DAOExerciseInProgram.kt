@@ -92,7 +92,8 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
             cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
             cursor!!.getString(cursor!!.getColumnIndex(NOTES)),
             cursor!!.getInt(cursor!!.getColumnIndex(MACHINE_KEY)).toLong(),
-            cursor!!.getString(cursor!!.getColumnIndex(TIME))
+            cursor!!.getString(cursor!!.getColumnIndex(TIME)),
+            cursor!!.getInt(cursor!!.getColumnIndex(TYPE))
         )
         value.setId(cursor!!.getLong(0))
 
@@ -162,7 +163,7 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
                     cursor!!.getString(cursor!!.getColumnIndex(TIME)),
                     cursor!!.getInt(cursor!!.getColumnIndex(TYPE)),
                     cursor!!.getInt(cursor!!.getColumnIndex(DISTANCE)),
-                    cursor!!.getString(cursor!!.getColumnIndex(DURATION)),
+                    cursor!!.getLong(cursor!!.getColumnIndex(DURATION)),
                     cursor!!.getInt(cursor!!.getColumnIndex(SECONDS)),
                     cursor!!.getInt(cursor!!.getColumnIndex(DISTANCE_UNIT)),
                     cursor!!.getLong(cursor!!.getColumnIndex(ORDER_EXECUTION))
@@ -199,8 +200,9 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
                     cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
                     cursor!!.getString(cursor!!.getColumnIndex(NOTES)),
                     cursor!!.getInt(cursor!!.getColumnIndex(MACHINE_KEY)).toLong(),
-                    cursor!!.getString(cursor!!.getColumnIndex(TIME))
-                )
+                    cursor!!.getString(cursor!!.getColumnIndex(TIME)),
+                    cursor!!.getInt(cursor!!.getColumnIndex(TYPE))
+                    )
                 value.setId(cursor!!.getLong(cursor!!.getColumnIndex(KEY)))
                 valueList.add(value)
             } while (cursor!!.moveToNext())

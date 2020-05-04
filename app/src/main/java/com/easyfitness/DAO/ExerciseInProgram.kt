@@ -8,10 +8,9 @@ class ExerciseInProgram : ARecord {
     var poids: Float private set
     var unit: Int private set
     var note: String
-    var exType: Int = 0
     var secRest: Int private set
     var distance = 0
-    var duration: String? = null
+    var duration: Long = 0
     var seconds = 0
     var distanceUnit = 0
     var order: Long = 0
@@ -23,7 +22,7 @@ class ExerciseInProgram : ARecord {
     //    }
     constructor(secRest: Int, exerciseName: String, pSerie: Int, pRepetition: Int, pPoids: Float,
                 pProfile: Profile?, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?,
-                type: Int, distance: Int, duration: String?, seconds: Int, distanceUnit: Int,
+                exerciseType: Int, distance: Int, duration: Long, seconds: Int, distanceUnit: Int,
                 order: Long) : super() {
         this.secRest = secRest
         this.exerciseName = exerciseName
@@ -35,7 +34,7 @@ class ExerciseInProgram : ARecord {
         mProfile = pProfile
         mExerciseId = pMachineKey
         mTime = pTime
-        exType = type
+        this.mType = exerciseType
         this.distance = distance
         this.duration = duration
         this.seconds = seconds
@@ -44,7 +43,7 @@ class ExerciseInProgram : ARecord {
     }
 
     constructor(secRest: Int, exerciseName: String, pSerie: Int, pRepetition: Int, pPoids: Float,
-                pProfile: Profile?, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?) : super() {
+                pProfile: Profile?, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?, exerciseType: Int) : super() {
         this.secRest = secRest
         this.exerciseName = exerciseName
         serie = pSerie
@@ -55,6 +54,6 @@ class ExerciseInProgram : ARecord {
         mProfile = pProfile
         mExerciseId = pMachineKey
         mTime = pTime
-        mType = DAOMachine.TYPE_FONTE
+        this.mType = exerciseType
     }
 }

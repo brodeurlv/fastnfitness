@@ -170,4 +170,12 @@ public class DateConverter {
 
         return String.format("%02d:%02d:%02d", hours, mins, secs);
     }
+
+    public static long durationStringToLong(String source){
+        String[] tokens = source.split(":");
+        int secondsToMs = Integer.parseInt(tokens[2]) * 1000;
+        int minutesToMs = Integer.parseInt(tokens[1]) * 60000;
+        int hoursToMs = Integer.parseInt(tokens[0]) * 3600000;
+        return secondsToMs + minutesToMs + hoursToMs;
+    }
 }

@@ -22,6 +22,7 @@ import com.easyfitness.DAO.*
 import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
+import com.easyfitness.utils.DateConverter
 import com.easyfitness.utils.ExpandedListView
 import com.easyfitness.utils.ImageUtil
 import com.easyfitness.utils.UnitConverter
@@ -234,9 +235,8 @@ class ExercisesInProgramFragment : Fragment() {
             KToast.warningToast(requireActivity(), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
             return@OnClickListener
         }
-        val exerciseType: Int
-        val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
-        exerciseType = lMachine?.type ?: selectedType
+//        val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
+        val exerciseType: Int = selectedType
         var restTime = 60
         try {
             restTime = restTimeEdit.text.toString().toInt()
@@ -263,10 +263,9 @@ class ExercisesInProgramFragment : Fragment() {
                     currentTimeAsOrder,
                     programId, restTime,
                     exerciseEdit.text.toString(),
-                    exerciseType, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
+                    TYPE_FONTE, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
                     tmpPoids,  // Always save in KG
-                    profil,
-                    unitPoids,  // Store Unit for future display
+                    profil,  unitPoids,  // Store Unit for future display
                     "",  //Notes,
                     "", 0f, 0, 0, 0
                 )
@@ -295,14 +294,9 @@ class ExercisesInProgramFragment : Fragment() {
                     currentTimeAsOrder,
                     programId,
                     restTime,
-                    exerciseEdit.text.toString(), seriesEdit.text.toString().toInt(), secondsEdit.text.toString().toInt(),
-                    1,
-                    tmpPoids,  // Always save in KG
-                    profil,
-                    unitPoids,  // Store Unit for future display
-                    "" //Notes
-                    ,
-                    "", 0f, 0, 0, 0
+                    exerciseEdit.text.toString(), TYPE_STATIC, seriesEdit.text.toString().toInt(),
+                    1, tmpPoids, profil, unitPoids,  // Store Unit for future display
+                    "", "", 0F, 0, secondsEdit.text.toString().toInt(), 0
                 )
             }
             TYPE_CARDIO -> {
@@ -313,13 +307,12 @@ class ExercisesInProgramFragment : Fragment() {
                         Gravity.BOTTOM, KToast.LENGTH_SHORT)
                     return@OnClickListener
                 }
-                var duration: Long
+                var duration: Long = 0L
                 try {
-                    @SuppressLint("SimpleDateFormat") val dateFormat = SimpleDateFormat("HH:mm:ss")
-                    dateFormat.timeZone = TimeZone.getTimeZone("GMT")
-                    val tmpDate = dateFormat.parse(durationEdit.text.toString())
-                    duration = tmpDate.time
-                } catch (e: ParseException) {
+                    if(durationEdit.text.toString().isNotEmpty()){
+                        duration = DateConverter.durationStringToLong(durationEdit.text.toString())
+                    }
+                } catch (e: NumberFormatException) {
                     e.printStackTrace()
                     duration = 0
                 }
@@ -331,7 +324,7 @@ class ExercisesInProgramFragment : Fragment() {
                 }
                 var unitDistance = UnitConverter.UNIT_KM
                 if (unitDistanceSpinner.selectedItem.toString()
-                    == view?.context?.getString(R.string.MilesUnitLabel)) {
+                    == requireContext().getString(R.string.MilesUnitLabel)) {
                     distance = UnitConverter.MilesToKm(distance) // Always convert to KG
                     unitDistance = UnitConverter.UNIT_MILES
                 }
@@ -339,7 +332,7 @@ class ExercisesInProgramFragment : Fragment() {
                     currentTimeAsOrder,
                     programId, restTime,
                     exerciseEdit.text.toString(),
-                    exerciseType,
+                    TYPE_CARDIO,
                     1,
                     1, 0f,
                     profil,
@@ -350,15 +343,14 @@ class ExercisesInProgramFragment : Fragment() {
                     duration,
                     0,
                     unitDistance)
-                // No Countdown for Cardio
             }
         }
-        activity?.findViewById<View>(R.id.drawer_layout)?.requestFocus()
+        requireActivity().findViewById<View>(R.id.drawer_layout)?.requestFocus()
         hideKeyboard()
         lTableColor = (lTableColor + 1) % 2 // Change the color each time you add data
         refreshData()
         /* Reinitialisation des machines */
-        val adapter = ArrayAdapter(requireView().context,
+        val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_dropdown_item_1line, daoExerciseInProgram.getAllExerciseInProgramAsList(programId))
         exerciseEdit.setAdapter(adapter)
         addButton.setText(R.string.AddLabel)

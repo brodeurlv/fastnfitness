@@ -10,7 +10,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
     private var mCursor: Cursor? = null
     fun addRecord(programName: String?): Long {
         val value = ContentValues()
-        var newId: Long = -1
+        var newId: Long
         val daoProgram = DAOProgram(mContext)
         if (daoProgram.programExists(programName)) {
             return -1
