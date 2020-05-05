@@ -823,9 +823,9 @@ class ProgramRunner : Fragment() {
         requireView().post {
             val c: Cursor?
             val oldCursor: Cursor
-            val r = daoRecord.getLastRecord(profil)
+            val r = daoRecord.getAllRecordByMachines(profil, exerciseName)
             //Get results
-            c = if (r != null) daoRecord.getTop3DatesRecords(profil) else return@post
+            c = if (r != null) daoRecord.getAllRecordByMachines(profil, exerciseName) else return@post
             if (c == null || c.count == 0) {
                 recordList.adapter = null
             } else {
