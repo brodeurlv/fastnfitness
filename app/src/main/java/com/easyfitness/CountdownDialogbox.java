@@ -39,8 +39,6 @@ public class CountdownDialogbox extends Dialog implements
     private int iRestTime = 60;
     private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
 
-        boolean bFirst = true;
-
         @Override
         public void onChronometerTick(Chronometer chronometer) {
             // Update progressbar
