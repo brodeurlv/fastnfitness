@@ -99,8 +99,8 @@ public class FontesFragment extends Fragment {
     TimePickerDialogFragment mDurationFrag = null;
     TimePickerDialogFragment mTimeFrag = null;
     CircularImageView machineImage = null;
-    TextView minText = null;
-    TextView maxText = null;
+    private TextView minText = null;
+    private TextView maxText = null;
     int lTableColor = 1;
     AlertDialog machineListDialog;
     LinearLayout minMaxLayout = null;
@@ -139,7 +139,7 @@ public class FontesFragment extends Fragment {
         if (second < 10) strSecond = "0" + Integer.toString(second);
         else strSecond = Integer.toString(second);
 
-        View viewT = view.getRootView();
+//        View viewT = view.getRootView();
 
         String date = strHour + ":" + strMinute + ":" + strSecond;
         timeEdit.setText(date);
@@ -159,7 +159,7 @@ public class FontesFragment extends Fragment {
         if (second < 10) strSecond = "0" + Integer.toString(second);
         else strSecond = Integer.toString(second);
 
-        View viewT = view.getRootView();
+//        View veiwT = view.getRootView();
 
         String date = strHour + ":" + strMinute + ":" + strSecond;
         durationEdit.setText(date);
@@ -552,7 +552,7 @@ public class FontesFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
             });
-        } else if (!hasFocus) {
+        } else {
             switch (v.getId()) {
                 case R.id.editMachine:
                     // If a creation of a new machine is not ongoing.
@@ -802,7 +802,7 @@ public class FontesFragment extends Fragment {
         return getArguments().getInt("id", 0);
     }
 
-    public MainActivity getMainActivity() {
+    private MainActivity getMainActivity() {
         return this.mActivity;
     }
 
@@ -872,7 +872,7 @@ public class FontesFragment extends Fragment {
     }
 
     // Share your performances with friends
-    public boolean shareRecord(String text) {
+    private boolean shareRecord(String text) {
         AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
 
         newProfilBuilder.setTitle(getView().getContext().getResources().getText(R.string.ShareTitle));
@@ -915,12 +915,10 @@ public class FontesFragment extends Fragment {
     }
 
     public String getMachine() {
-        /*if (machineEdit == null)
-            machineEdit = this.getView().findViewById(R.id.editMachine);*/
         return machineEdit.getText().toString();
     }
 
-    public void setCurrentMachine(String machineStr) {
+    private void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
             machineImage.setImageResource(R.drawable.ic_machine); // Default image
             showExerciseTypeSelector(true);
@@ -1007,37 +1005,37 @@ public class FontesFragment extends Fragment {
         poidsEdit.setText("50");
         distanceEdit.setText("1");
         durationEdit.setText("00:10:00");
-        if (lLastRecord == null) {
-            // Set default values or nothing.
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            Fonte lLastBodyBuildingRecord = (Fonte) lLastRecord;
-            serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
-            repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
-            unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
-                poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids())));
-            else
-                poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
-            Cardio lLastCardioRecord = (Cardio) lLastRecord;
-                        durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
-            unitDistanceSpinner.setSelection(lLastCardioRecord.getDistanceUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
-                distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.getDistance())));
-            else
-                distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
-            StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
-            serieEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
-            secondsEdit.setText(String.valueOf(lLastStaticRecord.getSecond()));
-            unitSpinner.setSelection(lLastStaticRecord.getUnit());
-            DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (lLastStaticRecord.getUnit() == UnitConverter.UNIT_LBS)
-                poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastStaticRecord.getPoids())));
-            else
-                poidsEdit.setText(numberFormat.format(lLastStaticRecord.getPoids()));
+        if (lLastRecord != null) {
+            if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
+                Fonte lLastBodyBuildingRecord = (Fonte) lLastRecord;
+                serieEdit.setText(String.valueOf(lLastBodyBuildingRecord.getSerie()));
+                repetitionEdit.setText(String.valueOf(lLastBodyBuildingRecord.getRepetition()));
+                unitSpinner.setSelection(lLastBodyBuildingRecord.getUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
+                    poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids())));
+                else
+                    poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.getPoids()));
+            } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
+                Cardio lLastCardioRecord = (Cardio) lLastRecord;
+                durationEdit.setText(DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.getDuration()));
+                unitDistanceSpinner.setSelection(lLastCardioRecord.getDistanceUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
+                    distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.getDistance())));
+                else
+                    distanceEdit.setText(numberFormat.format(lLastCardioRecord.getDistance()));
+            } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
+                StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
+                serieEdit.setText(String.valueOf(lLastStaticRecord.getSerie()));
+                secondsEdit.setText(String.valueOf(lLastStaticRecord.getSecond()));
+                unitSpinner.setSelection(lLastStaticRecord.getUnit());
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
+                if (lLastStaticRecord.getUnit() == UnitConverter.UNIT_LBS)
+                    poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastStaticRecord.getPoids())));
+                else
+                    poidsEdit.setText(numberFormat.format(lLastStaticRecord.getPoids()));
+            }
         }
     }
 
@@ -1177,7 +1175,7 @@ public class FontesFragment extends Fragment {
         }
     }
 
-    public void saveSharedParams() {
+    private void saveSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("restTime", restTimeEdit.getText().toString());
@@ -1186,7 +1184,7 @@ public class FontesFragment extends Fragment {
         editor.apply();
     }
 
-    public void restoreSharedParams() {
+    private void restoreSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         restTimeEdit.setText(sharedPref.getString("restTime", ""));
         restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
@@ -1205,7 +1203,7 @@ public class FontesFragment extends Fragment {
             refreshData();
     }
 
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
