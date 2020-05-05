@@ -29,8 +29,8 @@ public class CountdownDialogbox extends Dialog implements
     public Activity activity;
     public Dialog d;
     public Button exit;
-    public Chronometer chrono;
-    public OnDismissListener onDismissChrono = dialog -> unregisterAlarm(getContext(), 100101);
+    private Chronometer chronometer;
+    private OnDismissListener onDismissChrono = dialog -> unregisterAlarm(getContext(), 100101);
     //public ProgressBar progressBar;
     private DonutProgress progressCircle;
     private int lNbSerie = 0;
@@ -46,7 +46,7 @@ public class CountdownDialogbox extends Dialog implements
             // Update progressbar
             //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
 
-            int secElapsed = (int) (chrono.getTimeElapsed() / 1000); //secElapsed is a negative value
+            int secElapsed = (int) (CountdownDialogbox.this.chronometer.getTimeElapsed() / 1000); //secElapsed is a negative value
             //progressBar.setProgress(iRestTime + secElapsed);
             progressCircle.setProgress(iRestTime + secElapsed);
 /*
@@ -67,7 +67,7 @@ public class CountdownDialogbox extends Dialog implements
             }
 */
             if (secElapsed >= 0) {
-                chrono.stop();
+                CountdownDialogbox.this.chronometer.stop();
                 dismiss();
             }
         }
@@ -79,7 +79,7 @@ public class CountdownDialogbox extends Dialog implements
         iRestTime = pRestTime;
     }
 
-    public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
+    private static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -88,7 +88,7 @@ public class CountdownDialogbox extends Dialog implements
         }
     }
 
-    public static void unregisterAlarm(Context context, int uniqueId) {
+    private static void unregisterAlarm(Context context, int uniqueId) {
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -106,7 +106,7 @@ public class CountdownDialogbox extends Dialog implements
 
         exit = findViewById(R.id.btn_exit);
         //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
-        chrono = findViewById(R.id.chronoValue);
+        chronometer = findViewById(R.id.chronoValue);
         TextView nbSeries = findViewById(R.id.idNbSeries);
         TextView totalSession = findViewById(R.id.idTotalSession);
         TextView totalMachine = findViewById(R.id.idTotalWeightMachine);
@@ -139,10 +139,10 @@ public class CountdownDialogbox extends Dialog implements
 
         nbSeries.setText(Integer.toString(lNbSerie));
 
-        chrono.setOnChronometerTickListener(onChronometerTick);
-        chrono.setBase(SystemClock.elapsedRealtime() + (iRestTime + 1) * 1000);
-        chrono.setPrecision(false);
-        chrono.start(); // Start automatically
+        chronometer.setOnChronometerTickListener(onChronometerTick);
+        chronometer.setBase(SystemClock.elapsedRealtime() + (iRestTime + 1) * 1000);
+        chronometer.setPrecision(false);
+        chronometer.start(); // Start automatically
 
         setOnDismissListener(onDismissChrono);
 
@@ -152,8 +152,8 @@ public class CountdownDialogbox extends Dialog implements
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_exit) {
-            chrono.stop();
-            chrono.setText("00:00");
+            chronometer.stop();
+            chronometer.setText("00:00");
             dismiss();
         }
     }
