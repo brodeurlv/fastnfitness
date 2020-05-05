@@ -17,18 +17,18 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 20;
-    public static final String OLD09_DATABASE_NAME = "easyfitness";
-    public static final String DATABASE_NAME = "easyfitness.db";
+    public static final int DATABASE_VERSION = 22;
+    private static final String OLD09_DATABASE_NAME = "easyfitness";
+    private static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
     private Context mContext;
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
     }
 
-    public static DatabaseHelper getInstance(Context context) {
+    static DatabaseHelper getInstance(Context context) {
 
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
@@ -171,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // This method will return if your table exist a field or not
-    public boolean isFieldExist(SQLiteDatabase db, String tableName, String fieldName) {
+    private boolean isFieldExist(SQLiteDatabase db, String tableName, String fieldName) {
         boolean isExist = true;
         Cursor res;
 
