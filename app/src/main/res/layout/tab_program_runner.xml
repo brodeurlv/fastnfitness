@@ -417,7 +417,7 @@
             >
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
@@ -426,11 +426,11 @@
                     android:id="@+id/notesInExercise"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text|textMultiLine"
                     android:gravity="center"
-                    android:inputType="text"
                     android:tooltipText="@string/NotesLabel"
                     android:hint="@string/NotesLabel"
-                    />
+                    android:autofillHints="@string/NotesLabel" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
