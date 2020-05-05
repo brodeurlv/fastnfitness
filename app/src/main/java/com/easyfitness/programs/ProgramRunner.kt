@@ -516,6 +516,7 @@ class ProgramRunner : Fragment() {
         if (notes.text.toString() != previousNote) {
             daoExerciseInProgram.updateString(exercisesFromProgram[currentExerciseOrder],
                 DAOExerciseInProgram.NOTES, notes.text.toString())
+            exercisesFromProgram[currentExerciseOrder].note=notes.text.toString()
         }
     }
 
@@ -754,7 +755,8 @@ class ProgramRunner : Fragment() {
             val c: Cursor?
             val oldCursor: Cursor
             //Get results
-            c = (daoRecord.getAllRecordByMachines(profil, exerciseName) ?: return@post)
+            val limitShowedResults=10
+            c = (daoRecord.getAllRecordByMachines(profil, exerciseName,limitShowedResults ) ?: return@post)
             if (c.count == 0) {
                 recordList.adapter = null
             } else {

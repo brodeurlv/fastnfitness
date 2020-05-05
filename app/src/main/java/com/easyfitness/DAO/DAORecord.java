@@ -210,7 +210,7 @@ public class DAORecord extends DAOBase {
         return getAllRecordByMachines(pProfile, pMachines, -1);
     }
 
-    private Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
+    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
