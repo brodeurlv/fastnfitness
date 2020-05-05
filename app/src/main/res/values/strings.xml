@@ -363,17 +363,19 @@
     <string name="manu_programs">&#160;Programs</string>
     <string name="FromProgramLabel">Programs</string>
     <string name="NewProgramHint">Name of your training program</string>
+    <string name="ProgramRunnerLabel">By program</string>
     <string name="ProgramsLabel">Programs</string>
-    <string name="machine_name">Machine Name</string>
+    <string name="machine_name">Exercise Name</string>
     <string name="program_name">Program name</string>
     <string name="program_hint">Enter program name</string>
-    <string name="ExercisesInProgram">Exercses in program:</string>
+    <string name="ExercisesInProgram">Exercises in program:</string>
     <string name="program_selection">Selected program:</string>
-    <string name="arrowPreviousAsText"><![CDATA[<]]></string>
-    <string name="arrowNextAsText"><![CDATA[>]]></string>
+    <string name="arrowPreviousAsText" translatable="false"><![CDATA[<]]></string>
+    <string name="arrowNextAsText" translatable="false"><![CDATA[>]]></string>
     <string name="seconds">Seconds</string>
-    <string name="expandad_aditional_details_arrow">expandad aditional details arrow</string>
+    <string name="expandad_aditional_details_arrow">expanded additional details arrow</string>
     <string name="automatic_time">Automatic time</string>
-    <string name="ExercisesInProgramLabel">Plan</string>
+    <string name="ExercisesInProgramLabel">Exercises in program</string>
+    <string name="add_program_first">Add program first</string>
 
 </resources>

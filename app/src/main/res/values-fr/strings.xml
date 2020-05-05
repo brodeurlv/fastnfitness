@@ -298,4 +298,20 @@
     <string name="timeLabel">Heure</string>
     <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
     <string name="daynightmode_settingtitle">Thème graphique (redémarrage nécessaire)</string>
+    <string name="manu_programs">&#160;Programmes</string>
+    <string name="fitness_programs">Programmes</string>
+    <string name="FromProgramLabel">Programmes</string>
+    <string name="ProgramsLabel">Programmes</string>
+    <string name="program_name">Nom du programme</string>
+    <string name="add_program_first">Ajouter d\'abord le programme</string>
+    <string name="program_selection">Programme sélectionné:</string>
+    <string name="ExercisesInProgram">Exercices au programme:</string>
+    <string name="NewProgramHint">Nom de votre programme de formation</string>
+    <string name="ProgramRunnerLabel">Par programme</string>
+    <string name="machine_name">Nom de l\'exercice</string>
+    <string name="program_hint">Entrez le nom du programme</string>
+    <string name="seconds">Secondes</string>
+    <string name="expandad_aditional_details_arrow">détails supplémentaires développés flèche</string>
+    <string name="automatic_time">Heure automatique</string>
+    <string name="ExercisesInProgramLabel">Exercices au programme</string>
 </resources>

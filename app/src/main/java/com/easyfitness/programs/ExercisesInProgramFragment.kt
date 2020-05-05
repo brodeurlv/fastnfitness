@@ -83,7 +83,7 @@ class ExercisesInProgramFragment : Fragment() {
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
-            Toast.makeText(context, "Add program first", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.add_program_first, Toast.LENGTH_LONG).show()
             transaction.replace(R.id.fragment_container, programsFragment)
             transaction.addToBackStack(null)
             // Commit the transaction
@@ -226,12 +226,11 @@ class ExercisesInProgramFragment : Fragment() {
     private val itemClickDeleteRecord = BtnClickListener { idToDelete: Long -> showDeleteDialog(idToDelete) }
 
     @SuppressLint("SetTextI18n")
-    private val clickAddButton = View.OnClickListener { _: View? ->
+    private val clickAddButton = View.OnClickListener {
         if (exerciseEdit.text.toString().isEmpty()) {
             KToast.warningToast(requireActivity(), resources.getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT)
             return@OnClickListener
         }
-//        val lMachine = mDbMachine.getMachine(exerciseEdit.text.toString())
         val exerciseType: Int = selectedType
         var restTime = 60
         try {
@@ -395,8 +394,6 @@ class ExercisesInProgramFragment : Fragment() {
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
             R.id.editDuration -> showTimePicker(durationEdit)
-            R.id.editMachine -> {
-            }
         }
     }
     private val touchRazEdit = OnFocusChangeListener { v: View, hasFocus: Boolean ->
@@ -434,7 +431,7 @@ class ExercisesInProgramFragment : Fragment() {
             .setConfirmText(resources.getText(R.string.global_yes).toString())
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
-                daoExerciseInProgram.deleteRecord(idToDelete) //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                daoExerciseInProgram.deleteRecord(idToDelete)
                 updateRecordTable(exerciseEdit.text.toString(),programId)
                 KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
@@ -504,7 +501,6 @@ class ExercisesInProgramFragment : Fragment() {
             changeExerciseTypeUI(TYPE_FONTE, true)
             return
         }
-        // Update EditView
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
         exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
@@ -557,8 +553,6 @@ class ExercisesInProgramFragment : Fragment() {
         mainActivity.currentMachine = pMachine
         requireView().post {
             val oldCursor: Cursor
-            val r = daoExerciseInProgram.getAllExerciseInProgram(programId)
-            //Get results
             val c: Cursor? = daoExerciseInProgram.getAllExerciseInProgramToRecord(programId)
             if (c == null || c.count == 0) {
                 recordList.adapter = null

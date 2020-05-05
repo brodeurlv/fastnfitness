@@ -332,6 +332,23 @@
     <string name="profileCreated">Profiel gemaakt</string>
     <string name="introSlide2Text">Schrijf de naam van de oefening en de details en deze worden automatisch gemaakt. Je vindt het gemakkelijk terug in de lijst.</string>
     <string name="daynightmode_settingtitle">Selecteer uw thema (opnieuw opstarten vereist)</string>
+    <string name="fitness_programs">Programma\'s</string>
+    <string name="manu_programs">&#160;Programma\'s</string>
+    <string name="FromProgramLabel">Programma\'s</string>
+    <string name="ProgramsLabel">Programma\'s</string>
+    <string name="program_name">Programnavn</string>
+    <string name="author_label">Auteur:</string>
+    <string name="add_program_first">Voeg eerst een programma toe</string>
+    <string name="program_selection">Geselecteerd programma:</string>
+    <string name="ExercisesInProgram">Oefeningen in programma:</string>
+    <string name="NewProgramHint">Naam van uw trainingsprogramma</string>
+    <string name="ProgramRunnerLabel">Op programma</string>
+    <string name="machine_name">Naam oefening</string>
+    <string name="program_hint">Programmanaam invoeren</string>
+    <string name="seconds">Seconden</string>
+    <string name="expandad_aditional_details_arrow">uitgebreidere details pijl</string>
+    <string name="automatic_time">Automatische tijd</string>
+    <string name="ExercisesInProgramLabel">Oefeningen in programma</string>
 
 </resources>
 

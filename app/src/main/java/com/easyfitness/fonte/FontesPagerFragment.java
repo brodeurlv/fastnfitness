@@ -103,41 +103,20 @@ public class FontesPagerFragment extends Fragment {
             //PagerSlidingTabStrip tabs = view.findViewById(R.id.tabs);
             //tabs.setViewPager(viewPager);
 
-/*
-            viewPager.addOnPageChangeListener(new OnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    // N'update pas le fragment principal car c'est lui qui dirige les autres.
-                    //if (position != 0)
-                    //    getViewPagerAdapter().getItem(position).onHiddenChanged(false);
-                }
-
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
-*/
-
         }
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    //...
-
-    public void onPageSelected(int position) {
-        //.instantiateItem() from until .destroyItem() is called it will be able to get the Fragment of page.
-        //Fragment page = pagerAdapter.getPage(position);
-    }
-
-    public ViewPager getViewPager() {
-        return (ViewPager) getView().findViewById(R.id.pager);
-    }
+//    public void onPageSelected(int position) {
+//        //.instantiateItem() from until .destroyItem() is called it will be able to get the Fragment of page.
+//        //Fragment page = pagerAdapter.getPage(position);
+//    }
+//
+//    public ViewPager getViewPager() {
+//        return (ViewPager) getView().findViewById(R.id.pager);
+//    }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
         return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();

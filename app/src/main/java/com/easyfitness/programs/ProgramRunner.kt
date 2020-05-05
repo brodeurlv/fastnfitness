@@ -109,7 +109,7 @@ class ProgramRunner : Fragment() {
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
-            Toast.makeText(context, "Add program first", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.add_program_first, Toast.LENGTH_LONG).show()
             transaction.replace(R.id.fragment_container, programsFragment)
             transaction.addToBackStack(null)
             // Commit the transaction

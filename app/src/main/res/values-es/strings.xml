@@ -318,5 +318,21 @@
     <string name="pref_preferredDistanceUnitTitle">Seleccione su unidad de distancia preferida</string>
     <string name="daynightmode_settingtitle">Seleccione su tema (reinicio necesario)</string>
     <string name="timeLabel">Hora</string>
+    <string name="manu_programs">&#160;Programas</string>
+    <string name="fitness_programs">Programas</string>
+    <string name="FromProgramLabel">Programas</string>
+    <string name="ProgramsLabel">Programas</string>
+    <string name="program_name">Nombre del programa</string>
+    <string name="add_program_first">Agregar programa primero</string>
+    <string name="automatic_time">Tiempo automático</string>
+    <string name="ExercisesInProgramLabel">Ejercicios en programa</string>
+    <string name="seconds">Segundos</string>
+    <string name="expandad_aditional_details_arrow">flecha de detalles adicionales expandida</string>
+    <string name="NewProgramHint">Nombre de tu programa de entrenamiento</string>
+    <string name="ProgramRunnerLabel">Por programa</string>
+    <string name="machine_name">Nombre del ejercicio</string>
+    <string name="program_hint">Programmnamen eingeben</string>
+    <string name="ExercisesInProgram">Ejercicios en programa:</string>
+    <string name="program_selection">Programa seleccionado:</string>
 
 </resources>

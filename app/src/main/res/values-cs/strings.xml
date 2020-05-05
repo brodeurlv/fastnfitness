@@ -318,5 +318,21 @@
     <string name="pref_preferredDistanceUnitTitle">Vyberte preferovanou jednotku vzdálenosti</string>
     <string name="daynightmode_settingtitle">Vyberte téma (je třeba restartovat)</string>
     <string name="timeLabel">Čas</string>
+    <string name="fitness_programs">Programy</string>
+    <string name="manu_programs">&#160;Programy</string>
+    <string name="FromProgramLabel">Programy</string>
+    <string name="ProgramsLabel">Programy</string>
+    <string name="program_name">Název programu</string>
+    <string name="add_program_first">Nejprve přidejte program</string>
+    <string name="program_selection">Vybraný program:</string>
+    <string name="ExercisesInProgram">Cvičení v programu:</string>
+    <string name="NewProgramHint">Název vašeho vzdělávacího programu</string>
+    <string name="ProgramRunnerLabel">Podle programu</string>
+    <string name="machine_name">Název cvičení</string>
+    <string name="program_hint">Zadejte název programu</string>
+    <string name="seconds">Sekundy</string>
+    <string name="expandad_aditional_details_arrow">rozšířené další podrobnosti šipka</string>
+    <string name="automatic_time">Automatický čas</string>
+    <string name="ExercisesInProgramLabel">Cvičení v programu</string>
 
 </resources>

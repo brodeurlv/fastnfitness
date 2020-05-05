@@ -69,10 +69,5 @@ class ProgramsPagerFragment : Fragment() {
             f.arguments = args
             return f
         }
-
-//        @JvmStatic
-//        fun newInstance(PROGRAMS: String, i: Int): ProgramsPagerFragment {
-//
-//        }
     }
 }

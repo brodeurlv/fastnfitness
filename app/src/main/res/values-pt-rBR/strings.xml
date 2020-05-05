@@ -318,5 +318,21 @@
     <string name="shoulders">Ombros</string>
     <string name="timeLabel">Tempo</string>
     <string name="daynightmode_settingtitle">Selecione seu tema (é necessário reiniciar)</string>
+    <string name="manu_programs">&#160;Programas</string>
+    <string name="fitness_programs">Programas</string>
+    <string name="FromProgramLabel">Programas</string>
+    <string name="ProgramsLabel">Programas</string>
+    <string name="program_name">Nome do programa</string>
+    <string name="add_program_first">Adicionar primeiro o programa</string>
+    <string name="automatic_time">Tempo automático</string>
+    <string name="ExercisesInProgramLabel">Exercícios em programa</string>
+    <string name="seconds">Segundos</string>
+    <string name="expandad_aditional_details_arrow">seta de detalhes adicionais expandida</string>
+    <string name="NewProgramHint">Nome do seu programa de treinamento</string>
+    <string name="ProgramRunnerLabel">Por programa</string>
+    <string name="machine_name">Nome do Exercício</string>
+    <string name="program_hint">Digite o nome do programa</string>
+    <string name="ExercisesInProgram">Exercícios em programa:</string>
+    <string name="program_selection">Programa selecionado:</string>
 
 </resources>
