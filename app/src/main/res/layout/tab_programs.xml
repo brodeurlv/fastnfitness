@@ -15,13 +15,12 @@
         android:id="@+id/new_program_name"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:hint="@string/program_hint"
         android:layout_marginTop="32dp"
+        android:inputType="text"
         android:minWidth="20dp"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:autofillHints="@string/program_hint" />
     <Button
         android:id="@+id/addExercise"
         style="@style/Widget.AppCompat.Button.AddButton"
