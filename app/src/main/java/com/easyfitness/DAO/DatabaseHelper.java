@@ -66,8 +66,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (upgradeTo <= newVersion) {
             switch (upgradeTo) {
                 case 1:
-                    db.execSQL(DAOCardio.TABLE_CREATE);
-                    break;
                 case 2:
                     db.execSQL(DAOCardio.TABLE_CREATE);
                     break;
@@ -140,9 +138,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 case 19:
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE_UNIT + " INTEGER DEFAULT 0");
                     break;
-                case 20:
-                    db.execSQL(DAOProgram.TABLE_CREATE);
-                    db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
             }
             upgradeTo++;
         }
