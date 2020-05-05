@@ -275,7 +275,6 @@ class ProgramRunner : Fragment() {
     private val itemClickCopyRecord = BtnClickListener { id: Long ->
         val r: IRecord? = daoRecord.getRecord(id)
         if (r != null) {
-            // Copy values above
             setCurrentMachine(r.exercise)
             when (r.type) {
                 TYPE_FONTE -> {
@@ -396,7 +395,6 @@ class ProgramRunner : Fragment() {
                     getProfilFromMain(),
                     unitPoids, // Store Unit for future display
                     "", //Notes
-                    //Notes
                     timeStr)
                 iTotalWeightSession = daoStatic.getTotalWeightSession(date)
                 iTotalWeight = daoStatic.getTotalWeightMachine(date, exerciseEdit.text.toString())
