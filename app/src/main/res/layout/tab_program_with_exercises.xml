@@ -509,37 +509,6 @@
                             android:text="60" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/textFonteNote"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginStart="8dp"
-                            android:gravity="start"
-                            android:text="@string/NotesLabel" />
-
-                        <EditText
-                            android:id="@+id/editFonteNote"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:height="40dp"
-                            android:ems="10"
-                            android:hint="@string/NotesLabel"
-                            android:inputType="textMultiLine"
-                            android:lines="3"
-                            android:maxLines="5"
-                            android:minHeight="40dp"
-                            android:minLines="2" />
-
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
