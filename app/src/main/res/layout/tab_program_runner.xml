@@ -87,7 +87,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         app:srcCompat="@drawable/list"
-                        android:contentDescription="TODO" />
+                        android:contentDescription="@string/MachinesLabel" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -184,7 +184,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <!--android:layout_weight="40"-->
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -482,7 +481,7 @@
                     android:layout_gravity="left|center"
                     android:layout_marginStart="0dp"
                     android:baselineAlignBottom="false"
-                    android:contentDescription="preciousArrow"
+                    android:contentDescription="@string/arrowPreviousAsText"
                     android:cropToPadding="false"
                     android:text="@string/arrowPreviousAsText" />
 
@@ -503,7 +502,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center|left"
-                    android:contentDescription="nextExerciseArrow"
+                    android:contentDescription="@string/arrowNextAsText"
                     android:text="@string/arrowNextAsText" />
 
             </RelativeLayout>
@@ -560,7 +559,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:layout_weight="50"
-                android:gravity="right|end"
+                android:gravity="end"
                 android:text="@string/DateLabel" />
 
             <TextView
@@ -575,7 +574,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
