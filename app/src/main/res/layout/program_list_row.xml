@@ -22,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="false"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text="@string/program_name"
         android:textSize="16sp" />
 
 </RelativeLayout>
