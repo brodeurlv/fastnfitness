@@ -797,7 +797,6 @@ class ProgramRunner : Fragment() {
                 repetitionCardView.visibility = View.GONE
                 weightCardView.visibility = View.GONE
                 secondsCardView.visibility = View.GONE
-                restTimeLayout.visibility = View.GONE
                 distanceCardView.visibility = View.VISIBLE
                 durationCardView.visibility = View.VISIBLE
                 selectedType = TYPE_CARDIO
