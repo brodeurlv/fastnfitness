@@ -7,7 +7,6 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.*
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
@@ -31,8 +30,6 @@ import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.onurkaganaldemir.ktoastlib.KToast
 import timber.log.Timber
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class ExercisesInProgramFragment : Fragment() {
@@ -72,7 +69,6 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var durationCardView: CardView
     private lateinit var programSelect: Spinner
 
-    //        machineList.setOnItemClickListener(onClickListItem);
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
 
@@ -163,7 +159,7 @@ class ExercisesInProgramFragment : Fragment() {
         try {
             weightUnit = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
         } catch (e: NumberFormatException) {
-            Timber.d("Conversion "+ "Not important")
+            Timber.d("Conversion Not important")
         }
         unitSpinner.setSelection(weightUnit)
         val distanceUnit: Int
@@ -307,7 +303,7 @@ class ExercisesInProgramFragment : Fragment() {
                         Gravity.BOTTOM, KToast.LENGTH_SHORT)
                     return@OnClickListener
                 }
-                var duration: Long = 0L
+                var duration = 0L
                 try {
                     if(durationEdit.text.toString().isNotEmpty()){
                         duration = DateConverter.durationStringToLong(durationEdit.text.toString())
