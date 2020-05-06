@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
+import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
@@ -21,10 +23,7 @@ import com.easyfitness.DAO.*
 import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
-import com.easyfitness.utils.DateConverter
-import com.easyfitness.utils.ExpandedListView
-import com.easyfitness.utils.ImageUtil
-import com.easyfitness.utils.UnitConverter
+import com.easyfitness.utils.*
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -88,6 +87,10 @@ class ProgramRunner : Fragment() {
     private lateinit var nextExerciseArrow: Button
     private lateinit var previousExerciseArrow: Button
     private lateinit var notes: EditText
+    private lateinit var mDetector: GestureDetectorCompat
+    private lateinit var layoutProgramRunner: LinearLayout
+    lateinit var listener: OnSwipeTouchListener//=OnSwipeTouchListener(requireContext())
+    lateinit var tabProgramRunner: ScrollView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -140,6 +143,27 @@ class ProgramRunner : Fragment() {
                 }
             }
         }
+
+        mDetector = GestureDetectorCompat(requireContext(), MyGestureListener())
+//        layoutProgramRunner = view.findViewById(R.id.notesAndRestLayout)
+        listener=OnSwipeTouchListener(requireContext())
+        tabProgramRunner= view.findViewById(R.id.tab_program_runner)
+        tabProgramRunner.setOnTouchListener { v, event -> listener.onTouch(v,event) }
+
+//        layoutProgramRunner.setOnTouchListener { v, event -> listener.onTouch(v,event) }
+//        tabProgramRunner.setOnTouchListener { _, event ->
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                mDetector.onTouchEvent(event)
+//            }
+//            true
+//        }
+//        layoutProgramRunner.setOnTouchListener { _, event ->
+////            if (event.action === MotionEvent.ACTION_MOVE) {
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                mDetector.onTouchEvent(event)
+//            }
+//            true
+//        }
         exerciseEdit = view.findViewById(R.id.editMachine)
         seriesEdit = view.findViewById(R.id.editSerie)
         poidsEdit = view.findViewById(R.id.editPoids)
@@ -227,6 +251,31 @@ class ProgramRunner : Fragment() {
             }
         }
         return view
+    }
+
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        mDetector.onTouchEvent(event)
+//        return super.onTouchEvent(event)
+//    }
+
+    private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onDown(event: MotionEvent): Boolean {
+            Log.d("Gesture", "onDown: $event")
+            return true
+        }
+
+        override fun onFling(
+            event1: MotionEvent,
+            event2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            Log.d("Gesture", "onDown: $event1")
+
+//            Toast.makeText(,"onFling: $event1 $event2", Toast.LENGTH_SHORT).show()
+            return true
+        }
     }
 
     private fun nextExercise() {
