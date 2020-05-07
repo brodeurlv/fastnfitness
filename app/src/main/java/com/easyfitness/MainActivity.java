@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
     private boolean mMigrationBD15done = false;
+    public boolean swapped = false;
+
     private PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
             case R.id.create_newprofil:
@@ -490,6 +493,17 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog exportDbDialog = exportDbBuilder.create();
             exportDbDialog.show();
         }
+    }
+
+    /**
+     * This is important for ProgramRunner Activity gestures
+     * @param event motion event that has to be executed before scrollView
+     * @return dispatch Event to upper class (Scroll View)
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event){
+        this.onTouchEvent(event);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
