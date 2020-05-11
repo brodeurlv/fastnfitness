@@ -54,3 +54,5 @@ freeline_project_description.json
 # keystore
 release.properties
 debug.properties
+
+app.iml
