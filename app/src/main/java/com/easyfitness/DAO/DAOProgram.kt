@@ -10,7 +10,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
     private var mCursor: Cursor? = null
     fun addRecord(programName: String?): Long {
         val value = ContentValues()
-        var newId: Long
+        val newId: Long
         val daoProgram = DAOProgram(mContext)
         if (daoProgram.programExists(programName)) {
             return -1
@@ -56,7 +56,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         return value
     }
 
-    val allProgramsNames: List<String>?
+    val allProgramsNames: MutableList<String>?
         get() {
             val programs: MutableList<String> = ArrayList()
             val db = this.readableDatabase
@@ -97,12 +97,12 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         return db.rawQuery(pRequest, null)
     }
 
-    fun updateRecord(m: Program): Int {
-        val db = this.writableDatabase
-        val value = ContentValues()
-        value.put(PROGRAM_NAME, m.programName)
-        return db.update(TABLE_NAME, value, "$KEY = ?", arrayOf(m.getId().toString()))
-    }
+//    fun updateRecord(m: Program): Int {
+//        val db = this.writableDatabase
+//        val value = ContentValues()
+//        value.put(PROGRAM_NAME, m.programName)
+//        return db.update(TABLE_NAME, value, "$KEY = ?", arrayOf(m.getId().toString()))
+//    }
 
     fun delete(m: Program?) {
         if (m != null) {

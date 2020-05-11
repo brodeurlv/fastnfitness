@@ -15,11 +15,6 @@ class ExerciseInProgram : ARecord {
     var distanceUnit = 0
     var order: Long = 0
 
-    //    public ExerciseInProgram(int secRest, String pMachine, int pSerie, int pRepetition, int pPoids,
-    //                             Profile pProfile, int pUnit, String pNote, long pMachineKey, String pTime,
-    //                             int type, int distance, String duration, int seconds, int distanceUnit,
-    //                             long order) {
-    //    }
     constructor(secRest: Int, exerciseName: String, pSerie: Int, pRepetition: Int, pPoids: Float,
                 pProfile: Profile?, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?,
                 exerciseType: Int, distance: Int, duration: Long, seconds: Int, distanceUnit: Int,

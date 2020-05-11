@@ -31,24 +31,24 @@ import java.io.IOException
 class ProgramDetailsFragment : Fragment() {
     private lateinit var machineName: EditText
 
-    var machinePhoto: ImageView? = null
+    private var machinePhoto: ImageView? = null
 
     // Selection part
-    var exerciseTypeSelectorLayout: LinearLayout? = null
-    var bodybuildingSelector: TextView? = null
-    var cardioSelector: TextView? = null
-    var selectedType = DAOMachine.TYPE_FONTE
-    var machineNameArg: String? = null
-    var machineIdArg: Long = 0
-    var machineProfilIdArg: Long = 0
+    private var exerciseTypeSelectorLayout: LinearLayout? = null
+    private var bodybuildingSelector: TextView? = null
+    private var cardioSelector: TextView? = null
+    private var selectedType = DAOMachine.TYPE_FONTE
+    private var machineNameArg: String? = null
+    private var machineIdArg: Long = 0
+    private var machineProfilIdArg: Long = 0
 
-    var pager: ProgramDetailsPager? = null
-    var mDbMachine: DAOProgram? = null
-    var mDbRecord: DAORecord? = null
-    lateinit var mMachine: Program
-    var fragmentView: View? = null
-    var imgUtil: ImageUtil? = null
-    var mCurrentPhotoPath: String? = null
+    private var pager: ProgramDetailsPager? = null
+    private var mDbMachine: DAOProgram? = null
+    private var mDbRecord: DAORecord? = null
+    private lateinit var mMachine: Program
+    private var fragmentView: View? = null
+    private var imgUtil: ImageUtil? = null
+    private var mCurrentPhotoPath: String? = null
     private var toBeSaved = false
     private var watcher: TextWatcher = object : TextWatcher {
         override fun onTextChanged(s: CharSequence, start: Int,

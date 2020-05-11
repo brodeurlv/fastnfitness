@@ -71,7 +71,7 @@ class ExercisesInProgramFragment : Fragment() {
 
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
-    var programs: List<String>? = null
+    var programs: MutableList<String>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -511,48 +511,8 @@ class ExercisesInProgramFragment : Fragment() {
         exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
         val imgUtil = ImageUtil()
         ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
-        // Update Table
-//        updateRecordTable(lMachine.name)
-        // Update display type
         changeExerciseTypeUI(lMachine.type, false)
-        // Update last values
-//        updateLastRecord()
     }
-
-//    @SuppressLint("SetTextI18n")
-//    private fun updateLastRecord() {
-//        val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
-//        // Default Values
-//        seriesEdit.setText("1")
-//        repetitionEdit.setText("10")
-//        secondsEdit.setText("60")
-//        poidsEdit.setText("50")
-//        distanceEdit.setText("1")
-//        durationEdit.text = "00:10:00"
-//        if (lLastRecord != null) {
-//            if (lLastRecord.type == TYPE_FONTE) {
-//                val lLastBodyBuildingRecord = lLastRecord as ExerciseInProgram
-//                seriesEdit.setText(lLastBodyBuildingRecord.serie.toString())
-//                repetitionEdit.setText(lLastBodyBuildingRecord.repetition.toString())
-//                unitSpinner.setSelection(lLastBodyBuildingRecord.unit)
-//                val numberFormat = DecimalFormat("#.##")
-//                if (lLastBodyBuildingRecord.unit == UnitConverter.UNIT_LBS) poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.poids).toDouble())) else poidsEdit.setText(numberFormat.format(lLastBodyBuildingRecord.poids.toDouble()))
-//            } else if (lLastRecord.type == TYPE_CARDIO) {
-//                val lLastCardioRecord = lLastRecord as Cardio
-//                durationEdit.text = DateConverter.durationToHoursMinutesSecondsStr(lLastCardioRecord.duration)
-//                unitDistanceSpinner.setSelection(lLastCardioRecord.distanceUnit)
-//                val numberFormat = DecimalFormat("#.##")
-//                if (lLastCardioRecord.distanceUnit == UnitConverter.UNIT_MILES) distanceEdit.setText(numberFormat.format(UnitConverter.KmToMiles(lLastCardioRecord.distance).toDouble())) else distanceEdit.setText(numberFormat.format(lLastCardioRecord.distance.toDouble()))
-//            } else if (lLastRecord.type == TYPE_STATIC) {
-//                val lLastStaticRecord = lLastRecord as StaticExercise
-//                seriesEdit.setText(lLastStaticRecord.serie.toString())
-//                secondsEdit.setText(lLastStaticRecord.second.toString())
-//                unitSpinner.setSelection(lLastStaticRecord.unit)
-//                val numberFormat = DecimalFormat("#.##")
-//                if (lLastStaticRecord.unit == UnitConverter.UNIT_LBS) poidsEdit.setText(numberFormat.format(UnitConverter.KgtoLbs(lLastStaticRecord.poids).toDouble())) else poidsEdit.setText(numberFormat.format(lLastStaticRecord.poids.toDouble()))
-//            }
-//        }
-//    }
 
     private fun updateRecordTable(pMachine: String, programId: Long) { // Exercises in program list
         mainActivity.currentMachine = pMachine

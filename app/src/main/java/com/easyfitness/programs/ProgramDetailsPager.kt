@@ -56,8 +56,8 @@ class ProgramDetailsPager : Fragment() {
         }
         val mDbProgram = DAOProgram(context)
         (activity as MainActivity?)!!.activityToolbar.visibility = View.GONE
-        val top_toolbar: Toolbar = view.findViewById(R.id.actionToolbarMachine)
-        top_toolbar.setNavigationIcon(R.drawable.ic_back)
+        val topToolbar: Toolbar = view.findViewById(R.id.actionToolbarMachine)
+        topToolbar.setNavigationIcon(R.drawable.ic_back)
         //        top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 //        val machineDelete = view.findViewById<ImageButton>(R.id.action_machine_delete)
         machineSave = view.findViewById(R.id.action_machine_save)
@@ -73,15 +73,15 @@ class ProgramDetailsPager : Fragment() {
         machineSave.visibility = View.VISIBLE
     }
 
-    private fun deleteRecordsAssociatedToProgram() {
-        val mDbRecord = DAORecord(context)
-        val mDbProfil = DAOProfil(context)
-        val lProfile = mDbProfil.getProfil(machineProfilIdArg)
-        val listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, program!!.programName)
-        for (record in listRecords) {
-            mDbRecord.deleteRecord(record.id)
-        }
-    }
+//    private fun deleteRecordsAssociatedToProgram() {
+//        val mDbRecord = DAORecord(context)
+//        val mDbProfil = DAOProfil(context)
+//        val lProfile = mDbProfil.getProfil(machineProfilIdArg)
+//        val listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, program!!.programName)
+//        for (record in listRecords) {
+//            mDbRecord.deleteRecord(record.id)
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
