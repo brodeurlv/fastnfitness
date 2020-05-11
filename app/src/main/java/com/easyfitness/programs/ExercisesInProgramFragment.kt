@@ -71,13 +71,14 @@ class ExercisesInProgramFragment : Fragment() {
 
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
+    var programs: List<String>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
         daoProgram = DAOProgram(context)
-        val programs = daoProgram.allProgramsNames
-        if (programs == null || programs.isEmpty()) {
+        programs = daoProgram.allProgramsNames
+        if (programs == null || programs!!.isEmpty()) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -89,7 +90,7 @@ class ExercisesInProgramFragment : Fragment() {
             // Commit the transaction
             transaction.commit()
         } else {
-            programId = daoProgram.getRecord(programs[0])!!.id
+            programId = daoProgram.getRecord(programs!![0])!!.id
             programSelect = view.findViewById(R.id.programSelect)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
             programSelect.adapter = adapter
@@ -97,13 +98,12 @@ class ExercisesInProgramFragment : Fragment() {
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>,
                                             view: View, position: Int, id: Long) {
-                    programId = daoProgram.getRecord(programs[position])!!.id
+                    programId = daoProgram.getRecord(programs!![position])!!.id
                     refreshData()
-                    Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.program_selection) + " " + programs!![position], Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                }
+                override fun onNothingSelected(parent: AdapterView<*>) {}
             }
         }
         exerciseEdit = view.findViewById(R.id.editMachine)
@@ -260,7 +260,7 @@ class ExercisesInProgramFragment : Fragment() {
                     exerciseEdit.text.toString(),
                     TYPE_FONTE, seriesEdit.text.toString().toInt(), repetitionEdit.text.toString().toInt(),
                     tmpPoids,  // Always save in KG
-                    profil,  unitPoids,  // Store Unit for future display
+                    profil, unitPoids,  // Store Unit for future display
                     "",  //Notes,
                     "", 0f, 0, 0, 0
                 )
@@ -304,7 +304,7 @@ class ExercisesInProgramFragment : Fragment() {
                 }
                 var duration = 0L
                 try {
-                    if(durationEdit.text.toString().isNotEmpty()){
+                    if (durationEdit.text.toString().isNotEmpty()) {
                         duration = DateConverter.durationStringToLong(durationEdit.text.toString())
                     }
                 } catch (e: NumberFormatException) {
@@ -432,7 +432,7 @@ class ExercisesInProgramFragment : Fragment() {
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete)
-                updateRecordTable(exerciseEdit.text.toString(),programId)
+                updateRecordTable(exerciseEdit.text.toString(), programId)
                 KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -442,6 +442,11 @@ class ExercisesInProgramFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mainActivity = this.activity as MainActivity
+        refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
         refreshData()
     }
 
@@ -549,7 +554,7 @@ class ExercisesInProgramFragment : Fragment() {
 //        }
 //    }
 
-    private fun updateRecordTable(pMachine: String, programId :Long) { // Exercises in program list
+    private fun updateRecordTable(pMachine: String, programId: Long) { // Exercises in program list
         mainActivity.currentMachine = pMachine
         requireView().post {
             val oldCursor: Cursor
@@ -573,35 +578,30 @@ class ExercisesInProgramFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun refreshData() {
-        val fragmentView = view
-        if (fragmentView != null) {
-            daoExerciseInProgram.setProfile(profil)
-            val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
+        if (programs!!.size != daoProgram.allProgramsNames?.size) {//only for program list refresh after add
+            programs=daoProgram.allProgramsNames //update programs
+            programId = daoProgram.getRecord(programs!![0])!!.id
+            programSelect = requireView().findViewById(R.id.programSelect)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
+            programSelect.adapter = adapter
+            programSelect.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>,
+                                            view: View, position: Int, id: Long) {
+                    programId = daoProgram.getRecord(programs!![position])!!.id
+                }
 
-            /* Init exercises list*/
-            val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(requireContext(), exerciseInProgramArrayList)
-            exerciseEdit.setAdapter(exerciseArrayFullAdapter)
-//            if (exerciseEdit.text.toString().isEmpty()) {
-//                val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
-//                if (lLastRecord != null && lLastRecord.exercise!=null) { // Last recorded exercise
-//                    setCurrentExercise(lLastRecord.exercise)
-//                } else { // Default Values
-//                    exerciseEdit.setText("")
-//                    seriesEdit.setText("1")
-//                    repetitionEdit.setText("10")
-//                    secondsEdit.setText("60")
-//                    poidsEdit.setText("50")
-//                    distanceEdit.setText("1")
-//                    durationEdit.text = "00:10:00"
-//                    setCurrentExercise("")
-//                    changeExerciseTypeUI(TYPE_FONTE, true)
-//                }
-//            } else { // Restore on fragment restore.
-//                setCurrentExercise(exerciseEdit.text.toString())
-//            }
-//            // Set Table
-            updateRecordTable(exerciseEdit.text.toString(),programId)
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
         }
+
+        daoExerciseInProgram.setProfile(profil)
+        val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
+        /* Init exercises list*/
+        val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(requireContext(), exerciseInProgramArrayList)
+        exerciseEdit.setAdapter(exerciseArrayFullAdapter)
+        updateRecordTable(exerciseEdit.text.toString(), programId)
+
     }
 
     private fun showExerciseTypeSelector(displaySelector: Boolean) {
