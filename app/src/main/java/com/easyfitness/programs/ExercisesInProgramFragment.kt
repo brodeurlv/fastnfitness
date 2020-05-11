@@ -79,7 +79,7 @@ class ExercisesInProgramFragment : Fragment() {
         daoProgram = DAOProgram(context)
         programs = daoProgram.allProgramsNames
         if (programs == null || programs!!.isEmpty()) {
-            val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
+            val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             // Replace whatever is in the fragment_container view with this fragment,
@@ -176,7 +176,7 @@ class ExercisesInProgramFragment : Fragment() {
         exerciseImage.setOnClickListener {
             val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
-                val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
+                val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
                 val machineDetailsFragment = ExerciseDetailsPager.newInstance(m.id, profileId)
                 val transaction = requireActivity().supportFragmentManager.beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
@@ -407,7 +407,7 @@ class ExercisesInProgramFragment : Fragment() {
                 R.id.editDistance -> distanceEdit.setText("")
                 R.id.editMachine -> {
                     exerciseEdit.setText("")
-                    exerciseImage.setImageResource(R.drawable.ic_machine)
+                    exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                     minMaxLayout.visibility = View.GONE
                     showExerciseTypeSelector(true)
                 }
@@ -487,14 +487,14 @@ class ExercisesInProgramFragment : Fragment() {
         get() = this
 
     private val profil: Profile
-        get() = mainActivity.currentProfil
+        get() = mainActivity.currentProfile
 
     val machine: String
         get() = exerciseEdit.text.toString()
 
     private fun setCurrentExercise(machineStr: String) {
         if (machineStr.isEmpty()) {
-            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             showExerciseTypeSelector(true)
             minMaxLayout.visibility = View.GONE
             return
@@ -502,13 +502,13 @@ class ExercisesInProgramFragment : Fragment() {
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
             exerciseEdit.setText("")
-            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             changeExerciseTypeUI(TYPE_FONTE, true)
             return
         }
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
-        exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+        exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
         ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         changeExerciseTypeUI(lMachine.type, false)

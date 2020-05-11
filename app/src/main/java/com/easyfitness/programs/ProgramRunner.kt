@@ -106,7 +106,7 @@ class ProgramRunner : Fragment() {
         val programs = daoProgram.allProgramsNames
         daoExerciseInProgram = DAOExerciseInProgram(requireContext())
         if (programs == null || programs.isEmpty()) {
-            val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
+            val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             // Replace whatever is in the fragment_container view with this fragment,
@@ -219,7 +219,7 @@ class ProgramRunner : Fragment() {
         exerciseImage.setOnClickListener {
             val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
-                val profileId: Long = (requireActivity() as MainActivity).currentProfil.id
+                val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
                 val machineDetailsFragment = ExerciseDetailsPager.newInstance(m.id, profileId)
                 val transaction = requireActivity().supportFragmentManager.beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
@@ -511,7 +511,7 @@ class ProgramRunner : Fragment() {
         when (v.id) {
             R.id.editDuration -> showTimePicker(durationEdit)
             R.id.editMachine -> {
-                machineImage.setImageResource(R.drawable.ic_machine)
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                 minMaxLayout.visibility = View.GONE
             }
         }
@@ -584,28 +584,28 @@ class ProgramRunner : Fragment() {
         get() = this
 
     private val profil: Profile?
-        get() = mainActivity.currentProfil
+        get() = mainActivity.currentProfile
 
     val machine: String
         get() = exerciseEdit.text.toString()
 
     private fun setCurrentExercise(machineStr: String) {
         if (machineStr.isEmpty()) {
-            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             minMaxLayout.visibility = View.GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
             exerciseEdit.setText("")
-            exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             changeExerciseTypeUI(TYPE_FONTE)
             return
         }
         // Update EditView
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
-        exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+        exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
         ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         // Update Table
@@ -620,7 +620,7 @@ class ProgramRunner : Fragment() {
         // Update EditView
         exerciseEdit.setText(exercise.exerciseName)
         // Update exercise Image
-        exerciseImage.setImageResource(R.drawable.ic_machine) // Default image
+        exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val lMachine = mDbMachine.getMachine(exercise.exerciseName)
         if (lMachine != null) {
             val imgUtil = ImageUtil()
@@ -652,14 +652,14 @@ class ProgramRunner : Fragment() {
 
     private fun setCurrentMachine(machineStr: String) {
         if (machineStr.isEmpty()) {
-            machineImage.setImageResource(R.drawable.ic_machine) // Default image
+            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             minMaxLayout.visibility = View.GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
             exerciseEdit.setText("")
-            machineImage.setImageResource(R.drawable.ic_machine) // Default image
+            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             changeExerciseTypeUI(TYPE_FONTE)
             updateMinMax(null)
             return
@@ -667,7 +667,7 @@ class ProgramRunner : Fragment() {
 
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
-        machineImage.setImageResource(R.drawable.ic_machine) // Default image
+        machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
         ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
 
@@ -781,7 +781,7 @@ class ProgramRunner : Fragment() {
     }
 
     private fun getProfilFromMain(): Profile? {
-        return mainActivity.currentProfil
+        return mainActivity.currentProfile
     }
 
     @SuppressLint("SetTextI18n")

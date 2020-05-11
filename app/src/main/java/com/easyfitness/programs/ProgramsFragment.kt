@@ -134,7 +134,7 @@ class ProgramsFragment : Fragment() {
     }
 
     private val profil: Profile?
-        get() = (requireActivity() as MainActivity).currentProfil
+        get() = (requireActivity() as MainActivity).currentProfile
 
     companion object {
         //    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {

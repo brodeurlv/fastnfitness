@@ -105,10 +105,12 @@ class ProgramDetailsFragment : Fragment() {
                 if (mCurrentPhotoPath != null && mCurrentPhotoPath!!.isNotEmpty()) {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath)
                 } else {
-                    if (mMachine.type == DAOMachine.TYPE_FONTE || mMachine.type == DAOMachine.TYPE_STATIC) {
-                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_machine))
+                    if (mMachine.type == DAOMachine.TYPE_FONTE) {
+                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_gym_bench_50dp))
+                    } else if( mMachine.type == DAOMachine.TYPE_STATIC) {
+                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_static))
                     } else {
-                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_running))
+                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_training_white_50dp))
                     }
                     machinePhoto!!.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 }

@@ -60,7 +60,7 @@ class ProgramDetailsPager : Fragment() {
         topToolbar.setNavigationIcon(R.drawable.ic_back)
         //        top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 //        val machineDelete = view.findViewById<ImageButton>(R.id.action_machine_delete)
-        machineSave = view.findViewById(R.id.action_machine_save)
+        machineSave = view.findViewById(R.drawable.ic_save_black_24dp)
         program = mDbProgram.getRecord(machineIdArg)
         machineSave.visibility = View.GONE // Hide Save button by default
         //        machineDelete.setOnClickListener(onClickToolbarItem);
@@ -88,7 +88,7 @@ class ProgramDetailsPager : Fragment() {
 
         // Inflate the menu items for use in the action bar
         inflater.inflate(R.menu.machine_details_menu, menu)
-        val item = menu.findItem(R.id.action_machine_save)
+        val item = menu.findItem(R.drawable.ic_save_black_24dp)
         item.isVisible = toBeSaved
         super.onCreateOptionsMenu(menu, inflater)
     }
