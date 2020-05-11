@@ -313,7 +313,7 @@
     <string name="autoui_mode" translatable="false">Auto</string>
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
     <string name="fitness_programs">Programs</string>
-    <string name="manu_programs">&#160;Programs</string>
+    <string name="manu_programs">Programs</string>
     <string name="FromProgramLabel">Programs</string>
     <string name="NewProgramHint">Name of your training program</string>
     <string name="ProgramRunnerLabel">By program</string>

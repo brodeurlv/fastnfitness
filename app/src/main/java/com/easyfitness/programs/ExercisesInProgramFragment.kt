@@ -92,7 +92,7 @@ class ExercisesInProgramFragment : Fragment() {
         } else {
             programId = daoProgram.getRecord(programs!![0])!!.id
             programSelect = view.findViewById(R.id.programSelect)
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
             programSelect.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
@@ -542,7 +542,7 @@ class ExercisesInProgramFragment : Fragment() {
             programs=daoProgram.allProgramsNames //update programs
             programId = daoProgram.getRecord(programs!![0])!!.id
             programSelect = requireView().findViewById(R.id.programSelect)
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
             programSelect.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
