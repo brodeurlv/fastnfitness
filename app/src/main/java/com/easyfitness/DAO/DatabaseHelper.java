@@ -15,6 +15,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 22;
@@ -56,6 +58,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
         db.execSQL(DAOProgram.TABLE_CREATE);
         db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
+        if(!checkIfRecordExist(db, DAOProgram.TABLE_NAME, DAOProgram.KEY, "1")){  //we create first default program for users
+            DAOProgram lDAOProgram = new DAOProgram(mContext);
+            lDAOProgram.addRecord("default training program");
+        }
     }
 
     @Override
@@ -196,6 +202,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             isExist = false;
         }
         return isExist;
+    }
+
+    public boolean checkIfRecordExist(SQLiteDatabase objDatabase, String nameOfTable, String columnName, String columnValue) {
+        try {
+            objDatabase = this.getReadableDatabase();
+            Cursor cursor = objDatabase.rawQuery("SELECT " + columnName + " FROM " + nameOfTable + " WHERE " + columnName + "='" + columnValue + "'", null);
+            if (cursor.moveToFirst()) {
+                objDatabase.close();
+                Timber.d("Record  Already Exists" + "Table is:" + nameOfTable + " ColumnName:" + columnName);
+                return true;//record Exists
+
+            }
+            Timber.d("New Record  " + "Table is:" + nameOfTable + " ColumnName:" + columnName + " Column Value:" + columnValue);
+            objDatabase.close();
+        } catch (Exception errorException) {
+            Timber.d("Exception occured,  " + errorException);
+            objDatabase.close();
+        }
+        return false;
     }
 
     private void migrateWeightTable(SQLiteDatabase db, Context context) {
