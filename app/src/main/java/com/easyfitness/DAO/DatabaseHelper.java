@@ -218,7 +218,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return DatabaseUtils.longForQuery(db, "select count(*) from " + nameOfTable + " where "+columnName+"=? limit 1", new String[] {columnValue}) > 0;
     }
 
-    private void migrateWeightTable(SQLiteDatabase db, Context context) {
     private void migrateWeightTable(SQLiteDatabase db) {
         List<ProfileWeight> valueList = new ArrayList<>();
         // Select All Query
