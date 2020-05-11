@@ -11,7 +11,6 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
     private val gestureDetector: GestureDetector
 
     companion object {
-
         private const val SWIPE_THRESHOLD = 40
         private const val SWIPE_VELOCITY_THRESHOLD = 80
     }
@@ -56,16 +55,11 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
-
             return result
         }
-
-
     }
 
-    open fun onSwipeRight() {
-
-    }
+    open fun onSwipeRight() {}
 
     open fun onSwipeLeft() {}
 

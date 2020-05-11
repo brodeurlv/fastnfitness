@@ -74,7 +74,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
             return programs
         }
 
-    val allPrograms: Cursor
+    val allPrograms: Cursor?
         get() {
             val selectQuery = ("SELECT  * FROM " + TABLE_NAME + " ORDER BY "
                 + PROGRAM_NAME + " ASC")

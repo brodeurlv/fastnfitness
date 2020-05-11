@@ -10,23 +10,18 @@ import com.easyfitness.DAO.ARecord
 import com.easyfitness.R
 import java.util.*
 
-class ProgramInExerciseArrayFullAdapter internal constructor(context: Context?, machines: ArrayList<ARecord>) : ArrayAdapter<ARecord>(context, 0, machines) {
+class ProgramInExerciseArrayFullAdapter internal constructor(context: Context, machines: ArrayList<ARecord>) : ArrayAdapter<ARecord>(context, 0, machines) {
     override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
         // Get the data item for this position
-        var convertView = convertView
-        val exercise = getItem(position)
-        if (exercise == null) {
-            assert(convertView != null)
-            return convertView
-        }
+        var convertViewObtained = convertView
+        val exercise = getItem(position) ?: return convertViewObtained
 
         // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.machinelist_row, parent, false)
-        }
-        val t0 = convertView.findViewById<TextView>(R.id.LIST_MACHINE_ID)
+        convertViewObtained = LayoutInflater.from(context).inflate(R.layout.machinelist_row, parent, false)
+
+        val t0 = convertViewObtained.findViewById<TextView>(R.id.LIST_MACHINE_ID)
         t0.text = exercise.id.toString()
-        val t1 = convertView.findViewById<TextView>(R.id.LIST_MACHINE_NAME)
+        val t1 = convertViewObtained.findViewById<TextView>(R.id.LIST_MACHINE_NAME)
         t1.text = exercise.exercise
 
 //        TextView t2 = convertView.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
@@ -49,6 +44,6 @@ class ProgramInExerciseArrayFullAdapter internal constructor(context: Context?, 
 
 //        MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
 //        iFav.setFavorite(exercise.getFavorite());
-        return convertView
+        return convertViewObtained
     }
 }

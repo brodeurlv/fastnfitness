@@ -53,7 +53,7 @@ class ProgramsFragment : Fragment() {
     //        // Commit the transaction
     //        transaction.commit();
     //    };
-    private val clickAddButton = View.OnClickListener { v: View? ->
+    private val clickAddButton = View.OnClickListener { _: View? ->
         val programName = programNewName!!.text.toString()
         if (programName.isEmpty()) {
             Toast.makeText(context, "Enter not empty program name", Toast.LENGTH_LONG).show()
@@ -98,7 +98,7 @@ class ProgramsFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    val name: String
+    val name: String?
         get() = requireArguments().getString("name")
 
     val `this`: ProgramsFragment

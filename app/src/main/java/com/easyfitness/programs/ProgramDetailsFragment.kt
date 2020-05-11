@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.fragment.app.Fragment
 import com.easyfitness.DAO.DAOMachine
 import com.easyfitness.DAO.DAOProgram
@@ -77,23 +78,24 @@ class ProgramDetailsFragment : Fragment() {
         machineProfilIdArg = args.getLong("machineProfile")
         mMachine = mDbMachine!!.getRecord(machineNameArg)!!
         machineNameArg = mMachine.programName
+
         if (machineNameArg == "") {
             requestForSave()
         }
         machineName.setText(machineNameArg)
         exerciseTypeSelectorLayout!!.visibility = View.GONE
         if (mMachine.type == DAOMachine.TYPE_CARDIO) {
-            cardioSelector!!.setBackgroundColor(resources.getColor(R.color.record_background_odd))
+            cardioSelector!!.setBackgroundColor(getColor(requireContext().resources, R.color.record_background_odd, requireContext().theme))
             bodybuildingSelector!!.visibility = View.GONE
-            bodybuildingSelector!!.setBackgroundColor(resources.getColor(R.color.background))
+            bodybuildingSelector!!.setBackgroundColor(getColor(requireContext().resources, R.color.background, requireContext().theme))
             selectedType = mMachine.type
             view.findViewById<View>(R.id.machine_muscles).visibility = View.GONE
             view.findViewById<View>(R.id.machine_muscles_textview).visibility = View.GONE
         } else {
-            cardioSelector!!.setBackgroundColor(resources.getColor(R.color.background))
+            cardioSelector!!.setBackgroundColor(getColor(requireContext().resources, R.color.background, requireContext().theme))
             cardioSelector!!.visibility = View.GONE
-            bodybuildingSelector!!.setBackgroundColor(resources.getColor(R.color.record_background_odd))
-            selectedType = mMachine.getType()
+            bodybuildingSelector!!.setBackgroundColor(getColor(requireContext().resources, R.color.record_background_odd, requireContext().theme))
+            selectedType = mMachine.type
         }
         view.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -104,9 +106,9 @@ class ProgramDetailsFragment : Fragment() {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath)
                 } else {
                     if (mMachine.type == DAOMachine.TYPE_FONTE || mMachine.type == DAOMachine.TYPE_STATIC) {
-                        imgUtil!!.view.setImageDrawable(activity!!.resources.getDrawable(R.drawable.ic_machine))
+                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_machine))
                     } else {
-                        imgUtil!!.view.setImageDrawable(activity!!.resources.getDrawable(R.drawable.ic_running))
+                        imgUtil!!.view.setImageDrawable(activity!!.getDrawable(R.drawable.ic_running))
                     }
                     machinePhoto!!.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 }
@@ -144,7 +146,7 @@ class ProgramDetailsFragment : Fragment() {
                     var realPath: String?
                     realPath = RealPathUtil.getRealPath(this.context, resultUri)
                     val sourceFile = File(realPath)
-                    var storageDir: File? = null
+                    val storageDir: File?
                     val state = Environment.getExternalStorageState()
                     if (Environment.MEDIA_MOUNTED != state) {
                         return
@@ -155,7 +157,7 @@ class ProgramDetailsFragment : Fragment() {
                             storageDir.mkdirs()
                         }
                     }
-                    var destinationFile: File? = null
+                    val destinationFile: File?
                     try {
                         destinationFile = imgUtil!!.moveFile(sourceFile, storageDir)
                         Timber.tag("Moving").v("Moving file successful.")

@@ -1,5 +1,6 @@
 package com.easyfitness.programs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat.getColor
 import com.easyfitness.BtnClickListener
 import com.easyfitness.DAO.DAOExerciseInProgram
 import com.easyfitness.DAO.DAOMachine
@@ -23,24 +25,17 @@ class RecordCursorAdapter internal constructor(private val mContext: Context, c:
     private var mFirstColorOdd = 0
     private val mDeleteClickListener: BtnClickListener? = clickDelete
     private val mCopyClickListener: BtnClickListener? = clickCopy
+    @SuppressLint("SetTextI18n")
     override fun bindView(view: View, context: Context, cursor: Cursor) {
         val cdView: CardView = view.findViewById(R.id.CARDVIEW)
         val position = cursor.position
         if (position % 2 == mFirstColorOdd) {
-            cdView.setBackgroundColor(context.resources.getColor(R.color.record_background_odd))
+            cdView.setBackgroundColor(getColor(context.resources,R.color.record_background_odd, context.theme))
         } else {
-            cdView.setBackgroundColor(context.resources.getColor(R.color.record_background_even))
+            cdView.setBackgroundColor(getColor(context.resources, R.color.record_background_even, context.theme))
         }
 
         /* Commun display */
-//        TextView tDate = view.findViewById(R.id.DATE_CELL);
-//        Date date;
-//        String dateString = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.DATE));
-//        date = DateConverter.DBDateStrToDate(dateString);
-//        tDate.setText(DateConverter.dateToLocalDateStr(date, mContext));
-
-//        TextView tTime = view.findViewById(R.id.TIME_CELL);
-//        tTime.setText(cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.TIME)));
         val tExercise = view.findViewById<TextView>(R.id.MACHINE_CELL)
         tExercise.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.EXERCISE))
         val tSerie = view.findViewById<TextView>(R.id.SERIE_CELL)
@@ -56,76 +51,59 @@ class RecordCursorAdapter internal constructor(private val mContext: Context, c:
 
         /* Specific display */
         val recordType = cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.TYPE))
-        if (recordType == DAOMachine.TYPE_FONTE) {
-            // UI
-            tSerieLabel.text = mContext.getString(R.string.SerieLabel)
-            tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
-            tRepsLabel.text = mContext.getString(R.string.RepetitionLabel_short)
-            tRepsLayout.visibility = View.VISIBLE
-            // Data
-            tSerie.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SERIE))
-            tReps.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.REPETITION))
-            var unit = mContext.getString(R.string.KgUnitLabel)
-            var poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT))
-            if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
-                poids = UnitConverter.KgtoLbs(poids)
-                unit = mContext.getString(R.string.LbsUnitLabel)
+        when (recordType) {
+            DAOMachine.TYPE_FONTE -> {
+                // UI
+                tSerieLabel.text = mContext.getString(R.string.SerieLabel)
+                tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
+                tRepsLabel.text = mContext.getString(R.string.RepetitionLabel_short)
+                tRepsLayout.visibility = View.VISIBLE
+                // Data
+                tSerie.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SERIE))
+                tReps.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.REPETITION))
+                var unit = mContext.getString(R.string.KgUnitLabel)
+                var poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT))
+                if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
+                    poids = UnitConverter.KgtoLbs(poids)
+                    unit = mContext.getString(R.string.LbsUnitLabel)
+                }
+                val numberFormat = DecimalFormat("#.##")
+                tWeight.text = numberFormat.format(poids.toDouble()) + unit
             }
-            val numberFormat = DecimalFormat("#.##")
-            tWeight.text = numberFormat.format(poids.toDouble()) + unit
-        } else if (recordType == DAOMachine.TYPE_STATIC) {
-            // UI
-            tSerieLabel.text = mContext.getString(R.string.SerieLabel)
-            tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
-            tRepsLabel.text = mContext.getString(R.string.SecondsLabel_short)
-            tRepsLayout.visibility = View.VISIBLE
-            // Data
-            tSerie.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SERIE))
-            tReps.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SECONDS))
-            var unit = mContext.getString(R.string.KgUnitLabel)
-            var poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT))
-            if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
-                poids = UnitConverter.KgtoLbs(poids)
-                unit = mContext.getString(R.string.LbsUnitLabel)
+            DAOMachine.TYPE_STATIC -> {
+                // UI
+                tSerieLabel.text = mContext.getString(R.string.SerieLabel)
+                tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
+                tRepsLabel.text = mContext.getString(R.string.SecondsLabel_short)
+                tRepsLayout.visibility = View.VISIBLE
+                // Data
+                tSerie.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SERIE))
+                tReps.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.SECONDS))
+                var unit = mContext.getString(R.string.KgUnitLabel)
+                var poids = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.WEIGHT))
+                if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.UNIT)) == UnitConverter.UNIT_LBS) {
+                    poids = UnitConverter.KgtoLbs(poids)
+                    unit = mContext.getString(R.string.LbsUnitLabel)
+                }
+                val numberFormat = DecimalFormat("#.##")
+                tWeight.text = numberFormat.format(poids.toDouble()) + unit
             }
-            val numberFormat = DecimalFormat("#.##")
-            tWeight.text = numberFormat.format(poids.toDouble()) + unit
-        } else if (recordType == DAOMachine.TYPE_CARDIO) {
-            tSerieLabel.text = mContext.getString(R.string.DistanceLabel)
-            tWeightLabel.text = mContext.getString(R.string.DurationLabel)
-            tRepsLayout.visibility = View.GONE
-            var distance = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE))
-            var unit = mContext.getString(R.string.KmUnitLabel)
-            if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE_UNIT)) == UnitConverter.UNIT_MILES) {
-                distance = UnitConverter.KmToMiles(distance) // Always convert to KG
-                unit = mContext.getString(R.string.MilesUnitLabel)
+            DAOMachine.TYPE_CARDIO -> {
+                tSerieLabel.text = mContext.getString(R.string.DistanceLabel)
+                tWeightLabel.text = mContext.getString(R.string.DurationLabel)
+                tRepsLayout.visibility = View.GONE
+                var distance = cursor.getFloat(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE))
+                var unit = mContext.getString(R.string.KmUnitLabel)
+                if (cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.DISTANCE_UNIT)) == UnitConverter.UNIT_MILES) {
+                    distance = UnitConverter.KmToMiles(distance) // Always convert to KG
+                    unit = mContext.getString(R.string.MilesUnitLabel)
+                }
+                val numberFormat = DecimalFormat("#.##")
+                tSerie.text = numberFormat.format(distance.toDouble()) + unit
+                tWeight.text = DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.DURATION)).toLong())
             }
-            val numberFormat = DecimalFormat("#.##")
-            tSerie.text = numberFormat.format(distance.toDouble()) + unit
-            tWeight.text = DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAOExerciseInProgram.DURATION)).toLong())
         }
 
-        // Add separator if needed
-//        boolean separatorNeeded = false;
-//        if (position == 0) {
-//            separatorNeeded = true;
-//        } else {
-//            cursor.moveToPosition(position - 1);
-//            String datePreviousString = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.DATE));
-//            if (datePreviousString.compareTo(dateString) != 0) {
-//                separatorNeeded = true;
-//            }
-//            cursor.moveToPosition(position);
-//        }
-
-//        TextView t = view.findViewById(R.id.SEPARATOR_CELL);
-//        if (separatorNeeded) {
-//            t.setText("- " + "TEST " + " -");
-//            t.setVisibility(View.VISIBLE);
-//        } else {
-//            t.setText("");
-//            t.setVisibility(View.GONE);
-//        }
         val deleteImg = view.findViewById<ImageView>(R.id.deleteButton)
         deleteImg.tag = cursor.getLong(cursor.getColumnIndex(DAOExerciseInProgram.KEY))
         deleteImg.setOnClickListener { v: View -> mDeleteClickListener?.onBtnClick(v.tag as Long) }

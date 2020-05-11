@@ -59,10 +59,10 @@ class ProgramDetailsPager : Fragment() {
         val top_toolbar: Toolbar = view.findViewById(R.id.actionToolbarMachine)
         top_toolbar.setNavigationIcon(R.drawable.ic_back)
         //        top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
-        val machineDelete = view.findViewById<ImageButton>(R.id.action_machine_delete)
+//        val machineDelete = view.findViewById<ImageButton>(R.id.action_machine_delete)
         machineSave = view.findViewById(R.id.action_machine_save)
         program = mDbProgram.getRecord(machineIdArg)
-        machineSave.setVisibility(View.GONE) // Hide Save button by default
+        machineSave.visibility = View.GONE // Hide Save button by default
         //        machineDelete.setOnClickListener(onClickToolbarItem);
         // Inflate the layout for this fragment
         return view
@@ -70,7 +70,7 @@ class ProgramDetailsPager : Fragment() {
 
     fun requestForSave() {
         toBeSaved = true // setting state
-        machineSave!!.visibility = View.VISIBLE
+        machineSave.visibility = View.VISIBLE
     }
 
     private fun deleteRecordsAssociatedToProgram() {

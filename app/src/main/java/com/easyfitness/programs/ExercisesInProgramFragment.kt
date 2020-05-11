@@ -579,7 +579,7 @@ class ExercisesInProgramFragment : Fragment() {
             val exerciseInProgramArrayList: ArrayList<ARecord> = daoExerciseInProgram.getAllExerciseInProgramAsList(programId)
 
             /* Init exercises list*/
-            val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(context, exerciseInProgramArrayList)
+            val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(requireContext(), exerciseInProgramArrayList)
             exerciseEdit.setAdapter(exerciseArrayFullAdapter)
 //            if (exerciseEdit.text.toString().isEmpty()) {
 //                val lLastRecord = daoExerciseInProgram.getLastRecord(profil)
