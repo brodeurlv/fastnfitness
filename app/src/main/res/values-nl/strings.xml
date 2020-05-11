@@ -298,7 +298,6 @@
     <string name="FromProgramLabel">Programma\'s</string>
     <string name="ProgramsLabel">Programma\'s</string>
     <string name="program_name">Programnavn</string>
-    <string name="author_label">Auteur:</string>
     <string name="add_program_first">Voeg eerst een programma toe</string>
     <string name="program_selection">Geselecteerd programma:</string>
     <string name="ExercisesInProgram">Oefeningen in programma:</string>
