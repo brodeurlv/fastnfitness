@@ -3,8 +3,6 @@ package com.easyfitness.utils.EditableInputView;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -81,7 +79,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 R.styleable.editableinput_view,
                 0, 0);
             try {
-                mTitle = a.getString(R.styleable.editableinput_view_android_title);
+                mTitle = a.getString(R.styleable.editableinput_view_android_inputType);//editableinput_view_android_title ?? Not sure
                 this.setText(a.getString(R.styleable.editableinput_view_android_text));
                 valueTextView.setGravity(a.getInt(R.styleable.editableinput_view_android_gravity, 0));
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.editableinput_view_android_textSize, 0));
