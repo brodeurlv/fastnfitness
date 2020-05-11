@@ -230,6 +230,7 @@ class ProgramRunner : Fragment() {
                 transaction.commit()
             }
         }
+        recordList.setOnTouchListener(listener4)
         view.setOnTouchListener(listener4)
         return view
     }
