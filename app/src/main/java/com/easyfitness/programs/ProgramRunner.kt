@@ -230,7 +230,7 @@ class ProgramRunner : Fragment() {
                 transaction.commit()
             }
         }
-        recordList.setOnTouchListener(listener4)
+        recordList.setOnTouchListener(listener4) //this is different view so require seperate listener to work
         view.setOnTouchListener(listener4)
         return view
     }
