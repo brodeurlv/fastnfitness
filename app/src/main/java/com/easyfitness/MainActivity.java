@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     public static String FONTESPAGER = "FontePager";
+    public static String FONTES = "Fonte";
+    public static String HISTORY = "History";
+    public static String GRAPHIC = "Graphics";
+    public static String CARDIO = "Cardio";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String PROGRAMS = "Programs";
@@ -170,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     .setItems(profildeleteListArray, (dialog, which) -> {
                         ListView lv = ((AlertDialog) dialog).getListView();
                         Object checkedItem = lv.getAdapter().getItem(which);
-                        if (getCurrentProfil().getName().equals(checkedItem.toString())) {
+                        if (getCurrentProfile().getName().equals(checkedItem.toString())) {
                             KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                         } else {
                             Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
@@ -323,17 +327,17 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
 
-        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_profile_black, true);
+        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_person_black_24dp, true);
 
         dataList.add(drawerTitleItem);
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_barbell, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center_white_24dp, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.outline_assignment_24, true));
         //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_machine, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_scale, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_measuring_tape, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_params, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_action_info_outline, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_gym_bench_50dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale_white_50dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler_white_50dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings_white_24dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline_white_24dp, true));
 
         mDrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
             dataList);
@@ -384,19 +388,19 @@ public class MainActivity extends AppCompatActivity {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
             if(lDbFonte.getCount()==0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfil(), 0, "", "12:34:56");
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfile(), 0, "", "12:34:56");
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfil(), UnitConverter.UNIT_KM);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfil(), UnitConverter.UNIT_MILES);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfile(), UnitConverter.UNIT_KM);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfile(), UnitConverter.UNIT_MILES);
             }
 
             DAOStatic lDbStatic = new DAOStatic(this);
             if(lDbStatic.getCount()==0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfil(), 0, "", "12:34:56");
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfil(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfile(), 0, "", "12:34:56");
             }
         }
     }
@@ -470,15 +474,15 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
             exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfil().getName() + "?");
+            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
 
             // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                if (cvsMan.exportDatabase(getCurrentProfil())) {
-                    KToast.successToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                if (cvsMan.exportDatabase(getCurrentProfile())) {
+                    KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
-                    KToast.errorToast(getActivity(), getCurrentProfil().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
 
                 // Do nothing but close the dialog
@@ -533,12 +537,12 @@ public class MainActivity extends AppCompatActivity {
                             .setConfirmClickListener(sDialog -> {
                                 sDialog.dismissWithAnimation();
                                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfil())) {
+                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
                                     KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
                                 } else {
                                     KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
                                 }
-                                setCurrentProfil(getCurrentProfil()); // Refresh profile
+                                setCurrentProfil(getCurrentProfile()); // Refresh profile
                             })
                             .setCancelText(this.getResources().getString(R.string.global_no))
                             .show();
@@ -646,7 +650,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
-            if (getCurrentProfil() == null) {
+            if (getCurrentProfile() == null) {
                 CreateNewProfil();
             }
         });
@@ -664,7 +668,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
-        input.setText(getCurrentProfil().getName());
+        input.setText(getCurrentProfile().getName());
         newBuilder.setView(input);
 
         newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
@@ -672,7 +676,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (!value.isEmpty()) {
                 // Get current profil
-                Profile temp = getCurrentProfil();
+                Profile temp = getCurrentProfile();
                 // Rename it
                 temp.setName(value);
                 // Commit it
@@ -771,7 +775,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public Profile getCurrentProfil() {
+    public Profile getCurrentProfile() {
         return mCurrentProfile;
     }
 
@@ -822,8 +826,8 @@ public class MainActivity extends AppCompatActivity {
             mDrawerAdapter.notifyDataSetChanged();
             mDrawerLayout.invalidate();
         } else {
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
-            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_profile_black);
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
+            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person_black_24dp);
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
             mDrawerAdapter.notifyDataSetChanged();
             mDrawerLayout.invalidate();
@@ -934,6 +938,10 @@ public class MainActivity extends AppCompatActivity {
         return top_toolbar;
     }
 
+    public void restoreToolbar() {
+        if (top_toolbar != null) setSupportActionBar(top_toolbar);
+    }
+
     public void showMP3Toolbar(boolean show) {
         Toolbar mp3toolbar = this.findViewById(R.id.musicToolbar);
         if (!show) {
@@ -980,7 +988,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void  initActivity() {
+    public void initActivity() {
         // Initialisation des objets DB
         mDbProfils = new DAOProfil(this.getApplicationContext());
 

@@ -55,29 +55,25 @@ public class MachineDetailsFragment extends Fragment {
     public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     // http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
     //protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
-    private List<String> _musclesArray = new ArrayList<String>();
-    private boolean[] _selections;
-//    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
-    private TextView musclesList = null;
-    private EditText machineName = null;
-    private EditText machineDescription = null;
-    private ImageView machinePhoto = null;
-    private FloatingActionButton machineAction = null;
-    private LinearLayout machinePhotoLayout = null;
-    // Selection part
-    private LinearLayout exerciseTypeSelectorLayout = null;
-    private TextView bodybuildingSelector = null;
-    private TextView cardioSelector = null;
-    private int selectedType = DAOMachine.TYPE_FONTE;
-    private String machineNameArg = null;
-    private long machineIdArg = 0;
-    private long machineProfilIdArg = 0;
-    private boolean isImageFitToScreen = false;
-    private ExerciseDetailsPager pager = null;
-    private ArrayList selectMuscleList = new ArrayList();
-    private DAOMachine mDbMachine = null;
-    private DAORecord mDbRecord = null;
-    private Machine mMachine;
+    protected List<String> _musclesArray = new ArrayList<String>();
+    protected boolean[] _selections;
+    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
+    TextView musclesList = null;
+    EditText machineName = null;
+    EditText machineDescription = null;
+    ImageView machinePhoto = null;
+    FloatingActionButton machineAction = null;
+    LinearLayout machinePhotoLayout = null;
+    int selectedType = DAOMachine.TYPE_FONTE;
+    String machineNameArg = null;
+    long machineIdArg = 0;
+    long machineProfilIdArg = 0;
+    boolean isImageFitToScreen = false;
+    ExerciseDetailsPager pager = null;
+    ArrayList selectMuscleList = new ArrayList();
+    DAOMachine mDbMachine = null;
+    DAORecord mDbRecord = null;
+    Machine mMachine;
 
     private View fragmentView = null;
 
@@ -144,10 +140,6 @@ public class MachineDetailsFragment extends Fragment {
         machinePhoto = view.findViewById(R.id.machine_photo);
 
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection);
-        cardioSelector = view.findViewById(R.id.cardioSelection);
-        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout);
-
         machineAction = view.findViewById(R.id.actionCamera);
 
         imgUtil = new ImageUtil(machinePhoto);
@@ -160,12 +152,8 @@ public class MachineDetailsFragment extends Fragment {
         machineProfilIdArg = args.getLong("machineProfile");
 
         // set events
-
-        //machineFavorite.setOnClickListener(onClickFavoriteItem);
         musclesList.setOnClickListener(onClickMusclesList);
         musclesList.setOnFocusChangeListener(onFocusMachineList);
-        //bodybuildingSelector.setOnClickListener(clickExerciseTypeSelector);
-        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
         machinePhoto.setOnLongClickListener(onLongClickMachinePhoto);
         machinePhoto.setOnClickListener(v -> {
             if (isImageFitToScreen) {
@@ -210,20 +198,15 @@ public class MachineDetailsFragment extends Fragment {
         machineDescription.setText(mMachine.getDescription());
         musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
         mCurrentPhotoPath = mMachine.getPicture();
-        exerciseTypeSelectorLayout.setVisibility(View.GONE);
 
         if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
-            bodybuildingSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.background));
             selectedType = mMachine.getType();
             view.findViewById(R.id.machine_muscles).setVisibility(View.GONE);
             view.findViewById(R.id.machine_muscles_textview).setVisibility(View.GONE);
         } else {
-            cardioSelector.setBackgroundColor(getResources().getColor(R.color.background));
-            cardioSelector.setVisibility(View.GONE);
-            bodybuildingSelector.setBackgroundColor(getResources().getColor(R.color.record_background_odd));
             selectedType = mMachine.getType();
+            view.findViewById(R.id.machine_muscles).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.machine_muscles_textview).setVisibility(View.VISIBLE);
         }
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -237,14 +220,16 @@ public class MachineDetailsFragment extends Fragment {
                 if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
                 } else {
-                    if (mMachine.getType() == DAOMachine.TYPE_FONTE || mMachine.getType() == DAOMachine.TYPE_STATIC) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+                    if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+                    } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
                     } else {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_running));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
                     }
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
-                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2)); // Taille initiale
+                machinePhoto.setMaxHeight((int) (getView().getHeight() * 0.2));
             }
         });
 
@@ -253,7 +238,14 @@ public class MachineDetailsFragment extends Fragment {
         musclesList.addTextChangedListener(watcher);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_machine));
+            if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+            } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+            } else {
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+            }
+            machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;
             requestForSave();
         });
@@ -463,6 +455,7 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
+
     /*
      * @return the name of the Muscle depending on the language
      */
@@ -495,11 +488,40 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
-    boolean toBeSaved() {
+    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath) {
+        int rotate = 0;
+        try {
+            context.getContentResolver().notifyChange(imageUri, null);
+            File imageFile = new File(imagePath);
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+            //Log.i("RotateImage", "Exif orientation: " + orientation);
+            //Log.i("RotateImage", "Rotate value: " + rotate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }
+
+    public boolean toBeSaved() {
         return toBeSaved;
     }
 
-    void machineSaved() {
+    public void machineSaved() {
         toBeSaved = false;
     }
 

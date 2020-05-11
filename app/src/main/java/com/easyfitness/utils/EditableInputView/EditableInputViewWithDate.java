@@ -1,14 +1,11 @@
 package com.easyfitness.utils.EditableInputView;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -47,8 +44,6 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         date = DateConverter.dateToDate(year, month, dayOfMonth);
         if (dateEditView != null)
             dateEditView.setText(DateConverter.dateToLocalDateStr(date, getContext()));
-        /*if (mConfirmClickListener != null)
-            mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);*/
     }
 
     private EditableInputViewWithDate getEditableInputViewWithDate() {
@@ -57,8 +52,14 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
 
     @Override
     protected void editDialog(Context context) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
         final TextView editDate = new TextView(getContext());
         date = DateConverter.getNewDate();
+        editDate.setLayoutParams(params);
         editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
         editDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         editDate.setGravity(Gravity.CENTER);
@@ -78,22 +79,25 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         final EditText editText = new EditText(context);
         if (getText().contentEquals("-")) {
             editText.setText("");
-            editText.setHint("Enter date and value here");
+            editText.setHint("Enter value here");
         } else {
             editText.setText(getText());
         }
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editText.setGravity(Gravity.CENTER);
+        editText.setLayoutParams(params);
         editText.requestFocus();
         editText.selectAll();
 
         LinearLayout linearLayout = new LinearLayout(getContext().getApplicationContext());
+
+        linearLayout.setLayoutParams(params);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(editDate);
         linearLayout.addView(editText);
 
-        SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getContext().getString(R.string.edit_value))
+        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+            .setTitleText(mTitle)
             .showCancelButton(true)
             .setCancelClickListener(sDialog -> {
                 editText.clearFocus();

@@ -1,6 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tab_graph"
     android:name="tab_graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +32,6 @@
                 <TableRow android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/textviewGraphMachine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/MachineLabel" />
@@ -49,7 +47,6 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/textviewGraphFunction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/FunctionLabel" />
@@ -127,7 +124,6 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/graphCardView"
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -24,7 +24,7 @@
             android:entries="@array/daynightauto"
             android:entryValues="@array/daynightauto_enum"
             android:key="dayNightAuto"
-            android:summary=""
+            android:summary="Auto"
             android:title="@string/daynightmode_settingtitle" />
 
         <CheckBoxPreference

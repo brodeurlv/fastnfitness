@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -283,7 +282,7 @@ public class FonteHistoryFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return mActivity.getCurrentProfil();
+        return mActivity.getCurrentProfile();
     }
 
     private String getFontesMachine() {

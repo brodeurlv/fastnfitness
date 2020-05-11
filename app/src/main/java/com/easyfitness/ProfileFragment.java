@@ -82,6 +82,7 @@ public class ProfileFragment extends Fragment {
         roundProfile = view.findViewById(R.id.photo);
         photoButton = view.findViewById(R.id.actionCamera);
 
+        sizeEdit.setTextSuffix(" cm");
 
         mDb = new DAOProfil(view.getContext());
         mProfile = getProfil();
@@ -155,7 +156,7 @@ public class ProfileFragment extends Fragment {
         photoButton.setOnClickListener(onClickMachinePhoto);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_profile_black));
+            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
             mCurrentPhotoPath = null;
             requestForSave(imgUtil.getView());
         });
@@ -219,6 +220,7 @@ public class ProfileFragment extends Fragment {
             birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
             //sizeEdit.setNormalColor();
         }
+
         nameEdit.setText(mProfile.getName());
 
         if (mProfile.getPhoto() != null) {
@@ -275,7 +277,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfil();
+        return ((MainActivity) getActivity()).getCurrentProfile();
     }
 
     public Fragment getFragment() {

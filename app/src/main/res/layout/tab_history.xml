@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tab_history"
     android:name="tab_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,7 +28,6 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/textviewfilterMachine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/MachineLabel" />
@@ -46,7 +44,6 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/textviewfilterDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/DateLabel" />

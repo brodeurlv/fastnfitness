@@ -22,7 +22,8 @@
   ~ SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,15 +44,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/create_a_profile"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/black" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColorHint="@color/gray">
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/profileName"
@@ -62,8 +61,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/gray" />
+                    tools:text="people name" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,8 +121,7 @@
                 android:id="@+id/signup_input_layout_name2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/gray">
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/profileBirthday"
@@ -134,8 +131,6 @@
                     android:hint="@string/birthday_optional"
                     android:importantForAutofill="no"
                     android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/gray"
                     android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -144,8 +139,7 @@
                 android:id="@+id/signup_input_layout_name3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/gray">
+                android:layout_marginTop="5dp">
 
                 <EditText
                     android:id="@+id/profileSize"
@@ -154,9 +148,7 @@
                     android:hint="@string/size_cm_optional"
                     android:importantForAutofill="no"
                     android:inputType="numberSigned"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/gray" />
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -11,8 +11,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 42
-        versionName "0.18.10"
+        versionCode 44
+        versionName "0.19.01"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -78,6 +78,8 @@ dependencies {
 
 // Support
     implementation 'androidx.annotation:annotation:1.1.0'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
     implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
@@ -87,6 +89,7 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.2.4'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
 // Firebase
     //implementation 'com.google.firebase:firebase-core:17.0.0'

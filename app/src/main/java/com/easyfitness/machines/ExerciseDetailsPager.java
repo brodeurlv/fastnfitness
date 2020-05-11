@@ -41,9 +41,9 @@ public class ExerciseDetailsPager extends Fragment {
     FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
     SmartTabLayout viewPagerTab = null;
-    ImageButton machineDelete = null;
-    ImageButton machineSave = null;
-    MaterialFavoriteButton machineFavorite = null;
+    ImageButton deleteButton = null;
+    ImageButton saveButton = null;
+    MaterialFavoriteButton favoriteButton = null;
     Machine machine = null;
     boolean isFavorite = false;
     boolean toBeSaved = false;
@@ -54,11 +54,11 @@ public class ExerciseDetailsPager extends Fragment {
     private View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
-            case R.id.action_machine_save:
+            case R.id.saveButton:
                 saveMachine();
                 getActivity().findViewById(R.id.tab_machine_details).requestFocus();
                 break;
-            case R.id.action_machine_delete:
+            case R.id.deleteButton:
                 deleteMachine();
                 break;
             default:
@@ -99,8 +99,8 @@ public class ExerciseDetailsPager extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("Exercise", MachineDetailsFragment.class, args)
-                .add("History", FonteHistoryFragment.class, args)
+                .add(getString(R.string.MachineLabel), MachineDetailsFragment.class, args)
+                .add(getString(R.string.HistoryLabel), FonteHistoryFragment.class, args)
                 .create());
 
             mViewPager.setAdapter(pagerAdapter);
@@ -128,32 +128,28 @@ public class ExerciseDetailsPager extends Fragment {
 
         mDbRecord = new DAORecord(getContext());
         mDbMachine = new DAOMachine(getContext());
+        machine = mDbMachine.getMachine(machineIdArg);
 
         ((MainActivity) getActivity()).getActivityToolbar().setVisibility(View.GONE);
         top_toolbar = view.findViewById(R.id.actionToolbarMachine);
         top_toolbar.setNavigationIcon(R.drawable.ic_back);
         top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 
-        machineDelete = view.findViewById(R.id.action_machine_delete);
-        machineSave = view.findViewById(R.id.action_machine_save);
-        machineFavorite = view.findViewById(R.id.favButton);
-        machineFavorite.setOnClickListener(v -> {
+        deleteButton = view.findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(onClickToolbarItem);
+        saveButton = view.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(onClickToolbarItem);
+        saveButton.setVisibility(View.GONE); // Hide Save button by default
+        favoriteButton = view.findViewById(R.id.favButton);
+        favoriteButton.setOnClickListener(v -> {
             MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
             boolean t = mFav.isFavorite();
             mFav.setFavoriteAnimated(!t);
             isFavorite = !t;
             requestForSave();
         });
-        machine = mDbMachine.getMachine(machineIdArg);
-        // TODO gérer quand il n'y  a pas de machine existante.
-        machineFavorite.setFavorite(machine.getFavorite());
+        favoriteButton.setFavorite(machine.getFavorite());
 
-        machineSave.setOnClickListener(onClickToolbarItem);
-        machineSave.setVisibility(View.GONE); // Hide Save button by default
-
-        machineDelete.setOnClickListener(onClickToolbarItem);
-
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -164,7 +160,7 @@ public class ExerciseDetailsPager extends Fragment {
 
     public void requestForSave() {
         toBeSaved = true; // setting state
-        machineSave.setVisibility(View.VISIBLE);
+        saveButton.setVisibility(View.VISIBLE);
     }
 
     private void saveMachineDialog() {
@@ -239,7 +235,7 @@ public class ExerciseDetailsPager extends Fragment {
                     mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
 
                     toBeSaved = false;
-                    machineSave.setVisibility(View.GONE);
+                    saveButton.setVisibility(View.GONE);
                     getActivity().onBackPressed();
                 });
 
@@ -251,7 +247,7 @@ public class ExerciseDetailsPager extends Fragment {
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
             } else {
-                newMachine.setFavorite(machineFavorite.isFavorite());
+                newMachine.setFavorite(favoriteButton.isFavorite());
                 this.mDbMachine.updateMachine(newMachine);
 
                 // Rename all the records with that machine and rename them
@@ -264,17 +260,17 @@ public class ExerciseDetailsPager extends Fragment {
                     lDbRecord.updateRecord(record); // met a jour
                 }
 
-                machineSave.setVisibility(View.GONE);
+                saveButton.setVisibility(View.GONE);
                 toBeSaved = false;
                 getExerciseFragment().machineSaved();
                 result = true;
             }
         } else {
             // Si le nom n'a pas ete modifie.
-            newMachine.setFavorite(machineFavorite.isFavorite());
+            newMachine.setFavorite(favoriteButton.isFavorite());
             mDbMachine.updateMachine(newMachine);
 
-            machineSave.setVisibility(View.GONE);
+            saveButton.setVisibility(View.GONE);
             toBeSaved = false;
             getExerciseFragment().machineSaved();
             result = true;
@@ -326,7 +322,7 @@ public class ExerciseDetailsPager extends Fragment {
         // Inflate the menu items for use in the action bar
         inflater.inflate(R.menu.machine_details_menu, menu);
 
-        MenuItem item = menu.findItem(R.id.action_machine_save);
+        MenuItem item = menu.findItem(R.id.saveButton);
         item.setVisible(toBeSaved);
 
         super.onCreateOptionsMenu(menu, inflater);

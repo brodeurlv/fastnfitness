@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOCardio;
@@ -478,7 +477,7 @@ public class FonteGraphFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return mActivity.getCurrentProfil();
+        return mActivity.getCurrentProfile();
     }
 
     private String getFontesMachine() {
