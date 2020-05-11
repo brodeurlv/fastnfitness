@@ -59,7 +59,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
-                        app:srcCompat="@drawable/ic_machine"
+                        android:src="@drawable/ic_gym_bench_50dp"
                         app:civ_background_color="@color/record_background_even"
                         app:civ_border_width="0dp"
                         app:civ_shadow="false" />
@@ -87,7 +87,7 @@
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
-                        app:srcCompat="@drawable/list"
+                        android:src="@drawable/ic_baseline_list_alt_24px"
                         android:contentDescription="@string/MachinesLabel" />
 
                 </RelativeLayout>
