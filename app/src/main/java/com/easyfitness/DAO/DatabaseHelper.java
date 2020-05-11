@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -205,23 +206,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isExist;
     }
 
-    public boolean checkIfRecordExist(SQLiteDatabase objDatabase, String nameOfTable, String columnName, String columnValue) {
-        try {
-            objDatabase = this.getReadableDatabase();
-            Cursor cursor = objDatabase.rawQuery("SELECT " + columnName + " FROM " + nameOfTable + " WHERE " + columnName + "='" + columnValue + "'", null);
-            if (cursor.moveToFirst()) {
-                objDatabase.close();
-                Timber.d("Record  Already Exists" + "Table is:" + nameOfTable + " ColumnName:" + columnName);
-                return true;//record Exists
-
-            }
-            Timber.d("New Record  " + "Table is:" + nameOfTable + " ColumnName:" + columnName + " Column Value:" + columnValue);
-            objDatabase.close();
-        } catch (Exception errorException) {
-            Timber.d("Exception occured,  " + errorException);
-            objDatabase.close();
-        }
-        return false;
+    public boolean checkIfRecordExist(SQLiteDatabase db, String nameOfTable, String columnName, String columnValue) {
+        return DatabaseUtils.longForQuery(db, "select count(*) from " + nameOfTable + " where "+columnName+"=? limit 1", new String[] {columnValue}) > 0;
     }
 
     private void migrateWeightTable(SQLiteDatabase db, Context context) {
