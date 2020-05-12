@@ -26,8 +26,10 @@ class ProgramsFragment : Fragment() {
         override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
             if (charSequence.isEmpty()) {
                 mTableAdapter!!.notifyDataSetChanged()
-                mTableAdapter = programsList!!.adapter as ProgramCursorAdapter
-                refreshData()
+                if(programsList!=null && programsList!!.adapter!=null) {
+                    mTableAdapter = programsList!!.adapter as ProgramCursorAdapter
+                    refreshData()
+                }
             } else {
                 if (mTableAdapter != null) {
                     mTableAdapter!!.filter.filter(charSequence)
@@ -39,20 +41,6 @@ class ProgramsFragment : Fragment() {
         override fun afterTextChanged(editable: Editable) {}
     }
 
-    //        private AdapterView.OnItemClickListener onClickListItem = (parent, view, position, id) -> {
-    //        // Get Machine Name selected
-    //        TextView textViewID = view.findViewById(R.id.LIST_Program_ID);
-    //        long machineId = Long.parseLong(textViewID.getText().toString());
-    //
-    //        ProgramDetailsPager programDetailsFragment = ProgramDetailsPager.newInstance(machineId, ((MainActivity) Objects.requireNonNull(getActivity())).getCurrentProfil().getId());
-    //        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-    //        // Replace whatever is in the fragment_container view with this fragment,
-    //        // and add the transaction to the back stack so the user can navigate back
-    //        transaction.replace(R.id.fragment_container, programDetailsFragment);
-    //        transaction.addToBackStack(null);
-    //        // Commit the transaction
-    //        transaction.commit();
-    //    };
     private val clickAddButton = View.OnClickListener { _: View? ->
         val programName = programNewName!!.text.toString()
         if (programName.isEmpty()) {
@@ -82,7 +70,6 @@ class ProgramsFragment : Fragment() {
         searchField.addTextChangedListener(onTextChangeListener)
         programsList = view.findViewById(R.id.listProgram)
 
-//        programsList.setOnItemClickListener(onClickListItem);
         daoProgram = DAOProgram(view.context)
         return view
     }
@@ -137,18 +124,6 @@ class ProgramsFragment : Fragment() {
         get() = (requireActivity() as MainActivity).currentProfile
 
     companion object {
-        //    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
-        //
-        //        @Override
-        //        public void onItemSelected(AdapterView<?> parent, View view,
-        //                                   int position, long id) {
-        //            //refreshData();
-        //        }
-        //
-        //        @Override
-        //        public void onNothingSelected(AdapterView<?> parent) {
-        //        }
-        //    };
         fun newInstance(name: String?, id: Long?): ProgramsFragment {
             val f = ProgramsFragment()
 

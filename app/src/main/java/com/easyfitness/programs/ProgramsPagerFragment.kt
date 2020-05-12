@@ -14,18 +14,19 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 
 class ProgramsPagerFragment : Fragment() {
     private var pagerAdapter: FragmentPagerItemAdapter? = null
-    private lateinit var mViewPager: ViewPager
+    private lateinit var mViewPager: NonSwipeableViewPager
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.pager, container, false)
+        val view = inflater.inflate(R.layout.program_pager, container, false)
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager)
+        mViewPager = view.findViewById(R.id.program_pager)
         if (mViewPager.adapter == null) {
             val args = this.arguments
             args!!.putLong("machineID", -1)
             args.putLong("machineProfile", -1)
             pagerAdapter = FragmentPagerItemAdapter(
                 childFragmentManager, FragmentPagerItems.with(this.context)
+                .add(R.string.ProgramRunnerLabel, ProgramRunner::class.java)
                 .add(R.string.ExercisesInProgramLabel, ExercisesInProgramFragment::class.java)
                 .add(R.string.ProgramsLabel, ProgramsFragment::class.java)
                 .create())

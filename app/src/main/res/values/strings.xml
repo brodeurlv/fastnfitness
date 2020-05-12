@@ -316,7 +316,7 @@
     <string name="manu_programs">Programs</string>
     <string name="FromProgramLabel">Programs</string>
     <string name="NewProgramHint">Name of your training program</string>
-    <string name="ProgramRunnerLabel">By program</string>
+    <string name="ProgramRunnerLabel">Run program</string>
     <string name="ProgramsLabel">Programs</string>
     <string name="machine_name">Exercise Name</string>
     <string name="program_name">Program name</string>

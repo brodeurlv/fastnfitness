@@ -547,7 +547,7 @@ class ExercisesInProgramFragment : Fragment() {
             programSelect.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
+                                            view: View?, position: Int, id: Long) {
                     programId = daoProgram.getRecord(programs!![position])!!.id
                 }
 

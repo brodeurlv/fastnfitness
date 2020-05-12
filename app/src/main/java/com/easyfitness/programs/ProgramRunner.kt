@@ -126,7 +126,7 @@ class ProgramRunner : Fragment() {
                 programSelect.onItemSelectedListener = object :
                     AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>,
-                                                view: View, position: Int, id: Long) {
+                                                view: View?, position: Int, id: Long) {
                         val program: Program? = daoProgram.getRecord(programs[position])
                         if (program != null) {
                             programId = program.id
