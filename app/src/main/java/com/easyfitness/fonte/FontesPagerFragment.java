@@ -11,7 +11,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import com.easyfitness.R;
-//import com.easyfitness.programs.ProgramRunner;
 import com.easyfitness.programs.ProgramRunner;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -59,10 +58,10 @@ public class FontesPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-//                .add(R.string.ExerciceLabel, FontesFragment.class)
+                .add(R.string.ExerciceLabel, FontesFragment.class)
                 .add(R.string.ProgramRunnerLabel, ProgramRunner.class)
-//                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
-//                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
+                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
+                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
                 .create());
 
             mViewPager.setAdapter(pagerAdapter);
