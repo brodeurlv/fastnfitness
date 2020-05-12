@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.easyfitness.R
 import com.ogaclejapan.smarttablayout.SmartTabLayout
@@ -47,7 +46,7 @@ class ProgramsPagerFragment : Fragment() {
     }
 
     private val viewPagerAdapter: FragmentPagerItemAdapter?
-        get() = (requireView().findViewById<View>(R.id.pager) as ViewPager).adapter as FragmentPagerItemAdapter?
+        get() = (requireView().findViewById<View>(R.id.program_pager) as NonSwipeableViewPager).adapter as FragmentPagerItemAdapter?
 
     override fun onHiddenChanged(hidden: Boolean) {
         if (!hidden) {
