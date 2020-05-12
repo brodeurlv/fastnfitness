@@ -13,12 +13,12 @@ class SwipeDetectorListener(private val programRunner: ProgramRunner) : OnTouchL
 
     private fun onRightSwipe() {
         Timber.d("RightToLeftSwipe!")
-        programRunner.previousExercise()
+        programRunner.nextExercise()
     }
 
     private fun onLeftSwipe() {
         Timber.d("LeftToRightSwipe!")
-        programRunner.nextExercise()
+        programRunner.previousExercise()
     }
 
     @SuppressLint("ClickableViewAccessibility")
