@@ -151,7 +151,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL(DAOBodyPart.TABLE_CREATE);
                     initBodyPartTable(db);
                     break;
-
+                case 21:
+                    db.execSQL(DAOProgram.TABLE_CREATE);
+                    db.execSQL(DAOExerciseInProgram.TABLE_CREATE);
+                    String defaultProgramName="training program default";
+                    if(!checkIfRecordExist(db, DAOProgram.TABLE_NAME, DAOProgram.PROGRAM_NAME, defaultProgramName)){  //we create first default program for users
+                        DAOProgram lDAOProgram = new DAOProgram(mContext);
+                        lDAOProgram.addRecord(defaultProgramName);
+                    }
+                    break;
             }
             upgradeTo++;
         }

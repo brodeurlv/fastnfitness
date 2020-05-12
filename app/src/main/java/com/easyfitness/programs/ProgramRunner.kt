@@ -142,7 +142,7 @@ class ProgramRunner : Fragment() {
                 }
             }
         }
-        listener4=SwipeDetectorListener(this)
+        listener4 = SwipeDetectorListener(this)
 
         exerciseEdit = view.findViewById(R.id.editMachine)
         seriesEdit = view.findViewById(R.id.editSerie)
@@ -281,7 +281,7 @@ class ProgramRunner : Fragment() {
     private val itemClickCopyRecord = BtnClickListener { id: Long ->
         val r: IRecord? = daoRecord.getRecord(id)
         if (r != null) {
-            setCurrentMachine(r.exercise)
+            setCurrentMachine(r.exercise, r.type)
             when (r.type) {
                 TYPE_FONTE -> {
                     val f = r as Fonte
@@ -511,7 +511,7 @@ class ProgramRunner : Fragment() {
         when (v.id) {
             R.id.editDuration -> showTimePicker(durationEdit)
             R.id.editMachine -> {
-                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp)
+//                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                 minMaxLayout.visibility = View.GONE
             }
         }
@@ -522,7 +522,7 @@ class ProgramRunner : Fragment() {
         if (notes.text.toString() != previousNote) {
             daoExerciseInProgram.updateString(exercisesFromProgram[currentExerciseOrder],
                 DAOExerciseInProgram.NOTES, notes.text.toString())
-            exercisesFromProgram[currentExerciseOrder].note=notes.text.toString()
+            exercisesFromProgram[currentExerciseOrder].note = notes.text.toString()
         }
     }
 
@@ -544,7 +544,7 @@ class ProgramRunner : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        mainActivity = this.activity as MainActivity
+        mainActivity = requireActivity() as MainActivity
     }
 
     val name: String?
@@ -620,7 +620,17 @@ class ProgramRunner : Fragment() {
         // Update EditView
         exerciseEdit.setText(exercise.exerciseName)
         // Update exercise Image
-        exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+        when (exercise.type) {
+            TYPE_CARDIO -> {
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp)
+            }
+            TYPE_STATIC -> {
+                machineImage.setImageResource(R.drawable.ic_static)
+            }
+            else -> {
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            }
+        }
         val lMachine = mDbMachine.getMachine(exercise.exerciseName)
         if (lMachine != null) {
             val imgUtil = ImageUtil()
@@ -650,7 +660,7 @@ class ProgramRunner : Fragment() {
         }
     }
 
-    private fun setCurrentMachine(machineStr: String) {
+    private fun setCurrentMachine(machineStr: String, exerciseType: Int) {
         if (machineStr.isEmpty()) {
             machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             minMaxLayout.visibility = View.GONE
@@ -667,12 +677,23 @@ class ProgramRunner : Fragment() {
 
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
+        when (exerciseType) {
+            TYPE_CARDIO -> {
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp)
+            }
+            TYPE_STATIC -> {
+                machineImage.setImageResource(R.drawable.ic_static)
+            }
+            else -> {
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            }
+        }
         machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
         ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
 
         updateRecordTable(lMachine.name)
-        changeExerciseTypeUI(lMachine.type)
+        changeExerciseTypeUI(exerciseType)
 
         updateMinMax(lMachine)
         updateLastRecord(lMachine)
@@ -761,8 +782,9 @@ class ProgramRunner : Fragment() {
             val c: Cursor?
             val oldCursor: Cursor
             //Get results
-            val limitShowedResults=10
-            c = (daoRecord.getAllRecordByMachines(profil, exerciseName,limitShowedResults ) ?: return@post)
+            val limitShowedResults = 10
+            c = (daoRecord.getAllRecordByMachines(profil, exerciseName, limitShowedResults)
+                ?: return@post)
             if (c.count == 0) {
                 recordList.adapter = null
             } else {
