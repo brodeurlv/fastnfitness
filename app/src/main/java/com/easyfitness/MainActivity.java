@@ -499,17 +499,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This is important for ProgramRunner Activity gestures
-     * @param event motion event that has to be executed before scrollView
-     * @return dispatch Event to upper class (Scroll View)
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event){
-        this.onTouchEvent(event);
-        return super.dispatchTouchEvent(event);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
