@@ -39,8 +39,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     private lateinit var mainActivity: MainActivity
     private var lTableColor = 1
     private var machineListDialog: AlertDialog? = null
-
-    // Selection part
     private var selectedType = TYPE_FONTE
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
