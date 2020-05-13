@@ -4,22 +4,18 @@ import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.easyfitness.DAO.DAOProgram
 import com.easyfitness.DAO.Profile
 import com.easyfitness.MainActivity
 import com.easyfitness.R
+import kotlinx.android.synthetic.main.tab_programs.*
 
 class ProgramsFragment : Fragment(R.layout.tab_programs) {
-    private var programsList: ListView? = null
-    private lateinit var searchField: AutoCompleteTextView
     private var mTableAdapter: ProgramCursorAdapter? = null
-    private var newProgramName: EditText? = null
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -55,23 +51,14 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-//        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.tab_programs, container, false)
-        newProgramName = view.findViewById(R.id.new_program_name)//view.findViewById(R.id.new_program_name)
-        val addButton = view.findViewById<Button>(R.id.addExercise)
-        addButton.setOnClickListener(clickAddButton)
-        searchField=view.findViewById(R.id.searchField)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addProgramButton.setOnClickListener(clickAddButton)
         searchField.addTextChangedListener(onTextChangeListener)
-
-        programsList = view.findViewById(R.id.listProgram)
-        return view
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar items
-
         //for add Programs menu
         val addId = 555
         if (item.itemId == addId) {
@@ -122,7 +109,6 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
     companion object {
         fun newInstance(name: String?, id: Long?): ProgramsFragment {
             val f = ProgramsFragment()
-
             // Supply index input as an argument.
             val args = Bundle()
             args.putString("name", name)
