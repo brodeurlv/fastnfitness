@@ -29,53 +29,56 @@ import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.mikhaellopez.circularimageview.CircularImageView
 import com.onurkaganaldemir.ktoastlib.KToast
+import kotlinx.android.synthetic.main.tab_program_with_exercises.*
 import timber.log.Timber
 import java.util.*
 
-class ExercisesInProgramFragment : Fragment() {
+class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises) {
     private lateinit var mainActivity: MainActivity
-    private lateinit var exerciseEdit: AutoCompleteTextView
-    private lateinit var seriesEdit: EditText
-    private lateinit var repetitionEdit: EditText
-    private lateinit var poidsEdit: EditText
-    private lateinit var detailsLayout: LinearLayout
-    private lateinit var addButton: Button
-    private lateinit var recordList: ExpandedListView
-    private lateinit var unitSpinner: Spinner
-    private lateinit var unitDistanceSpinner: Spinner
-    private lateinit var restTimeEdit: EditText
-    private lateinit var restTimeCheck: CheckBox
-    private lateinit var exerciseImage: CircularImageView
+//    private lateinit var exerciseEdit: AutoCompleteTextView
+//    private lateinit var seriesEdit: EditText
+//    private lateinit var repetitionEdit: EditText
+//    private lateinit var poidsEdit: EditText
+//    private lateinit var detailsLayout: LinearLayout
+//    private lateinit var addButton: Button
+//    private lateinit var recordList: ExpandedListView
+//    private lateinit var unitSpinner: Spinner
+//    private lateinit var unitDistanceSpinner: Spinner
+//    private lateinit var restTimeEdit: EditText
+//    private lateinit var restTimeCheck: CheckBox
+//    private lateinit var exerciseImage: CircularImageView
     private var lTableColor = 1
     private var machineListDialog: AlertDialog? = null
-    private lateinit var minMaxLayout: LinearLayout
+//    private lateinit var minMaxLayout: LinearLayout
 
     // Selection part
-    private lateinit var exerciseTypeSelectorLayout: LinearLayout
-    private var programSelectorLayout: LinearLayout? = null
-    private lateinit var bodybuildingSelector: TextView
-    private lateinit var cardioSelector: TextView
-    private lateinit var staticExerciseSelector: TextView
+//    private lateinit var exerciseTypeSelectorLayout: LinearLayout
+//    private var programSelectorLayout: LinearLayout? = null
+//    private lateinit var bodybuildingSelector: TextView
+//    private lateinit var cardioSelector: TextView
+//    private lateinit var staticExerciseSelector: TextView
     private var selectedType = TYPE_FONTE
-    private lateinit var restTimeLayout: LinearLayout
-    private lateinit var distanceEdit: EditText
-    private lateinit var durationEdit: TextView
-    private lateinit var secondsEdit: EditText
-    private lateinit var serieCardView: CardView
-    private lateinit var repetitionCardView: CardView
-    private lateinit var secondsCardView: CardView
-    private lateinit var weightCardView: CardView
-    private lateinit var distanceCardView: CardView
-    private lateinit var durationCardView: CardView
-    private lateinit var programSelect: Spinner
+//    private lateinit var restTimeLayout: LinearLayout
+//    private lateinit var distanceEdit: EditText
+//    private lateinit var durationEdit: TextView
+//    private lateinit var secondsEdit: EditText
+//    private lateinit var serieCardView: CardView
+//    private lateinit var repetitionCardView: CardView
+//    private lateinit var secondsCardView: CardView
+//    private lateinit var weightCardView: CardView
+//    private lateinit var distanceCardView: CardView
+//    private lateinit var durationCardView: CardView
+//    private lateinit var programSelect: Spinner
 
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
     var programs: MutableList<String>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+//                              savedInstanceState: Bundle?): View? {
+//        val view = inflater.inflate(R.layout.tab_program_with_exercises, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         daoProgram = DAOProgram(context)
         programs = daoProgram.allProgramsNames
         if (programs == null || programs!!.isEmpty()) {
@@ -91,7 +94,7 @@ class ExercisesInProgramFragment : Fragment() {
             transaction.commit()
         } else {
             programId = daoProgram.getRecord(programs!![0])!!.id
-            programSelect = view.findViewById(R.id.programSelect)
+//            programSelect = view.findViewById(R.id.programSelect)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
             programSelect.onItemSelectedListener = object :
@@ -106,37 +109,37 @@ class ExercisesInProgramFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
         }
-        exerciseEdit = view.findViewById(R.id.editMachine)
-        seriesEdit = view.findViewById(R.id.editSerie)
-        repetitionEdit = view.findViewById(R.id.editRepetition)
-        poidsEdit = view.findViewById(R.id.editPoids)
-        recordList = view.findViewById(R.id.listRecord)
-        val machineListButton = view.findViewById<ImageButton>(R.id.buttonListMachine)
-        addButton = view.findViewById(R.id.addperff)
-        unitSpinner = view.findViewById(R.id.spinnerUnit)
-        unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit)
-        detailsLayout = view.findViewById(R.id.notesLayout)
+//        exerciseEdit = view.findViewById(R.id.exerciseEdit)
+//        seriesEdit = view.findViewById(R.id.editSerie)
+//        repetitionEdit = view.findViewById(R.id.editRepetition)
+//        poidsEdit = view.findViewById(R.id.editPoids)
+//        recordList = view.findViewById(R.id.listRecord)
+//        val machineListButton = view.findViewById<ImageButton>(R.id.buttonListMachine)
+//        addButton = view.findViewById(R.id.addperff)
+//        unitSpinner = view.findViewById(R.id.spinnerUnit)
+//        unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit)
+//        detailsLayout = view.findViewById(R.id.notesLayout)
         detailsLayout.visibility = View.VISIBLE
-        restTimeEdit = view.findViewById(R.id.editRestTime)
-        restTimeCheck = view.findViewById(R.id.restTimecheckBox)
-        exerciseImage = view.findViewById(R.id.imageMachine)
+//        restTimeEdit = view.findViewById(R.id.editRestTime)
+//        restTimeCheck = view.findViewById(R.id.restTimecheckBox)
+//        exerciseImage = view.findViewById(R.id.imageMachine)
         // Cardio Part
-        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
-        cardioSelector = view.findViewById(R.id.cardioSelection)
-        staticExerciseSelector = view.findViewById(R.id.staticSelection)
-        programSelectorLayout = view.findViewById(R.id.programSelectorLayout)
-        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout)
-        minMaxLayout = view.findViewById(R.id.minmaxLayout)
-        restTimeLayout = view.findViewById(R.id.restTimeLayout)
-        durationEdit = view.findViewById(R.id.editDuration)
-        distanceEdit = view.findViewById(R.id.editDistance)
-        secondsEdit = view.findViewById(R.id.editSeconds)
-        serieCardView = view.findViewById(R.id.cardviewSerie)
-        repetitionCardView = view.findViewById(R.id.cardviewRepetition)
-        secondsCardView = view.findViewById(R.id.cardviewSeconds)
-        weightCardView = view.findViewById(R.id.cardviewWeight)
-        distanceCardView = view.findViewById(R.id.cardviewDistance)
-        durationCardView = view.findViewById(R.id.cardviewDuration)
+//        bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
+//        cardioSelector = view.findViewById(R.id.cardioSelection)
+//        staticExerciseSelector = view.findViewById(R.id.staticSelection)
+//        programSelectorLayout = view.findViewById(R.id.programSelectorLayout)
+//        exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout)
+//        minMaxLayout = view.findViewById(R.id.minmaxLayout)
+//        restTimeLayout = view.findViewById(R.id.restTimeLayout)
+//        durationEdit = view.findViewById(R.id.editDuration)
+//        distanceEdit = view.findViewById(R.id.distanceEdit)
+//        secondsEdit = view.findViewById(R.id.editSeconds)
+//        serieCardView = view.findViewById(R.id.cardviewSerie)
+//        repetitionCardView = view.findViewById(R.id.cardviewRepetition)
+//        secondsCardView = view.findViewById(R.id.cardviewSeconds)
+//        weightCardView = view.findViewById(R.id.cardviewWeight)
+//        distanceCardView = view.findViewById(R.id.cardviewDistance)
+//        durationCardView = view.findViewById(R.id.cardviewDuration)
         addButton.setOnClickListener(clickAddButton)
         machineListButton.setOnClickListener(onClickMachineListWithIcons) //onClickMachineList
         seriesEdit.onFocusChangeListener = touchRazEdit
@@ -187,7 +190,7 @@ class ExercisesInProgramFragment : Fragment() {
                 transaction.commit()
             }
         }
-        return view
+//        return view
     }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
@@ -202,9 +205,9 @@ class ExercisesInProgramFragment : Fragment() {
     private lateinit var mDbMachine: DAOMachine
     private val clickExerciseTypeSelector = View.OnClickListener { v: View ->
         when (v.id) {
-            R.id.staticSelection -> changeExerciseTypeUI(TYPE_STATIC, true)
-            R.id.cardioSelection -> changeExerciseTypeUI(TYPE_CARDIO, true)
-            R.id.bodyBuildingSelection -> changeExerciseTypeUI(TYPE_FONTE, true)
+            R.id.staticExerciseSelector -> changeExerciseTypeUI(TYPE_STATIC, true)
+            R.id.cardioSelector -> changeExerciseTypeUI(TYPE_CARDIO, true)
+            R.id.bodybuildingSelector -> changeExerciseTypeUI(TYPE_FONTE, true)
             else -> changeExerciseTypeUI(TYPE_FONTE, true)
         }
     }
@@ -393,19 +396,19 @@ class ExercisesInProgramFragment : Fragment() {
     //Required for cardio/duration
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
-            R.id.editDuration -> showTimePicker(durationEdit)
+            R.id.durationEdit -> showTimePicker(durationEdit)
         }
     }
     private val touchRazEdit = OnFocusChangeListener { v: View, hasFocus: Boolean ->
         if (hasFocus) {
             when (v.id) {
-                R.id.editSerie -> seriesEdit.setText("")
-                R.id.editRepetition -> repetitionEdit.setText("")
-                R.id.editSeconds -> secondsEdit.setText("")
-                R.id.editPoids -> poidsEdit.setText("")
-                R.id.editDuration -> showTimePicker(durationEdit)
-                R.id.editDistance -> distanceEdit.setText("")
-                R.id.editMachine -> {
+                R.id.seriesEdit -> seriesEdit.setText("")
+                R.id.repetitionEdit -> repetitionEdit.setText("")
+                R.id.secondsEdit -> secondsEdit.setText("")
+                R.id.poidsEdit -> poidsEdit.setText("")
+                R.id.durationEdit -> showTimePicker(durationEdit)
+                R.id.distanceEdit -> distanceEdit.setText("")
+                R.id.exerciseEdit -> {
                     exerciseEdit.setText("")
                     exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                     minMaxLayout.visibility = View.GONE
@@ -417,7 +420,7 @@ class ExercisesInProgramFragment : Fragment() {
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             }
         } else {
-            if (v.id == R.id.editMachine) { // If a creation of a new machine is not ongoing.
+            if (v.id == R.id.exerciseEdit) { // If a creation of a new machine is not ongoing.
                 if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentExercise(exerciseEdit.text.toString())
             }
         }
@@ -476,7 +479,7 @@ class ExercisesInProgramFragment : Fragment() {
         } catch (e: Exception) {
             0
         }
-        if (timeTextView!!.id == R.id.editDuration) {
+        if (timeTextView!!.id == R.id.durationEdit) {
             val mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec)
             val fm = requireActivity().supportFragmentManager
             mDurationFrag.show(fm.beginTransaction(), "dialog_time")
@@ -541,7 +544,6 @@ class ExercisesInProgramFragment : Fragment() {
         if (programs!!.size != daoProgram.allProgramsNames?.size) {//only for program list refresh after add
             programs=daoProgram.allProgramsNames //update programs
             programId = daoProgram.getRecord(programs!![0])!!.id
-            programSelect = requireView().findViewById(R.id.programSelect)
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
             programSelect.onItemSelectedListener = object :
