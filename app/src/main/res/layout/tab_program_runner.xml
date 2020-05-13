@@ -159,6 +159,7 @@
                     <it.sephiroth.android.library.numberpicker.NumberPicker
                         android:id="@+id/repsPicker"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         app:picker_max="100"
                         app:picker_min="0"
                         app:picker_stepSize="1"
