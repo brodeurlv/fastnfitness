@@ -54,6 +54,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Initialization of the database
         daoProgram = DAOProgram(context)
         daoRecord = DAORecord(context)
