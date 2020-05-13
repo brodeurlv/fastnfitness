@@ -8,12 +8,13 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
@@ -22,80 +23,39 @@ import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
 import com.easyfitness.utils.DateConverter
-import com.easyfitness.utils.ExpandedListView
 import com.easyfitness.utils.ImageUtil
 import com.easyfitness.utils.UnitConverter
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog
 import com.ikovac.timepickerwithseconds.TimePicker
-import com.mikhaellopez.circularimageview.CircularImageView
 import com.onurkaganaldemir.ktoastlib.KToast
-import it.sephiroth.android.library.numberpicker.NumberPicker
+import kotlinx.android.synthetic.main.tab_program_runner.*
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ProgramRunner : Fragment() {
+class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     private lateinit var mainActivity: MainActivity
-    private lateinit var exerciseEdit: AutoCompleteTextView
-    private lateinit var seriesEdit: EditText
-    private lateinit var poidsEdit: EditText
-    private lateinit var detailsLayout: LinearLayout
-    private lateinit var addButton: Button
-    private lateinit var recordList: ExpandedListView
-    private lateinit var unitSpinner: Spinner
-    private lateinit var unitDistanceSpinner: Spinner
-    private lateinit var restTimeEdit: EditText
-    private lateinit var restTimeCheck: CheckBox
-    private lateinit var exerciseImage: CircularImageView
     private var lTableColor = 1
     private var machineListDialog: AlertDialog? = null
-    private lateinit var minMaxLayout: LinearLayout
 
     // Selection part
-    private var programSelectorLayout: LinearLayout? = null
     private var selectedType = TYPE_FONTE
-    private lateinit var restTimeLayout: LinearLayout
-    private lateinit var distanceEdit: EditText
-    private lateinit var durationEdit: TextView
-    private lateinit var secondsEdit: EditText
-    private lateinit var serieCardView: CardView
-    private lateinit var repetitionCardView: CardView
-    private lateinit var secondsCardView: CardView
-    private lateinit var weightCardView: CardView
-    private lateinit var distanceCardView: CardView
-    private lateinit var durationCardView: CardView
-    private lateinit var autoTimeCheckBox: CheckBox
-
-    private lateinit var programSelect: Spinner
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
-    private lateinit var repsPicker: NumberPicker
     private var currentExerciseOrder = 0  //start from 0
     private lateinit var exercisesFromProgram: List<ExerciseInProgram>
     private lateinit var daoRecord: DAORecord
     private lateinit var strengthRecordsDao: DAOFonte
     private lateinit var daoCardio: DAOCardio
     private lateinit var daoStatic: DAOStatic
-    private lateinit var dateEdit: TextView
-    private lateinit var timeEdit: TextView
     private lateinit var daoExerciseInProgram: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
-    private lateinit var minText: TextView
-    private lateinit var maxText: TextView
-    private lateinit var machineImage: CircularImageView
-    private lateinit var nextExerciseArrow: Button
-    private lateinit var previousExerciseArrow: Button
-    private lateinit var notes: EditText
     private lateinit var listener4: SwipeDetectorListener
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.tab_program_runner, container, false)
-        repsPicker = view.findViewById(R.id.numberPicker)
-        notes = view.findViewById(R.id.notesInExercise)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Initialization of the database
         daoProgram = DAOProgram(context)
         daoRecord = DAORecord(context)
@@ -120,7 +80,6 @@ class ProgramRunner : Fragment() {
             val programFirst = daoProgram.getRecord(programs[0])
             if (programFirst != null) {
                 programId = programFirst.id
-                programSelect = view.findViewById(R.id.programSelect)
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
                 programSelect.adapter = adapter
                 programSelect.onItemSelectedListener = object :
@@ -143,51 +102,14 @@ class ProgramRunner : Fragment() {
             }
         }
         listener4 = SwipeDetectorListener(this)
-
-        exerciseEdit = view.findViewById(R.id.editMachine)
-        seriesEdit = view.findViewById(R.id.editSerie)
-        poidsEdit = view.findViewById(R.id.editPoids)
-        recordList = view.findViewById(R.id.listRecord)
-        val machineListButton = view.findViewById<ImageButton>(R.id.buttonListMachine)
-        addButton = view.findViewById(R.id.addperff)
-        unitSpinner = view.findViewById(R.id.spinnerUnit)
-        unitDistanceSpinner = view.findViewById(R.id.spinnerDistanceUnit)
-        detailsLayout = view.findViewById(R.id.notesLayout)
-        detailsLayout.visibility = View.VISIBLE
-        restTimeEdit = view.findViewById(R.id.editRestTime)
-        restTimeCheck = view.findViewById(R.id.restTimecheckBox)
-        exerciseImage = view.findViewById(R.id.imageMachine)
-        minText = view.findViewById(R.id.minText)
-        maxText = view.findViewById(R.id.maxText)
-        autoTimeCheckBox = view.findViewById(R.id.autoTimeCheckBox)
-        machineImage = view.findViewById(R.id.imageMachine)
-        dateEdit = view.findViewById(R.id.editDate)
-        timeEdit = view.findViewById(R.id.editTime)
-
-        // Cardio Part
-        programSelectorLayout = view.findViewById(R.id.programSelectionLayout)
-        minMaxLayout = view.findViewById(R.id.minmaxLayout)
-        restTimeLayout = view.findViewById(R.id.restTimeLayout)
-        durationEdit = view.findViewById(R.id.editDuration)
-        distanceEdit = view.findViewById(R.id.editDistance)
-        secondsEdit = view.findViewById(R.id.editSeconds)
-        serieCardView = view.findViewById(R.id.cardviewSerie)
-        repetitionCardView = view.findViewById(R.id.cardviewRepetition)
-        secondsCardView = view.findViewById(R.id.cardviewSeconds)
-        weightCardView = view.findViewById(R.id.cardviewWeight)
-        distanceCardView = view.findViewById(R.id.cardviewDistance)
-        durationCardView = view.findViewById(R.id.cardviewDuration)
-        nextExerciseArrow = view.findViewById(R.id.nextExerciseArrow)
         nextExerciseArrow.setOnClickListener(clickArrows)
-        previousExerciseArrow = view.findViewById(R.id.previousExerciseArrow)
         previousExerciseArrow.setOnClickListener(clickArrows)
-        durationCardView = view.findViewById(R.id.cardviewDuration)
         addButton.setOnClickListener(clickAddButton)
-        machineListButton.setOnClickListener(onClickMachineListWithIcons)
+        exercisesListButton.setOnClickListener(onClickMachineListWithIcons)
         durationEdit.setOnClickListener(clickDateEdit)
         exerciseEdit.setOnKeyListener(checkExerciseExists)
         exerciseEdit.onItemClickListener = onItemClickFilterList
-        notes.addTextChangedListener(object : TextWatcher {
+        notesInExercise.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 updateNote()
             }
@@ -216,7 +138,7 @@ class ProgramRunner : Fragment() {
 
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
-        exerciseImage.setOnClickListener {
+        imageExerciseThumb.setOnClickListener {
             val m = mDbMachine.getMachine(exerciseEdit.text.toString())
             if (m != null) {
                 val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
@@ -231,8 +153,7 @@ class ProgramRunner : Fragment() {
             }
         }
         recordList.setOnTouchListener(listener4) //this is different view so require seperate listener to work
-        view.setOnTouchListener(listener4)
-        return view
+        tabProgramRunner.setOnTouchListener(listener4)
     }
 
     fun nextExercise() {
@@ -519,10 +440,10 @@ class ProgramRunner : Fragment() {
 
     private fun updateNote() {
         val previousNote = exercisesFromProgram[currentExerciseOrder].note
-        if (notes.text.toString() != previousNote) {
+        if (notesInExercise.text.toString() != previousNote) {
             daoExerciseInProgram.updateString(exercisesFromProgram[currentExerciseOrder],
-                DAOExerciseInProgram.NOTES, notes.text.toString())
-            exercisesFromProgram[currentExerciseOrder].note = notes.text.toString()
+                DAOExerciseInProgram.NOTES, notesInExercise.text.toString())
+            exercisesFromProgram[currentExerciseOrder].note = notesInExercise.text.toString()
         }
     }
 
@@ -573,7 +494,7 @@ class ProgramRunner : Fragment() {
         } catch (e: Exception) {
             0
         }
-        if (timeTextView!!.id == R.id.editDuration) {
+        if (timeTextView!!.id == R.id.durationEdit) {
             val mDurationFrag = TimePickerDialogFragment.newInstance(durationSet, hour, min, sec)
             val fm = requireActivity().supportFragmentManager
             mDurationFrag.show(fm.beginTransaction(), "dialog_time")
@@ -591,23 +512,23 @@ class ProgramRunner : Fragment() {
 
     private fun setCurrentExercise(machineStr: String) {
         if (machineStr.isEmpty()) {
-            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             minMaxLayout.visibility = View.GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
             exerciseEdit.setText("")
-            exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             changeExerciseTypeUI(TYPE_FONTE)
             return
         }
         // Update EditView
         exerciseEdit.setText(lMachine.name)
         // Update exercise Image
-        exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+        imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
-        ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
+        ImageUtil.setThumb(imageExerciseThumb, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         // Update Table
         updateRecordTable(lMachine.name)
         // Update display type
@@ -622,23 +543,23 @@ class ProgramRunner : Fragment() {
         // Update exercise Image
         when (exercise.type) {
             TYPE_CARDIO -> {
-                machineImage.setImageResource(R.drawable.ic_training_white_50dp)
+                imageExerciseThumb.setImageResource(R.drawable.ic_training_white_50dp)
             }
             TYPE_STATIC -> {
-                machineImage.setImageResource(R.drawable.ic_static)
+                imageExerciseThumb.setImageResource(R.drawable.ic_static)
             }
             else -> {
-                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+                imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             }
         }
         val lMachine = mDbMachine.getMachine(exercise.exerciseName)
         if (lMachine != null) {
             val imgUtil = ImageUtil()
-            ImageUtil.setThumb(exerciseImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
+            ImageUtil.setThumb(imageExerciseThumb, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
         }
         changeExerciseTypeUI(exercise.type)
         updateRecordTable(exercise.exerciseName)
-        notes.setText(exercise.note)
+        notesInExercise.setText(exercise.note)
         when (exercise.type) {
             TYPE_FONTE -> {
                 repsPicker.progress = exercise.repetition
@@ -662,14 +583,14 @@ class ProgramRunner : Fragment() {
 
     private fun setCurrentMachine(machineStr: String, exerciseType: Int) {
         if (machineStr.isEmpty()) {
-            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             minMaxLayout.visibility = View.GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
         if (lMachine == null) {
             exerciseEdit.setText("")
-            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+            imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             changeExerciseTypeUI(TYPE_FONTE)
             updateMinMax(null)
             return
@@ -679,18 +600,18 @@ class ProgramRunner : Fragment() {
         // Update exercise Image
         when (exerciseType) {
             TYPE_CARDIO -> {
-                machineImage.setImageResource(R.drawable.ic_training_white_50dp)
+                imageExerciseThumb.setImageResource(R.drawable.ic_training_white_50dp)
             }
             TYPE_STATIC -> {
-                machineImage.setImageResource(R.drawable.ic_static)
+                imageExerciseThumb.setImageResource(R.drawable.ic_static)
             }
             else -> {
-                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+                imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             }
         }
-        machineImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
+        imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
         val imgUtil = ImageUtil()
-        ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
+        ImageUtil.setThumb(imageExerciseThumb, imgUtil.getThumbPath(lMachine.picture)) // Overwrite image is there is one
 
         updateRecordTable(lMachine.name)
         changeExerciseTypeUI(exerciseType)
@@ -867,7 +788,7 @@ class ProgramRunner : Fragment() {
         val editor = sharedPref?.edit()
         editor?.putString("restTime", restTimeEdit.text.toString())
         editor?.putBoolean("restCheck", restTimeCheck.isChecked)
-        editor?.putBoolean("showDetails", detailsLayout.isShown)
+        editor?.putBoolean("showDetails", restControlLayout.isShown)
         editor?.apply()
     }
 

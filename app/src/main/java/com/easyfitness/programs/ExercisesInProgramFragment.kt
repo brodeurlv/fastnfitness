@@ -124,7 +124,7 @@ class ExercisesInProgramFragment : Fragment() {
         bodybuildingSelector = view.findViewById(R.id.bodyBuildingSelection)
         cardioSelector = view.findViewById(R.id.cardioSelection)
         staticExerciseSelector = view.findViewById(R.id.staticSelection)
-        programSelectorLayout = view.findViewById(R.id.programSelectionLayout)
+        programSelectorLayout = view.findViewById(R.id.programSelectorLayout)
         exerciseTypeSelectorLayout = view.findViewById(R.id.exerciseTypeSelectionLayout)
         minMaxLayout = view.findViewById(R.id.minmaxLayout)
         restTimeLayout = view.findViewById(R.id.restTimeLayout)

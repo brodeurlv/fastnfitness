@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tab_program_runner"
+    android:id="@+id/tabProgramRunner"
     android:name="tab_program_runner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/imageMachine"
+                        android:id="@+id/imageExerciseThumb"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentStart="true"
@@ -65,20 +65,20 @@
                         app:civ_shadow="false" />
 
                     <AutoCompleteTextView
-                        android:id="@+id/editMachine"
+                        android:id="@+id/exerciseEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_toStartOf="@+id/buttonListMachine"
-                        android:layout_toEndOf="@+id/imageMachine"
+                        android:layout_toStartOf="@+id/exercisesListButton"
+                        android:layout_toEndOf="@+id/imageExerciseThumb"
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
                         android:singleLine="true" />
 
                     <ImageButton
-                        android:id="@+id/buttonListMachine"
+                        android:id="@+id/exercisesListButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -104,7 +104,7 @@
 
             <!-- SETS -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewSerie"
+                android:id="@+id/serieCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -124,7 +124,7 @@
                         android:text="@string/SerieLabel" />
 
                     <EditText
-                        android:id="@+id/editSerie"
+                        android:id="@+id/seriesEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -138,7 +138,7 @@
 
             <!-- REPS -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewRepetition"
+                android:id="@+id/repetitionCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -157,7 +157,7 @@
                         android:text="@string/RepetitionLabel_short" />
 
                     <it.sephiroth.android.library.numberpicker.NumberPicker
-                        android:id="@+id/numberPicker"
+                        android:id="@+id/repsPicker"
                         android:gravity="center"
                         app:picker_max="100"
                         app:picker_min="0"
@@ -173,7 +173,7 @@
 
             <!-- SECONDS -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewSeconds"
+                android:id="@+id/secondsCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -192,7 +192,7 @@
                         android:text="@string/SecondsLabel_short" />
 
                     <EditText
-                        android:id="@+id/editSeconds"
+                        android:id="@+id/secondsEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -207,7 +207,7 @@
 
             <!-- WEIGHT -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewWeight"
+                android:id="@+id/weightCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -234,7 +234,7 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/editPoids"
+                            android:id="@+id/poidsEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -243,7 +243,7 @@
                             tools:text="10" />
 
                         <Spinner
-                            android:id="@+id/spinnerUnit"
+                            android:id="@+id/unitSpinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:entries="@array/weight_units"
@@ -251,7 +251,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/minmaxLayout"
+                        android:id="@+id/minMaxLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_gravity="center_horizontal"
@@ -296,7 +296,7 @@
 
             <!-- DISTANCE -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewDistance"
+                android:id="@+id/distanceCardView"
                 style="@style/CardViewStyle"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
@@ -322,7 +322,7 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/editDistance"
+                            android:id="@+id/distanceEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -332,7 +332,7 @@
                             tools:text="10" />
 
                         <Spinner
-                            android:id="@+id/spinnerDistanceUnit"
+                            android:id="@+id/unitDistanceSpinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:entries="@array/distance_units"
@@ -343,7 +343,7 @@
 
             <!-- DURATION -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardviewDuration"
+                android:id="@+id/durationCardView"
                 style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -364,7 +364,7 @@
                         android:text="@string/DurationLabel" />
 
                     <TextView
-                        android:id="@+id/editDuration"
+                        android:id="@+id/durationEdit"
                         style="@style/editableTextView"
                         tools:text="01:23:45">
 
@@ -409,11 +409,11 @@
                     android:animateLayoutChanges="true"
                     android:orientation="horizontal">
                 <LinearLayout
-                    android:id="@+id/notesLayout"
+                    android:id="@+id/restControlLayout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    >
 
                     <LinearLayout
                         android:id="@+id/restTimeLayout"
@@ -430,7 +430,7 @@
                             android:text="@string/activate_rest_time" />
 
                         <CheckBox
-                            android:id="@+id/restTimecheckBox"
+                            android:id="@+id/restTimeCheck"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -447,7 +447,7 @@
                             android:text="@string/rest_time" />
 
                         <EditText
-                            android:id="@+id/editRestTime"
+                            android:id="@+id/restTimeEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
@@ -494,7 +494,7 @@
                     android:text="@string/arrowPreviousAsText" />
 
                 <Button
-                    android:id="@+id/addperff"
+                    android:id="@+id/addButton"
                     style="@style/Widget.AppCompat.Button.AddButton"
                     android:layout_width="299dp"
                     android:layout_height="wrap_content"
@@ -527,7 +527,7 @@
         </LinearLayout>
 
         <com.easyfitness.utils.ExpandedListView
-            android:id="@+id/listRecord"
+            android:id="@+id/recordList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -572,7 +572,7 @@ android:fastScrollEnabled="false"
                 android:text="@string/DateLabel" />
 
             <TextView
-                android:id="@+id/editDate"
+                android:id="@+id/dateEdit"
                 tools:text="10/05/20"
                 style="@style/editableTextView"
                 android:enabled="false"/>
@@ -593,7 +593,7 @@ android:fastScrollEnabled="false"
                 android:text="@string/timeLabel" />
 
             <TextView
-                android:id="@+id/editTime"
+                android:id="@+id/timeEdit"
                 style="@style/editableTextView"
                 tools:text="18:26:10"
                 android:enabled="false"/>
