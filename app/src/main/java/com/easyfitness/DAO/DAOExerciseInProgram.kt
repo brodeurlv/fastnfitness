@@ -40,8 +40,7 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
         val value = ContentValues()
         var newId: Long = -1
         val machineKey: Long = -1
-        val daoExerciseInProgram = DAOExerciseInProgram(mContext)
-        if (daoExerciseInProgram.exerciseExists(pMachine)) {
+        if (exerciseExists(pMachine)) {
             return newId
         }
         value.put(PROGRAM_ID, programId)

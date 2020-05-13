@@ -6,13 +6,11 @@ import android.database.Cursor
 import java.util.*
 
 class DAOProgram(context: Context?) : DAOBase(context) {
-    private var mContext: Context? = null
     private var mCursor: Cursor? = null
     fun addRecord(programName: String?): Long {
         val value = ContentValues()
         val newId: Long
-        val daoProgram = DAOProgram(mContext)
-        if (daoProgram.programExists(programName)) {
+        if (programExists(programName)) {
             return -1
         }
         value.put(PROGRAM_NAME, programName)
@@ -33,7 +31,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         mCursor = null
         mCursor = db.query(TABLE_NAME, arrayOf(KEY, PROGRAM_NAME, PROFIL_KEY), "$PROGRAM_NAME=?", arrayOf(pName), null, null, null, null)
         if (mCursor != null) mCursor!!.moveToFirst()
-        if (mCursor!!.getCount() == 0) return null
+        if (mCursor!!.count == 0) return null
         val value = Program(
             mCursor!!.getString(1),
             mCursor!!.getLong(2))

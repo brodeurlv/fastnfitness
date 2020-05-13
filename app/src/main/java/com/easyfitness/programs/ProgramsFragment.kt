@@ -9,18 +9,25 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.easyfitness.DAO.DAOProgram
 import com.easyfitness.DAO.Profile
 import com.easyfitness.MainActivity
 import com.easyfitness.R
+import com.easyfitness.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.tab_programs.*
 
-class ProgramsFragment : Fragment() {
-    private var programsList: ListView? = null
-    private lateinit var searchField: AutoCompleteTextView
+class ProgramsFragment : Fragment(R.layout.tab_programs) {
+    private var programsList: ListView = listProgram
+//    private lateinit var searchField: AutoCompleteTextView
     private var mTableAdapter: ProgramCursorAdapter? = null
-    private var programNewName: EditText? = null
-    private var daoProgram: DAOProgram? = null
+    private var newProgramName: EditText = new_program_name
+    val addButton=addExercise
+
+//    private var daoProgram: DAOProgram? = null
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
         override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -42,37 +49,54 @@ class ProgramsFragment : Fragment() {
     }
 
     private val clickAddButton = View.OnClickListener { _: View? ->
-        val programName = programNewName!!.text.toString()
+        val programName = newProgramName!!.text.toString()
         if (programName.isEmpty()) {
             Toast.makeText(context, "Enter not empty program name", Toast.LENGTH_LONG).show()
         } else {
             val lDAOProgram = DAOProgram(context)
             lDAOProgram.addRecord(programName)
-            programNewName!!.setText("")
+            newProgramName!!.setText("")
             mTableAdapter!!.notifyDataSetChanged()
             refreshData()
             Toast.makeText(context, "Added to program list", Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        // activates onCreateOptionsMenu in this fragment
-        setHasOptionsMenu(true)
-
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.tab_programs, container, false)
-        programNewName = view.findViewById(R.id.new_program_name)
-        val addButton = view.findViewById<Button>(R.id.addExercise)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         addButton.setOnClickListener(clickAddButton)
-        searchField = view.findViewById(R.id.searchField)
         searchField.addTextChangedListener(onTextChangeListener)
-        programsList = view.findViewById(R.id.listProgram)
-
-        daoProgram = DAOProgram(view.context)
-        return view
+        return layoutInflater.inflate(R.layout.tab_programs, container, false)
     }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+////        setContentView<ActivityMainBinding>(this.requireActivity(), R.layout.tab_programs)
+////        var binding : ActivityMainBinding =
+////            DataBindingUtil.setContentView(this.requireActivity(), R.layout.tab_programs)
+////    }
+//
+////    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+////                              savedInstanceState: Bundle?): View? {
+////
+//////        val view: ViewDataBinding =
+////            setContentView(this.requireActivity(), R.layout.tab_programs)
+////        // activates onCreateOptionsMenu in this fragment
+////        setHasOptionsMenu(true)
+////
+////        // Inflate the layout for this fragment
+//////        val view = inflater.inflate(R.layout.tab_programs, container, false)
+//////        newProgramName = view.findViewById(R.id.new_program_name)//view.findViewById(R.id.new_program_name)
+////
+////        val addButton = view.findViewById<Button>(R.id.addExercise)
+//        val addButton=addExercise
+//        addButton.setOnClickListener(clickAddButton)
+//        searchField.addTextChangedListener(onTextChangeListener)
+//
+////            view.findViewById(R.id.searchField)
+////        programsList = view.findViewById(R.id.listProgram)
+////
+//////        daoProgram = DAOProgram(view.context)
+////        return view
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar items
@@ -97,7 +121,8 @@ class ProgramsFragment : Fragment() {
         val fragmentView = view
         if (fragmentView != null) {
             if (profil != null) {
-                c = daoProgram!!.allPrograms
+                val daoProgram = DAOProgram(context)
+                c = daoProgram.allPrograms
                 if (c == null || c.count <= 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     programsList!!.adapter = null
