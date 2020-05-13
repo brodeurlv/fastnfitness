@@ -430,8 +430,8 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     //Required for cardio/duration
     private val clickDateEdit = View.OnClickListener { v: View ->
         when (v.id) {
-            R.id.editDuration -> showTimePicker(durationEdit)
-            R.id.editMachine -> {
+            R.id.durationEdit -> showTimePicker(durationEdit)
+            R.id.exerciseEdit -> {
 //                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                 minMaxLayout.visibility = View.GONE
             }
