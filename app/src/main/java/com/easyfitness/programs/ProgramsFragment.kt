@@ -106,7 +106,7 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
                         oldCursor = mTableAdapter!!.swapCursor(c)
                         oldCursor?.close()
                     }
-                    mTableAdapter!!.filterQueryProvider = FilterQueryProvider { constraint: CharSequence -> daoProgram!!.getFilteredPrograms(constraint) }
+                    mTableAdapter!!.filterQueryProvider = FilterQueryProvider { constraint: CharSequence -> daoProgram.getFilteredPrograms(constraint) }
                 }
             }
         }
