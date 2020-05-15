@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
+import android.os.Environment.getExternalStoragePublicDirectory
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -141,41 +142,41 @@ class ProgramDetailsFragment : Fragment() {
                 mCurrentPhotoPath = realPath
                 requestForSave()
             }
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(data)
-                if (resultCode == Activity.RESULT_OK) {
-                    val resultUri = result.uri
-                    var realPath: String?
-                    realPath = RealPathUtil.getRealPath(this.context, resultUri)
-                    val sourceFile = File(realPath)
-                    val storageDir: File?
-                    val state = Environment.getExternalStorageState()
-                    if (Environment.MEDIA_MOUNTED != state) {
-                        return
-                    } else {
-                        //We use the FastNFitness directory for saving our .csv file.
-                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/")
-                        if (!storageDir.exists()) {
-                            storageDir.mkdirs()
-                        }
-                    }
-                    val destinationFile: File?
-                    try {
-                        destinationFile = imgUtil!!.moveFile(sourceFile, storageDir)
-                        Timber.tag("Moving").v("Moving file successful.")
-                        realPath = destinationFile.path
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                        Timber.tag("Moving").v("Moving file failed.")
-                    }
-                    ImageUtil.setPic(machinePhoto, realPath)
-                    ImageUtil.saveThumb(realPath)
-                    mCurrentPhotoPath = realPath
-                    requestForSave()
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    result.error
-                }
-            }
+//            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+//                val result = CropImage.getActivityResult(data)
+//                if (resultCode == Activity.RESULT_OK) {
+//                    val resultUri = result.uri
+//                    var realPath: String?
+//                    realPath = RealPathUtil.getRealPath(this.context, resultUri)
+//                    val sourceFile = File(realPath)
+//                    val storageDir: File?
+//                    val state = Environment.getExternalStorageState()
+//                    if (Environment.MEDIA_MOUNTED != state) {
+//                        return
+//                    } else {
+//                        //We use the FastNFitness directory for saving our .csv file.
+//                        storageDir = getExternalStoragePublicDirectory("/FastnFitness/Camera/")
+//                        if (!storageDir.exists()) {
+//                            storageDir.mkdirs()
+//                        }
+//                    }
+//                    val destinationFile: File?
+//                    try {
+//                        destinationFile = imgUtil!!.moveFile(sourceFile, storageDir)
+//                        Timber.tag("Moving").v("Moving file successful.")
+//                        realPath = destinationFile.path
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                        Timber.tag("Moving").v("Moving file failed.")
+//                    }
+//                    ImageUtil.setPic(machinePhoto, realPath)
+//                    ImageUtil.saveThumb(realPath)
+//                    mCurrentPhotoPath = realPath
+//                    requestForSave()
+//                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                    result.error
+//                }
+//            }
         }
     }
 
