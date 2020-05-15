@@ -76,28 +76,29 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
         cursor = null
         cursor = db.query(TABLE_NAME, arrayOf(EXERCISE), "$EXERCISE=?", arrayOf(pName), null, null, null, null)
         if (cursor != null) cursor!!.moveToFirst()
-        if (0 == cursor!!.count) { close()
+        if (0 <= cursor!!.count) {
+            close()
             cursor!!.close()
-            return null}
-        val lDAOProfil = DAOProfil(mContext)
-        val lProfile = lDAOProfil.getProfil(cursor!!.getLong(cursor!!.getColumnIndex(DAOFonte.PROFIL_KEY)))
+            return null
+        }
         val value = ExerciseInProgram(
             cursor!!.getInt(cursor!!.getColumnIndex(REST_SECONDS)),
             cursor!!.getString(cursor!!.getColumnIndex(EXERCISE)),
             cursor!!.getInt(cursor!!.getColumnIndex(SERIE)),
             cursor!!.getInt(cursor!!.getColumnIndex(REPETITION)),
             cursor!!.getFloat(cursor!!.getColumnIndex(WEIGHT)),
-            lProfile,
+            cursor!!.getLong(cursor!!.getColumnIndex(PROFIL_KEY)),
             cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
             cursor!!.getString(cursor!!.getColumnIndex(NOTES)),
             cursor!!.getInt(cursor!!.getColumnIndex(MACHINE_KEY)).toLong(),
             cursor!!.getString(cursor!!.getColumnIndex(TIME)),
-            cursor!!.getInt(cursor!!.getColumnIndex(TYPE))
+            cursor!!.getInt(cursor!!.getColumnIndex(TYPE)),
+            mContext
         )
         value.setId(cursor!!.getLong(0))
-
         close()
         cursor!!.close()
+
         return value
     }
 
@@ -195,13 +196,14 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
                     cursor!!.getInt(cursor!!.getColumnIndex(SERIE)),
                     cursor!!.getInt(cursor!!.getColumnIndex(REPETITION)),
                     cursor!!.getInt(cursor!!.getColumnIndex(WEIGHT)).toFloat(),
-                    mProfile,
+                    cursor!!.getLong(cursor!!.getColumnIndex(PROFIL_KEY)),
                     cursor!!.getInt(cursor!!.getColumnIndex(UNIT)),
                     cursor!!.getString(cursor!!.getColumnIndex(NOTES)),
                     cursor!!.getInt(cursor!!.getColumnIndex(MACHINE_KEY)).toLong(),
                     cursor!!.getString(cursor!!.getColumnIndex(TIME)),
-                    cursor!!.getInt(cursor!!.getColumnIndex(TYPE))
-                    )
+                    cursor!!.getInt(cursor!!.getColumnIndex(TYPE)),
+                    mContext
+                )
                 value.setId(cursor!!.getLong(cursor!!.getColumnIndex(KEY)))
                 valueList.add(value)
             } while (cursor!!.moveToNext())
@@ -211,11 +213,11 @@ class DAOExerciseInProgram(var mContext: Context) : DAOBase(mContext) {
         return valueList
     }
 
-    fun updateString(exerciseInProgram: ExerciseInProgram , field: String, newValue: String):Int {
-            val db = this.writableDatabase
-            val value = ContentValues()
-            value.put(field, newValue)
-            return db.update(TABLE_NAME, value, "$KEY = ?", arrayOf(exerciseInProgram.id.toString()))
+    fun updateString(exerciseInProgram: ExerciseInProgram, field: String, newValue: String): Int {
+        val db = this.writableDatabase
+        val value = ContentValues()
+        value.put(field, newValue)
+        return db.update(TABLE_NAME, value, "$KEY = ?", arrayOf(exerciseInProgram.id.toString()))
     }
 
     companion object {

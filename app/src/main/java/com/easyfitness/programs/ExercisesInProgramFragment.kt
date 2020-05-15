@@ -6,7 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
@@ -16,6 +16,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
 import com.easyfitness.DAO.*
@@ -48,14 +49,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         if (programs == null || programs!!.isEmpty()) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
             Toast.makeText(context, R.string.add_program_first, Toast.LENGTH_LONG).show()
-            transaction.replace(R.id.fragment_container, programsFragment)
-            transaction.addToBackStack(null)
-            // Commit the transaction
-            transaction.commit()
+            requireActivity().supportFragmentManager.commit {
+                addToBackStack(null)
+                add(R.id.fragment_container, programsFragment)
+            }
         } else {
             programId = daoProgram.getRecord(programs!![0])!!.id
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
@@ -114,13 +112,10 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             if (m != null) {
                 val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
                 val machineDetailsFragment = ExerciseDetailsPager.newInstance(m.id, profileId)
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS)
-                transaction.addToBackStack(null)
-                // Commit the transaction
-                transaction.commit()
+                requireActivity().supportFragmentManager.commit {
+                    addToBackStack(null)
+                    add(R.id.fragment_container, machineDetailsFragment)
+                }
             }
         }
     }

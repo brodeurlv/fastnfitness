@@ -1,5 +1,9 @@
 package com.easyfitness.DAO
 
+import android.content.ContentProvider
+import android.content.Context
+import androidx.core.content.ContentProviderCompat.requireContext
+
 /* DataBase Object */
 class ExerciseInProgram : ARecord {
     var exerciseName: String
@@ -38,7 +42,7 @@ class ExerciseInProgram : ARecord {
     }
 
     constructor(secRest: Int, exerciseName: String, pSerie: Int, pRepetition: Int, pPoids: Float,
-                pProfile: Profile?, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?, exerciseType: Int) : super() {
+                pProfile: Long, pUnit: Int, pNote: String, pMachineKey: Long, pTime: String?, exerciseType: Int, ctx: Context) : super() {
         this.secRest = secRest
         this.exerciseName = exerciseName
         serie = pSerie
@@ -46,7 +50,8 @@ class ExerciseInProgram : ARecord {
         poids = pPoids
         unit = pUnit
         note = pNote
-        mProfile = pProfile
+        val lDAOProfil = DAOProfil(ctx)
+        mProfile = lDAOProfil.getProfil(pProfile)
         mExerciseId = pMachineKey
         mTime = pTime
         this.mType = exerciseType

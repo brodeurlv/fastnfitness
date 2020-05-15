@@ -11,10 +11,10 @@ import com.easyfitness.R
 import java.util.*
 
 class ProgramInExerciseArrayFullAdapter internal constructor(context: Context, machines: ArrayList<ARecord>) : ArrayAdapter<ARecord>(context, 0, machines) {
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get the data item for this position
         var convertViewObtained = convertView
-        val exercise = getItem(position) ?: return convertViewObtained
+        val exercise = getItem(position) ?: return convertViewObtained!!
 
         // Check if an existing view is being reused, otherwise inflate the view
         convertViewObtained = LayoutInflater.from(context).inflate(R.layout.machinelist_row, parent, false)
