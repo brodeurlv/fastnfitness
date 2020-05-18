@@ -552,7 +552,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="@dimen/mi_button_cta_height"
-                    android:text="@string/rest_timer"
                     />
             </com.devzone.fillprogresslayout.FillProgressLayout>
 <!--            app:fpl_progressDuration="30"-->

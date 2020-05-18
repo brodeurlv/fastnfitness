@@ -75,6 +75,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         });
+
+        Preference playRestSound = findPreference("playRestSound");
+        playRestSound.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                updateSummary(listPreference, (String) newValue, "");
+            }
+
+            return true;
+        });
+
+        Preference playStaticExerciseFinishSound = findPreference("playStaticExerciseFinishSound");
+        playStaticExerciseFinishSound.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                updateSummary(listPreference, (String) newValue, "");
+            }
+
+            return true;
+        });
     }
 
     @Override
