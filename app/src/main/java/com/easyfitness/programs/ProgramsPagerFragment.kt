@@ -25,7 +25,6 @@ class ProgramsPagerFragment : Fragment() {
             args.putLong("machineProfile", -1)
             pagerAdapter = FragmentPagerItemAdapter(
                 childFragmentManager, FragmentPagerItems.with(this.context)
-                .add(R.string.ProgramRunnerLabel, ProgramRunner::class.java)
                 .add(R.string.ExercisesInProgramLabel, ExercisesInProgramFragment::class.java)
                 .add(R.string.ProgramsLabel, ProgramsFragment::class.java)
                 .create())
@@ -45,20 +44,20 @@ class ProgramsPagerFragment : Fragment() {
         return view
     }
 
-    private val viewPagerAdapter: FragmentPagerItemAdapter?
-        get() = (requireView().findViewById<View>(R.id.program_pager) as NonSwipeableViewPager).adapter as FragmentPagerItemAdapter?
+//    private val viewPagerAdapter: FragmentPagerItemAdapter?
+//        get() = (requireView().findViewById<View>(R.id.program_pager) as NonSwipeableViewPager).adapter as FragmentPagerItemAdapter?
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden) {
-            if (viewPagerAdapter != null) {
-                var frag1: Fragment?
-                for (i in 0..2) {
-                    frag1 = viewPagerAdapter!!.getPage(i)
-                    frag1?.onHiddenChanged(false) // Refresh data
-                }
-            }
-        }
-    }
+//    override fun onHiddenChanged(hidden: Boolean) {
+//        if (!hidden) {
+//            if (viewPagerAdapter != null) {
+//                var frag1: Fragment?
+//                for (i in 0..2) {
+//                    frag1 = viewPagerAdapter!!.getPage(i)
+//                    frag1?.onHiddenChanged(false) // Refresh data
+//                }
+//            }
+//        }
+//    }
 
     companion object {
         fun newInstance(name: String, id: Int): ProgramsPagerFragment {

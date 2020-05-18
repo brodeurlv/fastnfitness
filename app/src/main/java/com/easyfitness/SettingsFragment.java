@@ -82,7 +82,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             if (newValue instanceof String) {
                 updateSummary(listPreference, (String) newValue, "");
             }
-
             return true;
         });
 
@@ -92,7 +91,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             if (newValue instanceof String) {
                 updateSummary(listPreference, (String) newValue, "");
             }
-
             return true;
         });
     }

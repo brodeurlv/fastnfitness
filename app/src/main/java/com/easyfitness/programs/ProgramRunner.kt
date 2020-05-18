@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.database.Cursor
+import android.media.MediaPlayer
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -17,6 +17,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.preference.PreferenceManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
 import com.easyfitness.DAO.*
@@ -419,6 +420,10 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                 countDown.text = getString(R.string.rest_finished)
                 restFillBackgroundProgress.visibility = GONE
                 restTimerRunning = false
+                if(requireContext().getSharedPreferences("playRestSound",Context.MODE_PRIVATE).getBoolean("playRestSound",true)){
+                    val mediaPlayer = MediaPlayer.create(context, R.raw.chime)
+                    mediaPlayer.start()
+                }
             }
             .build()
         restTimer.start()
@@ -601,6 +606,10 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                     .onComplete {
                         val staticFinishStr = getString(R.string.exercise_time) + " " + exercise.seconds.toString() + " " + getString(R.string.seconds)
                         countDownStatic.text = staticFinishStr
+                        if(requireContext().getSharedPreferences("playStaticExerciseFinishSound",Context.MODE_PRIVATE).getBoolean("playStaticExerciseFinishSound",true)){
+                            val mediaPlayer = MediaPlayer.create(context, R.raw.chime)
+                            mediaPlayer.start()
+                        }
                     }
                     .build()
 
@@ -636,17 +645,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                 restTimeEdit.setText(exercise.secRest.toString())
             }
         }
-        restTimer = Rx2Timer.builder()
-            .initialDelay(0) //default is 0
-            .take(exercise.secRest) //default is 60
-            .onEmit { count ->
-                countDown.text = getString(R.string.count_string, count)
-            }
-            .onError { countDown.text = getString(R.string.error) }
-            .onComplete {
-                countDown.text = R.string.rest_finished.toString()
-            }
-            .build()
     }
 
     private fun setCurrentMachine(machineStr: String, exerciseType: Int) {
