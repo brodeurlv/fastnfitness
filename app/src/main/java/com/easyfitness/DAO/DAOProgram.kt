@@ -3,6 +3,7 @@ package com.easyfitness.DAO
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import java.util.*
 
 class DAOProgram(context: Context?) : DAOBase(context) {
@@ -118,5 +119,11 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         const val TABLE_CREATE = ("CREATE TABLE " + TABLE_NAME
             + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROGRAM_NAME
             + " TEXT, " + PROFIL_KEY + " INTEGER);")
+        public fun addInitialProgram(db : SQLiteDatabase, programName :String ) {
+            var value= ContentValues();
+            value.put(PROGRAM_NAME, programName);
+            value.put(PROFIL_KEY, 1);
+            db.insert(TABLE_NAME, null, value);
+        }
     }
 }
