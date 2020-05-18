@@ -1,5 +1,6 @@
 package com.easyfitness;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -8,10 +9,10 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    Toolbar top_toolbar = null;
     MainActivity mActivity = null;
 
     public final static String WEIGHT_UNIT_PARAM =  "defaultUnit";
@@ -22,8 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      * show the text at 'index'.
      */
     public static SettingsFragment newInstance(String name, int id) {
-        SettingsFragment f = new SettingsFragment();
-        return f;
+        return new SettingsFragment();
     }
 
     @Override
@@ -31,6 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
 
         mActivity = (MainActivity) getActivity();
+
 
         //addPreferencesFromResource(R.xml.settings);
 
@@ -78,22 +79,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         Preference playRestSound = findPreference("playRestSound");
         playRestSound.setOnPreferenceChangeListener((preference, newValue) -> {
-            ListPreference listPreference = (ListPreference) preference;
-            if (newValue instanceof String) {
-                updateSummary(listPreference, (String) newValue, "");
+            if ((newValue instanceof Boolean)) {
+                saveToPreference("playRestSound", (Boolean) newValue);
             }
             return true;
         });
 
         Preference playStaticExerciseFinishSound = findPreference("playStaticExerciseFinishSound");
         playStaticExerciseFinishSound.setOnPreferenceChangeListener((preference, newValue) -> {
-            ListPreference listPreference = (ListPreference) preference;
-            if (newValue instanceof String) {
-                updateSummary(listPreference, (String) newValue, "");
+            if (newValue instanceof Boolean) {
+                saveToPreference("playStaticExerciseFinishSound", (Boolean) newValue);
             }
             return true;
         });
     }
+
+
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String param) {
@@ -123,5 +124,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             //finally set's it value changed
             pref.setSummary(prefix + pref.getEntries()[prefIndex]);
         }
+    }
+
+    public void saveToPreference(String prefName, Boolean prefBoolToSet) {
+        SharedPreferences sharedPref = requireContext().getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(prefName, prefBoolToSet);
+        editor.apply();
     }
 }
