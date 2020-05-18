@@ -309,6 +309,11 @@
     <string name="expandad_aditional_details_arrow">uitgebreidere details pijl</string>
     <string name="automatic_time">Automatische tijd</string>
     <string name="ExercisesInProgramLabel">Oefeningen in programma</string>
+    <string name="click_to_start">Klik om te beginnen</string>
+    <string name="exercise_time">Oefen tijd</string>
+    <string name="rest_counter">Rust uit %1$d s</string>
+    <string name="rest_finished">Rest klaar</string>
+    <string name="error">Fout</string>
 
 </resources>
 

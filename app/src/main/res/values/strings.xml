@@ -340,4 +340,10 @@
     <string name="enter_bodypart_name">Enter Bodypart name</string>
 
     <string name="strength_category">Strength</string>
+    <string name="rest_counter">Rest %1$d s</string>
+    <string name="click_to_start">Click to start</string>
+    <string name="exercise_time" >Exercise time</string>
+    <string name="rest_finished" >Rest finished</string>
+    <string name="count_string" translatable="false">%1$d s</string>
+    <string name="error">Error</string>
 </resources>

@@ -279,4 +279,9 @@
     <string name="expandad_aditional_details_arrow">détails supplémentaires développés flèche</string>
     <string name="automatic_time">Heure automatique</string>
     <string name="ExercisesInProgramLabel">Exercices au programme</string>
+    <string name="click_to_start">Cliquez pour commencer</string>
+    <string name="exercise_time">Temps d\'exercice</string>
+    <string name="rest_counter">Du repos %1$d s</string>
+    <string name="rest_finished">Reste fini</string>
+    <string name="error">Erreur</string>
 </resources>

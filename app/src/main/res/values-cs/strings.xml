@@ -299,5 +299,10 @@
     <string name="expandad_aditional_details_arrow">rozšířené další podrobnosti šipka</string>
     <string name="automatic_time">Automatický čas</string>
     <string name="ExercisesInProgramLabel">Cvičení v programu</string>
+    <string name="click_to_start">Klepnutím spustíte</string>
+    <string name="exercise_time">Cvičební čas</string>
+    <string name="rest_counter">Odpočinek %1$d s</string>
+    <string name="rest_finished">Zbytek skončil</string>
+    <string name="error">Chyba</string>
 
 </resources>

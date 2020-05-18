@@ -464,13 +464,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/swipeLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:minHeight="@dimen/custom_image_size"-->
-<!--        android:orientation="vertical"/>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -516,89 +509,162 @@
 
             </RelativeLayout>
 
+            <com.devzone.fillprogresslayout.FillProgressLayout
+                android:id="@+id/staticFillBackgroundProgress"
+                android:layout_margin="@dimen/buttons_stroke_width"
+                android:gravity="center"
+                app:fpl_backgroundColor="@color/blue"
+                app:fpl_isRounded="true"
+                app:fpl_progressDirection="top_to_bottom"
+                app:fpl_shouldRestart="false"
+                app:fpl_gradientDirection="bottom_to_top"
+                app:fpl_gradientColors="@color/cardview_shadow_end_color"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/countDownStatic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/click_to_start"
+                    android:textSize="@dimen/mi_button_cta_height" />
+            </com.devzone.fillprogresslayout.FillProgressLayout>
+            <!--            app:fpl_backgroundColor="@color/red_btn_bg_color"
+                 app:fpl_progressDuration="150"
+                app:fpl_progress="2"-->
+            <com.devzone.fillprogresslayout.FillProgressLayout
+                android:id="@+id/restFillBackgroundProgress"
+                android:layout_margin="@dimen/buttons_stroke_width"
+                android:gravity="center"
+                app:fpl_backgroundColor="@color/main_green_stroke_color"
+                app:fpl_isRounded="true"
+                app:fpl_progressDirection="top_to_bottom"
+                app:fpl_shouldRestart="false"
+                app:fpl_gradientDirection="bottom_to_top"
+                app:fpl_gradientColors="@color/cardview_shadow_end_color"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/countDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/mi_button_cta_height"
+                    android:text="@string/rest_timer"
+                    />
+            </com.devzone.fillprogresslayout.FillProgressLayout>
+<!--            app:fpl_progressDuration="30"-->
+<!--            app:fpl_progress="2"-->
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" >-->
+<!--                            <com.devzone.fillprogresslayout.FillProgressLayout-->
+<!--                                android:id="@+id/restFillBackgroundProgress"-->
+<!--                                android:layout_alignBottom="@+id/countDown"-->
+<!--                                android:layout_alignParentTop="true"-->
+<!--                            android:layout_margin="@dimen/buttons_stroke_width"-->
+<!--                            app:fpl_backgroundColor="@color/main_green_stroke_color"-->
+<!--                            app:fpl_isRounded="true"-->
+<!--                            app:fpl_progressDirection="top_to_bottom"-->
+<!--                            app:fpl_shouldRestart="false"-->
+
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:visibility="visible"-->
+<!--                                />-->
+<!--                            <TextView-->
+<!--                                                android:id="@+id/countDown"-->
+<!--                                                android:layout_width="wrap_content"-->
+<!--                                                android:layout_height="wrap_content"-->
+<!--                                                android:layout_gravity="center"-->
+<!--                                                android:textSize="@dimen/mi_button_cta_height"-->
+<!--                                                android:text="Rest Timer"/>-->
+
+<!--                        </RelativeLayout>-->
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginStart="3dp"
+                            android:text="@string/TopTenLabel" />
+
+                    </LinearLayout>
 
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="3dp"
-                android:text="@string/TopTenLabel" />
+                    <com.easyfitness.utils.ExpandedListView
+                        android:id="@+id/recordList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+            <!--
+                  android:animateLayoutChanges="false"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+            android:fastScrollEnabled="false"
+                        android:isScrollContainer="false"
+                        android:scrollbars="none" -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="horizontal">-->
 
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/textView"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="end"-->
+<!--                android:text="@string/automatic_time" />-->
 
-        <com.easyfitness.utils.ExpandedListView
-            android:id="@+id/recordList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-<!--
-      android:animateLayoutChanges="false"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-android:fastScrollEnabled="false"
-            android:isScrollContainer="false"
-            android:scrollbars="none" -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+<!--            <CheckBox-->
+<!--                android:id="@+id/autoTimeCheckBox"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_weight="1"-->
+<!--                android:checked="true"-->
+<!--                android:text="" />-->
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/automatic_time" />
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_weight="50"-->
+<!--                android:gravity="end"-->
+<!--                android:text="@string/DateLabel" />-->
 
-            <CheckBox
-                android:id="@+id/autoTimeCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="" />
+<!--            <TextView-->
+<!--                android:id="@+id/dateEdit"-->
+<!--                tools:text="10/05/20"-->
+<!--                style="@style/editableTextView"-->
+<!--                android:enabled="false"/>-->
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/timeHoursLayout"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_weight="50"
-                android:gravity="end"
-                android:text="@string/DateLabel" />
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_weight="100"-->
+<!--                android:gravity="right"-->
+<!--                android:text="@string/timeLabel" />-->
 
-            <TextView
-                android:id="@+id/dateEdit"
-                tools:text="10/05/20"
-                style="@style/editableTextView"
-                android:enabled="false"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/timeHoursLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_weight="100"
-                android:gravity="right"
-                android:text="@string/timeLabel" />
-
-            <TextView
-                android:id="@+id/timeEdit"
-                style="@style/editableTextView"
-                tools:text="18:26:10"
-                android:enabled="false"/>
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/timeEdit"-->
+<!--                style="@style/editableTextView"-->
+<!--                tools:text="18:26:10"-->
+<!--                android:enabled="false"/>-->
+<!--        </LinearLayout>-->
     </LinearLayout>
 
 

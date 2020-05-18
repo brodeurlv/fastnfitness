@@ -289,5 +289,10 @@
     <string name="program_hint">Programmnamen eingeben</string>
     <string name="ExercisesInProgram">Übungen im Programm:</string>
     <string name="program_selection">Ausgewähltes Programm:</string>
+    <string name="rest_counter">Sich ausruhen %1$d s</string>
+    <string name="rest_finished">Rest erledigt</string>
+    <string name="click_to_start">Klicken Sie hier, um zu beginnen</string>
+    <string name="exercise_time">Übungszeit</string>
+    <string name="error">Error</string>
 </resources>
 
