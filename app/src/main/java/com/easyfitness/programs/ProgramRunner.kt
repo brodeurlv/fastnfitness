@@ -156,9 +156,19 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             }
         }
 
+        exerciseIndicator.onSelectListener = {
+            chooseExercise(it)
+        }
+
         recordList.setOnTouchListener(swipeDetectorListener) //this is different view so require seperate listener to work
         tabProgramRunner.setOnTouchListener(swipeDetectorListener)
     }
+
+    private fun chooseExercise(selected:Int): Unit{
+        currentExerciseOrder=selected
+        refreshData()
+    }
+
 
     fun nextExercise() {
         if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder < exercisesFromProgram.size - 1) {
@@ -177,6 +187,15 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             refreshData()
         }
     }
+
+
+//    private val dotExerciseSelectedListener = AdapterView.OnItemSelectedListener { v: View ->
+//        exerciseIndicator.
+////        when (v.id) {
+////            R.id.nextExerciseArrow -> nextExercise()
+////            R.id.previousExerciseArrow -> previousExercise()
+////        }
+//    }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
         val strMinute: String = if (minute < 10) "0$minute" else minute.toString()

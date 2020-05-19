@@ -84,15 +84,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
+                        app:dot_height="24dp"
+                        app:dot_width="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
                         app:first_selected_dot_resource="@drawable/ic_home_white_24dp"
                         app:first_unselected_dot_resource="@drawable/circle_gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:margins_between_dots="17dp"
+                        app:margins_between_dots="36dp"
                         app:selected_dot_resource="@drawable/circle_white"
                         app:unselected_dot_resource="@drawable/circle_gray" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,9 +124,10 @@
                         android:layout_toStartOf="@+id/exercisesListButton"
                         android:layout_toEndOf="@+id/imageExerciseThumb"
                         android:hint="@string/MachineHint"
+                        android:inputType="none"
                         android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
                         android:singleLine="true" />
+                    <!--                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"-->
 
                     <ImageButton
                         android:id="@+id/exercisesListButton"
