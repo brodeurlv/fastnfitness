@@ -57,7 +57,7 @@ public class FontesPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("ProgramRunner", ProgramRunner.class)
+                .add("ProgramRunner", ProgramRunner.class, args)
                 .add(R.string.ExerciceLabel, FontesFragment.class)
                 .add(R.string.GraphLabel, FonteGraphFragment.class, args)
                 .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
@@ -163,7 +163,7 @@ public class FontesPagerFragment extends Fragment {
                 // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
                 // Il faut donc que cela soit pris en compte dans le refresh des fragments.
                 Fragment frag1;
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < getViewPagerAdapter().getCount(); i++) {
                     frag1 = getViewPagerAdapter().getPage(i);
                     if (frag1 != null)
                         frag1.onHiddenChanged(false); // Refresh data
