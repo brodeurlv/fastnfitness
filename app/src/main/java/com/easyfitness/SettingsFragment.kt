@@ -105,6 +105,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
          */
         @JvmStatic
         fun newInstance(name: String?, id: Int): SettingsFragment {
+            name+id // just to warning skip
             return SettingsFragment()
         }
     }

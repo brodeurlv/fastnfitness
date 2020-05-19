@@ -351,4 +351,5 @@
     <string name="playRestSoundDescription">Emit sound after rest times finishes</string>
     <string name="playStaticExerciseFinishSoundDescription">Emit sound after static exercise time finished</string>
     <string name="playStaticExerciseFinishSound">Play static exercie finish sound</string>
+    <string name="slash" translatable="false"> / </string>
 </resources>

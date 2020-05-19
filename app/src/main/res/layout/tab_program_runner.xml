@@ -36,6 +36,8 @@
             android:minHeight="@dimen/mi_baseline"
             android:padding="2dp"
             style="@style/TextAppearance.AppCompat.Large" />
+
+
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
@@ -47,6 +49,53 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:minHeight="30dp">
+
+                    <TextView
+                        android:id="@+id/currentExerciseNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="1"
+                        app:layout_constraintEnd_toStartOf="@+id/slash" />
+
+                    <TextView
+                        android:id="@+id/slash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/slash"
+                        app:layout_constraintEnd_toStartOf="@+id/exerciseInProgramNumber" />
+
+                    <TextView
+                        android:id="@+id/exerciseInProgramNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:text="10"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.mazenrashed.dotsindicator.DotsIndicator
+                        android:id="@+id/exerciseIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:first_selected_dot_resource="@drawable/ic_home_white_24dp"
+                        app:first_unselected_dot_resource="@drawable/circle_gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:margins_between_dots="17dp"
+                        app:selected_dot_resource="@drawable/circle_white"
+                        app:unselected_dot_resource="@drawable/circle_gray" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

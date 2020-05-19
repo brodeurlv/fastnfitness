@@ -95,6 +95,8 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                             programId = program.id
                             currentExerciseOrder = 0
                             exercisesFromProgram = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                            exerciseIndicator.initDots(exercisesFromProgram.size)
+                            exerciseInProgramNumber.text=exercisesFromProgram.size.toString()
                             refreshData()
                             Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
                         }
@@ -161,6 +163,8 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     fun nextExercise() {
         if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder < exercisesFromProgram.size - 1) {
             currentExerciseOrder++
+            currentExerciseNumber.text=(currentExerciseOrder+1).toString()
+            exerciseIndicator.setDotSelection(currentExerciseOrder)
             refreshData()
         }
     }
@@ -168,6 +172,8 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     fun previousExercise() {
         if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder > 0) {
             currentExerciseOrder--
+            currentExerciseNumber.text=(currentExerciseOrder+1).toString()
+            exerciseIndicator.setDotSelection(currentExerciseOrder)
             refreshData()
         }
     }

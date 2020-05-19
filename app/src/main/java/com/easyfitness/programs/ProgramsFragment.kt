@@ -82,7 +82,6 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
                 val daoProgram = DAOProgram(context)
                 c = daoProgram.allPrograms
                 if (c == null || c.count <= 0) {
-                    //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     programsList!!.adapter = null
                 } else {
                     if (programsList!!.adapter == null) {
