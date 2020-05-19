@@ -10,15 +10,15 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import com.easyfitness.R;
+import com.easyfitness.programs.NonSwipeableViewPager;
 import com.easyfitness.programs.ProgramRunner;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 public class FontesPagerFragment extends Fragment {
-    FragmentPagerItemAdapter pagerAdapter = null;
-    ViewPager mViewPager = null;
-//    private String name;
+    private FragmentPagerItemAdapter pagerAdapter = null;
+    //    private String name;
 //    private int id;
 //    private FontesFragment mpFontesFrag = null;
 //    private FonteHistoryFragment mpHistoryFrag = null;
@@ -47,7 +47,7 @@ public class FontesPagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager);
+        NonSwipeableViewPager mViewPager = view.findViewById(R.id.pager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -57,7 +57,7 @@ public class FontesPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("ProgramRunner", ProgramRunner.class, args)
+                .add(R.string.ProgramRunnerLabel, ProgramRunner.class)
                 .add(R.string.ExerciceLabel, FontesFragment.class)
                 .add(R.string.GraphLabel, FonteGraphFragment.class, args)
                 .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
@@ -117,41 +117,8 @@ public class FontesPagerFragment extends Fragment {
 //        return (ViewPager) getView().findViewById(R.id.pager);
 //    }
 
-    public FragmentPagerItemAdapter getViewPagerAdapter() {
+    private FragmentPagerItemAdapter getViewPagerAdapter() {
         return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-/*
-            mpFontesFrag = (FontesFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.FONTES);
-            getViewPagerAdapter().restoreFontesFragment(mpFontesFrag);
-
-            mpGraphFrag = (FonteGraphFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.GRAPHIC);
-            getViewPagerAdapter().restoreGraphFragment(mpGraphFrag);
-
-            mpHistoryFrag = (FonteHistoryFragment) getChildFragmentManager().getFragment(savedInstanceState, MainActivity.HISTORY);
-            getViewPagerAdapter().restoreHistoricFragment(mpHistoryFrag);
-*/
-        }
-    }
-
-    // invoked when the activity may be temporarily destroyed, save the instance state here
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        // call superclass to save any view hierarchy
-        super.onSaveInstanceState(outState);
-
-/*
-        if (getViewPagerAdapter().getFontesFragment() != null && getViewPagerAdapter().getFontesFragment().isAdded())
-            getChildFragmentManager().putFragment(outState, MainActivity.FONTES, getViewPagerAdapter().getFontesFragment());
-        if (getViewPagerAdapter().getGraphFragment() != null && getViewPagerAdapter().getGraphFragment().isAdded())
-            getChildFragmentManager().putFragment(outState, MainActivity.GRAPHIC, getViewPagerAdapter().getGraphFragment());
-        if (getViewPagerAdapter().getHistoricFragment() != null && getViewPagerAdapter().getHistoricFragment().isAdded())
-            getChildFragmentManager().putFragment(outState, MainActivity.HISTORY, getViewPagerAdapter().getHistoricFragment());
-*/
     }
 
     @Override

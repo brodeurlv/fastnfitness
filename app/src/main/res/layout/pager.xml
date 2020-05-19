@@ -31,7 +31,7 @@
         app:stl_underlineThickness="1dp"
         app:stl_defaultTabTextColor="@color/enabled_color"/>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.easyfitness.programs.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
