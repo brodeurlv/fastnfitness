@@ -43,9 +43,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class WeightFragment extends Fragment {
     MainActivity mActivity = null;
     private EditableInputViewWithDate weightEdit = null;
-    private EditableInputView fatEdit = null;
-    private EditableInputView musclesEdit = null;
-    private EditableInputView waterEdit = null;
+    private EditableInputViewWithDate fatEdit = null;
+    private EditableInputViewWithDate musclesEdit = null;
+    private EditableInputViewWithDate waterEdit = null;
     private TextView imcText = null;
     private TextView imcRank = null;
     private TextView ffmiText = null;
@@ -162,6 +162,7 @@ public class WeightFragment extends Fragment {
                 break;
         }
     };
+
     private MiniDateGraph mWeightGraph;
     private MiniDateGraph mFatGraph;
     private MiniDateGraph mMusclesGraph;

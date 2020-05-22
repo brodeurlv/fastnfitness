@@ -33,17 +33,21 @@
                 android:id="@+id/singlevalueinput_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:gravity="center"
                 android:inputType="numberDecimal|numberSigned"
                 android:minEms="3"
+                android:selectAllOnFocus="true"
                 tools:text="10" />
 
             <Spinner
                 android:id="@+id/singlevalueinput_unitSpinner"
+                style="@style/Platform.Widget.AppCompat.Spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/weight_units"
-                android:minEms="3" />
+                android:gravity="center_horizontal"
+                android:minEms="2" />
         </LinearLayout>
 
         <LinearLayout

@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easyfitness.R;
-import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.DistanceUnit;
 import com.easyfitness.utils.ExerciseType;
@@ -42,8 +41,6 @@ public class WorkoutValuesInputView extends LinearLayout {
     private SingleValueInputView secondsInputView;
     private SingleValueInputView distanceInputView;
     private SingleValueInputView durationInputView;
-
-    TimePickerDialogFragment mDurationFrag = null;
 
     public WorkoutValuesInputView(@NonNull Context context) {
         super(context);

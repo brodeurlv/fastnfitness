@@ -105,7 +105,6 @@ public class FontesFragment extends Fragment {
     TimePickerDialogFragment mDurationFrag = null;
     TimePickerDialogFragment mTimeFrag = null;
 
-
     int lTableColor = 1;
 
     // Cardio Part
@@ -667,7 +666,6 @@ public class FontesFragment extends Fragment {
         mDbMachine = new DAOMachine(getContext());
         dateEdit.setText(DateConverter.currentDate());
         timeEdit.setText(DateConverter.currentTime());
-        //selectedType = DAOMachine.TYPE_FONTE;
 
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());

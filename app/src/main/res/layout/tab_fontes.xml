@@ -218,6 +218,7 @@
                             android:layout_marginEnd="8dp"
                             android:ems="4"
                             android:inputType="number"
+                            android:selectAllOnFocus="false"
                             android:singleLine="true"
                             android:text="60" />
 

@@ -1,25 +1,15 @@
 package com.easyfitness.views;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.easyfitness.DAO.Weight;
 import com.easyfitness.R;
-import com.easyfitness.utils.WeightUnit;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +31,7 @@ public class SingleValueInputView extends LinearLayout {
     private String mComment;
     private String mValue;
     private int mType;
+    private boolean mIsTimePickerShown = false;
 
     public SingleValueInputView(@NonNull Context context) {
         super(context);
@@ -199,7 +190,9 @@ public class SingleValueInputView extends LinearLayout {
         mType = value;
 
         if (value == 3) { // time
+            valueEditText.setFocusable(false);
             valueEditText.setOnClickListener(v -> {
+                if (mIsTimePickerShown) return;
                 String tx = valueEditText.getText().toString();
                 int hour;
                 try {
@@ -221,7 +214,7 @@ public class SingleValueInputView extends LinearLayout {
                 }
 
                 MyTimePickerDialog mTimePicker;
-                mTimePicker = new MyTimePickerDialog(this.getContext(), (MyTimePickerDialog.OnTimeSetListener) (timePicker, selectedHour, selectedMinute, selectedSeconds) -> {
+                mTimePicker = new MyTimePickerDialog(this.getContext(), (timePicker, selectedHour, selectedMinute, selectedSeconds) -> {
                     String strMinute = "00";
                     String strHour = "00";
                     String strSecond = "00";
@@ -236,9 +229,15 @@ public class SingleValueInputView extends LinearLayout {
                     valueEditText.setText(strHour + ":" + strMinute + ":" + strSecond);
                 }, hour, minute, seconds, true);//Yes 24 hour time
 
+
+                mTimePicker.setOnDismissListener(dialog -> mIsTimePickerShown = false);
                 mTimePicker.setTitle("Select Time");
+                mIsTimePickerShown = true;
                 mTimePicker.show();
             });
+        } else {
+            valueEditText.setFocusable(true);
+            valueEditText.setOnClickListener(null);
         }
     }
 }

@@ -83,82 +83,90 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:gravity="center_horizontal">
 
         <!-- SETS -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/SetsInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.25"
             app:showComment="false"
             app:showUnit="false"
             app:title="@string/SerieLabel"
-            app:value="" />
+            app:value=""
+            tools:value="10"
+            tools:visibility="visible"/>
 
         <!-- REPS -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/RepsInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.25"
             app:showComment="false"
             app:showUnit="false"
             app:title="@string/RepetitionLabel_short"
             app:value=""
-            tools:value="10" />
+            tools:value="10"
+            tools:visibility="visible"/>
 
         <!-- SECONDS -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/SecondsInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.25"
             app:showComment="false"
             app:showUnit="false"
             app:title="@string/SecondsLabel_short"
             app:value=""
-            tools:value="10" />
+            tools:value="10"
+            tools:visibility="gone"/>
 
         <!-- WEIGHT -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/WeightInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.50"
             app:showComment="true"
             app:showUnit="true"
             app:title="@string/PoidsLabel"
             app:units="@array/weight_units"
-            tools:value="10" />
+            tools:value="10"
+            tools:visibility="visible"/>
 
         <!-- DISTANCE -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/DistanceInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.50"
             app:showComment="true"
             app:showUnit="true"
             app:title="@string/DistanceLabel"
             app:units="@array/distance_units"
-            tools:value="10" />
+            tools:value="10"
+            tools:visibility="gone"/>
 
         <!-- DURATION -->
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/DurationInputView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="40"
+            android:layout_weight="0.50"
             app:showComment="false"
             app:showUnit="false"
             app:title="@string/DurationLabel"
             app:value=""
             app:type="time"
-            tools:value="01:23:45" />
+            tools:value="01:23:45"
+            tools:visibility="gone"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
