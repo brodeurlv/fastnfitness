@@ -66,7 +66,7 @@
                         android:scaleType="centerInside"
                         tools:src="@drawable/ic_fitness_center_white_24dp" />
 
-                    <com.easyfitness.utils.EditableInputView.EditableInputView
+                    <com.easyfitness.views.EditableInputView
                         android:id="@+id/BODYPART_NAME"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

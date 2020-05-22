@@ -65,7 +65,7 @@
                 android:orientation="vertical"
                 android:padding="6dip">
 
-                <com.easyfitness.utils.EditableInputView.EditableInputView
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     tools:text="Profile Name"
                     android:title="@string/enter_profile_name" />
 
-                <com.easyfitness.utils.EditableInputView.EditableInputView
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/gender"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                     android:textSize="18sp"
                     tools:text="Female" />
 
-                <com.easyfitness.utils.EditableInputView.EditableInputView
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/birthday"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     tools:text="XX/XX/XX"
                     android:title="@string/enter_birthday"/>
 
-                <com.easyfitness.utils.EditableInputView.EditableInputView
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/size"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

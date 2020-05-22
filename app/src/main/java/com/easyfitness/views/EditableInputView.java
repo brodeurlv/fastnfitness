@@ -1,10 +1,8 @@
-package com.easyfitness.utils.EditableInputView;
+package com.easyfitness.views;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;

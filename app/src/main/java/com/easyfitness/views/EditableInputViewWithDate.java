@@ -1,4 +1,4 @@
-package com.easyfitness.utils.EditableInputView;
+package com.easyfitness.views;
 
 import android.app.DatePickerDialog;
 import android.content.Context;

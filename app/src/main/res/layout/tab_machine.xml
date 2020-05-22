@@ -23,7 +23,7 @@
         android:hint="@string/FilterHint"
         android:imeOptions="actionNext"
         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-        android:nextFocusForward="@+id/editSerie"
+        android:nextFocusForward="@+id/SetsInputView"
         android:singleLine="true" />
 
     <ListView
