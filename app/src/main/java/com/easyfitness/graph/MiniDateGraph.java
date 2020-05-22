@@ -50,7 +50,6 @@ public class MiniDateGraph {
         mChart.animateY(1000, Easing.EaseInOutBack); // animate horizontal 3000 milliseconds
         mChart.setClickable(false);
 
-
         mChart.getAxisRight().setDrawLabels(false);
         mChart.getAxisLeft().setDrawLabels(false);
         mChart.getLegend().setEnabled(false);

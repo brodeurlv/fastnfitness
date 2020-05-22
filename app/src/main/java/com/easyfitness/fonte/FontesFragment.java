@@ -881,8 +881,9 @@ public class FontesFragment extends Fragment {
         float weight = 0;
         if (getProfil() != null && m != null) {
             if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
+                DecimalFormat numberFormat = new DecimalFormat("#.##");
                 Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
-                if (minValue != null) {
+                if (minValue != null && minValue.getStoredWeight()!=0) {
                     if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
                         weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
                         unitStr = getContext().getString(R.string.LbsUnitLabel);
@@ -890,11 +891,12 @@ public class FontesFragment extends Fragment {
                         weight = minValue.getStoredWeight();
                         unitStr = getContext().getString(R.string.KgUnitLabel);
                     }
-                    DecimalFormat numberFormat = new DecimalFormat("#.##");
 
-                    comment = getContext().getString(R.string.min) + numberFormat.format(weight) + " " + unitStr;
+                    comment = getContext().getString(R.string.min) + ":" + numberFormat.format(weight) + unitStr + " - ";
+                }
 
-                    Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
+                Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
+                if (maxValue != null && maxValue.getStoredWeight()!=0) {
                     if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
                         weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
                         unitStr = getContext().getString(R.string.LbsUnitLabel);
@@ -902,15 +904,15 @@ public class FontesFragment extends Fragment {
                         weight = maxValue.getStoredWeight();
                         unitStr = getContext().getString(R.string.KgUnitLabel);
                     }
-                    comment = comment + getContext().getString(R.string.min) + numberFormat.format(weight) + " " + unitStr;
+                    comment = comment + getContext().getString(R.string.max) + ":" + numberFormat.format(weight) +  unitStr;
                 } else {
-                    comment = getContext().getString(R.string.min) + " - " + getContext().getString(R.string.max) + " - ";
+                    comment = "";
                 }
             } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
                 comment = "";
             }
         } else {
-            comment = getContext().getString(R.string.min) + " - " + getContext().getString(R.string.max) + " - ";
+            comment ="";
         }
 
         workoutValuesInputView.setWeightComment(comment);

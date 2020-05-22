@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.18.11</string>
+    <string name="app_version" translatable="false">0.19.1</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,11 +10,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.18.11: April 04, 2020\n
-\t- Enhancement : Possibility to add new body part\n
-\t- Enhancement : Clarified unit for size (#118)\n
-\t- Enhancement : Renammed bodybuilding category to strength (#117)\n
-\t- Enhancement : Some icons update\n
+v0.19.1: May 22, 2020\n
+\t- Enhancement : Internal architecture update\n
+\t- Enhancement : Small UI enhancements \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
