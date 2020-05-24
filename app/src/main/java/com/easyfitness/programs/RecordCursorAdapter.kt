@@ -15,10 +15,12 @@ import androidx.core.content.res.ResourcesCompat.getColor
 import com.easyfitness.BtnClickListener
 import com.easyfitness.DAO.DAOExerciseInProgram
 import com.easyfitness.DAO.DAOMachine
+import com.easyfitness.DAO.DAORecord
 import com.easyfitness.R
 import com.easyfitness.utils.DateConverter
 import com.easyfitness.utils.UnitConverter
 import java.text.DecimalFormat
+import java.util.*
 
 class RecordCursorAdapter internal constructor(private val mContext: Context, c: Cursor?, flags: Int, clickDelete: BtnClickListener?, clickCopy: BtnClickListener?) : CursorAdapter(mContext, c, flags) {
     private val mInflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -36,6 +38,15 @@ class RecordCursorAdapter internal constructor(private val mContext: Context, c:
         }
 
         /* Commun display */
+        val tDate = view.findViewById<TextView>(R.id.DATE_CELL)
+        val date: Date
+        val dateString = cursor.getString(cursor.getColumnIndex(DAORecord.DATE))
+        date = DateConverter.DBDateStrToDate(dateString)
+        tDate.text = DateConverter.dateToLocalDateStr(date, mContext)
+
+        val tTime = view.findViewById<TextView>(R.id.TIME_CELL)
+        tTime.text = cursor.getString(cursor.getColumnIndex(DAORecord.TIME))
+
         val tExercise = view.findViewById<TextView>(R.id.MACHINE_CELL)
         tExercise.text = cursor.getString(cursor.getColumnIndex(DAOExerciseInProgram.EXERCISE))
         val tSerie = view.findViewById<TextView>(R.id.SERIE_CELL)
