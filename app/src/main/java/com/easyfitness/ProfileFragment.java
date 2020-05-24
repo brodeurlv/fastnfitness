@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.easyfitness.DAO.DAOProfil;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.EditableInputView.EditableInputView;
+import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.Gender;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;

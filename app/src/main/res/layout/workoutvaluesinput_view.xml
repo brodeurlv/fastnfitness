@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ExerciseTypeSelectorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            style="@style/Widget.AppCompat.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/exercise_type" />
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/StrenghSelector"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/record_background_odd"
+                android:gravity="center"
+                android:text="@string/strength_category"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeTextType="uniform" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/CardioSelector"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/CardioLabel"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeTextType="uniform" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/IsometricSelector"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/staticExercise"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeTextType="uniform" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:gravity="center_horizontal">
+
+        <!-- SETS -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/SetsInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/SerieLabel"
+            app:value=""
+            tools:value="10"
+            tools:visibility="visible"/>
+
+        <!-- REPS -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/RepsInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/RepetitionLabel_short"
+            app:value=""
+            tools:value="10"
+            tools:visibility="visible"/>
+
+        <!-- SECONDS -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/SecondsInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/SecondsLabel_short"
+            app:value=""
+            tools:value="10"
+            tools:visibility="gone"/>
+
+        <!-- WEIGHT -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/WeightInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            app:showComment="true"
+            app:showUnit="true"
+            app:title="@string/PoidsLabel"
+            app:units="@array/weight_units"
+            tools:value="10"
+            tools:visibility="visible"/>
+
+        <!-- DISTANCE -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/DistanceInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            app:showComment="true"
+            app:showUnit="true"
+            app:title="@string/DistanceLabel"
+            app:units="@array/distance_units"
+            tools:value="10"
+            tools:visibility="gone"/>
+
+        <!-- DURATION -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/DurationInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/DurationLabel"
+            app:value=""
+            app:type="time"
+            tools:value="01:23:45"
+            tools:visibility="gone"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

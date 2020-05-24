@@ -158,7 +158,7 @@ public class DateConverter {
 
     /**
      * @param longVal in milliseconds
-     * @return duration in format "HH:MM"
+     * @return duration in format "HH:MM:SS"
      */
     public static String durationToHoursMinutesSecondsStr(long longVal) {
         longVal = longVal / 1000;

@@ -27,8 +27,8 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.EditableInputView.EditableInputView;
-import com.easyfitness.utils.EditableInputView.EditableInputViewWithDate;
+import com.easyfitness.views.EditableInputView;
+import com.easyfitness.views.EditableInputViewWithDate;
 import com.easyfitness.utils.Gender;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -43,9 +43,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class WeightFragment extends Fragment {
     MainActivity mActivity = null;
     private EditableInputViewWithDate weightEdit = null;
-    private EditableInputView fatEdit = null;
-    private EditableInputView musclesEdit = null;
-    private EditableInputView waterEdit = null;
+    private EditableInputViewWithDate fatEdit = null;
+    private EditableInputViewWithDate musclesEdit = null;
+    private EditableInputViewWithDate waterEdit = null;
     private TextView imcText = null;
     private TextView imcRank = null;
     private TextView ffmiText = null;
@@ -162,6 +162,7 @@ public class WeightFragment extends Fragment {
                 break;
         }
     };
+
     private MiniDateGraph mWeightGraph;
     private MiniDateGraph mFatGraph;
     private MiniDateGraph mMusclesGraph;

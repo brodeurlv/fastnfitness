@@ -37,7 +37,7 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.DateGraph;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.EditableInputView.EditableInputView;
+import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
 import com.github.mikephil.charting.charts.LineChart;
