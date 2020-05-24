@@ -286,6 +286,12 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             false
         }
     }
+
+    private val clickStaticReset = OnClickListener { _: View ->
+            staticTimer.restart()
+            staticTimerRunning = true
+    }
+
     private val clickResetStaticTimer = OnLongClickListener { v: View ->
         if (v.id == R.id.staticFillBackgroundProgress) {
             staticTimer.restart()
@@ -647,7 +653,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                         }
                     }
                     .build()
-
             }
             else -> {
                 imageExerciseThumb.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
@@ -863,6 +868,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                 staticFillBackgroundProgress.visibility = VISIBLE
                 staticFillBackgroundProgress.setOnClickListener(clickStaticTimer)
                 staticFillBackgroundProgress.setOnLongClickListener(clickResetStaticTimer)
+                resetStaticTimerButton.setOnClickListener(clickStaticReset)
                 selectedType = TYPE_STATIC
             }
             TYPE_FONTE -> {

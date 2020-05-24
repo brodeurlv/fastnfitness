@@ -603,7 +603,7 @@
                 app:fpl_gradientColors="@color/cardview_shadow_end_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/countDownStatic"
@@ -611,6 +611,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/click_to_start"
                     android:textSize="@dimen/mi_button_cta_height" />
+                <ImageButton
+                    android:id="@+id/resetStaticTimerButton"
+                    android:src="@drawable/reset_yellow_400_24dp"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </com.devzone.fillprogresslayout.FillProgressLayout>
             <!--            app:fpl_backgroundColor="@color/red_btn_bg_color"
                  app:fpl_progressDuration="150"
