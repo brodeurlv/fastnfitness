@@ -265,7 +265,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         if (v.id == R.id.restFillBackgroundProgress) {
             restTimer?.restart()
         }
-        true
     }
 
 

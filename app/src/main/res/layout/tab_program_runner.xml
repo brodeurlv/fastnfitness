@@ -614,7 +614,7 @@
                 <ImageButton
                     android:id="@+id/resetStaticTimerButton"
                     android:src="@drawable/reset_yellow_400_24dp"
-                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/progress_circle_radius"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </com.devzone.fillprogresslayout.FillProgressLayout>
