@@ -925,7 +925,7 @@ public class FontesFragment extends Fragment {
         workoutValuesInputView.setReps(10);
         workoutValuesInputView.setSeconds(60);
         workoutValuesInputView.setWeight(50, WeightUnit.KG);
-        workoutValuesInputView.setDistance(10, DistanceUnit.MILES);
+        workoutValuesInputView.setDistance(10, DistanceUnit.KM);
         workoutValuesInputView.setDuration(600000);
         if (lLastRecord == null) {
             // Set default values or nothing.
@@ -943,7 +943,7 @@ public class FontesFragment extends Fragment {
             if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
                 workoutValuesInputView.setDistance(UnitConverter.KmToMiles(lLastCardioRecord.getDistance()), DistanceUnit.MILES);
             else
-                workoutValuesInputView.setDistance(lLastCardioRecord.getDistance(), DistanceUnit.MILES);
+                workoutValuesInputView.setDistance(lLastCardioRecord.getDistance(), DistanceUnit.KM);
         } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
             StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
             workoutValuesInputView.setSets(lLastStaticRecord.getSerie());
@@ -1021,7 +1021,7 @@ public class FontesFragment extends Fragment {
                         workoutValuesInputView.setReps(10);
                         workoutValuesInputView.setSeconds(60);
                         workoutValuesInputView.setWeight(50, WeightUnit.KG);
-                        workoutValuesInputView.setDistance(10, DistanceUnit.MILES);
+                        workoutValuesInputView.setDistance(10, DistanceUnit.KM);
                         workoutValuesInputView.setDuration(600000);
                         setCurrentMachine("");
                         changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
