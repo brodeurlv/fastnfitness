@@ -63,6 +63,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
             true
         }
+        val nextExerciseSwitch = findPreference<Preference>("nextExerciseSwitch")
+        nextExerciseSwitch!!.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _: Preference?, newValue: Any? ->
+            if (newValue is Boolean) {
+                saveToPreference("nextExerciseSwitch", newValue as Boolean?)
+            }
+            true
+        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle, param: String) {

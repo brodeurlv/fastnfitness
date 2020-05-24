@@ -35,18 +35,27 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/sound_settings">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="playRestSound"
+        android:summary="@string/playRestSoundDescription"
+        android:title="@string/playRestSound" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="playStaticExerciseFinishSound"
+        android:summary="@string/playStaticExerciseFinishSoundDescription"
+        android:title="@string/playStaticExerciseFinishSound" />
+
+</PreferenceCategory>
+
     <PreferenceCategory android:title="@string/programs_settings">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="playRestSound"
-            android:summary="@string/playRestSoundDescription"
-            android:title="@string/playRestSound" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="playStaticExerciseFinishSound"
-            android:summary="@string/playStaticExerciseFinishSoundDescription"
-            android:title="@string/playStaticExerciseFinishSound" />
+            android:key="nextExerciseSwitch"
+            android:summary="@string/nextExerciseSwitchDescription"
+            android:title="@string/nextExerciseSwitch" />
 
     </PreferenceCategory>
 </PreferenceScreen>

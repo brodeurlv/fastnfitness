@@ -355,4 +355,7 @@
     <string name="FailLabel">Fail</string>
     <string name="DoneLabel">Done</string>
     <string name="failedToDoReps">Failed to dovall repetitions</string>
+    <string name="sound_settings">Sound Settings</string>
+    <string name="nextExerciseSwitch">Next exercise after previous finish</string>
+    <string name="nextExerciseSwitchDescription">When You click check done on exercises it will move to next exercise in program</string>
 </resources>

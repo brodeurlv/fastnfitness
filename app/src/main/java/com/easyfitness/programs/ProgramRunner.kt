@@ -416,7 +416,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         exerciseEdit.setAdapter(adapter)
         // Launch Countdown
         restFillBackgroundProgress.visibility = VISIBLE
-//        exerciseIndicator.setDotSelection(currentExerciseOrder)
         exerciseIndicator[currentExerciseOrder].setBackgroundResource(R.drawable.green_button_background)
         runRest(restTime)
         showTotalWorkload(iTotalWeightSession, iTotalWeight, iNbSeries)
@@ -429,11 +428,11 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     private fun runRest(restTime: Int) {
         restFillBackgroundProgress.visibility = VISIBLE
         restTimerRunning = true
-        nextExercise()
-        restFillBackgroundProgress.setDuration(restTime.toLong() * progressScaleFix)
-        if(restTimer!=null){
-            restTimer.stop()
+        if(requireContext().getSharedPreferences("nextExerciseSwitch",Context.MODE_PRIVATE).getBoolean("nextExerciseSwitch",true)){
+            nextExercise()
         }
+        restFillBackgroundProgress.setDuration(restTime.toLong() * progressScaleFix)
+        restTimer?.stop()
         restTimer = Rx2Timer.builder()
             .initialDelay(0)
             .take(restTime)
@@ -443,7 +442,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             }
             .onError { countDown.text = getString(R.string.error) }
             .onComplete {
-//                countDown.text = getString(R.string.rest_finished)
+                countDown.text = getString(R.string.rest_finished)
                 restFillBackgroundProgress.visibility = GONE
                 restTimerRunning = false
                 if(requireContext().getSharedPreferences("playRestSound",Context.MODE_PRIVATE).getBoolean("playRestSound",true)){
@@ -452,7 +451,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                 }
             }
             .build()
-        restTimer.start()
+        restTimer?.start()
     }
 
     private fun showTotalWorkload(total: Float, total2: Float, total3: Int): Float {
