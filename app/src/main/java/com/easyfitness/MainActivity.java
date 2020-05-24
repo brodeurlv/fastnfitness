@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center_white_24dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.outline_assignment_24, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.manu_programs), R.drawable.outline_assignment_white_24, true));
         //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_gym_bench_50dp, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale_white_50dp, true));
