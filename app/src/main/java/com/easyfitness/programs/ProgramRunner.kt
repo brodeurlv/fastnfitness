@@ -261,41 +261,33 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     }
 
 
-    private val restClickTimer= OnClickListener { v: View ->
-        if (v.id == R.id.restFillBackgroundProgress) {
+    private val restClickTimer= OnClickListener {
             restTimer?.restart()
-        }
     }
 
 
-    private val clickStaticTimer = OnClickListener { v: View ->
+    private val clickStaticTimer = OnClickListener {
         staticTimerRunning = if (!staticTimerRunning) {
-            when (v.id) {
-                R.id.staticFillBackgroundProgress -> if (staticTimer.isPause) {
+            if (staticTimer.isPause) {
                     staticTimer.resume()
                 } else {
                     staticTimer.start()
                 }
-            }
             true
         } else {
-            when (v.id) {
-                R.id.staticFillBackgroundProgress -> staticTimer.pause()
-            }
+            staticTimer.pause()
             false
         }
     }
 
-    private val clickStaticReset = OnClickListener { _: View ->
-            staticTimer.restart()
-            staticTimerRunning = true
+    private val clickStaticReset = OnClickListener {
+        staticTimer.restart()
+        staticTimerRunning = true
     }
 
-    private val clickResetStaticTimer = OnLongClickListener { v: View ->
-        if (v.id == R.id.staticFillBackgroundProgress) {
-            staticTimer.restart()
-            staticTimerRunning = true
-        }
+    private val clickResetStaticTimer = OnLongClickListener {
+        staticTimer.restart()
+        staticTimerRunning = true
         true
     }
 
