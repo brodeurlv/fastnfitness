@@ -162,6 +162,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             chooseExercise(it)
         }
 
+
         recordList.setOnTouchListener(swipeDetectorListener) //this is different view so require seperate listener to work
         tabProgramRunner.setOnTouchListener(swipeDetectorListener)
     }
@@ -259,6 +260,15 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         }
     }
 
+
+    private val restClickTimer= OnClickListener { v: View ->
+        if (v.id == R.id.restFillBackgroundProgress) {
+            restTimer?.restart()
+        }
+        true
+    }
+
+
     private val clickStaticTimer = OnClickListener { v: View ->
         staticTimerRunning = if (!staticTimerRunning) {
             when (v.id) {
@@ -276,7 +286,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             false
         }
     }
-
     private val clickResetStaticTimer = OnLongClickListener { v: View ->
         if (v.id == R.id.staticFillBackgroundProgress) {
             staticTimer.restart()
@@ -452,6 +461,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             }
             .build()
         restTimer?.start()
+        restFillBackgroundProgress.setOnClickListener(restClickTimer)
     }
 
     private fun showTotalWorkload(total: Float, total2: Float, total3: Int): Float {
