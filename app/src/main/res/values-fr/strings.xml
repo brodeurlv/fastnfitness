@@ -284,4 +284,15 @@
     <string name="rest_counter">Du repos %1$d s</string>
     <string name="rest_finished">Reste fini</string>
     <string name="error">Erreur</string>
+    <string name="DoneLabel">Terminé</string>
+    <string name="failedToDoReps">Impossible de faire toutes les répétitions</string>
+    <string name="FailLabel">Échouer</string>
+    <string name="nextExerciseSwitch">Exercice suivant après la fin précédente</string>
+    <string name="nextExerciseSwitchDescription">Lorsque vous cliquez sur vérifier les exercices, il passe à l\'exercice suivant du programme</string>
+    <string name="playRestSound">Jouer le son de finition de repos</string>
+    <string name="playRestSoundDescription">Émet du son après la fin des temps de repos</string>
+    <string name="playStaticExerciseFinishSound">Jouer un son de finition d\'exercice statique</string>
+    <string name="playStaticExerciseFinishSoundDescription">Émet du son après la fin de l\'exercice statique</string>
+    <string name="programs_settings">Paramètres des programmes</string>
+    <string name="sound_settings">Paramètres sonores</string>
 </resources>

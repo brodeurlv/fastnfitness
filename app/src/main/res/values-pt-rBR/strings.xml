@@ -304,5 +304,16 @@
     <string name="click_to_start">Clique para iniciar</string>
     <string name="exercise_time">Tempo de exercício</string>
     <string name="error">Erro</string>
+    <string name="DoneLabel">Feita</string>
+    <string name="failedToDoReps">Falha ao fazer todas as repetições</string>
+    <string name="FailLabel">Falhou</string>
+    <string name="nextExerciseSwitch">Próximo exercício após o término anterior</string>
+    <string name="nextExerciseSwitchDescription">Quando você clica em verificar feito nos exercícios, ele passa para o próximo exercício no programa</string>
+    <string name="playRestSound">Tocar som de finalização</string>
+    <string name="playRestSoundDescription">Emite som após o término do descanso</string>
+    <string name="playStaticExerciseFinishSound">Tocar som estático de final de exercício</string>
+    <string name="playStaticExerciseFinishSoundDescription">Emitir som após o término do exercício estático</string>
+    <string name="programs_settings">Configurações de Programas</string>
+    <string name="sound_settings">Definições de som</string>
 
 </resources>

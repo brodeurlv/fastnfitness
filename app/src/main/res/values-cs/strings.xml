@@ -304,5 +304,16 @@
     <string name="rest_counter">Odpočinek %1$d s</string>
     <string name="rest_finished">Zbytek skončil</string>
     <string name="error">Chyba</string>
+    <string name="DoneLabel">Done</string>
+    <string name="failedToDoReps">Nepodařilo se provést všechna opakování</string>
+    <string name="FailLabel">Selhat</string>
+    <string name="nextExerciseSwitch">Další cvičení po předchozím dokončení</string>
+    <string name="nextExerciseSwitchDescription">Když kliknete na kontrolu provedenou na cvičeních, přejde na další cvičení v programu</string>
+    <string name="playRestSound">Přehrajte klidový zvuk</string>
+    <string name="playRestSoundDescription">Vysílat zvuk po skončení doby odpočinku</string>
+    <string name="playStaticExerciseFinishSound">Hrajte statický zvuk s ukončením cvičení</string>
+    <string name="playStaticExerciseFinishSoundDescription">Vysílat zvuk po skončení doby statického cvičení</string>
+    <string name="programs_settings">Nastavení programů</string>
+    <string name="sound_settings">Nastavení zvuku</string>
 
 </resources>

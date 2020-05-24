@@ -294,5 +294,16 @@
     <string name="click_to_start">Klicken Sie hier, um zu beginnen</string>
     <string name="exercise_time">Übungszeit</string>
     <string name="error">Error</string>
+    <string name="DoneLabel">Erledigt</string>
+    <string name="failedToDoReps">Fehler bei allen Wiederholungen</string>
+    <string name="FailLabel">Scheitern</string>
+    <string name="nextExerciseSwitch">Nächste Übung nach dem vorherigen Ende</string>
+    <string name="nextExerciseSwitchDescription">Wenn Sie auf \"Auf Übungen überprüfen\" klicken, wird zur nächsten Übung im Programm übergegangen</string>
+    <string name="playRestSound">Spielen Sie den Rest-Finish-Sound</string>
+    <string name="playRestSoundDescription">Nach Ablauf der Ruhezeiten wird ein Ton ausgegeben</string>
+    <string name="playStaticExerciseFinishSound">Spielen Sie den statischen Übungsende-Sound</string>
+    <string name="playStaticExerciseFinishSoundDescription">Geben Sie nach Beendigung der statischen Trainingszeit einen Ton aus</string>
+    <string name="programs_settings">Programmeinstellungen</string>
+    <string name="sound_settings">Toneinstellungen</string>
 </resources>
 

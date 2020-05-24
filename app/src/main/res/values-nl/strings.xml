@@ -314,6 +314,17 @@
     <string name="rest_counter">Rust uit %1$d s</string>
     <string name="rest_finished">Rest klaar</string>
     <string name="error">Fout</string>
+    <string name="DoneLabel">Gedaan</string>
+    <string name="failedToDoReps">Kan niet alle herhalingen doen</string>
+    <string name="FailLabel">Mislukt</string>
+    <string name="nextExerciseSwitch">Volgende oefening na vorige finish</string>
+    <string name="nextExerciseSwitchDescription">Als u klikt op check done bij oefeningen, gaat het naar de volgende oefening in het programma</string>
+    <string name="playRestSound">Speel rest finish geluid</string>
+    <string name="playRestSoundDescription">Geluid uitzenden nadat de rusttijden zijn afgelopen</string>
+    <string name="playStaticExerciseFinishSound">Speel statisch oefen-eindgeluid</string>
+    <string name="playStaticExerciseFinishSoundDescription">Zend geluid uit nadat de statische trainingstijd is afgelopen</string>
+    <string name="programs_settings">Programma-instellingen</string>
+    <string name="sound_settings">Geluidsinstellingen</string>
 
 </resources>
 
