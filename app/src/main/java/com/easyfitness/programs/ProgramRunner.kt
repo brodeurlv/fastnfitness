@@ -97,7 +97,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                             currentExerciseOrder = 0
                             exercisesFromProgram = daoExerciseInProgram.getAllExerciseInProgram(programId)
                             exerciseIndicator.initDots(exercisesFromProgram.size)
-                            exerciseInProgramNumber.text=exercisesFromProgram.size.toString()
+                            exerciseInProgramNumber.text = exercisesFromProgram.size.toString()
                             refreshData()
                             Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
                         }
@@ -167,8 +167,9 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         tabProgramRunner.setOnTouchListener(swipeDetectorListener)
     }
 
-    private fun chooseExercise(selected:Int){
-        currentExerciseOrder=selected
+    private fun chooseExercise(selected: Int) {
+        currentExerciseOrder = selected
+        currentExerciseNumber.text = (selected + 1).toString()
         refreshData()
     }
 
@@ -176,7 +177,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     fun nextExercise() {
         if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder < exercisesFromProgram.size - 1) {
             currentExerciseOrder++
-            currentExerciseNumber.text=(currentExerciseOrder+1).toString()
+            currentExerciseNumber.text = (currentExerciseOrder + 1).toString()
             exerciseIndicator.setDotSelection(currentExerciseOrder)
             refreshData()
         }
@@ -185,7 +186,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     fun previousExercise() {
         if (exercisesFromProgram.isNotEmpty() && currentExerciseOrder > 0) {
             currentExerciseOrder--
-            currentExerciseNumber.text=(currentExerciseOrder+1).toString()
+            currentExerciseNumber.text = (currentExerciseOrder + 1).toString()
             exerciseIndicator.setDotSelection(currentExerciseOrder)
             refreshData()
         }
@@ -261,18 +262,18 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     }
 
 
-    private val restClickTimer= OnClickListener {
-            restTimer?.restart()
+    private val restClickTimer = OnClickListener {
+        restTimer?.restart()
     }
 
 
     private val clickStaticTimer = OnClickListener {
         staticTimerRunning = if (!staticTimerRunning) {
             if (staticTimer.isPause) {
-                    staticTimer.resume()
-                } else {
-                    staticTimer.start()
-                }
+                staticTimer.resume()
+            } else {
+                staticTimer.start()
+            }
             true
         } else {
             staticTimer.pause()
@@ -434,7 +435,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     private fun runRest(restTime: Int) {
         restFillBackgroundProgress.visibility = VISIBLE
         restTimerRunning = true
-        if(requireContext().getSharedPreferences("nextExerciseSwitch",Context.MODE_PRIVATE).getBoolean("nextExerciseSwitch",true)){
+        if (requireContext().getSharedPreferences("nextExerciseSwitch", Context.MODE_PRIVATE).getBoolean("nextExerciseSwitch", true)) {
             nextExercise()
         }
         restFillBackgroundProgress.setDuration(restTime.toLong() * progressScaleFix)
@@ -451,7 +452,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                 countDown.text = getString(R.string.rest_finished)
                 restFillBackgroundProgress.visibility = GONE
                 restTimerRunning = false
-                if(requireContext().getSharedPreferences("playRestSound",Context.MODE_PRIVATE).getBoolean("playRestSound",true)){
+                if (requireContext().getSharedPreferences("playRestSound", Context.MODE_PRIVATE).getBoolean("playRestSound", true)) {
                     val mediaPlayer = MediaPlayer.create(context, R.raw.chime)
                     mediaPlayer.start()
                 }
@@ -638,7 +639,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                     .onComplete {
                         val staticFinishStr = getString(R.string.exercise_time) + " " + exercise.seconds.toString() + " " + getString(R.string.seconds)
                         countDownStatic.text = staticFinishStr
-                        if(requireContext().getSharedPreferences("playStaticExerciseFinishSound",Context.MODE_PRIVATE).getBoolean("playStaticExerciseFinishSound",true)){
+                        if (requireContext().getSharedPreferences("playStaticExerciseFinishSound", Context.MODE_PRIVATE).getBoolean("playStaticExerciseFinishSound", true)) {
                             val mediaPlayer = MediaPlayer.create(context, R.raw.chime)
                             mediaPlayer.start()
                         }
