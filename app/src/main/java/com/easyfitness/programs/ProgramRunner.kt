@@ -98,6 +98,8 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                             exercisesFromProgram = daoExerciseInProgram.getAllExerciseInProgram(programId)
                             exerciseIndicator.initDots(exercisesFromProgram.size)
                             exerciseInProgramNumber.text = exercisesFromProgram.size.toString()
+                            exerciseIndicator.setDotSelection(currentExerciseOrder)
+                            currentExerciseNumber.text="1"
                             refreshData()
                             Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
                         }
