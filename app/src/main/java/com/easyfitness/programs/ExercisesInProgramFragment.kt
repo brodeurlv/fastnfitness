@@ -453,11 +453,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 recordList.adapter = null
             } else {
                 if (recordList.adapter == null) {
-                    val mTableAdapter = RecordCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
+                    val mTableAdapter = ExercisesCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
                     mTableAdapter.setFirstColorOdd(lTableColor)
                     recordList.adapter = mTableAdapter
                 } else {
-                    val mTableAdapter = recordList.adapter as RecordCursorAdapter
+                    val mTableAdapter = recordList.adapter as ExercisesCursorAdapter
                     mTableAdapter.setFirstColorOdd(lTableColor)
                     oldCursor = mTableAdapter.swapCursor(c)
                     oldCursor?.close()

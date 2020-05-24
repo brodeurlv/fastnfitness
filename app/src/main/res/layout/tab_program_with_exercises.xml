@@ -541,7 +541,9 @@
             android:dividerHeight="0dp"
             android:fastScrollEnabled="false"
             android:isScrollContainer="false"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            tools:listitem="@layout/row_fonte"
+            />
 
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/exercisesInProgramList"-->
