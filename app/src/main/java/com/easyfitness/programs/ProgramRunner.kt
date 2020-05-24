@@ -15,6 +15,7 @@ import android.view.View.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
@@ -55,7 +56,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
     private lateinit var daoExerciseInProgram: DAOExerciseInProgram
     private lateinit var mDbMachine: DAOMachine
     private lateinit var swipeDetectorListener: SwipeDetectorListener
-    private lateinit var restTimer: Rx2Timer
+    private var restTimer: Rx2Timer? = null
     private lateinit var staticTimer: Rx2Timer
     private var staticTimerRunning: Boolean = false
     private var restTimerRunning: Boolean = false
@@ -111,6 +112,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         nextExerciseArrow.setOnClickListener(clickArrows)
         previousExerciseArrow.setOnClickListener(clickArrows)
         addButton.setOnClickListener(clickAddButton)
+        failButton.setOnClickListener(clickFailButton)
         exercisesListButton.setOnClickListener(onClickMachineListWithIcons)
         durationEdit.setOnClickListener(clickDateEdit)
         exerciseEdit.setOnKeyListener(checkExerciseExists)
@@ -164,7 +166,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         tabProgramRunner.setOnTouchListener(swipeDetectorListener)
     }
 
-    private fun chooseExercise(selected:Int): Unit{
+    private fun chooseExercise(selected:Int){
         currentExerciseOrder=selected
         refreshData()
     }
@@ -187,15 +189,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             refreshData()
         }
     }
-
-
-//    private val dotExerciseSelectedListener = AdapterView.OnItemSelectedListener { v: View ->
-//        exerciseIndicator.
-////        when (v.id) {
-////            R.id.nextExerciseArrow -> nextExercise()
-////            R.id.previousExerciseArrow -> previousExercise()
-////        }
-//    }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
         val strMinute: String = if (minute < 10) "0$minute" else minute.toString()
@@ -421,11 +414,16 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         val adapter = ArrayAdapter(requireView().context,
             android.R.layout.simple_dropdown_item_1line, daoRecord.getAllMachines(profil))
         exerciseEdit.setAdapter(adapter)
-        addButton.setText(R.string.AddLabel)
         // Launch Countdown
         restFillBackgroundProgress.visibility = VISIBLE
+//        exerciseIndicator.setDotSelection(currentExerciseOrder)
+        exerciseIndicator[currentExerciseOrder].setBackgroundResource(R.drawable.green_button_background)
         runRest(restTime)
         showTotalWorkload(iTotalWeightSession, iTotalWeight, iNbSeries)
+    }
+
+    private val clickFailButton = OnClickListener {
+        exerciseIndicator[currentExerciseOrder].setBackgroundResource(R.drawable.red_button_background)
     }
 
     private fun runRest(restTime: Int) {
@@ -433,6 +431,9 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         restTimerRunning = true
         nextExercise()
         restFillBackgroundProgress.setDuration(restTime.toLong() * progressScaleFix)
+        if(restTimer!=null){
+            restTimer.stop()
+        }
         restTimer = Rx2Timer.builder()
             .initialDelay(0)
             .take(restTime)
@@ -442,7 +443,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             }
             .onError { countDown.text = getString(R.string.error) }
             .onComplete {
-                countDown.text = getString(R.string.rest_finished)
+//                countDown.text = getString(R.string.rest_finished)
                 restFillBackgroundProgress.visibility = GONE
                 restTimerRunning = false
                 if(requireContext().getSharedPreferences("playRestSound",Context.MODE_PRIVATE).getBoolean("playRestSound",true)){

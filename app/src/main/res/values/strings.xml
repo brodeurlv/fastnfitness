@@ -352,4 +352,7 @@
     <string name="playStaticExerciseFinishSoundDescription">Emit sound after static exercise time finished</string>
     <string name="playStaticExerciseFinishSound">Play static exercie finish sound</string>
     <string name="slash" translatable="false"> / </string>
+    <string name="FailLabel">Fail</string>
+    <string name="DoneLabel">Done</string>
+    <string name="failedToDoReps">Failed to dovall repetitions</string>
 </resources>

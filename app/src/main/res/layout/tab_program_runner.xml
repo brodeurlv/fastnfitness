@@ -41,14 +41,14 @@
         <androidx.cardview.widget.CardView
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="2dp">
+                android:padding="2dp"
+                android:background="@color/sweet_dialog_bg_color_dark">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -62,6 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="1"
+                        tools:text="1"
                         app:layout_constraintEnd_toStartOf="@+id/slash" />
 
                     <TextView
@@ -76,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
-                        android:text="10"
+                        tools:text="22"
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <com.mazenrashed.dotsindicator.DotsIndicator
@@ -84,19 +85,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:dot_height="24dp"
-                        app:dot_width="24dp"
+                        app:dot_height="22dp"
+                        app:dot_width="22dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
-                        app:first_selected_dot_resource="@drawable/ic_home_white_24dp"
-                        app:first_unselected_dot_resource="@drawable/circle_gray"
+                        app:first_selected_dot_resource="@drawable/pager_box_white_24dp"
+                        app:first_unselected_dot_resource="@drawable/pager_blue_grey_400_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:margins_between_dots="36dp"
-                        app:selected_dot_resource="@drawable/circle_white"
-                        app:unselected_dot_resource="@drawable/circle_gray" />
+                        app:margins_between_dots="4dp"
+                        app:selected_dot_resource="@drawable/pager_box_white_24dp"
+                        app:unselected_dot_resource="@drawable/pager_blue_grey_400_24dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
@@ -180,6 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:label="@string/SerieLabel"
                         android:gravity="center"
                         android:inputType="number"
                         android:minEms="2"
@@ -219,7 +221,6 @@
                         app:picker_orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                    />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -293,7 +294,9 @@
                             android:gravity="center"
                             android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
-                            tools:text="10" />
+                            tools:text="10"
+                            android:label="@string/weightLabel"
+                            android:autofillHints="false" />
 
                         <Spinner
                             android:id="@+id/unitSpinner"
@@ -379,6 +382,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:autofillHints="false"
                             android:inputType="numberDecimal|numberSigned"
                             android:minEms="3"
                             android:hint="@string/DistanceLabel"
@@ -449,7 +453,6 @@
                     android:autofillHints="@string/NotesLabel"
                     android:hint="@string/NotesLabel"
                     android:inputType="text|textMultiLine"
-                    android:tooltipText="@string/NotesLabel"
                     android:layout_gravity="bottom"
                     android:gravity="top"
                     android:ems="10"
@@ -520,7 +523,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
@@ -532,22 +536,43 @@
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_gravity="left|center"
-                    android:layout_marginStart="0dp"
+                    android:layout_gravity="start|center"
                     android:baselineAlignBottom="false"
                     android:contentDescription="@string/arrowPreviousAsText"
                     android:cropToPadding="false"
-                    android:text="@string/arrowPreviousAsText" />
+                    android:text="@string/arrowPreviousAsText"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <ImageButton
+                    android:id="@+id/failButton"
+                    style="@style/Widget.AppCompat.Button.AddButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toStartOf="@+id/addButton"
+                    android:layout_toEndOf="@+id/previousExerciseArrow"
+                    android:contentDescription="@string/failedToDoReps"
+                    android:src="@drawable/fail_clear_red_600_24dp"
+                    android:text="@string/FailLabel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/previousExerciseArrow" />
+
+                <ImageButton
                     android:id="@+id/addButton"
                     style="@style/Widget.AppCompat.Button.AddButton"
-                    android:layout_width="299dp"
+                    android:src="@drawable/done_check_green_800_24dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_marginTop="8dp"
                     android:layout_toStartOf="@+id/nextExerciseArrow"
-                    android:layout_toEndOf="@+id/previousExerciseArrow"
-                    android:text="@string/AddLabel" />
+                    android:text="@string/DoneLabel"
+                    app:layout_constraintEnd_toStartOf="@+id/nextExerciseArrow"
+                    app:layout_constraintStart_toEndOf="@+id/failButton"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/nextExerciseArrow"
@@ -555,11 +580,16 @@
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_gravity="center|left"
+                    android:layout_gravity="center|end"
+                    android:layout_marginEnd="8dp"
                     android:contentDescription="@string/arrowNextAsText"
-                    android:text="@string/arrowNextAsText" />
+                    android:text="@string/arrowNextAsText"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.devzone.fillprogresslayout.FillProgressLayout
                 android:id="@+id/staticFillBackgroundProgress"
@@ -648,74 +678,8 @@
                         android:id="@+id/recordList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        tools:listitem="@layout/row_fonte"
                         />
-            <!--
-                  android:animateLayoutChanges="false"
-                        android:divider="@null"
-                        android:dividerHeight="0dp"
-            android:fastScrollEnabled="false"
-                        android:isScrollContainer="false"
-                        android:scrollbars="none" -->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:gravity="end"-->
-<!--                android:text="@string/automatic_time" />-->
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/autoTimeCheckBox"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:checked="true"-->
-<!--                android:text="" />-->
-
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_weight="50"-->
-<!--                android:gravity="end"-->
-<!--                android:text="@string/DateLabel" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/dateEdit"-->
-<!--                tools:text="10/05/20"-->
-<!--                style="@style/editableTextView"-->
-<!--                android:enabled="false"/>-->
-<!--        </LinearLayout>-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/timeHoursLayout"-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_weight="100"-->
-<!--                android:gravity="right"-->
-<!--                android:text="@string/timeLabel" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/timeEdit"-->
-<!--                style="@style/editableTextView"-->
-<!--                tools:text="18:26:10"-->
-<!--                android:enabled="false"/>-->
-<!--        </LinearLayout>-->
     </LinearLayout>
 
 
