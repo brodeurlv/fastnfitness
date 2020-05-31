@@ -194,6 +194,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     "",  //Notes,
                     "", 0f, 0, 0, 0
                 )
+                mDbMachine.addMachine(exerciseEdit.text.toString(),"", TYPE_FONTE,"",false,null)
             }
             TYPE_STATIC -> {
                 if (seriesEdit.text.toString().isEmpty() ||
@@ -223,6 +224,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     1, tmpPoids, profil, unitPoids,  // Store Unit for future display
                     "", "", 0F, 0, secondsEdit.text.toString().toInt(), 0
                 )
+                mDbMachine.addMachine(exerciseEdit.text.toString(),"",TYPE_STATIC,"",false,null)
             }
             TYPE_CARDIO -> {
                 if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
@@ -268,6 +270,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     duration,
                     0,
                     unitDistance)
+                mDbMachine.addMachine(exerciseEdit.text.toString(),"", TYPE_CARDIO,"",false,null)
             }
         }
         requireActivity().findViewById<View>(R.id.drawer_layout)?.requestFocus()
@@ -336,7 +339,6 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 R.id.durationEdit -> showTimePicker(durationEdit)
                 R.id.distanceEdit -> distanceEdit.setText("")
                 R.id.exerciseEdit -> {
-                    exerciseEdit.setText("")
                     exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp)
                     minMaxLayout.visibility = View.GONE
                     showExerciseTypeSelector(true)
