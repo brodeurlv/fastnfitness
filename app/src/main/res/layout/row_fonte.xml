@@ -88,6 +88,18 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/TEMPLATE_NAME_CELL"
+                    android:text="Template: Machine"
+                    app:autoSizeMaxTextSize="16sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeTextType="uniform"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    style="@style/machine_record_title"
+                    android:textColor="@color/index_color"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -112,7 +124,22 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="1" />
+                    tool:text="1" />
+
+                <TextView
+                    android:id="@+id/TEMPLATE_SERIE_CELL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textStyle="italic"
+                    tool:text="1"
+                    android:textColor="@color/index_color"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -131,7 +158,20 @@
                     android:text="@string/RepetitionLabel_short" />
 
                 <TextView
-                    android:id="@+id/REPETITION_CELL"
+                android:id="@+id/REPETITION_CELL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="1"
+                tool:text="2"
+                android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/TEMPLATE_REPETITION_CELL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -140,8 +180,11 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="2"
-                    android:textAlignment="center" />
+                    tool:text="2"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    android:textColor="@color/index_color"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -166,13 +209,29 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="3Lbs"
+                    tool:text="3Lbs"
                     android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/TEMPLATE_POIDS_CELL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    tool:text="3Lbs"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    android:textColor="@color/index_color"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/copyButton"
+                android:id="@+id/action3Button"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end|center_vertical"
@@ -181,11 +240,24 @@
                 android:clickable="true"
                 android:elevation="0dp"
                 android:focusable="true"
-                android:rotation="+90"
+                android:rotation="-90"
                 app:srcCompat="@drawable/ic_back" />
 
             <ImageView
-                android:id="@+id/deleteButton"
+                android:id="@+id/action2Button"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="0dp"
+                android:clickable="true"
+                android:elevation="0dp"
+                android:focusable="true"
+                android:rotation="-90"
+                app:srcCompat="@drawable/ic_back" />
+
+            <ImageView
+                android:id="@+id/action1Button"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end|center_vertical"

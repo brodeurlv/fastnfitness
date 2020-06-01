@@ -18,13 +18,14 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.DAO.DAOCardio;
-import com.easyfitness.DAO.DAOFonte;
+import com.easyfitness.DAO.record.DAOCardio;
+import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOStatic;
+import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.GraphData;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.graph.GraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.BarGraph;
@@ -196,15 +197,15 @@ public class FonteGraphFragment extends Fragment {
         if (machine == null) return;
 
         ArrayAdapter<String> adapterFunction = null;
-        if (machine.getType() == DAOMachine.TYPE_FONTE ) {
+        if (machine.getType() == ExerciseType.STRENGTH ) {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_functions));
-        } else if (machine.getType() == DAOMachine.TYPE_CARDIO) {
+        } else if (machine.getType() == ExerciseType.CARDIO) {
             adapterFunction = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
-        } else if (machine.getType() == DAOMachine.TYPE_STATIC) {
+        } else if (machine.getType() == ExerciseType.ISOMETRIC) {
             adapterFunction = new ArrayAdapter<>( getContext(), android.R.layout.simple_spinner_item,
                 mActivity.getResources().getStringArray(R.array.graph_static_functions));
         }
@@ -243,7 +244,7 @@ public class FonteGraphFragment extends Fragment {
         ArrayList<BarEntry> yBarVals = new ArrayList<>();
         Description desc = new Description();
 
-        if (m.getType() == DAOMachine.TYPE_FONTE) {
+        if (m.getType() == ExerciseType.STRENGTH) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
                 lDAOFunction = DAOFonte.MAX1_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
@@ -253,12 +254,12 @@ public class FonteGraphFragment extends Fragment {
             }
             // Recupere les enregistrements
             List<GraphData> valueList = null;
-            if (m.getType() == DAOMachine.TYPE_FONTE)
+            if (m.getType() == ExerciseType.STRENGTH)
                 valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfil(), lMachine, lDAOFunction);
             else
                 valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
-            if (valueList.size() <= 0) {
+            if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
                 return;
             }
@@ -288,7 +289,7 @@ public class FonteGraphFragment extends Fragment {
             mDateGraph.getChart().setVisibility(View.VISIBLE);
             mDateGraph.getChart().setDescription(desc);
             mDateGraph.draw(yVals);
-        } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
+        } else if (m.getType() == ExerciseType.CARDIO) {
 
             SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
             int defaultDistanceUnit = UnitConverter.UNIT_KM;
@@ -320,7 +321,7 @@ public class FonteGraphFragment extends Fragment {
             // Recupere les enregistrements
             List<GraphData> valueList = mDbCardio.getFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
-            if (valueList.size() <= 0) {
+            if (valueList==null || valueList.size() <= 0) {
                 return;
             }
 
@@ -347,7 +348,7 @@ public class FonteGraphFragment extends Fragment {
             mDateGraph.getChart().setVisibility(View.VISIBLE);
             mDateGraph.getChart().setDescription(desc);
             mDateGraph.draw(yVals);
-        } if (m.getType() == DAOMachine.TYPE_STATIC) {
+        } if (m.getType() == ExerciseType.ISOMETRIC) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxWeightPerDuration))) {
                 lDAOFunction = DAOStatic.MAX_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.nbSeriesPerDate))) {
@@ -358,7 +359,7 @@ public class FonteGraphFragment extends Fragment {
             List<GraphData> valueList = null;
             valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
 
-            if (valueList.size() <= 0) {
+            if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
                 return;
             }

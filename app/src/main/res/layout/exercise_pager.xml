@@ -31,7 +31,7 @@
                 app:mfb_type="star" />
 
             <ImageButton
-                android:id="@+id/deleteButton"
+                android:id="@+id/action1Button"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="end"

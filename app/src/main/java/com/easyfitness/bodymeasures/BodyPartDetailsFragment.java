@@ -192,7 +192,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
-            case R.id.deleteButton:
+            case R.id.action1Button:
                 delete();
                 break;
         }
@@ -280,7 +280,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         /* Initialisation des evenements */
 
         // Add the other graph
-        mChart = view.findViewById(R.id.weightChart);
+        mChart = view.findViewById(R.id.bodymeasureChart);
         mChart.setDescription(null);
         mDateGraph = new DateGraph(getContext(), mChart, "");
         mBodyMeasureDb = new DAOBodyMeasure(view.getContext());
@@ -291,7 +291,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         bodyToolbar.setNavigationIcon(R.drawable.ic_back);
         bodyToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
-        deleteButton = view.findViewById(R.id.deleteButton);
+        deleteButton = view.findViewById(R.id.action1Button);
         deleteButton.setOnClickListener(onClickToolbarItem);
         if(mInitialBodyPart.getType()== BodyPartExtensions.TYPE_WEIGHT) {
             deleteButton.setVisibility(View.GONE); // Weight bodypart should not be deleted.

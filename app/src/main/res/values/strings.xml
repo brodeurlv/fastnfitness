@@ -322,4 +322,10 @@
     <string name="enter_bodypart_name">Enter Bodypart name</string>
 
     <string name="strength_category">Strength</string>
+    <string name="automatic_time">Automatic time</string>
+    <string name="enter_workout_name">Enter workout name</string>
+    <string name="workout_list_menu_item">Workout List</string>
+    <string name="add_to_template">Add to template</string>
+    <string name="stop_program">Stop program</string>
+    <string name="start_program">Start program</string>
 </resources>

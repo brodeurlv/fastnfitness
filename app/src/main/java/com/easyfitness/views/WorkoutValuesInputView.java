@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
+import com.easyfitness.enums.RecordType;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.DistanceUnit;
-import com.easyfitness.utils.ExerciseType;
-import com.easyfitness.utils.WeightUnit;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -274,5 +277,58 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public void setDurationUnit(DistanceUnit unit) {
         distanceInputView.setSelectedUnit(unit.toString());
+    }
+
+    public void setRecord(Record record) {
+        setSelectedType(record.getExerciseType());
+        if (record.getRecordType() == RecordType.FREE_RECORD_TYPE) {
+            switch (record.getExerciseType()) {
+                case STRENGTH:
+                    setSets(record.getSets());
+                    setReps(record.getReps());
+                    if (record.getWeightUnit() == UnitConverter.UNIT_LBS)
+                        setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
+                    else
+                        setWeight(record.getWeight(), WeightUnit.KG);
+                    break;
+                case ISOMETRIC:
+                    setSets(record.getSets());
+                    setSeconds(record.getSecond());
+                    if (record.getWeightUnit() == UnitConverter.UNIT_LBS)
+                        setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
+                    else
+                        setWeight(record.getWeight(), WeightUnit.KG);
+                case CARDIO:
+                    setDuration(record.getDuration());
+                    if (record.getDistanceUnit() == UnitConverter.UNIT_MILES)
+                        setDistance(UnitConverter.KmToMiles(record.getDistance()), DistanceUnit.MILES);
+                    else
+                        setDistance(record.getDistance(), DistanceUnit.KM);
+            }
+        } else {
+            switch (record.getExerciseType()) {
+                case STRENGTH:
+                    setSets(record.getTemplateSets());
+                    setReps(record.getTemplateReps());
+                    if (record.getTemplateWeightUnit() == UnitConverter.UNIT_LBS)
+                        setWeight(UnitConverter.KgtoLbs(record.getTemplateWeight()), WeightUnit.LBS);
+                    else
+                        setWeight(record.getTemplateWeight(), WeightUnit.KG);
+                    break;
+                case ISOMETRIC:
+                    setSets(record.getTemplateSets());
+                    setSeconds(record.getTemplateSeconds());
+                    if (record.getTemplateWeightUnit() == UnitConverter.UNIT_LBS)
+                        setWeight(UnitConverter.KgtoLbs(record.getTemplateWeight()), WeightUnit.LBS);
+                    else
+                        setWeight(record.getTemplateWeight(), WeightUnit.KG);
+                case CARDIO:
+                    setDuration(record.getTemplateDuration());
+                    if (record.getTemplateDistanceUnit() == UnitConverter.UNIT_MILES)
+                        setDistance(UnitConverter.KmToMiles(record.getTemplateDistance()), DistanceUnit.MILES);
+                    else
+                        setDistance(record.getTemplateDistance(), DistanceUnit.KM);
+            }
+        }
     }
 }

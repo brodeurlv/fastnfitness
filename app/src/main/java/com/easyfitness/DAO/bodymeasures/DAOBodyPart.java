@@ -22,7 +22,7 @@ public class DAOBodyPart extends DAOBase {
     public static final String DISPLAY_ORDER = "display_order";
     public static final String TYPE = "type"; // Muscles or Body weight
 
-    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BODYPART_RESID + " INTEGER, " + CUSTOM_NAME + " STRING, " + CUSTOM_PICTURE + " STRING, "+ DISPLAY_ORDER + " INTEGER, " + TYPE + " INTEGER);";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BODYPART_RESID + " INTEGER, " + CUSTOM_NAME + " TEXT, " + CUSTOM_PICTURE + " TEXT, "+ DISPLAY_ORDER + " INTEGER, " + TYPE + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     private Cursor mCursor = null;

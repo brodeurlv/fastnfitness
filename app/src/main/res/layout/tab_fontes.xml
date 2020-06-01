@@ -280,6 +280,7 @@
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:layout_height="300dp"
             android:animateLayoutChanges="false"
             android:divider="@null"
             android:dividerHeight="0dp"

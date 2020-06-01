@@ -1,4 +1,4 @@
-package com.easyfitness;
+package com.easyfitness.graph;
 
 public class GraphData {
     private double x, y;

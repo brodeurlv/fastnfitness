@@ -12,20 +12,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.enums.ExerciseType;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -91,7 +88,7 @@ public class MachineFragment extends Fragment {
                 long temp_machine_key = -1;
                 String pMachine = "";
                 DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_FONTE, "", false,"");
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.STRENGTH, "", false,"");
                 sDialog.dismissWithAnimation();
 
                 ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
@@ -107,7 +104,7 @@ public class MachineFragment extends Fragment {
                 long temp_machine_key = -1;
                 String pMachine = "";
                 DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_STATIC, "", false, "");
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.ISOMETRIC, "", false, "");
                 sDialog.dismissWithAnimation();
 
                 ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
@@ -123,7 +120,7 @@ public class MachineFragment extends Fragment {
                 long temp_machine_key = -1;
                 String pMachine = "";
                 DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", DAOMachine.TYPE_CARDIO, "", false, "");
+                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.CARDIO, "", false, "");
                 sDialog.dismissWithAnimation();
 
                 ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());

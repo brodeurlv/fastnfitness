@@ -16,8 +16,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.easyfitness.DAO.DAOProfil;
-import com.easyfitness.DAO.DAOWeight;
+import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.DAOProfileWeight;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
@@ -59,23 +59,27 @@ public class WeightFragment extends Fragment {
     private LineChart mWaterLineChart;
 
 
-    private DAOWeight mWeightDb = null;
+    private DAOProfileWeight mWeightDb = null;
     private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOBodyPart mDbBodyPart;
-    private DAOProfil mDb = null;
+    private DAOProfile mDb = null;
 
     private AdapterView.OnClickListener showDetailsFragment = v -> {
         int bodyPartID = BodyPartExtensions.WEIGHT;
         switch (v.getId()) {
+            case R.id.weightGraph:
             case R.id.weightDetailsButton:
                 bodyPartID = BodyPartExtensions.WEIGHT;
                 break;
+            case R.id.fatGraph:
             case R.id.fatDetailsButton:
                 bodyPartID = BodyPartExtensions.FAT;
                 break;
+            case R.id.musclesGraph:
             case R.id.musclesDetailsButton:
                 bodyPartID = BodyPartExtensions.MUSCLES;
                 break;
+            case R.id.waterGraph:
             case R.id.waterDetailsButton:
                 bodyPartID = BodyPartExtensions.WATER;
                 break;
@@ -228,24 +232,28 @@ public class WeightFragment extends Fragment {
         musclesDetailsButton.setOnClickListener(showDetailsFragment);
         waterDetailsButton.setOnClickListener(showDetailsFragment);
 
-        mWeightDb = new DAOWeight(view.getContext());
+        mWeightDb = new DAOProfileWeight(view.getContext());
         mDbBodyPart = new DAOBodyPart(view.getContext());
         mDbBodyMeasure = new DAOBodyMeasure(view.getContext());
 
         mWeightLineChart = view.findViewById(R.id.weightGraph);
         mWeightGraph = new MiniDateGraph(getContext(), mWeightLineChart, "");
+        mWeightGraph.getChart().setOnClickListener(showDetailsFragment);
         weightBobyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.WEIGHT);
 
         mFatLineChart = view.findViewById(R.id.fatGraph);
         mFatGraph = new MiniDateGraph(getContext(), mFatLineChart, "");
+        mFatGraph.getChart().setOnClickListener(showDetailsFragment);
         fatBobyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.FAT);
 
         mMusclesLineChart = view.findViewById(R.id.musclesGraph);
         mMusclesGraph = new MiniDateGraph(getContext(), mMusclesLineChart, "");
+        mMusclesGraph.getChart().setOnClickListener(showDetailsFragment);
         musclesBobyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.MUSCLES);
 
         mWaterLineChart = view.findViewById(R.id.waterGraph);
         mWaterGraph = new MiniDateGraph(getContext(), mWaterLineChart, "");
+        mWaterGraph.getChart().setOnClickListener(showDetailsFragment);
         waterBobyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.WATER);
 
         return view;

@@ -70,7 +70,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
         }
 
-        ImageView deletImg = view.findViewById(R.id.deleteButton);
+        ImageView deletImg = view.findViewById(R.id.action1Button);
         deletImg.setTag(cursor.getLong(0));
         deletImg.setOnClickListener(v -> {
             if (mDeleteClickListener != null)

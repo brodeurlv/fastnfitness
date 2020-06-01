@@ -111,8 +111,8 @@
                     android:gravity="center_horizontal"
                     android:inputType="number|numberSigned"
                     android:textSize="18sp"
-                    tools:text="180"
-                    android:title="@string/enter_size_cm" />
+                    android:title="@string/enter_size_cm"
+                    tools:text="180 cm" />
 
             </LinearLayout>
         </LinearLayout>

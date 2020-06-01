@@ -1,4 +1,4 @@
-package com.easyfitness.utils;
+package com.easyfitness.enums;
 
 public enum ExerciseType {
     STRENGTH,
@@ -11,7 +11,7 @@ public enum ExerciseType {
                 return STRENGTH;
             case 1:
                 return CARDIO;
-            case 3:
+            case 2:
                 return ISOMETRIC;
         }
         return null;

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class DAOWeight extends DAOBase {
+public class DAOProfileWeight extends DAOBase {
 
     // Contacts table name
     public static final String TABLE_NAME = "EFweight";
@@ -30,7 +30,7 @@ public class DAOWeight extends DAOBase {
     private Profile mProfile = null;
     private Cursor mCursor = null;
 
-    public DAOWeight(Context context) {
+    public DAOProfileWeight(Context context) {
         super(context);
     }
 
@@ -51,11 +51,11 @@ public class DAOWeight extends DAOBase {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-        value.put(DAOWeight.DATE, dateFormat.format(pDate));
-        value.put(DAOWeight.POIDS, pWeight);
-        value.put(DAOWeight.PROFIL_KEY, pProfile.getId());
+        value.put(DAOProfileWeight.DATE, dateFormat.format(pDate));
+        value.put(DAOProfileWeight.POIDS, pWeight);
+        value.put(DAOProfileWeight.PROFIL_KEY, pProfile.getId());
 
-        db.insert(DAOWeight.TABLE_NAME, null, value);
+        db.insert(DAOProfileWeight.TABLE_NAME, null, value);
         db.close(); // Closing database connection
     }
 
@@ -178,9 +178,9 @@ public class DAOWeight extends DAOBase {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(DAOWeight.DATE, m.getDate().toString());
-        value.put(DAOWeight.POIDS, m.getWeight());
-        value.put(DAOWeight.PROFIL_KEY, m.getProfilId());
+        value.put(DAOProfileWeight.DATE, m.getDate().toString());
+        value.put(DAOProfileWeight.POIDS, m.getWeight());
+        value.put(DAOProfileWeight.PROFIL_KEY, m.getProfilId());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",

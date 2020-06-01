@@ -32,129 +32,100 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
-import com.easyfitness.DAO.Cardio;
-import com.easyfitness.DAO.DAOCardio;
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAORecord;
-import com.easyfitness.DAO.DAOStatic;
-import com.easyfitness.DAO.Fonte;
-import com.easyfitness.DAO.IRecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.StaticExercise;
 import com.easyfitness.DAO.Weight;
+import com.easyfitness.DAO.record.DAOCardio;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.DAOStatic;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.TimePickerDialogFragment;
+import com.easyfitness.enums.DisplayType;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.DistanceUnit;
-import com.easyfitness.utils.ExerciseType;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
-import com.easyfitness.utils.WeightUnit;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.views.WorkoutValuesInputView;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FontesFragment extends Fragment {
-    MainActivity mActivity = null;
-    Profile mProfile = null;
 
-    AutoCompleteTextView machineEdit = null;
-    MachineArrayFullAdapter machineEditAdapter = null;
-    CircularImageView machineImage = null;
-    ImageButton machineListButton = null;
-    ImageButton detailsExpandArrow = null;
-    LinearLayout detailsLayout = null;
+    private int lTableColor = 1;
+    private DisplayType mDisplayType = DisplayType.FREE_WORKOUT_DISPLAY;
+    private long mTemplateId;
+    private MainActivity mActivity = null;
+    private AutoCompleteTextView machineEdit = null;
+    private MachineArrayFullAdapter machineEditAdapter = null;
+    private CircularImageView machineImage = null;
+    private ImageButton machineListButton = null;
+    private ImageButton detailsExpandArrow = null;
+    private LinearLayout detailsLayout = null;
+    private LinearLayout restTimeLayout = null;
+    private EditText restTimeEdit = null;
+    private CheckBox restTimeCheck = null;
+    private CheckBox autoTimeCheckBox = null;
+    private TextView dateEdit = null;
+    private TextView timeEdit = null;
 
-    LinearLayout restTimeLayout = null;
-    EditText restTimeEdit = null;
-    CheckBox restTimeCheck = null;
-
-    CheckBox autoTimeCheckBox = null;
-    TextView dateEdit = null;
-    TextView timeEdit = null;
-
-    Button addButton = null;
-    ExpandedListView recordList = null;
-
-    AlertDialog machineListDialog;
-    DatePickerDialogFragment mDateFrag = null;
-    TimePickerDialogFragment mDurationFrag = null;
-    TimePickerDialogFragment mTimeFrag = null;
-
-    int lTableColor = 1;
-
-    // Cardio Part
-
+    private Button addButton = null;
+    private ExpandedListView recordList = null;
+    private AlertDialog machineListDialog;
+    private DatePickerDialogFragment mDateFrag = null;
+    private TimePickerDialogFragment mTimeFrag = null;
     private WorkoutValuesInputView workoutValuesInputView;
 
+    private DAOFonte mDbBodyBuilding = null;
+    private DAOCardio mDbCardio = null;
+    private DAOStatic mDbStatic = null;
+    private DAORecord mDbRecord = null;
+    private DAOMachine mDbMachine = null;
 
-    public MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
+    private MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         String strMinute = "00";
         String strHour = "00";
         String strSecond = "00";
 
-        if (minute < 10) strMinute = "0" + Integer.toString(minute);
+        if (minute < 10) strMinute = "0" + minute;
         else strMinute = Integer.toString(minute);
-        if (hourOfDay < 10) strHour = "0" + Integer.toString(hourOfDay);
+        if (hourOfDay < 10) strHour = "0" + hourOfDay;
         else strHour = Integer.toString(hourOfDay);
-        if (second < 10) strSecond = "0" + Integer.toString(second);
+        if (second < 10) strSecond = "0" + second;
         else strSecond = Integer.toString(second);
-
-        View viewT = view.getRootView();
 
         String date = strHour + ":" + strMinute + ":" + strSecond;
         timeEdit.setText(date);
         hideKeyboard(timeEdit);
     };
-
-    private DAOFonte mDbBodyBuilding = null;
-    private DAOCardio mDbCardio = null;
-    private DAOStatic mDbStatic = null;
-    private DAORecord mDb = null;
-    private DAOMachine mDbMachine = null;
     private OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
         detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
         saveSharedParams();
-    };
-    private OnClickListener clickExerciseTypeSelector = v -> {
-        switch (v.getId()) {
-            case R.id.IsometricSelector:
-                changeExerciseTypeUI(DAOMachine.TYPE_STATIC, true);
-                break;
-            case R.id.CardioSelector:
-                changeExerciseTypeUI(DAOMachine.TYPE_CARDIO, true);
-                break;
-            case R.id.StrenghSelector:
-            default:
-                changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
-                break;
-        }
     };
     private View.OnKeyListener checkExerciseExists = (v, keyCode, event) -> {
         Machine lMach = mDbMachine.getMachine(machineEdit.getText().toString());
@@ -171,49 +142,99 @@ public class FontesFragment extends Fragment {
         }
     };
     private CompoundButton.OnCheckedChangeListener restTimeCheckChange = (buttonView, isChecked) -> saveSharedParams();
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private BtnClickListener itemClickCopyRecord = id -> {
-        IRecord r = mDb.getRecord(id);
+        Record r = mDbRecord.getRecord(id);
         if (r != null) {
             // Copy values above
             setCurrentMachine(r.getExercise());
-            if (r.getType() == DAOMachine.TYPE_FONTE) {
-                Fonte f = (Fonte) r;
-                workoutValuesInputView.setReps(f.getRepetition());
-                workoutValuesInputView.setSets(f.getSerie());
+            if (r.getExerciseType() == ExerciseType.STRENGTH) {
+                workoutValuesInputView.setReps(r.getReps());
+                workoutValuesInputView.setSets(r.getSets());
 
-                Float poids = f.getPoids();
+                Float poids = r.getWeight();
                 WeightUnit weightUnit = WeightUnit.KG;
-                if (f.getUnit() == UnitConverter.UNIT_LBS) {
+                if (r.getWeightUnit() == UnitConverter.UNIT_LBS) {
                     poids = UnitConverter.KgtoLbs(poids);
                     weightUnit = WeightUnit.LBS;
                 }
                 workoutValuesInputView.setWeight(poids, weightUnit);
-            } else if (r.getType() == DAOMachine.TYPE_STATIC) {
-                StaticExercise f = (StaticExercise) r;
-                workoutValuesInputView.setSeconds(f.getSecond());
-                workoutValuesInputView.setSets(f.getSerie());
-                Float poids = f.getPoids();
+            } else if (r.getExerciseType() == ExerciseType.ISOMETRIC) {
+                workoutValuesInputView.setSeconds(r.getSecond());
+                workoutValuesInputView.setSets(r.getSets());
+                Float poids = r.getWeight();
                 WeightUnit weightUnit = WeightUnit.KG;
-                if (f.getUnit() == UnitConverter.UNIT_LBS) {
+                if (r.getWeightUnit() == UnitConverter.UNIT_LBS) {
                     poids = UnitConverter.KgtoLbs(poids);
                     weightUnit = WeightUnit.LBS;
                 }
                 workoutValuesInputView.setWeight(poids, weightUnit);
-            }else if (r.getType() == DAOMachine.TYPE_CARDIO) {
-                Cardio c = (Cardio) r;
-                float distance = c.getDistance();
+            }else if (r.getExerciseType() == ExerciseType.CARDIO) {
+                float distance = r.getDistance();
                 DistanceUnit distanceUnit = DistanceUnit.KM;
-                if (c.getDistanceUnit() == UnitConverter.UNIT_MILES) {
-                    distance = UnitConverter.KmToMiles((c.getDistance()));
+                if (r.getDistanceUnit() == UnitConverter.UNIT_MILES) {
+                    distance = UnitConverter.KmToMiles((r.getDistance()));
                     distanceUnit = DistanceUnit.MILES;
                 }
                 workoutValuesInputView.setDistance(distance, distanceUnit);
-                workoutValuesInputView.setDuration(c.getDuration());
+                workoutValuesInputView.setDuration(r.getDuration());
             }
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     };
+    private BtnClickListener itemClickMoveUpRecordTemplate = id -> {
+        Record r = mDbRecord.getRecord(id);
+        int oldOrder = r.getTemplateOrder();
+
+        if (r != null && r.getTemplateOrder()>0) {
+            int newOrder = r.getTemplateOrder() - 1;
+            if (newOrder<0) newOrder=0;
+
+            // Get list of records for this program
+            Cursor cursor = mDbRecord.getProgramTemplateRecords(r.getTemplateId());
+            List<Record> records = mDbRecord.fromCursorToList(cursor);
+
+            for (Record record : records) {
+                if (record.getTemplateOrder()==newOrder) {
+                    record.setTemplateOrder(oldOrder);
+                    mDbRecord.updateRecord(record);
+                    break;
+                }
+            }
+
+            r.setTemplateOrder(newOrder);
+            mDbRecord.updateRecord(r);
+            updateRecordTable(machineEdit.getText().toString());
+        }
+    };
+    private BtnClickListener itemClickMoveDownRecordTemplate = id -> {
+        Record r = mDbRecord.getRecord(id);
+        int oldOrder = r.getTemplateOrder();
+
+        if (r != null) {
+            int newOrder = r.getTemplateOrder() + 1;
+
+            // Get list of records for this program
+            Cursor cursor = mDbRecord.getProgramTemplateRecords(r.getTemplateId());
+            List<Record> records = mDbRecord.fromCursorToList(cursor);
+
+            if (newOrder>=records.size()) {
+                newOrder = records.size() - 1;
+            } else {
+                for (Record record : records) {
+                    if (record.getTemplateOrder() == newOrder) {
+                        record.setTemplateOrder(oldOrder);
+                        mDbRecord.updateRecord(record);
+                        break;
+                    }
+                }
+            }
+
+            r.setTemplateOrder(newOrder);
+            mDbRecord.updateRecord(r);
+            updateRecordTable(machineEdit.getText().toString());
+        }
+    };
+    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener clickAddButton = v -> {
         // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
@@ -237,7 +258,7 @@ public class FontesFragment extends Fragment {
         if (lMachine == null) {
             exerciseType = workoutValuesInputView.getSelectedType();
         } else {
-            exerciseType = ExerciseType.fromInteger(lMachine.getType());
+            exerciseType = lMachine.getType();
         }
 
         if (exerciseType == ExerciseType.STRENGTH) {
@@ -254,38 +275,47 @@ public class FontesFragment extends Fragment {
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
 
-            mDbBodyBuilding.addBodyBuildingRecord(date,
-                machineEdit.getText().toString(),
-                workoutValuesInputView.getSets(),
-                workoutValuesInputView.getReps(),
-                tmpPoids, // Always save in KG
-                getProfil(),
-                unitPoids, // Store Unit for future display
-                "", //Notes
-                timeStr
-            );
+            if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
+                mDbBodyBuilding.addBodyBuildingRecord(date, timeStr,
+                    machineEdit.getText().toString(),
+                    workoutValuesInputView.getSets(),
+                    workoutValuesInputView.getReps(),
+                    tmpPoids, // Always save in KG
+                    unitPoids, // Store Unit for future display
+                    "", //Notes
+                    getProfil().getId()
+                );
 
-            float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
-            float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
-            int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
+                float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
+                float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
+                int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
 
-            //--Launch Rest Dialog
-            boolean bLaunchRest = restTimeCheck.isChecked();
-            int restTime = 60;
-            try {
-                restTime = Integer.valueOf(restTimeEdit.getText().toString());
-            } catch (NumberFormatException e) {
-                restTime = 60;
-                restTimeEdit.setText("60");
-            }
+                //--Launch Rest Dialog
+                boolean bLaunchRest = restTimeCheck.isChecked();
+                int restTime = 60;
+                try {
+                    restTime = Integer.valueOf(restTimeEdit.getText().toString());
+                } catch (NumberFormatException e) {
+                    restTime = 60;
+                    restTimeEdit.setText("60");
+                }
 
-            // Launch Countdown
-            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-                cdd.setNbSeries(iNbSeries);
-                cdd.setTotalWeightMachine(iTotalWeight);
-                cdd.setTotalWeightSession(iTotalWeightSession);
-                cdd.show();
+                // Launch Countdown
+                if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+                    cdd.setNbSeries(iNbSeries);
+                    cdd.setTotalWeightMachine(iTotalWeight);
+                    cdd.setTotalWeightSession(iTotalWeightSession);
+                    cdd.show();
+                }
+            } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
+                mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    machineEdit.getText().toString(),
+                    workoutValuesInputView.getSets(),
+                    workoutValuesInputView.getReps(),
+                    tmpPoids, // Always save in KG
+                    unitPoids // Store Unit for future display
+                );
             }
         } else if (exerciseType == ExerciseType.ISOMETRIC) {
             // Verifie que les infos sont completes
@@ -295,7 +325,6 @@ public class FontesFragment extends Fragment {
             }
 
             /* Convertion du poid */
-            /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
             int unitPoids = UnitConverter.UNIT_KG; // Kg
             if (workoutValuesInputView.getWeightUnit()==WeightUnit.LBS) {
@@ -303,38 +332,47 @@ public class FontesFragment extends Fragment {
                 unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
 
-            mDbStatic.addStaticRecord(date,
-                machineEdit.getText().toString(),
-                workoutValuesInputView.getSets(),
-                workoutValuesInputView.getSeconds(),
-                tmpPoids, // Always save in KG
-                getProfil(),
-                unitPoids, // Store Unit for future display
-                "", //Notes
-                timeStr
-            );
+            if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
+                mDbStatic.addStaticRecord(date,
+                    machineEdit.getText().toString(),
+                    workoutValuesInputView.getSets(),
+                    workoutValuesInputView.getSeconds(),
+                    tmpPoids, // Always save in KG
+                    getProfil().getId(),
+                    unitPoids, // Store Unit for future display
+                    "", //Notes
+                    timeStr
+                );
 
-            float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
-            float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString());
-            int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
+                float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
+                float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString());
+                int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
 
-            //--Launch Rest Dialog
-            boolean bLaunchRest = restTimeCheck.isChecked();
-            int restTime = 60;
-            try {
-                restTime = Integer.valueOf(restTimeEdit.getText().toString());
-            } catch (NumberFormatException e) {
-                restTime = 60;
-                restTimeEdit.setText("60");
-            }
+                //--Launch Rest Dialog
+                boolean bLaunchRest = restTimeCheck.isChecked();
+                int restTime = 60;
+                try {
+                    restTime = Integer.parseInt(restTimeEdit.getText().toString());
+                } catch (NumberFormatException e) {
+                    restTimeEdit.setText("60");
+                }
 
-            // Launch Countdown
-            if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
-                cdd.setNbSeries(iNbSeries);
-                cdd.setTotalWeightMachine(iTotalWeight);
-                cdd.setTotalWeightSession(iTotalWeightSession);
-                cdd.show();
+                // Launch Countdown
+                if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+                    cdd.setNbSeries(iNbSeries);
+                    cdd.setTotalWeightMachine(iTotalWeight);
+                    cdd.setTotalWeightSession(iTotalWeightSession);
+                    cdd.show();
+                }
+            } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
+                mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    machineEdit.getText().toString(),
+                    workoutValuesInputView.getSets(),
+                    workoutValuesInputView.getSeconds(),
+                    tmpPoids, // Always save in KG
+                    unitPoids // Store Unit for future display
+                );
             }
         } else if (exerciseType == ExerciseType.CARDIO) {
             // Verifie que les infos sont completes
@@ -353,15 +391,24 @@ public class FontesFragment extends Fragment {
                 unitDistance = UnitConverter.UNIT_MILES;
             }
 
-            mDbCardio.addCardioRecord(date,
-                timeStr,
-                machineEdit.getText().toString(),
-                distance,
-                duration,
-                getProfil(),
-                unitDistance);
-
-            // No Countdown for Cardio
+            if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
+                mDbCardio.addCardioRecord(date,
+                    timeStr,
+                    machineEdit.getText().toString(),
+                    distance,
+                    duration,
+                    getProfil().getId(),
+                    unitDistance);
+            } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
+                mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
+                    date,
+                    timeStr,
+                    machineEdit.getText().toString(),
+                    distance,
+                    unitDistance,
+                    duration
+                );
+            }
         }
 
         getActivity().findViewById(R.id.drawer_layout).requestFocus();
@@ -372,18 +419,19 @@ public class FontesFragment extends Fragment {
         refreshData();
 
         /* Reinitialisation des machines */
-        // TODO Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
+        // Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
-            android.R.layout.simple_dropdown_item_1line, mDb.getAllMachines(getProfil()));
+            android.R.layout.simple_dropdown_item_1line, mDbRecord.getAllMachines(getProfil()));
         machineEdit.setAdapter(adapter);
 
         //Rajoute le moment du dernier ajout dans le bouton Add
-        addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
+        if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY)
+            addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
 
         mDbCardio.closeCursor();
         mDbBodyBuilding.closeCursor();
         mDbStatic.closeCursor();
-        mDb.closeCursor();
+        mDbRecord.closeCursor();
     };
     private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
         @Override
@@ -441,12 +489,10 @@ public class FontesFragment extends Fragment {
             }
         }
     };
-
     private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
         showRecordListMenu(id);
         return true;
     };
-
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
         dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
@@ -497,7 +543,6 @@ public class FontesFragment extends Fragment {
             }
         }
     };
-
     private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
         dateEdit.setEnabled(!isChecked);
         timeEdit.setEnabled(!isChecked);
@@ -507,91 +552,20 @@ public class FontesFragment extends Fragment {
         }
     };
 
-
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static FontesFragment newInstance(String name, int id) {
+    public static FontesFragment newInstance(int displayType, long templateId) {
         FontesFragment f = new FontesFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putInt("id", id);
+        args.putLong("templateId", templateId);
+        args.putInt("displayType", displayType);
         f.setArguments(args);
 
         return f;
-    }
-
-    private void showRecordListMenu(final long id) {
-        // Get the cursor, positioned to the corresponding row in the result set
-        //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-
-        String[] profilListArray = new String[3];
-        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
-        profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
-        profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
-
-        AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
-        itemActionbuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
-            ListView lv = ((AlertDialog) dialog).getListView();
-
-            switch (which) {
-                // Delete
-                case 0:
-                    showDeleteDialog(id);
-                    break;
-                // Edit
-                case 1:
-                    Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
-                    break;
-                // Share
-                case 2:
-                    //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
-                    IRecord r = mDb.getRecord(id);
-                    String text = "";
-                    if (r.getType() == DAOMachine.TYPE_FONTE ||r.getType() == DAOMachine.TYPE_STATIC  ) {
-                        Fonte fonte = (Fonte) r;
-                        // Build text
-                        text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(fonte.getPoids()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), fonte.getExercise());
-                    } else {
-                        Cardio cardio = (Cardio) r;
-                        // Build text
-                        text = "I have done __METER__ in __TIME__ on __MACHINE__.";
-                        text = text.replace("__METER__", String.valueOf(cardio.getDistance()));
-                        text = text.replace("__TIME__", String.valueOf(cardio.getDuration()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), cardio.getExercise());
-                    }
-                    shareRecord(text);
-                    break;
-                default:
-            }
-        });
-        itemActionbuilder.show();
-    }
-
-    private void showDeleteDialog(final long idToDelete) {
-
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-            .setTitleText(getString(R.string.DeleteRecordDialog))
-            .setContentText(getResources().getText(R.string.areyousure).toString())
-            .setCancelText(getResources().getText(R.string.global_no).toString())
-            .setConfirmText(getResources().getText(R.string.global_yes).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                mDb.deleteRecord(idToDelete);
-
-                updateRecordTable(machineEdit.getText().toString());
-
-                //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
-                // Info
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                sDialog.dismissWithAnimation();
-            })
-            .show();
     }
 
     @Override
@@ -599,6 +573,9 @@ public class FontesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
+
+        mTemplateId = getArguments().getLong("templateId", -1);
+        mDisplayType = DisplayType.fromInteger(getArguments().getInt("displayType", DisplayType.FREE_WORKOUT_DISPLAY.ordinal()));
 
         machineEdit = view.findViewById(R.id.editMachine);
 
@@ -614,8 +591,6 @@ public class FontesFragment extends Fragment {
         restTimeEdit = view.findViewById(R.id.editRestTime);
         restTimeCheck = view.findViewById(R.id.restTimecheckBox);
         machineImage = view.findViewById(R.id.imageMachine);
-
-
         restTimeLayout = view.findViewById(R.id.restTimeLayout);
 
         autoTimeCheckBox = view.findViewById(R.id.autoTimeCheckBox);
@@ -661,9 +636,9 @@ public class FontesFragment extends Fragment {
         mDbBodyBuilding = new DAOFonte(getContext());
         mDbCardio = new DAOCardio(getContext());
         mDbStatic = new DAOStatic(getContext());
-        mDb = new DAORecord(getContext());
-
+        mDbRecord = new DAORecord(getContext());
         mDbMachine = new DAOMachine(getContext());
+
         dateEdit.setText(DateConverter.currentDate());
         timeEdit.setText(DateConverter.currentTime());
 
@@ -681,7 +656,10 @@ public class FontesFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
+        if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
+            addButton.setText("Add to template");
+        }
+
         return view;
     }
 
@@ -708,12 +686,76 @@ public class FontesFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
     public MainActivity getMainActivity() {
         return this.mActivity;
+    }
+
+    private void showRecordListMenu(final long id) {
+        // Get the cursor, positioned to the corresponding row in the result set
+        //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+        String[] profilListArray = new String[3];
+        profilListArray[0] = getActivity().getResources().getString(R.string.DeleteLabel);
+        profilListArray[1] = getActivity().getResources().getString(R.string.EditLabel);
+        profilListArray[2] = getActivity().getResources().getString(R.string.ShareLabel);
+
+        AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
+        itemActionbuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
+            //ListView lv = ((AlertDialog) dialog).getListView();
+
+            switch (which) {
+                // Delete
+                case 0:
+                    showDeleteDialog(id);
+                    break;
+                // Edit
+                case 1:
+                    Toast.makeText(getActivity(), R.string.edit_soon_available, Toast.LENGTH_SHORT).show();
+                    break;
+                // Share
+                case 2:
+                    //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
+                    Record r = mDbRecord.getRecord(id);
+                    String text = "";
+                    if (r.getExerciseType() == ExerciseType.STRENGTH ||r.getExerciseType() == ExerciseType.ISOMETRIC  ) {
+                        // Build text
+                        text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
+                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(r.getWeight()));
+                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), r.getExercise());
+                    } else {
+                        // Build text
+                        text = "I have done __METER__ in __TIME__ on __MACHINE__.";
+                        text = text.replace("__METER__", String.valueOf(r.getDistance()));
+                        text = text.replace("__TIME__", String.valueOf(r.getDuration()));
+                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), r.getExercise());
+                    }
+                    shareRecord(text);
+                    break;
+                default:
+            }
+        });
+        itemActionbuilder.show();
+    }
+
+    private void showDeleteDialog(final long idToDelete) {
+
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+            .setTitleText(getString(R.string.DeleteRecordDialog))
+            .setContentText(getResources().getText(R.string.areyousure).toString())
+            .setCancelText(getResources().getText(R.string.global_no).toString())
+            .setConfirmText(getResources().getText(R.string.global_yes).toString())
+            .showCancelButton(true)
+            .setConfirmClickListener(sDialog -> {
+                mDbRecord.deleteRecord(idToDelete);
+
+                updateRecordTable(machineEdit.getText().toString());
+
+                //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
+                // Info
+                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                sDialog.dismissWithAnimation();
+            })
+            .show();
     }
 
     private void showDatePickerFragment() {
@@ -730,21 +772,21 @@ public class FontesFragment extends Fragment {
         String tx =  timeTextView.getText().toString();
         int hour;
         try {
-            hour = Integer.valueOf(tx.substring(0, 2));
+            hour = Integer.parseInt(tx.substring(0, 2));
         } catch (Exception e) {
-            hour=0;
+            hour = 0;
         }
         int min;
         try {
-            min = Integer.valueOf(tx.substring(3, 5));
+            min = Integer.parseInt(tx.substring(3, 5));
         } catch (Exception e) {
-            min=0;
+            min = 0;
         }
         int sec;
         try {
-        sec = Integer.valueOf(tx.substring(6));
+            sec = Integer.parseInt(tx.substring(6));
         } catch (Exception e) {
-            sec=0;
+            sec = 0;
         }
 
         switch(timeTextView.getId()) {
@@ -815,7 +857,7 @@ public class FontesFragment extends Fragment {
         return machineEdit.getText().toString();
     }
 
-    public void setCurrentMachine(String machineStr) {
+    private void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
             switch (workoutValuesInputView.getSelectedType()) {
                 case CARDIO:
@@ -839,7 +881,7 @@ public class FontesFragment extends Fragment {
         if (lMachine == null) {
             machineEdit.setText("");
             machineImage.setImageResource(R.drawable.ic_gym_bench_50dp); // Default image
-            changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+            changeExerciseTypeUI(ExerciseType.STRENGTH, true);
             updateMinMax(null);
             return;
         }
@@ -851,10 +893,10 @@ public class FontesFragment extends Fragment {
         // Update exercise Image
         // Default image
         switch (lMachine.getType()) {
-            case DAOMachine.TYPE_CARDIO:
+            case CARDIO:
                 machineImage.setImageResource(R.drawable.ic_training_white_50dp);
                 break;
-            case DAOMachine.TYPE_STATIC:
+            case ISOMETRIC:
                 machineImage.setImageResource(R.drawable.ic_static);
                 break;
             default:
@@ -867,8 +909,6 @@ public class FontesFragment extends Fragment {
         updateRecordTable(lMachine.getName());
         // Update display type
         changeExerciseTypeUI(lMachine.getType(), false);
-
-        // Depending on the machine type :
         // Update Min Max
         updateMinMax(lMachine);
         // Update last values
@@ -880,7 +920,7 @@ public class FontesFragment extends Fragment {
         String unitStr = "";
         float weight = 0;
         if (getProfil() != null && m != null) {
-            if (m.getType() == DAOMachine.TYPE_FONTE || m.getType() == DAOMachine.TYPE_STATIC) {
+            if (m.getType() == ExerciseType.STRENGTH || m.getType() == ExerciseType.ISOMETRIC) {
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
                 if (minValue != null && minValue.getStoredWeight()!=0) {
@@ -908,7 +948,7 @@ public class FontesFragment extends Fragment {
                 } else {
                     comment = "";
                 }
-            } else if (m.getType() == DAOMachine.TYPE_CARDIO) {
+            } else if (m.getType() == ExerciseType.CARDIO) {
                 comment = "";
             }
         } else {
@@ -919,7 +959,7 @@ public class FontesFragment extends Fragment {
     }
 
     private void updateLastRecord(Machine m) {
-        IRecord lLastRecord = mDb.getLastExerciseRecord(m.getId(), getProfil());
+        Record lLastRecord = mDbRecord.getLastExerciseRecord(m.getId(), getProfil());
         // Default Values
         workoutValuesInputView.setSets(1);
         workoutValuesInputView.setReps(10);
@@ -929,33 +969,29 @@ public class FontesFragment extends Fragment {
         workoutValuesInputView.setDuration(600000);
         if (lLastRecord == null) {
             // Set default values or nothing.
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_FONTE) {
-            Fonte lLastBodyBuildingRecord = (Fonte) lLastRecord;
-            workoutValuesInputView.setSets(lLastBodyBuildingRecord.getSerie());
-            workoutValuesInputView.setReps(lLastBodyBuildingRecord.getRepetition());
-            if (lLastBodyBuildingRecord.getUnit() == UnitConverter.UNIT_LBS)
-                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastBodyBuildingRecord.getPoids()), WeightUnit.LBS);
+        } else if (lLastRecord.getExerciseType() == ExerciseType.STRENGTH) {
+            workoutValuesInputView.setSets(lLastRecord.getSets());
+            workoutValuesInputView.setReps(lLastRecord.getReps());
+            if (lLastRecord.getWeightUnit() == UnitConverter.UNIT_LBS)
+                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
             else
-                workoutValuesInputView.setWeight(lLastBodyBuildingRecord.getPoids(), WeightUnit.KG);
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_CARDIO) {
-            Cardio lLastCardioRecord = (Cardio) lLastRecord;
-            workoutValuesInputView.setDuration(lLastCardioRecord.getDuration());
-            if (lLastCardioRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
-                workoutValuesInputView.setDistance(UnitConverter.KmToMiles(lLastCardioRecord.getDistance()), DistanceUnit.MILES);
+                workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
+        } else if (lLastRecord.getExerciseType() == ExerciseType.CARDIO) {
+            workoutValuesInputView.setDuration(lLastRecord.getDuration());
+            if (lLastRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
+                workoutValuesInputView.setDistance(UnitConverter.KmToMiles(lLastRecord.getDistance()), DistanceUnit.MILES);
             else
-                workoutValuesInputView.setDistance(lLastCardioRecord.getDistance(), DistanceUnit.KM);
-        } else if (lLastRecord.getType() == DAOMachine.TYPE_STATIC) {
-            StaticExercise lLastStaticRecord = (StaticExercise) lLastRecord;
-            workoutValuesInputView.setSets(lLastStaticRecord.getSerie());
-            workoutValuesInputView.setSeconds(lLastStaticRecord.getSecond());
-            if (lLastStaticRecord.getUnit() == UnitConverter.UNIT_LBS)
-                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastStaticRecord.getPoids()), WeightUnit.LBS);
+                workoutValuesInputView.setDistance(lLastRecord.getDistance(), DistanceUnit.KM);
+        } else if (lLastRecord.getExerciseType() == ExerciseType.ISOMETRIC) {
+            workoutValuesInputView.setSets(lLastRecord.getSets());
+            workoutValuesInputView.setSeconds(lLastRecord.getSecond());
+            if (lLastRecord.getWeightUnit() == UnitConverter.UNIT_LBS)
+                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
             else
-                workoutValuesInputView.setWeight(lLastStaticRecord.getPoids(), WeightUnit.KG);
+                workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
         }
     }
 
-    /*  */
     private void updateRecordTable(String pMachine) {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
@@ -965,20 +1001,47 @@ public class FontesFragment extends Fragment {
             Cursor c = null;
             Cursor oldCursor = null;
 
-            IRecord r = mDb.getLastRecord(getProfil());
+            //IRecord r = mDbRecord.getLastRecord(getProfil());
 
             // Recupere les valeurs
             //if (pMachine == null || pMachine.isEmpty()) {
-            if (r != null)
-                c = mDb.getTop3DatesRecords(getProfil());
-            else
+            //if (r != null)
+            if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
+                c = mDbRecord.getTop3DatesRecords(getProfil());
+            } else if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
+                c = mDbRecord.getProgramTemplateRecords(mTemplateId);
+            } else if (mDisplayType==DisplayType.PROGRAM_WORKOUT_DISPLAY) {
                 return;
+                //TODO c = mDbRecord.getProgramRunningRecords(mTemplateId, getProfil());
+            }
 
-            if (c == null || c.getCount() == 0) {
+            List<Record> records = mDbRecord.fromCursorToList(c);
+
+            if (records.size()==0) {
                 recordList.setAdapter(null);
             } else {
                 if (recordList.getAdapter() == null) {
-                    RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickCopyRecord);
+                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getContext(), records, mDisplayType, itemClickCopyRecord);
+                    recordList.setAdapter(mTableAdapter);
+                } else {
+                    ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
+                }
+            }
+
+            // else
+            //    return;
+
+
+            /*if (c == null || c.getCount() == 0) {
+                recordList.setAdapter(null);
+            } else {
+                if (recordList.getAdapter() == null) {
+                    RecordCursorAdapter mTableAdapter;
+                    if (mDisplayType==FREE_WORKOUT_DISPLAY) {
+                        mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickCopyRecord, null, FREE_WORKOUT_DISPLAY);
+                    }else{
+                        mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickMoveDownRecordTemplate, itemClickMoveUpRecordTemplate, PROGRAM_EDIT_DISPLAY);
+                    }
                     mTableAdapter.setFirstColorOdd(lTableColor);
                     recordList.setAdapter(mTableAdapter);
                 } else {
@@ -987,7 +1050,7 @@ public class FontesFragment extends Fragment {
                     oldCursor = mTableAdapter.swapCursor(c);
                     if (oldCursor != null) oldCursor.close();
                 }
-            }
+            }*/
         });
     }
 
@@ -995,7 +1058,7 @@ public class FontesFragment extends Fragment {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfil() != null) {
-                mDb.setProfile(getProfil());
+                mDbRecord.setProfile(getProfil());
 
                 ArrayList<Machine> machineListArray;
                 // Version avec table Machine
@@ -1006,10 +1069,10 @@ public class FontesFragment extends Fragment {
                 machineEdit.setAdapter(machineEditAdapter);
 
                 // If profile has changed
-                mProfile = getProfil();
+                Profile profile = getProfil();
 
                 if (machineEdit.getText().toString().isEmpty()) {
-                    IRecord lLastRecord = mDb.getLastRecord(getProfil());
+                    Record lLastRecord = mDbRecord.getLastRecord(getProfil());
                     if (lLastRecord != null) {
                         // Last recorded exercise
                         setCurrentMachine(lLastRecord.getExercise());
@@ -1021,10 +1084,10 @@ public class FontesFragment extends Fragment {
                         workoutValuesInputView.setReps(10);
                         workoutValuesInputView.setSeconds(60);
                         workoutValuesInputView.setWeight(50, WeightUnit.KG);
-                        workoutValuesInputView.setDistance(10, DistanceUnit.KM);
+                        workoutValuesInputView.setDistance(10, DistanceUnit.MILES);
                         workoutValuesInputView.setDuration(600000);
                         setCurrentMachine("");
-                        changeExerciseTypeUI(DAOMachine.TYPE_FONTE, true);
+                        changeExerciseTypeUI(ExerciseType.STRENGTH, true);
                     }
                 } else { // Restore on fragment restore.
                     setCurrentMachine(machineEdit.getText().toString());
@@ -1042,18 +1105,18 @@ public class FontesFragment extends Fragment {
         }
     }
 
-    private void changeExerciseTypeUI(int pType, boolean displaySelector) {
+    private void changeExerciseTypeUI(ExerciseType pType, boolean displaySelector) {
         workoutValuesInputView.setShowExerciseTypeSelector(displaySelector);
         switch (pType) {
-            case DAOMachine.TYPE_CARDIO:
+            case CARDIO:
                 workoutValuesInputView.setSelectedType(ExerciseType.CARDIO);
                 restTimeLayout.setVisibility(View.GONE);
                 break;
-            case DAOMachine.TYPE_STATIC:
+            case ISOMETRIC:
                 workoutValuesInputView.setSelectedType(ExerciseType.ISOMETRIC);
                 restTimeLayout.setVisibility(View.VISIBLE);
                 break;
-            case DAOMachine.TYPE_FONTE:
+            case STRENGTH:
             default:
                 workoutValuesInputView.setSelectedType(ExerciseType.STRENGTH);
                 restTimeLayout.setVisibility(View.VISIBLE);

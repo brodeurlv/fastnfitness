@@ -13,7 +13,7 @@
     <Button
         android:id="@+id/addExercise"
         style="@style/Widget.AppCompat.Button.AddButton"
-        android:text="@string/AddLabel" />
+        android:text="Add new Exercise" />
 
     <AutoCompleteTextView
         android:id="@+id/searchField"

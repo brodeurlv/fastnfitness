@@ -31,9 +31,10 @@ import androidx.fragment.app.Fragment;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAORecord;
+import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
+import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.RealPathUtil;
@@ -64,7 +65,7 @@ public class MachineDetailsFragment extends Fragment {
     ImageView machinePhoto = null;
     FloatingActionButton machineAction = null;
     LinearLayout machinePhotoLayout = null;
-    int selectedType = DAOMachine.TYPE_FONTE;
+    ExerciseType selectedType = ExerciseType.STRENGTH;
     String machineNameArg = null;
     long machineIdArg = 0;
     long machineProfilIdArg = 0;
@@ -200,7 +201,7 @@ public class MachineDetailsFragment extends Fragment {
         musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
         mCurrentPhotoPath = mMachine.getPicture();
 
-        if (mMachine.getType() == DAOMachine.TYPE_CARDIO) {
+        if (mMachine.getType() == ExerciseType.CARDIO) {
             selectedType = mMachine.getType();
             view.findViewById(R.id.machine_muscles).setVisibility(View.GONE);
             view.findViewById(R.id.machine_muscles_textview).setVisibility(View.GONE);
@@ -221,9 +222,9 @@ public class MachineDetailsFragment extends Fragment {
                 if (mCurrentPhotoPath != null && !mCurrentPhotoPath.isEmpty()) {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
                 } else {
-                    if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+                    if (mMachine.getType() == ExerciseType.STRENGTH) {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
-                    } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+                    } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
                     } else {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
@@ -239,9 +240,9 @@ public class MachineDetailsFragment extends Fragment {
         musclesList.addTextChangedListener(watcher);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            if (mMachine.getType() == DAOMachine.TYPE_FONTE) {
+            if (mMachine.getType() == ExerciseType.STRENGTH) {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
-            } else if (mMachine.getType() == DAOMachine.TYPE_STATIC) {
+            } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
             } else {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));

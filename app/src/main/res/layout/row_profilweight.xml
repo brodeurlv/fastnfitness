@@ -47,7 +47,7 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/deleteButton"
+                android:id="@+id/action1Button"
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|end"

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.DAO.DAOProfil;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.views.EditableInputView;
@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
     String mCurrentPhotoPath = null;
 
     MainActivity mActivity = null;
-    private DAOProfil mDb = null;
+    private DAOProfile mDb = null;
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
     private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.profile, container, false);
+        View view = inflater.inflate(R.layout.tab_profile, container, false);
 
         sizeEdit = view.findViewById(R.id.size);
         birthdayEdit = view.findViewById(R.id.birthday);
@@ -84,7 +84,7 @@ public class ProfileFragment extends Fragment {
 
         sizeEdit.setTextSuffix(" cm");
 
-        mDb = new DAOProfil(view.getContext());
+        mDb = new DAOProfile(view.getContext());
         mProfile = getProfil();
 
         /* Initialisation des valeurs */

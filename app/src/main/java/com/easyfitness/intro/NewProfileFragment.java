@@ -39,7 +39,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.easyfitness.DAO.DAOProfil;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
@@ -66,7 +66,7 @@ public class NewProfileFragment extends SlideFragment {
         @Override
         public void onClick(View v) {
             // Initialisation des objets DB
-            DAOProfil mDbProfils = new DAOProfil(v.getContext());
+            DAOProfile mDbProfils = new DAOProfile(v.getContext());
 
             if (mName.getText().toString().isEmpty()) {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();

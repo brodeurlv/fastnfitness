@@ -1,17 +1,19 @@
 package com.easyfitness.DAO;
 
+import com.easyfitness.enums.ExerciseType;
+
 /* DataBase Object */
 public class Machine {
     // Notez que l'identifiant est un long
     private long id;
     private String mName;
-    private int mType; // Cardio or Fonte
+    private ExerciseType mType; // Cardio or Fonte
     private String mPicture = null;
     private String mDescription;
     private String mBodyParts;
     private Boolean mFavorite;
 
-    public Machine(String pName, String pDescription, int pType, String pBodyParts, String pPicture, Boolean pFavorite) {
+    public Machine(String pName, String pDescription, ExerciseType pType, String pBodyParts, String pPicture, Boolean pFavorite) {
         super();
         this.mName = pName;
         this.mDescription = pDescription;
@@ -45,11 +47,11 @@ public class Machine {
         this.mDescription = desc;
     }
 
-    public int getType() {
+    public ExerciseType getType() {
         return mType;
     }
 
-    public void setType(int type) {
+    public void setType(ExerciseType type) {
         this.mType = type;
     }
 
