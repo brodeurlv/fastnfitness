@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.database.Cursor
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +16,7 @@ import android.view.View.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -468,6 +470,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         return total + total2 + total3
     }
 
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
     private val onClickMachineListWithIcons = OnClickListener { v ->
         val oldCursor: Cursor
         if (machineListDialog != null && machineListDialog!!.isShowing) {        // In case the dialog is already open
