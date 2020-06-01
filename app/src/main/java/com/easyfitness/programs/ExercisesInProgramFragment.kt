@@ -194,7 +194,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     "",  //Notes,
                     "", 0f, 0, 0, 0
                 )
-                mDbMachine.addMachine(exerciseEdit.text.toString(),"", TYPE_FONTE,"",false,null)
+                if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
+                    mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_FONTE, "", false, null)
             }
             TYPE_STATIC -> {
                 if (seriesEdit.text.toString().isEmpty() ||
@@ -224,7 +225,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     1, tmpPoids, profil, unitPoids,  // Store Unit for future display
                     "", "", 0F, 0, secondsEdit.text.toString().toInt(), 0
                 )
-                mDbMachine.addMachine(exerciseEdit.text.toString(),"",TYPE_STATIC,"",false,null)
+                if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
+                    mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_STATIC, "", false, null)
             }
             TYPE_CARDIO -> {
                 if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
@@ -270,7 +272,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     duration,
                     0,
                     unitDistance)
-                mDbMachine.addMachine(exerciseEdit.text.toString(),"", TYPE_CARDIO,"",false,null)
+                if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
+                    mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_CARDIO, "", false, null)
             }
         }
         requireActivity().findViewById<View>(R.id.drawer_layout)?.requestFocus()
@@ -471,7 +474,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
     @SuppressLint("SetTextI18n")
     private fun refreshData() {
         if (programs!!.size != daoProgram.allProgramsNames?.size) {//only for program list refresh after add
-            programs=daoProgram.allProgramsNames //update programs
+            programs = daoProgram.allProgramsNames //update programs
             programId = daoProgram.getRecord(programs!![0])!!.id
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
