@@ -532,18 +532,25 @@
                 android:text="@string/ExercisesInProgram" />
         </LinearLayout>
 
-        <com.easyfitness.utils.ExpandedListView
-            android:id="@+id/recordList"
+        <com.easyfitness.programs.EmptyableRecyclerView
+            android:id="@+id/exercisesRecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="false"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:fastScrollEnabled="false"
-            android:isScrollContainer="false"
-            android:scrollbars="none"
-            tools:listitem="@layout/row_fonte"
-            />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/row_exercise_in_program"
+            >
+        </com.easyfitness.programs.EmptyableRecyclerView>
+<!--        <com.easyfitness.utils.ExpandedListView-->
+<!--            android:id="@+id/recordList"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:animateLayoutChanges="false"-->
+<!--            android:divider="@null"-->
+<!--            android:dividerHeight="0dp"-->
+<!--            android:fastScrollEnabled="false"-->
+<!--            android:isScrollContainer="false"-->
+<!--            android:scrollbars="none"-->
+<!--            tools:listitem="@layout/row_exercise_in_program"-->
+<!--            />-->
 
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/exercisesInProgramList"-->

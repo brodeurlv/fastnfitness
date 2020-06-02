@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
@@ -17,6 +16,10 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.easyfitness.*
 import com.easyfitness.DAO.*
@@ -58,11 +61,15 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             programId = daoProgram.getRecord(programs!![0])!!.id
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
+            exercisesRecycler.adapter=ExerciseInProgramAdapter(context, programId, null)
+            exercisesRecycler.layoutManager=LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+
             programSelect.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>,
                                             view: View, position: Int, id: Long) {
                     programId = daoProgram.getRecord(programs!![position])!!.id
+                    exercisesRecycler.adapter=ExerciseInProgramAdapter(context, programId, null)
                     refreshData()
                     Toast.makeText(context, getString(R.string.program_selection) + " " + programs!![position], Toast.LENGTH_SHORT).show()
                 }
@@ -118,6 +125,40 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 }
             }
         }
+
+        val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            override fun onMove(recyclerView: RecyclerView, dragged: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                val fromPosition = dragged.adapterPosition
+                val toPosition = target.adapterPosition
+                val listOfExercises: List<ExerciseInProgram?> = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                if (fromPosition < toPosition) {
+                    for (i in fromPosition until toPosition) {
+                        Collections.swap(listOfExercises, i, i + 1)
+                        val order1: Long = listOfExercises[i]!!.order
+                        val order2: Long = listOfExercises[i + 1]!!.order
+                        listOfExercises[i]!!.order=order2
+                        listOfExercises[i + 1]!!.order=order1
+                        daoExerciseInProgram.updateString(listOfExercises[i]!!,DAOExerciseInProgram.ORDER_EXECUTION,order2.toString())
+                        daoExerciseInProgram.updateString(listOfExercises[i + 1]!!,DAOExerciseInProgram.ORDER_EXECUTION,order1.toString())
+                    }
+                } else {
+                    for (i in fromPosition downTo toPosition + 1) {
+                        Collections.swap(listOfExercises, i, i - 1)
+                        val order1: Long = listOfExercises[i]!!.order
+                        val order2: Long = listOfExercises[i - 1]!!.order
+                        listOfExercises[i]!!.order=order2
+                        listOfExercises[i - 1]!!.order=order1
+                        daoExerciseInProgram.updateString(listOfExercises[i]!!,DAOExerciseInProgram.ORDER_EXECUTION,order2.toString())
+                        daoExerciseInProgram.updateString(listOfExercises[i - 1]!!,DAOExerciseInProgram.ORDER_EXECUTION,order1.toString())
+                    }
+                }
+                exercisesRecycler.adapter!!.notifyItemMoved(fromPosition, toPosition)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+        })
+        touchHelper.attachToRecyclerView(exercisesRecycler)
     }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
@@ -367,7 +408,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             .showCancelButton(true)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete)
-                updateRecordTable(exerciseEdit.text.toString(), programId)
+//                updateRecordTable(exerciseEdit.text.toString(), programId)
                 KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -449,27 +490,27 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         changeExerciseTypeUI(lMachine.type, false)
     }
 
-    private fun updateRecordTable(pMachine: String, programId: Long) { // Exercises in program list
-        mainActivity.currentMachine = pMachine
-        requireView().post {
-            val oldCursor: Cursor
-            val c: Cursor? = daoExerciseInProgram.getAllExerciseInProgramToRecord(programId)
-            if (c == null || c.count == 0) {
-                recordList.adapter = null
-            } else {
-                if (recordList.adapter == null) {
-                    val mTableAdapter = ExercisesCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
-                    mTableAdapter.setFirstColorOdd(lTableColor)
-                    recordList.adapter = mTableAdapter
-                } else {
-                    val mTableAdapter = recordList.adapter as ExercisesCursorAdapter
-                    mTableAdapter.setFirstColorOdd(lTableColor)
-                    oldCursor = mTableAdapter.swapCursor(c)
-                    oldCursor?.close()
-                }
-            }
-        }
-    }
+//    private fun updateRecordTable(pMachine: String, programId: Long) { // Exercises in program list
+//        mainActivity.currentMachine = pMachine
+//        requireView().post {
+//            val oldCursor: Cursor
+//            val c: Cursor? = daoExerciseInProgram.getAllExerciseInProgramToRecord(programId)
+//            if (c == null || c.count == 0) {
+//                recordList.adapter = null
+//            } else {
+//                if (recordList.adapter == null) {
+//                    val mTableAdapter = ExercisesCursorAdapter(mainActivity, c, 0, itemClickDeleteRecord, itemClickDeleteRecord)
+//                    mTableAdapter.setFirstColorOdd(lTableColor)
+//                    recordList.adapter = mTableAdapter
+//                } else {
+//                    val mTableAdapter = recordList.adapter as ExercisesCursorAdapter
+//                    mTableAdapter.setFirstColorOdd(lTableColor)
+//                    oldCursor = mTableAdapter.swapCursor(c)
+//                    oldCursor?.close()
+//                }
+//            }
+//        }
+//    }
 
     @SuppressLint("SetTextI18n")
     private fun refreshData() {
@@ -494,7 +535,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         /* Init exercises list*/
         val exerciseArrayFullAdapter = ProgramInExerciseArrayFullAdapter(requireContext(), exerciseInProgramArrayList)
         exerciseEdit.setAdapter(exerciseArrayFullAdapter)
-        updateRecordTable(exerciseEdit.text.toString(), programId)
+//        updateRecordTable(exerciseEdit.text.toString(), programId)
 
     }
 
