@@ -532,13 +532,12 @@
                 android:text="@string/ExercisesInProgram" />
         </LinearLayout>
 
-        <com.easyfitness.programs.EmptyableRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exercisesRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/row_exercise_in_program"
-            >
-        </com.easyfitness.programs.EmptyableRecyclerView>
+            />
 <!--        <com.easyfitness.utils.ExpandedListView-->
 <!--            android:id="@+id/recordList"-->
 <!--            android:layout_width="match_parent"-->

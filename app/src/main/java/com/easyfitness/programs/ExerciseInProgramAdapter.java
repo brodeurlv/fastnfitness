@@ -30,7 +30,6 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
     public ExerciseInProgramAdapter(Context context, Long programId, @Nullable IOnRecyclerItemLongClick itemLongClick) {
         if(itemLongClick != null) mItemLongClickHandler = itemLongClick;
         mContext= context;
-//        getInjector().inject(this);
         reload(programId,null);
     }
 
@@ -48,9 +47,9 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View notificationView = LayoutInflater.from(parent.getContext())
+        View rowExerciseInProgramView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_exercise_in_program, parent, false);
-        return new ViewHolder(notificationView);
+        return new ViewHolder(rowExerciseInProgramView);
     }
 
     @Override
