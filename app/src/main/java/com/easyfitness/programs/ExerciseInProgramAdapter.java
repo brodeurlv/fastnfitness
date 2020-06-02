@@ -11,6 +11,7 @@ import com.easyfitness.DAO.DAOExerciseInProgram;
 import com.easyfitness.DAO.ExerciseInProgram;
 import com.easyfitness.R;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,27 +29,25 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
     Context mContext;
 
     public ExerciseInProgramAdapter(Context context, Long programId, @Nullable IOnRecyclerItemLongClick itemLongClick) {
-        if(itemLongClick != null) mItemLongClickHandler = itemLongClick;
-        mContext= context;
-        reload(programId,null);
+        if (itemLongClick != null) mItemLongClickHandler = itemLongClick;
+        mContext = context;
+        reload(programId, null);
     }
 
-    public void reload(Long programId ,final ReloadDoneCallback callback) {
-        mRetrievalHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                DAOExerciseInProgram daoExerciseInProgram= new DAOExerciseInProgram(mContext);
-                setExercises(daoExerciseInProgram.getAllExerciseInProgram(programId));
-                notifyDataSetChanged();
-                if(callback!=null) callback.onReloadDone();
-            }
+    public void reload(Long programId, final ReloadDoneCallback callback) {
+        mRetrievalHandler.post(() -> {
+            DAOExerciseInProgram daoExerciseInProgram = new DAOExerciseInProgram(mContext);
+            setExercises(daoExerciseInProgram.getAllExerciseInProgram(programId));
+            notifyDataSetChanged();
+            if (callback != null) callback.onReloadDone();
         });
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowExerciseInProgramView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_exercise_in_program, parent, false);
+            .inflate(R.layout.row_exercise_in_program, parent, false);
         return new ViewHolder(rowExerciseInProgramView);
     }
 
@@ -61,7 +60,7 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
 
     @Override
     public int getItemCount() {
-        if(getExercisesList() == null) return 0;
+        if (getExercisesList() == null) return 0;
         return getExercisesList().size();
     }
 
@@ -77,8 +76,6 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
 
         private TextView mTitleTextView;
 
-        private ExerciseInProgram exerciseInProgram;
-
         ViewHolder(View itemView) {
             super(itemView);
 
@@ -88,16 +85,13 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
 //            mMarkSeenButton = itemView.findViewById(R.id.notification_mark_seen_button);
 //            mSelectionCheckbox = itemView.findViewById(R.id.notification_selection_checkbox);
 
-            if(mItemLongClickHandler != null) {
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        if(mItemLongClickHandler == null) return false;
+            if (mItemLongClickHandler != null) {
+                itemView.setOnLongClickListener(v -> {
+                    if (mItemLongClickHandler == null) return false;
 
-                        mItemLongClickHandler.onItemLongClick(getAdapterPosition());
+                    mItemLongClickHandler.onItemLongClick(getAdapterPosition());
 //                        setSelected(true);
-                        return true;
-                    }
+                    return true;
                 });
             }
 
@@ -111,8 +105,7 @@ public class ExerciseInProgramAdapter extends RecyclerView.Adapter<ExerciseInPro
         }
 
         void setNotification(ExerciseInProgram exercise) {
-            exerciseInProgram = exercise;
-            String exerciseName= exerciseInProgram.getExerciseName();
+            String exerciseName = exercise.getExerciseName();
             mTitleTextView.setText(exerciseName);
 //            mDescriptionTextView.setText(mNotification.getNote());
 
