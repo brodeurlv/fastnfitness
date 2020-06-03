@@ -42,9 +42,27 @@
 
                 <Spinner
                     android:id="@+id/programSpinner"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/newProgram"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/add_button_background"
+                    android:text="New" />
+
+                <Button
+                    android:id="@+id/editProgram"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/add_button_background"
+                    android:text="Edit" />
 
             </LinearLayout>
 
@@ -69,10 +87,10 @@
 
         </LinearLayout>
 
-        <com.easyfitness.utils.ExpandedListView
+        <ListView
             android:id="@+id/listRecord"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:animateLayoutChanges="false"
             android:divider="@null"
             android:dividerHeight="0dp"

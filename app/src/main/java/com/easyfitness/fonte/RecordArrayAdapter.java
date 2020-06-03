@@ -2,26 +2,36 @@ package com.easyfitness.fonte;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.CountdownDialogbox;
+import com.easyfitness.DAO.Weight;
+import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DAO.workout.DAOWorkout;
 import com.easyfitness.DAO.workout.Workout;
+import com.easyfitness.RecordEditorDialogbox;
 import com.easyfitness.enums.DisplayType;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.RecordType;
 import com.easyfitness.R;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
+import com.easyfitness.views.WorkoutValuesInputView;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
@@ -34,6 +44,7 @@ import androidx.core.content.ContextCompat;
 public class RecordArrayAdapter extends ArrayAdapter<Record> {
 
     private final DAOWorkout mDbWorkout;
+    private final Activity mActivity;
     private LayoutInflater mInflater;
     private int mFirstColorOdd = 0;
     private Context mContext;
@@ -42,8 +53,13 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
     List<Record> mRecordList;
     private BtnClickListener mAction2ClickListener = null;
 
-    public RecordArrayAdapter(Context context, List<Record> objects, DisplayType displayType, BtnClickListener clickAction2) {
+    private LinearLayout UpdateRecordLayout;
+    private WorkoutValuesInputView EditorWorkoutValuesInputView ;
+    private Button UpdateButton;
+
+    public RecordArrayAdapter(Activity activity, Context context, List<Record> objects, DisplayType displayType, BtnClickListener clickAction2) {
         super(context, R.layout.row_fonte, objects);
+        mActivity = activity;
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mDisplayType = displayType;
@@ -95,6 +111,10 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        UpdateRecordLayout  = view.findViewById(R.id.UpdateRecordLayout);
+        EditorWorkoutValuesInputView  = view.findViewById(R.id.EditorWorkoutValuesInput);
+        UpdateButton  = view.findViewById(R.id.UpdateButton);
+
         if (position % 2 == mFirstColorOdd) {
             viewHolder.CardView.setBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
         } else {
@@ -119,6 +139,19 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
             notifyDataSetChanged();
         });
 
+        if (exerciseType == ExerciseType.STRENGTH) {
+            viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
+            viewHolder.SecondColValue.setText(String.valueOf(record.getReps()));
+            viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
+        } else if (exerciseType == ExerciseType.ISOMETRIC) {
+            viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
+            viewHolder.SecondColValue.setText(String.valueOf(record.getSecond()));
+            viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
+        } else if (exerciseType == ExerciseType.CARDIO) {
+            viewHolder.FirstColValue.setText(distanceToString(record.getDistance(), record.getDistanceUnit()));
+            viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getDuration()));
+        }
+
         if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY || mDisplayType==DisplayType.ALL_WORKOUT_DISPLAY) {
             viewHolder.ExerciseName.setText(record.getExercise());
             viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
@@ -132,32 +165,24 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
                 viewHolder.Separator.setVisibility(View.GONE);
             }
 
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getReps()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
-            } else if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getSecond()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(record.getDistance(), record.getDistanceUnit()));
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getDuration()));
+            if(mDisplayType==DisplayType.ALL_WORKOUT_DISPLAY) {
+                viewHolder.BtActionMiddle.setVisibility(View.GONE);
+            } else {
+                viewHolder.BtActionMiddle.setTag(record.getId());
+                viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_back));
+                viewHolder.BtActionMiddle.setRotation(90);
+                viewHolder.BtActionMiddle.setOnClickListener(v -> {
+                    if (mAction2ClickListener != null)
+                        mAction2ClickListener.onBtnClick((long) v.getTag());
+                });
             }
-
-            viewHolder.BtActionMiddle.setTag(record.getId());
-            viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_back));
-            viewHolder.BtActionMiddle.setRotation(90);
-            viewHolder.BtActionMiddle.setOnClickListener(v -> {
-                if (mAction2ClickListener != null)
-                    mAction2ClickListener.onBtnClick((long) v.getTag());
-            });
 
             viewHolder.BtActionLeft.setVisibility(View.GONE);
 
-            if(mDisplayType==DisplayType.ALL_WORKOUT_DISPLAY && record.getTemplateId()!=-1){
+            if(mDisplayType==DisplayType.ALL_WORKOUT_DISPLAY && record.getTemplateRecordId()!=-1){
                 // get program name
                 Workout workout = mDbWorkout.get(record.getTemplateId());
+                Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
                 if (workout!=null) {
                     viewHolder.TemplateName.setVisibility(View.VISIBLE);
                     viewHolder.TemplateFirstColLabel.setVisibility(View.VISIBLE);
@@ -165,16 +190,16 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
                     viewHolder.TemplateThirdColValue.setVisibility(View.VISIBLE);
                     viewHolder.TemplateName.setText(workout.getName());
                     if (exerciseType == ExerciseType.STRENGTH) {
-                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(record.getTemplateSets()));
-                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(record.getTemplateReps()));
-                        viewHolder.TemplateThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
+                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(templateRecord.getSets()));
+                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(templateRecord.getReps()));
+                        viewHolder.TemplateThirdColValue.setText(weigthToString(templateRecord.getWeight(), templateRecord.getWeightUnit()));
                     } else if (exerciseType == ExerciseType.ISOMETRIC) {
-                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(record.getTemplateSets()));
-                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(record.getTemplateSeconds()));
-                        viewHolder.TemplateThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
+                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(templateRecord.getSets()));
+                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(templateRecord.getSecond()));
+                        viewHolder.TemplateThirdColValue.setText(weigthToString(templateRecord.getWeight(), templateRecord.getWeightUnit()));
                     } else if (exerciseType == ExerciseType.CARDIO) {
-                        viewHolder.TemplateFirstColLabel.setText(distanceToString(record.getTemplateDistance(), record.getTemplateDistanceUnit()));
-                        viewHolder.TemplateThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getTemplateDuration()));
+                        viewHolder.TemplateFirstColLabel.setText(distanceToString(templateRecord.getDistance(), templateRecord.getDistanceUnit()));
+                        viewHolder.TemplateThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(templateRecord.getDuration()));
                     }
                 }
             } else {
@@ -188,21 +213,6 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
             viewHolder.ExerciseName.setText(record.getTemplateOrder() + ":" + record.getExercise());
 
             viewHolder.Separator.setVisibility(View.GONE);
-
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getTemplateSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getTemplateReps()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
-            } else if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getTemplateSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getTemplateSeconds()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(record.getTemplateDistance(), record.getTemplateDistanceUnit()));
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getTemplateDuration()));
-            }
-
-
 
             viewHolder.BtActionMiddle.setTag(record.getId());
             viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_back));
@@ -241,22 +251,14 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
             viewHolder.ExerciseName.setText(record.getExercise());
             viewHolder.Separator.setVisibility(View.GONE);
 
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getTemplateSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getTemplateReps()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
-            } else if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(String.valueOf(record.getTemplateSets()));
-                viewHolder.SecondColValue.setText(String.valueOf(record.getTemplateSeconds()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(record.getTemplateDistance(), record.getTemplateDistanceUnit()));
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getTemplateDuration()));
-            }
-
             viewHolder.BtActionMiddle.setRotation(0);
             viewHolder.BtActionLeft.setRotation(0);
-            if (record.getProgramRecordStatus()!=ProgramRecordStatus.PENDING && mDisplayType != DisplayType.PROGRAM_WORKOUT_PREVIEW_DISPLAY) {
+            if (record.getProgramRecordStatus()==ProgramRecordStatus.PENDING || mDisplayType == DisplayType.PROGRAM_WORKOUT_PREVIEW_DISPLAY) {
+                viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_white_24dp));
+                viewHolder.BtActionLeft.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_white_24dp));
+                viewHolder.Date.setText("");
+                viewHolder.Time.setText("");
+            } else {
                 if (record.getProgramRecordStatus()==ProgramRecordStatus.SUCCESS) {
                     viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_green_24dp));
                     viewHolder.BtActionLeft.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_white_24dp));
@@ -266,61 +268,82 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
                 }
                 viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
                 viewHolder.Time.setText(record.getTime());
-            } else {
-                viewHolder.BtActionMiddle.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_white_24dp));
-                viewHolder.BtActionLeft.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_white_24dp));
-                viewHolder.Date.setText("");
-                viewHolder.Time.setText("");
             }
 
             long key = record.getId();
 
-            if (mDisplayType == DisplayType.PROGRAM_WORKOUT_DISPLAY) {
-                viewHolder.BtActionMiddle.setTag(key);
-                viewHolder.BtActionMiddle.setOnClickListener(v -> {
-                    if (record.getProgramRecordStatus()!=ProgramRecordStatus.SUCCESS) {
-                        record.setSets(record.getTemplateSets());
-                        record.setReps(record.getTemplateReps());
-                        record.setWeight(record.getTemplateWeight());
-                        record.setWeightUnit(record.getTemplateWeightUnit());
-                        record.setSecond(record.getTemplateSeconds());
-                        record.setDistance(record.getTemplateDistance());
-                        record.setDistanceUnit(record.getTemplateDistanceUnit());
-                        record.setDuration(record.getTemplateDuration());
+            Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
+
+            viewHolder.BtActionMiddle.setTag(key);
+            viewHolder.BtActionMiddle.setOnClickListener(v -> {
+                if (mDisplayType == DisplayType.PROGRAM_WORKOUT_DISPLAY) {
+                    if (record.getProgramRecordStatus() != ProgramRecordStatus.SUCCESS) {
+                        record.setSets(templateRecord.getSets());
+                        record.setReps(templateRecord.getReps());
+                        record.setWeight(templateRecord.getWeight());
+                        record.setWeightUnit(templateRecord.getWeightUnit());
+                        record.setSeconds(templateRecord.getSecond());
+                        record.setDistance(templateRecord.getDistance());
+                        record.setDistanceUnit(templateRecord.getDistanceUnit());
+                        record.setDuration(templateRecord.getDuration());
                         record.setProgramRecordStatus(ProgramRecordStatus.SUCCESS);
                         record.setDate(DateConverter.getNewDate());
                         record.setTime(DateConverter.currentTime());
                         mDbRecord.updateRecord(record);
                         UpdateUI(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
+                        hideRecordEditor();
+                        launchCountdown(record);
+                        notifyDataSetChanged();
+                    } else {
+                        record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                        mDbRecord.updateRecord(record);
+                        UpdateUI(record, viewHolder);
+                        UpdateValues(record, position, viewHolder);
+                        hideRecordEditor();
                         notifyDataSetChanged();
                     }
-                });
+                } else {
+                    KToast.errorToast(mActivity,"Please start program first", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+                }
+            });
 
-                viewHolder.BtActionLeft.setTag(key);
-                viewHolder.BtActionLeft.setOnClickListener(v -> {
-                    if (record.getProgramRecordStatus()!=ProgramRecordStatus.FAILED) {
+            viewHolder.BtActionLeft.setTag(key);
+            viewHolder.BtActionLeft.setOnClickListener(v -> {
+                if (mDisplayType == DisplayType.PROGRAM_WORKOUT_DISPLAY) {
+                    if (record.getProgramRecordStatus() != ProgramRecordStatus.FAILED) {
+                        //Display Editor
                         record.setProgramRecordStatus(ProgramRecordStatus.FAILED);
                         mDbRecord.updateRecord(record);
                         UpdateValues(record, position, viewHolder);
+                        RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record);
+                        recordEditorDialogbox.setOnCancelListener(dialog -> {
+                            record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                            mDbRecord.updateRecord(record);
+                            UpdateUI(record, viewHolder);
+                            UpdateValues(record, position, viewHolder);
+                            notifyDataSetChanged();
+                        });
+                        recordEditorDialogbox.show();
+                        notifyDataSetChanged();
+                    } else {
+                        record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                        mDbRecord.updateRecord(record);
+                        UpdateUI(record, viewHolder);
+                        UpdateValues(record, position, viewHolder);
                         notifyDataSetChanged();
                     }
-                });
-            }
+                }
+                else {
+                    KToast.errorToast(mActivity,"Please start program first", Gravity.BOTTOM, KToast.LENGTH_AUTO);
+                }
+            });
 
             viewHolder.BtActionRight.setVisibility(View.GONE);
         }
     }
 
-    /*
-     * @pColor : si 1 alors affiche la couleur Odd en premier. Sinon, a couleur Even.
-     */
-    public void setFirstColorOdd(int pColor) {
-        mFirstColorOdd = pColor;
-    }
-
     private void UpdateUI(Record record, ViewHolder viewHolder) {
-        RecordType pRecordType = record.getRecordType();
         ExerciseType pExerciseType = record.getExerciseType();
 
         if (pExerciseType == ExerciseType.CARDIO) {
@@ -340,9 +363,33 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
         }
     }
 
-    private String weigthToString(float weight, int unit) {
+    private void launchCountdown(Record record){
+        if (record.getRestTime()>0) {
+            CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getRestTime(), record.getExerciseType());
+            // Launch Countdown
+            if (record.getExerciseType()==ExerciseType.STRENGTH) {
+                DAOFonte mDbBodyBuilding = new DAOFonte(getContext());
+                float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(record.getDate());
+                float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(record.getDate(), record.getExercise());
+                int iNbSeries = mDbBodyBuilding.getNbSeries(record.getDate(), record.getExercise());
+                cdd.setNbSeries(iNbSeries);
+                cdd.setTotalWeightMachine(iTotalWeight);
+                cdd.setTotalWeightSession(iTotalWeightSession);
+            } else if (record.getExerciseType()==ExerciseType.ISOMETRIC)  {
+                DAOStatic mDbIsometric = new DAOStatic(getContext());
+                float iTotalWeightSession = mDbIsometric.getTotalWeightSession(record.getDate());
+                float iTotalWeight = mDbIsometric.getTotalWeightMachine(record.getDate(), record.getExercise());
+                int iNbSeries = mDbIsometric.getNbSeries(record.getDate(), record.getExercise());
+                cdd.setNbSeries(iNbSeries);
+                cdd.setTotalWeightMachine(iTotalWeight);
+                cdd.setTotalWeightSession(iTotalWeightSession);}
+            cdd.show();
+        }
+    }
+
+    private String weigthToString(float weight, WeightUnit unit) {
         String defaultUnit = mContext.getString(R.string.KgUnitLabel);
-        if (unit == UnitConverter.UNIT_LBS) {
+        if (unit == WeightUnit.LBS) {
             weight = UnitConverter.KgtoLbs(weight);
             defaultUnit = mContext.getString(R.string.LbsUnitLabel);
         }
@@ -350,9 +397,9 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
         return numberFormat.format(weight) + defaultUnit;
     }
 
-    private String distanceToString(float distance, int unit) {
+    private String distanceToString(float distance, DistanceUnit unit) {
         String defaultUnit = mContext.getString(R.string.KmUnitLabel);
-        if (unit == UnitConverter.UNIT_MILES) {
+        if (unit == DistanceUnit.MILES) {
             distance = UnitConverter.KmToMiles(distance); // Always convert to KG
             defaultUnit = mContext.getString(R.string.MilesUnitLabel);
         }
@@ -385,7 +432,17 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
         return mDisplayType;
     }
 
-        // View lookup cache
+    public void hideRecordEditor() {
+
+        //UpdateRecordLayout.setVisibility(View.GONE);
+    }
+
+    public void displayRecordEditor(Record record, ViewHolder viewHolder) {
+        //UpdateRecordLayout.setVisibility(View.VISIBLE);
+    }
+
+
+    // View lookup cache
     private static class ViewHolder {
         CardView CardView;
         TextView Separator;
@@ -406,5 +463,8 @@ public class RecordArrayAdapter extends ArrayAdapter<Record> {
         ImageView BtActionLeft;
         ImageView BtActionMiddle;
         ImageView BtActionRight;
+        LinearLayout UpdateRecordLayout;
+        WorkoutValuesInputView EditorWorkoutValuesInputView;
+        Button UpdateButton;
     }
 }

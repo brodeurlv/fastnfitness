@@ -8,8 +8,10 @@ import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Weight;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.RecordType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
@@ -37,15 +39,15 @@ public class DAOStatic extends DAORecord {
      * @param pMachine Machine name
      * @param pProfileId Profile ID
      */
-    public long addStaticRecord(Date pDate, String pMachine, int pSerie, int pSeconds, float pPoids, long pProfileId, int pUnit, String pNote, String pTime) {
-        return addRecord(pDate, pTime, pMachine, ExerciseType.ISOMETRIC, pSerie, 0, pPoids, pUnit, pSeconds, 0, 0, 0, pNote, pProfileId, RecordType.FREE_RECORD_TYPE);
+    public long addStaticRecord(Date pDate, String pMachine, int pSerie, int pSeconds, float pPoids, long pProfileId, WeightUnit pUnit, String pNote, String pTime, long pTemplateRecordId) {
+        return addRecord(pDate, pTime, pMachine, ExerciseType.ISOMETRIC, pSerie, 0, pPoids, pUnit, pSeconds, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addStaticRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId,Date pDate, String pTime, String pExerciseName, int pSets, int pSeconds, float pWeight, int pWeightUnit) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.ISOMETRIC, 0, 0, 0,
-            0, "", 0, 0, 0, 0, -1,
-            pTemplateId, pTemplateSessionId, pSets, 0, pWeight,
-            pWeightUnit, 0, 0, 0, pSeconds, ProgramRecordStatus.NONE, RecordType.TEMPLATE_TYPE);
+    public long addStaticRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId,Date pDate, String pTime, String pExerciseName, int pSets, int pSeconds, float pWeight, WeightUnit pWeightUnit, int restTime) {
+        return addRecord(pDate, pTime, pExerciseName, ExerciseType.ISOMETRIC, pSets, 0, pWeight,
+            pWeightUnit, "", 0, DistanceUnit.KM, 0, pSeconds, -1,
+            RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
+            restTime, ProgramRecordStatus.NONE);
     }
 
     // Getting Function records

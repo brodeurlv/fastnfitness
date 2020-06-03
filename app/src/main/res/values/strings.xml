@@ -26,7 +26,6 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Bodybuilding</string>
-    <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercise</string>
@@ -50,7 +49,6 @@
     <string name="KmUnitLabel" translatable="false">Km</string>
     <string name="MilesUnitLabel" translatable="false">Miles</string>
     <string name="DurationLabel">Duration</string>
-    <string name="ExerciceLabel">Exercises</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Weight Track</string>
@@ -184,7 +182,6 @@
     <string name="right_calves">Right calves</string>
     <string name="waist">Waist</string>
     <string name="behind">Hips</string>
-    <string name="MesureHint">Enter size here</string>
 
     <string name="backDialog_confirm_text">Do you want to save before exiting?</string>
     <string name="deleteMachine_confirm_text">Do you want to delete this exercise? All associated records will be deleted.</string>
@@ -322,10 +319,9 @@
     <string name="enter_bodypart_name">Enter Bodypart name</string>
 
     <string name="strength_category">Strength</string>
-    <string name="automatic_time">Automatic time</string>
-    <string name="enter_workout_name">Enter workout name</string>
+    <string name="automatic_date_time">Automatic date-time</string>
+	<string name="enter_workout_name">Enter workout name</string>
     <string name="workout_list_menu_item">Workout List</string>
-    <string name="add_to_template">Add to template</string>
-    <string name="stop_program">Stop program</string>
+    <string name="finish_program">Stop program</string>
     <string name="start_program">Start program</string>
 </resources>

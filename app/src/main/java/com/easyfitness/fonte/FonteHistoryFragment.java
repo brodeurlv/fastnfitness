@@ -58,7 +58,6 @@ public class FonteHistoryFragment extends Fragment {
 
     Machine mSelectedMachine = null;
     private DAORecord mDbRecord = null;
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         mDbRecord.deleteRecord(id);
@@ -219,7 +218,7 @@ public class FonteHistoryFragment extends Fragment {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
-                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getContext(), records, DisplayType.ALL_WORKOUT_DISPLAY, null);
+                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.ALL_WORKOUT_DISPLAY, null);
                 filterList.setAdapter(mTableAdapter);
             } else {
                 ((RecordArrayAdapter) filterList.getAdapter()).setRecords(records);

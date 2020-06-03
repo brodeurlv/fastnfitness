@@ -29,6 +29,7 @@
 
     <declare-styleable name="WorkoutValuesInputView">
         <attr name="showTypeSelector" format="boolean" />
+        <attr name="showRestTime" format="boolean" />
         <attr name="selectedType" format="enum">
             <enum name="strengh" value="0" />
             <enum name="cardio" value="1" />

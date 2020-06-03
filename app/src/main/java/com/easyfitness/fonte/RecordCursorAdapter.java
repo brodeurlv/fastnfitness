@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.easyfitness.BtnClickListener;
-import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
@@ -81,6 +80,19 @@ public class RecordCursorAdapter extends CursorAdapter {
 
         UpdateUI(recordType, exerciseType, viewHolder);
 
+        if (exerciseType == ExerciseType.STRENGTH) {
+            viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
+            viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.REPS)));
+            viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
+        } else  if (exerciseType == ExerciseType.ISOMETRIC) {
+            viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
+            viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SECONDS)));
+            viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
+        } else if (exerciseType == ExerciseType.CARDIO) {
+            viewHolder.FirstColValue.setText(distanceToString(cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)), cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))) );
+            viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
+        }
+
         if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
             viewHolder.ExerciseName.setText(cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)));
 
@@ -96,19 +108,6 @@ public class RecordCursorAdapter extends CursorAdapter {
             } else {
                 viewHolder.Separator.setText("");
                 viewHolder.Separator.setVisibility(View.GONE);
-            }
-
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.REPS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
-            } else  if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SECONDS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)), cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))) );
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
             }
 
             viewHolder.BtAction1.setTag(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
@@ -134,19 +133,6 @@ public class RecordCursorAdapter extends CursorAdapter {
             viewHolder.ExerciseName.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TEMPLATE_ORDER))+":"+cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)));
 
             viewHolder.Separator.setVisibility(View.GONE);
-
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TEMPLATE_SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TEMPLATE_REPS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT_UNIT))));
-            } else  if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TEMPLATE_SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.TEMPLATE_SECONDS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT_UNIT))));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(cursor.getFloat(cursor.getColumnIndex(DAORecord.TEMPLATE_DISTANCE)), cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_DISTANCE_UNIT))) );
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_DURATION))));
-            }
 
             long key=cursor.getLong(cursor.getColumnIndex(DAORecord.KEY));
             viewHolder.BtAction1.setTag(key);
@@ -174,18 +160,7 @@ public class RecordCursorAdapter extends CursorAdapter {
         } else  if (mDisplayType==DisplayType.PROGRAM_WORKOUT_DISPLAY) {
             viewHolder.Separator.setVisibility(View.GONE);
 
-            if (exerciseType == ExerciseType.STRENGTH) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.REPS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
-            } else  if (exerciseType == ExerciseType.ISOMETRIC) {
-                viewHolder.FirstColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SETS)));
-                viewHolder.SecondColValue.setText(cursor.getString(cursor.getColumnIndex(DAORecord.SECONDS)));
-                viewHolder.ThirdColValue.setText(weigthToString( cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)), cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))));
-            } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)), cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))) );
-                viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(cursor.getInt(cursor.getColumnIndex(DAORecord.DURATION))));
-            }
+
 
             long key=cursor.getLong(cursor.getColumnIndex(DAORecord.KEY));
 

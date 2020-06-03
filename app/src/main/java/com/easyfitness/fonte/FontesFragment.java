@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -85,9 +86,6 @@ public class FontesFragment extends Fragment {
     private ImageButton machineListButton = null;
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
-    private LinearLayout restTimeLayout = null;
-    private EditText restTimeEdit = null;
-    private CheckBox restTimeCheck = null;
     private CheckBox autoTimeCheckBox = null;
     private TextView dateEdit = null;
     private TextView timeEdit = null;
@@ -153,7 +151,7 @@ public class FontesFragment extends Fragment {
 
                 Float poids = r.getWeight();
                 WeightUnit weightUnit = WeightUnit.KG;
-                if (r.getWeightUnit() == UnitConverter.UNIT_LBS) {
+                if (r.getWeightUnit() == WeightUnit.LBS) {
                     poids = UnitConverter.KgtoLbs(poids);
                     weightUnit = WeightUnit.LBS;
                 }
@@ -163,7 +161,7 @@ public class FontesFragment extends Fragment {
                 workoutValuesInputView.setSets(r.getSets());
                 Float poids = r.getWeight();
                 WeightUnit weightUnit = WeightUnit.KG;
-                if (r.getWeightUnit() == UnitConverter.UNIT_LBS) {
+                if (r.getWeightUnit() == WeightUnit.LBS) {
                     poids = UnitConverter.KgtoLbs(poids);
                     weightUnit = WeightUnit.LBS;
                 }
@@ -171,7 +169,7 @@ public class FontesFragment extends Fragment {
             }else if (r.getExerciseType() == ExerciseType.CARDIO) {
                 float distance = r.getDistance();
                 DistanceUnit distanceUnit = DistanceUnit.KM;
-                if (r.getDistanceUnit() == UnitConverter.UNIT_MILES) {
+                if (r.getDistanceUnit() == DistanceUnit.MILES) {
                     distance = UnitConverter.KmToMiles((r.getDistance()));
                     distanceUnit = DistanceUnit.MILES;
                 }
@@ -269,10 +267,8 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            int unitPoids = UnitConverter.UNIT_KG; // Kg
             if (workoutValuesInputView.getWeightUnit()==WeightUnit.LBS) {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-                unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
@@ -281,41 +277,37 @@ public class FontesFragment extends Fragment {
                     workoutValuesInputView.getSets(),
                     workoutValuesInputView.getReps(),
                     tmpPoids, // Always save in KG
-                    unitPoids, // Store Unit for future display
+                    workoutValuesInputView.getWeightUnit(), // Store Unit for future display
                     "", //Notes
-                    getProfil().getId()
-                );
+                    getProfil().getId(), -1);
 
                 float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date);
                 float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString());
                 int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString());
 
                 //--Launch Rest Dialog
-                boolean bLaunchRest = restTimeCheck.isChecked();
-                int restTime = 60;
-                try {
-                    restTime = Integer.valueOf(restTimeEdit.getText().toString());
-                } catch (NumberFormatException e) {
-                    restTime = 60;
-                    restTimeEdit.setText("60");
-                }
+                boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
+                int restTime = workoutValuesInputView.getRestTime();
 
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
                     cdd.setNbSeries(iNbSeries);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
-                    machineEdit.getText().toString(),
-                    workoutValuesInputView.getSets(),
-                    workoutValuesInputView.getReps(),
-                    tmpPoids, // Always save in KG
-                    unitPoids // Store Unit for future display
-                );
+                for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
+                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                        machineEdit.getText().toString(),
+                        1,
+                        workoutValuesInputView.getReps(),
+                        tmpPoids, // Always save in KG
+                        workoutValuesInputView.getWeightUnit(),
+                        workoutValuesInputView.getRestTime()
+                    );
+                }
             }
         } else if (exerciseType == ExerciseType.ISOMETRIC) {
             // Verifie que les infos sont completes
@@ -326,10 +318,8 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            int unitPoids = UnitConverter.UNIT_KG; // Kg
             if (workoutValuesInputView.getWeightUnit()==WeightUnit.LBS) {
                 tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-                unitPoids = UnitConverter.UNIT_LBS; // LBS
             }
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
@@ -339,9 +329,9 @@ public class FontesFragment extends Fragment {
                     workoutValuesInputView.getSeconds(),
                     tmpPoids, // Always save in KG
                     getProfil().getId(),
-                    unitPoids, // Store Unit for future display
+                    workoutValuesInputView.getWeightUnit(), // Store Unit for future display
                     "", //Notes
-                    timeStr
+                    timeStr, -1
                 );
 
                 float iTotalWeightSession = mDbStatic.getTotalWeightSession(date);
@@ -349,30 +339,28 @@ public class FontesFragment extends Fragment {
                 int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString());
 
                 //--Launch Rest Dialog
-                boolean bLaunchRest = restTimeCheck.isChecked();
-                int restTime = 60;
-                try {
-                    restTime = Integer.parseInt(restTimeEdit.getText().toString());
-                } catch (NumberFormatException e) {
-                    restTimeEdit.setText("60");
-                }
+                boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
+                int restTime = workoutValuesInputView.getRestTime();
 
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime);
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
                     cdd.setNbSeries(iNbSeries);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
-                    machineEdit.getText().toString(),
-                    workoutValuesInputView.getSets(),
-                    workoutValuesInputView.getSeconds(),
-                    tmpPoids, // Always save in KG
-                    unitPoids // Store Unit for future display
-                );
+                for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
+                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                        machineEdit.getText().toString(),
+                        1,
+                        workoutValuesInputView.getSeconds(),
+                        tmpPoids, // Always save in KG
+                        workoutValuesInputView.getWeightUnit(),
+                        workoutValuesInputView.getRestTime()
+                    );
+                }
             }
         } else if (exerciseType == ExerciseType.CARDIO) {
             // Verifie que les infos sont completes
@@ -385,10 +373,8 @@ public class FontesFragment extends Fragment {
 
             float distance = workoutValuesInputView.getDistanceValue();
 
-            int unitDistance = UnitConverter.UNIT_KM;
             if (workoutValuesInputView.getDistanceUnit()==DistanceUnit.MILES) {
                 distance = UnitConverter.MilesToKm(distance); // Always convert to KG
-                unitDistance = UnitConverter.UNIT_MILES;
             }
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
@@ -398,15 +384,26 @@ public class FontesFragment extends Fragment {
                     distance,
                     duration,
                     getProfil().getId(),
-                    unitDistance);
+                    workoutValuesInputView.getDistanceUnit(), -1);
+
+                //--Launch Rest Dialog
+                boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
+                int restTime = workoutValuesInputView.getRestTime();
+
+                // Launch Countdown
+                if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
+                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
+                    cdd.show();
+                }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
                     date,
                     timeStr,
                     machineEdit.getText().toString(),
                     distance,
-                    unitDistance,
-                    duration
+                    workoutValuesInputView.getDistanceUnit(),
+                    duration,
+                    workoutValuesInputView.getRestTime()
                 );
             }
         }
@@ -419,7 +416,6 @@ public class FontesFragment extends Fragment {
         refreshData();
 
         /* Reinitialisation des machines */
-        // Eviter de recreer a chaque fois l'adapter. On peut utiliser toujours le meme.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
             android.R.layout.simple_dropdown_item_1line, mDbRecord.getAllMachines(getProfil()));
         machineEdit.setAdapter(adapter);
@@ -585,13 +581,10 @@ public class FontesFragment extends Fragment {
         machineListButton = view.findViewById(R.id.buttonListMachine);
         addButton = view.findViewById(R.id.addperff);
 
-
+        CardView detailsCardView = view.findViewById(R.id.detailsCardView);
         detailsLayout = view.findViewById(R.id.notesLayout);
         detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
-        restTimeEdit = view.findViewById(R.id.editRestTime);
-        restTimeCheck = view.findViewById(R.id.restTimecheckBox);
         machineImage = view.findViewById(R.id.imageMachine);
-        restTimeLayout = view.findViewById(R.id.restTimeLayout);
 
         autoTimeCheckBox = view.findViewById(R.id.autoTimeCheckBox);
         dateEdit = view.findViewById(R.id.editDate);
@@ -610,8 +603,6 @@ public class FontesFragment extends Fragment {
         machineEdit.setOnItemClickListener(onItemClickFilterList);
         recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
-        restTimeEdit.setOnFocusChangeListener(restTimeEditChange);
-        restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange); //.setOnFocusChangeListener(restTimeEditChange);
 
         restoreSharedParams();
 
@@ -658,6 +649,7 @@ public class FontesFragment extends Fragment {
 
         if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
             addButton.setText("Add to template");
+            detailsCardView.setVisibility(View.GONE);
         }
 
         return view;
@@ -886,8 +878,6 @@ public class FontesFragment extends Fragment {
             return;
         }
 
-
-
         // Update EditView
         machineEdit.setText(lMachine.getName());
         // Update exercise Image
@@ -972,20 +962,20 @@ public class FontesFragment extends Fragment {
         } else if (lLastRecord.getExerciseType() == ExerciseType.STRENGTH) {
             workoutValuesInputView.setSets(lLastRecord.getSets());
             workoutValuesInputView.setReps(lLastRecord.getReps());
-            if (lLastRecord.getWeightUnit() == UnitConverter.UNIT_LBS)
+            if (lLastRecord.getWeightUnit() == WeightUnit.LBS)
                 workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
             else
                 workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
         } else if (lLastRecord.getExerciseType() == ExerciseType.CARDIO) {
             workoutValuesInputView.setDuration(lLastRecord.getDuration());
-            if (lLastRecord.getDistanceUnit() == UnitConverter.UNIT_MILES)
+            if (lLastRecord.getDistanceUnit() == DistanceUnit.MILES)
                 workoutValuesInputView.setDistance(UnitConverter.KmToMiles(lLastRecord.getDistance()), DistanceUnit.MILES);
             else
                 workoutValuesInputView.setDistance(lLastRecord.getDistance(), DistanceUnit.KM);
         } else if (lLastRecord.getExerciseType() == ExerciseType.ISOMETRIC) {
             workoutValuesInputView.setSets(lLastRecord.getSets());
             workoutValuesInputView.setSeconds(lLastRecord.getSecond());
-            if (lLastRecord.getWeightUnit() == UnitConverter.UNIT_LBS)
+            if (lLastRecord.getWeightUnit() == WeightUnit.LBS)
                 workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
             else
                 workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
@@ -999,20 +989,10 @@ public class FontesFragment extends Fragment {
         getView().post(() -> {
 
             Cursor c = null;
-            Cursor oldCursor = null;
-
-            //IRecord r = mDbRecord.getLastRecord(getProfil());
-
-            // Recupere les valeurs
-            //if (pMachine == null || pMachine.isEmpty()) {
-            //if (r != null)
             if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
                 c = mDbRecord.getTop3DatesRecords(getProfil());
             } else if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
                 c = mDbRecord.getProgramTemplateRecords(mTemplateId);
-            } else if (mDisplayType==DisplayType.PROGRAM_WORKOUT_DISPLAY) {
-                return;
-                //TODO c = mDbRecord.getProgramRunningRecords(mTemplateId, getProfil());
             }
 
             List<Record> records = mDbRecord.fromCursorToList(c);
@@ -1021,36 +1001,12 @@ public class FontesFragment extends Fragment {
                 recordList.setAdapter(null);
             } else {
                 if (recordList.getAdapter() == null) {
-                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getContext(), records, mDisplayType, itemClickCopyRecord);
+                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
                     recordList.setAdapter(mTableAdapter);
                 } else {
                     ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
                 }
             }
-
-            // else
-            //    return;
-
-
-            /*if (c == null || c.getCount() == 0) {
-                recordList.setAdapter(null);
-            } else {
-                if (recordList.getAdapter() == null) {
-                    RecordCursorAdapter mTableAdapter;
-                    if (mDisplayType==FREE_WORKOUT_DISPLAY) {
-                        mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickCopyRecord, null, FREE_WORKOUT_DISPLAY);
-                    }else{
-                        mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, itemClickMoveDownRecordTemplate, itemClickMoveUpRecordTemplate, PROGRAM_EDIT_DISPLAY);
-                    }
-                    mTableAdapter.setFirstColorOdd(lTableColor);
-                    recordList.setAdapter(mTableAdapter);
-                } else {
-                    RecordCursorAdapter mTableAdapter = ((RecordCursorAdapter) recordList.getAdapter());
-                    mTableAdapter.setFirstColorOdd(lTableColor);
-                    oldCursor = mTableAdapter.swapCursor(c);
-                    if (oldCursor != null) oldCursor.close();
-                }
-            }*/
         });
     }
 
@@ -1110,32 +1066,29 @@ public class FontesFragment extends Fragment {
         switch (pType) {
             case CARDIO:
                 workoutValuesInputView.setSelectedType(ExerciseType.CARDIO);
-                restTimeLayout.setVisibility(View.GONE);
                 break;
             case ISOMETRIC:
                 workoutValuesInputView.setSelectedType(ExerciseType.ISOMETRIC);
-                restTimeLayout.setVisibility(View.VISIBLE);
                 break;
             case STRENGTH:
             default:
                 workoutValuesInputView.setSelectedType(ExerciseType.STRENGTH);
-                restTimeLayout.setVisibility(View.VISIBLE);
         }
     }
 
     public void saveSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("restTime", restTimeEdit.getText().toString());
-        editor.putBoolean("restCheck", restTimeCheck.isChecked());
+        editor.putInt("restTime2", workoutValuesInputView.getRestTime());
+        editor.putBoolean("restCheck", workoutValuesInputView.isRestTimeActivated());
         editor.putBoolean("showDetails", this.detailsLayout.isShown());
         editor.apply();
     }
 
     public void restoreSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        restTimeEdit.setText(sharedPref.getString("restTime", ""));
-        restTimeCheck.setChecked(sharedPref.getBoolean("restCheck", true));
+        workoutValuesInputView.setRestTime(sharedPref.getInt("restTime2", 60));
+        workoutValuesInputView.activatedRestTime(sharedPref.getBoolean("restCheck", true));
 
         if (sharedPref.getBoolean("showDetails", false)) {
             detailsLayout.setVisibility(View.VISIBLE);

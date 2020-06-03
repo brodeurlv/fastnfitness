@@ -25,7 +25,6 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Kulturistika</string>
-    <string name="RecordLabel">Záznamy</string>
     <string name="SerieLabel">Série</string>
     <string name="RepetitionLabel_short">Opk</string>
     <string name="MachineLabel">Cviky</string>
@@ -43,7 +42,6 @@
     <string name="CardioLabel">Kardio</string>
     <string name="DistanceLabel">Vzdálenost</string>
     <string name="DurationLabel">Trvání</string>
-    <string name="ExerciceLabel">Cvik</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Sledování Hmotnosti</string>
@@ -166,7 +164,6 @@
     <string name="right_calves">Pravé lýtko</string>
     <string name="waist">Pás</string>
     <string name="behind">Zadek</string>
-    <string name="MesureHint">Zde zapiště výšku</string>
 
     <string name="backDialog_confirm_text">Uložit před odejitím?</string>
     <string name="deleteMachine_confirm_text">Opravdu vymazat toto cvičení? Všechny připojené záznamy budou smazány.</string>

@@ -169,4 +169,54 @@
             tools:visibility="gone"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CardViewStyle"
+        android:id="@+id/restTimeCardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="100"
+                android:text="@string/activate_rest_time" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/restTimeCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="true"
+                android:text="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="100"
+                android:text="@string/rest_time" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/restTimeEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="4"
+                android:gravity="center"
+                android:inputType="numberDecimal|numberSigned"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:text="60" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

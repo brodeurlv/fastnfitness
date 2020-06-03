@@ -5,8 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.RecordType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
@@ -46,15 +48,15 @@ public class DAOCardio extends DAORecord {
      * @param pProfileId
      * @return
      */
-    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, long pProfileId, int pDistanceUnit) {
-        return addRecord(pDate, pTime, pMachine, ExerciseType.CARDIO, 0, 0, 0, 0, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, RecordType.FREE_RECORD_TYPE);
+    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
+        return addRecord(pDate, pTime, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, float pDistance, int pDistanceUnit, long pDuration) {
+    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
         return addRecord(pDate, pTime, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
-            0, "", 0, 0, 0, 0, -1,
-            pTemplateId, pTemplateSessionId, 0, 0, 0,
-            0, pDistance, pDistanceUnit, pDuration, 0, ProgramRecordStatus.NONE, RecordType.TEMPLATE_TYPE);
+            WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
+            RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
+            restTime, ProgramRecordStatus.NONE);
     }
 
     // Getting Function records

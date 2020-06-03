@@ -1,8 +1,10 @@
 package com.easyfitness.DAO.record;
 
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.ProgramRecordStatus;
 import com.easyfitness.enums.RecordType;
+import com.easyfitness.enums.WeightUnit;
 
 import java.util.Date;
 
@@ -19,12 +21,12 @@ public class Record {
     private int mSets;
     private int mReps;
     private float mWeight;
-    private int mWeightUnit;
+    private WeightUnit mWeightUnit;
 
     private int mSecond;
 
     private float mDistance;
-    private int mDistanceUnit;
+    private DistanceUnit mDistanceUnit;
     private long mDuration;
 
     private String mNote;
@@ -32,30 +34,20 @@ public class Record {
     private ExerciseType mExerciseType;
     private RecordType mRecordType;
 
+    private int mRestTime;
 
-
-    // Template part
-    private int mTemplateSets;
-    private int mTemplateReps;
-    private float mTemplateWeight;
-    private int mTemplateWeightUnit;
-    private int mTemplateSeconds;
-    private float mTemplateDistance;
-    private int mTemplateDistanceUnit;
-    private long mTemplateDuration;
-
-    private long mTemplateId;
-    private long mTemplateSessionId;
+    private long mTemplateId; // Id of the Program Template
+    private long mTemplateSessionId; // Id of the Workout Session
+    private long mTemplateRecordId; // Id of the Template Record of the Program
 
     private int mTemplateOrder;
     private ProgramRecordStatus mProgramRecordStatus;
-    private String mTemplateName;
 
-    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, int weightUnit, int second, float distance, int distanceUnit, long duration, String note, ExerciseType exerciseType) {
-        this(date, time, exercise,  exerciseId, profileId,  sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, "" , -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ProgramRecordStatus.SUCCESS, RecordType.FREE_RECORD_TYPE);
+    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long recordTemplateId) {
+        this(date, time, exercise,  exerciseId, profileId,  sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.SUCCESS, RecordType.FREE_RECORD_TYPE);
     }
 
-    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, int weightUnit, int second, float distance, int distanceUnit, long duration, String note, ExerciseType exerciseType, long templateId, String templateName, long templateSessionId, int templateSets, int templateReps, float templateWeight, int templateWeightUnit, int templateSeconds, float templateDistance, int templateDistanceUnit, long templateDuration, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType) {
+    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType) {
         mDate = date;
         mTime = time;
         mExercise = exercise;
@@ -72,16 +64,9 @@ public class Record {
         mNote = note;
         mExerciseType = exerciseType;
         mRecordType = recordType;
-        mTemplateSets = templateSets;
-        mTemplateReps = templateReps;
-        mTemplateWeight = templateWeight;
-        mTemplateWeightUnit = templateWeightUnit;
-        mTemplateSeconds = templateSeconds;
-        mTemplateDistance = templateDistance;
-        mTemplateDistanceUnit = templateDistanceUnit;
-        mTemplateDuration = templateDuration;
+        mRestTime = restTime;
         mTemplateId = templateId;
-        mTemplateName = templateName;
+        mTemplateRecordId = templateRecordId;
         mTemplateSessionId = templateSessionId;
         mTemplateOrder = templateOrder;
         mProgramRecordStatus = programRecordStatus;
@@ -159,11 +144,11 @@ public class Record {
         mWeight = weight;
     }
 
-    public int getWeightUnit() {
+    public WeightUnit getWeightUnit() {
         return mWeightUnit;
     }
 
-    public void setWeightUnit(int weightUnit) {
+    public void setWeightUnit(WeightUnit weightUnit) {
         mWeightUnit = weightUnit;
     }
 
@@ -171,7 +156,7 @@ public class Record {
         return mSecond;
     }
 
-    public void setSecond(int second) {
+    public void setSeconds(int second) {
         mSecond = second;
     }
 
@@ -183,11 +168,11 @@ public class Record {
         mDistance = distance;
     }
 
-    public int getDistanceUnit() {
+    public DistanceUnit getDistanceUnit() {
         return mDistanceUnit;
     }
 
-    public void setDistanceUnit(int distanceUnit) {
+    public void setDistanceUnit(DistanceUnit distanceUnit) {
         mDistanceUnit = distanceUnit;
     }
 
@@ -231,14 +216,6 @@ public class Record {
         mTemplateOrder = templateOrder;
     }
 
-    public String getTemplateName() {
-        return mTemplateName;
-    }
-
-    public void setTemplateName(String templateName) {
-        mTemplateName = templateName;
-    }
-
     public long getTemplateId() {
         return mTemplateId;
     }
@@ -247,68 +224,12 @@ public class Record {
         mTemplateId = templateId;
     }
 
-    public int getTemplateSets() {
-        return mTemplateSets;
+    public int getRestTime() {
+        return mRestTime;
     }
 
-    public void setTemplateSets(int templateSets) {
-        mTemplateSets = templateSets;
-    }
-
-    public int getTemplateReps() {
-        return mTemplateReps;
-    }
-
-    public void setTemplateReps(int templateReps) {
-        mTemplateReps = templateReps;
-    }
-
-    public float getTemplateWeight() {
-        return mTemplateWeight;
-    }
-
-    public void setTemplateWeight(float templateWeight) {
-        mTemplateWeight = templateWeight;
-    }
-
-    public int getTemplateWeightUnit() {
-        return mTemplateWeightUnit;
-    }
-
-    public void setTemplateWeightUnit(int templateWeightUnit) {
-        mTemplateWeightUnit = templateWeightUnit;
-    }
-
-    public int getTemplateSeconds() {
-        return mTemplateSeconds;
-    }
-
-    public void setTemplateSeconds(int templateSeconds) {
-        mTemplateSeconds = templateSeconds;
-    }
-
-    public float getTemplateDistance() {
-        return mTemplateDistance;
-    }
-
-    public void setTemplateDistance(float templateDistance) {
-        mTemplateDistance = templateDistance;
-    }
-
-    public int getTemplateDistanceUnit() {
-        return mTemplateDistanceUnit;
-    }
-
-    public void setTemplateDistanceUnit(int templateDistanceUnit) {
-        mTemplateDistanceUnit = templateDistanceUnit;
-    }
-
-    public long getTemplateDuration() {
-        return mTemplateDuration;
-    }
-
-    public void setTemplateDuration(long templateDuration) {
-        mTemplateDuration = templateDuration;
+    public void setRestTime(int restTime) {
+        mRestTime = restTime;
     }
 
     public long getTemplateSessionId() {
@@ -325,5 +246,13 @@ public class Record {
 
     public void setProgramRecordStatus(ProgramRecordStatus programRecordStatus) {
         mProgramRecordStatus = programRecordStatus;
+    }
+
+    public long getTemplateRecordId() {
+        return mTemplateRecordId;
+    }
+
+    public void setTemplateRecordId(long id) {
+        mTemplateRecordId = id;
     }
 }

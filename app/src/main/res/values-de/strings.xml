@@ -42,7 +42,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Entfernung</string>
     <string name="DurationLabel">Dauer</string>
-    <string name="ExerciceLabel">Übung</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht</string>
@@ -143,7 +142,6 @@
     <string name="right_calves">Rechte Wade</string>
     <string name="waist">Taille</string>
     <string name="behind">Hüfte</string>
-    <string name="MesureHint">Maß hier eingeben</string>
 
 
     <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
@@ -217,7 +215,6 @@
     <string name="speed">Geschwindigkeit</string>
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
-    <string name="RecordLabel">Aufzeichnungen</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
     <string name="fatLabel">Fett(%)</string>
     <string name="bonesLabel">Knochen(%)</string>

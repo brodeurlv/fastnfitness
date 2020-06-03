@@ -8,8 +8,10 @@ import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Weight;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.RecordType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
@@ -40,15 +42,15 @@ public class DAOFonte extends DAORecord {
      * @param pWeightUnit
      * @param pProfileId
      */
-    public long addBodyBuildingRecord(Date pDate, String pTime, String pExercise, int pSets, int pReps, float pWeight, int pWeightUnit, String pNote, long pProfileId) {
-        return addRecord(pDate, pTime, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, 0, 0, pNote, pProfileId, RecordType.FREE_RECORD_TYPE);
+    public long addBodyBuildingRecord(Date pDate, String pTime, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId, long pTemplateRecordId) {
+        return addRecord(pDate, pTime, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId,  Date pDate, String pTime, String pExerciseName, int pSets, int pReps, float pWeight, int pWeightUnit) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.STRENGTH, 0, 0, 0,
-        0, "", 0, 0, 0, 0, -1,
-            pTemplateId, pTemplateSessionId, pSets, pReps, pWeight,
-            pWeightUnit, 0, 0, 0, 0, ProgramRecordStatus.NONE, RecordType.TEMPLATE_TYPE);
+    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
+        return addRecord(pDate, pTime, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
+            pWeightUnit, "", 0, DistanceUnit.KM, 0, 0, -1,
+            RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
+            restTime, ProgramRecordStatus.NONE);
     }
 
     /**
@@ -301,7 +303,7 @@ public class DAOFonte extends DAORecord {
         for (int i = 1; i <= 5; i++) {
             String machine = "Biceps";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, 0, "", mProfile.getId());
+            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
 
         date = new Date();
@@ -310,7 +312,7 @@ public class DAOFonte extends DAORecord {
         for (int i = 1; i <= 5; i++) {
             String machine = "Dev Couche";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, 0, "", mProfile.getId());
+            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
     }
 

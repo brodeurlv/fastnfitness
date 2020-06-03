@@ -25,7 +25,6 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Bodybuilding</string>
-    <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel_short">Herhalingen</string>
     <string name="MachineLabel">Oefening</string>
@@ -43,7 +42,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Afstand</string>
     <string name="DurationLabel">Duur</string>
-    <string name="ExerciceLabel">Oefeningen</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht Track</string>
@@ -177,7 +175,6 @@
     <string name="right_calves">Rechter kuit</string>
     <string name="waist">Heup</string>
     <string name="behind">Heupen</string>
-    <string name="MesureHint">Voeg afmeting toe</string>
 
     <string name="backDialog_confirm_text">Wil je opslaan voor het afsluiten?</string>
     <string name="deleteMachine_confirm_text">Wil je deze oefening verwijderen? Alle gelinkte data wordt verwijderd.</string>

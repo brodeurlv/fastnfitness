@@ -25,7 +25,6 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Musculação</string>
-    <string name="RecordLabel">Registros</string>
     <string name="SerieLabel">Séries</string>
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercício</string>
@@ -43,7 +42,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distância</string>
     <string name="DurationLabel">Duração</string>
-    <string name="ExerciceLabel">Exercícios</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Monitoramento de peso</string>
@@ -167,7 +165,6 @@
     <string name="right_calves">Panturrilha direita</string>
     <string name="waist">Cintura</string>
     <string name="behind">Quadris</string>
-    <string name="MesureHint">Insira o tamanho aqui</string>
 
     <string name="backDialog_confirm_text">Deseja salvar antes de sair?</string>
     <string name="deleteMachine_confirm_text">Deseja excluir este exercício? Todos os registros associados serão excluídos.</string>

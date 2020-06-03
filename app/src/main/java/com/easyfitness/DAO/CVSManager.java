@@ -15,7 +15,9 @@ import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
@@ -140,10 +142,10 @@ public class CVSManager {
                 csvOutputFonte.write(Integer.toString(records.get(i).getSets()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getReps()));
                 csvOutputFonte.write(Float.toString(records.get(i).getWeight()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getWeightUnit()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getWeightUnit().ordinal()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getSecond()));
                 csvOutputFonte.write(Float.toString(records.get(i).getDistance()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getDistanceUnit()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getDistanceUnit().ordinal()));
                 csvOutputFonte.write(Long.toString(records.get(i).getDuration()));
                 if (records.get(i).getNote() == null) csvOutputFonte.write("");
                 else csvOutputFonte.write(records.get(i).getNote());
@@ -329,20 +331,20 @@ public class CVSManager {
                             float poids = Float.valueOf(csvRecords.get(DAORecord.WEIGHT));
                             int repetition = Integer.valueOf(csvRecords.get(DAORecord.REPS));
                             int serie = Integer.valueOf(csvRecords.get(DAORecord.SETS));
-                            int unit = UnitConverter.UNIT_KG;
+                            WeightUnit unit = WeightUnit.KG;
                             if (!csvRecords.get(DAORecord.WEIGHT_UNIT).isEmpty()) {
-                                unit = Integer.valueOf(csvRecords.get(DAORecord.WEIGHT_UNIT));
+                                unit = WeightUnit.fromInteger(Integer.valueOf(csvRecords.get(DAORecord.WEIGHT_UNIT)));
                             }
                             int second = Integer.valueOf(csvRecords.get(DAORecord.SECONDS));
                             float distance = Float.valueOf(csvRecords.get(DAORecord.DISTANCE));
                             int duration = Integer.valueOf(csvRecords.get(DAORecord.DURATION));
-                            int distance_unit = UnitConverter.UNIT_KM;
+                            DistanceUnit distance_unit = DistanceUnit.KM;
                             if (!csvRecords.get(DAORecord.DISTANCE_UNIT).isEmpty()) {
-                                distance_unit = Integer.valueOf(csvRecords.get(DAORecord.DISTANCE_UNIT));
+                                distance_unit = DistanceUnit.fromInteger(Integer.valueOf(csvRecords.get(DAORecord.DISTANCE_UNIT)));
                             }
                             String notes = csvRecords.get(DAORecord.NOTES);
 
-                            Record record = new Record(date, time, exercise, exerciseId, pProfile.getId(), serie, repetition, poids, unit, second, distance, distance_unit, duration, notes, exerciseType);
+                            Record record = new Record(date, time, exercise, exerciseId, pProfile.getId(), serie, repetition, poids, unit, second, distance, distance_unit, duration, notes, exerciseType, -1);
                             recordsList.add(record);
                         } else {
                             return false;
@@ -360,7 +362,7 @@ public class CVSManager {
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
                         float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
                         int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
-                        dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile.getId(), UnitConverter.UNIT_KM);
+                        dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
                         dbcCardio.close();
 
                         break;

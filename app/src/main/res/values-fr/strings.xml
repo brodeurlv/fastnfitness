@@ -40,7 +40,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance</string>
     <string name="DurationLabel">Durée</string>
-    <string name="ExerciceLabel">Exercices</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
@@ -158,7 +157,6 @@
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="profileSelected">Profil selectionné</string>
     <string name="FilterHint">Filtrer par nom d\'exercice</string>
-    <string name="MesureHint">Entre ta mesure ici</string>
     <string name="exit">Quitter</string>
     <string name="nb_serie">Nb Série</string>
     <string name="total_machine">Total sur la machine</string>
@@ -202,7 +200,6 @@
     <string name="ProfileLabel">Profil</string>
     <string name="profile_page">Details</string>
     <string name="edit_value">Nouvelle valeur</string>
-    <string name="RecordLabel">Enregistrements</string>
     <string name="speed">Vitesse</string>
     <string name="sumDuration">Durée</string>
     <string name="sumDistance">Distance</string>
