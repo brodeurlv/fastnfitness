@@ -118,6 +118,7 @@ dependencies {
     implementation 'com.github.thepacific:rx2timer:0.0.3'
     implementation 'com.github.JDevZone:FillProgressLayout:0.0.5'
     implementation 'com.github.mazenrashed:DotsIndicatorWithoutViewpager:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 repositories {
     mavenCentral()
