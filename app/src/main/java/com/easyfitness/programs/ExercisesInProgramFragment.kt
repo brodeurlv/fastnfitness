@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -26,6 +27,7 @@ import com.easyfitness.DAO.*
 import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.machines.ExerciseDetailsPager
 import com.easyfitness.machines.MachineCursorAdapter
+import com.easyfitness.utils.BtnOnPostiomClickListener
 import com.easyfitness.utils.DateConverter
 import com.easyfitness.utils.ImageUtil
 import com.easyfitness.utils.UnitConverter
@@ -44,11 +46,14 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
     private lateinit var daoProgram: DAOProgram
     private var programId: Long = 1
     var programs: MutableList<String>? = null
+    private var exercisesList: MutableList<ExerciseInProgram> = ArrayList<ExerciseInProgram>().toMutableList()
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         daoProgram = DAOProgram(context)
         programs = daoProgram.allProgramsNames
+        daoExerciseInProgram = DAOExerciseInProgram(requireContext())
         if (programs == null || programs!!.isEmpty()) {
             val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
             val programsFragment = ProgramsFragment.newInstance("", profileId)
@@ -61,7 +66,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             programId = daoProgram.getRecord(programs!![0])!!.id
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs!!)
             programSelect.adapter = adapter
-            exercisesRecycler.adapter=ExerciseInProgramAdapter(context, programId, null)
+            exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId).toMutableList()
+            exercisesRecycler.adapter=ExerciseInProgramAdapter(requireContext(), exercisesList, itemClickDeleteRecord, null)
             exercisesRecycler.layoutManager=LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
 
             programSelect.onItemSelectedListener = object :
@@ -69,7 +75,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 override fun onItemSelected(parent: AdapterView<*>,
                                             view: View, position: Int, id: Long) {
                     programId = daoProgram.getRecord(programs!![position])!!.id
-                    exercisesRecycler.adapter=ExerciseInProgramAdapter(context, programId, null)
+                    exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId).toMutableList()
+                    exercisesRecycler.adapter=ExerciseInProgramAdapter(requireContext(), exercisesList, itemClickDeleteRecord, null)
                     refreshData()
                     Toast.makeText(context, getString(R.string.program_selection) + " " + programs!![position], Toast.LENGTH_SHORT).show()
                 }
@@ -111,7 +118,6 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         }
         unitDistanceSpinner.setSelection(distanceUnit)
         // Initialization of the database
-        daoExerciseInProgram = DAOExerciseInProgram(requireContext())
         mDbMachine = DAOMachine(context)
         selectedType = TYPE_FONTE
         exerciseImage.setOnClickListener {
@@ -130,7 +136,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             override fun onMove(recyclerView: RecyclerView, dragged: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                 val fromPosition = dragged.adapterPosition
                 val toPosition = target.adapterPosition
-                val listOfExercises: List<ExerciseInProgram?> = daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val listOfExercises: List<ExerciseInProgram?> = exercisesList
                 if (fromPosition < toPosition) {
                     for (i in fromPosition until toPosition) {
                         Collections.swap(listOfExercises, i, i + 1)
@@ -159,6 +165,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
         })
         touchHelper.attachToRecyclerView(exercisesRecycler)
+        linearLayoutManager = LinearLayoutManager(requireContext())
+        exercisesRecycler.layoutManager = linearLayoutManager
     }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->
@@ -194,7 +202,8 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         }
     }
     private val restTimeCheckChange = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, _: Boolean -> saveSharedParams() }
-    private val itemClickDeleteRecord = BtnClickListener { idToDelete: Long -> showDeleteDialog(idToDelete) }
+    private val itemClickDeleteRecord = BtnOnPostiomClickListener{ idToDelete: Long, positionOnList: Int -> showDeleteDialog(idToDelete, positionOnList) }
+        //BtnClickListener { idToDelete: Long -> showDeleteDialog(idToDelete) }
 
     @SuppressLint("SetTextI18n")
     private val clickAddButton = View.OnClickListener {
@@ -237,6 +246,9 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 )
                 if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
                     mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_FONTE, "", false, null)
+                exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val exercise=exercisesList[exercisesList.size-1]
+                (exercisesRecycler.adapter!! as ExerciseInProgramAdapter).add(exercise)
             }
             TYPE_STATIC -> {
                 if (seriesEdit.text.toString().isEmpty() ||
@@ -268,6 +280,10 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 )
                 if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
                     mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_STATIC, "", false, null)
+                exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val exercise=exercisesList[exercisesList.size-1]
+                (exercisesRecycler.adapter!! as ExerciseInProgramAdapter).add(exercise)
+//                exercisesRecycler.adapter!!.ad
             }
             TYPE_CARDIO -> {
                 if (durationEdit.text.toString().isEmpty() &&  // Only one is mandatory
@@ -315,7 +331,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                     unitDistance)
                 if (mDbMachine.getMachine(exerciseEdit.text.toString()) == null)
                     mDbMachine.addMachine(exerciseEdit.text.toString(), "", TYPE_CARDIO, "", false, null)
+                exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId)
+                val exercise=exercisesList[exercisesList.size-1]
+                (exercisesRecycler.adapter!! as ExerciseInProgramAdapter).add(exercise)
             }
+//            exercisesRecycler.adapter!!//notifyItemInserted(exercisesRecycler.adapter!!.itemCount)
         }
         requireActivity().findViewById<View>(R.id.drawer_layout)?.requestFocus()
         hideKeyboard()
@@ -384,7 +404,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 R.id.distanceEdit -> distanceEdit.setText("")
                 R.id.exerciseEdit -> {
                     exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp)
-                    minMaxLayout.visibility = View.GONE
+                    minMaxLayout.visibility = GONE
                     showExerciseTypeSelector(true)
                 }
             }
@@ -394,12 +414,12 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             }
         } else {
             if (v.id == R.id.exerciseEdit) { // If a creation of a new machine is not ongoing.
-                if (exerciseTypeSelectorLayout.visibility == View.GONE) setCurrentExercise(exerciseEdit.text.toString())
+                if (exerciseTypeSelectorLayout.visibility == GONE) setCurrentExercise(exerciseEdit.text.toString())
             }
         }
     }
 
-    private fun showDeleteDialog(idToDelete: Long) {
+    private fun showDeleteDialog(idToDelete: Long, position: Int) {
         SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
             .setTitleText(getString(R.string.DeleteRecordDialog))
             .setContentText(resources.getText(R.string.areyousure).toString())
@@ -409,6 +429,14 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             .setConfirmClickListener { sDialog: SweetAlertDialog ->
                 daoExerciseInProgram.deleteRecord(idToDelete)
 //                updateRecordTable(exerciseEdit.text.toString(), programId)
+//                exercisesRecycler.adapter!!.
+//                exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId)
+//                exercisesRecycler.adapter!!.notifyItemRemoved(position)
+//                view.visibility= GONE
+                (exercisesRecycler.adapter!! as ExerciseInProgramAdapter).removeAt(position)
+                exercisesList=daoExerciseInProgram.getAllExerciseInProgram(programId).toMutableList()
+//                exercisesRecycler.adapter!!.removeAt(position)
+//                exercisesRecycler.adapter!!.notifyDataSetChanged()
                 KToast.infoToast(requireActivity(), resources.getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG)
                 sDialog.dismissWithAnimation()
             }
@@ -472,7 +500,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
         if (machineStr.isEmpty()) {
             exerciseImage.setImageResource(R.drawable.ic_gym_bench_50dp) // Default image
             showExerciseTypeSelector(true)
-            minMaxLayout.visibility = View.GONE
+            minMaxLayout.visibility = GONE
             return
         }
         val lMachine = mDbMachine.getMachine(machineStr)
@@ -540,7 +568,7 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
     }
 
     private fun showExerciseTypeSelector(displaySelector: Boolean) {
-        if (displaySelector) exerciseTypeSelectorLayout.visibility = View.VISIBLE else exerciseTypeSelectorLayout.visibility = View.GONE
+        if (displaySelector) exerciseTypeSelectorLayout.visibility = View.VISIBLE else exerciseTypeSelectorLayout.visibility = GONE
     }
 
     private fun changeExerciseTypeUI(pType: Int, displaySelector: Boolean) {
@@ -550,11 +578,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 cardioSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
-                serieCardView.visibility = View.GONE
-                repetitionCardView.visibility = View.GONE
-                weightCardView.visibility = View.GONE
-                secondsCardView.visibility = View.GONE
-                restTimeLayout.visibility = View.GONE
+                serieCardView.visibility = GONE
+                repetitionCardView.visibility = GONE
+                weightCardView.visibility = GONE
+                secondsCardView.visibility = GONE
+                restTimeLayout.visibility = GONE
                 distanceCardView.visibility = View.VISIBLE
                 durationCardView.visibility = View.VISIBLE
                 selectedType = TYPE_CARDIO
@@ -564,12 +592,12 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 bodybuildingSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.record_background_odd))
                 serieCardView.visibility = View.VISIBLE
-                repetitionCardView.visibility = View.GONE
+                repetitionCardView.visibility = GONE
                 secondsCardView.visibility = View.VISIBLE
                 weightCardView.visibility = View.VISIBLE
                 restTimeLayout.visibility = View.VISIBLE
-                distanceCardView.visibility = View.GONE
-                durationCardView.visibility = View.GONE
+                distanceCardView.visibility = GONE
+                durationCardView.visibility = GONE
                 selectedType = TYPE_STATIC
             }
             TYPE_FONTE -> {
@@ -578,11 +606,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
-                secondsCardView.visibility = View.GONE
+                secondsCardView.visibility = GONE
                 weightCardView.visibility = View.VISIBLE
                 restTimeLayout.visibility = View.VISIBLE
-                distanceCardView.visibility = View.GONE
-                durationCardView.visibility = View.GONE
+                distanceCardView.visibility = GONE
+                durationCardView.visibility = GONE
                 selectedType = TYPE_FONTE
             }
             else -> {
@@ -591,11 +619,11 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
                 staticExerciseSelector.setBackgroundColor(ContextCompat.getColor(requireActivity().baseContext, R.color.background))
                 serieCardView.visibility = View.VISIBLE
                 repetitionCardView.visibility = View.VISIBLE
-                secondsCardView.visibility = View.GONE
+                secondsCardView.visibility = GONE
                 weightCardView.visibility = View.VISIBLE
                 restTimeLayout.visibility = View.VISIBLE
-                distanceCardView.visibility = View.GONE
-                durationCardView.visibility = View.GONE
+                distanceCardView.visibility = GONE
+                durationCardView.visibility = GONE
                 selectedType = TYPE_FONTE
             }
         }

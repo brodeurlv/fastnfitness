@@ -112,11 +112,11 @@ class ExercisesCursorAdapter internal constructor(private val mContext: Context,
         return mInflater.inflate(R.layout.row_exercise_in_program, parent, false)
     }
 
-    /*
-     * @pColor : si 1 alors affiche la couleur Odd en premier. Sinon, a couleur Even.
-     */
-    fun setFirstColorOdd(pColor: Int) {
-        mFirstColorOdd = pColor
-    }
+//    /*
+//     * @pColor : si 1 alors affiche la couleur Odd en premier. Sinon, a couleur Even.
+//     */
+//    fun setFirstColorOdd(pColor: Int) {
+//        mFirstColorOdd = pColor
+//    }
 
 }
