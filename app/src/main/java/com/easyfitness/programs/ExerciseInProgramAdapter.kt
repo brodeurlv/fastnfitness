@@ -1,19 +1,22 @@
 package com.easyfitness.programs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
-import com.easyfitness.BtnClickListener
-import com.easyfitness.DAO.DAOExerciseInProgram
+import com.easyfitness.DAO.DAOMachine.*
 import com.easyfitness.DAO.ExerciseInProgram
 import com.easyfitness.R
 import com.easyfitness.utils.BtnOnPostiomClickListener
+import com.easyfitness.utils.DateConverter
+import java.text.DecimalFormat
 
 /**
  * Created by senpl based on batra android-popup-remainder
@@ -46,24 +49,69 @@ class ExerciseInProgramAdapter(context: Context, private val exercisesList: Muta
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val notification = this.exercisesList!![position]
+        val notification = this.exercisesList[position]
         holder.setExercise(notification)
     }
 
     override fun getItemCount(): Int {
-        return if (this.exercisesList == null) 0 else exercisesList!!.size
+        return exercisesList.size
     }
-
-//    private fun setExercises(exerciseInProgramList: List<ExerciseInProgram>) {
-//        exercisesList = exerciseInProgramList
-//    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val mTitleTextView: TextView = itemView.findViewById(R.id.MACHINE_CELL)
+        @SuppressLint("SetTextI18n")
         fun setExercise(exercise: ExerciseInProgram) {
             val exerciseName = exercise.exerciseName
             mTitleTextView.text = exerciseName
-            //            mDescriptionTextView.setText(mNotification.getNote());
+            val tSerie = itemView.findViewById<TextView>(R.id.SERIE_CELL)
+            val tSerieLabel = itemView.findViewById<TextView>(R.id.SERIE_LABEL)
+            val tReps = itemView.findViewById<TextView>(R.id.REPETITION_CELL)
+            val tRepsLabel = itemView.findViewById<TextView>(R.id.REP_LABEL)
+            val tWeight = itemView.findViewById<TextView>(R.id.POIDS_CELL)
+            val tWeightLabel = itemView.findViewById<TextView>(R.id.WEIGHT_LABEL)
+            val tRepsLayout = itemView.findViewById<LinearLayout>(R.id.REP_LAYOUT)
+
+            when (exercise.type) {
+                TYPE_FONTE -> {
+                    // UI
+                    tSerieLabel.text = mContext.getString(R.string.SerieLabel)
+                    tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
+                    tRepsLabel.text = mContext.getString(R.string.RepetitionLabel_short)
+                    tRepsLayout.visibility = View.VISIBLE
+                    // Data
+                    tSerie.text = exercise.serie.toString()
+                    tReps.text = exercise.repetition.toString()
+                    val unit = mContext.getString(R.string.KgUnitLabel)
+                    val poids = exercise.poids
+                    val numberFormat = DecimalFormat("#.##")
+                    tWeight.text = numberFormat.format(poids.toDouble()) + unit
+                }
+                TYPE_STATIC -> {
+                    // UI
+                    tSerieLabel.text = mContext.getString(R.string.SerieLabel)
+                    tWeightLabel.text = mContext.getString(R.string.PoidsLabel)
+                    tRepsLabel.text = mContext.getString(R.string.SecondsLabel_short)
+                    tRepsLayout.visibility = View.VISIBLE
+                    // Data
+                    tSerie.text = exercise.serie.toString()
+                    tReps.text = exercise.seconds.toString()
+                    val unit = mContext.getString(R.string.KgUnitLabel)
+                    val poids = exercise.poids
+                    val numberFormat = DecimalFormat("#.##")
+                    tWeight.text = numberFormat.format(poids.toDouble()) + unit
+                }
+                TYPE_CARDIO -> {
+                    tSerieLabel.text = mContext.getString(R.string.DistanceLabel)
+                    tWeightLabel.text = mContext.getString(R.string.DurationLabel)
+                    tRepsLayout.visibility = View.GONE
+                    val distance = exercise.distance
+                    val unit = mContext.getString(R.string.KmUnitLabel)
+                    val numberFormat = DecimalFormat("#.##")
+                    tSerie.text = numberFormat.format(distance.toDouble()) + unit
+                    tWeight.text = DateConverter.durationToHoursMinutesSecondsStr(exercise.duration)
+                }
+            }
+
             val deleteImg = itemView.findViewById<ImageView>(R.id.deleteButton)
             deleteImg.tag = exercise.id
             deleteImg.setOnClickListener { v: View -> mDeleteClickListener?.onBtnClick(v.tag as Long, this.adapterPosition)

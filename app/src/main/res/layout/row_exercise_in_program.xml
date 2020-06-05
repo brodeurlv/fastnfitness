@@ -27,7 +27,7 @@
         tool:visibility="visible" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/CARDVIEW"
+        android:id="@+id/CardWithExercise"
         style="@style/CardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
