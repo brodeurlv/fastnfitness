@@ -73,6 +73,7 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         daoCardio = DAOCardio(context)
         daoStatic = DAOStatic(context)
         mDbMachine = DAOMachine(context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val programs = daoProgram.allProgramsNames
         daoExerciseInProgram = DAOExerciseInProgram(requireContext())
         if (programs == null || programs.isEmpty()) {
@@ -86,9 +87,13 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         } else {
             val programFirst = daoProgram.getRecord(programs[0])
             if (programFirst != null) {
-                programId = programFirst.id
+                programId = requireContext().getSharedPreferences("currentProgram", Context.MODE_PRIVATE).getLong("currentProgram", programFirst.id)
+                val tempPosition = requireContext().getSharedPreferences("currentProgramPosition", Context.MODE_PRIVATE).getInt("currentProgramPosition", 1)
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, programs)
                 programSelect.adapter = adapter
+                if (tempPosition < programs.size) {
+                    programSelect.setSelection(tempPosition)
+                }
                 programSelect.onItemSelectedListener = object :
                     AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>,
@@ -101,7 +106,9 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
                             exerciseIndicator.initDots(exercisesFromProgram.size)
                             exerciseInProgramNumber.text = exercisesFromProgram.size.toString()
                             exerciseIndicator.setDotSelection(currentExerciseOrder)
-                            currentExerciseNumber.text="1"
+                            currentExerciseNumber.text = "1"
+                            saveToPreference("currentProgram", programId)
+                            saveToPreference("currentProgramPosition", position)
                             refreshData()
                             Toast.makeText(context, getString(R.string.program_selection) + " " + programs[position], Toast.LENGTH_SHORT).show()
                         }
@@ -132,7 +139,6 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
         restTimeEdit.onFocusChangeListener = restTimeEditChange
         restTimeCheck.setOnCheckedChangeListener(restTimeCheckChange)
         restoreSharedParams()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         var weightUnit = UnitConverter.UNIT_KG
         try {
             weightUnit = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")?.toInt()!!
@@ -194,6 +200,20 @@ class ProgramRunner : Fragment(R.layout.tab_program_runner) {
             exerciseIndicator.setDotSelection(currentExerciseOrder)
             refreshData()
         }
+    }
+
+    fun saveToPreference(prefName: String?, prefLongToSet: Long?) {
+        val sharedPref = requireContext().getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putLong(prefName, prefLongToSet!!)
+        editor.apply()
+    }
+
+    fun saveToPreference(prefName: String?, prefIntToSet: Int?) {
+        val sharedPref = requireContext().getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt(prefName, prefIntToSet!!)
+        editor.apply()
     }
 
     private val durationSet = MyTimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int, second: Int ->

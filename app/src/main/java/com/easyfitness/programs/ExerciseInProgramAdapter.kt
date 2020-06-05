@@ -49,8 +49,8 @@ class ExerciseInProgramAdapter(context: Context, private val exercisesList: Muta
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val notification = this.exercisesList[position]
-        holder.setExercise(notification)
+        val exerciseInProgram = this.exercisesList[position]
+        holder.setExercise(exerciseInProgram)
     }
 
     override fun getItemCount(): Int {

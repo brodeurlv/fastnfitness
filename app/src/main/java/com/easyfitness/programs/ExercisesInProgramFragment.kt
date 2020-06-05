@@ -134,26 +134,26 @@ class ExercisesInProgramFragment : Fragment(R.layout.tab_program_with_exercises)
             override fun onMove(recyclerView: RecyclerView, dragged: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                 val fromPosition = dragged.adapterPosition
                 val toPosition = target.adapterPosition
-                val listOfExercises: List<ExerciseInProgram?> = exercisesList
+                val listOfExercises: List<ExerciseInProgram> = exercisesList
                 if (fromPosition < toPosition) {
                     for (i in fromPosition until toPosition) {
                         Collections.swap(listOfExercises, i, i + 1)
-                        val order1: Long = listOfExercises[i]!!.order
-                        val order2: Long = listOfExercises[i + 1]!!.order
-                        listOfExercises[i]!!.order = order2
-                        listOfExercises[i + 1]!!.order = order1
-                        daoExerciseInProgram.updateString(listOfExercises[i]!!, DAOExerciseInProgram.ORDER_EXECUTION, order2.toString())
-                        daoExerciseInProgram.updateString(listOfExercises[i + 1]!!, DAOExerciseInProgram.ORDER_EXECUTION, order1.toString())
+                        val order1: Long = listOfExercises[i].order
+                        val order2: Long = listOfExercises[i + 1].order
+                        listOfExercises[i].order = order2
+                        listOfExercises[i + 1].order = order1
+                        daoExerciseInProgram.updateString(listOfExercises[i], DAOExerciseInProgram.ORDER_EXECUTION, order2.toString())
+                        daoExerciseInProgram.updateString(listOfExercises[i + 1], DAOExerciseInProgram.ORDER_EXECUTION, order1.toString())
                     }
                 } else {
                     for (i in fromPosition downTo toPosition + 1) {
                         Collections.swap(listOfExercises, i, i - 1)
-                        val order1: Long = listOfExercises[i]!!.order
-                        val order2: Long = listOfExercises[i - 1]!!.order
-                        listOfExercises[i]!!.order = order2
-                        listOfExercises[i - 1]!!.order = order1
-                        daoExerciseInProgram.updateString(listOfExercises[i]!!, DAOExerciseInProgram.ORDER_EXECUTION, order2.toString())
-                        daoExerciseInProgram.updateString(listOfExercises[i - 1]!!, DAOExerciseInProgram.ORDER_EXECUTION, order1.toString())
+                        val order1: Long = listOfExercises[i].order
+                        val order2: Long = listOfExercises[i - 1].order
+                        listOfExercises[i].order = order2
+                        listOfExercises[i - 1].order = order1
+                        daoExerciseInProgram.updateString(listOfExercises[i], DAOExerciseInProgram.ORDER_EXECUTION, order2.toString())
+                        daoExerciseInProgram.updateString(listOfExercises[i - 1], DAOExerciseInProgram.ORDER_EXECUTION, order1.toString())
                     }
                 }
                 exercisesRecycler.adapter!!.notifyItemMoved(fromPosition, toPosition)
