@@ -46,7 +46,6 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
             val lDAOProgram = DAOProgram(context)
             val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
             lDAOProgram.addRecord(programName, profileId)
-            Toast.makeText(context, "profileId $profileId", Toast.LENGTH_LONG).show()
             newProgramName!!.setText("")
             mTableAdapter!!.notifyDataSetChanged()
             refreshData()
