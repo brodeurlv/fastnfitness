@@ -37,7 +37,7 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
         override fun afterTextChanged(editable: Editable) {}
     }
 
-    private val clickAddButton = View.OnClickListener { _: View? ->
+    private val clickAddButton = View.OnClickListener {
         val programName = newProgramName!!.text.toString()
         if (programName.isEmpty()) {
             Toast.makeText(context, "Enter not empty program name", Toast.LENGTH_LONG).show()
