@@ -22,6 +22,20 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         return newId
     }
 
+    fun addRecord(programName: String?, profileId: Long): Long {
+        val value = ContentValues()
+        val newId: Long
+        if (programExists(programName)) {
+            return -1
+        }
+        value.put(PROGRAM_NAME, programName)
+        value.put(PROFIL_KEY, profileId)
+        val db = open()
+        newId = db.insert(TABLE_NAME, null, value)
+        close()
+        return newId
+    }
+
     private fun programExists(programName: String?): Boolean {
         val lMach = getRecord(programName)
         return lMach != null
@@ -119,7 +133,7 @@ class DAOProgram(context: Context?) : DAOBase(context) {
         const val TABLE_CREATE = ("CREATE TABLE " + TABLE_NAME
             + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROGRAM_NAME
             + " TEXT, " + PROFIL_KEY + " INTEGER);")
-        public fun addInitialProgram(db : SQLiteDatabase, programName :String ) {
+        fun addInitialProgram(db : SQLiteDatabase, programName :String ) {
             var value= ContentValues();
             value.put(PROGRAM_NAME, programName);
             value.put(PROFIL_KEY, 1);

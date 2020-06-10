@@ -6,7 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.FilterQueryProvider
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.easyfitness.DAO.DAOProgram
 import com.easyfitness.DAO.Profile
@@ -43,7 +44,9 @@ class ProgramsFragment : Fragment(R.layout.tab_programs) {
             Toast.makeText(context, "Enter not empty program name", Toast.LENGTH_LONG).show()
         } else {
             val lDAOProgram = DAOProgram(context)
-            lDAOProgram.addRecord(programName)
+            val profileId: Long = (requireActivity() as MainActivity).currentProfile.id
+            lDAOProgram.addRecord(programName, profileId)
+            Toast.makeText(context, "profileId $profileId", Toast.LENGTH_LONG).show()
             newProgramName!!.setText("")
             mTableAdapter!!.notifyDataSetChanged()
             refreshData()
