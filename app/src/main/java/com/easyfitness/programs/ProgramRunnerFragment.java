@@ -1,4 +1,4 @@
-package com.easyfitness.workout;
+package com.easyfitness.programs;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,14 +15,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
-import com.easyfitness.DAO.workout.DAOWorkout;
-import com.easyfitness.DAO.workout.DAOWorkoutHistory;
-import com.easyfitness.DAO.workout.Workout;
-import com.easyfitness.DAO.workout.WorkoutHistory;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.DAO.program.Program;
+import com.easyfitness.DAO.program.ProgramHistory;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
@@ -31,8 +30,8 @@ import com.easyfitness.enums.ProgramStatus;
 import com.easyfitness.enums.RecordType;
 import com.easyfitness.fonte.RecordArrayAdapter;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
+import com.easyfitness.utils.OnCustomEventListener;
 
 import java.util.List;
 
@@ -46,21 +45,22 @@ public class ProgramRunnerFragment extends Fragment {
     private Button mEditButton;
     private ListView mProgramRecordsList;
     private Spinner mProgramsSpinner;
+    private TextView mProgramRecordsListTitle;
 
-    private DAOWorkout mDbWorkout;
-    private DAOWorkoutHistory mDbWorkoutHistory;
+    private DAOProgram mDbWorkout;
+    private DAOProgramHistory mDbWorkoutHistory;
     private DAORecord mDbRecord;
-    private ArrayAdapter<Workout> mAdapterPrograms;
-    private List<Workout> mProgramsArray;
-    private Workout mRunningProgram;
-    private WorkoutHistory mRunningProgramHistory;
+    private ArrayAdapter<Program> mAdapterPrograms;
+    private List<Program> mProgramsArray;
+    private Program mRunningProgram;
+    private ProgramHistory mRunningProgramHistory;
     private boolean mIsProgramRunning = false;
 
     private View.OnClickListener onClickEditProgram = view -> {
 
-        Workout workout = (Workout) mProgramsSpinner.getSelectedItem();
+        Program program = (Program) mProgramsSpinner.getSelectedItem();
 
-        WorkoutPagerFragment fragment = WorkoutPagerFragment.newInstance(workout.getId());
+        ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(program.getId());
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
@@ -93,11 +93,11 @@ public class ProgramRunnerFragment extends Fragment {
 
                 editText.clearFocus();
                 Keyboard.hide(getContext(), editText);
-                DAOWorkout daoWorkout = new DAOWorkout(getContext());
-                long temp_key = daoWorkout.add(new Workout(0, editText.getText().toString(), ""));
+                DAOProgram daoProgram = new DAOProgram(getContext());
+                long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
 
                 sDialog.dismiss();
-                WorkoutPagerFragment fragment = WorkoutPagerFragment.newInstance(temp_key);
+                ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -118,15 +118,15 @@ public class ProgramRunnerFragment extends Fragment {
 
     private View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram==null) {
-            mRunningProgram=(Workout)mProgramsSpinner.getSelectedItem();
-            WorkoutHistory workoutHistory = new WorkoutHistory(-1, mRunningProgram.getId(), getProfile().getId(), ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
-            long workoutHistoryId = mDbWorkoutHistory.add(workoutHistory);
+            mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
+            ProgramHistory programHistory = new ProgramHistory(-1, mRunningProgram.getId(), getProfile().getId(), ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
+            long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
             mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
             mProgramsSpinner.setEnabled(false);
             mStartStopButton.setText(R.string.finish_program);
 
             // add all template records with status "Pending"
-            Cursor cursor = mDbRecord.getProgramTemplateRecords(((Workout)mProgramsSpinner.getSelectedItem()).getId());
+            Cursor cursor = mDbRecord.getProgramTemplateRecords(((Program)mProgramsSpinner.getSelectedItem()).getId());
             List<Record> recordList = mDbRecord.fromCursorToList(cursor);
             for (Record record:recordList)
             {
@@ -140,17 +140,22 @@ public class ProgramRunnerFragment extends Fragment {
             // refresh table
             refreshData();
         } else {
-            mRunningProgramHistory.setEndDate(DateConverter.currentDate());
-            mRunningProgramHistory.setEndTime(DateConverter.currentTime());
-            mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
-            mDbWorkoutHistory.update(mRunningProgramHistory);
-            mRunningProgram=null;
-            mRunningProgramHistory=null;
-            mProgramsSpinner.setEnabled(true);
-            mStartStopButton.setText(R.string.start_program);
-            refreshData();
+            stopProgram();
         }
     };
+
+
+    private void stopProgram(){
+        mRunningProgramHistory.setEndDate(DateConverter.currentDate());
+        mRunningProgramHistory.setEndTime(DateConverter.currentTime());
+        mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
+        mDbWorkoutHistory.update(mRunningProgramHistory);
+        mRunningProgram=null;
+        mRunningProgramHistory=null;
+        mProgramsSpinner.setEnabled(true);
+        mStartStopButton.setText(R.string.start_program);
+        refreshData();
+    }
 
     private AdapterView.OnItemSelectedListener onProgramSelected = new AdapterView.OnItemSelectedListener() {
 
@@ -163,6 +168,22 @@ public class ProgramRunnerFragment extends Fragment {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
+        }
+    };
+    private OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
+        @Override
+        public void onEvent(String eventName) {
+            // Open dialog box to finish program
+            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("You have completed your program ! Do you want to close it ?")
+                .setConfirmText(getContext().getString(R.string.global_yes))
+                .setCancelText(getContext().getString(R.string.global_no))
+                .setHideKeyBoardOnDismiss(true)
+                .setConfirmClickListener(sDialog -> {
+                    stopProgram();
+                    sDialog.dismiss();
+                });
+            dialog.show();
         }
     };
 
@@ -186,11 +207,11 @@ public class ProgramRunnerFragment extends Fragment {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState==null) {
-            mDbWorkout = new DAOWorkout(this.getContext());
-            mDbWorkoutHistory = new DAOWorkoutHistory(this.getContext());
+
+            mDbWorkout = new DAOProgram(this.getContext());
+            mDbWorkoutHistory = new DAOProgramHistory(this.getContext());
             mDbRecord = new DAORecord(this.getContext());
-        }
+
     }
 
     @Override
@@ -201,10 +222,10 @@ public class ProgramRunnerFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_program_runner, container, false);
 
 
-        if (savedInstanceState==null) {
             mStartStopButton = view.findViewById(R.id.startStopProgram);
             mProgramsSpinner = view.findViewById(R.id.programSpinner);
-            mProgramRecordsList = view.findViewById(R.id.listRecord);
+            mProgramRecordsList = view.findViewById(R.id.listProgramRecord);
+            mProgramRecordsListTitle = view.findViewById(R.id.programListTitle);
             mNewButton = view.findViewById(R.id.newProgram);
             mEditButton = view.findViewById(R.id.editProgram);
 
@@ -212,7 +233,7 @@ public class ProgramRunnerFragment extends Fragment {
             mProgramsSpinner.setOnItemSelectedListener(onProgramSelected);
             mNewButton.setOnClickListener(clickAddProgramButton);
             mEditButton.setOnClickListener(onClickEditProgram);
-        }
+
 
         return view;
     }
@@ -220,7 +241,7 @@ public class ProgramRunnerFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        refreshData();
+        //refreshData();
     }
 
     @Override
@@ -263,6 +284,7 @@ public class ProgramRunnerFragment extends Fragment {
                     mProgramsSpinner.setSelection(position);
                     mProgramsSpinner.setEnabled(false);
                     mStartStopButton.setText(R.string.finish_program);
+                    mProgramRecordsListTitle.setText(R.string.program_ongoing);
                     break;
                 }
             }
@@ -272,6 +294,7 @@ public class ProgramRunnerFragment extends Fragment {
             mRunningProgram=null;
             mProgramsSpinner.setEnabled(true);
             mStartStopButton.setText(R.string.start_program);
+            mProgramRecordsListTitle.setText(R.string.program_preview);
         }
 
         // 3. display the ongoing records
@@ -279,9 +302,9 @@ public class ProgramRunnerFragment extends Fragment {
         if (mIsProgramRunning) {
             cursor = mDbRecord.getProgramWorkoutRecords(mRunningProgramHistory.getId());
         } else {
-            Workout selectedWorkout = (Workout) mProgramsSpinner.getSelectedItem();
-            if (selectedWorkout!=null) {
-                cursor = mDbRecord.getProgramTemplateRecords(((Workout)mProgramsSpinner.getSelectedItem()).getId());
+            Program selectedProgram = (Program) mProgramsSpinner.getSelectedItem();
+            if (selectedProgram !=null) {
+                cursor = mDbRecord.getProgramTemplateRecords(((Program)mProgramsSpinner.getSelectedItem()).getId());
             }
         }
 
@@ -289,9 +312,9 @@ public class ProgramRunnerFragment extends Fragment {
 
         DisplayType displayType;
         if (mIsProgramRunning) {
-            displayType = DisplayType.PROGRAM_WORKOUT_DISPLAY;
+            displayType = DisplayType.PROGRAM_RUNNING_DISPLAY;
         } else {
-            displayType = DisplayType.PROGRAM_WORKOUT_PREVIEW_DISPLAY;
+            displayType = DisplayType.PROGRAM_PREVIEW_DISPLAY;
         }
 
         if (recordList.size()==0) {
@@ -299,11 +322,13 @@ public class ProgramRunnerFragment extends Fragment {
         } else {
             if (mProgramRecordsList.getAdapter() == null) {
                 RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), recordList, displayType, null);
+                mTableAdapter.setOnProgramCompletedListener(onProgramCompletedListener);
                 mProgramRecordsList.setAdapter(mTableAdapter);
             } else {
                 RecordArrayAdapter mTableAdapter = (RecordArrayAdapter)mProgramRecordsList.getAdapter();
                 if (mTableAdapter.getDisplayType()!=displayType) {
                     mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), recordList, displayType, null);
+                    mTableAdapter.setOnProgramCompletedListener(onProgramCompletedListener);
                     mProgramRecordsList.setAdapter(mTableAdapter);
                 } else {
                     mTableAdapter.setRecords(recordList);

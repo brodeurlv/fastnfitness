@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
-import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
-import com.easyfitness.workout.ProgramRunnerFragment;
+import com.easyfitness.programs.ProgramRunnerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -55,7 +54,7 @@ public class FontesPagerFragment extends Fragment {
             freeWorkoutArgs.putLong("templateId", -1);
 
             Bundle guidedWorkoutArgs = new Bundle();
-            guidedWorkoutArgs.putInt("displayType", DisplayType.PROGRAM_WORKOUT_DISPLAY.ordinal());
+            guidedWorkoutArgs.putInt("displayType", DisplayType.PROGRAM_RUNNING_DISPLAY.ordinal());
             guidedWorkoutArgs.putLong("templateId", -1);
 
             Bundle args = this.getArguments();

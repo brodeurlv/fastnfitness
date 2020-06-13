@@ -136,7 +136,7 @@ public class DAORecord extends DAOBase {
             record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
             record.getNote(),
             record.getDistance(), record.getDistanceUnit(), record.getDuration(),
-            record.getSecond(),
+            record.getSeconds(),
             record.getProfileId(), record.getRecordType(),
             record.getTemplateRecordId(),record.getTemplateId(), record.getTemplateSessionId(), record.getRestTime(), record.getProgramRecordStatus());
     }
@@ -224,7 +224,7 @@ public class DAORecord extends DAOBase {
             addRecord(record.getDate(), record.getTime(),
                 record.getExercise(), record.getExerciseType(),
                 record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
-                record.getSecond(),
+                record.getSeconds(),
                 record.getDistance(), record.getDistanceUnit(), record.getDuration(),
                 record.getNote(),
                 record.getProfileId(), record.getTemplateRecordId(),
@@ -466,10 +466,6 @@ public class DAORecord extends DAOBase {
         if (mCursor.moveToFirst()) {
             do {
                 int i = 0;
-                //String date;
-                //date = mCursor.getString(0);
-                // Change Date format
-                //date = date.substring(0, 3) + "-" + date.substring(5, 6) + "-"
 
                 Date date;
                 try {
@@ -545,22 +541,26 @@ public class DAORecord extends DAOBase {
         if (lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine
-                + "\" AND " + DATE + "=\"" + pDate
-                + "\" AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + "\" AND " + DATE + "=\"" + pDate + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         } else if (!lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + DATE + "=\"" + pDate
-                + "\" AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " WHERE " + DATE + "=\"" + pDate + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine
-                + "\" AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " ORDER BY " + DATE + " DESC," + KEY + " DESC";
         }
 
@@ -711,7 +711,7 @@ public class DAORecord extends DAOBase {
         value.put(DAORecord.DISTANCE, record.getDistance());
         value.put(DAORecord.DISTANCE_UNIT, record.getDistanceUnit().ordinal());
         value.put(DAORecord.DURATION, record.getDuration());
-        value.put(DAORecord.SECONDS, record.getSecond());
+        value.put(DAORecord.SECONDS, record.getSeconds());
         value.put(DAORecord.NOTES, record.getNote());
         value.put(DAORecord.TEMPLATE_KEY, record.getTemplateId());
         value.put(DAORecord.TEMPLATE_RECORD_KEY, record.getTemplateRecordId());

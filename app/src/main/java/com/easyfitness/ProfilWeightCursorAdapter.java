@@ -65,7 +65,7 @@ public class ProfilWeightCursorAdapter extends CursorAdapter {
         //t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
         t2.setText(cursor.getString(2));
 
-        ImageView deletImg = view.findViewById(R.id.action1Button);
+        ImageView deletImg = view.findViewById(R.id.deleteButton);
         deletImg.setTag(cursor.getLong(0));
         deletImg.setOnClickListener(v -> {
             if (mDeleteClickListener != null)

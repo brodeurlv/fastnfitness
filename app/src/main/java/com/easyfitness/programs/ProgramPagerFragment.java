@@ -1,4 +1,4 @@
-package com.easyfitness.workout;
+package com.easyfitness.programs;
 
 
 import android.app.AlertDialog;
@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
-import com.easyfitness.DAO.workout.DAOWorkout;
+import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
-public class WorkoutPagerFragment extends Fragment {
+public class ProgramPagerFragment extends Fragment {
     FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
 
@@ -37,8 +37,8 @@ public class WorkoutPagerFragment extends Fragment {
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static WorkoutPagerFragment newInstance(long templateId) {
-        WorkoutPagerFragment f = new WorkoutPagerFragment();
+    public static ProgramPagerFragment newInstance(long templateId) {
+        ProgramPagerFragment f = new ProgramPagerFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
@@ -58,7 +58,7 @@ public class WorkoutPagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.program_pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager);
+        mViewPager = view.findViewById(R.id.program_pager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -68,7 +68,7 @@ public class WorkoutPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("Info", WorkoutInfoFragment.class, args)
+                .add("Info", ProgramInfoFragment.class, args)
                 .add("Editor", FontesFragment.class, args)
                 .create());
 
@@ -102,7 +102,7 @@ public class WorkoutPagerFragment extends Fragment {
         top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 
         ImageButton deleteButton;
-        deleteButton = view.findViewById(R.id.action1Button);
+        deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
 
         // Inflate the layout for this fragment
@@ -112,7 +112,7 @@ public class WorkoutPagerFragment extends Fragment {
     private View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
-            case R.id.action1Button:
+            case R.id.deleteButton:
                 deleteProgram();
                 break;
             default:
@@ -126,7 +126,7 @@ public class WorkoutPagerFragment extends Fragment {
         deleteDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
         deleteDialogBuilder.setMessage("Do you want to delete this program?");
 
-        DAOWorkout dB = new DAOWorkout(getContext());
+        DAOProgram dB = new DAOProgram(getContext());
 
         // If yes, delete also all associated templates records
         deleteDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), (dialog, which) -> {
@@ -155,7 +155,7 @@ public class WorkoutPagerFragment extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.program_pager))).getAdapter();
     }
 
     @Override

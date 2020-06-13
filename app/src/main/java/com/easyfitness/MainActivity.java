@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +35,7 @@ import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.record.Record;
-import com.easyfitness.DAO.workout.DAOWorkout;
+import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
@@ -47,8 +48,7 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
-import com.easyfitness.utils.UnitConverter;
-import com.easyfitness.workout.WorkoutListFragment;
+import com.easyfitness.programs.ProgramListFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private SettingsFragment mpSettingFrag = null;
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
-    private WorkoutListFragment mpWorkoutListFrag;
+    private ProgramListFragment mpWorkoutListFrag;
 
     private String currentFragmentName = "";
     private DAOProfile mDbProfils = null;
@@ -208,6 +208,36 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.e("Starting MainActivity", "Starting MainActivity");
+
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String dayNightAuto = SP.getString("dayNightAuto", "2");
+        int dayNightAutoValue;
+        try {
+            dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        }catch(NumberFormatException e) {
+            dayNightAutoValue = 2;
+        }
+        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            SweetAlertDialog.DARK_STYLE=true;
+        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            SweetAlertDialog.DARK_STYLE=false;
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    SweetAlertDialog.DARK_STYLE=false; break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    SweetAlertDialog.DARK_STYLE=true; break;
+                default:
+                    SweetAlertDialog.DARK_STYLE=false;
+            }
+        }
+
         super.onCreate(savedInstanceState);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -233,34 +263,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String dayNightAuto = SP.getString("dayNightAuto", Integer.toString(getResources().getInteger(R.integer.autoui_mode_value)));
-        int dayNightAutoValue;
-        try {
-            dayNightAutoValue = Integer.parseInt(dayNightAuto);
-        }catch(NumberFormatException e) {
-            dayNightAutoValue = getResources().getInteger(R.integer.autoui_mode_value);
-        }
-        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            SweetAlertDialog.DARK_STYLE=true;
-        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            SweetAlertDialog.DARK_STYLE=false;
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                    SweetAlertDialog.DARK_STYLE=false; break;
-                case Configuration.UI_MODE_NIGHT_YES:
-                    SweetAlertDialog.DARK_STYLE=true; break;
-                default:
-                    SweetAlertDialog.DARK_STYLE=false;
-            }
-        }
-
         setContentView(R.layout.activity_main);
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
@@ -268,15 +270,14 @@ public class MainActivity extends AppCompatActivity {
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
 
         if (savedInstanceState == null) {
-            if (mpFontesPagerFrag == null)
-                mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+            if (mpFontesPagerFrag == null) mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
             if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
             if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
-            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
+            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 4);
             if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
             if (mpBodyPartListFrag == null) mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
-            if (mpWorkoutListFrag == null) mpWorkoutListFrag = WorkoutListFragment.newInstance(WORKOUTS, 10);
+            if (mpWorkoutListFrag == null) mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
         } else {
             mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
             mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
@@ -285,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
             mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, ABOUT);
             mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
             mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, BODYTRACKING);
-            mpWorkoutListFrag = (WorkoutListFragment) getSupportFragmentManager().getFragment(savedInstanceState, WORKOUTS);
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().getFragment(savedInstanceState, WORKOUTS);
         }
 
         loadPreferences();
@@ -377,6 +378,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
+
+        Log.e("Darkmode DEBUG", "MainActivity: Oncreate Done");
+
     }
 
     @Override
@@ -413,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
                 lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfile().getId(), WeightUnit.LBS, "", "12:34:56", -1);
             }
 
-            DAOWorkout lDbWorkout = new DAOWorkout(this);
+            DAOProgram lDbWorkout = new DAOProgram(this);
             if(lDbWorkout.getCount()==0) {
                 lDbWorkout.populate();
             }
@@ -763,7 +767,6 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
         }
         currentFragmentName = pFragmentName;
-        //if (addToBackStack) ft.addToBackStack(null);
         ft.commit();
 
     }
@@ -798,8 +801,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // rafraichit le fragment courant
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                //FragmentTransaction ft=fragmentManager.beginTransaction();
-                //showFragment(WEIGHT);
 
                 // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
                 // Il faut donc que cela soit pris en compte dans le refresh des fragments.
@@ -923,11 +924,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private WorkoutListFragment getWorkoutListFragment() {
+    private ProgramListFragment getWorkoutListFragment() {
         if (mpWorkoutListFrag == null)
-            mpWorkoutListFrag = (WorkoutListFragment) getSupportFragmentManager().findFragmentByTag(WORKOUTS);
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().findFragmentByTag(WORKOUTS);
         if (mpWorkoutListFrag == null)
-            mpWorkoutListFrag = WorkoutListFragment.newInstance(WORKOUTS, 10);
+            mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 10);
 
         return mpWorkoutListFrag;
     }
@@ -999,10 +1000,6 @@ public class MainActivity extends AppCompatActivity {
         mDbProfils = new DAOProfile(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        /*if (mDbProfils.getCount() == 0 || mCurrentProfilID == -1) {
-            // Ouvre la fenetre de creation de profil
-            this.CreateNewProfil();
-        } else {*/
         mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
         if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
             try {

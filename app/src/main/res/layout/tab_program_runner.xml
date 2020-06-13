@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="tab_fontes"
+    android:name="tab_program_runner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
@@ -34,10 +34,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programs: "
+                    android:text="@string/programs"
                     android:layout_gravity="center_vertical"/>
 
                 <Spinner
@@ -51,9 +50,9 @@
                     android:id="@+id/newProgram"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
                     android:background="@color/add_button_background"
-                    android:text="New" />
+                    android:text="@string/newStr" />
 
                 <Button
                     android:id="@+id/editProgram"
@@ -62,7 +61,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     android:background="@color/add_button_background"
-                    android:text="Edit" />
+                    android:text="@string/edit" />
 
             </LinearLayout>
 
@@ -76,19 +75,20 @@
             <Button
                 android:id="@+id/startStopProgram"
                 style="@style/Widget.AppCompat.Button.AddButton"
-                android:text="Start program" />
+                android:text="@string/start_program" />
 
             <TextView
+                android:id="@+id/programListTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="3dp"
-                android:text="Program:" />
+                android:text="@string/program_preview" />
 
         </LinearLayout>
 
         <ListView
-            android:id="@+id/listRecord"
+            android:id="@+id/listProgramRecord"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="false"
@@ -96,7 +96,7 @@
             android:dividerHeight="0dp"
             android:fastScrollEnabled="false"
             android:isScrollContainer="false"
-            android:scrollbars="none" />
-
+            android:scrollbars="none"
+            tools:ignore="NestedScrolling" />
     </LinearLayout>
 </ScrollView>

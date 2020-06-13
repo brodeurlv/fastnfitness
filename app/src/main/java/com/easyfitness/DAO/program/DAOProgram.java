@@ -1,4 +1,4 @@
-package com.easyfitness.DAO.workout;
+package com.easyfitness.DAO.program;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ import com.easyfitness.DAO.DAOBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOWorkout extends DAOBase {
+public class DAOProgram extends DAOBase {
 
     // Contacts table name
     public static final String TABLE_NAME = "EFworkout";
@@ -28,22 +28,22 @@ public class DAOWorkout extends DAOBase {
     //DAOFonte mDAOFonte = null;
 
 
-    public DAOWorkout(Context context) {
+    public DAOProgram(Context context) {
         super(context);
     }
 
     /**
      * @param m DBOProfil Profile a ajouter a la base
      */
-    public long add(Workout m) {
+    public long add(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
 
-        value.put(DAOWorkout.NAME, m.getName());
-        value.put(DAOWorkout.DESCRIPTION, m.getDescription());
+        value.put(DAOProgram.NAME, m.getName());
+        value.put(DAOProgram.DESCRIPTION, m.getDescription());
 
-        long new_id = db.insert(DAOWorkout.TABLE_NAME, null, value);
+        long new_id = db.insert(DAOProgram.TABLE_NAME, null, value);
 
         close();
         return new_id;
@@ -52,7 +52,7 @@ public class DAOWorkout extends DAOBase {
     /**
      * @param id long id of the Profile
      */
-    public Workout get(long id) {
+    public Program get(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         if (mCursor != null) mCursor.close();
         mCursor = null;
@@ -64,9 +64,9 @@ public class DAOWorkout extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            Workout value = new Workout(mCursor.getLong(mCursor.getColumnIndex(DAOWorkout.KEY)),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkout.NAME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkout.DESCRIPTION))
+            Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
             );
             mCursor.close();
             close();
@@ -81,8 +81,8 @@ public class DAOWorkout extends DAOBase {
     }
 
     // Getting All Profils
-    public List<Workout> getList(String pRequest) {
-        List<Workout> valueList = new ArrayList<>();
+    public List<Program> getList(String pRequest) {
+        List<Program> valueList = new ArrayList<>();
         // Select All Query
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -92,9 +92,9 @@ public class DAOWorkout extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Workout value = new Workout(mCursor.getLong(mCursor.getColumnIndex(DAOWorkout.KEY)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkout.NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkout.DESCRIPTION))
+                Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
                 );
 
                 // Adding value to list
@@ -108,7 +108,7 @@ public class DAOWorkout extends DAOBase {
     }
 
     // Getting All
-    public List<Workout> getAll() {
+    public List<Program> getAll() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + NAME + " ASC";
 
@@ -117,12 +117,12 @@ public class DAOWorkout extends DAOBase {
     }
 
     // Updating single value
-    public int update(Workout m) {
+    public int update(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(DAOWorkout.NAME, m.getName());
-        value.put(DAOWorkout.DESCRIPTION, m.getDescription());
+        value.put(DAOProgram.NAME, m.getName());
+        value.put(DAOProgram.DESCRIPTION, m.getDescription());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -130,7 +130,7 @@ public class DAOWorkout extends DAOBase {
     }
 
     // Deleting single Profile
-    public void delete(Workout m) {
+    public void delete(Program m) {
         delete(m.getId());
     }
 
@@ -166,9 +166,9 @@ public class DAOWorkout extends DAOBase {
 
     /* DEBUG ONLY */
     public void populate() {
-        Workout m = new Workout(0,"Template 1", "Description 1");
+        Program m = new Program(0,"Template 1", "Description 1");
         this.add(m);
-        m = new Workout(0,"Template 2", "Description 2");
+        m = new Program(0,"Template 2", "Description 2");
         this.add(m);
     }
 

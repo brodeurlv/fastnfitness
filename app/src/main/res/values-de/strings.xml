@@ -270,5 +270,19 @@
     <string name="enter_birthday">Geben Sie Geburtstag</string>
     <string name="enter_bodypart_name">Geben Sie Körperteil Name</string>
     <string name="strength_category">Stärke</string>
+    <string name="add_to_template">In dem Programm</string>
+    <string name="automatic_date_time">Automatische Einstellung von Datum / Uhrzeit</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="enter_workout_name">Programmname eingeben</string>
+    <string name="filter_by_workout_name">Filter nach Programmnamen</string>
+    <string name="finish_program">Beenden das Programm</string>
+    <string name="newStr">Neu</string>
+    <string name="new_program">Neues Programm</string>
+    <string name="program_running">Programm:</string>
+    <string name="program_preview">Programmvorschau:</string>
+    <string name="programs">Programme:</string>
+    <string name="start_program">Start Programm</string>
+    <string name="update">Aktualisieren</string>
+    <string name="workout_list_menu_item">Programmliste</string>
 </resources>
 

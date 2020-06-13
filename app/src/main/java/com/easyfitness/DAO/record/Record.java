@@ -1,5 +1,6 @@
 package com.easyfitness.DAO.record;
 
+import com.easyfitness.DAO.Weight;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.ProgramRecordStatus;
@@ -136,6 +137,15 @@ public class Record {
         mReps = reps;
     }
 
+    /*public void setWeight(Weight weight) {
+        mWeight = weight.getStoredWeight();
+        mWeightUnit = weight.getStoredUnit();
+    }
+
+    public Weight getWeight() {
+        return mWeight;
+    }*/
+
     public float getWeight() {
         return mWeight;
     }
@@ -152,7 +162,7 @@ public class Record {
         mWeightUnit = weightUnit;
     }
 
-    public int getSecond() {
+    public int getSeconds() {
         return mSecond;
     }
 

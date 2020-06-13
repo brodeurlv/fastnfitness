@@ -1,4 +1,4 @@
-package com.easyfitness.DAO.workout;
+package com.easyfitness.DAO.program;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.easyfitness.enums.ProgramStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOWorkoutHistory extends DAOBase {
+public class DAOProgramHistory extends DAOBase {
 
     // Contacts table name
     public static final String TABLE_NAME = "EFworkoutHistory";
@@ -38,27 +38,27 @@ public class DAOWorkoutHistory extends DAOBase {
 
     private Cursor mCursor = null;
 
-    public DAOWorkoutHistory(Context context) {
+    public DAOProgramHistory(Context context) {
         super(context);
     }
 
     /**
      * @param m DBOProfil Profile a ajouter a la base
      */
-    public long add(WorkoutHistory m) {
+    public long add(ProgramHistory m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
 
-        value.put(DAOWorkoutHistory.PROGRAM_KEY, m.getProgramId());
-        value.put(DAOWorkoutHistory.PROFILE_KEY, m.getProfileId());
-        value.put(DAOWorkoutHistory.START_DATE, m.getStartDate());
-        value.put(DAOWorkoutHistory.START_TIME, m.getStartTime());
-        value.put(DAOWorkoutHistory.END_DATE, m.getEndDate());
-        value.put(DAOWorkoutHistory.END_TIME, m.getEndTime());
-        value.put(DAOWorkoutHistory.STATUS, m.getStatus().ordinal());
+        value.put(DAOProgramHistory.PROGRAM_KEY, m.getProgramId());
+        value.put(DAOProgramHistory.PROFILE_KEY, m.getProfileId());
+        value.put(DAOProgramHistory.START_DATE, m.getStartDate());
+        value.put(DAOProgramHistory.START_TIME, m.getStartTime());
+        value.put(DAOProgramHistory.END_DATE, m.getEndDate());
+        value.put(DAOProgramHistory.END_TIME, m.getEndTime());
+        value.put(DAOProgramHistory.STATUS, m.getStatus().ordinal());
 
-        long new_id = db.insert(DAOWorkoutHistory.TABLE_NAME, null, value);
+        long new_id = db.insert(DAOProgramHistory.TABLE_NAME, null, value);
 
         close();
         return new_id;
@@ -67,7 +67,7 @@ public class DAOWorkoutHistory extends DAOBase {
     /**
      * @param id long id of the Profile
      */
-    public WorkoutHistory get(long id) {
+    public ProgramHistory get(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         if (mCursor != null) mCursor.close();
         mCursor = null;
@@ -79,14 +79,14 @@ public class DAOWorkoutHistory extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            WorkoutHistory value = new WorkoutHistory(mCursor.getLong(mCursor.getColumnIndex(DAOWorkoutHistory.KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.PROGRAM_KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.PROFILE_KEY)),
-                ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.STATUS))),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.START_DATE)),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.START_TIME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.END_DATE)),
-                mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.END_TIME))
+            ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
+                mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
+                mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
+                ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
+                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
             );
             mCursor.close();
             close();
@@ -101,8 +101,8 @@ public class DAOWorkoutHistory extends DAOBase {
     }
 
     // Getting All Profils
-    public List<WorkoutHistory> getList(String pRequest) {
-        List<WorkoutHistory> valueList = new ArrayList<>();
+    public List<ProgramHistory> getList(String pRequest) {
+        List<ProgramHistory> valueList = new ArrayList<>();
         // Select All Query
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -112,14 +112,14 @@ public class DAOWorkoutHistory extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                WorkoutHistory value = new WorkoutHistory(mCursor.getLong(mCursor.getColumnIndex(DAOWorkoutHistory.KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.PROGRAM_KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.PROFILE_KEY)),
-                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOWorkoutHistory.STATUS))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.START_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.START_TIME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.END_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOWorkoutHistory.END_TIME))
+                ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
+                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
                 );
 
                 // Adding value to list
@@ -137,7 +137,7 @@ public class DAOWorkoutHistory extends DAOBase {
     }
 
     // Getting All
-    public List<WorkoutHistory> getAll() {
+    public List<ProgramHistory> getAll() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + KEY + " DESC";
 
@@ -146,11 +146,11 @@ public class DAOWorkoutHistory extends DAOBase {
     }
 
     // Getting All
-    public WorkoutHistory getRunningProgram() {
+    public ProgramHistory getRunningProgram() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " ORDER BY " + KEY + " DESC";
 
-        List<WorkoutHistory> list = getList(selectQuery);
+        List<ProgramHistory> list = getList(selectQuery);
         if (list.size()>0) {
             return list.get(0);
         } else {
@@ -159,17 +159,17 @@ public class DAOWorkoutHistory extends DAOBase {
     }
 
     // Updating single value
-    public int update(WorkoutHistory m) {
+    public int update(ProgramHistory m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(DAOWorkoutHistory.PROGRAM_KEY, m.getProgramId());
-        value.put(DAOWorkoutHistory.PROFILE_KEY, m.getProfileId());
-        value.put(DAOWorkoutHistory.START_DATE, m.getStartDate());
-        value.put(DAOWorkoutHistory.START_TIME, m.getStartTime());
-        value.put(DAOWorkoutHistory.END_DATE, m.getEndDate());
-        value.put(DAOWorkoutHistory.END_TIME, m.getEndTime());
-        value.put(DAOWorkoutHistory.STATUS, m.getStatus().ordinal());
+        value.put(DAOProgramHistory.PROGRAM_KEY, m.getProgramId());
+        value.put(DAOProgramHistory.PROFILE_KEY, m.getProfileId());
+        value.put(DAOProgramHistory.START_DATE, m.getStartDate());
+        value.put(DAOProgramHistory.START_TIME, m.getStartTime());
+        value.put(DAOProgramHistory.END_DATE, m.getEndDate());
+        value.put(DAOProgramHistory.END_TIME, m.getEndTime());
+        value.put(DAOProgramHistory.STATUS, m.getStatus().ordinal());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
@@ -177,7 +177,7 @@ public class DAOWorkoutHistory extends DAOBase {
     }
 
     // Deleting single Profile
-    public void delete(WorkoutHistory m) {
+    public void delete(ProgramHistory m) {
         delete(m.getId());
     }
 

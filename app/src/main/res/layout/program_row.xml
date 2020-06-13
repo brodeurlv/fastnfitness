@@ -29,13 +29,13 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/LIST_WORKOUT_DESCRIPTION"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="25"
-            android:gravity="center_vertical"
-            android:text="Description"
-            android:textSize="12sp" />
+        android:id="@+id/LIST_WORKOUT_DESCRIPTION"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="25"
+        android:gravity="center_vertical"
+        android:text="Description"
+        android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

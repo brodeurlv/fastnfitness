@@ -57,6 +57,7 @@ import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.views.WorkoutValuesInputView;
@@ -86,6 +87,7 @@ public class FontesFragment extends Fragment {
     private ImageButton machineListButton = null;
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
+    private CardView detailsCardView = null;
     private CheckBox autoTimeCheckBox = null;
     private TextView dateEdit = null;
     private TextView timeEdit = null;
@@ -118,7 +120,7 @@ public class FontesFragment extends Fragment {
 
         String date = strHour + ":" + strMinute + ":" + strSecond;
         timeEdit.setText(date);
-        hideKeyboard(timeEdit);
+        Keyboard.hide(getContext(), timeEdit);
     };
     private OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
@@ -134,12 +136,6 @@ public class FontesFragment extends Fragment {
         }
         return false;
     };
-    private OnFocusChangeListener restTimeEditChange = (v, hasFocus) -> {
-        if (!hasFocus) {
-            saveSharedParams();
-        }
-    };
-    private CompoundButton.OnCheckedChangeListener restTimeCheckChange = (buttonView, isChecked) -> saveSharedParams();
     private BtnClickListener itemClickCopyRecord = id -> {
         Record r = mDbRecord.getRecord(id);
         if (r != null) {
@@ -157,7 +153,7 @@ public class FontesFragment extends Fragment {
                 }
                 workoutValuesInputView.setWeight(poids, weightUnit);
             } else if (r.getExerciseType() == ExerciseType.ISOMETRIC) {
-                workoutValuesInputView.setSeconds(r.getSecond());
+                workoutValuesInputView.setSeconds(r.getSeconds());
                 workoutValuesInputView.setSets(r.getSets());
                 Float poids = r.getWeight();
                 WeightUnit weightUnit = WeightUnit.KG;
@@ -179,60 +175,7 @@ public class FontesFragment extends Fragment {
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     };
-    private BtnClickListener itemClickMoveUpRecordTemplate = id -> {
-        Record r = mDbRecord.getRecord(id);
-        int oldOrder = r.getTemplateOrder();
 
-        if (r != null && r.getTemplateOrder()>0) {
-            int newOrder = r.getTemplateOrder() - 1;
-            if (newOrder<0) newOrder=0;
-
-            // Get list of records for this program
-            Cursor cursor = mDbRecord.getProgramTemplateRecords(r.getTemplateId());
-            List<Record> records = mDbRecord.fromCursorToList(cursor);
-
-            for (Record record : records) {
-                if (record.getTemplateOrder()==newOrder) {
-                    record.setTemplateOrder(oldOrder);
-                    mDbRecord.updateRecord(record);
-                    break;
-                }
-            }
-
-            r.setTemplateOrder(newOrder);
-            mDbRecord.updateRecord(r);
-            updateRecordTable(machineEdit.getText().toString());
-        }
-    };
-    private BtnClickListener itemClickMoveDownRecordTemplate = id -> {
-        Record r = mDbRecord.getRecord(id);
-        int oldOrder = r.getTemplateOrder();
-
-        if (r != null) {
-            int newOrder = r.getTemplateOrder() + 1;
-
-            // Get list of records for this program
-            Cursor cursor = mDbRecord.getProgramTemplateRecords(r.getTemplateId());
-            List<Record> records = mDbRecord.fromCursorToList(cursor);
-
-            if (newOrder>=records.size()) {
-                newOrder = records.size() - 1;
-            } else {
-                for (Record record : records) {
-                    if (record.getTemplateOrder() == newOrder) {
-                        record.setTemplateOrder(oldOrder);
-                        mDbRecord.updateRecord(record);
-                        break;
-                    }
-                }
-            }
-
-            r.setTemplateOrder(newOrder);
-            mDbRecord.updateRecord(r);
-            updateRecordTable(machineEdit.getText().toString());
-        }
-    };
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener clickAddButton = v -> {
         // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
@@ -291,7 +234,7 @@ public class FontesFragment extends Fragment {
 
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
+                    CountdownDialogbox cdd = new CountdownDialogbox(getActivity(), restTime, exerciseType);
                     cdd.setNbSeries(iNbSeries);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
@@ -344,7 +287,7 @@ public class FontesFragment extends Fragment {
 
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
+                    CountdownDialogbox cdd = new CountdownDialogbox(getActivity(), restTime, exerciseType);
                     cdd.setNbSeries(iNbSeries);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
@@ -372,7 +315,6 @@ public class FontesFragment extends Fragment {
             long duration = workoutValuesInputView.getDurationValue();
 
             float distance = workoutValuesInputView.getDistanceValue();
-
             if (workoutValuesInputView.getDistanceUnit()==DistanceUnit.MILES) {
                 distance = UnitConverter.MilesToKm(distance); // Always convert to KG
             }
@@ -392,7 +334,7 @@ public class FontesFragment extends Fragment {
 
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
-                    CountdownDialogbox cdd = new CountdownDialogbox(mActivity, restTime, exerciseType);
+                    CountdownDialogbox cdd = new CountdownDialogbox(getActivity(), restTime, exerciseType);
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
@@ -409,7 +351,7 @@ public class FontesFragment extends Fragment {
         }
 
         getActivity().findViewById(R.id.drawer_layout).requestFocus();
-        hideKeyboard(v);
+        Keyboard.hide(getContext(), v);
 
         lTableColor = (lTableColor + 1) % 2; // Change la couleur a chaque ajout de donnees
 
@@ -428,6 +370,8 @@ public class FontesFragment extends Fragment {
         mDbBodyBuilding.closeCursor();
         mDbStatic.closeCursor();
         mDbRecord.closeCursor();
+
+        saveSharedParams();
     };
     private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
         @Override
@@ -469,8 +413,7 @@ public class FontesFragment extends Fragment {
                     setCurrentMachine(lMachine.getName());
 
                     getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
-
-                    hideKeyboard(getMainActivity().findViewById(R.id.drawer_layout));
+                    Keyboard.hide(getContext(), getMainActivity().findViewById(R.id.drawer_layout));
 
                     if (machineListDialog.isShowing()) {
                         machineListDialog.dismiss();
@@ -492,7 +435,7 @@ public class FontesFragment extends Fragment {
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
         dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
-        hideKeyboard(dateEdit);
+        Keyboard.hide(getContext(), dateEdit);
     };
     private OnClickListener clickDateEdit = v -> {
         switch (v.getId()) {
@@ -548,6 +491,7 @@ public class FontesFragment extends Fragment {
         }
     };
 
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -581,7 +525,7 @@ public class FontesFragment extends Fragment {
         machineListButton = view.findViewById(R.id.buttonListMachine);
         addButton = view.findViewById(R.id.addperff);
 
-        CardView detailsCardView = view.findViewById(R.id.detailsCardView);
+        detailsCardView = view.findViewById(R.id.detailsCardView);
         detailsLayout = view.findViewById(R.id.notesLayout);
         detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
         machineImage = view.findViewById(R.id.imageMachine);
@@ -609,7 +553,7 @@ public class FontesFragment extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         WeightUnit weightUnit = WeightUnit.KG;
         try {
-            weightUnit = WeightUnit.fromInteger(Integer.valueOf(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
+            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
         } catch (NumberFormatException e) {
             weightUnit = WeightUnit.KG;
         }
@@ -617,7 +561,7 @@ public class FontesFragment extends Fragment {
 
         DistanceUnit distanceUnit;
         try {
-            distanceUnit = DistanceUnit.fromInteger(Integer.valueOf(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
+            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
         } catch (NumberFormatException e) {
             distanceUnit = DistanceUnit.KM;
         }
@@ -630,8 +574,7 @@ public class FontesFragment extends Fragment {
         mDbRecord = new DAORecord(getContext());
         mDbMachine = new DAOMachine(getContext());
 
-        dateEdit.setText(DateConverter.currentDate());
-        timeEdit.setText(DateConverter.currentTime());
+
 
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
@@ -647,10 +590,7 @@ public class FontesFragment extends Fragment {
             }
         });
 
-        if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
-            addButton.setText("Add to template");
-            detailsCardView.setVisibility(View.GONE);
-        }
+
 
         return view;
     }
@@ -659,6 +599,12 @@ public class FontesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         this.mActivity = (MainActivity) this.getActivity();
+        dateEdit.setText(DateConverter.currentDate());
+        timeEdit.setText(DateConverter.currentTime());
+        if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
+            addButton.setText(R.string.add_to_template);
+            detailsCardView.setVisibility(View.GONE);
+        }
         refreshData();
     }
 
@@ -679,7 +625,7 @@ public class FontesFragment extends Fragment {
     }
 
     public MainActivity getMainActivity() {
-        return this.mActivity;
+        return (MainActivity) this.getActivity();
     }
 
     private void showRecordListMenu(final long id) {
@@ -693,7 +639,6 @@ public class FontesFragment extends Fragment {
 
         AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getView().getContext());
         itemActionbuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
-            //ListView lv = ((AlertDialog) dialog).getListView();
 
             switch (which) {
                 // Delete
@@ -742,7 +687,6 @@ public class FontesFragment extends Fragment {
 
                 updateRecordTable(machineEdit.getText().toString());
 
-                //Toast.makeText(getContext(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT).show();
                 // Info
                 KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 sDialog.dismissWithAnimation();
@@ -840,12 +784,10 @@ public class FontesFragment extends Fragment {
     }
 
     private Profile getProfil() {
-        return mActivity.getCurrentProfile();
+        return getMainActivity().getCurrentProfile();
     }
 
     public String getMachine() {
-        /*if (machineEdit == null)
-            machineEdit = this.getView().findViewById(R.id.editMachine);*/
         return machineEdit.getText().toString();
     }
 
@@ -914,7 +856,7 @@ public class FontesFragment extends Fragment {
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 Weight minValue = mDbBodyBuilding.getMin(getProfil(), m);
                 if (minValue != null && minValue.getStoredWeight()!=0) {
-                    if (minValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                    if (minValue.getStoredUnit() == WeightUnit.LBS) {
                         weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
                         unitStr = getContext().getString(R.string.LbsUnitLabel);
                     } else {
@@ -927,7 +869,7 @@ public class FontesFragment extends Fragment {
 
                 Weight maxValue = mDbBodyBuilding.getMax(getProfil(), m);
                 if (maxValue != null && maxValue.getStoredWeight()!=0) {
-                    if (maxValue.getStoredUnit() == UnitConverter.UNIT_LBS) {
+                    if (maxValue.getStoredUnit() == WeightUnit.LBS) {
                         weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
                         unitStr = getContext().getString(R.string.LbsUnitLabel);
                     } else {
@@ -974,7 +916,7 @@ public class FontesFragment extends Fragment {
                 workoutValuesInputView.setDistance(lLastRecord.getDistance(), DistanceUnit.KM);
         } else if (lLastRecord.getExerciseType() == ExerciseType.ISOMETRIC) {
             workoutValuesInputView.setSets(lLastRecord.getSets());
-            workoutValuesInputView.setSeconds(lLastRecord.getSecond());
+            workoutValuesInputView.setSeconds(lLastRecord.getSeconds());
             if (lLastRecord.getWeightUnit() == WeightUnit.LBS)
                 workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
             else
@@ -1000,12 +942,15 @@ public class FontesFragment extends Fragment {
             if (records.size()==0) {
                 recordList.setAdapter(null);
             } else {
-                if (recordList.getAdapter() == null) {
-                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
-                    recordList.setAdapter(mTableAdapter);
-                } else {
-                    ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
-                }
+                //if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
+                    if (recordList.getAdapter() == null) {
+                        RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
+                        //RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.PROGRAM_EDIT_DISPLAY, itemClickCopyRecord);
+                        recordList.setAdapter(mTableAdapter);
+                    } else {
+                        ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
+                    }
+                //}
             }
         });
     }
@@ -1103,10 +1048,4 @@ public class FontesFragment extends Fragment {
         if (!hidden)
             refreshData();
     }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
 }

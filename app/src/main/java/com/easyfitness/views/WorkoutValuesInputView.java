@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
-import com.easyfitness.enums.RecordType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
@@ -185,7 +184,7 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public int getSeconds() {
         try {
-            return Integer.parseInt(repsInputView.getValue());
+            return Integer.parseInt(secondsInputView.getValue());
         } catch (Exception e) {
             return 0;
         }
@@ -343,7 +342,7 @@ public class WorkoutValuesInputView extends LinearLayout {
             break;
         case ISOMETRIC:
             setSets(record.getSets());
-            setSeconds(record.getSecond());
+            setSeconds(record.getSeconds());
             if (record.getWeightUnit() == WeightUnit.LBS)
                 setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
             else

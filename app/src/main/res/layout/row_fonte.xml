@@ -37,263 +37,274 @@
         app:cardCornerRadius="5dp">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:paddingTop="2dp"
             android:paddingBottom="2dp">
 
-            <LinearLayout
-                android:layout_width="0dip"
+
+            <TableLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="35"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:id="@+id/RecordTableLayout">
 
-                <TextView
-                    android:id="@+id/MACHINE_CELL"
-                    android:text="Machine"
-                    app:autoSizeMaxTextSize="16sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeTextType="uniform"
-                    style="@style/machine_record_title" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <LinearLayout
+                    <TextView
+                        android:id="@+id/MACHINE_CELL"
+                        style="@style/machine_record_title"
+                        tool:text="Machine"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/SERIE_LABEL"
+                        style="@style/record_param_title"
+                        android:text="@string/SerieLabel" />
+
+                    <TextView
+                        android:id="@+id/REP_LABEL"
+                        style="@style/record_param_title"
+                        android:text="@string/RepetitionLabel_short" />
+
+                    <TextView
+                        android:id="@+id/WEIGHT_LABEL"
+                        style="@style/record_param_title"
+                        android:text="@string/PoidsLabel" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/DATE_CELL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="0dp"
+                            android:paddingTop="0dp"
+                            tool:text="12/34/2016"
+                            android:textSize="10sp"
+                            tool:ignore="SmallSp" />
+
+                        <TextView
+                            android:id="@+id/TIME_CELL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="5dp"
+                            android:paddingTop="0dp"
+                            tool:text="00:00:00"
+                            android:textSize="10sp"
+                            tool:ignore="SmallSp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/SERIE_CELL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        tool:text="1" />
+
+                    <TextView
+                        android:id="@+id/REPETITION_CELL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        tool:text="2"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/POIDS_CELL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        tool:text="3Lbs"
+                        android:textAlignment="center" />
+
+                </TableRow>
+
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:orientation="horizontal">
+                    android:id="@+id/Template_TableRow">
 
                     <TextView
-                        android:id="@+id/DATE_CELL"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="0dp"
-                        android:paddingTop="0dp"
-                        tool:text="12/34/2016"
-                        android:textSize="10sp" />
+                        android:id="@+id/TEMPLATE_NAME_CELL"
+                        tool:text="Template: Template 1"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeTextType="uniform"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        style="@style/machine_record_title"
+                        android:textColor="@color/index_color"/>
 
                     <TextView
-                        android:id="@+id/TIME_CELL"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/TEMPLATE_SERIE_CELL"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textStyle="italic"
+                        tool:text="1"
+                        android:textColor="@color/index_color"/>
+
+                    <TextView
+                        android:id="@+id/TEMPLATE_REPETITION_CELL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        tool:text="2"
+                        android:textAlignment="center"
+                        android:textStyle="italic"
+                        android:textColor="@color/index_color"/>
+
+                    <TextView
+                        android:id="@+id/TEMPLATE_POIDS_CELL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="5dp"
-                        android:paddingTop="0dp"
-                        tool:text="00:00:00"
-                        android:textSize="10sp" />
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        tool:text="3Lbs"
+                        android:textAlignment="center"
+                        android:textStyle="italic"
+                        android:textColor="@color/index_color"/>
 
-                </LinearLayout>
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/TEMPLATE_NAME_CELL"
-                    android:text="Template: Machine"
-                    app:autoSizeMaxTextSize="16sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeTextType="uniform"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    style="@style/machine_record_title"
-                    android:textColor="@color/index_color"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/SERIE_LABEL"
-                    android:text="@string/SerieLabel"
-                    style="@style/record_param_title" />
-
-                <TextView
-                    android:id="@+id/SERIE_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    tool:text="1" />
-
-                <TextView
-                    android:id="@+id/TEMPLATE_SERIE_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:textStyle="italic"
-                    tool:text="1"
-                    android:textColor="@color/index_color"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/REP_LAYOUT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/REP_LABEL"
-
-                    style="@style/record_param_title"
-                    android:text="@string/RepetitionLabel_short" />
-
-                <TextView
-                android:id="@+id/REPETITION_CELL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:maxLines="1"
-                tool:text="2"
-                android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/TEMPLATE_REPETITION_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    tool:text="2"
-                    android:textAlignment="center"
-                    android:textStyle="italic"
-                    android:textColor="@color/index_color"
-                    android:visibility="gone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/WEIGHT_LABEL"
-                    style="@style/record_param_title"
-                    android:text="@string/PoidsLabel" />
-
-                <TextView
-                    android:id="@+id/POIDS_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    tool:text="3Lbs"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/TEMPLATE_POIDS_CELL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    tool:text="3Lbs"
-                    android:textAlignment="center"
-                    android:textStyle="italic"
-                    android:textColor="@color/index_color"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
+            </TableLayout>
 
             <ImageView
-                android:id="@+id/action3Button"
-                android:layout_width="20dp"
+                android:id="@+id/editButton"
+                android:layout_width="24dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:clickable="true"
-                android:elevation="0dp"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_edit_text_black_24dp"
+                tool:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/moveUpButton"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:rotation="+90"
+                app:srcCompat="@drawable/ic_back"
+                tool:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/moveDownButton"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:clickable="true"
                 android:focusable="true"
                 android:rotation="-90"
-                app:srcCompat="@drawable/ic_back" />
+                app:srcCompat="@drawable/ic_back"
+                tool:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/action2Button"
-                android:layout_width="20dp"
+                android:id="@+id/successButton"
+                android:layout_width="24dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="0dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:clickable="true"
-                android:elevation="0dp"
                 android:focusable="true"
-                android:rotation="-90"
-                app:srcCompat="@drawable/ic_back" />
+                app:srcCompat="@drawable/ic_check_white_24dp"
+                tool:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/action1Button"
-                android:layout_width="20dp"
+                android:id="@+id/failedButton"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_cross_white_24dp"
+                tool:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/copyButton"
+                android:layout_width="24dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:clickable="true"
-                android:elevation="0dp"
                 android:focusable="true"
-                app:srcCompat="@drawable/ic_clear_black_24dp" />
+                app:srcCompat="@drawable/ic_copy"
+                tool:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/deleteButton"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_delete_black_24dp"
+                tool:ignore="ContentDescription" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tool:visibility="visible"
-        android:id="@+id/UpdateRecordLayout">
-
-        <com.easyfitness.views.WorkoutValuesInputView
-            android:id="@+id/EditorWorkoutValuesInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:selectedType="cardio"
-            app:showTypeSelector="false"
-            app:showRestTime="false"
-            />
-
-        <Button
-            android:id="@+id/UpdateButton"
-            style="@style/Widget.AppCompat.Button.AddButton"
-            android:layout_height="wrap_content"
-            android:text="Update" />
-    </LinearLayout>
 
 </LinearLayout>

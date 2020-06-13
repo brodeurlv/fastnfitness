@@ -28,11 +28,10 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/singlevalueinput_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:editable="false"
                 android:gravity="center"
                 android:inputType="numberDecimal|numberSigned"
                 android:minEms="3"
@@ -46,7 +45,9 @@
                 android:layout_height="wrap_content"
                 android:entries="@array/weight_units"
                 android:gravity="center_horizontal"
-                android:minEms="2" />
+                android:minEms="2"
+                android:popupBackground="?android:attr/detailsElementBackground"
+                app:popupTheme="@style/ThemeOverlay.AppCompat" />
         </LinearLayout>
 
         <LinearLayout

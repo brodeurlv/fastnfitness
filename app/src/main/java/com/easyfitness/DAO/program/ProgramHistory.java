@@ -1,9 +1,9 @@
-package com.easyfitness.DAO.workout;
+package com.easyfitness.DAO.program;
 
 import com.easyfitness.enums.ProgramStatus;
 
 /* DataBase Object */
-public class WorkoutHistory {
+public class ProgramHistory {
     private long mId;
     private long mProgramId;
     private long mProfileId;
@@ -14,7 +14,7 @@ public class WorkoutHistory {
     private String mEndDate;
     private String mEndTime;
 
-    public WorkoutHistory(long id, long programId, long profileId, ProgramStatus status, String startDate, String startTime, String endDate, String endTime) {
+    public ProgramHistory(long id, long programId, long profileId, ProgramStatus status, String startDate, String startTime, String endDate, String endTime) {
         mId = id;
         mProgramId = programId;
         mProfileId = profileId;

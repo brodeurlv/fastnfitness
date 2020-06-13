@@ -58,7 +58,7 @@ public class ExerciseDetailsPager extends Fragment {
                 saveMachine();
                 getActivity().findViewById(R.id.tab_machine_details).requestFocus();
                 break;
-            case R.id.action1Button:
+            case R.id.deleteButton:
                 deleteMachine();
                 break;
             default:
@@ -135,7 +135,7 @@ public class ExerciseDetailsPager extends Fragment {
         top_toolbar.setNavigationIcon(R.drawable.ic_back);
         top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 
-        deleteButton = view.findViewById(R.id.action1Button);
+        deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
         saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(onClickToolbarItem);

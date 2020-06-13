@@ -1,4 +1,4 @@
-package com.easyfitness.workout;
+package com.easyfitness.programs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,16 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.workout.Workout;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
 
-public class WorkoutListAdapter extends ArrayAdapter<Workout> {
+public class ProgramListAdapter extends ArrayAdapter<Program> {
 
     Context mContext;
 
-    public WorkoutListAdapter(ArrayList<Workout> data, Context context) {
+    public ProgramListAdapter(ArrayList<Program> data, Context context) {
         super(context, R.layout.program_row, data);
         this.mContext = context;
     }
@@ -25,7 +25,7 @@ public class WorkoutListAdapter extends ArrayAdapter<Workout> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Workout dataModel = getItem(position);
+        Program dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 

@@ -19,7 +19,6 @@ import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.UnitConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,7 +142,7 @@ public class CVSManager {
                 csvOutputFonte.write(Integer.toString(records.get(i).getReps()));
                 csvOutputFonte.write(Float.toString(records.get(i).getWeight()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getWeightUnit().ordinal()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getSecond()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getSeconds()));
                 csvOutputFonte.write(Float.toString(records.get(i).getDistance()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getDistanceUnit().ordinal()));
                 csvOutputFonte.write(Long.toString(records.get(i).getDuration()));

@@ -1,4 +1,4 @@
-package com.easyfitness.workout;
+package com.easyfitness.programs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.easyfitness.DAO.workout.DAOWorkout;
-import com.easyfitness.DAO.workout.Workout;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.views.EditableInputView;
@@ -17,22 +17,22 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 import androidx.fragment.app.Fragment;
 
 
-public class WorkoutInfoFragment extends Fragment {
+public class ProgramInfoFragment extends Fragment {
     EditableInputView descriptionEdit = null;
     EditableInputView nameEdit = null;
 
     MainActivity mActivity = null;
-    private DAOWorkout mDb = null;
+    private DAOProgram mDb = null;
 
     private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
-    private Workout mWorkout;
+    private Program mProgram;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static WorkoutInfoFragment newInstance(String name, int templateId) {
-        WorkoutInfoFragment f = new WorkoutInfoFragment();
+    public static ProgramInfoFragment newInstance(String name, int templateId) {
+        ProgramInfoFragment f = new ProgramInfoFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
@@ -55,10 +55,10 @@ public class WorkoutInfoFragment extends Fragment {
 
         long workoutID = getArguments().getLong("templateId", -1);
 
-        mDb = new DAOWorkout(getContext());
-        mWorkout = mDb.get(workoutID);
-        nameEdit.setText(mWorkout.getName());
-        descriptionEdit.setText((mWorkout.getDescription()));
+        mDb = new DAOProgram(getContext());
+        mProgram = mDb.get(workoutID);
+        nameEdit.setText(mProgram.getName());
+        descriptionEdit.setText((mProgram.getDescription()));
 
         return view;
     }
@@ -89,18 +89,18 @@ public class WorkoutInfoFragment extends Fragment {
         // Save all the fields in the Profile
         switch (view.getId()) {
             case R.id.workout_name:
-                mWorkout.setName(nameEdit.getText());
+                mProgram.setName(nameEdit.getText());
                 toUpdate = true;
                 break;
             case R.id.workout_description:
-                mWorkout.setDescription(descriptionEdit.getText());
+                mProgram.setDescription(descriptionEdit.getText());
                 toUpdate = true;
                 break;
         }
 
         if (toUpdate) {
-            mDb.update(mWorkout);
-            KToast.infoToast(getActivity(), mWorkout.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            mDb.update(mProgram);
+            KToast.infoToast(getActivity(), mProgram.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }
 

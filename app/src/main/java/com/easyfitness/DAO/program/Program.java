@@ -1,15 +1,15 @@
-package com.easyfitness.DAO.workout;
+package com.easyfitness.DAO.program;
 
 import androidx.annotation.NonNull;
 
 /* DataBase Object */
-public class Workout {
+public class Program {
 
     private long id;
     private String mDescription = "";
     private String mName = "";
 
-    public Workout(long mId, String pName, String pDesription) {
+    public Program(long mId, String pName, String pDesription) {
         this.id = mId;
         this.mDescription = pDesription;
         this.mName = pName;

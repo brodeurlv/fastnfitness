@@ -13,8 +13,8 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
-import com.easyfitness.DAO.workout.DAOWorkout;
-import com.easyfitness.DAO.workout.DAOWorkoutHistory;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.enums.ExerciseType;
 
 import java.io.File;
@@ -61,8 +61,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOMachine.TABLE_CREATE);
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
         db.execSQL(DAOBodyPart.TABLE_CREATE);
-        db.execSQL(DAOWorkout.TABLE_CREATE);
-        db.execSQL(DAOWorkoutHistory.TABLE_CREATE);
+        db.execSQL(DAOProgram.TABLE_CREATE);
+        db.execSQL(DAOProgramHistory.TABLE_CREATE);
         initBodyPartTable(db);
     }
 
@@ -154,8 +154,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     initBodyPartTable(db);
                     break;
                 case 21:
-                    db.execSQL(DAOWorkout.TABLE_CREATE);
-                    db.execSQL(DAOWorkoutHistory.TABLE_CREATE);
+                    db.execSQL(DAOProgram.TABLE_CREATE);
+                    db.execSQL(DAOProgramHistory.TABLE_CREATE);
 
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.RECORD_TYPE + " INTEGER DEFAULT 0");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_KEY + " INTEGER DEFAULT -1");
@@ -194,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 20:
                     // Delete WORKOUT TABLE
-                    db.delete(DAOWorkout.TABLE_NAME, null, null);
+                    db.delete(DAOProgram.TABLE_NAME, null, null);
                     break;
             }
             upgradeTo--;

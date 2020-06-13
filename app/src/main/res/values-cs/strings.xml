@@ -280,5 +280,19 @@
     <string name="enter_birthday">Vstoupit narozeniny</string>
     <string name="enter_bodypart_name">Vstoupit do těla název dílu</string>
     <string name="strength_category">Síla</string>
+    <string name="add_to_template">Přidat do programu</string>
+    <string name="automatic_date_time">Automatické datum / čas</string>
+    <string name="edit">Upravit</string>
+    <string name="enter_workout_name">Zadejte název programu</string>
+    <string name="filter_by_workout_name">Filtrovat podle názvu programu</string>
+    <string name="finish_program">Kompletní program</string>
+    <string name="newStr">Nový</string>
+    <string name="new_program">nový program</string>
+    <string name="program_running">Program:</string>
+    <string name="program_preview">Program náhled:</string>
+    <string name="programs">Programy:</string>
+    <string name="start_program">Program Start</string>
+    <string name="update">Aktualizace</string>
+    <string name="workout_list_menu_item">Seznam programů</string>
 
 </resources>

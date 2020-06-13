@@ -1,4 +1,4 @@
-package com.easyfitness.workout;
+package com.easyfitness.programs;
 
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.workout.DAOWorkout;
-import com.easyfitness.DAO.workout.Workout;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.Keyboard;
@@ -26,8 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class WorkoutListFragment extends Fragment {
-    ArrayList<Workout> dataModels;
+public class ProgramListFragment extends Fragment {
+    ArrayList<Program> dataModels;
     ListView measureList = null;
 
     private View.OnClickListener clickAddButton = v -> {
@@ -52,11 +52,11 @@ public class WorkoutListFragment extends Fragment {
 
                 editText.clearFocus();
                 Keyboard.hide(getContext(), editText);
-                DAOWorkout daoWorkout = new DAOWorkout(getContext());
-                long temp_key = daoWorkout.add(new Workout(0, editText.getText().toString(), ""));
+                DAOProgram daoProgram = new DAOProgram(getContext());
+                long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
 
                 sDialog.dismiss();
-                WorkoutPagerFragment fragment = WorkoutPagerFragment.newInstance(temp_key);
+                ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -80,7 +80,7 @@ public class WorkoutListFragment extends Fragment {
         TextView textView = view.findViewById(R.id.LIST_WORKOUT_ID);
         long ID = Long.parseLong(textView.getText().toString());
 
-        WorkoutPagerFragment fragment = WorkoutPagerFragment.newInstance(ID);
+        ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(ID);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
@@ -91,16 +91,16 @@ public class WorkoutListFragment extends Fragment {
         transaction.commit();
     };
 
-    private WorkoutListAdapter mListAdapter;
+    private ProgramListAdapter mListAdapter;
     private Button addButton;
-    private DAOWorkout mDb;
+    private DAOProgram mDb;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static WorkoutListFragment newInstance(String name, int id) {
-        WorkoutListFragment f = new WorkoutListFragment();
+    public static ProgramListFragment newInstance(String name, int id) {
+        ProgramListFragment f = new ProgramListFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
@@ -116,9 +116,9 @@ public class WorkoutListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState==null) {
-            mDb = new DAOWorkout(this.getContext());
+            mDb = new DAOProgram(this.getContext());
             dataModels = new ArrayList<>();
-            mListAdapter = new WorkoutListAdapter(dataModels, getContext());
+            mListAdapter = new ProgramListAdapter(dataModels, getContext());
             mListAdapter.setProfile(getProfile());
         }
     }
@@ -159,12 +159,12 @@ public class WorkoutListFragment extends Fragment {
 
         dataModels.clear();
 
-        List<Workout> lList = mDb.getAll();
+        List<Program> lList = mDb.getAll();
         dataModels.addAll(lList);
 
 
         if (mListAdapter==null) {
-            mListAdapter = new WorkoutListAdapter(dataModels, getContext());
+            mListAdapter = new ProgramListAdapter(dataModels, getContext());
             mListAdapter.setProfile(getProfile());
             measureList.setAdapter(mListAdapter);
         }

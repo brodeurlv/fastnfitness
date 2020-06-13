@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">Fast N Fitness</string>
+
     <string name="global_confirm">Confirm</string>
     <string name="global_confirm_question">Are you sure?</string>
     <string name="global_warning">Warning</string>
@@ -8,10 +10,6 @@
     <string name="global_yes">Yes</string>
     <string name="global_no">No</string>
 
-    <string name="removedid">Removed ID</string>
-    <string name="failedtocreatefolder">Failed to create folder</string>
-
-    <string name="app_name" translatable="false">Fast N Fitness</string>
     <string name="action_settings">Settings</string>
     <string name="DateLabel">Date</string>
 
@@ -73,6 +71,9 @@
     <string name="export_success">Database exported</string>
     <string name="export_failed">Database export failed</string>
     <string name="import_database">Import Records</string>
+
+    <string name="removedid">ID removed</string>
+    <string name="failedtocreatefolder">Failed to create folder</string>
 
     <string name="deleteDB_warning">
         This action will reset the entire application.
@@ -221,7 +222,7 @@
     <string name="name_or_pseudo">Name / pseudonym</string>
     <string name="name_is_required">Name is required</string>
     <string name="create_a_profile">Create a profile</string>
-    <string name="introSlide1Text">Welcome to Fast N Fitness! This application is a quick and simple way to record your workout and follow your progression and the evolution of your body.</string>
+    <string name="introSlide1Text">Welcome to Fast N Fitness! This application is a quick and simple way to record your program and follow your progression and the evolution of your body.</string>
     <string name="introSlide2Text">Write the name of the exercise and the details, and it will be created automatically. You can find it back easily in the list.</string>
     <string name="introSlide2Title">Quick and easy</string>
     <string name="titleSlideEssential">Go to the essential</string>
@@ -319,9 +320,22 @@
     <string name="enter_bodypart_name">Enter Bodypart name</string>
 
     <string name="strength_category">Strength</string>
-    <string name="automatic_date_time">Automatic date-time</string>
-	<string name="enter_workout_name">Enter workout name</string>
-    <string name="workout_list_menu_item">Workout List</string>
-    <string name="finish_program">Stop program</string>
+
+    <string name="automatic_date_time">Automatic date/time</string>
+	<string name="enter_workout_name">Enter program name</string>
+    <string name="workout_list_menu_item">Program list</string>
+    <string name="finish_program">Finish program</string>
     <string name="start_program">Start program</string>
+    <string name="new_program">New program</string>
+    <string name="filter_by_workout_name">Filter by program name</string>
+    <string name="programs">Programs:</string>
+    <string name="newStr">New</string>
+    <string name="edit">Edit</string>
+    <string name="program_preview">Program preview:</string>
+    <string name="program_running">Program:</string>
+    <string name="add_to_template">Add to program</string>
+    <string name="update">Update</string>
+    <string name="record_editor">Record Editor</string>
+    <string name="please_start_program_first">Please start program first</string>
+    <string name="program_ongoing">Program ongoing:</string>
 </resources>

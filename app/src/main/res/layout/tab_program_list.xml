@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="tab_machines"
+    android:name="tab_program_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
@@ -13,14 +13,14 @@
     <Button
         android:id="@+id/newWorkout"
         style="@style/Widget.AppCompat.Button.AddButton"
-        android:text="New workout" />
+        android:text="@string/new_program" />
 
     <AutoCompleteTextView
         android:id="@+id/searchField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:hint="Filter by Workout Name"
+        android:hint="@string/filter_by_workout_name"
         android:imeOptions="actionNext"
         android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
         android:nextFocusForward="@+id/editSerie"

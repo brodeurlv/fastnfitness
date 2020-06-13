@@ -259,7 +259,7 @@ public class DAOFonte extends DAORecord {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                w = new Weight(mCursor.getFloat(0), mCursor.getInt(1));
+                w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
             } while (mCursor.moveToNext());
         }
         close();
@@ -285,7 +285,7 @@ public class DAOFonte extends DAORecord {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                w = new Weight(mCursor.getFloat(0), mCursor.getInt(1));
+                w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
             } while (mCursor.moveToNext());
         }
         close();

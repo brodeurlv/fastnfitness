@@ -16,7 +16,6 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.DAOUtils;
@@ -218,7 +217,7 @@ public class FonteHistoryFragment extends Fragment {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
-                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.ALL_WORKOUT_DISPLAY, null);
+                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.HISTORY_DISPLAY, null);
                 filterList.setAdapter(mTableAdapter);
             } else {
                 ((RecordArrayAdapter) filterList.getAdapter()).setRecords(records);

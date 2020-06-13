@@ -16,7 +16,7 @@
         android:elevation="4dp">
 
         <ImageButton
-            android:id="@+id/action1Button"
+            android:id="@+id/deleteButton"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="end"
