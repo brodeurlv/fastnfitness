@@ -294,5 +294,12 @@
     <string name="start_program">Program Start</string>
     <string name="update">Aktualizace</string>
     <string name="workout_list_menu_item">Seznam programů</string>
+    <string name="record_editor">Editor Record</string>
+    <string name="please_start_program_first">Please start program first</string>
+    <string name="program_ongoing">Program ongoing:</string>
+    <string name="rest_time_row">Rest Time:</string>
+    <string name="program">Program</string>
+    <string name="free_workout">Zdarma sezení</string>
+    <string name="this_program_is_empty">Tento program je prázdná</string>
 
 </resources>

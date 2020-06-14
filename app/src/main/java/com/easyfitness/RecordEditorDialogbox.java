@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
+import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.UnitConverter;
@@ -15,6 +16,7 @@ import com.easyfitness.views.WorkoutValuesInputView;
 
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
+    private final boolean mShowRestTime;
     private Activity mActivity;
     public Dialog d;
     private Button cancelButton;
@@ -26,6 +28,14 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         super(a);
         this.mActivity = a;
         mRecord=record;
+        mShowRestTime=false;
+    }
+
+    public RecordEditorDialogbox(Activity a, Record record, boolean showRestTime) {
+        super(a);
+        this.mActivity = a;
+        mRecord=record;
+        mShowRestTime = showRestTime;
     }
 
     @Override
@@ -41,6 +51,8 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         mWorkoutValuesInput = findViewById(R.id.EditorWorkoutValuesInput);
 
         mWorkoutValuesInput.setRecord(mRecord);
+
+        mWorkoutValuesInput.setShowRestTime(mShowRestTime);
 
         updateButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -83,6 +95,13 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     mRecord.setWeight(tmpWeight);
                     mRecord.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     break;
+            }
+            if (mShowRestTime) {
+                if (mWorkoutValuesInput.isRestTimeActivated()) {
+                    mRecord.setRestTime(mWorkoutValuesInput.getRestTime());
+                } else {
+                    mRecord.setRestTime(0);
+                }
             }
             daoRecord.updateRecord(mRecord);
             dismiss();

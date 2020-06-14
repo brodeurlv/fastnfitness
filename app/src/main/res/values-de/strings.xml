@@ -284,5 +284,12 @@
     <string name="start_program">Start Programm</string>
     <string name="update">Aktualisieren</string>
     <string name="workout_list_menu_item">Programmliste</string>
+    <string name="record_editor">Nehmen Sie Editor</string>
+    <string name="please_start_program_first">Merci de démarrer un programme</string>
+    <string name="program_ongoing">Programme en cours:</string>
+    <string name="rest_time_row">Temps de repos:</string>
+    <string name="program">Programm</string>
+    <string name="free_workout">Zweiten Training</string>
+    <string name="this_program_is_empty">Dieses Programm ist leer</string>
 </resources>
 

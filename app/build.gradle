@@ -45,12 +45,14 @@ android {
             if (rootProject.file('release.properties').exists()) {
                 signingConfig signingConfigs.release
             }
+            buildConfigField "Boolean", "DEBUG_MODE", "false"
         }
         debug {
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
             if (rootProject.file('debug.properties').exists()) {
                 signingConfig signingConfigs.debug
             }
+            buildConfigField "Boolean", "DEBUG_MODE", "true"
         }
     }
 

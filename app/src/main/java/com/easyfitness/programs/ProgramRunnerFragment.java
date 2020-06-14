@@ -206,12 +206,9 @@ public class ProgramRunnerFragment extends Fragment {
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-            mDbWorkout = new DAOProgram(this.getContext());
-            mDbWorkoutHistory = new DAOProgramHistory(this.getContext());
-            mDbRecord = new DAORecord(this.getContext());
-
+        mDbWorkout = new DAOProgram(this.getContext());
+        mDbWorkoutHistory = new DAOProgramHistory(this.getContext());
+        mDbRecord = new DAORecord(this.getContext());
     }
 
     @Override
@@ -221,19 +218,19 @@ public class ProgramRunnerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_program_runner, container, false);
 
+        mStartStopButton = view.findViewById(R.id.startStopProgram);
+        mProgramsSpinner = view.findViewById(R.id.programSpinner);
+        mProgramRecordsList = view.findViewById(R.id.listProgramRecord);
+        mProgramRecordsListTitle = view.findViewById(R.id.programListTitle);
+        mNewButton = view.findViewById(R.id.newProgram);
+        mEditButton = view.findViewById(R.id.editProgram);
+        TextView emptyList = view.findViewById(R.id.listProgramEmpty);
+        mProgramRecordsList.setEmptyView(emptyList);
 
-            mStartStopButton = view.findViewById(R.id.startStopProgram);
-            mProgramsSpinner = view.findViewById(R.id.programSpinner);
-            mProgramRecordsList = view.findViewById(R.id.listProgramRecord);
-            mProgramRecordsListTitle = view.findViewById(R.id.programListTitle);
-            mNewButton = view.findViewById(R.id.newProgram);
-            mEditButton = view.findViewById(R.id.editProgram);
-
-            mStartStopButton.setOnClickListener(clickStartStopButton);
-            mProgramsSpinner.setOnItemSelectedListener(onProgramSelected);
-            mNewButton.setOnClickListener(clickAddProgramButton);
-            mEditButton.setOnClickListener(onClickEditProgram);
-
+        mStartStopButton.setOnClickListener(clickStartStopButton);
+        mProgramsSpinner.setOnItemSelectedListener(onProgramSelected);
+        mNewButton.setOnClickListener(clickAddProgramButton);
+        mEditButton.setOnClickListener(onClickEditProgram);
 
         return view;
     }

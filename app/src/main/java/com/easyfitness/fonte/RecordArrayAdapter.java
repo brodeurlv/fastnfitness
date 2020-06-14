@@ -107,6 +107,9 @@ public class RecordArrayAdapter extends ArrayAdapter{
             viewHolder.TemplateSecondColLabel = view.findViewById(R.id.TEMPLATE_REPETITION_CELL);
             viewHolder.TemplateThirdColValue = view.findViewById(R.id.TEMPLATE_POIDS_CELL);
 
+            viewHolder.RestTimeCardView = view.findViewById(R.id.restTimeCardView);
+            viewHolder.RestTimeTextView = view.findViewById(R.id.restTimeTextView);
+
             UpdateDisplayTypeUI(viewHolder);
 
             // store the holder with the view.
@@ -118,9 +121,11 @@ public class RecordArrayAdapter extends ArrayAdapter{
         }
 
         if (position % 2 == mFirstColorOdd) {
-            viewHolder.CardView.setBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
+            viewHolder.CardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
+            viewHolder.RestTimeCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
         } else {
-            viewHolder.CardView.setBackgroundColor(mContext.getResources().getColor(R.color.record_background_even));
+            viewHolder.CardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_even));
+            viewHolder.RestTimeCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_even));
         }
 
         /* Commun display */
@@ -216,6 +221,14 @@ public class RecordArrayAdapter extends ArrayAdapter{
 
             viewHolder.Separator.setVisibility(View.GONE);
 
+            if (record.getRestTime()!=0) {
+                viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getRestTime() + getContext().getString(R.string.sec));
+            } else {
+                viewHolder.RestTimeCardView.setVisibility(View.GONE);
+                viewHolder.RestTimeTextView.setText("No Rest");
+            }
+
             viewHolder.BtActionMoveDown.setTag(record.getId());
             viewHolder.BtActionMoveDown.setOnClickListener(v -> {
                 // Go DOWN
@@ -250,6 +263,14 @@ public class RecordArrayAdapter extends ArrayAdapter{
         } else if (mDisplayType == DisplayType.PROGRAM_RUNNING_DISPLAY || mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
             viewHolder.ExerciseName.setText(record.getExercise());
             viewHolder.Separator.setVisibility(View.GONE);
+
+            if (record.getRestTime()!=0) {
+                viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getRestTime() + getContext().getString(R.string.sec));
+            } else {
+                viewHolder.RestTimeCardView.setVisibility(View.GONE);
+                viewHolder.RestTimeTextView.setText("No Rest");
+            }
 
             if (record.getProgramRecordStatus()==ProgramRecordStatus.PENDING || mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
                 viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_white_24dp));
@@ -349,7 +370,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
     }
 
     private void showEditorDialog(Record record, int position, ViewHolder viewHolder) {
-        RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record);
+        RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record, mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY);
         recordEditorDialogbox.setOnCancelListener(dialog -> {
             if (mDisplayType==DisplayType.PROGRAM_RUNNING_DISPLAY) record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
             mDbRecord.updateRecord(record);
@@ -399,6 +420,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setVisibility(View.VISIBLE);
                 viewHolder.BtActionEdit.setVisibility(View.VISIBLE);
                 viewHolder.BtActionDelete.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeCardView.setVisibility(View.GONE);
                 break;
             case HISTORY_DISPLAY:
                 viewHolder.BtActionSuccess.setVisibility(View.GONE);
@@ -408,6 +430,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setVisibility(View.GONE);
                 viewHolder.BtActionEdit.setVisibility(View.VISIBLE);
                 viewHolder.BtActionDelete.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeCardView.setVisibility(View.GONE);
                 break;
             case PROGRAM_EDIT_DISPLAY:
                 viewHolder.BtActionSuccess.setVisibility(View.GONE);
@@ -417,6 +440,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setVisibility(View.GONE);
                 viewHolder.BtActionEdit.setVisibility(View.VISIBLE);
                 viewHolder.BtActionDelete.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
                 break;
             case PROGRAM_PREVIEW_DISPLAY:
                 viewHolder.BtActionSuccess.setVisibility(View.VISIBLE);
@@ -426,6 +450,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setVisibility(View.GONE);
                 viewHolder.BtActionEdit.setVisibility(View.GONE);
                 viewHolder.BtActionDelete.setVisibility(View.GONE);
+                viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
                 break;
             case PROGRAM_RUNNING_DISPLAY:
                 viewHolder.BtActionSuccess.setVisibility(View.VISIBLE);
@@ -435,6 +460,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setVisibility(View.GONE);
                 viewHolder.BtActionEdit.setVisibility(View.VISIBLE);
                 viewHolder.BtActionDelete.setVisibility(View.VISIBLE);
+                viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -561,5 +587,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
         ImageView BtActionFailed;
         ImageView BtActionSuccess;
 
+        CardView RestTimeCardView;
+        TextView RestTimeTextView;
     }
 }

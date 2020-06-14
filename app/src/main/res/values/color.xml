@@ -4,7 +4,7 @@
     <color name="record_background_odd">#99D6EA</color>
     <color name="record_background_even">#CCEAF4</color>
     <color name="background">#F7FFFF</color>
-    <color name="tableheader_background">#FFFFFF</color>
+    <color name="tableheader_background">@color/cardview_light_background</color>
     <color name="launcher_background">#0dadf4</color>
     <color name="enabled_color">@color/text_color</color>
     <color name="disabled_color">#bababa</color>

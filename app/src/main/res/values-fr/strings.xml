@@ -274,4 +274,11 @@
     <string name="start_program">Demarrer programme</string>
     <string name="update">Mettre à jour</string>
     <string name="workout_list_menu_item">Liste des programmes</string>
+    <string name="record_editor">éditeur de notices</string>
+    <string name="please_start_program_first">Gelieve start programma voor het eerst</string>
+    <string name="program_ongoing">Lopende:</string>
+    <string name="rest_time_row">Rusttijd:</string>
+    <string name="program">Programme</string>
+    <string name="free_workout">Séance libre</string>
+    <string name="this_program_is_empty">Ce programme est vide</string>
 </resources>

@@ -328,7 +328,8 @@
     <string name="start_program">Start program</string>
     <string name="new_program">New program</string>
     <string name="filter_by_workout_name">Filter by program name</string>
-    <string name="programs">Programs:</string>
+    <string name="programs">Programs</string>
+    <string name="program">Program</string>
     <string name="newStr">New</string>
     <string name="edit">Edit</string>
     <string name="program_preview">Program preview:</string>
@@ -338,4 +339,8 @@
     <string name="record_editor">Record Editor</string>
     <string name="please_start_program_first">Please start program first</string>
     <string name="program_ongoing">Program ongoing:</string>
+    <string name="rest_time_row">Rest Time:</string>
+    <string name="sec" translatable="false">sec</string>
+    <string name="free_workout">Free workout</string>
+    <string name="this_program_is_empty">This program is empty</string>
 </resources>

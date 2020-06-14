@@ -4,12 +4,13 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="3dp">
 
     <TextView
         android:id="@+id/SEPARATOR_CELL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="top|start"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -28,26 +29,25 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/CARDVIEW"
-        style="@style/CardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="40"
-        android:padding="5dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="2dp"
+        android:padding="2dp"
         app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp">
-
+            android:orientation="horizontal">
 
             <TableLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginStart="3dp"
                 android:id="@+id/RecordTableLayout">
 
                 <TableRow
@@ -97,7 +97,7 @@
                             android:layout_marginBottom="0dp"
                             android:paddingTop="0dp"
                             tool:text="12/34/2016"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             tool:ignore="SmallSp" />
 
                         <TextView
@@ -108,7 +108,7 @@
                             android:layout_marginStart="5dp"
                             android:paddingTop="0dp"
                             tool:text="00:00:00"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             tool:ignore="SmallSp" />
 
                     </LinearLayout>
@@ -118,8 +118,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:maxLines="1"
@@ -130,8 +130,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:maxLines="1"
@@ -217,17 +217,7 @@
 
             </TableLayout>
 
-            <ImageView
-                android:id="@+id/editButton"
-                android:layout_width="24dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/ic_edit_text_black_24dp"
-                tool:ignore="ContentDescription" />
+
 
             <ImageView
                 android:id="@+id/moveUpButton"
@@ -292,6 +282,18 @@
                 tool:ignore="ContentDescription" />
 
             <ImageView
+                android:id="@+id/editButton"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_edit_text_black_24dp"
+                tool:ignore="ContentDescription" />
+
+            <ImageView
                 android:id="@+id/deleteButton"
                 android:layout_width="24dp"
                 android:layout_height="match_parent"
@@ -305,6 +307,27 @@
 
         </LinearLayout>
 
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/restTimeCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:padding="2dp"
+        app:cardCornerRadius="5dp">
+
+        <TextView
+            android:id="@+id/restTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:maxLines="1"
+            tool:text="Rest Time : 60 sec"
+            android:textAlignment="center"/>
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

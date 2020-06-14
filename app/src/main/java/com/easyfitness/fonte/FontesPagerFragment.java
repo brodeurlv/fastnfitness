@@ -63,8 +63,8 @@ public class FontesPagerFragment extends Fragment {
 
             pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("Free workout", FontesFragment.class, freeWorkoutArgs)
-                .add("Guided workout", ProgramRunnerFragment.class, guidedWorkoutArgs)
+                .add(R.string.free_workout, FontesFragment.class, freeWorkoutArgs)
+                .add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
                 .add(R.string.GraphLabel, FonteGraphFragment.class, args)
                 .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
                 .create());

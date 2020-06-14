@@ -98,5 +98,14 @@
             android:isScrollContainer="false"
             android:scrollbars="none"
             tools:ignore="NestedScrolling" />
+
+        <TextView
+            android:id="@+id/listProgramEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/this_program_is_empty"
+            android:textColor="@color/index_color"
+            android:gravity="center"
+            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
