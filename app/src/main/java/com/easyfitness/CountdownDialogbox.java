@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.AlarmReceiver;
 import com.easyfitness.utils.UnitConverter;
@@ -29,6 +30,7 @@ public class CountdownDialogbox extends Dialog implements
     View.OnClickListener {
 
     private final ExerciseType mExerciseType;
+    private final Machine mExercise;
     public Activity activity;
     public Dialog d;
     public Button exit;
@@ -56,11 +58,16 @@ public class CountdownDialogbox extends Dialog implements
         }
     };
 
-    public CountdownDialogbox(Activity a, int pRestTime, ExerciseType exerciseType) {
+    public CountdownDialogbox(Activity a, int pRestTime, Machine exercise) {
         super(a);
         this.activity = a;
         iRestTime = pRestTime;
-        mExerciseType = exerciseType;
+
+        mExercise = exercise;
+        if(mExercise!=null)
+            mExerciseType = exercise.getType();
+        else
+            mExerciseType = ExerciseType.CARDIO; // The simplest by default
     }
 
     public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
@@ -83,8 +90,6 @@ public class CountdownDialogbox extends Dialog implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTitle(getContext().getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
         setContentView(R.layout.dialog_rest);
         this.setCanceledOnTouchOutside(true); // make it not modal
 
@@ -94,8 +99,10 @@ public class CountdownDialogbox extends Dialog implements
         TextView nbSeries = findViewById(R.id.idNbSeries);
         TextView totalSession = findViewById(R.id.idTotalSession);
         TextView totalMachine = findViewById(R.id.idTotalWeightMachine);
+        TextView totalOnExercise = findViewById(R.id.totalOnExerciseTitle);
         LinearLayout totalExerciseLayout = findViewById(R.id.totalExerciseLayout);
         LinearLayout totalWorkoutLayout = findViewById(R.id.totalWorkoutLayout);
+
 
         progressCircle = findViewById(R.id.donut_progress);
         progressCircle.setMax(iRestTime);
@@ -114,6 +121,8 @@ public class CountdownDialogbox extends Dialog implements
                 totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
             }
             nbSeries.setText(Integer.toString(lNbSerie));
+            String totalOnExerciseTitle = getContext().getString(R.string.total_on) + " " + mExercise.getName();
+            totalOnExercise.setText(totalOnExerciseTitle);
         } else {
             totalExerciseLayout.setVisibility(View.GONE);
             totalWorkoutLayout.setVisibility(View.GONE);

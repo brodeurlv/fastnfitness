@@ -301,5 +301,6 @@
     <string name="program">Programa</string>
     <string name="free_workout">sesión libre</string>
     <string name="this_program_is_empty">Este programa está vacía</string>
+    <string name="total_on">Total de</string>
 
 </resources>

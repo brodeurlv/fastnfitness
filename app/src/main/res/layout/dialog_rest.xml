@@ -50,8 +50,9 @@
         android:visibility="visible">
 
         <TextView
+            android:id="@+id/totalOnExerciseTitle"
             style="@style/restdialog_total"
-            android:text="@string/total_machine" />
+            android:text="@string/total_on" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -343,4 +343,5 @@
     <string name="sec" translatable="false">sec</string>
     <string name="free_workout">Free workout</string>
     <string name="this_program_is_empty">This program is empty</string>
+    <string name="total_on">Total on</string>
 </resources>

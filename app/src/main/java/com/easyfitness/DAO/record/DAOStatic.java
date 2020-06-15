@@ -122,7 +122,7 @@ public class DAOStatic extends DAORecord {
     /**
      * @return the number of series for this machine for this day
      */
-    public int getNbSeries(Date pDate, String pMachine) {
+    public int getNbSeries(Date pDate, String pMachine, Profile pProfile) {
         int lReturn = 0;
 
         //Test is Machine exists. If not create it.
@@ -138,7 +138,9 @@ public class DAOStatic extends DAORecord {
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key;
+            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -159,8 +161,8 @@ public class DAOStatic extends DAORecord {
     /**
      * @return the total weight for this machine for this day
      */
-    public float getTotalWeightMachine(Date pDate, String pMachine) {
-
+    public float getTotalWeightMachine(Date pDate, String pMachine, Profile pProfile) {
+        if (pProfile==null) return 0;
         float lReturn = 0;
 
         //Test is Machine exists. If not create it.
@@ -175,7 +177,9 @@ public class DAOStatic extends DAORecord {
         mCursor = null;
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key;
+            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -197,7 +201,7 @@ public class DAOStatic extends DAORecord {
     /**
      * @return the total weight for this day
      */
-    public float getTotalWeightSession(Date pDate) {
+    public float getTotalWeightSession(Date pDate, Profile pProfile) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
@@ -209,7 +213,9 @@ public class DAOStatic extends DAORecord {
 
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT  + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\"";
+            + " WHERE " + DATE + "=\"" + lDate + "\""
+            + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -238,7 +244,8 @@ public class DAOStatic extends DAORecord {
 
         // Select All Machines
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
-            + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId();
+            + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -264,7 +271,8 @@ public class DAOStatic extends DAORecord {
 
         // Select All Machines
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
-            + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId();
+            + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

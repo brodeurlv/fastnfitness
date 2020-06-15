@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOBase;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.enums.ProgramStatus;
 
 import java.util.ArrayList;
@@ -146,9 +147,13 @@ public class DAOProgramHistory extends DAOBase {
     }
 
     // Getting All
-    public ProgramHistory getRunningProgram() {
+    public ProgramHistory getRunningProgram(Profile profile) {
+        String selectQuery = "";
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " ORDER BY " + KEY + " DESC";
+        if (profile==null)
+          selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " ORDER BY " + KEY + " DESC";
+        else
+          selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " AND " + PROFILE_KEY + "=" + profile.getId() + " ORDER BY " + KEY + " DESC";
 
         List<ProgramHistory> list = getList(selectQuery);
         if (list.size()>0) {

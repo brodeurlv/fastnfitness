@@ -14,12 +14,16 @@ import android.widget.TextView;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.Machine;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
+import com.easyfitness.MainActivity;
 import com.easyfitness.RecordEditorDialogbox;
 import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.DistanceUnit;
@@ -342,6 +346,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                         //Display Editor
                         record.setProgramRecordStatus(ProgramRecordStatus.FAILED);
                         mDbRecord.updateRecord(record);
+                        launchCountdown(record);
                         UpdateValues(record, position, viewHolder);
                         showEditorDialog(record, position, viewHolder);
                         boolean programComplete=true;
@@ -467,21 +472,25 @@ public class RecordArrayAdapter extends ArrayAdapter{
 
     private void launchCountdown(Record record){
         if (record.getRestTime()>0) {
-            CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getRestTime(), record.getExerciseType());
+            DAOMachine mDbMachine = new DAOMachine(getContext());
+            Machine lMachine = mDbMachine.getMachine(record.getExerciseId());
+            if (lMachine==null) return;
+
+            CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getRestTime(), lMachine);
             // Launch Countdown
             if (record.getExerciseType()==ExerciseType.STRENGTH) {
                 DAOFonte mDbBodyBuilding = new DAOFonte(getContext());
-                float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(record.getDate());
-                float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(record.getDate(), record.getExercise());
-                int iNbSeries = mDbBodyBuilding.getNbSeries(record.getDate(), record.getExercise());
+                float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(record.getDate(), getProfile());
+                float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(record.getDate(), record.getExercise(), getProfile());
+                int iNbSeries = mDbBodyBuilding.getNbSeries(record.getDate(), record.getExercise(), getProfile());
                 cdd.setNbSeries(iNbSeries);
                 cdd.setTotalWeightMachine(iTotalWeight);
                 cdd.setTotalWeightSession(iTotalWeightSession);
             } else if (record.getExerciseType()==ExerciseType.ISOMETRIC)  {
                 DAOStatic mDbIsometric = new DAOStatic(getContext());
-                float iTotalWeightSession = mDbIsometric.getTotalWeightSession(record.getDate());
-                float iTotalWeight = mDbIsometric.getTotalWeightMachine(record.getDate(), record.getExercise());
-                int iNbSeries = mDbIsometric.getNbSeries(record.getDate(), record.getExercise());
+                float iTotalWeightSession = mDbIsometric.getTotalWeightSession(record.getDate(), getProfile());
+                float iTotalWeight = mDbIsometric.getTotalWeightMachine(record.getDate(), record.getExercise(), getProfile());
+                int iNbSeries = mDbIsometric.getNbSeries(record.getDate(), record.getExercise(), getProfile());
                 cdd.setNbSeries(iNbSeries);
                 cdd.setTotalWeightMachine(iTotalWeight);
                 cdd.setTotalWeightSession(iTotalWeightSession);}
@@ -555,6 +564,10 @@ public class RecordArrayAdapter extends ArrayAdapter{
 
     public void setOnProgramCompletedListener(OnCustomEventListener eventListener) {
         mProgramCompletedListener = eventListener;
+    }
+
+    private Profile getProfile() {
+        return ((MainActivity)mActivity).getCurrentProfile();
     }
 
     // View lookup cache

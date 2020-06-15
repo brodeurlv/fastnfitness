@@ -311,6 +311,7 @@
     <string name="program">Programma</string>
     <string name="free_workout">Gratis sessie</string>
     <string name="this_program_is_empty">Dit programma is leeg</string>
+    <string name="total_on">Totaal op</string>
 
 </resources>
 

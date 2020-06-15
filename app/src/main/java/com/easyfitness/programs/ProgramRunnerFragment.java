@@ -270,7 +270,7 @@ public class ProgramRunnerFragment extends Fragment {
 
         // 2. If a program is running, then put it in the spinner, update the button text to Stop,
         mIsProgramRunning = false;
-        mRunningProgramHistory = mDbWorkoutHistory.getRunningProgram();
+        mRunningProgramHistory = mDbWorkoutHistory.getRunningProgram(getProfile());
         if (mRunningProgramHistory!=null) {
             int position = 0;
             for (int i = 0; i <= mAdapterPrograms.getCount(); i++) {

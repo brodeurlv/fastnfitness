@@ -8,7 +8,6 @@
         android:id="@+id/viewpagertab"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/tableheader_background"
         app:stl_clickable="true"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="true"
