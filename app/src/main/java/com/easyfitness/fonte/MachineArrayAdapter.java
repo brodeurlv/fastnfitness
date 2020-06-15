@@ -25,10 +25,8 @@ public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.O
 
     @Override
     public void onClick(View v) {
-
         int position = (Integer) v.getTag();
         Machine dataModel = getItem(position);
-        //Snackbar.make(v, "Click:" + dataModel.getId(), Snackbar.LENGTH_SHORT);
     }
 
     @Override

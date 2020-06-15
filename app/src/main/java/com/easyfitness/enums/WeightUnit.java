@@ -1,4 +1,4 @@
-package com.easyfitness.utils;
+package com.easyfitness.enums;
 
 public enum WeightUnit {
     KG("Kg"),

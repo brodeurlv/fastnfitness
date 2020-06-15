@@ -16,14 +16,15 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAORecord;
+import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
+import com.easyfitness.enums.DisplayType;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DateFormat;
@@ -54,12 +55,11 @@ public class FonteHistoryFragment extends Fragment {
     long machineIdArg = -1;
     long machineProfilIdArg = -1;
 
-    Machine selectedMachine = null;
-    private DAORecord mDb = null;
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    Machine mSelectedMachine = null;
+    private DAORecord mDbRecord = null;
     private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
-        mDb.deleteRecord(id);
+        mDbRecord.deleteRecord(id);
 
         FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
             .getSelectedItem().toString());
@@ -74,19 +74,16 @@ public class FonteHistoryFragment extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
             if (parent.getId() == R.id.filterMachine) {
-                // Save current date
-                String currentDateSelection = "";
-
                 //  Update currentSelectedMachine
                 DAOMachine lDbMachine = new DAOMachine(getContext());
                 Machine machine = null;
                 if (!exerciseList.getSelectedItem().toString().equals(getView().getResources().getText(R.string.all).toString())) {
-                    selectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
+                    mSelectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
                 } else {
-                    selectedMachine = null;
+                    mSelectedMachine = null;
                 }
                 // Update associated Dates
-                refreshDates(selectedMachine);
+                refreshDates(mSelectedMachine);
                 if (dateList.getCount() > 1) {
                     dateList.setSelection(1); // Select latest date
                 } else {
@@ -137,7 +134,7 @@ public class FonteHistoryFragment extends Fragment {
         filterList = view.findViewById(R.id.listFilterRecord);
 
         // Initialisation de l'historique
-        mDb = new DAORecord(view.getContext());
+        mDbRecord = new DAORecord(view.getContext());
 
         mExerciseArray = new ArrayList<>();
         mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
@@ -146,16 +143,16 @@ public class FonteHistoryFragment extends Fragment {
             mExerciseArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseList.setAdapter(mAdapterMachine);
-        mDb.closeCursor();
+        mDbRecord.closeCursor();
 
         if (machineIdArg != -1) {
             // Hide the spinner
             view.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE);
             DAOMachine lDbMachine = new DAOMachine(getContext());
-            selectedMachine = lDbMachine.getMachine(machineIdArg);
-            mExerciseArray.add(selectedMachine.getName());
+            mSelectedMachine = lDbMachine.getMachine(machineIdArg);
+            mExerciseArray.add(mSelectedMachine.getName());
             mAdapterMachine.notifyDataSetChanged();
-            exerciseList.setSelection(mAdapterMachine.getPosition(selectedMachine.getName()));
+            exerciseList.setSelection(mAdapterMachine.getPosition(mSelectedMachine.getName()));
         } else {
             exerciseList.setOnItemSelectedListener(onItemSelectedList);
         }
@@ -186,10 +183,6 @@ public class FonteHistoryFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
     public MainActivity getMainActivity() {
         return this.mActivity;
     }
@@ -216,18 +209,18 @@ public class FonteHistoryFragment extends Fragment {
         }
 
         // Get Values
-        Cursor c = mDb.getFilteredRecords(getProfil(), pMachine, pDate);
+        Cursor c = mDbRecord.getFilteredRecords(getProfil(), pMachine, pDate);
 
-        if (c == null || c.getCount() == 0) {
+        List<Record> records = mDbRecord.fromCursorToList(c);
+
+        if (records.size()==0) {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
-                RecordCursorAdapter mTableAdapter = new RecordCursorAdapter(mActivity, c, 0, itemClickDeleteRecord, null);
+                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.HISTORY_DISPLAY, null);
                 filterList.setAdapter(mTableAdapter);
             } else {
-                oldCursor = ((RecordCursorAdapter) filterList.getAdapter()).swapCursor(c);
-                if (oldCursor != null)
-                    oldCursor.close();
+                ((RecordArrayAdapter) filterList.getAdapter()).setRecords(records);
             }
         }
     }
@@ -242,22 +235,14 @@ public class FonteHistoryFragment extends Fragment {
                     // Initialisation des machines
                     mExerciseArray.clear();
                     mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-                    mExerciseArray.addAll(mDb.getAllMachinesStrList(getProfil()));
+                    mExerciseArray.addAll(mDbRecord.getAllMachinesStrList(getProfil()));
                     mAdapterMachine.notifyDataSetChanged();
-                    mDb.closeCursor();
+                    mDbRecord.closeCursor();
 
                     exerciseList.setSelection(0); // Default value is "all" when there is a list
-
-/*
-                    if (mAdapterMachine.getPosition(this.getFontesMachine()) != -1) {
-                        exerciseList.setSelection(mAdapterMachine.getPosition(this.getFontesMachine()));
-                    } else { // if not found, set selection to 0
-                        exerciseList.setSelection(0);
-                    }
-*/
                 }
 
-                refreshDates(selectedMachine);
+                refreshDates(mSelectedMachine);
             }
         }
     }
@@ -271,12 +256,12 @@ public class FonteHistoryFragment extends Fragment {
             if (getProfil() != null) {
                 mDateArray.clear();
                 mDateArray.add(getView().getResources().getText(R.string.all).toString());
-                mDateArray.addAll(mDb.getAllDatesList(getProfil(), m));
+                mDateArray.addAll(mDbRecord.getAllDatesList(getProfil(), m));
                 if (mDateArray.size() > 1) {
                     dateList.setSelection(1);
                 }
                 mAdapterDate.notifyDataSetChanged();
-                mDb.closeCursor();
+                mDbRecord.closeCursor();
             }
         }
     }
@@ -305,7 +290,7 @@ public class FonteHistoryFragment extends Fragment {
             .setConfirmText(getResources().getText(R.string.global_yes).toString())
             .showCancelButton(true)
             .setConfirmClickListener(sDialog -> {
-                mDb.deleteRecord(idToDelete);
+                mDbRecord.deleteRecord(idToDelete);
                 FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
                     .getSelectedItem().toString());
                 KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);

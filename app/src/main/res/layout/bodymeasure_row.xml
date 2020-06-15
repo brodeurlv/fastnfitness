@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -38,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:gravity="center_vertical|start"
-                android:text="24/08/2017"
+                tools:text="24/08/2017"
                 android:textSize="16sp" />
 
             <TextView
@@ -49,7 +50,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="50"
                 android:gravity="center|start"
-                android:text="50"
+                tools:text="50"
                 android:textSize="16sp" />
 
             <ImageView
@@ -63,7 +64,7 @@
                 android:clickable="true"
                 android:elevation="0dp"
                 android:focusable="true"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+                app:srcCompat="@drawable/ic_delete_black_24dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

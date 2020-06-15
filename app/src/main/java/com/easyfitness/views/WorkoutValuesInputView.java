@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.DistanceUnit;
-import com.easyfitness.utils.ExerciseType;
-import com.easyfitness.utils.WeightUnit;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -21,11 +23,15 @@ import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 
 public class WorkoutValuesInputView extends LinearLayout {
 
     private boolean mShowExerciseTypeSelector;
+    private boolean mShowRestTime;
     private ExerciseType mSelectedType;
 
     private View rootView;
@@ -41,6 +47,10 @@ public class WorkoutValuesInputView extends LinearLayout {
     private SingleValueInputView secondsInputView;
     private SingleValueInputView distanceInputView;
     private SingleValueInputView durationInputView;
+
+    private CardView restTimeCardView = null;
+    private AppCompatEditText restTimeEditText;
+    private AppCompatCheckBox restTimeCheckBox;
 
     public WorkoutValuesInputView(@NonNull Context context) {
         super(context);
@@ -73,6 +83,10 @@ public class WorkoutValuesInputView extends LinearLayout {
         distanceInputView = rootView.findViewById(R.id.DistanceInputView);
         durationInputView = rootView.findViewById(R.id.DurationInputView);
 
+        restTimeCardView = rootView.findViewById(R.id.restTimeCardView);
+        restTimeEditText = rootView.findViewById(R.id.restTimeEditText);
+        restTimeCheckBox  = rootView.findViewById(R.id.restTimeCheckBox);
+
         TypedArray a = context.getTheme().obtainStyledAttributes(
             attrs,
             R.styleable.WorkoutValuesInputView,
@@ -83,6 +97,8 @@ public class WorkoutValuesInputView extends LinearLayout {
             setShowExerciseTypeSelector(mShowExerciseTypeSelector);
             mSelectedType = ExerciseType.fromInteger(a.getInteger(R.styleable.WorkoutValuesInputView_selectedType, 0));
             setSelectedType(mSelectedType);
+            mShowRestTime = a.getBoolean(R.styleable.WorkoutValuesInputView_showRestTime, false);
+            setShowRestTime(mShowRestTime);
         } finally {
             a.recycle();
         }
@@ -159,15 +175,27 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public int getReps() {
-        return Integer.parseInt(repsInputView.getValue());
+        try {
+            return Integer.parseInt(repsInputView.getValue());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public int getSeconds() {
-        return Integer.parseInt(repsInputView.getValue());
+        try {
+            return Integer.parseInt(secondsInputView.getValue());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public float getWeightValue() {
-        return Float.parseFloat(weightInputView.getValue().replaceAll(",", "."));
+        try {
+            return Float.parseFloat(weightInputView.getValue().replaceAll(",", "."));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public WeightUnit getWeightUnit() {
@@ -189,7 +217,7 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public float getDistanceValue() {
-        return Float.parseFloat(distanceInputView.getValue().toString().replaceAll(",", "."));
+        return Float.parseFloat(distanceInputView.getValue().replaceAll(",", "."));
     }
 
     public DistanceUnit getDistanceUnit() {
@@ -274,5 +302,57 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public void setDurationUnit(DistanceUnit unit) {
         distanceInputView.setSelectedUnit(unit.toString());
+    }
+
+    public void setShowRestTime(boolean isShown) {
+        mShowRestTime = isShown;
+        if (isShown) restTimeCardView.setVisibility(VISIBLE);
+        else restTimeCardView.setVisibility(GONE);
+    }
+
+    public boolean isRestTimeActivated() {
+        return restTimeCheckBox.isChecked();
+    }
+
+    public void activatedRestTime(boolean activated) {
+        restTimeCheckBox.setChecked(activated);
+    }
+
+    public void setRestTime(int unit) {
+        restTimeEditText.setText(String.valueOf(unit));
+    }
+
+    public int getRestTime() {
+        if (isRestTimeActivated())
+            return Integer.parseInt(restTimeEditText.getText().toString());
+        else
+            return 0;
+    }
+
+    public void setRecord(Record record) {
+        setSelectedType(record.getExerciseType());
+        switch (record.getExerciseType()) {
+        case STRENGTH:
+            setSets(record.getSets());
+            setReps(record.getReps());
+            if (record.getWeightUnit() == WeightUnit.LBS)
+                setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
+            else
+                setWeight(record.getWeight(), WeightUnit.KG);
+            break;
+        case ISOMETRIC:
+            setSets(record.getSets());
+            setSeconds(record.getSeconds());
+            if (record.getWeightUnit() == WeightUnit.LBS)
+                setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
+            else
+                setWeight(record.getWeight(), WeightUnit.KG);
+        case CARDIO:
+            setDuration(record.getDuration());
+            if (record.getDistanceUnit() == DistanceUnit.MILES)
+                setDistance(UnitConverter.KmToMiles(record.getDistance()), DistanceUnit.MILES);
+            else
+                setDistance(record.getDistance(), DistanceUnit.KM);
+        }
     }
 }

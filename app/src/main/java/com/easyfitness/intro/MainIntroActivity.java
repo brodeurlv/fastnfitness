@@ -3,7 +3,7 @@ package com.easyfitness.intro;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.easyfitness.DAO.DAOProfil;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.R;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
@@ -101,7 +101,7 @@ public class MainIntroActivity extends IntroActivity {
 */
 
         // Initialisation des objets DB
-        DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());
+        DAOProfile mDbProfils = new DAOProfile(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
         if (mDbProfils.getCount() == 0) {

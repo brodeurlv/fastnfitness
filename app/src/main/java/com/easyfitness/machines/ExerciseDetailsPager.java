@@ -12,17 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOProfil;
-import com.easyfitness.DAO.DAORecord;
-import com.easyfitness.DAO.IRecord;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.fonte.FonteHistoryFragment;
@@ -33,6 +28,11 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.List;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class ExerciseDetailsPager extends Fragment {
     Toolbar top_toolbar = null;
@@ -222,13 +222,13 @@ public class ExerciseDetailsPager extends Fragment {
                 dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> {
                     // Rename all the records with that machine and rename them
                     DAORecord lDbRecord = new DAORecord(getView().getContext());
-                    DAOProfil mDbProfil = new DAOProfil(getView().getContext());
+                    DAOProfile mDbProfil = new DAOProfile(getView().getContext());
                     Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 
-                    List<IRecord> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
-                    for (IRecord record : listRecords) {
+                    List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                    for (Record record : listRecords) {
                         record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
-                        record.setExerciseKey(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
+                        record.setExerciseId(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
                         lDbRecord.updateRecord(record); // Met a jour
                     }
 
@@ -252,10 +252,10 @@ public class ExerciseDetailsPager extends Fragment {
 
                 // Rename all the records with that machine and rename them
                 DAORecord lDbRecord = new DAORecord(getContext());
-                DAOProfil mDbProfil = new DAOProfil(getContext());
+                DAOProfile mDbProfil = new DAOProfile(getContext());
                 Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-                List<IRecord> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
-                for (IRecord record : listRecords) {
+                List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                for (Record record : listRecords) {
                     record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
                     lDbRecord.updateRecord(record); // met a jour
                 }
@@ -305,12 +305,12 @@ public class ExerciseDetailsPager extends Fragment {
 
     private void deleteRecordsAssociatedToMachine() {
         DAORecord mDbRecord = new DAORecord(getContext());
-        DAOProfil mDbProfil = new DAOProfil(getContext());
+        DAOProfile mDbProfil = new DAOProfile(getContext());
 
         Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
-        List<IRecord> listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, machine.getName());
-        for (IRecord record : listRecords) {
+        List<Record> listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, machine.getName());
+        for (Record record : listRecords) {
             mDbRecord.deleteRecord(record.getId());
         }
     }

@@ -42,7 +42,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Entfernung</string>
     <string name="DurationLabel">Dauer</string>
-    <string name="ExerciceLabel">Übung</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht</string>
@@ -143,7 +142,6 @@
     <string name="right_calves">Rechte Wade</string>
     <string name="waist">Taille</string>
     <string name="behind">Hüfte</string>
-    <string name="MesureHint">Maß hier eingeben</string>
 
 
     <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
@@ -217,7 +215,6 @@
     <string name="speed">Geschwindigkeit</string>
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
-    <string name="RecordLabel">Aufzeichnungen</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
     <string name="fatLabel">Fett(%)</string>
     <string name="bonesLabel">Knochen(%)</string>
@@ -273,5 +270,27 @@
     <string name="enter_birthday">Geben Sie Geburtstag</string>
     <string name="enter_bodypart_name">Geben Sie Körperteil Name</string>
     <string name="strength_category">Stärke</string>
+    <string name="add_to_template">In dem Programm</string>
+    <string name="automatic_date_time">Automatische Einstellung von Datum / Uhrzeit</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="enter_workout_name">Programmname eingeben</string>
+    <string name="filter_by_workout_name">Filter nach Programmnamen</string>
+    <string name="finish_program">Beenden das Programm</string>
+    <string name="newStr">Neu</string>
+    <string name="new_program">Neues Programm</string>
+    <string name="program_running">Programm:</string>
+    <string name="program_preview">Programmvorschau:</string>
+    <string name="programs">Programme:</string>
+    <string name="start_program">Start Programm</string>
+    <string name="update">Aktualisieren</string>
+    <string name="workout_list_menu_item">Programmliste</string>
+    <string name="record_editor">Nehmen Sie Editor</string>
+    <string name="please_start_program_first">Merci de démarrer un programme</string>
+    <string name="program_ongoing">Programme en cours:</string>
+    <string name="rest_time_row">Temps de repos:</string>
+    <string name="program">Programm</string>
+    <string name="free_workout">Zweiten Training</string>
+    <string name="this_program_is_empty">Dieses Programm ist leer</string>
+    <string name="total_on">Gesamt an</string>
 </resources>
 

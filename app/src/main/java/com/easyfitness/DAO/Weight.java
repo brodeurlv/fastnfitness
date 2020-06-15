@@ -1,14 +1,15 @@
 package com.easyfitness.DAO;
 
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
 
 public class Weight {
     private float pWeight;
-    private int pUnit;
+    private WeightUnit pUnit;
 
-    public Weight(float weight, int unit) {
+    public Weight(float weight, WeightUnit unit) {
         pWeight = weight;
         pUnit = unit;
     }
@@ -17,15 +18,15 @@ public class Weight {
         return pWeight;
     }
 
-    public float getWeight(int unit) {
+    public float getWeight(WeightUnit unit) {
         float weight = pWeight;
-        if (unit == UnitConverter.UNIT_LBS) {
+        if (unit == WeightUnit.LBS) {
             weight = UnitConverter.KgtoLbs(pWeight);
         }
         return weight;
     }
 
-    public int getStoredUnit() {
+    public WeightUnit getStoredUnit() {
         return pUnit;
     }
 
@@ -34,7 +35,7 @@ public class Weight {
         return numberFormat.format(pWeight);
     }
 
-    public String getWeightStr(int unit) {
+    public String getWeightStr(WeightUnit unit) {
         DecimalFormat numberFormat = new DecimalFormat("#.##");
         return numberFormat.format(getWeight(unit));
     }

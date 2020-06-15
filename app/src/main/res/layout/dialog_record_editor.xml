@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/record_editor"
+        android:textColor="@color/dialog_title_color"
+        android:textSize="20sp" />
+
+    <com.easyfitness.views.WorkoutValuesInputView
+        android:id="@+id/EditorWorkoutValuesInput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tool:selectedType="cardio"
+        tool:showTypeSelector="false"
+        tool:showRestTime="false"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/global_cancel" />
+
+        <Button
+            android:id="@+id/btn_update"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/update" />
+
+    </LinearLayout>
+
+</LinearLayout>

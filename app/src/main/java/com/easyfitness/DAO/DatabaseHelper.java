@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.enums.ExerciseType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +23,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 20;
+    public static final int DATABASE_VERSION = 21;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -51,11 +56,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DAORecord.TABLE_CREATE); // Covers Fonte and Cardio and Static
-        db.execSQL(DAOProfil.TABLE_CREATE);
-        db.execSQL(DAOWeight.TABLE_CREATE);
+        db.execSQL(DAOProfile.TABLE_CREATE);
+        db.execSQL(DAOProfileWeight.TABLE_CREATE);
         db.execSQL(DAOMachine.TABLE_CREATE);
         db.execSQL(DAOBodyMeasure.TABLE_CREATE);
         db.execSQL(DAOBodyPart.TABLE_CREATE);
+        db.execSQL(DAOProgram.TABLE_CREATE);
+        db.execSQL(DAOProgramHistory.TABLE_CREATE);
         initBodyPartTable(db);
     }
 
@@ -67,22 +74,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (upgradeTo <= newVersion) {
             switch (upgradeTo) {
                 case 1:
-                    db.execSQL(DAOCardio.TABLE_CREATE);
+                    //NOT SUPPORTED ANYMORE
+                    //db.execSQL(DAOCardio.TABLE_CREATE);
                     break;
                 case 2:
-                    db.execSQL(DAOCardio.TABLE_CREATE);
+                    //NOT SUPPORTED ANYMOREdb.execSQL(DAOCardio.TABLE_CREATE);
                     break;
                 case 3:
-                    db.execSQL(DAOCardio.TABLE_DROP);
-                    db.execSQL(DAOCardio.TABLE_CREATE);
+                    //NOT SUPPORTED ANYMOREdb.execSQL(DAOCardio.TABLE_DROP);
+                    //NOT SUPPORTED ANYMOREdb.execSQL(DAOCardio.TABLE_CREATE);
                     break;
                 case 4: // Easyfitness 0.7
                     db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.NOTES + " TEXT");
-                    db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.UNIT + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.WEIGHT_UNIT + " INTEGER DEFAULT 0");
                     break;
                 case 5:
                     db.execSQL(DAOMachine.TABLE_CREATE_5);
-                    db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.MACHINE_KEY + " INTEGER");
+                    db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.EXERCISE_KEY + " INTEGER");
                     break;
                 case 6: // Easyfitness 0.8
                     if (!isFieldExist(db, DAOMachine.TABLE_NAME, DAOMachine.BODYPARTS)) // Easyfitness 0.9 : Probleme d'upgrade
@@ -115,17 +123,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 13:
                     // Update profile database
-                    db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.SIZE + " INTEGER");
-                    db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.BIRTHDAY + " DATE");
+                    db.execSQL("ALTER TABLE " + DAOProfile.TABLE_NAME + " ADD COLUMN " + DAOProfile.SIZE + " INTEGER");
+                    db.execSQL("ALTER TABLE " + DAOProfile.TABLE_NAME + " ADD COLUMN " + DAOProfile.BIRTHDAY + " DATE");
                     break;
                 case 14:
-                    db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.PHOTO + " TEXT");
+                    db.execSQL("ALTER TABLE " + DAOProfile.TABLE_NAME + " ADD COLUMN " + DAOProfile.PHOTO + " TEXT");
                     break;
                 case 15:
                     // Merge of Cardio DB and Fonte DB
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DISTANCE + " REAL");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.DURATION + " INTEGER");
-                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TYPE + " INTEGER DEFAULT " + DAOMachine.TYPE_FONTE);
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.EXERCISE_TYPE + " INTEGER DEFAULT " + ExerciseType.STRENGTH.ordinal());
                     break;
                 case 16:
                     // Merge of Cardio DB and Fonte DB
@@ -133,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     migrateWeightTable(db);
                     break;
                 case 17:
-                    db.execSQL("ALTER TABLE " + DAOProfil.TABLE_NAME + " ADD COLUMN " + DAOProfil.GENDER + " INTEGER");
+                    db.execSQL("ALTER TABLE " + DAOProfile.TABLE_NAME + " ADD COLUMN " + DAOProfile.GENDER + " INTEGER");
                     break;
                 case 18:
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.SECONDS + " INTEGER DEFAULT 0");
@@ -145,7 +153,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL(DAOBodyPart.TABLE_CREATE);
                     initBodyPartTable(db);
                     break;
+                case 21:
+                    db.execSQL(DAOProgram.TABLE_CREATE);
+                    db.execSQL(DAOProgramHistory.TABLE_CREATE);
 
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.RECORD_TYPE + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_KEY + " INTEGER DEFAULT -1");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_RECORD_KEY + " INTEGER DEFAULT -1");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_SESSION_KEY + " INTEGER DEFAULT -1");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_REST_TIME + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_ORDER + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_RECORD_STATUS + " INTEGER DEFAULT 3");
+                    break;
             }
             upgradeTo++;
         }
@@ -172,6 +191,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 5:
                     //db.execSQL("ALTER TABLE "+ DAOMachine.TABLE_NAME + " DROP COLUMN " + DAOMachine.BODYPARTS );
+                    break;
+                case 20:
+                    // Delete WORKOUT TABLE
+                    db.delete(DAOProgram.TABLE_NAME, null, null);
                     break;
             }
             upgradeTo--;
@@ -209,7 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void migrateWeightTable(SQLiteDatabase db) {
         List<ProfileWeight> valueList = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + DAOWeight.TABLE_NAME;
+        String selectQuery = "SELECT * FROM " + DAOProfileWeight.TABLE_NAME;
         //SQLiteDatabase db = this.getWritableDatabase();
         Cursor mCursor = null;
         mCursor = db.rawQuery(selectQuery, null);
@@ -219,10 +242,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 ContentValues value = new ContentValues();
 
-                value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOWeight.DATE)));
+                value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOProfileWeight.DATE)));
                 value.put(DAOBodyMeasure.BODYPART_ID, BodyPartExtensions.WEIGHT);
-                value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOWeight.POIDS)));
-                value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOWeight.PROFIL_KEY)));
+                value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOProfileWeight.POIDS)));
+                value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOProfileWeight.PROFIL_KEY)));
 
                 db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
             } while (mCursor.moveToNext());

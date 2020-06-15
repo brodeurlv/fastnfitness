@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.enums.ExerciseType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +22,6 @@ public class DAOMachine extends DAOBase {
     public static final String PICTURE = "picture";
     public static final String BODYPARTS = "bodyparts";
     public static final String FAVORITES = "favorites"; // DEPRECATED - Specific DataBase created for this.
-
-
-    public static final int TYPE_FONTE = 0;
-    public static final int TYPE_CARDIO = 1;
-    public static final int TYPE_STATIC = 2;
 
     public static final String TABLE_CREATE_5 = "CREATE TABLE " + TABLE_NAME
         + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
@@ -55,14 +52,14 @@ public class DAOMachine extends DAOBase {
      * @param pDescription
      * @param pType
      */
-    public long addMachine(String pName, String pDescription, int pType, String pPicture, boolean pFav, String pBodyParts) {
+    public long addMachine(String pName, String pDescription, ExerciseType pType, String pPicture, boolean pFav, String pBodyParts) {
         long new_id = -1;
 
         ContentValues value = new ContentValues();
 
         value.put(DAOMachine.NAME, pName);
         value.put(DAOMachine.DESCRIPTION, pDescription);
-        value.put(DAOMachine.TYPE, pType);
+        value.put(DAOMachine.TYPE, pType.ordinal());
         value.put(DAOMachine.PICTURE, pPicture);
         value.put(DAOMachine.FAVORITES, pFav);
         value.put(DAOMachine.BODYPARTS, pBodyParts);
@@ -86,9 +83,14 @@ public class DAOMachine extends DAOBase {
         if (mCursor.getCount() == 0)
             return null;
 
-        Machine value = new Machine(mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6) == 1);
+        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+            ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+            mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
-        value.setId(mCursor.getLong(0));
+        value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
         // return value
         mCursor.close();
         close();
@@ -107,14 +109,14 @@ public class DAOMachine extends DAOBase {
         if (mCursor.getCount() == 0)
             return null;
 
-        Machine value = new Machine(mCursor.getString(1),
-            mCursor.getString(2),
-            mCursor.getInt(3),
-            mCursor.getString(4),
-            mCursor.getString(5),
-            mCursor.getInt(6) == 1);
+        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+            ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+            mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+            mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
-        value.setId(mCursor.getLong(0));
+        value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
         // return value
         mCursor.close();
         close();
@@ -138,10 +140,14 @@ public class DAOMachine extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Machine value = new Machine(mCursor.getString(1),
-                    mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4), mCursor.getString(5), mCursor.getInt(6) == 1);
+                Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+                    ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
-                value.setId(mCursor.getLong(0));
+                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
 
                 // Adding value to list
                 valueList.add(value);
@@ -282,7 +288,7 @@ public class DAOMachine extends DAOBase {
         ContentValues value = new ContentValues();
         value.put(DAOMachine.NAME, m.getName());
         value.put(DAOMachine.DESCRIPTION, m.getDescription());
-        value.put(DAOMachine.TYPE, m.getType());
+        value.put(DAOMachine.TYPE, m.getType().ordinal());
         value.put(DAOMachine.BODYPARTS, m.getBodyParts());
         value.put(DAOMachine.PICTURE, m.getPicture());
         if (m.getFavorite()) value.put(DAOMachine.FAVORITES, 1);
@@ -327,7 +333,7 @@ public class DAOMachine extends DAOBase {
     }
 
     public void populate() {
-        addMachine("Dev Couche", "Developper couche : blabla ", TYPE_FONTE, "", true, "");
-        addMachine("Biceps", "Developper couche : blabla ", TYPE_FONTE, "", false, "");
+        addMachine("Dev Couche", "Developper couche : blabla ", ExerciseType.STRENGTH, "", true, "");
+        addMachine("Biceps", "Developper couche : blabla ", ExerciseType.STRENGTH, "", false, "");
     }
 }

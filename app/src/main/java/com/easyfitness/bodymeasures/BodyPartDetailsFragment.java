@@ -280,7 +280,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         /* Initialisation des evenements */
 
         // Add the other graph
-        mChart = view.findViewById(R.id.weightChart);
+        mChart = view.findViewById(R.id.bodymeasureChart);
         mChart.setDescription(null);
         mDateGraph = new DateGraph(getContext(), mChart, "");
         mBodyMeasureDb = new DAOBodyMeasure(view.getContext());

@@ -10,6 +10,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,30 +23,24 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.easyfitness.DAO.CVSManager;
-import com.easyfitness.DAO.DAOCardio;
-import com.easyfitness.DAO.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOProfil;
-import com.easyfitness.DAO.DAOStatic;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DatabaseHelper;
-import com.easyfitness.DAO.Fonte;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
+import com.easyfitness.DAO.record.DAOCardio;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.DAOStatic;
+import com.easyfitness.DAO.record.Record;
+import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.bodymeasures.BodyPartListFragment;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
@@ -53,6 +49,7 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
+import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.UnitConverter;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -63,16 +60,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     public static String FONTESPAGER = "FontePager";
-    public static String FONTES = "Fonte";
-    public static String HISTORY = "History";
-    public static String GRAPHIC = "Graphics";
-    public static String CARDIO = "Cardio";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
@@ -81,11 +84,15 @@ public class MainActivity extends AppCompatActivity {
     public static String SETTINGS = "Settings";
     public static String MACHINES = "Machines";
     public static String MACHINESDETAILS = "MachinesDetails";
+    public static String WORKOUTS = "Workouts";
+    public static String WORKOUTPAGER = "WorkoutPager";
     public static String PREFS_NAME = "prefsfile";
     private final int REQUEST_CODE_INTRO = 111;
     private final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
+
+    /* Fragments */
     private FontesPagerFragment mpFontesPagerFrag = null;
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
@@ -93,12 +100,15 @@ public class MainActivity extends AppCompatActivity {
     private SettingsFragment mpSettingFrag = null;
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
+    private ProgramListFragment mpWorkoutListFrag;
+
     private String currentFragmentName = "";
-    private DAOProfil mDbProfils = null;
+    private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
     private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
+
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
@@ -197,8 +207,39 @@ public class MainActivity extends AppCompatActivity {
     };
     private long mBackPressed;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.e("Starting MainActivity", "Starting MainActivity");
+
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String dayNightAuto = SP.getString("dayNightAuto", "2");
+        int dayNightAutoValue;
+        try {
+            dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        }catch(NumberFormatException e) {
+            dayNightAutoValue = 2;
+        }
+        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            SweetAlertDialog.DARK_STYLE=true;
+        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            SweetAlertDialog.DARK_STYLE=false;
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    SweetAlertDialog.DARK_STYLE=false; break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    SweetAlertDialog.DARK_STYLE=true; break;
+                default:
+                    SweetAlertDialog.DARK_STYLE=false;
+            }
+        }
+
         super.onCreate(savedInstanceState);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -224,34 +265,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String dayNightAuto = SP.getString("dayNightAuto", Integer.toString(getResources().getInteger(R.integer.autoui_mode_value)));
-        int dayNightAutoValue;
-        try {
-            dayNightAutoValue = Integer.parseInt(dayNightAuto);
-        }catch(NumberFormatException e) {
-            dayNightAutoValue = getResources().getInteger(R.integer.autoui_mode_value);
-        }
-        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            SweetAlertDialog.DARK_STYLE=true;
-        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            SweetAlertDialog.DARK_STYLE=false;
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                    SweetAlertDialog.DARK_STYLE=false; break;
-                case Configuration.UI_MODE_NIGHT_YES:
-                    SweetAlertDialog.DARK_STYLE=true; break;
-                default:
-                    SweetAlertDialog.DARK_STYLE=false;
-            }
-        }
-
         setContentView(R.layout.activity_main);
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
@@ -259,15 +272,14 @@ public class MainActivity extends AppCompatActivity {
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
 
         if (savedInstanceState == null) {
-            if (mpFontesPagerFrag == null)
-                mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+            if (mpFontesPagerFrag == null) mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
             if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
             if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
-            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
+            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 4);
             if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
-            if (mpBodyPartListFrag == null)
-                mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
+            if (mpBodyPartListFrag == null) mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
+            if (mpWorkoutListFrag == null) mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
         } else {
             mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
             mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
@@ -276,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
             mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, ABOUT);
             mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
             mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, BODYTRACKING);
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().getFragment(savedInstanceState, WORKOUTS);
         }
 
         loadPreferences();
@@ -293,19 +306,20 @@ public class MainActivity extends AppCompatActivity {
                     Machine m = lDAOMachine.getMachine(record.getExercice());
                     exerciseName = record.getExercice();
                     if (m != null) { // if a machine exists
-                        if (m.getType() == DAOMachine.TYPE_FONTE) { // if it is not a Cardio type
+                        if (m.getType() == ExerciseType.STRENGTH) { // if it is not a Cardio type
                             exerciseName = exerciseName + "-Cardio"; // add a suffix to
                         }
                     }
 
-                    mDbCardio.addCardioRecord(record.getDate(), "00:00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil(), UnitConverter.UNIT_KM);
+                    mDbCardio.addCardioRecord(record.getDate(), "00:00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil().getId(), DistanceUnit.KM, -1);
                 }
                 mDbOldCardio.dropTable();
 
-                DAOFonte mDbFonte = new DAOFonte(this);
-                List<Fonte> mFonteList = mDbFonte.getAllBodyBuildingRecords();
-                for (Fonte record : mFonteList) {
-                    mDbFonte.updateRecord(record); // Automatically update record Type
+                DAORecord daoRecord = new DAORecord(this);
+                List<Record> mFonteList = daoRecord.getAllRecords();
+                for (Record record : mFonteList) {
+                    record.setExerciseType(ExerciseType.STRENGTH);
+                    daoRecord.updateRecord(record); // Automatically update record Type
                 }
                 ArrayList<Machine> machineList = lDAOMachine.getAllMachinesArray();
                 for (Machine record : machineList) {
@@ -331,8 +345,8 @@ public class MainActivity extends AppCompatActivity {
 
         dataList.add(drawerTitleItem);
         dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center_white_24dp, true));
-        //dataList.add(new DrawerItem(this.getResources().getString(R.string.CardioMenuLabel), R.drawable.ic_running, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_gym_bench_50dp, true));
+        dataList.add(new DrawerItem("Programs List", R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale_white_50dp, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler_white_50dp, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings_white_24dp, true));
@@ -366,6 +380,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
+
+        Log.e("Darkmode DEBUG", "MainActivity: Oncreate Done");
+
     }
 
     @Override
@@ -383,23 +400,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDEBUGdata() {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG_MODE) {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
             if(lDbFonte.getCount()==0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise 1", 1, 10, 40, this.getCurrentProfile(), 0, "", "12:34:56");
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "Exercise 2", 1, 10, 50, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "12:34:56", "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "12:34:56", "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "01:02:03", "Course", 1000, 10000, this.getCurrentProfile(), UnitConverter.UNIT_KM);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "01:02:03", "Rameur", 5000, 20000, this.getCurrentProfile(), UnitConverter.UNIT_MILES);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01),  DateConverter.currentTime(), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), DateConverter.currentTime(), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
             }
-
             DAOStatic lDbStatic = new DAOStatic(this);
             if(lDbStatic.getCount()==0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile(), 0, "", "12:34:56");
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, 40, this.getCurrentProfile(), 0, "", "12:34:56");
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", "12:34:56", -1);
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", "12:34:56", -1);
+            }
+            DAOProgram lDbWorkout = new DAOProgram(this);
+            if(lDbWorkout.getCount()==0) {
+                lDbWorkout.populate();
             }
         }
     }
@@ -428,6 +448,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().putFragment(outState, SETTINGS, mpSettingFrag);
         if (getBodyPartFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, BODYTRACKING, mpBodyPartListFrag);
+        if (getWorkoutListFragment().isAdded())
+            getSupportFragmentManager().putFragment(outState, WORKOUTS, mpWorkoutListFrag);
     }
 
     @Override
@@ -735,6 +757,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getSettingsFragment(), SETTINGS);
         } else if (pFragmentName.equals(MACHINES)) {
             ft.replace(R.id.fragment_container, getMachineFragment(), MACHINES);
+        }  else if (pFragmentName.equals(WORKOUTS)) {
+            ft.replace(R.id.fragment_container, getWorkoutListFragment(), WORKOUTS);
         } else if (pFragmentName.equals(ABOUT)) {
             ft.replace(R.id.fragment_container, getAboutFragment(), ABOUT);
         } else if (pFragmentName.equals(BODYTRACKING)) {
@@ -743,7 +767,6 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
         }
         currentFragmentName = pFragmentName;
-        //if (addToBackStack) ft.addToBackStack(null);
         ft.commit();
 
     }
@@ -778,8 +801,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // rafraichit le fragment courant
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                //FragmentTransaction ft=fragmentManager.beginTransaction();
-                //showFragment(WEIGHT);
 
                 // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
                 // Il faut donc que cela soit pris en compte dans le refresh des fragments.
@@ -902,6 +923,16 @@ public class MainActivity extends AppCompatActivity {
         return mpBodyPartListFrag;
     }
 
+
+    private ProgramListFragment getWorkoutListFragment() {
+        if (mpWorkoutListFrag == null)
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().findFragmentByTag(WORKOUTS);
+        if (mpWorkoutListFrag == null)
+            mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 10);
+
+        return mpWorkoutListFrag;
+    }
+
     private SettingsFragment getSettingsFragment() {
         if (mpSettingFrag == null)
             mpSettingFrag = (SettingsFragment) getSupportFragmentManager().findFragmentByTag(SETTINGS);
@@ -966,13 +997,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void initActivity() {
         // Initialisation des objets DB
-        mDbProfils = new DAOProfil(this.getApplicationContext());
+        mDbProfils = new DAOProfile(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        /*if (mDbProfils.getCount() == 0 || mCurrentProfilID == -1) {
-            // Ouvre la fenetre de creation de profil
-            this.CreateNewProfil();
-        } else {*/
         mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
         if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
             try {
@@ -1008,18 +1035,22 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.MachinesLabel));
                     break;
                 case 3:
+                    showFragment(WORKOUTS);
+                    setTitle(getString(R.string.workout_list_menu_item));
+                    break;
+                case 4:
                     showFragment(WEIGHT);
                     setTitle(getResources().getText(R.string.weightMenuLabel));
                     break;
-                case 4:
+                case 5:
                     showFragment(BODYTRACKING);
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
-                case 5:
+                case 6:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 6:
+                case 7:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;

@@ -25,7 +25,6 @@
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Bodybuilding</string>
-    <string name="RecordLabel">Records</string>
     <string name="SerieLabel">Sets</string>
     <string name="RepetitionLabel_short">Herhalingen</string>
     <string name="MachineLabel">Oefening</string>
@@ -43,7 +42,6 @@
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Afstand</string>
     <string name="DurationLabel">Duur</string>
-    <string name="ExerciceLabel">Oefeningen</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht Track</string>
@@ -177,7 +175,6 @@
     <string name="right_calves">Rechter kuit</string>
     <string name="waist">Heup</string>
     <string name="behind">Heupen</string>
-    <string name="MesureHint">Voeg afmeting toe</string>
 
     <string name="backDialog_confirm_text">Wil je opslaan voor het afsluiten?</string>
     <string name="deleteMachine_confirm_text">Wil je deze oefening verwijderen? Alle gelinkte data wordt verwijderd.</string>
@@ -293,6 +290,28 @@
     <string name="enter_birthday">Voer de verjaardag</string>
     <string name="enter_bodypart_name">Voer Body part naam</string>
     <string name="strength_category">Sterkte</string>
+    <string name="add_to_template">Voeg toe aan programma</string>
+    <string name="automatic_date_time">Automatisch datum / tijd</string>
+    <string name="edit">Bewerk</string>
+    <string name="enter_workout_name">Voer de naam van het programma</string>
+    <string name="filter_by_workout_name">Filter op programmanaam</string>
+    <string name="finish_program">Compleet programma</string>
+    <string name="newStr">Nieuw</string>
+    <string name="new_program">Nieuw programma</string>
+    <string name="program_running">Programma:</string>
+    <string name="program_preview">Programma voorbeeld:</string>
+    <string name="programs">Programma:</string>
+    <string name="start_program">Start programma</string>
+    <string name="update">Bijwerken</string>
+    <string name="workout_list_menu_item">Programmalijst</string>
+    <string name="record_editor">Record Editor</string>
+    <string name="please_start_program_first">Prosím spustit program nejprve</string>
+    <string name="program_ongoing">Program probíhajících:</string>
+    <string name="rest_time_row">Čas odpočinku:</string>
+    <string name="program">Programma</string>
+    <string name="free_workout">Gratis sessie</string>
+    <string name="this_program_is_empty">Dit programma is leeg</string>
+    <string name="total_on">Totaal op</string>
 
 </resources>
 

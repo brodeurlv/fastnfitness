@@ -9,6 +9,7 @@
         <attr name="android:textSize" />
         <attr name="android:title" />
         <attr name="iconVisible" format="boolean" />
+        <attr name="suffix" format="string" />
     </declare-styleable>
 
     <declare-styleable name="SingleValueInputView">
@@ -28,6 +29,7 @@
 
     <declare-styleable name="WorkoutValuesInputView">
         <attr name="showTypeSelector" format="boolean" />
+        <attr name="showRestTime" format="boolean" />
         <attr name="selectedType" format="enum">
             <enum name="strengh" value="0" />
             <enum name="cardio" value="1" />

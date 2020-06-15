@@ -1,6 +1,7 @@
 package com.easyfitness.utils;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,7 +32,8 @@ public class ExpandedListView extends ListView {
 
         super.onMeasure(widthMeasureSpec, heightSpec);
     }
-/*
+
+    /*
     @Override
     protected void onDraw(Canvas canvas) {
         if (getCount() != oldCount && getCount() != 0) {
@@ -58,6 +60,6 @@ public class ExpandedListView extends ListView {
         }
 
         super.onDraw(canvas);
-    }
-*/
+    }*/
+
 }

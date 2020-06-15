@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:layout_weight="25"
         android:gravity="center_vertical"
-        android:text="Example Body Part"
+        tools:text="Example Body Part"
         android:textSize="16sp" />
 
     <com.github.mikephil.charting.charts.LineChart

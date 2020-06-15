@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.easyfitness.DAO.DAOBase;
-import com.easyfitness.DAO.DAOProfil;
+import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 
@@ -74,8 +74,8 @@ public class DAOOldCardio extends DAOBase {
                 }
 
                 // Get Profile
-                DAOProfil lDAOProfil = new DAOProfil(mContext);
-                Profile lProfile = lDAOProfil.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
+                DAOProfile lDAOProfile = new DAOProfile(mContext);
+                Profile lProfile = lDAOProfile.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
 
                 OldCardio value = new OldCardio(date,
                     mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.EXERCICE)),

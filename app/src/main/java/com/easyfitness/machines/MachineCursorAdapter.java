@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
+import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ImageUtil;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
@@ -43,7 +44,7 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
         ImageView i0 = view.findViewById(R.id.LIST_MACHINE_PHOTO);
         String lPath = cursor.getString(cursor.getColumnIndex(DAOMachine.PICTURE));
 
-        int lType = cursor.getInt(cursor.getColumnIndex(DAOMachine.TYPE));
+        ExerciseType lType = ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOMachine.TYPE)));
 
         if (lPath != null && !lPath.isEmpty()) {
             try {
@@ -51,9 +52,9 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 String lThumbPath = imgUtil.getThumbPath(lPath);
                 ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
-                if (lType == DAOMachine.TYPE_FONTE ) {
+                if (lType == ExerciseType.STRENGTH ) {
                     i0.setImageResource(R.drawable.ic_gym_bench_50dp); }
-                else if (lType == DAOMachine.TYPE_STATIC ) {
+                else if (lType == ExerciseType.ISOMETRIC ) {
                     i0.setImageResource(R.drawable.ic_static);
                 }
                 else {
@@ -62,9 +63,9 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 e.printStackTrace();
             }
         } else {
-            if (lType == DAOMachine.TYPE_FONTE) {
+            if (lType == ExerciseType.STRENGTH) {
                 i0.setImageResource(R.drawable.ic_gym_bench_50dp); }
-            else if (lType == DAOMachine.TYPE_STATIC ) {
+            else if (lType == ExerciseType.ISOMETRIC ) {
                 i0.setImageResource(R.drawable.ic_static);
             }
             else {

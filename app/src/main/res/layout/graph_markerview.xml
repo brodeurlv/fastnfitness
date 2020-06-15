@@ -28,6 +28,6 @@
         android:text="70.0"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
-        android:textSize="11sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>

@@ -83,9 +83,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:selectedType="cardio"
-            app:showTypeSelector="true" />
+            app:showTypeSelector="true"
+            app:showRestTime="true"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/detailsCardView"
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,8 +128,8 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="Automatic time" />
+                            android:gravity="end"
+                            android:text="@string/automatic_date_time" />
 
                         <CheckBox
                             android:id="@+id/autoTimeCheckBox"
@@ -144,7 +146,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
                             android:layout_weight="50"
-                            android:gravity="right|end"
+                            android:gravity="end"
                             android:text="@string/DateLabel" />
 
                         <TextView
@@ -168,7 +170,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
                             android:layout_weight="100"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:text="@string/timeLabel" />
 
                         <TextView
@@ -181,48 +183,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/restTimeLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="100"
-                            android:text="@string/activate_rest_time" />
-
-                        <CheckBox
-                            android:id="@+id/restTimecheckBox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:checked="true"
-                            android:text="" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="100"
-                            android:text="@string/rest_time" />
-
-                        <EditText
-                            android:id="@+id/editRestTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:ems="4"
-                            android:inputType="number"
-                            android:selectAllOnFocus="false"
-                            android:singleLine="true"
-                            android:text="60" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"

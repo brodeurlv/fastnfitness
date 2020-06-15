@@ -68,7 +68,7 @@
 
                     <com.easyfitness.views.EditableInputView
                         android:id="@+id/BODYPART_NAME"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="50"
                         android:gravity="center_vertical"
@@ -93,7 +93,8 @@
                         android:gravity="center_vertical|center"
                         android:scaleType="center"
                         android:text="+"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -103,7 +104,7 @@
                 android:layout_height="wrap_content">
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/weightChart"
+                    android:id="@+id/bodymeasureChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dip"
                     android:layout_marginLeft="5dp"

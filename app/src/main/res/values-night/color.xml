@@ -4,7 +4,7 @@
     <color name="record_background_odd">#153F49</color>
     <color name="record_background_even">#475B61</color>
     <color name="background">#1B1B1B</color>
-    <color name="tableheader_background">#7A7A7A</color>
+    <color name="tableheader_background">#CDCDCD</color>
     <color name="launcher_background">#0dadf4</color>
     <color name="enabled_color">#FFFFFF</color>
     <color name="disabled_color">#bababa</color>
@@ -12,4 +12,5 @@
     <color name="index_color">#6794E4</color>
     <color name="add_button_background">#7C7C7C</color>
     <color name="dark_icon_background">#C0C0C0</color>
+    <color name="dialog_title_color">#5DBCD2</color>
 </resources>
