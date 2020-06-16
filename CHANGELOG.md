@@ -1,5 +1,12 @@
 ## Change Log
 
+### 0.19.0: June 16, 2020
+- Enhancement : New program feature (Thanks @senpl for the mockup)
+- Enhancement : Possibility to edit records
+- Enhancement : Several UI enhancements
+- Enhancement : Several architectural updates
+- Bug : Fixed light/dark mode crash when mode is different from system mode
+
 ### 0.18.11: April 04, 2020
 - Enhancement : Possibility to add new body part
 - Enhancement : Clarified unit for size (#118)

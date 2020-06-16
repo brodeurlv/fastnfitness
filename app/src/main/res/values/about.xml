@@ -11,11 +11,11 @@
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
 v0.19.0: June 15, 2020\n
-\t- Enhancement : New program feature (Thanks\n
+\t- Enhancement : New program feature (Thanks @senpl for the mockup)\n
 \t- Enhancement : Possibility to edit records\n
 \t- Enhancement : Several UI enhancements\n
-\t- Enhancement : Internal architecture update\n
-\t- Bug : Fixed light/dark mode crash when mode is different from system mode
+\t- Enhancement : Several architectural updates\n
+\t- Bug : Fixed light/dark mode crash when mode is different from system mode\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

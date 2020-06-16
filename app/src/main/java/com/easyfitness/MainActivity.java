@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -380,9 +380,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
-
-        Log.e("Darkmode DEBUG", "MainActivity: Oncreate Done");
-
     }
 
     @Override
