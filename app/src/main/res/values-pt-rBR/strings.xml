@@ -8,9 +8,6 @@
     <string name="global_yes">Sim</string>
     <string name="global_no">Não</string>
 
-    <string name="removedid">ID removido</string>
-    <string name="failedtocreatefolder">Falha ao criar pasta</string>
-
     <string name="action_settings">Configurações</string>
     <string name="DateLabel">Data</string>
 
@@ -44,7 +41,7 @@
     <string name="DurationLabel">Duração</string>
 
     <!-- Profile Fragment -->
-    <string name="weightMenuLabel">Monitoramento de peso</string>
+    <string name="weightMenuLabel">Monitor de peso</string>
     <string name="weightLabel">Peso(kg)</string>
     <string name="fatLabel">Gordura(%)</string>
     <string name="bonesLabel">Ossos(%)</string>
@@ -66,6 +63,9 @@
     <string name="export_success">Banco de dados exportado</string>
     <string name="export_failed">Falha ao exportar o banco de dados</string>
     <string name="import_database">Importar registros</string>
+
+    <string name="removedid">ID removido</string>
+    <string name="failedtocreatefolder">Falha ao criar pasta</string>
 
     <string name="deleteDB_warning">
         Esta ação vai redefinir todo o aplicativo.
@@ -265,42 +265,45 @@
     <string name="SecondsLabel_short">Segs</string>
     <string name="imported_successfully"> importado com sucesso</string>
     <string name="import_failed"> importação falhou</string>
-    <string name="author_label">Author:</string>
     <string name="import_new_exercise_first">(importe novos exercícios primeiro)</string>
     <string name="MachineHint">Nome do seu exercício</string>
     <string name="trapezius">Trapézios</string>
     <string name="obliques">Oblíquos</string>
     <string name="shoulders">Ombros</string>
     <string name="timeLabel">Tempo</string>
-    <string name="daynightmode_settingtitle">Selecione seu tema (é necessário reiniciar)</string>
-    <string name="new_measure">Nova medida</string>
+    <string name="daynightmode_settingtitle">Selecione seu tema (precisa reiniciar)</string>
+
+
     <string name="delete_bodypart_confirm">Você deseja excluir esta parte do corpo? Todas as medidas associadas serão eliminadas.</string>
+    <string name="new_measure">Nova medida</string>
     <string name="enter_profile_name">Digite o nome do perfil</string>
     <string name="enter_size_cm">Digite o tamanho (cm)</string>
     <string name="enter_birthday">Digite o aniversário</string>
     <string name="enter_bodypart_name">Digite o nome da parte do corpo</string>
+
     <string name="strength_category">Força</string>
-    <string name="add_to_template">Adicionar a programa</string>
-    <string name="automatic_date_time">data automática / hora</string>
-    <string name="edit">Editar</string>
+
+    <string name="automatic_date_time">data/hora automática</string>
     <string name="enter_workout_name">Digite o nome do programa</string>
-    <string name="filter_by_workout_name">Filtrar por nome do programa</string>
-    <string name="finish_program">Programa completo</string>
-    <string name="newStr">Novo</string>
-    <string name="new_program">Novo programa</string>
-    <string name="program_running">Programa:</string>
-    <string name="program_preview">Visualização do Programa:</string>
-    <string name="programs">Programas:</string>
-    <string name="start_program">de início do programa</string>
-    <string name="update">Atualizar</string>
     <string name="workout_list_menu_item">Lista de programas</string>
-    <string name="record_editor">editor do registro</string>
-    <string name="please_start_program_first">Bitte starten Programm zuerst</string>
-    <string name="program_ongoing">Programm Andauernd:</string>
-    <string name="rest_time_row">Ruhezeit:</string>
+    <string name="finish_program">Programa concluído</string>
+    <string name="start_program">Iniciar programa</string>
+    <string name="new_program">Novo programa</string>
+    <string name="filter_by_workout_name">Filtrar por nome do programa</string>
+    <string name="programs">Programas:</string>
     <string name="program">Programa</string>
+    <string name="newStr">Novo</string>
+    <string name="edit">Editar</string>
+    <string name="program_preview">Visualização do programa:</string>
+    <string name="program_running">Programa:</string>
+    <string name="add_to_template">Adicionar a programa</string>
+    <string name="update">Atualizar</string>
+    <string name="record_editor">Editor do registro</string>
+    <string name="please_start_program_first">Por favor, incie o programa primeiro</string>
+    <string name="program_ongoing">Programa em andamento:</string>
+    <string name="rest_time_row">Tempo de descanso:</string>
     <string name="free_workout">Sessão livre</string>
     <string name="this_program_is_empty">Este programa está vazio</string>
     <string name="total_on">Total em</string>
-
 </resources>
+
