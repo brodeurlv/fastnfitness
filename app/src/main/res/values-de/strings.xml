@@ -292,5 +292,7 @@
     <string name="free_workout">Zweiten Training</string>
     <string name="this_program_is_empty">Dieses Programm ist leer</string>
     <string name="total_on">Gesamt an</string>
+    <string name="info">Informationen</string>
+    <string name="editor">Editor</string>
 </resources>
 

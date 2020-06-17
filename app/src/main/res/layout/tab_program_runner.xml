@@ -48,19 +48,25 @@
 
                 <Button
                     android:id="@+id/newProgram"
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginEnd="2dp"
                     android:background="@color/add_button_background"
-                    android:text="@string/newStr" />
+                    android:text="@string/newStr"
+                    android:minWidth="0dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"/>
 
                 <Button
                     android:id="@+id/editProgram"
-                    android:layout_width="60dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     android:background="@color/add_button_background"
+                    android:minWidth="0dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:text="@string/edit" />
 
             </LinearLayout>

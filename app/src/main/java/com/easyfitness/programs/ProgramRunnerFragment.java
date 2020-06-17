@@ -59,6 +59,7 @@ public class ProgramRunnerFragment extends Fragment {
     private View.OnClickListener onClickEditProgram = view -> {
 
         Program program = (Program) mProgramsSpinner.getSelectedItem();
+        if (program==null) return;
 
         ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(program.getId());
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

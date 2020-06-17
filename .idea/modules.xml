@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="fastnfitness_darkdebug/app" />
       <module fileurl="file://$PROJECT_DIR$/fastnfitness.iml" filepath="$PROJECT_DIR$/fastnfitness.iml" />
       <module fileurl="file://$PROJECT_DIR$/fastnfitness_MergedUI.iml" filepath="$PROJECT_DIR$/fastnfitness_MergedUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fastnfitness_darkdebug.iml" filepath="$PROJECT_DIR$/.idea/modules/fastnfitness_darkdebug.iml" group="fastnfitness_darkdebug" />
     </modules>
   </component>
 </project>

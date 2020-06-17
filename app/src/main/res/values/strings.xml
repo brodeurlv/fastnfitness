@@ -344,4 +344,6 @@
     <string name="free_workout">Free workout</string>
     <string name="this_program_is_empty">This program is empty</string>
     <string name="total_on">Total on</string>
+    <string name="editor">Editor</string>
+    <string name="info">Data</string>
 </resources>
