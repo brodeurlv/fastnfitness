@@ -34,14 +34,10 @@ public class BarGraph {
     public BarGraph(Context context, BarChart chart, String name) {
         mChart = chart;
         mChartName = name;
-        //mChart.setDoubleTapToZoomEnabled(true);
         mChart.setHorizontalScrollBarEnabled(true);
         mChart.setVerticalScrollBarEnabled(true);
-        //mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
-
-        //IMarker marker = new BarGraphMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
-        //mChart.setMarker(marker);
+        mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
 
         mContext = context;
         // get the legend (only possible after setting data)
@@ -52,22 +48,8 @@ public class BarGraph {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
         xAxis.setDrawAxisLine(false);
-        //xAxis.setDrawGridLines(true);
-        //xAxis.setCenterAxisLabels(false);
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
-        /*xAxis.setValueFormatter(new IAxisValueFormatter() {
-
-            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MMM"); // HH:mm:ss
-
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                //long millis = TimeUnit.HOURS.toMillis((long) value);
-                mFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                Date tmpDate = new Date((long) DateConverter.nbMilliseconds(value)); // Convert days in milliseconds
-                return mFormat.format(tmpDate);
-            }
-        });*/
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setAxisMinimum(0f);
@@ -91,10 +73,7 @@ public class BarGraph {
         XAxis xAxis = this.mChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
 
-
         Collections.sort(entries, new EntryXComparator());
-
-        //Log.d("DEBUG", arrayToString(entries));
 
         BarDataSet set1 = new BarDataSet(entries, mChartName);
         set1.setColor(mContext.getResources().getColor(R.color.toolbar_background));
@@ -118,8 +97,6 @@ public class BarGraph {
         mChart.getAxisLeft().setAxisMinimum(0f);
 
         mChart.invalidate();
-        //mChart.animateY(500, Easing.EasingOption.EaseInBack);    //refresh graph
-
     }
 
     public BarChart getChart() {

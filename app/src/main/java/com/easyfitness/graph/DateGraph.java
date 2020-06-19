@@ -44,6 +44,7 @@ public class DateGraph {
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
+        mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
 
         IMarker marker = new DateGraphMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
         mChart.setMarker(marker);

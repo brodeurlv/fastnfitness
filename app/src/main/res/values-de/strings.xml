@@ -294,5 +294,11 @@
     <string name="total_on">Gesamt an</string>
     <string name="info">Informationen</string>
     <string name="editor">Editor</string>
+    <string name="dark_mode">Dunkel</string>
+    <string name="autoui_mode">Auto</string>
+    <string name="details">Einzelheiten</string>
+    <string name="unit_settings_title">Einheiten</string>
+    <string name="no_chart_data_available">Keine Grafik verfügbar Daten</string>
+    <string name="light_mode">klar</string>
 </resources>
 

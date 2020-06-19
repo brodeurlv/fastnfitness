@@ -32,6 +32,8 @@ import com.easyfitness.views.EditableInputViewWithDate;
 import com.easyfitness.utils.Gender;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
@@ -95,6 +97,8 @@ public class WeightFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
+
+
     private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private Spinner.OnItemSelectedListener itemOnItemSelectedChange = new Spinner.OnItemSelectedListener() {
 

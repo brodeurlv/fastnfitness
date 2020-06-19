@@ -306,9 +306,9 @@
         <item>2</item>
     </string-array>
 
-    <string name="light_mode" translatable="false">Light</string>
-    <string name="dark_mode" translatable="false">Dark</string>
-    <string name="autoui_mode" translatable="false">Auto</string>
+    <string name="light_mode">Light</string>
+    <string name="dark_mode">Dark</string>
+    <string name="autoui_mode">Auto</string>
     <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
 
 
@@ -346,4 +346,7 @@
     <string name="total_on">Total on</string>
     <string name="editor">Editor</string>
     <string name="info">Data</string>
+    <string name="details">Details</string>
+    <string name="unit_settings_title">Units</string>
+    <string name="no_chart_data_available">No chart data available</string>
 </resources>

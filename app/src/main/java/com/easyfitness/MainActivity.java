@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.e("Starting MainActivity", "Starting MainActivity");
+        //Log.e("Starting MainActivity", "Starting MainActivity");
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String dayNightAuto = SP.getString("dayNightAuto", "2");

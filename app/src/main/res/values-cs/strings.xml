@@ -304,5 +304,11 @@
     <string name="total_on">Celkem při</string>
     <string name="info">informace</string>
     <string name="editor">Editor</string>
+    <string name="dark_mode">Temný</string>
+    <string name="autoui_mode">Auto</string>
+    <string name="details">podrobnosti</string>
+    <string name="unit_settings_title">Jednotky</string>
+    <string name="no_chart_data_available">Bez grafiky k dispozici údaje</string>
+    <string name="light_mode">Průhledná</string>
 
 </resources>

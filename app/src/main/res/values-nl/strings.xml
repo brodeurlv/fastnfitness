@@ -314,6 +314,12 @@
     <string name="total_on">Totaal op</string>
     <string name="info">Informations</string>
     <string name="editor">Editor</string>
+    <string name="dark_mode">Donker</string>
+    <string name="autoui_mode">Auto</string>
+    <string name="details">Details</string>
+    <string name="unit_settings_title">eenheden</string>
+    <string name="no_chart_data_available">Geen grafische afbeeldingen beschikbare gegevens</string>
+    <string name="light_mode">Doorzichtig</string>
 
 </resources>
 

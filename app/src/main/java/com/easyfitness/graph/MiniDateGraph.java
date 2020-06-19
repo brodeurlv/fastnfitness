@@ -57,6 +57,7 @@ public class MiniDateGraph {
         mChart.setDescription(null);
         mChart.setTouchEnabled(false);
         mChart.setDoubleTapToZoomEnabled(false);
+        mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
 
         mContext = context;
         // get the legend (only possible after setting data)

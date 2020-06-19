@@ -53,12 +53,14 @@
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/weightGraph"
-                        style="@style/MiniLineChart" />
+                        style="@style/MiniLineChart"
+                        android:clickable="true"
+                        android:focusable="true" />
 
                     <Button
                         android:id="@+id/weightDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="Details" />
+                        android:text="@string/details" />
 
 
                 </LinearLayout>
@@ -105,7 +107,7 @@
                     <Button
                         android:id="@+id/fatDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="Details" />
+                        android:text="@string/details" />
 
                 </LinearLayout>
 
@@ -159,7 +161,7 @@
                     <Button
                         android:id="@+id/musclesDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="Details" />
+                        android:text="@string/details" />
 
 
                 </LinearLayout>
@@ -206,7 +208,7 @@
                     <Button
                         android:id="@+id/waterDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="Details" />
+                        android:text="@string/details" />
                 </LinearLayout>
 
 
