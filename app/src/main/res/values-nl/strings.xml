@@ -304,10 +304,10 @@
     <string name="start_program">Start programma</string>
     <string name="update">Bijwerken</string>
     <string name="workout_list_menu_item">Programmalijst</string>
-    <string name="record_editor">Record Editor</string>
-    <string name="please_start_program_first">Prosím spustit program nejprve</string>
-    <string name="program_ongoing">Program probíhajících:</string>
-    <string name="rest_time_row">Čas odpočinku:</string>
+    <string name="record_editor">Editor</string>
+    <string name="please_start_program_first">Gelieve start programma voor het eerst</string>
+    <string name="program_ongoing">Lopende:</string>
+    <string name="rest_time_row">Rusttijd:</string>
     <string name="program">Programma</string>
     <string name="free_workout">Gratis sessie</string>
     <string name="this_program_is_empty">Dit programma is leeg</string>

@@ -294,10 +294,10 @@
     <string name="start_program">programa de inicio</string>
     <string name="update">Actualizar</string>
     <string name="workout_list_menu_item">Lista de programas</string>
-    <string name="record_editor">Editor de registro</string>
-    <string name="please_start_program_first">Por favor, comece primeiro programa</string>
-    <string name="program_ongoing">Programa contínuo:</string>
-    <string name="rest_time_row">Tempo de descanso:</string>
+    <string name="record_editor">Editor</string>
+    <string name="please_start_program_first">Por favor, iniciar el programa de primera</string>
+    <string name="program_ongoing">Programa en curso:</string>
+    <string name="rest_time_row">Tiempo de reposo:</string>
     <string name="program">Programa</string>
     <string name="free_workout">sesión libre</string>
     <string name="this_program_is_empty">Este programa está vacía</string>
@@ -306,7 +306,7 @@
     <string name="editor">Editor</string>
     <string name="dark_mode">Oscuro</string>
     <string name="autoui_mode">Auto</string>
-    <string name="details">detalles</string>
+    <string name="details">Detalles</string>
     <string name="unit_settings_title">Unidades</string>
     <string name="no_chart_data_available">No hay gráficos de datos disponibles</string>
     <string name="light_mode">Claro</string>

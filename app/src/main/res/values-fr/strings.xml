@@ -68,7 +68,7 @@
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
     <string name="pref_show_mp3_player_summary">Affiche ou Cache la barre du lecteur MP3</string>
 
-    <string name="pref_ui_setting">Paramètre d\'affichage</string>
+    <string name="pref_ui_setting">Affichage</string>
 
     <string name="profil_create_new">Créer un nouveau profil</string>
 
@@ -271,13 +271,13 @@
     <string name="program_running">Programme:</string>
     <string name="program_preview">Aperçu du programme:</string>
     <string name="programs">Programmes:</string>
-    <string name="start_program">Demarrer programme</string>
+    <string name="start_program">Démarrer programme</string>
     <string name="update">Mettre à jour</string>
     <string name="workout_list_menu_item">Liste des programmes</string>
-    <string name="record_editor">éditeur de notices</string>
-    <string name="please_start_program_first">Gelieve start programma voor het eerst</string>
-    <string name="program_ongoing">Lopende:</string>
-    <string name="rest_time_row">Rusttijd:</string>
+    <string name="record_editor">Editeur</string>
+    <string name="please_start_program_first">Lancer d\'abord un programme, merci.</string>
+    <string name="program_ongoing">Programme en cours:</string>
+    <string name="rest_time_row">Temps de repos:</string>
     <string name="program">Programme</string>
     <string name="free_workout">Séance libre</string>
     <string name="this_program_is_empty">Ce programme est vide</string>
