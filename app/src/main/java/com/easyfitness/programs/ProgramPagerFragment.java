@@ -74,7 +74,7 @@ public class ProgramPagerFragment extends Fragment {
 
             mViewPager.setAdapter(pagerAdapter);
 
-            SmartTabLayout viewPagerTab = view.findViewById(R.id.viewpagertab);
+            SmartTabLayout viewPagerTab = view.findViewById(R.id.programPagerTab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
