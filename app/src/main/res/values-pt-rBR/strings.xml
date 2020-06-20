@@ -271,6 +271,10 @@
     <string name="obliques">Oblíquos</string>
     <string name="shoulders">Ombros</string>
     <string name="timeLabel">Tempo</string>
+    
+    <string name="light_mode">Claro</string>
+    <string name="dark_mode">Escuro</string>
+    <string name="autoui_mode">Auto</string>
     <string name="daynightmode_settingtitle">Selecione seu tema (precisa reiniciar)</string>
 
 
@@ -305,15 +309,10 @@
     <string name="free_workout">Sessão livre</string>
     <string name="this_program_is_empty">Este programa está vazio</string>
     <string name="total_on">Total em</string>
-
-    <string name="info">Informações</string>
     <string name="editor">Editor</string>
-    <string name="dark_mode">Sombrio</string>
-    <string name="autoui_mode">Auto</string>
-    <string name="details">detalhes</string>
+    <string name="info">Informações</string>
+    <string name="details">Detalhes</string>
     <string name="unit_settings_title">Unidades</string>
     <string name="no_chart_data_available">Não há gráficos de dados disponíveis</string>
-    <string name="light_mode">Claro</string>
     <string name="author_label">Autor:</string>
 </resources>
-
