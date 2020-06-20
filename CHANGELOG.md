@@ -1,8 +1,11 @@
 ## Change Log
 
+### 0.19.0.1: June 20, 2020
+- Bug : Fixed Brazilian translation (#135) (Thanks @rffontenelle)
+
 ### 0.19.0: June 16, 2020
-- Enhancement : New program feature (Thanks @senpl for the mockup)
-- Enhancement : Possibility to edit records
+- Enhancement : New program feature (#82) (Thanks @senpl for the mockup)
+- Enhancement : Possibility to edit records (#66)
 - Enhancement : Several UI enhancements
 - Enhancement : Several architectural updates
 - Bug : Fixed light/dark mode crash when mode is different from system mode
