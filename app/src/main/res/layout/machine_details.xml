@@ -47,50 +47,70 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:text="@string/name"
-                    android:textSize="12sp" />
+                    android:textColor="@color/cardview_title_color"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
-                <EditText
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/machine_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_horizontal"
                     android:inputType="text"
                     android:lines="1"
                     android:maxLines="1"
-                    android:text="Machine Name"
-                    android:textSize="14sp" />
+                    android:textSize="16sp"
+                    android:title="@string/name"
+                    tools:text="Profile Name" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
                     android:text="@string/description"
-                    android:textSize="12sp" />
+                    android:textColor="@color/cardview_title_color"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
-                <EditText
+                <com.easyfitness.views.EditableInputView
                     android:id="@+id/machine_description"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_horizontal"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:title="@string/description"
+                    tools:text="Description" />
 
                 <TextView
                     android:id="@+id/machine_muscles_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
                     android:text="@string/muscles"
-                    android:textSize="12sp" />
+                    android:textColor="@color/cardview_title_color"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/machine_muscles"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:inputType="none"
                     android:background="?attr/editTextBackground"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+                    android:inputType="none"
                     android:text=""
                     android:textSize="14sp" />
 

@@ -54,15 +54,11 @@ public class ExerciseDetailsPager extends Fragment {
     private View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
-            case R.id.saveButton:
-                saveMachine();
-                getActivity().findViewById(R.id.tab_machine_details).requestFocus();
-                break;
             case R.id.deleteButton:
                 deleteMachine();
                 break;
             default:
-                saveMachineDialog();
+                getActivity().onBackPressed();
         }
     };
 
@@ -137,145 +133,26 @@ public class ExerciseDetailsPager extends Fragment {
 
         deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
-        saveButton = view.findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(onClickToolbarItem);
-        saveButton.setVisibility(View.GONE); // Hide Save button by default
         favoriteButton = view.findViewById(R.id.favButton);
         favoriteButton.setOnClickListener(v -> {
             MaterialFavoriteButton mFav = (MaterialFavoriteButton) v;
             boolean t = mFav.isFavorite();
             mFav.setFavoriteAnimated(!t);
             isFavorite = !t;
-            requestForSave();
+            saveMachine();
         });
         favoriteButton.setFavorite(machine.getFavorite());
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    public void requestForSave() {
-        toBeSaved = true; // setting state
-        saveButton.setVisibility(View.VISIBLE);
-    }
-
-    private void saveMachineDialog() {
-        if (getExerciseFragment().toBeSaved() || toBeSaved) {
-            // Afficher une boite de dialogue pour confirmer
-            AlertDialog.Builder backDialogBuilder = new AlertDialog.Builder(getActivity());
-
-            backDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
-            backDialogBuilder.setMessage(getActivity().getResources().getText(R.string.backDialog_confirm_text));
-
-            // Si oui, supprimer la base de donnee et refaire un Start.
-            backDialogBuilder.setPositiveButton(getResources().getString(R.string.global_yes), (dialog, which) -> {
-                if (saveMachine()) {
-                    getActivity().onBackPressed();
-                }
-            });
-
-            backDialogBuilder.setNegativeButton(getResources().getString(R.string.global_no), (dialog, which) -> getActivity().onBackPressed());
-
-            AlertDialog backDialog = backDialogBuilder.create();
-            backDialog.show();
-
-        } else {
-            getActivity().onBackPressed();
-        }
-    }
-
-    private MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
-    }
-
-    private boolean saveMachine() {
-        boolean result = false;
-        final Machine initialMachine = machine;
+    private void saveMachine() {
         final Machine newMachine = getExerciseFragment().getMachine();
-        final String lMachineName = newMachine.getName(); // Potentiel nouveau nom dans le EditText
 
-        // Si le nom est different du nom actuel
-        if (lMachineName.equals("")) {
-            KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-        } else if (!initialMachine.getName().equals(lMachineName)) {
-            final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
-            // Si une machine existe avec le meme nom => Merge
-            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() != machineWithSameName.getType()) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+        // Si le nom n'a pas ete modifie.
+        newMachine.setFavorite(favoriteButton.isFavorite());
 
-                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
-                dialogBuilder.setMessage(R.string.renameMachine_error_text2);
-                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> dialog.dismiss());
-
-                AlertDialog dialog = dialogBuilder.create();
-                dialog.show();
-            } else if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType()) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
-
-                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
-                dialogBuilder.setMessage(getActivity().getResources().getText(R.string.renameMachine_warning_text));
-                // Si oui, supprimer la base de donnee et refaire un Start.
-                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> {
-                    // Rename all the records with that machine and rename them
-                    DAORecord lDbRecord = new DAORecord(getView().getContext());
-                    DAOProfile mDbProfil = new DAOProfile(getView().getContext());
-                    Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-
-                    List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
-                    for (Record record : listRecords) {
-                        record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
-                        record.setExerciseId(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
-                        lDbRecord.updateRecord(record); // Met a jour
-                    }
-
-                    mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
-
-                    toBeSaved = false;
-                    saveButton.setVisibility(View.GONE);
-                    getActivity().onBackPressed();
-                });
-
-                dialogBuilder.setNegativeButton(getResources().getText(R.string.global_no), (dialog, which) -> {
-                    // Do nothing but close the dialog
-                    dialog.dismiss();
-                });
-
-                AlertDialog dialog = dialogBuilder.create();
-                dialog.show();
-            } else {
-                newMachine.setFavorite(favoriteButton.isFavorite());
-                this.mDbMachine.updateMachine(newMachine);
-
-                // Rename all the records with that machine and rename them
-                DAORecord lDbRecord = new DAORecord(getContext());
-                DAOProfile mDbProfil = new DAOProfile(getContext());
-                Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-                List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
-                for (Record record : listRecords) {
-                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
-                    lDbRecord.updateRecord(record); // met a jour
-                }
-
-                saveButton.setVisibility(View.GONE);
-                toBeSaved = false;
-                getExerciseFragment().machineSaved();
-                result = true;
-            }
-        } else {
-            // Si le nom n'a pas ete modifie.
-            newMachine.setFavorite(favoriteButton.isFavorite());
-            mDbMachine.updateMachine(newMachine);
-
-            saveButton.setVisibility(View.GONE);
-            toBeSaved = false;
-            getExerciseFragment().machineSaved();
-            result = true;
-        }
-        return result;
+        getExerciseFragment().requestForSave();
     }
 
     private void deleteMachine() {

@@ -310,5 +310,6 @@
     <string name="unit_settings_title">Unidades</string>
     <string name="no_chart_data_available">No hay gráficos de datos disponibles</string>
     <string name="light_mode">Claro</string>
+    <string name="remove_image">Eliminar Imagen</string>
 
 </resources>

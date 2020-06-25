@@ -320,6 +320,7 @@
     <string name="unit_settings_title">eenheden</string>
     <string name="no_chart_data_available">Geen grafische afbeeldingen beschikbare gegevens</string>
     <string name="light_mode">Doorzichtig</string>
+    <string name="remove_image">Verwijder afbeelding</string>
 
 </resources>
 

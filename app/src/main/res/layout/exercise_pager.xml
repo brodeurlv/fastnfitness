@@ -25,10 +25,10 @@
                 app:mfb_animate_favorite="true"
                 app:mfb_animate_unfavorite="true"
                 app:mfb_bounce_duration="700"
-                app:mfb_color="@color/dark_icon_background"
+                app:mfb_favorite_image="@drawable/ic_star_black_24dp"
+                app:mfb_not_favorite_image="@drawable/ic_star_border_black_24dp"
                 app:mfb_rotation_angle="216"
-                app:mfb_rotation_duration="400"
-                app:mfb_type="star" />
+                app:mfb_rotation_duration="400" />
 
             <ImageButton
                 android:id="@+id/deleteButton"
@@ -41,18 +41,6 @@
                 android:baselineAlignBottom="false"
                 android:cropToPadding="false"
                 android:src="@drawable/ic_delete_black_24dp" />
-
-            <ImageButton
-                android:id="@+id/saveButton"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="end"
-                android:layout_weight="5"
-                android:adjustViewBounds="false"
-                android:background="@android:color/transparent"
-                android:baselineAlignBottom="false"
-                android:cropToPadding="false"
-                android:src="@drawable/ic_save_black_24dp" />
 
         </androidx.appcompat.widget.Toolbar>
 

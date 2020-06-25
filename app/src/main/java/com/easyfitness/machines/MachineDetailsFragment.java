@@ -31,13 +31,17 @@ import androidx.fragment.app.Fragment;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.Machine;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.RealPathUtil;
+import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -46,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -53,15 +58,11 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class MachineDetailsFragment extends Fragment {
-    public final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
-    // http://labs.makemachine.net/2010/03/android-multi-selection-dialogs/
-    //protected CharSequence[] _muscles = {"Biceps", "Triceps", "Epaules", "Pectoraux", "Dorseaux", "Quadriceps", "Adducteurs"};
     protected List<String> _musclesArray = new ArrayList<String>();
     protected boolean[] _selections;
-    Spinner typeList = null; /*Halteres, Machines avec Poids, Cardio*/
     TextView musclesList = null;
-    EditText machineName = null;
-    EditText machineDescription = null;
+    EditableInputView machineName = null;
+    EditableInputView machineDescription = null;
     ImageView machinePhoto = null;
     FloatingActionButton machineAction = null;
     LinearLayout machinePhotoLayout = null;
@@ -81,7 +82,6 @@ public class MachineDetailsFragment extends Fragment {
     ImageUtil imgUtil = null;
     boolean isCreateMuscleDialogActive = false;
     String mCurrentPhotoPath = null;
-    private boolean toBeSaved;
     public TextWatcher watcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start,
@@ -98,7 +98,6 @@ public class MachineDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
     private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
     private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
     private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
@@ -106,6 +105,9 @@ public class MachineDetailsFragment extends Fragment {
         if (arg1) {
             CreateMuscleDialog();
         }
+    };
+    private EditableInputView.OnTextChangedListener textChangeListener= view -> {
+        requestForSave();
     };
 
 
@@ -193,10 +195,11 @@ public class MachineDetailsFragment extends Fragment {
         machineNameArg = mMachine.getName();
 
         if (machineNameArg.equals("")) {
-            requestForSave();
+            machineName.setText("Default exercise");
+        } else {
+            machineName.setText(machineNameArg);
         }
 
-        machineName.setText(machineNameArg);
         machineDescription.setText(mMachine.getDescription());
         musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
         mCurrentPhotoPath = mMachine.getPicture();
@@ -235,8 +238,8 @@ public class MachineDetailsFragment extends Fragment {
             }
         });
 
-        machineName.addTextChangedListener(watcher);
-        machineDescription.addTextChangedListener(watcher);
+        machineName.setOnTextChangeListener(textChangeListener);
+        machineDescription.setOnTextChangeListener(textChangeListener);
         musclesList.addTextChangedListener(watcher);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
@@ -257,17 +260,6 @@ public class MachineDetailsFragment extends Fragment {
         }
 
         return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     private void showDeleteDialog(final long idToDelete) {
@@ -292,7 +284,7 @@ public class MachineDetailsFragment extends Fragment {
 
         isCreateMuscleDialogActive = true;
 
-        Keyboard.hide(getContext(), getView());
+        Keyboard.hide(getContext(), musclesList);
 
         AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
@@ -323,6 +315,8 @@ public class MachineDetailsFragment extends Fragment {
             }
             //}
             setMuscleText(msg.toString());
+            Keyboard.hide(getContext(), musclesList);
+
             isCreateMuscleDialogActive = false;
         });
         newMuscleBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
@@ -395,7 +389,7 @@ public class MachineDetailsFragment extends Fragment {
                         realPath = DestinationFile.getPath();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.v("Moving", "Moving file failed.");
+                        Log.e("Moving", "Moving file failed.");
                     }
 
                     ImageUtil.setPic(machinePhoto, realPath);
@@ -417,11 +411,9 @@ public class MachineDetailsFragment extends Fragment {
         return this;
     }
 
-    private void requestForSave() {
-        toBeSaved = true; // setting state
-        if (pager != null) pager.requestForSave();
+    public void requestForSave() {
+        saveMachine();
     }
-
 
     public void buildMusclesTable() {
         _musclesArray.add(getActivity().getResources().getString(R.string.biceps));
@@ -437,6 +429,8 @@ public class MachineDetailsFragment extends Fragment {
         _musclesArray.add(getActivity().getResources().getString(R.string.trapezius));
         _musclesArray.add(getActivity().getResources().getString(R.string.shoulders));
         _musclesArray.add(getActivity().getResources().getString(R.string.obliques));
+
+        Collections.sort(_musclesArray);
 
          _selections = new boolean[_musclesArray.size()];
     }
@@ -484,7 +478,6 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
-
     /*
      * @return the name of the Muscle depending on the language
      */
@@ -517,52 +510,95 @@ public class MachineDetailsFragment extends Fragment {
         return output.toString();
     }
 
-    public int getCameraPhotoOrientation(Context context, Uri imageUri, String imagePath) {
-        int rotate = 0;
-        try {
-            context.getContentResolver().notifyChange(imageUri, null);
-            File imageFile = new File(imagePath);
-
-            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-            }
-
-            //Log.i("RotateImage", "Exif orientation: " + orientation);
-            //Log.i("RotateImage", "Rotate value: " + rotate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rotate;
-    }
-
-    public boolean toBeSaved() {
-        return toBeSaved;
-    }
-
-    public void machineSaved() {
-        toBeSaved = false;
-    }
-
     public Machine getMachine() {
         Machine m = mMachine;
-        m.setName(machineName.getText().toString());
-        m.setDescription(machineDescription.getText().toString());
-        m.setBodyParts(getDBStringFromInput(this.musclesList.getText().toString()));
+        m.setName(machineName.getText());
+        m.setDescription(machineDescription.getText());
+        m.setBodyParts(getDBStringFromInput(musclesList.getText().toString()));
         m.setPicture(mCurrentPhotoPath);
-        m.setFavorite(false);
-        m.setType(selectedType);
+        //m.setFavorite(false);
+        //m.setType(selectedType);
         return m;
+    }
+
+    private boolean saveMachine() {
+        boolean result = false;
+        final Machine initialMachine = mMachine;
+        final Machine newMachine = getMachine();
+        final String lMachineName = newMachine.getName(); // Potentiel nouveau nom dans le EditText
+
+        // Si le nom est different du nom actuel
+        if (lMachineName.equals("")) {
+            KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        } else if (!initialMachine.getName().equals(lMachineName)) {
+            final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
+            // Si une machine existe avec le meme nom => Merge
+            if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() != machineWithSameName.getType()) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+
+                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
+                dialogBuilder.setMessage(R.string.renameMachine_error_text2);
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> dialog.dismiss());
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+            } else if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType()) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+
+                dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
+                dialogBuilder.setMessage(getActivity().getResources().getText(R.string.renameMachine_warning_text));
+                // Si oui, supprimer la base de donnee et refaire un Start.
+                dialogBuilder.setPositiveButton(getResources().getText(R.string.global_yes), (dialog, which) -> {
+                    // Rename all the records with that machine and rename them
+                    DAORecord lDbRecord = new DAORecord(getView().getContext());
+                    DAOProfile mDbProfil = new DAOProfile(getView().getContext());
+                    Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+
+                    List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                    for (Record record : listRecords) {
+                        record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
+                        record.setExerciseId(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
+                        lDbRecord.updateRecord(record); // Met a jour
+                    }
+
+                    mDbMachine.delete(initialMachine); // Supprime l'ancienne machine
+
+                    getActivity().onBackPressed();
+                });
+
+                dialogBuilder.setNegativeButton(getResources().getText(R.string.global_no), (dialog, which) -> {
+                    // Do nothing but close the dialog
+                    dialog.dismiss();
+                });
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+            } else {
+                this.mDbMachine.updateMachine(newMachine);
+
+                // Rename all the records with that machine and rename them
+                DAORecord lDbRecord = new DAORecord(getContext());
+                DAOProfile mDbProfil = new DAOProfile(getContext());
+                Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+                List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                for (Record record : listRecords) {
+                    record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
+                    lDbRecord.updateRecord(record); // met a jour
+                }
+
+                result = true;
+            }
+        } else {
+            // Si le nom n'a pas ete modifie.
+            mDbMachine.updateMachine(newMachine);
+            result = true;
+        }
+
+        if(result) {
+            mMachine = newMachine;
+        }
+
+        return result;
     }
 }
 

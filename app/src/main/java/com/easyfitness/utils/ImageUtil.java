@@ -38,7 +38,6 @@ public class ImageUtil {
     public static final int REQUEST_TAKE_PHOTO = 1;
     public static final int REQUEST_PICK_GALERY_PHOTO = 2;
     public static final int REQUEST_DELETE_IMAGE = 3;
-    private Fragment mF = null;
     private String mFilePath = null;
     private ImageView imgView = null;
     private ImageUtil.OnDeleteImageListener mDeleteImageListener;
@@ -215,30 +214,28 @@ public class ImageUtil {
     }
 
     public boolean CreatePhotoSourceDialog(Fragment pF) {
-
-        mF = pF;
-
         String[] optionListArray = new String[3];
-        optionListArray[0] = mF.getResources().getString(R.string.camera);
-        optionListArray[1] = mF.getResources().getString(R.string.gallery);
-        optionListArray[2] = "Remove Image";
+        optionListArray[0] = pF.getResources().getString(R.string.camera);
+        optionListArray[1] = pF.getResources().getString(R.string.gallery);
+        optionListArray[2] = pF.getResources().getString(R.string.remove_image);
 
         requestPermissionForWriting(pF);
 
-        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(mF.getActivity());
+
+        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(pF.getActivity());
         itemActionBuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
             ListView lv = ((AlertDialog) dialog).getListView();
 
             switch (which) {
                 // Galery
                 case 1:
-                    getGaleryPict(mF);
+                    getGaleryPict(pF);
                     break;
                 // Camera
                 case 0:
                     CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(mF.getContext(), mF);
+                        .start(pF.getContext(), pF);
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
@@ -256,7 +253,7 @@ public class ImageUtil {
     private void dispatchTakePictureIntent(Fragment pF) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(mF.getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(pF.getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -267,11 +264,11 @@ public class ImageUtil {
                 return;
             }
             // Continue only if the File was successfully created
-            Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
+            Uri photoURI = FileProvider.getUriForFile(pF.getActivity(),
                 BuildConfig.APPLICATION_ID + ".provider",
                 photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            pF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
 
@@ -321,19 +318,16 @@ public class ImageUtil {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(pF.getActivity(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(pF.getActivity(),
+            Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
 
             // No explanation needed, we can request the permission.
 
             int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
             ActivityCompat.requestPermissions(pF.getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-
         }
     }
 

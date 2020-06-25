@@ -310,5 +310,6 @@
     <string name="unit_settings_title">Jednotky</string>
     <string name="no_chart_data_available">Bez grafiky k dispozici údaje</string>
     <string name="light_mode">Průhledná</string>
+    <string name="remove_image">Delete image</string>
 
 </resources>
