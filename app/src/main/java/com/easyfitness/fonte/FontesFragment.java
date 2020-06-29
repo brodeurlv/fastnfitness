@@ -891,12 +891,28 @@ public class FontesFragment extends Fragment {
 
     private void updateLastRecord(Machine m) {
         Record lLastRecord = mDbRecord.getLastExerciseRecord(m.getId(), getProfile());
+
+        // Getting the prefered default units.
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        WeightUnit weightUnit = WeightUnit.KG;
+        DistanceUnit distanceUnit = DistanceUnit.KM;
+        try {
+            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
+        } catch (NumberFormatException e) {
+            weightUnit = WeightUnit.KG;
+        }
+        try {
+            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
+        } catch (NumberFormatException e) {
+            distanceUnit = DistanceUnit.KM;
+        }
+
         // Default Values
         workoutValuesInputView.setSets(1);
         workoutValuesInputView.setReps(10);
         workoutValuesInputView.setSeconds(60);
-        workoutValuesInputView.setWeight(50, WeightUnit.KG);
-        workoutValuesInputView.setDistance(10, DistanceUnit.KM);
+        workoutValuesInputView.setWeight(50, weightUnit);
+        workoutValuesInputView.setDistance(10, distanceUnit);
         workoutValuesInputView.setDuration(600000);
         if (lLastRecord == null) {
             // Set default values or nothing.
@@ -977,14 +993,29 @@ public class FontesFragment extends Fragment {
                         // Last recorded exercise
                         setCurrentMachine(lLastRecord.getExercise());
                     } else {
+                        // Getting the prefered default units.
+                        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        WeightUnit weightUnit = WeightUnit.KG;
+                        DistanceUnit distanceUnit = DistanceUnit.KM;
+                        try {
+                            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
+                        } catch (NumberFormatException e) {
+                            weightUnit = WeightUnit.KG;
+                        }
+                        try {
+                            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
+                        } catch (NumberFormatException e) {
+                            distanceUnit = DistanceUnit.KM;
+                        }
+
                         // Default Values
                         machineEdit.setText("");
                         // Default Values
                         workoutValuesInputView.setSets(1);
                         workoutValuesInputView.setReps(10);
                         workoutValuesInputView.setSeconds(60);
-                        workoutValuesInputView.setWeight(50, WeightUnit.KG);
-                        workoutValuesInputView.setDistance(10, DistanceUnit.MILES);
+                        workoutValuesInputView.setWeight(50, weightUnit);
+                        workoutValuesInputView.setDistance(10, distanceUnit);
                         workoutValuesInputView.setDuration(600000);
                         setCurrentMachine("");
                         changeExerciseTypeUI(ExerciseType.STRENGTH, true);
