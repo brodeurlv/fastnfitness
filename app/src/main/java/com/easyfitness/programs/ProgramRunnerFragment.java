@@ -274,7 +274,7 @@ public class ProgramRunnerFragment extends Fragment {
         mRunningProgramHistory = mDbWorkoutHistory.getRunningProgram(getProfile());
         if (mRunningProgramHistory!=null) {
             int position = 0;
-            for (int i = 0; i <= mAdapterPrograms.getCount(); i++) {
+            for (int i = 0; i < mAdapterPrograms.getCount(); i++) {
                 if (mAdapterPrograms.getItem(i).getId() == mRunningProgramHistory.getProgramId()) {
                     position = i;
                     mRunningProgram = mAdapterPrograms.getItem(i);

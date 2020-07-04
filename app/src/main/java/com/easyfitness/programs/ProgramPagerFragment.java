@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.DAO.program.ProgramHistory;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DAO.program.DAOProgram;
@@ -126,14 +128,25 @@ public class ProgramPagerFragment extends Fragment {
         deleteDialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
         deleteDialogBuilder.setMessage("Do you want to delete this program?");
 
-        DAOProgram dB = new DAOProgram(getContext());
-
         // If yes, delete also all associated templates records
         deleteDialogBuilder.setPositiveButton(this.getResources().getString(R.string.global_yes), (dialog, which) -> {
+            // The databases needed
+            DAOProgram dB = new DAOProgram(getContext());
+            DAOProgramHistory dbProgramHistory = new DAOProgramHistory(getContext());
             // Suppress the machine
             dB.delete(mTemplateId);
             // Suppress the associated Fontes records
             deleteRecordsAssociatedToTemplate();
+            // Delete all program history.
+            List<ProgramHistory> lProgramHistories = dbProgramHistory.getAll();
+            for (ProgramHistory history : lProgramHistories)
+            {
+                if (history.getProgramId() == mTemplateId)
+                {
+                    dbProgramHistory.delete(history);
+                }
+            }
+
             getActivity().onBackPressed();
         });
 
