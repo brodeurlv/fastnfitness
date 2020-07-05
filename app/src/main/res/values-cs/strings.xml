@@ -45,11 +45,11 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Sledování Hmotnosti</string>
-    <string name="weightLabel">Hmotnost(kg)</string>
-    <string name="fatLabel">Tuk(%)</string>
-    <string name="bonesLabel">Kosti(%)</string>
-    <string name="waterLabel">Voda(%)</string>
-    <string name="musclesLabel">Svaly(%)</string>
+    <string name="weightLabel">Hmotnost</string>
+    <string name="fatLabel">Tuk</string>
+    <string name="bonesLabel">Kost</string>
+    <string name="waterLabel">Voda</string>
+    <string name="musclesLabel">Svaly</string>
     <string name="measureLabel">Hodnota</string>
     <string name="sizeTableLabel">Historie vážení:</string>
     <string name="createProfilTitle">Vytvořit nový profil</string>
@@ -308,7 +308,7 @@
     <string name="autoui_mode">Auto</string>
     <string name="details">podrobnosti</string>
     <string name="unit_settings_title">Jednotky</string>
-    <string name="no_chart_data_available">Bez grafiky k dispozici údaje</string>
+    <string name="no_chart_data_available">Žádná data</string>
     <string name="light_mode">Průhledná</string>
     <string name="remove_image">Delete image</string>
 

@@ -216,7 +216,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setTag(record.getId());
                 viewHolder.BtActionCopy.setOnClickListener(v -> {
                     if (mAction2ClickListener != null)
-                        mAction2ClickListener.onBtnClick((long) v.getTag());
+                        mAction2ClickListener.onBtnClick(v);
                 });
             }
 

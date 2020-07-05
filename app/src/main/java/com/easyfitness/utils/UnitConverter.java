@@ -1,13 +1,8 @@
 package com.easyfitness.utils;
 
+import com.easyfitness.enums.WeightUnit;
+
 public class UnitConverter {
-
-    public static final int UNIT_KG = 0;
-    public static final int UNIT_LBS = 1;
-    public static final int UNIT_STONES = 2;
-
-    public static final int UNIT_KM = 0;
-    public static final int UNIT_MILES = 1;
 
     public UnitConverter() {
     }
@@ -15,21 +10,31 @@ public class UnitConverter {
     /*
      * convert Kg to Lbs
      */
-    static public float weightConverter(float pWeight, int pUnitIn, int pUnitOut) {
+    static public float weightConverter(float pWeight, WeightUnit pUnitIn, WeightUnit pUnitOut) {
         switch (pUnitIn) {
-            case UNIT_KG:
+            case KG:
                 switch (pUnitOut) {
-                    case UNIT_LBS:
+                    case LBS:
                         return KgtoLbs(pWeight);
-                    case UNIT_KG:
+                    case STONES:
+                        return KgtoStones(pWeight);
+                    case KG:
                     default:
                         return pWeight;
                 }
-            case UNIT_LBS:
+            case LBS:
                 switch (pUnitOut) {
-                    case UNIT_KG:
+                    case KG:
                         return LbstoKg(pWeight);
-                    case UNIT_LBS:
+                    case LBS:
+                    default:
+                        return pWeight;
+                }
+            case STONES:
+                switch (pUnitOut) {
+                    case KG:
+                        return StonestoKg(pWeight);
+                    case STONES:
                     default:
                         return pWeight;
                 }
@@ -41,13 +46,25 @@ public class UnitConverter {
     static public float KgtoLbs(float pKg) {
         return pKg / (float) 0.45359237;
     }
+    static public float KgtoStones(float pKg) {
+        return pKg / (float) 6.35029;
+    }
 
     static public float LbstoKg(float pLbs) {
         return pLbs * (float) 0.45359237;
     }
+    static public float LbstoStones(float pLbs) {
+        return pLbs / (float) 14;
+    }
+
+    static public float StonestoKg(float pSt) {
+        return pSt * (float) 6.35029;
+    }
+    static public float StonestoLbs(float pSt) {
+        return pSt * (float) 14;
+    }
 
     static public float KmToMiles(float pKm) { return pKm * (float) 1.609344; }
-
     static public float MilesToKm(float pMiles) { return pMiles / (float) 1.609344; }
 
 
@@ -89,7 +106,7 @@ public class UnitConverter {
      * @param totalDuration
      */
     public int getProgressPercentage(long currentDuration, long totalDuration) {
-        Double percentage;
+        double percentage;
 
         long currentSeconds = (int) (currentDuration / 1000);
         long totalSeconds = (int) (totalDuration / 1000);
@@ -98,7 +115,7 @@ public class UnitConverter {
         percentage = (((double) currentSeconds) / totalSeconds) * 100;
 
         // return percentage
-        return percentage.intValue();
+        return (int) percentage;
     }
 
     /**

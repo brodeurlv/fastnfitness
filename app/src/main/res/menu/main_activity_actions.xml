@@ -13,24 +13,6 @@
         android:title="Profil"
         android:visible="false"
         app:showAsAction="always">
-
-        <menu>
-            <item
-                android:id="@+id/create_newprofil"
-                android:title="@string/profil_create_new" />
-            <item
-                android:id="@+id/change_profil"
-                android:title="@string/profil_change" />
-            <item
-                android:id="@+id/rename_profil"
-                android:title="@string/renameProfilTitle" />
-            <item
-                android:id="@+id/delete_profil"
-                android:title="@string/profil_delete" />
-            <item
-                android:id="@+id/photo_profil"
-                android:title="Profile picture" />
-        </menu>
     </item>
 
     <item

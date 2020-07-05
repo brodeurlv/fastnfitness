@@ -17,6 +17,7 @@ import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 
@@ -372,16 +373,16 @@ public class CVSManager {
                         Date date;
                         date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
 
-                        float poids = Float.valueOf(csvRecords.get(DAOProfileWeight.POIDS));
-                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId());
+                        float poids = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
+                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId(), Unit.KG);
 
                         break;
                     }
                     case DAOBodyMeasure.TABLE_NAME: {
                         DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
                         dbcBodyMeasure.open();
-                        Date date;
-                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
+                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
+                        Unit unit = Unit.fromInteger(Integer.parseInt(csvRecords.get(DAOBodyMeasure.UNIT)));
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
@@ -390,7 +391,7 @@ public class CVSManager {
                         for (BodyPart bp : bodyParts) {
                             if (bp.getName(mContext).equals(bodyPartName)) {
                                 float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
-                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId());
+                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId(), unit);
                                 dbcBodyPart.close();
                                 break;
                             }

@@ -45,7 +45,7 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht</string>
-    <string name="weightLabel">Gewicht(kg)</string>
+    <string name="weightLabel">Gewicht</string>
     <string name="measureLabel">Messen</string>
     <string name="sizeTableLabel">Messergebnisse : </string>
     <string name="createProfilTitle">Neues Profil erstellen</string>
@@ -216,10 +216,10 @@
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
-    <string name="fatLabel">Fett(%)</string>
-    <string name="bonesLabel">Knochen(%)</string>
-    <string name="waterLabel">Wasser(%)</string>
-    <string name="musclesLabel">Muskeln(%)</string>
+    <string name="fatLabel">Fett</string>
+    <string name="bonesLabel">Knochen</string>
+    <string name="waterLabel">Wasser</string>
+    <string name="musclesLabel">Muskeln</string>
     <string name="maleGender">Mann</string>
     <string name="femaleGender">Frau</string>
     <string name="otherGender">Andere</string>
@@ -298,7 +298,7 @@
     <string name="autoui_mode">Auto</string>
     <string name="details">Einzelheiten</string>
     <string name="unit_settings_title">Einheiten</string>
-    <string name="no_chart_data_available">Keine Grafik verfügbar Daten</string>
+    <string name="no_chart_data_available">Keine Daten</string>
     <string name="light_mode">klar</string>
     <string name="remove_image">Lösche Bild</string>
 </resources>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.easyfitness.BtnClickListener;
@@ -34,12 +35,16 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
+import com.easyfitness.ValueEditorDialogbox;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.graph.DateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
+import com.easyfitness.views.SingleValueInputView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -62,7 +67,17 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private BodyPart mInitialBodyPart;
     private String mCurrentPhotoPath = null;
 
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    private BtnClickListener itemClickDeleteRecord = view -> {
+        switch (view.getId()) {
+            case R.id.deleteButton:
+                showDeleteDialog((long)view.getTag());
+                break;
+            case R.id.editButton:
+                showEditDialog((long)view.getTag());
+                break;
+
+        }
+    };
     private OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -121,7 +136,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     try {
                         value = Float.parseFloat(editText.getText().toString());
                         Date lDate = DateConverter.localDateStrToDate(editDate.getText().toString(), getContext());
-                        mBodyMeasureDb.addBodyMeasure(lDate, mInitialBodyPart.getId(), value, getProfile().getId());
+                        mBodyMeasureDb.addBodyMeasure(lDate, mInitialBodyPart.getId(), value, getProfile().getId(), Unit.CM);
                         refreshData();
                     } catch (Exception e) {
                         KToast.errorToast(getActivity(),"Format Error", Gravity.BOTTOM, KToast.LENGTH_SHORT);
@@ -134,6 +149,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             dialog.show();
         }
     };
+    private ProfileViMo profileViMo;
 
     private BodyPartDetailsFragment getBodyPartDetailsFragment() {
         return this;
@@ -297,6 +313,13 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             deleteButton.setVisibility(View.GONE); // Weight bodypart should not be deleted.
         }
 
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+        });
+
         return view;
     }
 
@@ -389,8 +412,26 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
     }
 
+    private void showEditDialog(final long idToEdit) {
+        BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
+
+        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), bodyMeasure.getUnit());
+        editorDialogbox.setOnDismissListener(dialog -> {
+            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+            Unit unit = Unit.fromString(editorDialogbox.getUnit());
+
+            BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(),date,bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
+            int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
+            refreshData();
+        });
+
+        editorDialogbox.show();
+    }
+
+
     private Profile getProfile() {
-        return ((MainActivity) getActivity()).getCurrentProfile();
+        return profileViMo.getProfile().getValue();
     }
 
     public Fragment getFragment() {
@@ -425,11 +466,4 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         if (editDate != null)
             editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
     }
-
-/*
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) refreshData();
-    }
-*/
 }

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.enums.Unit;
+import com.easyfitness.utils.DateConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,31 +46,30 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pMeasure        body measure
      * @param pProfileID      profil associated with the measure
      */
-    public void addBodyMeasure(Date pDate, long pBodymeasure_id, float pMeasure, long pProfileID) {
+    public void addBodyMeasure(Date pDate, long pBodymeasure_id, float pMeasure, long pProfileID, Unit pUnit) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);;
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-        value.put(DAOBodyMeasure.DATE, dateFormat.format(pDate));
+        String dateString = DateConverter.dateToDBDateStr(pDate);
+        value.put(DAOBodyMeasure.DATE, dateString);
         value.put(DAOBodyMeasure.BODYPART_ID, pBodymeasure_id);
         value.put(DAOBodyMeasure.MEASURE, pMeasure);
         value.put(DAOBodyMeasure.PROFIL_KEY, pProfileID);
+        value.put(DAOBodyMeasure.UNIT, pUnit.ordinal());
 
         db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
         db.close(); // Closing database connection
     }
 
     // Getting single value
-    private BodyMeasure getMeasure(long id) {
+    public BodyMeasure getMeasure(long id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY},
+            new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT},
             KEY + "=?",
             new String[]{String.valueOf(id)},
             null, null, null, null);
@@ -79,17 +80,18 @@ public class DAOBodyMeasure extends DAOBase {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(this.DATE)));
+            date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DATE)));
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
         }
 
-        BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(this.KEY)),
+        BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
             date,
-            mCursor.getInt(mCursor.getColumnIndex(this.BODYPART_ID)),
-            mCursor.getFloat(mCursor.getColumnIndex(this.MEASURE)),
-            mCursor.getLong(mCursor.getColumnIndex(this.PROFIL_KEY))
+            mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+            mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
+            mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
+            Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
         );
 
         db.close();
@@ -99,11 +101,10 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     // Getting All Measures
-    private List<BodyMeasure> getMeasuresList(String pRequest) {
+    public List<BodyMeasure> getMeasuresList(SQLiteDatabase db, String pRequest) {
         List<BodyMeasure> valueList = new ArrayList<>();
         // Select All Query
 
-        SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.rawQuery(pRequest, null);
 
@@ -120,11 +121,12 @@ public class DAOBodyMeasure extends DAOBase {
                     date = new Date();
                 }
 
-                BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(this.KEY)),
+                BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
                     date,
-                    mCursor.getInt(mCursor.getColumnIndex(this.BODYPART_ID)),
-                    mCursor.getFloat(mCursor.getColumnIndex(this.MEASURE)),
-                    mCursor.getLong(mCursor.getColumnIndex(this.PROFIL_KEY))
+                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                    mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
+                    mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
+                    Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
                 );
 
                 // Adding value to list
@@ -152,7 +154,7 @@ public class DAOBodyMeasure extends DAOBase {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 
         // return value list
-        return getMeasuresList(selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery);
     }
 
     /**
@@ -164,12 +166,8 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public List<BodyMeasure> getBodyPartMeasuresListTop4(long pBodyPartID, Profile pProfile) {
         if (pProfile==null) return null;
-
-        // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
-
-        // return value list
-        return getMeasuresList(selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery);
     }
 
     /**
@@ -180,12 +178,17 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public List<BodyMeasure> getBodyMeasuresList(Profile pProfile) {
         if (pProfile==null) return null;
-
-        // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
+        return getMeasuresList(getReadableDatabase(), selectQuery);
+    }
 
-        // return value list
-        return getMeasuresList(selectQuery);
+    /**
+     * Getting All Measures
+     * @return List<BodyMeasure>
+     */
+    public List<BodyMeasure> getAllBodyMeasures() {
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY date(" + DATE + ") DESC";
+        return getMeasuresList(getReadableDatabase(), selectQuery);
     }
 
     /**
@@ -199,27 +202,29 @@ public class DAOBodyMeasure extends DAOBase {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
 
-        List<BodyMeasure> array = getMeasuresList(selectQuery);
+        List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
         if (array.size() <= 0) {
             return null;
         }
 
         // return value list
-        return getMeasuresList(selectQuery).get(0);
+        return getMeasuresList(getReadableDatabase(), selectQuery).get(0);
     }
 
     // Updating single value
     public int updateMeasure(BodyMeasure m) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        return updateMeasure(getWritableDatabase(), m);
+    }
 
+    // Updating single value
+    public int updateMeasure(SQLiteDatabase db, BodyMeasure m) {
         ContentValues value = new ContentValues();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String dateString = dateFormat.format(m.getDate());
+        String dateString = DateConverter.dateToDBDateStr(m.getDate());
         value.put(DAOBodyMeasure.DATE, dateString);
         value.put(DAOBodyMeasure.BODYPART_ID, m.getBodyPartID());
         value.put(DAOBodyMeasure.MEASURE, m.getBodyMeasure());
         value.put(DAOBodyMeasure.PROFIL_KEY, m.getProfileID());
+        value.put(DAOBodyMeasure.UNIT, m.getUnit().ordinal());
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",

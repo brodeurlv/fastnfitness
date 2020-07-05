@@ -159,8 +159,8 @@ public class ImageUtil {
             mImageView.setImageBitmap(orientedBitmap);
 
             //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            mImageView.setAdjustViewBounds(true);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //mImageView.setAdjustViewBounds(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

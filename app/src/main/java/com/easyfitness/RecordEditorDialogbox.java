@@ -41,8 +41,6 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTitle(getContext().getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
         setContentView(R.layout.dialog_record_editor);
         this.setCanceledOnTouchOutside(false);
 

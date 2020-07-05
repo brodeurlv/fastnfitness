@@ -695,8 +695,6 @@ public class DAORecord extends DAOBase {
 
         ContentValues value = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         value.put(DAORecord.KEY, record.getId());
         value.put(DAORecord.DATE, DateConverter.dateToDBDateStr(record.getDate()));
         value.put(DAORecord.TIME, record.getTime());

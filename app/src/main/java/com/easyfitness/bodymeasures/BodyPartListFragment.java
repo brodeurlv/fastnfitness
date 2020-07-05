@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.easyfitness.DAO.Profile;
@@ -23,6 +24,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
 import com.easyfitness.utils.Keyboard;
 
@@ -97,6 +99,7 @@ public class BodyPartListFragment extends Fragment {
     private DAOBodyMeasure mdbMeasure;
     private BodyPartListAdapter mListAdapter;
     private Button addButton;
+    private ProfileViMo profileViMo;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -118,13 +121,10 @@ public class BodyPartListFragment extends Fragment {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState==null) {
-            mdbMeasure = new DAOBodyMeasure(this.getContext());
-            mdbBodyPart = new DAOBodyPart(this.getContext());
-            dataModels = new ArrayList<>();
-            mListAdapter = new BodyPartListAdapter(dataModels, getContext());
-            mListAdapter.setProfile(getProfile());
-        }
+        mdbMeasure = new DAOBodyMeasure(this.getContext());
+        mdbBodyPart = new DAOBodyPart(this.getContext());
+        dataModels = new ArrayList<>();
+
     }
 
     @Override
@@ -134,16 +134,24 @@ public class BodyPartListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_bodytracking, container, false);
 
+        addButton = view.findViewById(R.id.addBodyPart);
+        addButton.setOnClickListener(clickAddButton);
 
-        if (savedInstanceState==null) {
-            addButton = view.findViewById(R.id.addBodyPart);
-            addButton.setOnClickListener(clickAddButton);
+        measureList = view.findViewById(R.id.listBodyMeasures);
+        // Initialisation des evenements
+        measureList.setOnItemClickListener(onClickListItem);
 
-            measureList = view.findViewById(R.id.listBodyMeasures);
-            // Initialisation des evenements
-            measureList.setOnItemClickListener(onClickListItem);
-            measureList.setAdapter(mListAdapter);
-        }
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            mListAdapter.setProfile(profile);
+            refreshData();
+        });
+
+        mListAdapter = new BodyPartListAdapter(dataModels, getContext());
+        mListAdapter.setProfile(getProfile());
+        measureList.setAdapter(mListAdapter);
 
         return view;
     }
@@ -185,7 +193,7 @@ public class BodyPartListFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return ((MainActivity) getActivity()).getCurrentProfile();
+        return profileViMo.getProfile().getValue();
     }
 
 }

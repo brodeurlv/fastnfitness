@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
@@ -15,7 +16,9 @@ import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Unit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 21;
+    public static final int DATABASE_VERSION = 22;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -165,6 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_ORDER + " INTEGER DEFAULT 0");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_RECORD_STATUS + " INTEGER DEFAULT 3");
                     break;
+                case 22:
+                    // update all unitless bodymeasures based on BODYPART_ID
+                    upgradeBodyMeasureUnits(db);
+                    break;
             }
             upgradeTo++;
         }
@@ -254,6 +261,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void upgradeBodyMeasureUnits(SQLiteDatabase db) {
+        DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
+        String selectQuery = "SELECT * FROM " + DAOBodyMeasure.TABLE_NAME + " ORDER BY date(" + DAOBodyMeasure.DATE + ") DESC";
+        List<BodyMeasure> valueList = daoBodyMeasure.getMeasuresList(db, selectQuery);
+
+        for (BodyMeasure bodyMeasure : valueList) {
+            switch (bodyMeasure.getBodyPartID()) {
+                case BodyPartExtensions.LEFTBICEPS:
+                case BodyPartExtensions.RIGHTBICEPS:
+                case BodyPartExtensions.PECTORAUX:
+                case BodyPartExtensions.WAIST:
+                case BodyPartExtensions.BEHIND:
+                case BodyPartExtensions.LEFTTHIGH:
+                case BodyPartExtensions.RIGHTTHIGH:
+                case BodyPartExtensions.LEFTCALVES:
+                case BodyPartExtensions.RIGHTCALVES:
+                    bodyMeasure.setUnit(Unit.CM);
+                    break;
+                case BodyPartExtensions.WEIGHT:
+                    bodyMeasure.setUnit(Unit.KG);
+                    break;
+                case BodyPartExtensions.MUSCLES:
+                case BodyPartExtensions.WATER:
+                case BodyPartExtensions.FAT:
+                    bodyMeasure.setUnit(Unit.PERCENTAGE);
+                    break;
+            }
+            daoBodyMeasure.updateMeasure(db, bodyMeasure);
+        }
+    }
+
+
+
     public void initBodyPartTable(SQLiteDatabase db){
         int display_order=0;
 
@@ -273,8 +313,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
-        //SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues value = new ContentValues();
 
         value.put(DAOBodyPart.KEY, pKey);
@@ -285,7 +323,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         value.put(DAOBodyPart.TYPE, pType);
 
         db.insert(DAOBodyPart.TABLE_NAME, null, value);
-
-
     }
 }

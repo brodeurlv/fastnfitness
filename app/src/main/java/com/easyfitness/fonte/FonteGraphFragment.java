@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAOFonte;
@@ -24,7 +25,10 @@ import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.ProfileViMo;
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -98,6 +102,8 @@ public class FonteGraphFragment extends Fragment {
         mDateGraph.setZoom(currentZoom);
     };
 
+    private ProfileViMo profileViMo;
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -150,6 +156,13 @@ public class FonteGraphFragment extends Fragment {
         if (mDbStatic == null) mDbStatic = new DAOStatic(getContext());
         if (mDbMachine == null) mDbMachine = new DAOMachine(getContext());
 
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+        });
+
         return view;
     }
 
@@ -157,7 +170,7 @@ public class FonteGraphFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (getProfil() != null) {
+        if (getProfile() != null) {
             mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
             // lMachinesArray = prepend(lMachinesArray, "All");
             mAdapterMachine = new ArrayAdapter<>(
@@ -168,22 +181,13 @@ public class FonteGraphFragment extends Fragment {
             mDbFonte.closeCursor();
         }
 
-
-
-        if (this.getUserVisibleHint())
-            refreshData();
+        refreshData();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mActivity = (MainActivity) activity;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        // Save Shared Preferences
     }
 
     public MainActivity getMainActivity() {
@@ -220,7 +224,7 @@ public class FonteGraphFragment extends Fragment {
 
     private void drawGraph() {
 
-        if (getProfil() == null) return;
+        if (getProfile() == null) return;
 
         String lMachine = null;
         String lFunction = null;
@@ -255,9 +259,9 @@ public class FonteGraphFragment extends Fragment {
             // Recupere les enregistrements
             List<GraphData> valueList = null;
             if (m.getType() == ExerciseType.STRENGTH)
-                valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfil(), lMachine, lDAOFunction);
+                valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);
             else
-                valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
+                valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
             if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
@@ -274,7 +278,7 @@ public class FonteGraphFragment extends Fragment {
 
             for (int i = 0; i < valueList.size(); i++) {
                 Entry value = null;
-                if (defaultUnit == UnitConverter.UNIT_LBS) {
+                if (defaultUnit == WeightUnit.LBS.ordinal()) {
                     desc.setText(lMachine + "/" + lFunction + "(lbs)");
                     value = new Entry((float) valueList.get(i).getX(), UnitConverter.KgtoLbs((float) valueList.get(i).getY()));//-minDate)/86400000));
                 } else {
@@ -292,16 +296,16 @@ public class FonteGraphFragment extends Fragment {
         } else if (m.getType() == ExerciseType.CARDIO) {
 
             SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int defaultDistanceUnit = UnitConverter.UNIT_KM;
+            int defaultDistanceUnit = DistanceUnit.KM.ordinal();
             try {
                 defaultDistanceUnit = Integer.valueOf(SP.getString("defaultDistanceUnit", "0"));
             } catch (NumberFormatException e) {
-                defaultDistanceUnit = UnitConverter.UNIT_KM;
+                defaultDistanceUnit = DistanceUnit.KM.ordinal();
             }
 
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
                 lDAOFunction = DAOCardio.DISTANCE_FCT;
-                if ( defaultDistanceUnit==UnitConverter.UNIT_KM){
+                if ( defaultDistanceUnit==DistanceUnit.KM.ordinal()){
                     desc.setText(lMachine + "/" + lFunction + "(km)");
                 } else {
                     desc.setText(lMachine + "/" + lFunction + "(miles)");
@@ -311,7 +315,7 @@ public class FonteGraphFragment extends Fragment {
                 desc.setText(lMachine + "/" + lFunction + "(min)");
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.speed))) {
                 lDAOFunction = DAOCardio.SPEED_FCT;
-                if ( defaultDistanceUnit==UnitConverter.UNIT_KM) {
+                if ( defaultDistanceUnit==DistanceUnit.KM.ordinal()) {
                     desc.setText(lMachine + "/" + lFunction + "(km/h)");
                 }else {
                     desc.setText(lMachine + "/" + lFunction + "(miles/h)");
@@ -319,7 +323,7 @@ public class FonteGraphFragment extends Fragment {
             }
 
             // Recupere les enregistrements
-            List<GraphData> valueList = mDbCardio.getFunctionRecords(getProfil(), lMachine, lDAOFunction);
+            List<GraphData> valueList = mDbCardio.getFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
             if (valueList==null || valueList.size() <= 0) {
                 return;
@@ -330,12 +334,12 @@ public class FonteGraphFragment extends Fragment {
                 if (lDAOFunction == DAOCardio.DURATION_FCT) {
                     value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
                 } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
-                    if ( defaultDistanceUnit == UnitConverter.UNIT_MILES)
+                    if ( defaultDistanceUnit == DistanceUnit.MILES.ordinal())
                         value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float)valueList.get(i).getY()) * (60 * 60 * 1000));
                     else
                         value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
                 } else {
-                    if ( defaultDistanceUnit == UnitConverter.UNIT_MILES)
+                    if ( defaultDistanceUnit == DistanceUnit.MILES.ordinal())
                         value = new Entry((float) valueList.get(i).getX(), (float)UnitConverter.KmToMiles((float)valueList.get(i).getY()));
                     else
                         value = new Entry((float) valueList.get(i).getX(), (float)valueList.get(i).getY());
@@ -357,7 +361,7 @@ public class FonteGraphFragment extends Fragment {
             desc.setText(lMachine + "/" + lFunction);
             // Recupere les enregistrements
             List<GraphData> valueList = null;
-            valueList = mDbStatic.getStaticFunctionRecords(getProfil(), lMachine, lDAOFunction);
+            valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
             if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
@@ -366,18 +370,18 @@ public class FonteGraphFragment extends Fragment {
 
             if (lDAOFunction == DAOStatic.MAX_FCT) {
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                int defaultUnit = UnitConverter.UNIT_KG;
+                int defaultUnit = WeightUnit.KG.ordinal();
                 try {
                     defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
                 } catch (NumberFormatException e) {
-                    defaultUnit = UnitConverter.UNIT_KG;
+                    defaultUnit = WeightUnit.KG.ordinal();
                 }
 
                 final ArrayList<String> xAxisLabel = new ArrayList<>();
 
                 for (int i = 0; i < valueList.size(); i++) {
                     BarEntry value = null;
-                    if (defaultUnit == UnitConverter.UNIT_LBS) {
+                    if (defaultUnit == WeightUnit.LBS.ordinal()) {
                         value = new BarEntry(i, UnitConverter.KgtoLbs((float) valueList.get(i).getY()));
                     } else {
                         value = new BarEntry(i, (float) valueList.get(i).getY());
@@ -417,19 +421,11 @@ public class FonteGraphFragment extends Fragment {
         return getArguments().getString("name");
     }
 
-    public int getFragmentId() {
-        return getArguments().getInt("id", 0);
-    }
-
-    public DAOFonte getDB() {
-        return mDbFonte;
-    }
-
     private void refreshData() {
         //View fragmentView = getView();
 
         if (mFragmentView != null) {
-            if (getProfil() != null) {
+            if (getProfile() != null) {
                 //functionList.setOnItemSelectedListener(onItemSelectedList);
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDbFonte.getAllMachinesStrList();
@@ -477,18 +473,12 @@ public class FonteGraphFragment extends Fragment {
         return mAdapterMachine;
     }
 
-    private Profile getProfil() {
-        return mActivity.getCurrentProfile();
+    private Profile getProfile() {
+        return profileViMo.getProfile().getValue();
     }
 
     private String getFontesMachine() {
         return getMainActivity().getCurrentMachine();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        //machineList
-        if (!hidden) refreshData();
     }
 
     public void saveSharedParams() {

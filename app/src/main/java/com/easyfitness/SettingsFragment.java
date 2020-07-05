@@ -1,7 +1,12 @@
 package com.easyfitness;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.WeightUnit;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.ListPreference;
@@ -96,7 +101,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
         updateSummary(dayNightModePref, dayNightValue, "");
-
     }
 
     private void updateSummary(ListPreference pref, String val, String prefix) {
@@ -105,5 +109,29 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             //finally set's it value changed
             pref.setSummary(prefix + pref.getEntries()[prefIndex]);
         }
+    }
+
+    public static Unit getDefaultWeightUnit(Activity activity) {
+        // Getting the prefered default units.
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(activity);
+        Unit weightUnit = Unit.KG;
+        try {
+            weightUnit = Unit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
+        } catch (NumberFormatException e) {
+            weightUnit = Unit.KG;
+        }
+        return weightUnit;
+    }
+
+    public static Unit getDefaultDistanceUnit(Activity activity) {
+        // Getting the prefered default units.
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(activity);
+        Unit distanceUnit = Unit.KM;
+        try {
+            distanceUnit = Unit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
+        } catch (NumberFormatException e) {
+            distanceUnit = Unit.KM;
+        }
+        return distanceUnit;
     }
 }
