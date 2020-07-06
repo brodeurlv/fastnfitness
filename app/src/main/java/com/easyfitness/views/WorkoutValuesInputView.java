@@ -331,6 +331,8 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public void setRecord(Record record) {
         setSelectedType(record.getExerciseType());
+        activatedRestTime(record.getRestTime() != 0);
+        setRestTime(record.getRestTime());
         switch (record.getExerciseType()) {
         case STRENGTH:
             setSets(record.getSets());
