@@ -252,7 +252,7 @@ public class SingleValueInputView extends LinearLayout {
                 Calendar cal = Calendar.getInstance();
                 mDatePicker = new DatePickerDialog(this.getContext(),
                     (view, year, month, day) -> {
-                        valueEditText.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
+                        valueEditText.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
                         Keyboard.hide(getContext(), valueEditText); },
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),

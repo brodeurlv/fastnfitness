@@ -26,8 +26,10 @@ import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.ProfileViMo;
+import com.easyfitness.SettingsFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.MainActivity;
@@ -268,23 +270,13 @@ public class FonteGraphFragment extends Fragment {
                 return;
             }
 
-            SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int defaultUnit = 0;
-            try {
-                defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
-            } catch (NumberFormatException e) {
-                defaultUnit = 0;
-            }
+            WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
 
             for (int i = 0; i < valueList.size(); i++) {
                 Entry value = null;
-                if (defaultUnit == WeightUnit.LBS.ordinal()) {
-                    desc.setText(lMachine + "/" + lFunction + "(lbs)");
-                    value = new Entry((float) valueList.get(i).getX(), UnitConverter.KgtoLbs((float) valueList.get(i).getY()));//-minDate)/86400000));
-                } else {
-                    desc.setText(lMachine + "/" + lFunction + "(kg)");
-                    value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());//-minDate)/86400000));
-                }
+                desc.setText(lMachine + "/" + lFunction + "("+ defaultUnit.toString() +")");
+                value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
+
                 yVals.add(value);
             }
 
@@ -294,32 +286,17 @@ public class FonteGraphFragment extends Fragment {
             mDateGraph.getChart().setDescription(desc);
             mDateGraph.draw(yVals);
         } else if (m.getType() == ExerciseType.CARDIO) {
-
-            SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int defaultDistanceUnit = DistanceUnit.KM.ordinal();
-            try {
-                defaultDistanceUnit = Integer.valueOf(SP.getString("defaultDistanceUnit", "0"));
-            } catch (NumberFormatException e) {
-                defaultDistanceUnit = DistanceUnit.KM.ordinal();
-            }
+            DistanceUnit defaultDistanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
 
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
                 lDAOFunction = DAOCardio.DISTANCE_FCT;
-                if ( defaultDistanceUnit==DistanceUnit.KM.ordinal()){
-                    desc.setText(lMachine + "/" + lFunction + "(km)");
-                } else {
-                    desc.setText(lMachine + "/" + lFunction + "(miles)");
-                }
+                desc.setText(lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+")");
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sumDuration))) {
                 lDAOFunction = DAOCardio.DURATION_FCT;
                 desc.setText(lMachine + "/" + lFunction + "(min)");
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.speed))) {
                 lDAOFunction = DAOCardio.SPEED_FCT;
-                if ( defaultDistanceUnit==DistanceUnit.KM.ordinal()) {
-                    desc.setText(lMachine + "/" + lFunction + "(km/h)");
-                }else {
-                    desc.setText(lMachine + "/" + lFunction + "(miles/h)");
-                }
+                desc.setText(lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+"/h)");
             }
 
             // Recupere les enregistrements
@@ -334,12 +311,12 @@ public class FonteGraphFragment extends Fragment {
                 if (lDAOFunction == DAOCardio.DURATION_FCT) {
                     value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
                 } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
-                    if ( defaultDistanceUnit == DistanceUnit.MILES.ordinal())
+                    if ( defaultDistanceUnit == DistanceUnit.MILES)
                         value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float)valueList.get(i).getY()) * (60 * 60 * 1000));
                     else
                         value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
                 } else {
-                    if ( defaultDistanceUnit == DistanceUnit.MILES.ordinal())
+                    if ( defaultDistanceUnit == DistanceUnit.MILES)
                         value = new Entry((float) valueList.get(i).getX(), (float)UnitConverter.KmToMiles((float)valueList.get(i).getY()));
                     else
                         value = new Entry((float) valueList.get(i).getX(), (float)valueList.get(i).getY());
@@ -369,23 +346,12 @@ public class FonteGraphFragment extends Fragment {
             }
 
             if (lDAOFunction == DAOStatic.MAX_FCT) {
-                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                int defaultUnit = WeightUnit.KG.ordinal();
-                try {
-                    defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
-                } catch (NumberFormatException e) {
-                    defaultUnit = WeightUnit.KG.ordinal();
-                }
+                WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
 
                 final ArrayList<String> xAxisLabel = new ArrayList<>();
 
                 for (int i = 0; i < valueList.size(); i++) {
-                    BarEntry value = null;
-                    if (defaultUnit == WeightUnit.LBS.ordinal()) {
-                        value = new BarEntry(i, UnitConverter.KgtoLbs((float) valueList.get(i).getY()));
-                    } else {
-                        value = new BarEntry(i, (float) valueList.get(i).getY());
-                    }
+                    BarEntry value = new BarEntry(i, UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));
                     xAxisLabel.add(String.valueOf((int) valueList.get(i).getX()));
                     yBarVals.add(value);
                 }

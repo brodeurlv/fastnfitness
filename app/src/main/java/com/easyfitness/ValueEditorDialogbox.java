@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
@@ -27,6 +28,9 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
     private Button updateButton;
     private Button cancelButton;
     private boolean mCancelled=false;
+    private TextView titleTextView;
+    private String mTitle="";
+    private String mUpdateText="";
 
     public ValueEditorDialogbox(Activity a, Date date, String time, double value) {
         super(a);
@@ -56,6 +60,8 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
         dateEdit = findViewById(R.id.EditorValueDateInput);
         timeEdit = findViewById(R.id.EditorValueTimeInput);
         valueEdit = findViewById(R.id.EditorValueInput);
+        titleTextView = findViewById(R.id.EditorValueTitle);
+        if (!mTitle.isEmpty()) titleTextView.setText(mTitle);
 
         switch(mUnit.getUnitType()) {
             case SIZE:
@@ -78,6 +84,7 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
         valueEdit.setSelectedUnit(mUnit.toString());
 
         updateButton = findViewById(R.id.btn_update);
+        if (!mUpdateText.isEmpty()) updateButton.setText(mUpdateText);
         cancelButton = findViewById(R.id.btn_cancel);
 
         updateButton.setOnClickListener(this);
@@ -114,5 +121,14 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
 
     public String getUnit() {
         return valueEdit.getSelectedUnit();
+    }
+
+    @Override
+    public void setTitle(int title) {
+        mTitle = getContext().getString(title);
+    }
+
+    public void setPositiveButton(int text) {
+        mUpdateText = getContext().getString(text);
     }
 }

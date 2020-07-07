@@ -1,5 +1,6 @@
 package com.easyfitness.utils;
 
+import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 
 public class UnitConverter {
@@ -11,6 +12,10 @@ public class UnitConverter {
      * convert Kg to Lbs
      */
     static public float weightConverter(float pWeight, WeightUnit pUnitIn, WeightUnit pUnitOut) {
+        return weightConverter(pWeight, pUnitIn.toUnit(), pUnitOut.toUnit());
+    }
+
+    static public float weightConverter(float pWeight, Unit pUnitIn, Unit pUnitOut) {
         switch (pUnitIn) {
             case KG:
                 switch (pUnitOut) {
@@ -67,6 +72,34 @@ public class UnitConverter {
     static public float KmToMiles(float pKm) { return pKm * (float) 1.609344; }
     static public float MilesToKm(float pMiles) { return pMiles / (float) 1.609344; }
 
+    static public float sizeConverter(float pSize, Unit pUnitIn, Unit pUnitOut) {
+        switch (pUnitIn) {
+            case CM:
+                switch (pUnitOut) {
+                    case INCH:
+                        return CmtoInch(pSize);
+                    default:
+                        return pSize;
+                }
+            case INCH:
+                switch (pUnitOut) {
+                    case CM:
+                        return InchToCm(pSize);
+                    default:
+                        return pSize;
+                }
+            default:
+                return pSize;
+        }
+    }
+
+    private static float InchToCm(float pSize) {
+        return pSize * (float)2.54;
+    }
+
+    private static float CmtoInch(float pSize) {
+        return pSize / (float)2.54;
+    }
 
     /**
      * Function to convert milliseconds time to

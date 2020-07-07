@@ -45,9 +45,10 @@
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance</string>
-    <string name="KmUnitLabel" translatable="false">Km</string>
-    <string name="MilesUnitLabel" translatable="false">Miles</string>
     <string name="DurationLabel">Duration</string>
+
+    <string name="KmUnitLabel" translatable="false">km</string>
+    <string name="MilesUnitLabel" translatable="false">miles</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Weight Track</string>
@@ -95,6 +96,7 @@
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
     <string name="pref_preferredDistanceUnitTitle">Select your preferred distance unit</string>
+    <string name="pref_preferredSizeUnitTitle">Select your preferred size unit</string>
 
     <string name="profil_create_new">Create new profile</string>
     <string name="profil_change">Change profile</string>
@@ -115,21 +117,34 @@
         <item>@string/StonesUnitLabel</item>
     </string-array>
 
-    <integer-array name="fonte_unitsEnum">
+    <string-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-    </integer-array>
+    </string-array>
 
     <string-array name="distance_units">
         <item>@string/KmUnitLabel</item>
         <item>@string/MilesUnitLabel</item>
     </string-array>
 
-    <integer-array name="distance_unitsEnum">
+    <string-array name="distance_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </integer-array>
+    </string-array>
+
+    <string name="CmUnitLabel" translatable="false">cm</string>
+    <string name="InUnitLabel" translatable="false">in</string>
+
+    <string-array name="size_units">
+        <item>@string/CmUnitLabel</item>
+        <item>@string/InUnitLabel</item>
+    </string-array>
+
+    <string-array name="size_unitsEnum">
+        <item>5</item>
+        <item>6</item>
+    </string-array>
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
