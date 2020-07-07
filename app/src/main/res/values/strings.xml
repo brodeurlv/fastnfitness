@@ -28,8 +28,9 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercise</string>
     <string name="PoidsLabel">Weight</string>
-    <string name="KgUnitLabel" translatable="false">Kg</string>
-    <string name="LbsUnitLabel" translatable="false">Lbs</string>
+    <string name="KgUnitLabel" translatable="false">kg</string>
+    <string name="LbsUnitLabel" translatable="false">lbs</string>
+    <string name="StonesUnitLabel" translatable="false">st</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Last records:</string>
 
@@ -111,22 +112,24 @@
     <string-array name="weight_units">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
+        <item>@string/StonesUnitLabel</item>
     </string-array>
 
-    <string-array name="fonte_unitsEnum">
+    <integer-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </string-array>
+        <item>2</item>
+    </integer-array>
 
     <string-array name="distance_units">
         <item>@string/KmUnitLabel</item>
         <item>@string/MilesUnitLabel</item>
     </string-array>
 
-    <string-array name="distance_unitsEnum">
+    <integer-array name="distance_unitsEnum">
         <item>0</item>
         <item>1</item>
-    </string-array>
+    </integer-array>
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>

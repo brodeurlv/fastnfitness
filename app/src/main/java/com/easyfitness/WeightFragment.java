@@ -82,11 +82,13 @@ public class WeightFragment extends Fragment {
                         editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit());
                     }
                     editorDialogbox.setOnDismissListener(dialog -> {
-                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                        Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                        mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.WEIGHT, value, getProfile().getId(), unit);
-                        refreshData();
+                        if (!editorDialogbox.isCancelled()) {
+                            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                            Unit unit = Unit.fromString(editorDialogbox.getUnit());
+                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.WEIGHT, value, getProfile().getId(), unit);
+                            refreshData();
+                        }
                     });
                     editorDialogbox.show();
                     break;
@@ -97,12 +99,16 @@ public class WeightFragment extends Fragment {
                     } else {
                         editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastFatValue.getBodyMeasure(), Unit.PERCENTAGE);
                     }
+                    editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
-                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                        mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.FAT, value, getProfile().getId(), Unit.PERCENTAGE);
-                        refreshData();
+                        if (!editorDialogbox.isCancelled()) {
+                            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.FAT, value, getProfile().getId(), Unit.PERCENTAGE);
+                            refreshData();
+                        }
                     });
+                    editorDialogbox.setOnCancelListener(null);
                     editorDialogbox.show();
                     break;
                 case R.id.musclesInput:
@@ -113,11 +119,14 @@ public class WeightFragment extends Fragment {
                         editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastMusclesValue.getBodyMeasure(), Unit.PERCENTAGE);
                     }
                     editorDialogbox.setOnDismissListener(dialog -> {
-                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                        mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.MUSCLES, value, getProfile().getId(), Unit.PERCENTAGE);
-                        refreshData();
+                        if (!editorDialogbox.isCancelled()) {
+                            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.MUSCLES, value, getProfile().getId(), Unit.PERCENTAGE);
+                            refreshData();
+                        }
                     });
+                    editorDialogbox.setOnCancelListener(null);
                     editorDialogbox.show();
                     break;
                 case R.id.waterInput:
@@ -128,11 +137,14 @@ public class WeightFragment extends Fragment {
                         editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWaterValue.getBodyMeasure(), Unit.PERCENTAGE);
                     }
                     editorDialogbox.setOnDismissListener(dialog -> {
-                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                        mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.MUSCLES, value, getProfile().getId(), Unit.PERCENTAGE);
-                        refreshData();
+                        if (!editorDialogbox.isCancelled()) {
+                            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.MUSCLES, value, getProfile().getId(), Unit.PERCENTAGE);
+                            refreshData();
+                        }
                     });
+                    editorDialogbox.setOnCancelListener(null);
                     editorDialogbox.show();
                     break;
             }

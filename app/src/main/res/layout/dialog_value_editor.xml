@@ -8,6 +8,7 @@
     android:background="@color/background">
 
     <TextView
+        android:id="@+id/EditorValueTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -30,7 +31,7 @@
             app:title="@string/DateLabel"
             app:value=""
             app:type="date"
-            tool:value="10"
+            tool:value="10/12/2020"
             tool:visibility="visible"
             android:layout_weight="1" />
 
@@ -43,9 +44,10 @@
             app:title="@string/timeLabel"
             app:value=""
             app:type="time"
-            tool:value="10"
+            tool:value="01:23:45"
             tool:visibility="visible"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <com.easyfitness.views.SingleValueInputView

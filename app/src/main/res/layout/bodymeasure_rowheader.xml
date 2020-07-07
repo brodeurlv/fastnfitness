@@ -28,8 +28,20 @@
         android:textSize="16sp" />
 
     <ImageView
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|end"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:focusable="true"
+        android:visibility="invisible"/>
+
+    <ImageView
         android:layout_width="10dp"
-        android:layout_height="20dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|end"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"

@@ -15,7 +15,6 @@ import java.util.Date;
 
 public class ValueEditorDialogbox extends Dialog implements View.OnClickListener {
 
-    private Activity mActivity;
     public Dialog d;
     private SingleValueInputView dateEdit;
     private SingleValueInputView timeEdit;
@@ -25,10 +24,12 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
     private String mTime;
     private double mValue;
     private Unit mUnit;
+    private Button updateButton;
+    private Button cancelButton;
+    private boolean mCancelled=false;
 
     public ValueEditorDialogbox(Activity a, Date date, String time, double value) {
         super(a);
-        mActivity = a;
         mDate = date;
         mTime = time;
         mValue = value;
@@ -38,7 +39,6 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
 
     public ValueEditorDialogbox(Activity a, Date date, String time, double value, Unit units) {
         super(a);
-        mActivity = a;
         mDate = date;
         mTime = time;
         mValue = value;
@@ -51,6 +51,7 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_value_editor);
         this.setCanceledOnTouchOutside(false);
+        this.setCancelable(true);
 
         dateEdit = findViewById(R.id.EditorValueDateInput);
         timeEdit = findViewById(R.id.EditorValueTimeInput);
@@ -76,8 +77,8 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
         valueEdit.setValue(String.format("%.1f", mValue));
         valueEdit.setSelectedUnit(mUnit.toString());
 
-        Button updateButton = findViewById(R.id.btn_update);
-        Button cancelButton = findViewById(R.id.btn_cancel);
+        updateButton = findViewById(R.id.btn_update);
+        cancelButton = findViewById(R.id.btn_cancel);
 
         updateButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -85,16 +86,19 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Keyboard.hide(getContext(), valueEdit);
+        Keyboard.hide(getContext(), timeEdit);
+
         if (v.getId() == R.id.btn_cancel) {
-            Keyboard.hide(getContext(), valueEdit);
-            Keyboard.hide(getContext(), timeEdit);
+            mCancelled = true;
             cancel();
         } else if (v.getId() == R.id.btn_update) {
-            Keyboard.hide(getContext(), valueEdit);
-            Keyboard.hide(getContext(), timeEdit);
+            mCancelled = false;
             dismiss();
         }
     }
+
+    public boolean isCancelled() { return mCancelled; };
 
     public String getDate() {
         return dateEdit.getValue();

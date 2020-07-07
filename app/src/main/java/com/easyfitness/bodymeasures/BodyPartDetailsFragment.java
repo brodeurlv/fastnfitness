@@ -417,14 +417,17 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), bodyMeasure.getUnit());
         editorDialogbox.setOnDismissListener(dialog -> {
-            Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-            Unit unit = Unit.fromString(editorDialogbox.getUnit());
+            if (!editorDialogbox.isCancelled()) {
+                Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                Unit unit = Unit.fromString(editorDialogbox.getUnit());
 
-            BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(),date,bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
-            int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
-            refreshData();
+                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
+                int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
+                refreshData();
+            }
         });
+        editorDialogbox.setOnCancelListener(null);
 
         editorDialogbox.show();
     }

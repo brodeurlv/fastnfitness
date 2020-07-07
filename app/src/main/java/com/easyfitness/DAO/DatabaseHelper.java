@@ -16,7 +16,6 @@ import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
-import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Unit;
 
@@ -290,9 +289,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             daoBodyMeasure.updateMeasure(db, bodyMeasure);
         }
+
+
     }
-
-
 
     public void initBodyPartTable(SQLiteDatabase db){
         int display_order=0;
