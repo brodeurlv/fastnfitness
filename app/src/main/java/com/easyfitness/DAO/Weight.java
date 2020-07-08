@@ -19,11 +19,7 @@ public class Weight {
     }
 
     public float getWeight(WeightUnit unit) {
-        float weight = pWeight;
-        if (unit == WeightUnit.LBS) {
-            weight = UnitConverter.KgtoLbs(pWeight);
-        }
-        return weight;
+        return UnitConverter.weightConverter(pWeight, WeightUnit.KG, unit);
     }
 
     public WeightUnit getStoredUnit() {

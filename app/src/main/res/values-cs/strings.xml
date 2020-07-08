@@ -99,41 +99,16 @@
     <string name="drawer_open">Otevřít panel navigace</string>
     <string name="drawer_close">Zavřít panel navigace</string>
 
-    <string-array name="weight_units">
-        <item>@string/KgUnitLabel</item>
-        <item>@string/LbsUnitLabel</item>
-    </string-array>
-
-    <string-array name="fonte_unitsEnum">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <string name="maxRep1">Maximum (Opak >= 1)</string>
     <string name="maxRep5d">Maximum (Opak >= 5)</string>
     <string name="sum">Suma</string>
-    <string-array name="graph_functions">
-        <item>@string/maxRep1</item>
-        <item>@string/maxRep5d</item>
-        <item>@string/sum</item>
-    </string-array>
 
     <string name="sumDistance">Vzdálenost</string>
     <string name="sumDuration">Trvání</string>
     <string name="speed">Rychlost</string>
-    <string-array name="graph_cardio_functions">
-        <item>@string/sumDistance</item>
-        <item>@string/sumDuration</item>
-        <item>@string/speed</item>
-    </string-array>
-
 
     <string name="maxWeightPerDuration">"Maximální Váha za Období"</string>
     <string name="nbSeriesPerDate">Počet Sérii za Období</string>
-    <string-array name="graph_static_functions">
-        <item>@string/maxWeightPerDuration</item>
-        <item>@string/nbSeriesPerDate</item>
-    </string-array>
 
     <string name="all">Vše</string>
 
@@ -311,5 +286,6 @@
     <string name="no_chart_data_available">Žádná data</string>
     <string name="light_mode">Průhledná</string>
     <string name="remove_image">Delete image</string>
+    <string name="pref_preferredSizeUnitTitle">Zvolit preferovanou velikost jednotky</string>
 
 </resources>

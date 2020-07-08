@@ -756,7 +756,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCurrentProfil(Profile newProfil) {
         profileViMo.setProfile(newProfil);
-        savePreferences();
+
     }
 
     private void setPhotoProfile(String path) {
@@ -807,7 +807,7 @@ public class MainActivity extends AppCompatActivity {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        if (profileViMo.getProfile().getValue() != null) editor.putLong("currentProfil", profileViMo.getProfile().getValue().getId());
+        if (profileViMo!=null && profileViMo.getProfile().getValue()!=null) editor.putLong("currentProfil", profileViMo.getProfile().getValue().getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.putBoolean("migrationBD15done", mMigrationBD15done);
         editor.apply();

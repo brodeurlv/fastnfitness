@@ -84,7 +84,7 @@
     <string name="pref_show_mp3_player_summary">Muestra/oculta la barra de herramientass del reproductor MP3</string>
 
     <string name="pref_preferredUnitSummary">Unidad de preferencia:</string>
-    <string name="pref_preferredUnitTitle">Selecione su unidadad de peso preferida</string>
+    <string name="pref_preferredUnitTitle">Selecione su unidad de peso preferida</string>
 
     <string name="profil_create_new">Crear novo perfil</string>
     <string name="profil_change">Modificar perfil</string>
@@ -99,41 +99,17 @@
     <string name="drawer_open">Abrir menú de navegación</string>
     <string name="drawer_close">Cerrar menú de navegación</string>
 
-    <string-array name="weight_units">
-        <item>@string/KgUnitLabel</item>
-        <item>@string/LbsUnitLabel</item>
-    </string-array>
-
-    <string-array name="fonte_unitsEnum">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <string name="maxRep1">Máximo (Reps >= 1)</string>
     <string name="maxRep5d">Máximo (Reps >= 5)</string>
     <string name="sum">Soma</string>
-    <string-array name="graph_functions">
-        <item>@string/maxRep1</item>
-        <item>@string/maxRep5d</item>
-        <item>@string/sum</item>
-    </string-array>
 
     <string name="sumDistance">Distancia</string>
     <string name="sumDuration">Duración</string>
     <string name="speed">Velocidad</string>
-    <string-array name="graph_cardio_functions">
-        <item>@string/sumDistance</item>
-        <item>@string/sumDuration</item>
-        <item>@string/speed</item>
-    </string-array>
 
 
     <string name="maxWeightPerDuration">"Máx. peso por duración"</string>
     <string name="nbSeriesPerDate">"Núm. de series por fecha"</string>
-    <string-array name="graph_static_functions">
-        <item>@string/maxWeightPerDuration</item>
-        <item>@string/nbSeriesPerDate</item>
-    </string-array>
 
     <string name="all">Todo</string>
 
@@ -311,5 +287,6 @@
     <string name="no_chart_data_available">Sin datos</string>
     <string name="light_mode">Claro</string>
     <string name="remove_image">Eliminar Imagen</string>
+    <string name="pref_preferredSizeUnitTitle">Seleccione su unidad de tamaño preferida</string>
 
 </resources>

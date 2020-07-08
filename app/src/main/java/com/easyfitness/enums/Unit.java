@@ -10,7 +10,7 @@ import androidx.preference.PreferenceManager;
 
 public enum Unit {
     KG("kg", UnitType.WEIGHT),
-    LBS("lbs", UnitType.WEIGHT),
+    LBS("lb", UnitType.WEIGHT),
     STONES("st", UnitType.WEIGHT),
     KM("km", UnitType.DISTANCE),
     MILES("miles", UnitType.DISTANCE),

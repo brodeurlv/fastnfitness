@@ -101,16 +101,6 @@
     <string name="drawer_open">Abrir a gaveta de navegação</string>
     <string name="drawer_close">Fechar a gaveta de navegação</string>
 
-    <string-array name="weight_units">
-        <item>@string/KgUnitLabel</item>
-        <item>@string/LbsUnitLabel</item>
-    </string-array>
-
-    <string-array name="fonte_unitsEnum">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <string name="maxRep1">Máximo (Reps >= 1)</string>
     <string name="maxRep5d">Máximo (Reps >= 5)</string>
     <string name="sum">Soma</string>

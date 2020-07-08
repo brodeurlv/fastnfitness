@@ -49,6 +49,7 @@ import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.enums.DisplayType;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
@@ -147,22 +148,14 @@ public class FontesFragment extends Fragment {
                 workoutValuesInputView.setSets(r.getSets());
 
                 Float poids = r.getWeight();
-                WeightUnit weightUnit = WeightUnit.KG;
-                if (r.getWeightUnit() == WeightUnit.LBS) {
-                    poids = UnitConverter.KgtoLbs(poids);
-                    weightUnit = WeightUnit.LBS;
-                }
-                workoutValuesInputView.setWeight(poids, weightUnit);
+                poids = UnitConverter.weightConverter(poids, WeightUnit.KG, r.getWeightUnit());
+                workoutValuesInputView.setWeight(poids, r.getWeightUnit());
             } else if (r.getExerciseType() == ExerciseType.ISOMETRIC) {
                 workoutValuesInputView.setSeconds(r.getSeconds());
                 workoutValuesInputView.setSets(r.getSets());
                 Float poids = r.getWeight();
-                WeightUnit weightUnit = WeightUnit.KG;
-                if (r.getWeightUnit() == WeightUnit.LBS) {
-                    poids = UnitConverter.KgtoLbs(poids);
-                    weightUnit = WeightUnit.LBS;
-                }
-                workoutValuesInputView.setWeight(poids, weightUnit);
+                poids = UnitConverter.weightConverter(poids, WeightUnit.KG, r.getWeightUnit());
+                workoutValuesInputView.setWeight(poids, r.getWeightUnit());
             }else if (r.getExerciseType() == ExerciseType.CARDIO) {
                 float distance = r.getDistance();
                 DistanceUnit distanceUnit = DistanceUnit.KM;
@@ -211,9 +204,7 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            if (workoutValuesInputView.getWeightUnit()==WeightUnit.LBS) {
-                tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-            }
+            tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbBodyBuilding.addBodyBuildingRecord(date, timeStr,
@@ -262,9 +253,7 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            if (workoutValuesInputView.getWeightUnit()==WeightUnit.LBS) {
-                tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-            }
+            tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbStatic.addStaticRecord(date,
@@ -552,21 +541,10 @@ public class FontesFragment extends Fragment {
 
         restoreSharedParams();
 
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        WeightUnit weightUnit = WeightUnit.KG;
-        try {
-            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
-        } catch (NumberFormatException e) {
-            weightUnit = WeightUnit.KG;
-        }
+        WeightUnit weightUnit = SettingsFragment.getDefaultWeightUnit(getActivity());
         workoutValuesInputView.setWeightUnit(weightUnit);
 
-        DistanceUnit distanceUnit;
-        try {
-            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
-        } catch (NumberFormatException e) {
-            distanceUnit = DistanceUnit.KM;
-        }
+        DistanceUnit distanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
         workoutValuesInputView.setDurationUnit(distanceUnit);
 
         // Initialisation de la base de donnee
@@ -575,8 +553,6 @@ public class FontesFragment extends Fragment {
         mDbStatic = new DAOStatic(getContext());
         mDbRecord = new DAORecord(getContext());
         mDbMachine = new DAOMachine(getContext());
-
-
 
         machineImage.setOnClickListener(v -> {
             Machine m = mDbMachine.getMachine(machineEdit.getText().toString());
@@ -863,26 +839,16 @@ public class FontesFragment extends Fragment {
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 Weight minValue = mDbBodyBuilding.getMin(getProfile(), m);
                 if (minValue != null && minValue.getStoredWeight()!=0) {
-                    if (minValue.getStoredUnit() == WeightUnit.LBS) {
-                        weight = UnitConverter.KgtoLbs(minValue.getStoredWeight());
-                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-                    } else {
-                        weight = minValue.getStoredWeight();
-                        unitStr = getContext().getString(R.string.KgUnitLabel);
-                    }
+                    weight = UnitConverter.weightConverter(minValue.getStoredWeight(), WeightUnit.KG, minValue.getStoredUnit());
+                    unitStr = minValue.getStoredUnit().toString();
 
                     comment = getContext().getString(R.string.min) + ":" + numberFormat.format(weight) + unitStr + " - ";
                 }
 
                 Weight maxValue = mDbBodyBuilding.getMax(getProfile(), m);
                 if (maxValue != null && maxValue.getStoredWeight()!=0) {
-                    if (maxValue.getStoredUnit() == WeightUnit.LBS) {
-                        weight = UnitConverter.KgtoLbs(maxValue.getStoredWeight());
-                        unitStr = getContext().getString(R.string.LbsUnitLabel);
-                    } else {
-                        weight = maxValue.getStoredWeight();
-                        unitStr = getContext().getString(R.string.KgUnitLabel);
-                    }
+                    weight = UnitConverter.weightConverter(maxValue.getStoredWeight(), WeightUnit.KG, maxValue.getStoredUnit());
+                    unitStr = maxValue.getStoredUnit().toString();
                     comment = comment + getContext().getString(R.string.max) + ":" + numberFormat.format(weight) +  unitStr;
                 } else {
                     comment = "";
@@ -901,19 +867,8 @@ public class FontesFragment extends Fragment {
         Record lLastRecord = mDbRecord.getLastExerciseRecord(m.getId(), getProfile());
 
         // Getting the prefered default units.
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        WeightUnit weightUnit = WeightUnit.KG;
-        DistanceUnit distanceUnit = DistanceUnit.KM;
-        try {
-            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
-        } catch (NumberFormatException e) {
-            weightUnit = WeightUnit.KG;
-        }
-        try {
-            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
-        } catch (NumberFormatException e) {
-            distanceUnit = DistanceUnit.KM;
-        }
+        WeightUnit weightUnit = SettingsFragment.getDefaultWeightUnit(getActivity());
+        DistanceUnit distanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
 
         // Default Values
         workoutValuesInputView.setSets(1);
@@ -927,10 +882,7 @@ public class FontesFragment extends Fragment {
         } else if (lLastRecord.getExerciseType() == ExerciseType.STRENGTH) {
             workoutValuesInputView.setSets(lLastRecord.getSets());
             workoutValuesInputView.setReps(lLastRecord.getReps());
-            if (lLastRecord.getWeightUnit() == WeightUnit.LBS)
-                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
-            else
-                workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
+            workoutValuesInputView.setWeight(UnitConverter.weightConverter(lLastRecord.getWeight(), WeightUnit.KG, lLastRecord.getWeightUnit()), lLastRecord.getWeightUnit());
         } else if (lLastRecord.getExerciseType() == ExerciseType.CARDIO) {
             workoutValuesInputView.setDuration(lLastRecord.getDuration());
             if (lLastRecord.getDistanceUnit() == DistanceUnit.MILES)
@@ -940,10 +892,7 @@ public class FontesFragment extends Fragment {
         } else if (lLastRecord.getExerciseType() == ExerciseType.ISOMETRIC) {
             workoutValuesInputView.setSets(lLastRecord.getSets());
             workoutValuesInputView.setSeconds(lLastRecord.getSeconds());
-            if (lLastRecord.getWeightUnit() == WeightUnit.LBS)
-                workoutValuesInputView.setWeight(UnitConverter.KgtoLbs(lLastRecord.getWeight()), WeightUnit.LBS);
-            else
-                workoutValuesInputView.setWeight(lLastRecord.getWeight(), WeightUnit.KG);
+            workoutValuesInputView.setWeight(UnitConverter.weightConverter(lLastRecord.getWeight(), WeightUnit.KG, lLastRecord.getWeightUnit()), lLastRecord.getWeightUnit());
         }
     }
 
@@ -1002,19 +951,8 @@ public class FontesFragment extends Fragment {
                         setCurrentMachine(lLastRecord.getExercise());
                     } else {
                         // Getting the prefered default units.
-                        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                        WeightUnit weightUnit = WeightUnit.KG;
-                        DistanceUnit distanceUnit = DistanceUnit.KM;
-                        try {
-                            weightUnit = WeightUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.WEIGHT_UNIT_PARAM, "0")));
-                        } catch (NumberFormatException e) {
-                            weightUnit = WeightUnit.KG;
-                        }
-                        try {
-                            distanceUnit = DistanceUnit.fromInteger(Integer.parseInt(SP.getString(SettingsFragment.DISTANCE_UNIT_PARAM, "0")));
-                        } catch (NumberFormatException e) {
-                            distanceUnit = DistanceUnit.KM;
-                        }
+                        WeightUnit weightUnit = SettingsFragment.getDefaultWeightUnit(getActivity());
+                        DistanceUnit distanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
 
                         // Default Values
                         machineEdit.setText("");

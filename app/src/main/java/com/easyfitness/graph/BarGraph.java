@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -35,8 +36,8 @@ public class BarGraph {
     public BarGraph(Context context, BarChart chart, String name) {
         mChart = chart;
         mChartName = name;
-        mChart.setHorizontalScrollBarEnabled(true);
-        mChart.setVerticalScrollBarEnabled(true);
+        mChart.setHorizontalScrollBarEnabled(false);
+        mChart.setVerticalScrollBarEnabled(false);
         mChart.setDrawBorders(true);
         mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
         mChart.setExtraOffsets(0, 0, 0, 10);
@@ -45,19 +46,17 @@ public class BarGraph {
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
-        l.setTextSize(12);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
-        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawAxisLine(true);
         xAxis.setTextSize(14);
 
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
 
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setAxisMinimum(0f);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setGranularityEnabled(true);
@@ -65,7 +64,7 @@ public class BarGraph {
         leftAxis.setTextSize(12);
 
         mChart.setFitBars(true);
-        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMinimum(0);
 
         mChart.getAxisRight().setEnabled(false);
     }
@@ -88,11 +87,11 @@ public class BarGraph {
         BarData data = new BarData(set1);
 
         data.setValueTextSize(12);
-        data.setValueFormatter(new IValueFormatter() {
-            private DecimalFormat mFormat = new DecimalFormat("#.## kg");
+        data.setValueFormatter(new ValueFormatter() {
+            private DecimalFormat mFormat = new DecimalFormat("#.##");
 
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return mFormat.format(value);
             }
         });

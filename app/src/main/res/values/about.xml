@@ -10,7 +10,7 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.1: June 27, 2020\n
+v0.19.1: July 08, 2020\n
 \t- Enhancement : Updated Exercise page UI (#130, #131, #132)\n
 \t- Enhancement : Added units for body measures (#102)\n
 \t- Bug : Fixed photo import from galerie on Android\n
@@ -18,6 +18,7 @@ v0.19.1: June 27, 2020\n
 \t- Bug : Fixed crash after deleting a program that is in progress (#142) (Thank you @sdriv3r)\n
 \t- Bug : Fixed units not taking the values from settings (#140) (Thank you again @sdriv3r)\n
 \t- Bug : Fixed brazilian translation (#139) (Thank you again @rffontenelle)\n
+\t- Bug : Fixed CVS import crash\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

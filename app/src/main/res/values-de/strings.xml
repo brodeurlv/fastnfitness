@@ -93,25 +93,9 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string-array name="weight_units">
-        <item>@string/KgUnitLabel</item>
-        <item>@string/LbsUnitLabel</item>
-    </string-array>
-
-    <string-array name="fonte_unitsEnum">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
-
     <string name="maxRep1">Maximum (Wied. >= 1)</string>
     <string name="maxRep5d">Maximum (Wied. >= 5)</string>
     <string name="sum">Summe</string>
-    <string-array name="graph_functions">
-        <item>@string/maxRep1</item>
-        <item>@string/maxRep5d</item>
-        <item>@string/sum</item>
-    </string-array>
 
     <string name="all">Alle</string>
 
@@ -301,5 +285,6 @@
     <string name="no_chart_data_available">Keine Daten</string>
     <string name="light_mode">klar</string>
     <string name="remove_image">Lösche Bild</string>
+    <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
 </resources>
 
