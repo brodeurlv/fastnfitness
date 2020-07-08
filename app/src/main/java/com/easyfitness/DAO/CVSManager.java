@@ -328,19 +328,19 @@ public class CVSManager {
                             long exerciseId = dbcMachine.getMachine(exercise).getId();
                             ExerciseType exerciseType = dbcMachine.getMachine(exercise).getType();
 
-                            float poids = Float.valueOf(csvRecords.get(DAORecord.WEIGHT));
-                            int repetition = Integer.valueOf(csvRecords.get(DAORecord.REPS));
-                            int serie = Integer.valueOf(csvRecords.get(DAORecord.SETS));
+                            float poids = TryGetFloat(csvRecords.get(DAORecord.WEIGHT), 0);
+                            int repetition = TryGetInteger(csvRecords.get(DAORecord.REPS), 0);
+                            int serie = TryGetInteger(csvRecords.get(DAORecord.SETS), 0);
                             WeightUnit unit = WeightUnit.KG;
                             if (!csvRecords.get(DAORecord.WEIGHT_UNIT).isEmpty()) {
-                                unit = WeightUnit.fromInteger(Integer.valueOf(csvRecords.get(DAORecord.WEIGHT_UNIT)));
+                                unit = WeightUnit.fromInteger(TryGetInteger(csvRecords.get(DAORecord.WEIGHT_UNIT), WeightUnit.KG.ordinal()));
                             }
-                            int second = Integer.valueOf(csvRecords.get(DAORecord.SECONDS));
-                            float distance = Float.valueOf(csvRecords.get(DAORecord.DISTANCE));
-                            int duration = Integer.valueOf(csvRecords.get(DAORecord.DURATION));
+                            int second = TryGetInteger(csvRecords.get(DAORecord.SECONDS), 0);
+                            float distance = TryGetFloat(csvRecords.get(DAORecord.DISTANCE), 0);
+                            int duration = TryGetInteger(csvRecords.get(DAORecord.DURATION), 0);
                             DistanceUnit distance_unit = DistanceUnit.KM;
                             if (!csvRecords.get(DAORecord.DISTANCE_UNIT).isEmpty()) {
-                                distance_unit = DistanceUnit.fromInteger(Integer.valueOf(csvRecords.get(DAORecord.DISTANCE_UNIT)));
+                                distance_unit = DistanceUnit.fromInteger(TryGetInteger(csvRecords.get(DAORecord.DISTANCE_UNIT), DistanceUnit.KM.ordinal()));
                             }
                             String notes = csvRecords.get(DAORecord.NOTES);
 
@@ -382,7 +382,7 @@ public class CVSManager {
                         DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
                         dbcBodyMeasure.open();
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
-                        Unit unit = Unit.fromInteger(Integer.parseInt(csvRecords.get(DAOBodyMeasure.UNIT)));
+                        Unit unit = Unit.fromInteger(Integer.parseInt(csvRecords.get(DAOBodyMeasure.UNIT))); // Mandatory. Cannot not know the Unit.
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
@@ -414,8 +414,8 @@ public class CVSManager {
                         DAOMachine dbc = new DAOMachine(mContext);
                         String name = csvRecords.get(DAOMachine.NAME);
                         String description = csvRecords.get(DAOMachine.DESCRIPTION);
-                        ExerciseType type = ExerciseType.fromInteger(Integer.valueOf(csvRecords.get(DAOMachine.TYPE)));
-                        boolean favorite = Boolean.valueOf(csvRecords.get(DAOMachine.FAVORITES));
+                        ExerciseType type = ExerciseType.fromInteger(Integer.parseInt(csvRecords.get(DAOMachine.TYPE)));
+                        boolean favorite = TryGetBoolean(csvRecords.get(DAOMachine.FAVORITES), false);
                         String bodyParts = csvRecords.get(DAOMachine.BODYPARTS);
 
                         // Check if this machine doesn't exist
@@ -445,4 +445,37 @@ public class CVSManager {
 
         return ret;
     }
+
+    private int TryGetInteger(String value, int defaultValue) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    private float TryGetFloat(String value, float defaultValue) {
+        try {
+            return Float.parseFloat(value);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    private boolean TryGetBoolean(String value, boolean defaultValue) {
+        try {
+            return Boolean.parseBoolean(value);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    private Unit TryGetUnit(String value, Unit defaultValue) {
+        Unit unit = Unit.fromString(value);
+        if (unit!=null) {
+            return unit;
+        }
+        return defaultValue;
+    }
+
 }
