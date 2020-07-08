@@ -148,7 +148,7 @@ public class WeightFragment extends Fragment {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
                             float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.MUSCLES, value, getProfile().getId(), Unit.PERCENTAGE);
+                            mDbBodyMeasure.addBodyMeasure(date, BodyPartExtensions.WATER, value, getProfile().getId(), Unit.PERCENTAGE);
                             refreshData();
                         }
                     });
