@@ -23,6 +23,7 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -35,16 +36,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FonteHistoryFragment extends Fragment {
     Spinner dateList = null;
     Spinner exerciseList = null;
 
-    Button paramButton = null;
     ListView filterList = null;
 
     MainActivity mActivity = null;
+    private ProfileViMo profileViMo;
 
     List<String> mExerciseArray = null;
     List<String> mDateArray = null;
@@ -101,6 +103,7 @@ public class FonteHistoryFragment extends Fragment {
 
         }
     };
+
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -169,6 +172,17 @@ public class FonteHistoryFragment extends Fragment {
         filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         dateList.setOnItemSelectedListener(onItemSelectedList);
 
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+            if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
+                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
+                    .getSelectedItem().toString());
+            }
+        });
+
         return view;
     }
 
@@ -181,10 +195,6 @@ public class FonteHistoryFragment extends Fragment {
 
     public String getName() {
         return getArguments().getString("name");
-    }
-
-    public MainActivity getMainActivity() {
-        return this.mActivity;
     }
 
     /*  */
@@ -209,7 +219,7 @@ public class FonteHistoryFragment extends Fragment {
         }
 
         // Get Values
-        Cursor c = mDbRecord.getFilteredRecords(getProfil(), pMachine, pDate);
+        Cursor c = mDbRecord.getFilteredRecords(getProfile(), pMachine, pDate);
 
         List<Record> records = mDbRecord.fromCursorToList(c);
 
@@ -228,14 +238,14 @@ public class FonteHistoryFragment extends Fragment {
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
-            if (getProfil() != null) {
+            if (getProfile() != null) {
                 // If the fragment is used to display record of a specific machine
                 if (machineIdArg == -1) // Refresh the list
                 {
                     // Initialisation des machines
                     mExerciseArray.clear();
                     mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-                    mExerciseArray.addAll(mDbRecord.getAllMachinesStrList(getProfil()));
+                    mExerciseArray.addAll(mDbRecord.getAllMachinesStrList(getProfile()));
                     mAdapterMachine.notifyDataSetChanged();
                     mDbRecord.closeCursor();
 
@@ -253,10 +263,10 @@ public class FonteHistoryFragment extends Fragment {
     private void refreshDates(Machine m) {
         View fragmentView = getView();
         if (fragmentView != null) {
-            if (getProfil() != null) {
+            if (getProfile() != null) {
                 mDateArray.clear();
                 mDateArray.add(getView().getResources().getText(R.string.all).toString());
-                mDateArray.addAll(mDbRecord.getAllDatesList(getProfil(), m));
+                mDateArray.addAll(mDbRecord.getAllDatesList(getProfile(), m));
                 if (mDateArray.size() > 1) {
                     dateList.setSelection(1);
                 }
@@ -266,36 +276,7 @@ public class FonteHistoryFragment extends Fragment {
         }
     }
 
-    private Profile getProfil() {
-        return mActivity.getCurrentProfile();
-    }
-
-    private String getFontesMachine() {
-        return getMainActivity().getCurrentMachine();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
-            refreshData();
-        }
-    }
-
-    private void showDeleteDialog(final long idToDelete) {
-
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-            .setTitleText(getString(R.string.DeleteRecordDialog))
-            .setContentText(getResources().getText(R.string.areyousure).toString())
-            .setCancelText(getResources().getText(R.string.global_no).toString())
-            .setConfirmText(getResources().getText(R.string.global_yes).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                mDbRecord.deleteRecord(idToDelete);
-                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                    .getSelectedItem().toString());
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                sDialog.dismissWithAnimation();
-            })
-            .show();
+    private Profile getProfile() {
+        return profileViMo.getProfile().getValue();
     }
 }

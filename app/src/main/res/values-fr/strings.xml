@@ -43,7 +43,7 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
-    <string name="weightLabel">Poids(kg)</string>
+    <string name="weightLabel">Poids</string>
     <string name="measureLabel">Mesure</string>
     <string name="createProfilTitle">Créer un nouveau profil</string>
     <string name="createProfilQuestion">Choisis le nom de ton profil ?</string>
@@ -206,10 +206,10 @@
     <string name="menu_Workout">Entrainement</string>
     <string name="renameMachine_error_text2">ERREUR: cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
     <string name="recordcopied">Enregistrement copié</string>
-    <string name="fatLabel">Graisse(%)</string>
-    <string name="bonesLabel">Os(%)</string>
-    <string name="waterLabel">Eau(%)</string>
-    <string name="musclesLabel">Muscles(%)</string>
+    <string name="fatLabel">Graisse</string>
+    <string name="bonesLabel">Os</string>
+    <string name="waterLabel">Eau</string>
+    <string name="musclesLabel">Muscles</string>
     <string name="maleGender">Homme</string>
     <string name="femaleGender">Femme</string>
     <string name="otherGender">Autre</string>
@@ -288,7 +288,7 @@
     <string name="autoui_mode">Auto</string>
     <string name="details">Détails</string>
     <string name="unit_settings_title">Unités</string>
-    <string name="no_chart_data_available">Aucune donnée de graphique disponible</string>
+    <string name="no_chart_data_available">Aucun donnée</string>
     <string name="light_mode">Clair</string>
     <string name="remove_image">Supprimer l\'image</string>
 </resources>

@@ -28,8 +28,9 @@
     <string name="RepetitionLabel_short">Reps</string>
     <string name="MachineLabel">Exercise</string>
     <string name="PoidsLabel">Weight</string>
-    <string name="KgUnitLabel" translatable="false">Kg</string>
-    <string name="LbsUnitLabel" translatable="false">Lbs</string>
+    <string name="KgUnitLabel" translatable="false">kg</string>
+    <string name="LbsUnitLabel" translatable="false">lbs</string>
+    <string name="StonesUnitLabel" translatable="false">st</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Last records:</string>
 
@@ -44,17 +45,18 @@
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance</string>
-    <string name="KmUnitLabel" translatable="false">Km</string>
-    <string name="MilesUnitLabel" translatable="false">Miles</string>
     <string name="DurationLabel">Duration</string>
+
+    <string name="KmUnitLabel" translatable="false">km</string>
+    <string name="MilesUnitLabel" translatable="false">miles</string>
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Weight Track</string>
-    <string name="weightLabel">Weight(kg)</string>
-    <string name="fatLabel">Fat(%)</string>
-    <string name="bonesLabel">Bones(%)</string>
-    <string name="waterLabel">Water(%)</string>
-    <string name="musclesLabel">Muscles(%)</string>
+    <string name="weightLabel">Weight</string>
+    <string name="fatLabel">Fat</string>
+    <string name="bonesLabel">Bones</string>
+    <string name="waterLabel">Water</string>
+    <string name="musclesLabel">Muscles</string>
     <string name="measureLabel">Measure</string>
     <string name="sizeTableLabel">Measures history:</string>
     <string name="createProfilTitle">Create new profile</string>
@@ -94,6 +96,7 @@
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
     <string name="pref_preferredDistanceUnitTitle">Select your preferred distance unit</string>
+    <string name="pref_preferredSizeUnitTitle">Select your preferred size unit</string>
 
     <string name="profil_create_new">Create new profile</string>
     <string name="profil_change">Change profile</string>
@@ -111,11 +114,13 @@
     <string-array name="weight_units">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
+        <item>@string/StonesUnitLabel</item>
     </string-array>
 
     <string-array name="fonte_unitsEnum">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="distance_units">
@@ -126,6 +131,19 @@
     <string-array name="distance_unitsEnum">
         <item>0</item>
         <item>1</item>
+    </string-array>
+
+    <string name="CmUnitLabel" translatable="false">cm</string>
+    <string name="InUnitLabel" translatable="false">in</string>
+
+    <string-array name="size_units">
+        <item>@string/CmUnitLabel</item>
+        <item>@string/InUnitLabel</item>
+    </string-array>
+
+    <string-array name="size_unitsEnum">
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
@@ -348,6 +366,6 @@
     <string name="info">Data</string>
     <string name="details">Details</string>
     <string name="unit_settings_title">Units</string>
-    <string name="no_chart_data_available">No chart data available</string>
+    <string name="no_chart_data_available">No data</string>
     <string name="remove_image">Remove Image</string>
 </resources>

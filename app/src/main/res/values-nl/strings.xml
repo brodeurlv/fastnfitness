@@ -45,11 +45,11 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht Track</string>
-    <string name="weightLabel">Gewicht(kg)</string>
-    <string name="fatLabel">Vet(%)</string>
-    <string name="bonesLabel">Botten(%)</string>
-    <string name="waterLabel">Water(%)</string>
-    <string name="musclesLabel">Spieren(%)</string>
+    <string name="weightLabel">Gewicht</string>
+    <string name="fatLabel">Vet</string>
+    <string name="bonesLabel">Botten</string>
+    <string name="waterLabel">Water</string>
+    <string name="musclesLabel">Spieren</string>
     <string name="measureLabel">Afmetingen</string>
     <string name="sizeTableLabel">Afmetingen history:</string>
     <string name="createProfilTitle">Maak nieuw profiel</string>
@@ -318,7 +318,7 @@
     <string name="autoui_mode">Auto</string>
     <string name="details">Details</string>
     <string name="unit_settings_title">eenheden</string>
-    <string name="no_chart_data_available">Geen grafische afbeeldingen beschikbare gegevens</string>
+    <string name="no_chart_data_available">Geen gegevens</string>
     <string name="light_mode">Doorzichtig</string>
     <string name="remove_image">Verwijder afbeelding</string>
 

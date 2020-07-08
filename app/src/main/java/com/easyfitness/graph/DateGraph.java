@@ -9,6 +9,7 @@ import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -45,6 +46,7 @@ public class DateGraph {
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDrawBorders(true);
         mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
+        mChart.setExtraOffsets(0, 0, 0, 10);
 
         IMarker marker = new DateGraphMarkerView(mChart.getContext(), R.layout.graph_markerview, mChart);
         mChart.setMarker(marker);
@@ -53,10 +55,12 @@ public class DateGraph {
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
+        l.setTextSize(12);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
+        xAxis.setTextSize(14);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
         xAxis.setCenterAxisLabels(false);
@@ -80,6 +84,7 @@ public class DateGraph {
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
         leftAxis.setGranularity((float) 0.5);
+        leftAxis.setTextSize(12);
         leftAxis.resetAxisMinimum();
 
         mChart.getAxisRight().setEnabled(false);
@@ -174,6 +179,13 @@ public class DateGraph {
 
         // refresh
         mChart.invalidate();
+    }
+
+    public void setGraphDescription(String description) {
+        Description desc = new Description();
+        desc.setText(description);
+        desc.setTextSize(12);
+        mChart.setDescription(desc);
     }
 
     public enum zoomType {ZOOM_ALL, ZOOM_YEAR, ZOOM_MONTH, ZOOM_WEEK}

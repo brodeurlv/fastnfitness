@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
+
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -120,48 +122,13 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
     private boolean mMigrationBD15done = false;
+    private long mBackPressed;
+    private ProfileViMo profileViMo;
+
     private PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
             case R.id.create_newprofil:
                 getActivity().CreateNewProfil();
-                return true;
-            case R.id.photo_profil:
-                String[] optionListArray = new String[2];
-                optionListArray[0] = getActivity().getResources().getString(R.string.camera);
-                optionListArray[1] = getActivity().getResources().getString(R.string.gallery);
-                //profilListArray[2] = "Remove Image";
-
-                //requestPermissionForWriting(pF);
-
-                AlertDialog.Builder itemActionbuilder = new AlertDialog.Builder(getActivity());
-                itemActionbuilder.setTitle("").setItems(optionListArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ListView lv = ((AlertDialog) dialog).getListView();
-
-                        switch (which) {
-                            // Galery
-                            case 1:
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, ImageUtil.REQUEST_PICK_GALERY_PHOTO);
-                                break;
-                            // Camera with Cropping
-                            case 0:
-                                //dispatchTakePictureIntent(mF);
-                                // start picker to get image for cropping and then use the image in cropping activity
-                                CropImage.activity()
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(getActivity());
-                                break;
-                            case 2: // Delete picture
-
-                                break;
-                            // Camera
-                            default:
-                        }
-                    }
-                });
-                itemActionbuilder.show();
                 return true;
             case R.id.change_profil:
                 String[] profilListArray = getActivity().mDbProfils.getAllProfil();
@@ -205,8 +172,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
     };
-    private long mBackPressed;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -330,8 +295,6 @@ public class MainActivity extends AppCompatActivity {
             savePreferences();
         }
 
-
-
         if (savedInstanceState == null) {
             showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
             currentFragmentName = FONTESPAGER;
@@ -380,6 +343,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
+
+        profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
+        profileViMo.getProfile().observe(this, profile -> {
+            // Update UI
+            setDrawerTitle(profile.getName());
+            setPhotoProfile(profile.getPhoto());
+            savePreferences();
+        });
     }
 
     @Override
@@ -774,47 +745,18 @@ public class MainActivity extends AppCompatActivity {
         savePreferences();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public Profile getCurrentProfile() {
-        return mCurrentProfile;
+        return profileViMo.getProfile().getValue();
     }
 
-    //@SuppressLint("RestrictedApi")
     public void setCurrentProfil(String newProfilName) {
         Profile newProfil = this.mDbProfils.getProfil(newProfilName);
         setCurrentProfil(newProfil);
     }
 
     public void setCurrentProfil(Profile newProfil) {
-        if (newProfil != null)
-            if ( mCurrentProfile == null || mCurrentProfilID != newProfil.getId() || !mCurrentProfile.equals(newProfil)) {
-
-                mCurrentProfile = newProfil;
-                mCurrentProfilID = mCurrentProfile.getId();
-
-                // rafraichit le fragment courant
-                FragmentManager fragmentManager = getSupportFragmentManager();
-
-                // Moyen de rafraichir tous les fragments. Attention, les View des fragments peuvent avoir ete detruit.
-                // Il faut donc que cela soit pris en compte dans le refresh des fragments.
-                for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-                    if (fragmentManager.getFragments().get(i) != null)
-                        fragmentManager.getFragments().get(i).onHiddenChanged(false);
-                }
-
-                setDrawerTitle(mCurrentProfile.getName());
-                setPhotoProfile(mCurrentProfile.getPhoto());
-
-                savePreferences();
-            }
-    }
-
-    public long getCurrentProfilID() {
-        return mCurrentProfile.getId();
+        profileViMo.setProfile(newProfil);
+        savePreferences();
     }
 
     private void setPhotoProfile(String path) {
@@ -865,7 +807,7 @@ public class MainActivity extends AppCompatActivity {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        if (mCurrentProfile != null) editor.putLong("currentProfil", mCurrentProfile.getId());
+        if (profileViMo.getProfile().getValue() != null) editor.putLong("currentProfil", profileViMo.getProfile().getValue().getId());
         editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.putBoolean("migrationBD15done", mMigrationBD15done);
         editor.apply();

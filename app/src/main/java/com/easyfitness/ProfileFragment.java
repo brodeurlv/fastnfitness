@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -51,6 +53,7 @@ public class ProfileFragment extends Fragment {
     private ImageUtil imgUtil = null;
     private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
     private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private ProfileViMo profileViMo;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -161,6 +164,14 @@ public class ProfileFragment extends Fragment {
             requestForSave(imgUtil.getView());
         });
 
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            mProfile = profile;
+            refreshData();
+        });
+
         return view;
     }
 
@@ -218,7 +229,6 @@ public class ProfileFragment extends Fragment {
             birthdayEdit.setHint(getString(R.string.profileEnterYourBirthday));
         } else {
             birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
-            //sizeEdit.setNormalColor();
         }
 
         nameEdit.setText(mProfile.getName());
@@ -272,7 +282,7 @@ public class ProfileFragment extends Fragment {
         if (profileToUpdate) {
             mDb.updateProfile(mProfile);
             KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            mActivity.setCurrentProfil(mProfile);
+            profileViMo.setProfile(mProfile);
         }
     }
 
@@ -284,10 +294,10 @@ public class ProfileFragment extends Fragment {
         return this;
     }
 
-    @Override
+    /*@Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) refreshData();
-    }
+    }*/
 
     private boolean CreatePhotoSourceDialog() {
         if (imgUtil == null)

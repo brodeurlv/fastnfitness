@@ -42,11 +42,11 @@
 
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Monitor de peso</string>
-    <string name="weightLabel">Peso(kg)</string>
-    <string name="fatLabel">Gordura(%)</string>
-    <string name="bonesLabel">Ossos(%)</string>
-    <string name="waterLabel">Água(%)</string>
-    <string name="musclesLabel">Músculos(%)</string>
+    <string name="weightLabel">Peso</string>
+    <string name="fatLabel">Gordura</string>
+    <string name="bonesLabel">Ossos</string>
+    <string name="waterLabel">Água</string>
+    <string name="musclesLabel">Músculos</string>
     <string name="measureLabel">Medida</string>
     <string name="sizeTableLabel">Histórico de medida:</string>
     <string name="createProfilTitle">Criar novo perfil</string>
@@ -313,7 +313,7 @@
     <string name="info">Informações</string>
     <string name="details">Detalhes</string>
     <string name="unit_settings_title">Unidades</string>
-    <string name="no_chart_data_available">Não há gráficos de dados disponíveis</string>
+    <string name="no_chart_data_available">Não dados</string>
     <string name="author_label">Autor:</string>
     <string name="remove_image">Remover imagem</string>
 </resources>

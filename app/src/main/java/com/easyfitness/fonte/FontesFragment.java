@@ -44,6 +44,7 @@ import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.TimePickerDialogFragment;
@@ -72,6 +73,7 @@ import java.util.List;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FontesFragment extends Fragment {
@@ -135,8 +137,8 @@ public class FontesFragment extends Fragment {
         }
         return false;
     };
-    private BtnClickListener itemClickCopyRecord = id -> {
-        Record r = mDbRecord.getRecord(id);
+    private BtnClickListener itemClickCopyRecord = v -> {
+        Record r = mDbRecord.getRecord((long)v.getTag());
         if (r != null) {
             // Copy values above
             setCurrentMachine(r.getExercise());
@@ -489,6 +491,7 @@ public class FontesFragment extends Fragment {
             timeEdit.setText(DateConverter.currentTime());
         }
     };
+    private ProfileViMo profileViMo;
 
 
     /**
@@ -589,7 +592,12 @@ public class FontesFragment extends Fragment {
             }
         });
 
-
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+        });
 
         return view;
     }
@@ -783,7 +791,7 @@ public class FontesFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return getMainActivity().getCurrentProfile();
+        return profileViMo.getProfile().getValue();
     }
 
     public String getMachine() {
@@ -1073,9 +1081,9 @@ public class FontesFragment extends Fragment {
         detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
     }
 
-    @Override
+    /*@Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden)
             refreshData();
-    }
+    }*/
 }

@@ -12,7 +12,13 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.easyfitness.BtnClickListener;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.R;
+import com.easyfitness.enums.SizeUnit;
+import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.UnitConverter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,14 +30,14 @@ import static android.text.format.DateFormat.getDateFormat;
 
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 
-    BtnClickListener mDeleteClickListener = null;
+    BtnClickListener mClickListener = null;
     private LayoutInflater mInflater;
     private Context mContext = null;
 
     public BodyMeasureCursorAdapter(Context context, Cursor c, int flags, BtnClickListener mD) {
         super(context, c, flags);
         mContext = context;
-        mDeleteClickListener = mD;
+        mClickListener = mD;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -41,25 +47,28 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
         t0.setText(cursor.getString(0));
 
         TextView t1 = view.findViewById(R.id.LIST_BODYMEASURE_DATE);
-        Date date;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(cursor.getString(1));
+        Date date = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex(DAOBodyMeasure.DATE)));
+        String dateStr = DateConverter.dateToLocalDateStr(date, mContext);
+        t1.setText(dateStr);
 
-            //SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
-            //dateFormat2.setTimeZone(TimeZone.getTimeZone("GMT"));
-            //t1.setText(DateFormat.getDateInstance().format(date));
-            DateFormat dateFormat3 = getDateFormat(mContext.getApplicationContext());
-            dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
-            t1.setText(dateFormat3.format(date));
-        } catch (ParseException e) {
-            t1.setText("");
-            e.printStackTrace();
-        }
+        float measure = cursor.getFloat(cursor.getColumnIndex(DAOBodyMeasure.MEASURE));
+        Unit unit = Unit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOBodyMeasure.UNIT)));
+        /*switch (unit) {
+            case INCH:
+                measure = SizeUnit.CmToInch(measure);
+                break;
+            case LBS:
+                measure = UnitConverter.KgtoLbs(measure);
+                break;
+            case STONES:
+                measure = UnitConverter.KgtoStones(measure);
+                break;
+        }*/
+
+        String t2Str = String.format("%.1f", measure) + unit.toString();
 
         TextView t2 = view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
-        t2.setText(cursor.getString(3));
+        t2.setText(t2Str);
 
         CardView cdView = view.findViewById(R.id.CARDVIEW);
 
@@ -70,11 +79,18 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
             cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
         }
 
+        ImageView editImg = view.findViewById(R.id.editButton);
+        editImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOBodyMeasure.KEY)));
+        editImg.setOnClickListener(v -> {
+            if (mClickListener != null)
+                mClickListener.onBtnClick(v);
+        });
+
         ImageView deletImg = view.findViewById(R.id.deleteButton);
-        deletImg.setTag(cursor.getLong(0));
+        deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOBodyMeasure.KEY)));
         deletImg.setOnClickListener(v -> {
-            if (mDeleteClickListener != null)
-                mDeleteClickListener.onBtnClick((long) v.getTag());
+            if (mClickListener != null)
+                mClickListener.onBtnClick(v);
         });
 
     }

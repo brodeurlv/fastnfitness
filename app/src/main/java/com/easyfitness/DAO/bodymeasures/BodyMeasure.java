@@ -1,50 +1,57 @@
 package com.easyfitness.DAO.bodymeasures;
 
+import com.easyfitness.enums.Unit;
+
 import java.util.Date;
 
 /* DataBase Object */
 public class BodyMeasure {
     // Notez que l'identifiant est un long
-    private long id;
+    private long mId;
     private Date mDate;
     private int mBodypart_id;
     private float mMeasure;
+    private Unit mUnit;
     private long mProfil_id;
+    private String mTime;
 
-    public BodyMeasure(long id, Date pDate, int pBodypart_id, float pMeasure, long pProfil_id) {
+    public BodyMeasure(long id, Date pDate, int pBodypart_id, float pMeasure, long pProfil_id, Unit pUnit) {
         super();
-        this.id = id;
-        this.mDate = pDate;
-        this.mBodypart_id = pBodypart_id;
-        this.mMeasure = pMeasure;
-        this.mProfil_id = pProfil_id;
+        mId = id;
+        mDate = pDate;
+        mBodypart_id = pBodypart_id;
+        mMeasure = pMeasure;
+        mProfil_id = pProfil_id;
+        mUnit=pUnit;
     }
 
     public long getId() {
-        return id;
+        return mId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        mId = id;
     }
 
     public Date getDate() {
         return mDate;
     }
 
-    /**
-     * @return long Body Part ID
-     */
+    public String getTime() {
+        return mTime;
+    }
+
     public int getBodyPartID() {
         return mBodypart_id;
     }
 
-    public float getBodyMeasure() {
-        return mMeasure;
-    }
+    public float getBodyMeasure() { return mMeasure; }
 
     public long getProfileID() {
         return mProfil_id;
     }
+
+    public Unit getUnit() { return mUnit; }
+    public void setUnit(Unit unit) {  mUnit = unit; }
 
 }

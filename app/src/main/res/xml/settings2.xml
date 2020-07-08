@@ -16,6 +16,14 @@
             android:key="defaultDistanceUnit"
             android:summary=""
             android:title="@string/pref_preferredDistanceUnitTitle" />
+
+        <androidx.preference.ListPreference
+            android:defaultValue="5"
+            android:entries="@array/size_units"
+            android:entryValues="@array/size_unitsEnum"
+            android:key="defaultSizeUnit"
+            android:summary=""
+            android:title="@string/pref_preferredSizeUnitTitle" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_ui_setting">

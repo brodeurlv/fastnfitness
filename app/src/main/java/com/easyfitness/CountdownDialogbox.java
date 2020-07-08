@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.AlarmReceiver;
 import com.easyfitness.utils.UnitConverter;
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -113,10 +114,10 @@ public class CountdownDialogbox extends Dialog implements
             SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getContext());
             int defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
             DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (defaultUnit == UnitConverter.UNIT_KG) {
+            if (defaultUnit == WeightUnit.KG.ordinal()) {
                 totalMachine.setText(numberFormat.format(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
                 totalSession.setText(numberFormat.format(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
-            } else if (defaultUnit == UnitConverter.UNIT_LBS) {
+            } else if (defaultUnit == WeightUnit.LBS.ordinal()) {
                 totalMachine.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalMachine)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
                 totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
             }

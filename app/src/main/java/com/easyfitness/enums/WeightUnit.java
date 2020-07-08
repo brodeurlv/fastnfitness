@@ -1,8 +1,9 @@
 package com.easyfitness.enums;
 
 public enum WeightUnit {
-    KG("Kg"),
-    LBS("Lbs");
+    KG("kg"),
+    LBS("lbs"),
+    STONES("st");
 
     private String mDisplayName = "";
 
@@ -21,6 +22,8 @@ public enum WeightUnit {
                 return KG;
             case 1:
                 return LBS;
+            case 2:
+                return STONES;
         }
         return null;
     }
@@ -28,6 +31,19 @@ public enum WeightUnit {
     public static WeightUnit fromString(String x) {
         if (x.equals(KG.mDisplayName)) return KG;
         else if (x.equals(LBS.mDisplayName)) return LBS;
+        else if (x.equals(STONES.mDisplayName)) return STONES;
+        return null;
+    }
+
+    public Unit toUnit() {
+        switch(ordinal()) {
+            case 0:
+                return Unit.KG;
+            case 1:
+                return Unit.LBS;
+            case 2:
+                return Unit.STONES;
+        }
         return null;
     }
 }

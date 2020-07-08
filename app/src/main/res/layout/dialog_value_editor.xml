@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/EditorValueTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/edit"
+        android:textColor="@color/dialog_title_color"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/EditorValueDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/DateLabel"
+            app:value=""
+            app:type="date"
+            tool:value="10/12/2020"
+            tool:visibility="visible"
+            android:layout_weight="1" />
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/EditorValueTimeInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/timeLabel"
+            app:value=""
+            app:type="time"
+            tool:value="01:23:45"
+            tool:visibility="visible"
+            android:layout_weight="1"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <com.easyfitness.views.SingleValueInputView
+        android:id="@+id/EditorValueInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:showComment="false"
+        app:showUnit="true"
+        app:title="@string/edit_value"
+        app:value=""
+        tool:value="10"
+        tool:visibility="visible"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/global_cancel" />
+
+        <Button
+            android:id="@+id/btn_update"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/update" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.easyfitness.views;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -9,7 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easyfitness.R;
+import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Keyboard;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
+
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +37,7 @@ public class SingleValueInputView extends LinearLayout {
     private String mValue;
     private int mType;
     private boolean mIsTimePickerShown = false;
+    private boolean mIsDatePickerShown = false;
 
     public SingleValueInputView(@NonNull Context context) {
         super(context);
@@ -64,7 +70,7 @@ public class SingleValueInputView extends LinearLayout {
 
         try {
             mShowUnit = a.getBoolean(R.styleable.SingleValueInputView_showUnit, false);
-            setShowUnit(mShowUnit);
+            showUnit(mShowUnit);
             mShowComment = a.getBoolean(R.styleable.SingleValueInputView_showComment, false);
             setShowComment(mShowComment);
             mTitle = a.getString(R.styleable.SingleValueInputView_title);
@@ -89,7 +95,7 @@ public class SingleValueInputView extends LinearLayout {
         return mShowUnit;
     }
 
-    public void setShowUnit(boolean showUnit) {
+    public void showUnit(boolean showUnit) {
         mShowUnit = showUnit;
         if (!mShowUnit)
             unitSpinner.setVisibility(View.GONE);
@@ -194,6 +200,7 @@ public class SingleValueInputView extends LinearLayout {
             valueEditText.setOnClickListener(v -> {
                 if (mIsTimePickerShown) return;
                 String tx = valueEditText.getText().toString();
+
                 int hour;
                 try {
                     hour = Integer.parseInt(tx.substring(0, 2));
@@ -234,6 +241,27 @@ public class SingleValueInputView extends LinearLayout {
                 mTimePicker.setTitle("Select Time");
                 mIsTimePickerShown = true;
                 mTimePicker.show();
+            });
+        } else if (value == 2) { // date
+            valueEditText.setFocusable(false);
+            valueEditText.setOnClickListener(v -> {
+                if (mIsDatePickerShown) return;
+                String tx = valueEditText.getText().toString();
+
+                DatePickerDialog mDatePicker;
+                Calendar cal = Calendar.getInstance();
+                mDatePicker = new DatePickerDialog(this.getContext(),
+                    (view, year, month, day) -> {
+                        valueEditText.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+                        Keyboard.hide(getContext(), valueEditText); },
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH));
+
+                mDatePicker.setOnDismissListener(dialog -> mIsDatePickerShown = false);
+                mDatePicker.setTitle("Select Date");
+                mIsDatePickerShown = true;
+                mDatePicker.show();
             });
         } else {
             valueEditText.setFocusable(true);

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.easyfitness.BtnClickListener;
@@ -34,12 +35,18 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
+import com.easyfitness.SettingsFragment;
+import com.easyfitness.ValueEditorDialogbox;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.graph.DateGraph;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
+import com.easyfitness.views.SingleValueInputView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -62,82 +69,42 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private BodyPart mInitialBodyPart;
     private String mCurrentPhotoPath = null;
 
-    private BtnClickListener itemClickDeleteRecord = this::showDeleteDialog;
+    private BtnClickListener itemClickDeleteRecord = view -> {
+        switch (view.getId()) {
+            case R.id.deleteButton:
+                showDeleteDialog((long)view.getTag());
+                break;
+            case R.id.editButton:
+                showEditDialog((long)view.getTag());
+                break;
+
+        }
+    };
     private OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-
-            editDate = new TextView(getContext());
-            Date date = DateConverter.getNewDate();
-            editDate.setLayoutParams(params);
-            editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
-            editDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            editDate.setGravity(Gravity.CENTER);
-            editDate.setOnClickListener((view) -> {
-                Calendar calendar = Calendar.getInstance();
-
-                calendar.setTime(DateConverter.getNewDate());
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int month = calendar.get(Calendar.MONTH);
-                int year = calendar.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getBodyPartDetailsFragment(), year, month, day);
-
-                datePickerDialog.show();
+            ValueEditorDialogbox editorDialogbox;
+            BodyMeasure lastWeightValue = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
+            if (lastWeightValue == null) {
+                editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+            } else {
+                editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit());
+            }
+            editorDialogbox.setTitle(R.string.AddLabel);
+            editorDialogbox.setPositiveButton(R.string.AddLabel);
+            editorDialogbox.setOnDismissListener(dialog -> {
+                if (!editorDialogbox.isCancelled()) {
+                    Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                    float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                    Unit unit = Unit.fromString(editorDialogbox.getUnit());
+                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), value, getProfile().getId(), unit);
+                    refreshData();
+                }
             });
-
-            editText = new EditText(getContext());
-            editText.setText("");
-            editText.setHint("Enter value here");
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            editText.setGravity(Gravity.CENTER);
-            editText.setLayoutParams(params);
-            editText.requestFocus();
-            editText.selectAll();
-
-            LinearLayout linearLayout = new LinearLayout(getContext().getApplicationContext());
-
-            linearLayout.setLayoutParams(params);
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            linearLayout.addView(editDate);
-            linearLayout.addView(editText);
-
-            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getString(R.string.new_measure))
-                .showCancelButton(true)
-                .setCancelClickListener(sDialog -> {
-                    editText.clearFocus();
-                    Keyboard.hide(getContext(), editText);
-                    sDialog.dismissWithAnimation();})
-                .setCancelText(getContext().getString(R.string.global_cancel))
-                .setConfirmText(getContext().getString(R.string.AddLabel))
-                .setConfirmClickListener(sDialog -> {
-                    Keyboard.hide(sDialog.getContext(), editText);
-                    float value = 0;
-                    try {
-                        value = Float.parseFloat(editText.getText().toString());
-                        Date lDate = DateConverter.localDateStrToDate(editDate.getText().toString(), getContext());
-                        mBodyMeasureDb.addBodyMeasure(lDate, mInitialBodyPart.getId(), value, getProfile().getId());
-                        refreshData();
-                    } catch (Exception e) {
-                        KToast.errorToast(getActivity(),"Format Error", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                    }
-
-                    sDialog.dismissWithAnimation();
-                });
-            dialog.setCustomView(linearLayout);
-            dialog.setOnShowListener(sDialog -> Keyboard.show(getContext(), editText));
-            dialog.show();
+            editorDialogbox.show();
         }
     };
-
-    private BodyPartDetailsFragment getBodyPartDetailsFragment() {
-        return this;
-    }
+    private ProfileViMo profileViMo;
 
     private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
@@ -297,6 +264,13 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             deleteButton.setVisibility(View.GONE); // Weight bodypart should not be deleted.
         }
 
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+        });
+
         return view;
     }
 
@@ -320,7 +294,19 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         float minBodyMeasure = -1;
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
-            Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
+            float normalizedMeasure;
+            switch (valueList.get(i).getUnit().getUnitType()){
+                case WEIGHT:
+                    normalizedMeasure =UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(),SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+                    break;
+                case SIZE:
+                    normalizedMeasure =UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(),SettingsFragment.getDefaultSizeUnit(getActivity()));
+                    break;
+                default:
+                    normalizedMeasure=valueList.get(i).getBodyMeasure();
+            }
+
+            Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), normalizedMeasure);
             yVals.add(value);
             if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
             else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
@@ -389,8 +375,29 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
     }
 
+    private void showEditDialog(final long idToEdit) {
+        BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
+
+        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), bodyMeasure.getUnit());
+        editorDialogbox.setOnDismissListener(dialog -> {
+            if (!editorDialogbox.isCancelled()) {
+                Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                Unit unit = Unit.fromString(editorDialogbox.getUnit());
+
+                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
+                int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
+                refreshData();
+            }
+        });
+        editorDialogbox.setOnCancelListener(null);
+
+        editorDialogbox.show();
+    }
+
+
     private Profile getProfile() {
-        return ((MainActivity) getActivity()).getCurrentProfile();
+        return profileViMo.getProfile().getValue();
     }
 
     public Fragment getFragment() {
@@ -425,11 +432,4 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         if (editDate != null)
             editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
     }
-
-/*
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) refreshData();
-    }
-*/
 }

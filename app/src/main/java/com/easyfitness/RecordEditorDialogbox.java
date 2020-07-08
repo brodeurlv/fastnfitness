@@ -19,10 +19,9 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     private final boolean mShowRestTime;
     private Activity mActivity;
     public Dialog d;
-    private Button cancelButton;
-    private Button updateButton;
     private WorkoutValuesInputView mWorkoutValuesInput;
     private Record mRecord;
+    private boolean mCancelled=false;
 
     public RecordEditorDialogbox(Activity a, Record record) {
         super(a);
@@ -41,13 +40,11 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTitle(getContext().getResources().getString(R.string.ChronometerLabel)); //ChronometerLabel
         setContentView(R.layout.dialog_record_editor);
         this.setCanceledOnTouchOutside(false);
 
-        updateButton = findViewById(R.id.btn_update);
-        cancelButton = findViewById(R.id.btn_cancel);
+        Button updateButton = findViewById(R.id.btn_update);
+        Button cancelButton = findViewById(R.id.btn_cancel);
         mWorkoutValuesInput = findViewById(R.id.EditorWorkoutValuesInput);
 
         mWorkoutValuesInput.setRecord(mRecord);
@@ -61,6 +58,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_cancel) {
+            mCancelled=true;
             cancel();
         } else if (v.getId() == R.id.btn_update) {
             // update record
@@ -104,8 +102,11 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                 }
             }
             daoRecord.updateRecord(mRecord);
+            mCancelled = false;
             dismiss();
         }
     }
+
+    public boolean isCancelled() { return mCancelled; };
 
 }

@@ -216,7 +216,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 viewHolder.BtActionCopy.setTag(record.getId());
                 viewHolder.BtActionCopy.setOnClickListener(v -> {
                     if (mAction2ClickListener != null)
-                        mAction2ClickListener.onBtnClick((long) v.getTag());
+                        mAction2ClickListener.onBtnClick(v);
                 });
             }
 
@@ -377,16 +377,20 @@ public class RecordArrayAdapter extends ArrayAdapter{
     private void showEditorDialog(Record record, int position, ViewHolder viewHolder) {
         RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record, mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY);
         recordEditorDialogbox.setOnCancelListener(dialog -> {
-            if (mDisplayType==DisplayType.PROGRAM_RUNNING_DISPLAY) record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
-            mDbRecord.updateRecord(record);
-            UpdateRecordTypeUI(record, viewHolder);
-            UpdateValues(record, position, viewHolder);
-            notifyDataSetChanged();
+            if (mDisplayType==DisplayType.PROGRAM_RUNNING_DISPLAY) {
+                record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                mDbRecord.updateRecord(record);
+                UpdateRecordTypeUI(record, viewHolder);
+                UpdateValues(record, position, viewHolder);
+                notifyDataSetChanged();
+            }
             Keyboard.hide(getContext(), viewHolder.CardView);
         });
         recordEditorDialogbox.setOnDismissListener(dialog -> {
-            notifyDataSetChanged();
-            Keyboard.hide(getContext(), viewHolder.CardView);
+            if (!recordEditorDialogbox.isCancelled()) {
+                notifyDataSetChanged();
+                Keyboard.hide(getContext(), viewHolder.CardView);
+            }
         });
         recordEditorDialogbox.show();
     }

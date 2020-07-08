@@ -23,6 +23,7 @@ import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.program.ProgramHistory;
 import com.easyfitness.MainActivity;
+import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.ProgramRecordStatus;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramRunnerFragment extends Fragment {
@@ -55,6 +57,8 @@ public class ProgramRunnerFragment extends Fragment {
     private Program mRunningProgram;
     private ProgramHistory mRunningProgramHistory;
     private boolean mIsProgramRunning = false;
+
+    private ProfileViMo profileViMo;
 
     private View.OnClickListener onClickEditProgram = view -> {
 
@@ -146,6 +150,7 @@ public class ProgramRunnerFragment extends Fragment {
     };
 
 
+
     private void stopProgram(){
         mRunningProgramHistory.setEndDate(DateConverter.currentDate());
         mRunningProgramHistory.setEndTime(DateConverter.currentTime());
@@ -210,6 +215,8 @@ public class ProgramRunnerFragment extends Fragment {
         mDbWorkout = new DAOProgram(this.getContext());
         mDbWorkoutHistory = new DAOProgramHistory(this.getContext());
         mDbRecord = new DAORecord(this.getContext());
+
+
     }
 
     @Override
@@ -232,6 +239,13 @@ public class ProgramRunnerFragment extends Fragment {
         mProgramsSpinner.setOnItemSelectedListener(onProgramSelected);
         mNewButton.setOnClickListener(clickAddProgramButton);
         mEditButton.setOnClickListener(onClickEditProgram);
+
+        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+            // Update the UI, in this case, a TextView.
+            refreshData();
+        });
 
         return view;
     }
@@ -336,7 +350,7 @@ public class ProgramRunnerFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return ((MainActivity) getActivity()).getCurrentProfile();
+        return profileViMo.getProfile().getValue();
     }
 
 }

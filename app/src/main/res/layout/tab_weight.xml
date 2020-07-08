@@ -43,10 +43,9 @@
                         android:text="@string/weightLabel"
                         style="@style/CardViewTitle" />
 
-                    <com.easyfitness.views.EditableInputViewWithDate
+                    <TextView
                         android:id="@+id/weightInput"
                         android:text=" - "
-                        app:iconVisible="false"
                         tools:text="70.5"
                         android:title="@string/weightLabel"
                         style="@style/PrimaryWeightMeasure" />
@@ -88,7 +87,7 @@
                         android:text="@string/fatLabel"
                         style="@style/CardViewTitle" />
 
-                    <com.easyfitness.views.EditableInputViewWithDate
+                    <TextView
                         android:id="@+id/fatInput"
                         style="@style/PrimaryWeightMeasure"
                         android:title="@string/fatLabel"
@@ -143,7 +142,7 @@
                         style="@style/CardViewTitle"
                         android:text="@string/musclesLabel" />
 
-                    <com.easyfitness.views.EditableInputViewWithDate
+                    <TextView
                         android:id="@+id/musclesInput"
                         style="@style/PrimaryWeightMeasure"
                         android:title="@string/musclesLabel"
@@ -189,7 +188,7 @@
                         style="@style/CardViewTitle"
                         android:text="@string/waterLabel"/>
 
-                    <com.easyfitness.views.EditableInputViewWithDate
+                    <TextView
                         android:id="@+id/waterInput"
                         style="@style/PrimaryWeightMeasure"
                         android:title="@string/waterLabel"
