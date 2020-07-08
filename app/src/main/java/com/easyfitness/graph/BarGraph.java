@@ -5,6 +5,7 @@ import android.content.Context;
 import com.easyfitness.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -38,16 +39,20 @@ public class BarGraph {
         mChart.setVerticalScrollBarEnabled(true);
         mChart.setDrawBorders(true);
         mChart.setNoDataText(context.getString(R.string.no_chart_data_available));
+        mChart.setExtraOffsets(0, 0, 0, 10);
 
         mContext = context;
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
         l.setEnabled(false);
+        l.setTextSize(12);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(ColorTemplate.getHoloBlue());
         xAxis.setDrawAxisLine(false);
+        xAxis.setTextSize(14);
+
         xAxis.setGranularityEnabled(true);
         xAxis.setGranularity(1f);
 
@@ -57,6 +62,7 @@ public class BarGraph {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setGranularityEnabled(true);
         leftAxis.setGranularity((float) 1);
+        leftAxis.setTextSize(12);
 
         mChart.setFitBars(true);
         leftAxis.setAxisMinimum(0f);
@@ -101,6 +107,13 @@ public class BarGraph {
 
     public BarChart getChart() {
         return mChart;
+    }
+
+    public void setGraphDescription(String description) {
+        Description desc = new Description();
+        desc.setText(description);
+        desc.setTextSize(12);
+        mChart.setDescription(desc);
     }
 
 

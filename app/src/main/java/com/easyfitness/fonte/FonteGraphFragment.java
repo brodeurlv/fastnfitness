@@ -248,7 +248,7 @@ public class FonteGraphFragment extends Fragment {
         if (m == null) return;
         ArrayList<Entry> yVals = new ArrayList<>();
         ArrayList<BarEntry> yBarVals = new ArrayList<>();
-        Description desc = new Description();
+        String desc = "";
 
         if (m.getType() == ExerciseType.STRENGTH) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
@@ -274,7 +274,7 @@ public class FonteGraphFragment extends Fragment {
 
             for (int i = 0; i < valueList.size(); i++) {
                 Entry value = null;
-                desc.setText(lMachine + "/" + lFunction + "("+ defaultUnit.toString() +")");
+                desc = lMachine + "/" + lFunction + "("+ defaultUnit.toString() +")";
                 value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
 
                 yVals.add(value);
@@ -283,20 +283,20 @@ public class FonteGraphFragment extends Fragment {
             mBarGraph.getChart().setVisibility(View.GONE);
             mGraphZoomSelector.setVisibility(View.VISIBLE);
             mDateGraph.getChart().setVisibility(View.VISIBLE);
-            mDateGraph.getChart().setDescription(desc);
+            mDateGraph.setGraphDescription(desc);
             mDateGraph.draw(yVals);
         } else if (m.getType() == ExerciseType.CARDIO) {
             DistanceUnit defaultDistanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
 
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
                 lDAOFunction = DAOCardio.DISTANCE_FCT;
-                desc.setText(lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+")");
+                desc = lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+")";
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sumDuration))) {
                 lDAOFunction = DAOCardio.DURATION_FCT;
-                desc.setText(lMachine + "/" + lFunction + "(min)");
+                desc = lMachine + "/" + lFunction + "(min)";
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.speed))) {
                 lDAOFunction = DAOCardio.SPEED_FCT;
-                desc.setText(lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+"/h)");
+                desc = lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+"/h)";
             }
 
             // Recupere les enregistrements
@@ -327,7 +327,7 @@ public class FonteGraphFragment extends Fragment {
             mBarGraph.getChart().setVisibility(View.GONE);
             mGraphZoomSelector.setVisibility(View.VISIBLE);
             mDateGraph.getChart().setVisibility(View.VISIBLE);
-            mDateGraph.getChart().setDescription(desc);
+            mDateGraph.setGraphDescription(desc);
             mDateGraph.draw(yVals);
         } if (m.getType() == ExerciseType.ISOMETRIC) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxWeightPerDuration))) {
@@ -335,7 +335,7 @@ public class FonteGraphFragment extends Fragment {
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.nbSeriesPerDate))) {
                 lDAOFunction = DAOStatic.NBSERIE_FCT;
             }
-            desc.setText(lMachine + "/" + lFunction);
+            desc = lMachine + "/" + lFunction;
             // Recupere les enregistrements
             List<GraphData> valueList = null;
             valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
@@ -358,7 +358,7 @@ public class FonteGraphFragment extends Fragment {
                 mBarGraph.getChart().setVisibility(View.VISIBLE);
                 mGraphZoomSelector.setVisibility(View.GONE);
                 mDateGraph.getChart().setVisibility(View.GONE);
-                mBarGraph.getChart().setDescription(desc);
+                mBarGraph.setGraphDescription(desc);
                 mBarGraph.draw(yBarVals, xAxisLabel);
 
             } else if (lDAOFunction == DAOStatic.NBSERIE_FCT)  {
@@ -369,7 +369,7 @@ public class FonteGraphFragment extends Fragment {
                 mBarGraph.getChart().setVisibility(View.GONE);
                 mGraphZoomSelector.setVisibility(View.VISIBLE);
                 mDateGraph.getChart().setVisibility(View.VISIBLE);
-                mDateGraph.getChart().setDescription(desc);
+                mDateGraph.setGraphDescription(desc);
                 mDateGraph.draw(yVals);
             }
         }
