@@ -62,6 +62,8 @@ public class DAOStatic extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + SECONDS
                 + " ORDER BY " + SECONDS + " ASC";
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
@@ -69,6 +71,8 @@ public class DAOStatic extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else {
@@ -140,7 +144,8 @@ public class DAOStatic extends DAORecord {
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -179,7 +184,8 @@ public class DAOStatic extends DAORecord {
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -215,7 +221,8 @@ public class DAOStatic extends DAORecord {
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT  + " FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\""
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -245,7 +252,8 @@ public class DAOStatic extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
             + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -272,7 +280,8 @@ public class DAOStatic extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
             + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

@@ -72,6 +72,8 @@ public class DAOFonte extends DAORecord {
                 + WEIGHT + "), " + DATE + " FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOFonte.MAX5_FCT) {
@@ -80,6 +82,8 @@ public class DAOFonte extends DAORecord {
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + REPS + ">=5"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOFonte.MAX1_FCT) {
@@ -88,6 +92,8 @@ public class DAOFonte extends DAORecord {
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + REPS + ">=1"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOFonte.NBSERIE_FCT) {
@@ -95,6 +101,8 @@ public class DAOFonte extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         }
@@ -155,7 +163,8 @@ public class DAOFonte extends DAORecord {
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -194,7 +203,8 @@ public class DAOFonte extends DAORecord {
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + ", " + REPS + " FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -230,7 +240,8 @@ public class DAOFonte extends DAORecord {
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + ", " + REPS + " FROM " + TABLE_NAME
             + " WHERE " + DATE + "=\"" + lDate + "\""
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -260,7 +271,8 @@ public class DAOFonte extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
             + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -287,7 +299,8 @@ public class DAOFonte extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
             + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-            + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
+            + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
+            + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
