@@ -1,5 +1,17 @@
 ## Change Log
 
+### 0.19.1: July 10, 2020
+- Enhancement : Updated Exercise page UI (#130, #131, #132)
+- Enhancement : Added units for body measures (#102)
+- Bug : Fixed photo import from gallery on Android
+- Bug : Fixed program behavior when changing profile
+- Bug : Fixed crash after deleting a program that is in progress (#142) (Thank you @sdriv3r)
+- Bug : Fixed units not taking the values from settings (#140) (Thank you again @sdriv3r)
+- Bug : Fixed brazilian translation (#139) (Thank you again @rffontenelle)
+- Bug : Fixed CVS import crash
+- Bug : Fixed Bar Graph not at zero
+- Bug : Fixed Program template showing in graphs
+
 ### 0.19.0.1: June 20, 2020
 - Bug : Fixed Brazilian translation (#135) (Thanks @rffontenelle)
 
@@ -85,7 +97,7 @@
 
 ### 0.16.2 : January 16, 2019
 - Enhancement : It's now possible to copy existing records
-- Enhancement : Main list now displays last date history 
+- Enhancement : Main list now displays last date history
 - Enhancement : Refactoring for better performance
 - Enhancement : Added filtering in exercise page (thanks to @geniusupgrader)
 
@@ -97,7 +109,7 @@
 - Enhancement : Merged Cardio and Bodybuilding UI
 - Enhancement : UI improvement
 - Enhancement : Records are now visible on Exercise page
-- Bug : Removed case sensitivity for the Exercise list's order 
+- Bug : Removed case sensitivity for the Exercise list's order
 - Bug : Fixed crash on graph when less than 5 reps
 
 ### 0.15.3 : October 8, 2018
@@ -108,7 +120,7 @@
 
 ### 0.15.2 : September 19, 2018
 - Bug : Fixed intro
- 
+
 ### 0.15.1 : September 13, 2018
 - Bug : Fixed float issue for profile size
 - Bug : Fixed wrong image rotation
@@ -124,25 +136,25 @@
 - Enhancement : Added German language support (Thanks to @EGUltraTM)
 
 ### 0.14.5 - June 11, 2018
-- Enhancement : Ability to set a picture for the profile 
-- Enhancement : Crop tool for pictures 
+- Enhancement : Ability to set a picture for the profile
+- Enhancement : Crop tool for pictures
 - Enhancement : New Dialog box and Toast, Init optimization
 
 ### 0.14.4 - May 19, 2018
-- Bug : Fixed issue with Time dialog display on Android 8+ 
-- Bug : Fixed issue with Camera dialog display on Android 8+ 
-- Enhancement : Better exercise refresh 
-- Enhancement : Automatically close intro after profile creation 
+- Bug : Fixed issue with Time dialog display on Android 8+
+- Bug : Fixed issue with Camera dialog display on Android 8+
+- Enhancement : Better exercise refresh
+- Enhancement : Automatically close intro after profile creation
 - Enhancement : MP3 player hidden by default
 
 ### 0.14.3 - May 15, 2018
-- Bug : Fixed sum of weight during rest time 
-- Bug : Fixed some crash on app resume 
-- Enhancement : Added min and max value for exercises 
-- Enhancement : Performance enhancement 
-- Enhancement : Rest countdown vibrates 2 sec before the end 
-- Enhancement : Added cross in table to delete Weight and Body measurements 
-- Enhancement : Exercise list with icons and details 
+- Bug : Fixed sum of weight during rest time
+- Bug : Fixed some crash on app resume
+- Enhancement : Added min and max value for exercises
+- Enhancement : Performance enhancement
+- Enhancement : Rest countdown vibrates 2 sec before the end
+- Enhancement : Added cross in table to delete Weight and Body measurements
+- Enhancement : Exercise list with icons and details
 - Enhancement : Current exercise with icons
 
 ### 0.14.2 : February 18, 2018
