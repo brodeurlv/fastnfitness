@@ -75,6 +75,8 @@ public class DAOCardio extends DAORecord {
             selectQuery = "SELECT SUM(" + DISTANCE + "), " + DATE + " FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOCardio.DURATION_FCT) {
@@ -82,6 +84,8 @@ public class DAOCardio extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOCardio.SPEED_FCT) {
@@ -89,6 +93,8 @@ public class DAOCardio extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
@@ -96,6 +102,8 @@ public class DAOCardio extends DAORecord {
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + DATE
                 + " ORDER BY date(" + DATE + ") ASC";
         }

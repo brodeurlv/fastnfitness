@@ -258,6 +258,15 @@ public class MainActivity extends AppCompatActivity {
 
         loadPreferences();
 
+        profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
+        profileViMo.getProfile().observe(this, profile -> {
+            // Update UI
+            setDrawerTitle(profile.getName());
+            setPhotoProfile(profile.getPhoto());
+            mCurrentProfilID = profile.getId();
+            savePreferences();
+        });
+
         DatabaseHelper.renameOldDatabase(this);
 
         if (DatabaseHelper.DATABASE_VERSION >= 15 && !mMigrationBD15done) {
@@ -344,13 +353,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
 
-        profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
-        profileViMo.getProfile().observe(this, profile -> {
-            // Update UI
-            setDrawerTitle(profile.getName());
-            setPhotoProfile(profile.getPhoto());
-            savePreferences();
-        });
+
     }
 
     @Override
@@ -756,7 +759,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCurrentProfil(Profile newProfil) {
         profileViMo.setProfile(newProfil);
-        savePreferences();
     }
 
     private void setPhotoProfile(String path) {
@@ -807,7 +809,7 @@ public class MainActivity extends AppCompatActivity {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        if (profileViMo.getProfile().getValue() != null) editor.putLong("currentProfil", profileViMo.getProfile().getValue().getId());
+        editor.putLong("currentProfil", mCurrentProfilID);
         editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.putBoolean("migrationBD15done", mMigrationBD15done);
         editor.apply();

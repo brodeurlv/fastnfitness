@@ -503,13 +503,9 @@ public class RecordArrayAdapter extends ArrayAdapter{
     }
 
     private String weigthToString(float weight, WeightUnit unit) {
-        String defaultUnit = mContext.getString(R.string.KgUnitLabel);
-        if (unit == WeightUnit.LBS) {
-            weight = UnitConverter.KgtoLbs(weight);
-            defaultUnit = mContext.getString(R.string.LbsUnitLabel);
-        }
+        weight = UnitConverter.weightConverter(weight, WeightUnit.KG, unit);
         DecimalFormat numberFormat = new DecimalFormat("#.##");
-        return numberFormat.format(weight) + defaultUnit;
+        return numberFormat.format(weight) + unit.toString();
     }
 
     private String distanceToString(float distance, DistanceUnit unit) {

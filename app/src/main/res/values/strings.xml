@@ -29,7 +29,7 @@
     <string name="MachineLabel">Exercise</string>
     <string name="PoidsLabel">Weight</string>
     <string name="KgUnitLabel" translatable="false">kg</string>
-    <string name="LbsUnitLabel" translatable="false">lbs</string>
+    <string name="LbsUnitLabel" translatable="false">lb</string>
     <string name="StonesUnitLabel" translatable="false">st</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Last records:</string>
@@ -111,24 +111,24 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string-array name="weight_units">
+    <string-array name="weight_units" translatable="false">
         <item>@string/KgUnitLabel</item>
         <item>@string/LbsUnitLabel</item>
         <item>@string/StonesUnitLabel</item>
     </string-array>
 
-    <string-array name="fonte_unitsEnum">
+    <string-array name="fonte_unitsEnum" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
 
-    <string-array name="distance_units">
+    <string-array name="distance_units" translatable="false">
         <item>@string/KmUnitLabel</item>
         <item>@string/MilesUnitLabel</item>
     </string-array>
 
-    <string-array name="distance_unitsEnum">
+    <string-array name="distance_unitsEnum" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>
@@ -136,12 +136,12 @@
     <string name="CmUnitLabel" translatable="false">cm</string>
     <string name="InUnitLabel" translatable="false">in</string>
 
-    <string-array name="size_units">
+    <string-array name="size_units" translatable="false">
         <item>@string/CmUnitLabel</item>
         <item>@string/InUnitLabel</item>
     </string-array>
 
-    <string-array name="size_unitsEnum">
+    <string-array name="size_unitsEnum" translatable="false">
         <item>5</item>
         <item>6</item>
     </string-array>
@@ -149,7 +149,8 @@
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Sum</string>
-    <string-array name="graph_functions">
+
+    <string-array name="graph_functions" translatable="false">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
@@ -158,16 +159,17 @@
     <string name="sumDistance">Distance</string>
     <string name="sumDuration">Duration</string>
     <string name="speed">Speed</string>
-    <string-array name="graph_cardio_functions">
+
+    <string-array name="graph_cardio_functions" translatable="false">
         <item>@string/sumDistance</item>
         <item>@string/sumDuration</item>
         <item>@string/speed</item>
     </string-array>
 
-
     <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
     <string name="nbSeriesPerDate">Nb Sets per Date</string>
-    <string-array name="graph_static_functions">
+
+    <string-array name="graph_static_functions" translate="false">
         <item>@string/maxWeightPerDuration</item>
         <item>@string/nbSeriesPerDate</item>
     </string-array>

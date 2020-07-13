@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.AlarmReceiver;
 import com.easyfitness.utils.UnitConverter;
@@ -76,7 +77,7 @@ public class CountdownDialogbox extends Dialog implements
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
         }
     }
 
@@ -104,23 +105,16 @@ public class CountdownDialogbox extends Dialog implements
         LinearLayout totalExerciseLayout = findViewById(R.id.totalExerciseLayout);
         LinearLayout totalWorkoutLayout = findViewById(R.id.totalWorkoutLayout);
 
-
         progressCircle = findViewById(R.id.donut_progress);
         progressCircle.setMax(iRestTime);
 
         exit.setOnClickListener(this);
 
         if (mExerciseType!=ExerciseType.CARDIO) {
-            SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int defaultUnit = Integer.valueOf(SP.getString("defaultUnit", "0"));
+            WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(activity);
             DecimalFormat numberFormat = new DecimalFormat("#.##");
-            if (defaultUnit == WeightUnit.KG.ordinal()) {
-                totalMachine.setText(numberFormat.format(lTotalMachine) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
-                totalSession.setText(numberFormat.format(lTotalSession) + " " + this.getContext().getResources().getText(R.string.KgUnitLabel));
-            } else if (defaultUnit == WeightUnit.LBS.ordinal()) {
-                totalMachine.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalMachine)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
-                totalSession.setText(numberFormat.format(UnitConverter.KgtoLbs(lTotalSession)) + " " + this.getContext().getResources().getText(R.string.LbsUnitLabel));
-            }
+            totalMachine.setText(numberFormat.format(UnitConverter.weightConverter(lTotalMachine, Unit.KG, defaultUnit.toUnit())) + " " + defaultUnit.toString());
+            totalSession.setText(numberFormat.format(UnitConverter.weightConverter(lTotalSession, Unit.KG, defaultUnit.toUnit())) + " " + defaultUnit.toString());
             nbSeries.setText(Integer.toString(lNbSerie));
             String totalOnExerciseTitle = getContext().getString(R.string.total_on) + " " + mExercise.getName();
             totalOnExercise.setText(totalOnExerciseTitle);

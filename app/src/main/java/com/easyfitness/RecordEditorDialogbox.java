@@ -75,9 +75,8 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     break;
                 case ISOMETRIC:
                     float tmpPoids = mWorkoutValuesInput.getWeightValue();
-                    if (mWorkoutValuesInput.getWeightUnit()== WeightUnit.LBS) {
-                        tmpPoids = UnitConverter.LbstoKg(tmpPoids); // Always convert to KG
-                    }
+                    tmpPoids = UnitConverter.weightConverter(tmpPoids,mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setSeconds(mWorkoutValuesInput.getSeconds());
                     mRecord.setWeight(tmpPoids);
@@ -85,9 +84,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     break;
                 case STRENGTH:
                     float tmpWeight = mWorkoutValuesInput.getWeightValue();
-                    if (mWorkoutValuesInput.getWeightUnit()== WeightUnit.LBS) {
-                        tmpWeight = UnitConverter.LbstoKg(tmpWeight); // Always convert to KG
-                    }
+                    tmpPoids = UnitConverter.weightConverter(tmpWeight,mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setReps(mWorkoutValuesInput.getReps());
                     mRecord.setWeight(tmpWeight);

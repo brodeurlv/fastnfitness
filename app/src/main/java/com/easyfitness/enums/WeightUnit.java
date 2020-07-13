@@ -2,7 +2,7 @@ package com.easyfitness.enums;
 
 public enum WeightUnit {
     KG("kg"),
-    LBS("lbs"),
+    LBS("lb"),
     STONES("st");
 
     private String mDisplayName = "";

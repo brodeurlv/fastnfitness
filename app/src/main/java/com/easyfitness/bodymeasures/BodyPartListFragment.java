@@ -98,7 +98,6 @@ public class BodyPartListFragment extends Fragment {
     private DAOBodyPart mdbBodyPart;
     private DAOBodyMeasure mdbMeasure;
     private BodyPartListAdapter mListAdapter;
-    private Button addButton;
     private ProfileViMo profileViMo;
 
     /**
@@ -118,28 +117,22 @@ public class BodyPartListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mdbMeasure = new DAOBodyMeasure(this.getContext());
-        mdbBodyPart = new DAOBodyPart(this.getContext());
-        dataModels = new ArrayList<>();
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_bodytracking, container, false);
 
-        addButton = view.findViewById(R.id.addBodyPart);
+        Button addButton = view.findViewById(R.id.addBodyPart);
         addButton.setOnClickListener(clickAddButton);
 
         measureList = view.findViewById(R.id.listBodyMeasures);
         // Initialisation des evenements
         measureList.setOnItemClickListener(onClickListItem);
+
+        mdbMeasure = new DAOBodyMeasure(this.getContext());
+        mdbBodyPart = new DAOBodyPart(this.getContext());
+        dataModels = new ArrayList<>();
 
         profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.

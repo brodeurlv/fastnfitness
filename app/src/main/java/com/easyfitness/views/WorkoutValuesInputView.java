@@ -337,18 +337,12 @@ public class WorkoutValuesInputView extends LinearLayout {
         case STRENGTH:
             setSets(record.getSets());
             setReps(record.getReps());
-            if (record.getWeightUnit() == WeightUnit.LBS)
-                setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
-            else
-                setWeight(record.getWeight(), WeightUnit.KG);
+            setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
             break;
         case ISOMETRIC:
             setSets(record.getSets());
             setSeconds(record.getSeconds());
-            if (record.getWeightUnit() == WeightUnit.LBS)
-                setWeight(UnitConverter.KgtoLbs(record.getWeight()), WeightUnit.LBS);
-            else
-                setWeight(record.getWeight(), WeightUnit.KG);
+            setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
         case CARDIO:
             setDuration(record.getDuration());
             if (record.getDistanceUnit() == DistanceUnit.MILES)

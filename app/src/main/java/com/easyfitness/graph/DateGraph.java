@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.Utils;
@@ -65,12 +66,12 @@ public class DateGraph {
         xAxis.setDrawGridLines(true);
         xAxis.setCenterAxisLabels(false);
         xAxis.setGranularity(1); // 1 jour
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
+        xAxis.setValueFormatter(new ValueFormatter() {
 
-            private SimpleDateFormat mFormat = new SimpleDateFormat("dd-MMM"); // HH:mm:ss
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MMM"); // HH:mm:ss
 
             @Override
-            public String getFormattedValue(float value, AxisBase axis) {
+            public String getFormattedValue(float value) {
                 //long millis = TimeUnit.HOURS.toMillis((long) value);
                 mFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 Date tmpDate = new Date((long) DateConverter.nbMilliseconds(value)); // Convert days in milliseconds
@@ -118,11 +119,11 @@ public class DateGraph {
         // Create a data object with the datasets
         LineData data = new LineData(set1);
 
-        data.setValueFormatter(new IValueFormatter() {
+        data.setValueFormatter(new ValueFormatter() {
             private DecimalFormat mFormat = new DecimalFormat("#.##");
 
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return mFormat.format(value);
             }
         });

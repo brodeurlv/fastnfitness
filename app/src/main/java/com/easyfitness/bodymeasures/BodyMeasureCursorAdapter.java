@@ -53,17 +53,6 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 
         float measure = cursor.getFloat(cursor.getColumnIndex(DAOBodyMeasure.MEASURE));
         Unit unit = Unit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOBodyMeasure.UNIT)));
-        /*switch (unit) {
-            case INCH:
-                measure = SizeUnit.CmToInch(measure);
-                break;
-            case LBS:
-                measure = UnitConverter.KgtoLbs(measure);
-                break;
-            case STONES:
-                measure = UnitConverter.KgtoStones(measure);
-                break;
-        }*/
 
         String t2Str = String.format("%.1f", measure) + unit.toString();
 
@@ -74,9 +63,9 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
 
         int mFirstColorOdd = 0;
         if (cursor.getPosition() % 2 == mFirstColorOdd) {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.record_background_even));
+            cdView.setCardBackgroundColor(context.getResources().getColor(R.color.record_background_even));
         } else {
-            cdView.setBackgroundColor(context.getResources().getColor(R.color.background));
+            cdView.setCardBackgroundColor(context.getResources().getColor(R.color.record_background_odd));
         }
 
         ImageView editImg = view.findViewById(R.id.editButton);
