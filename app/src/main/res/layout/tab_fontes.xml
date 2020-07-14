@@ -59,7 +59,7 @@
                         android:layout_toEndOf="@+id/imageMachine"
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
+                        android:inputType="text|textCapWords|textAutoComplete"
                         android:singleLine="true" />
 
                     <ImageButton
