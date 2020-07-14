@@ -13,6 +13,7 @@
     </declare-styleable>
 
     <declare-styleable name="SingleValueInputView">
+        <attr name="android:imeOptions" />
         <attr name="showUnit" format="boolean" />
         <attr name="units" format="reference" />
         <attr name="showComment" format="boolean" />

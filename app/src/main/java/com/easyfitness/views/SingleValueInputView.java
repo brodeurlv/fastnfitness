@@ -38,6 +38,7 @@ public class SingleValueInputView extends LinearLayout {
     private int mType;
     private boolean mIsTimePickerShown = false;
     private boolean mIsDatePickerShown = false;
+    private int mImeOptions;
 
     public SingleValueInputView(@NonNull Context context) {
         super(context);
@@ -86,6 +87,8 @@ public class SingleValueInputView extends LinearLayout {
             {
                 setUnits(entries);
             }
+            mImeOptions = a.getInt(R.styleable.SingleValueInputView_android_imeOptions, 0);
+            valueEditText.setImeOptions(mImeOptions);
         } finally {
             a.recycle();
         }
