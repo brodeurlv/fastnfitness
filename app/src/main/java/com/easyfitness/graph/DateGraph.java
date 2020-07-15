@@ -139,29 +139,27 @@ public class DateGraph {
     }
 
     public void setZoom(ZoomType z) {
+        mChart.fitScreen();
         switch (z) {
             case ZOOM_ALL:
-                mChart.fitScreen();
+
                 break;
             case ZOOM_WEEK:
-                mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 7); // allow 20 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (1 - 7)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() + (7)); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_MONTH:
-                mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 30); // allow 30 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (30 - 1)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (30)); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_YEAR:
-                mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 365); // allow 365 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (365 - 1)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (365)); // set the left edge of the chart to x-index 10
                 }
                 break;
         }
