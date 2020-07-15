@@ -73,8 +73,13 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
             case DISTANCE:
                 valueEdit.setUnits(new CharSequence[]{Unit.KM.toString(), Unit.MILES.toString()});
                 break;
+            case PERCENTAGE:
+                valueEdit.setUnits(new CharSequence[]{Unit.PERCENTAGE.toString()});
+                valueEdit.showUnit(true);
+                break;
             case NONE:
             default:
+                valueEdit.setUnits(new CharSequence[]{Unit.UNITLESS.toString()});
                 valueEdit.showUnit(false);
         }
 

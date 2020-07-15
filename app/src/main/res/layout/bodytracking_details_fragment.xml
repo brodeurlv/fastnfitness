@@ -103,14 +103,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.github.mikephil.charting.charts.LineChart
+                <com.easyfitness.views.GraphView
                     android:id="@+id/bodymeasureChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dip"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    app:graphType="date"
+                    app:name=""/>
 
             </androidx.cardview.widget.CardView>
 

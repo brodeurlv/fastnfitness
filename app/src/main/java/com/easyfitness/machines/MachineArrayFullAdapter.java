@@ -35,7 +35,7 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.machinelist_row, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.exercise_list_row, parent, false);
         }
         TextView t0 = convertView.findViewById(R.id.LIST_MACHINE_ID);
         t0.setText(String.valueOf(machine.getId()));

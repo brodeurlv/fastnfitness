@@ -219,6 +219,13 @@
     <string name="graph_lastmonth">Last Month</string>
     <string name="graph_lastweek">Last Week</string>
 
+    <string-array name="zoom_list">
+        <item>@string/graph_all</item>
+        <item>@string/graph_lastyear</item>
+        <item>@string/graph_lastmonth</item>
+        <item>@string/graph_lastweek</item>
+    </string-array>
+
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronometer</string>
     <string name="CountdownLabel">Rest time</string>

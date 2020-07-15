@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="6dip">
 
     <TextView
@@ -12,30 +12,24 @@
         android:layout_height="0dp"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:padding="0dip"
-        android:weightSum="100">
+    <TextView
+        android:id="@+id/LIST_WORKOUT_NAME"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="25"
+        android:gravity="center_vertical"
+        tools:text="Name"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/LIST_WORKOUT_NAME"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="25"
-            android:gravity="center_vertical"
-            android:text="Name"
-            android:textSize="16sp" />
-
-        <TextView
+    <TextView
         android:id="@+id/LIST_WORKOUT_DESCRIPTION"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25"
         android:gravity="center_vertical"
-        android:text="Description"
+        tools:text="@string/description"
         android:textSize="12sp" />
 
-    </LinearLayout>
+
+
 </LinearLayout>

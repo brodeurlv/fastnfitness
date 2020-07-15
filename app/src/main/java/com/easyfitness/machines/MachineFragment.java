@@ -42,8 +42,6 @@ public class MachineFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             if (charSequence.length() == 0) {
-//                mTableAdapter.notifyDataSetChanged();
-//                mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
                 refreshData();
             } else {
                 if (mTableAdapter != null) {

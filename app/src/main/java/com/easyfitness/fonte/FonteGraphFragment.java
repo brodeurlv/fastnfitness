@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,19 +28,17 @@ import com.easyfitness.ProfileViMo;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.BarGraph;
 import com.easyfitness.graph.DateGraph;
-import com.easyfitness.graph.DateGraph.zoomType;
+import com.easyfitness.graph.ZoomType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 
@@ -57,7 +54,7 @@ public class FonteGraphFragment extends Fragment {
     private int id;
     private Spinner functionList = null;
     private Spinner machineList = null;
-    private zoomType currentZoom = zoomType.ZOOM_ALL;
+    private ZoomType currentZoom = ZoomType.ZOOM_ALL;
     private DateGraph mDateGraph = null;
     private LineChart mLineChart = null;
     private LinearLayout mGraphZoomSelector = null;
@@ -89,16 +86,16 @@ public class FonteGraphFragment extends Fragment {
     private OnClickListener onZoomClick = v -> {
         switch (v.getId()) {
             case R.id.allbutton:
-                currentZoom = zoomType.ZOOM_ALL;
+                currentZoom = ZoomType.ZOOM_ALL;
                 break;
             case R.id.lastweekbutton:
-                currentZoom = zoomType.ZOOM_WEEK;
+                currentZoom = ZoomType.ZOOM_WEEK;
                 break;
             case R.id.lastmonthbutton:
-                currentZoom = zoomType.ZOOM_MONTH;
+                currentZoom = ZoomType.ZOOM_MONTH;
                 break;
             case R.id.lastyearbutton:
-                currentZoom = zoomType.ZOOM_YEAR;
+                currentZoom = ZoomType.ZOOM_YEAR;
                 break;
         }
         mDateGraph.setZoom(currentZoom);

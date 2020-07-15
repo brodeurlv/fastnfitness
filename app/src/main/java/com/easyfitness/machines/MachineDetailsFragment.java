@@ -2,7 +2,6 @@ package com.easyfitness.machines;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,17 +18,13 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
@@ -131,7 +126,7 @@ public class MachineDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.machine_details, container, false);
+        View view = inflater.inflate(R.layout.exercise_details, container, false);
         fragmentView = view;
 
         // Initialisation de l'historique

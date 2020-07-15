@@ -1,6 +1,8 @@
 package com.easyfitness.DAO.bodymeasures;
 
 import com.easyfitness.R;
+import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.UnitType;
 
 /* DataBase Object */
 public class BodyPartExtensions {
@@ -145,5 +147,19 @@ public class BodyPartExtensions {
         }
 
         return -1;
+    }
+
+    public static UnitType getUnitType(int pBodyID) {
+        switch (pBodyID) {
+            case WEIGHT:
+                return UnitType.WEIGHT;
+            case FAT:
+            case BONES:
+            case WATER:
+            case MUSCLES:
+                return UnitType.PERCENTAGE;
+            default:
+                return UnitType.SIZE;
+        }
     }
 }

@@ -36,4 +36,12 @@
             <enum name="isometric" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="GraphView">
+        <attr name="name" format="string" />
+        <attr name="graphType" format="enum">
+            <enum name="date" value="0" />
+            <enum name="bar" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

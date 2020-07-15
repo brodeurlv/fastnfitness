@@ -5,8 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +22,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Profile;
@@ -40,19 +36,16 @@ import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.ValueEditorDialogbox;
 import com.easyfitness.enums.Unit;
-import com.easyfitness.graph.DateGraph;
+import com.easyfitness.enums.UnitType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.ExpandedListView;
-import com.easyfitness.utils.Keyboard;
-import com.easyfitness.views.SingleValueInputView;
-import com.github.mikephil.charting.charts.LineChart;
+import com.easyfitness.views.GraphView;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,8 +55,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private EditableInputView nameEdit = null;
     private ExpandedListView measureList = null;
     private Toolbar bodyToolbar = null;
-    private LineChart mChart = null;
-    private DateGraph mDateGraph = null;
+    private GraphView mDateGraph = null;
     private DAOBodyMeasure mBodyMeasureDb = null;
     private DAOBodyPart mDbBodyPart;
     private BodyPart mInitialBodyPart;
@@ -84,12 +76,16 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         @Override
         public void onClick(View v) {
             ValueEditorDialogbox editorDialogbox;
-            BodyMeasure lastWeightValue = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
-            if (lastWeightValue == null) {
-                editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+            BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
+            double lastValue;
+            if (lastBodyMeasure == null) {
+                lastValue=0;
             } else {
-                editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit());
+                lastValue=lastBodyMeasure.getBodyMeasure();
             }
+            Unit unitDef = getValidUnit(lastBodyMeasure);
+
+            editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
             editorDialogbox.setOnDismissListener(dialog -> {
@@ -216,6 +212,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         bodyToolbar = view.findViewById(R.id.bodyTrackingDetailsToolbar);
         bodyPartImageView = view.findViewById(R.id.BODYPART_LOGO);
         CardView nameCardView = view.findViewById(R.id.nameCardView);
+        mDateGraph = view.findViewById(R.id.bodymeasureChart);
 
         /* Initialisation BodyPart */
         long bodyPartID = getArguments().getLong("bodyPartID", 0);
@@ -245,11 +242,6 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         measureList.setOnItemLongClickListener(itemlongclickDeleteRecord);
 
         /* Initialisation des evenements */
-
-        // Add the other graph
-        mChart = view.findViewById(R.id.bodymeasureChart);
-        mChart.setDescription(null);
-        mDateGraph = new DateGraph(getContext(), mChart, "");
         mBodyMeasureDb = new DAOBodyMeasure(view.getContext());
 
         ((MainActivity) getActivity()).getActivityToolbar().setVisibility(View.GONE);
@@ -285,7 +277,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         // Recupere les enregistrements
         if (valueList.size() < 1) {
-            mChart.clear();
+            mDateGraph.clear();
             return;
         }
 
@@ -372,13 +364,12 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
             .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
-
     }
 
     private void showEditDialog(final long idToEdit) {
         BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
 
-        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), bodyMeasure.getUnit());
+        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), getValidUnit(bodyMeasure));
         editorDialogbox.setOnDismissListener(dialog -> {
             if (!editorDialogbox.isCancelled()) {
                 Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
@@ -431,5 +422,34 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         Date date = DateConverter.dateToDate(year, month, dayOfMonth);
         if (editDate != null)
             editDate.setText(DateConverter.dateToLocalDateStr(date, getContext()));
+    }
+
+    private Unit getValidUnit(BodyMeasure lastBodyMeasure) {
+        UnitType unitType = BodyPartExtensions.getUnitType(mInitialBodyPart.getBodyPartResKey());
+        if (lastBodyMeasure != null) {
+            if (unitType!=lastBodyMeasure.getUnit().getUnitType())
+            {
+                lastBodyMeasure=null;
+            }
+        }
+
+        Unit unitDef=Unit.UNITLESS;
+        if (lastBodyMeasure == null) {
+            switch (unitType) {
+                case WEIGHT:
+                    unitDef = SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit();
+                    break;
+                case SIZE:
+                    unitDef = SettingsFragment.getDefaultSizeUnit(getActivity());
+                    break;
+                case PERCENTAGE:
+                    unitDef = Unit.PERCENTAGE;
+                    break;
+            }
+        }
+        else {
+            unitDef=lastBodyMeasure.getUnit();
+        }
+        return unitDef;
     }
 }

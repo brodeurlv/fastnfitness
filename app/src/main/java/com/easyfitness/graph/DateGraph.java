@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.Legend;
@@ -17,15 +16,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.Utils;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -99,8 +95,6 @@ public class DateGraph {
 
         Collections.sort(entries, new EntryXComparator());
 
-        //Log.d("DEBUG", arrayToString(entries));
-
         LineDataSet set1 = new LineDataSet(entries, mChartName);
         set1.setLineWidth(3f);
         set1.setCircleRadius(4f);
@@ -118,15 +112,9 @@ public class DateGraph {
 
         // Create a data object with the datasets
         LineData data = new LineData(set1);
-
-        data.setValueFormatter(new ValueFormatter() {
-            private DecimalFormat mFormat = new DecimalFormat("#.##");
-
-            @Override
-            public String getFormattedValue(float value) {
-                return mFormat.format(value);
-            }
-        });
+        data.setValueTextColor(mContext.getResources().getColor(R.color.cardview_title_color));
+        data.setValueTextSize(12f);
+        data.setValueFormatter(new DefaultValueFormatter(2));
 
         // Set data
         mChart.setData(data);
@@ -150,7 +138,7 @@ public class DateGraph {
         return mChart;
     }
 
-    public void setZoom(zoomType z) {
+    public void setZoom(ZoomType z) {
         switch (z) {
             case ZOOM_ALL:
                 mChart.fitScreen();
@@ -166,14 +154,14 @@ public class DateGraph {
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 30); // allow 30 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 30)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (30 - 1)); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_YEAR:
                 mChart.fitScreen();
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 365); // allow 365 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() + (float) (1 - 365)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (365 - 1)); // set the left edge of the chart to x-index 10
                 }
                 break;
         }
@@ -189,5 +177,4 @@ public class DateGraph {
         mChart.setDescription(desc);
     }
 
-    public enum zoomType {ZOOM_ALL, ZOOM_YEAR, ZOOM_MONTH, ZOOM_WEEK}
 }
