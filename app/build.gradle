@@ -53,6 +53,7 @@ android {
                 signingConfig signingConfigs.debug
             }
             buildConfigField "Boolean", "DEBUG_MODE", "true"
+            applicationIdSuffix ".debug"
         }
     }
 
