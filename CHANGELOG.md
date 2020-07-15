@@ -1,5 +1,11 @@
 ## Change Log
 
+### 0.19.2: July 15, 2020
+- Enhancement : Update the zoom feature for body tracking graph (#158)
+- Enhancement : Several UI enhancement (#147, #155) (Thank you @ironjan)
+- Bug : Fixed Body measure in kg/lbs/st while it should be in cm/in (#160)
+- Bug : Fixed spanish translation (#151) (Thank you @J053Fabi0)
+
 ### 0.19.1: July 10, 2020
 - Enhancement : Updated Exercise page UI (#130, #131, #132)
 - Enhancement : Added units for body measures (#102)
@@ -61,7 +67,6 @@
 
 ### 0.18.3: July 19, 2019
 - Enhancement : Removed Firebase
-
 ### 0.18.2: July 09, 2019
 - Bug : CSV export fixes (#74, #75, #76, #77)
 - Enhancement : Spanish traduction (Thanks to @sguinetti)

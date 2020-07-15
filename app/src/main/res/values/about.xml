@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.19.2BETA</string>
+    <string name="app_version" translatable="false">0.19.2</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,9 +10,12 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.2: TBD\n
-\t-
-
+v0.19.2: July 15, 2020\n
+\t- Enhancement : Update the zoom feature for body tracking graph (#158)\n
+\t- Enhancement : Several UI enhancement (#147, #155) (Thank you @ironjan)\n
+\t- Bug : Fixed Body measure in kg/lbs/st while it should be in cm/in (#160)\n
+\t- Bug : Fixed spanish translation (#151) (Thank you @J053Fabi0)\n
+\n
 v0.19.1: July 10, 2020\n
 \t- Enhancement : Updated Exercise page UI (#130, #131, #132)\n
 \t- Enhancement : Added units for body measures (#102)\n
