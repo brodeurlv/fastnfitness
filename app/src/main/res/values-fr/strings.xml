@@ -117,9 +117,9 @@
 
     <!-- DateGraph -->
     <string name="graph_all">Tout</string>
-    <string name="graph_lastyear">Cette année</string>
-    <string name="graph_lastmonth">Ce Mois</string>
-    <string name="graph_lastweek">Cette semaine</string>
+    <string name="graph_lastyear">Dernière année</string>
+    <string name="graph_lastmonth">Dernier mois</string>
+    <string name="graph_lastweek">Dernière semaine</string>
 
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
