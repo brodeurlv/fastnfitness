@@ -635,24 +635,46 @@ public class DAORecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines) {
-        return getAllRecordByMachinesArray(pProfile, pMachines, -1);
+    public List<Record> getAllRecordByMachineStrArray(Profile pProfile, String pMachines) {
+        return getAllRecordByMachineStrArray(pProfile, pMachines, -1);
     }
 
-    public List<Record> getAllRecordByMachinesArray(Profile pProfile, String pMachines, int pNbRecords) {
+    public List<Record> getAllRecordByMachineStrArray(Profile pProfile, String pMachines, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
-            + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
         return getRecordsList(selectQuery);
     }
+
+    public List<Record> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId, int pNbRecords) {
+        String mTop;
+        if (pNbRecords == -1) mTop = "";
+        else mTop = " LIMIT " + pNbRecords;
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + EXERCISE_KEY + "=\"" + pMachineId + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE + " DESC," + KEY + " DESC" + mTop;
+
+        // return value list
+        return getRecordsList(selectQuery);
+    }
+
+    // Get all record for one Machine
+    public List<Record> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId) {
+        return getAllRecordByMachineIdArray(pProfile, pMachineId, -1);
+    }
+
+
 
     public List<Record> getAllTemplateRecordByProgramArray(long pTemplateId) {
         // Select All Query

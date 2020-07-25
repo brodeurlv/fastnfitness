@@ -18,7 +18,6 @@ Graphics will show your progress and your body evolution.
 
 Don't leave the app to get your music : a music player is integrated into the app!
 
-
 ## Development
 
 For development, [Android Studio](https://developer.android.com/studio/) with [gradle](https://gradle.org/) is used. If you want to develop and contribute, the easiest way is to use Android Studio as well.

@@ -3,7 +3,6 @@ package com.easyfitness.machines;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +24,6 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.List;
 
@@ -186,7 +184,7 @@ public class ExerciseDetailsPager extends Fragment {
 
         Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
 
-        List<Record> listRecords = mDbRecord.getAllRecordByMachinesArray(lProfile, machine.getName());
+        List<Record> listRecords = mDbRecord.getAllRecordByMachineStrArray(lProfile, machine.getName());
         for (Record record : listRecords) {
             mDbRecord.deleteRecord(record.getId());
         }

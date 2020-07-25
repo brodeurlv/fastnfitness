@@ -49,8 +49,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 
 public class MachineDetailsFragment extends Fragment {
     protected List<String> _musclesArray = new ArrayList<String>();
@@ -255,22 +253,6 @@ public class MachineDetailsFragment extends Fragment {
         }
 
         return view;
-    }
-
-    private void showDeleteDialog(final long idToDelete) {
-
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-            .setTitleText(getString(R.string.DeleteRecordDialog))
-            .setContentText(getResources().getText(R.string.areyousure).toString())
-            .setCancelText(getResources().getText(R.string.global_no).toString())
-            .setConfirmText(getResources().getText(R.string.global_yes).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                mDbRecord.deleteRecord(idToDelete);
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                sDialog.dismissWithAnimation();
-            })
-            .show();
     }
 
     private boolean CreateMuscleDialog() {
@@ -506,13 +488,17 @@ public class MachineDetailsFragment extends Fragment {
     }
 
     public Machine getMachine() {
-        Machine m = mMachine;
-        m.setName(machineName.getText());
+        Machine m = new Machine(machineName.getText(),
+                machineDescription.getText(),
+                selectedType,
+                getDBStringFromInput(musclesList.getText().toString()),mCurrentPhotoPath,mMachine.getFavorite());
+        m.setId(mMachine.getId());
+        /*m.setName(machineName.getText());
         m.setDescription(machineDescription.getText());
         m.setBodyParts(getDBStringFromInput(musclesList.getText().toString()));
         m.setPicture(mCurrentPhotoPath);
-        //m.setFavorite(false);
-        //m.setType(selectedType);
+        m.setFavorite(false);
+        m.setType(selectedType);*/
         return m;
     }
 
@@ -527,7 +513,7 @@ public class MachineDetailsFragment extends Fragment {
             KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         } else if (!initialMachine.getName().equals(lMachineName)) {
             final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
-            // Si une machine existe avec le meme nom => Merge
+            // if an exercise exists with the same name but different types then block.
             if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() != machineWithSameName.getType()) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
@@ -537,7 +523,9 @@ public class MachineDetailsFragment extends Fragment {
 
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
+
             } else if (machineWithSameName != null && newMachine.getId() != machineWithSameName.getId() && newMachine.getType() == machineWithSameName.getType()) {
+                // if an exercise exists with the same name but with same types then merge.
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 
                 dialogBuilder.setTitle(getActivity().getResources().getText(R.string.global_warning));
@@ -549,7 +537,7 @@ public class MachineDetailsFragment extends Fragment {
                     DAOProfile mDbProfil = new DAOProfile(getView().getContext());
                     Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
 
-                    List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                    List<Record> listRecords = lDbRecord.getAllRecordByMachineStrArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                     for (Record record : listRecords) {
                         record.setExercise(newMachine.getName()); // Change avec le nouveau nom. Normalement pas utile.
                         record.setExerciseId(machineWithSameName.getId()); // Met l'ID de la nouvelle machine
@@ -575,7 +563,8 @@ public class MachineDetailsFragment extends Fragment {
                 DAORecord lDbRecord = new DAORecord(getContext());
                 DAOProfile mDbProfil = new DAOProfile(getContext());
                 Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
-                List<Record> listRecords = lDbRecord.getAllRecordByMachinesArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
+                // Recupere tous les records de la machine courante
+                List<Record> listRecords = lDbRecord.getAllRecordByMachineIdArray(lProfile, initialMachine.getId());
                 for (Record record : listRecords) {
                     record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
                     lDbRecord.updateRecord(record); // met a jour
