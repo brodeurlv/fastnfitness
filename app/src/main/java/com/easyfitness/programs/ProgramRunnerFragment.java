@@ -123,8 +123,11 @@ public class ProgramRunnerFragment extends Fragment {
 
     private View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram==null) {
+            if (mProgramsSpinner.getSelectedItem()==null) return;
+            long runningProgramId=mRunningProgram.getId();
+            long profileId=getProfile().getId();
             mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
-            ProgramHistory programHistory = new ProgramHistory(-1, mRunningProgram.getId(), getProfile().getId(), ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
+            ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
             long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
             mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
             mProgramsSpinner.setEnabled(false);
