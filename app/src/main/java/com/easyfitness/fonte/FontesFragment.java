@@ -441,7 +441,6 @@ public class FontesFragment extends Fragment {
         if (hasFocus) {
             switch (v.getId()) {
                 case R.id.editMachine:
-                    machineEdit.setText("");
                     switch (workoutValuesInputView.getSelectedType()) {
                         case CARDIO:
                             machineImage.setImageResource(R.drawable.ic_training_white_50dp);
