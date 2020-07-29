@@ -439,26 +439,19 @@ public class FontesFragment extends Fragment {
     };
     private OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
         if (hasFocus) {
-            switch (v.getId()) {
-                case R.id.editMachine:
-                    updateMachineImage();
+            updateMachineImage();
 
-                    workoutValuesInputView.setWeightComment("");
-                    workoutValuesInputView.setShowExerciseTypeSelector(true);
-                    break;
-            }
+            workoutValuesInputView.setWeightComment("");
+            workoutValuesInputView.setShowExerciseTypeSelector(true);
+
             v.post(() -> {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
             });
-        } else if (!hasFocus) {
-            switch (v.getId()) {
-                case R.id.editMachine:
-                    // If a creation of a new machine is not ongoing.
-                    if (!workoutValuesInputView.isShowExerciseTypeSelector())
-                        setCurrentMachine(machineEdit.getText().toString());
-                    break;
-            }
+        } else {
+            // If a creation of a new machine is not ongoing.
+            if (!workoutValuesInputView.isShowExerciseTypeSelector())
+                setCurrentMachine(machineEdit.getText().toString());
         }
     };
 
