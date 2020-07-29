@@ -453,6 +453,7 @@ public class FontesFragment extends Fragment {
             if (!workoutValuesInputView.isShowExerciseTypeSelector())
                 setCurrentMachine(machineEdit.getText().toString());
         }
+        updateMachineImage();
     };
 
     private void updateMachineImage() {
