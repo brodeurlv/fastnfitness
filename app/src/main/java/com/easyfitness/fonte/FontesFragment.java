@@ -441,17 +441,7 @@ public class FontesFragment extends Fragment {
         if (hasFocus) {
             switch (v.getId()) {
                 case R.id.editMachine:
-                    switch (workoutValuesInputView.getSelectedType()) {
-                        case CARDIO:
-                            machineImage.setImageResource(R.drawable.ic_training_white_50dp);
-                            break;
-                        case ISOMETRIC:
-                            machineImage.setImageResource(R.drawable.ic_static);
-                            break;
-                        case STRENGTH:
-                        default:
-                            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
-                    }
+                    updateMachineImage();
 
                     workoutValuesInputView.setWeightComment("");
                     workoutValuesInputView.setShowExerciseTypeSelector(true);
@@ -471,6 +461,21 @@ public class FontesFragment extends Fragment {
             }
         }
     };
+
+    private void updateMachineImage() {
+        switch (workoutValuesInputView.getSelectedType()) {
+            case CARDIO:
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                break;
+            case ISOMETRIC:
+                machineImage.setImageResource(R.drawable.ic_static);
+                break;
+            case STRENGTH:
+            default:
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        }
+    }
+
     private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
         dateEdit.setEnabled(!isChecked);
         timeEdit.setEnabled(!isChecked);
@@ -775,17 +780,7 @@ public class FontesFragment extends Fragment {
 
     private void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
-            switch (workoutValuesInputView.getSelectedType()) {
-                case CARDIO:
-                    machineImage.setImageResource(R.drawable.ic_training_white_50dp);
-                    break;
-                case ISOMETRIC:
-                    machineImage.setImageResource(R.drawable.ic_static);
-                    break;
-                case STRENGTH:
-                default:
-                    machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
-            }
+            updateMachineImage();
             machineImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             // Default image
             workoutValuesInputView.setShowExerciseTypeSelector(true);
