@@ -123,10 +123,9 @@ public class ProgramRunnerFragment extends Fragment {
 
     private View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram==null) {
-            if (mProgramsSpinner.getSelectedItem()==null) return;
+            mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
             long runningProgramId=mRunningProgram.getId();
             long profileId=getProfile().getId();
-            mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
             ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
             long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
             mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
@@ -147,8 +146,12 @@ public class ProgramRunnerFragment extends Fragment {
             }
             // refresh table
             refreshData();
-        } else {
+
+
+        }else if (mRunningProgram!=null) {
             stopProgram();
+        }else{
+            System.out.println("Start Stop button exception -programrunnergfragment.java-");
         }
     };
 
