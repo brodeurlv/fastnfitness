@@ -455,6 +455,7 @@ public class DAORecord extends DAOBase {
             if (pProfile != null)
                 selectQuery += " WHERE " + PROFILE_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
         }
+        selectQuery += " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal();
         selectQuery += " ORDER BY " + DATE + " DESC";
 
         mCursor = db.rawQuery(selectQuery, null);
