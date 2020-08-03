@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,13 +132,40 @@ public class FontesFragment extends Fragment {
         saveSharedParams();
     };
     private View.OnKeyListener checkExerciseExists = (v, keyCode, event) -> {
-        Machine lMach = mDbMachine.getMachine(machineEdit.getText().toString());
-        if (lMach == null) {
-            workoutValuesInputView.setShowExerciseTypeSelector(true);
-        } else {
-            changeExerciseTypeUI(lMach.getType(), false);
+        String exerciseName = machineEdit.getText().toString();
+        MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
+        if (adapter!=null) {
+            boolean exerciseExists = adapter.containsExercise(exerciseName);
+            if (exerciseExists == false) {
+                workoutValuesInputView.setShowExerciseTypeSelector(true);
+                updateMachineImage();
+            } else {
+                setCurrentMachine(exerciseName);
+            }
         }
         return false;
+    };
+
+    private TextWatcher exerciseTextWatcher =  new TextWatcher () {
+        public void afterTextChanged(Editable s) {
+            String exerciseName = s.toString();
+            MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
+            if (adapter!=null) {
+                boolean exerciseExists = adapter.containsExercise(exerciseName);
+                if (exerciseExists == false) {
+                    workoutValuesInputView.setShowExerciseTypeSelector(true);
+                    updateMachineImage();
+                } else {
+                    setCurrentMachine(exerciseName);
+                }
+            }
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     };
     private BtnClickListener itemClickCopyRecord = v -> {
         Record r = mDbRecord.getRecord((long)v.getTag());
@@ -347,11 +376,6 @@ public class FontesFragment extends Fragment {
 
         refreshData();
 
-        /* Reinitialisation des machines */
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getView().getContext(),
-            android.R.layout.simple_dropdown_item_1line, mDbRecord.getAllMachines(getProfile()));
-        machineEdit.setAdapter(adapter);
-
         //Rajoute le moment du dernier ajout dans le bouton Add
         if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY)
             addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
@@ -439,39 +463,37 @@ public class FontesFragment extends Fragment {
     };
     private OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
         if (hasFocus) {
-            switch (v.getId()) {
-                case R.id.editMachine:
-                    machineEdit.setText("");
-                    switch (workoutValuesInputView.getSelectedType()) {
-                        case CARDIO:
-                            machineImage.setImageResource(R.drawable.ic_training_white_50dp);
-                            break;
-                        case ISOMETRIC:
-                            machineImage.setImageResource(R.drawable.ic_static);
-                            break;
-                        case STRENGTH:
-                        default:
-                            machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
-                    }
+            updateMachineImage();
 
-                    workoutValuesInputView.setWeightComment("");
-                    workoutValuesInputView.setShowExerciseTypeSelector(true);
-                    break;
-            }
+            workoutValuesInputView.setWeightComment("");
+            workoutValuesInputView.setShowExerciseTypeSelector(true);
+
             v.post(() -> {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
             });
-        } else if (!hasFocus) {
-            switch (v.getId()) {
-                case R.id.editMachine:
-                    // If a creation of a new machine is not ongoing.
-                    if (!workoutValuesInputView.isShowExerciseTypeSelector())
-                        setCurrentMachine(machineEdit.getText().toString());
-                    break;
-            }
+        } else {
+            // If a creation of a new machine is not ongoing.
+            if (!workoutValuesInputView.isShowExerciseTypeSelector())
+                setCurrentMachine(machineEdit.getText().toString());
         }
+        updateMachineImage();
     };
+
+    private void updateMachineImage() {
+        switch (workoutValuesInputView.getSelectedType()) {
+            case CARDIO:
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                break;
+            case ISOMETRIC:
+                machineImage.setImageResource(R.drawable.ic_static);
+                break;
+            case STRENGTH:
+            default:
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        }
+    }
+
     private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
         dateEdit.setEnabled(!isChecked);
         timeEdit.setEnabled(!isChecked);
@@ -533,8 +555,9 @@ public class FontesFragment extends Fragment {
         timeEdit.setOnClickListener(clickDateEdit);
         autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
 
-        machineEdit.setOnKeyListener(checkExerciseExists);
-        machineEdit.setOnFocusChangeListener(touchRazEdit);
+        //machineEdit.setOnKeyListener(checkExerciseExists);
+        machineEdit.addTextChangedListener(exerciseTextWatcher);
+        //machineEdit.setOnFocusChangeListener(touchRazEdit);
         machineEdit.setOnItemClickListener(onItemClickFilterList);
         recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
@@ -776,17 +799,7 @@ public class FontesFragment extends Fragment {
 
     private void setCurrentMachine(String machineStr) {
         if (machineStr.isEmpty()) {
-            switch (workoutValuesInputView.getSelectedType()) {
-                case CARDIO:
-                    machineImage.setImageResource(R.drawable.ic_training_white_50dp);
-                    break;
-                case ISOMETRIC:
-                    machineImage.setImageResource(R.drawable.ic_static);
-                    break;
-                case STRENGTH:
-                default:
-                    machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
-            }
+            updateMachineImage();
             machineImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             // Default image
             workoutValuesInputView.setShowExerciseTypeSelector(true);
@@ -804,7 +817,9 @@ public class FontesFragment extends Fragment {
         }
 
         // Update EditView
-        machineEdit.setText(lMachine.getName());
+        if (!machineEdit.getText().toString().equals(lMachine.getName()))
+            machineEdit.setText(lMachine.getName());
+
         // Update exercise Image
         // Default image
         switch (lMachine.getType()) {

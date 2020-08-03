@@ -15,6 +15,8 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+
 /**
  * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
  * de jonction de table
@@ -25,6 +27,15 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
 
     public MachineArrayFullAdapter(Context context, ArrayList<Machine> machines) {
         super(context, 0, machines);
+    }
+
+    public boolean containsExercise(String exerciseName) {
+        for (int i = 0;i<this.getCount();i++) {
+            if (this.getItem(i).getName().equals(exerciseName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -67,5 +78,7 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
         iFav.setFavorite(machine.getFavorite());
         return convertView;
     }
+
+
 }
 

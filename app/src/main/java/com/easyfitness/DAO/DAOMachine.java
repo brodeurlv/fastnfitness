@@ -124,8 +124,16 @@ public class DAOMachine extends DAOBase {
     }
 
     public boolean machineExists(String name) {
-        Machine lMach = getMachine(name);
-        return lMach != null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        mCursor = db.query(TABLE_NAME, new String[]{NAME}, NAME + "=?",
+            new String[]{name}, null, null, null, null);
+        if (mCursor != null)
+            mCursor.moveToFirst();
+
+        if (mCursor.getCount() == 0)
+            return false;
+        return true;
     }
 
     // Getting All Records
