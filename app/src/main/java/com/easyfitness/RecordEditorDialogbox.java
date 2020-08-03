@@ -87,7 +87,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     tmpPoids = UnitConverter.weightConverter(tmpWeight,mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setReps(mWorkoutValuesInput.getReps());
-                    mRecord.setWeight(tmpWeight);
+                    mRecord.setWeight(tmpPoids);
                     mRecord.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     break;
             }
