@@ -122,32 +122,33 @@ public class ProgramRunnerFragment extends Fragment {
     };
 
     private View.OnClickListener clickStartStopButton = v -> {
-        if (mRunningProgram==null) {
-            if (mProgramsSpinner.getSelectedItem()==null) return;
-            long runningProgramId=mRunningProgram.getId();
-            long profileId=getProfile().getId();
+        if (mRunningProgram == null) {
             mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
-            ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
-            long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
-            mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
-            mProgramsSpinner.setEnabled(false);
-            mStartStopButton.setText(R.string.finish_program);
+            if (mRunningProgram != null) {
+                long runningProgramId = mRunningProgram.getId();
+                long profileId = getProfile().getId();
+                ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
+                long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
+                mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
+                mProgramsSpinner.setEnabled(false);
+                mStartStopButton.setText(R.string.finish_program);
 
-            // add all template records with status "Pending"
-            Cursor cursor = mDbRecord.getProgramTemplateRecords(((Program)mProgramsSpinner.getSelectedItem()).getId());
-            List<Record> recordList = mDbRecord.fromCursorToList(cursor);
-            for (Record record:recordList)
-            {
-                record.setTemplateRecordId(record.getId());
-                record.setTemplateSessionId(workoutHistoryId);
-                record.setRecordType(RecordType.PROGRAM_RECORD_TYPE);
-                record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
-                record.setProfileId(getProfile().getId());
-                mDbRecord.addRecord(record);
+                // add all template records with status "Pending"
+                Cursor cursor = mDbRecord.getProgramTemplateRecords(((Program) mProgramsSpinner.getSelectedItem()).getId());
+                List<Record> recordList = mDbRecord.fromCursorToList(cursor);
+                for (Record record : recordList) {
+                    record.setTemplateRecordId(record.getId());
+                    record.setTemplateSessionId(workoutHistoryId);
+                    record.setRecordType(RecordType.PROGRAM_RECORD_TYPE);
+                    record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                    record.setProfileId(getProfile().getId());
+                    mDbRecord.addRecord(record);
+                }
+                // refresh table
+                refreshData();
             }
-            // refresh table
-            refreshData();
-        } else {
+
+        }else{
             stopProgram();
         }
     };
