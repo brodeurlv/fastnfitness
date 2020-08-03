@@ -148,10 +148,8 @@ public class ProgramRunnerFragment extends Fragment {
                 refreshData();
             }
 
-        }else if (mRunningProgram!=null) {
-            stopProgram();
         }else{
-            System.out.println("Start Stop button exception -programrunnergfragment.java-");
+            stopProgram();
         }
     };
 
