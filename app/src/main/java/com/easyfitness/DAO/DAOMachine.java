@@ -221,7 +221,7 @@ public class DAOMachine extends DAOBase {
 
 
     /**
-     * @return List of Machine object ordered by Favorite and Name
+     * List of Machine object ordered by Favorite and Name
      */
     public void deleteAllEmptyExercises() {
         SQLiteDatabase db = this.getWritableDatabase();

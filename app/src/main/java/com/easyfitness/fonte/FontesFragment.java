@@ -131,20 +131,6 @@ public class FontesFragment extends Fragment {
         detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
         saveSharedParams();
     };
-    private View.OnKeyListener checkExerciseExists = (v, keyCode, event) -> {
-        String exerciseName = machineEdit.getText().toString();
-        MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
-        if (adapter!=null) {
-            boolean exerciseExists = adapter.containsExercise(exerciseName);
-            if (exerciseExists == false) {
-                workoutValuesInputView.setShowExerciseTypeSelector(true);
-                updateMachineImage();
-            } else {
-                setCurrentMachine(exerciseName);
-            }
-        }
-        return false;
-    };
 
     private TextWatcher exerciseTextWatcher =  new TextWatcher () {
         public void afterTextChanged(Editable s) {
