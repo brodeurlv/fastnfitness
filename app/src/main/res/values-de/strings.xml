@@ -286,5 +286,6 @@
     <string name="light_mode">klar</string>
     <string name="remove_image">Lösche Bild</string>
     <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
+    <string name="program_completed">Sie haben Ihr Programm abgeschlossen! Wollen Sie es schließen?</string>
 </resources>
 

@@ -287,6 +287,7 @@
     <string name="light_mode">Doorzichtig</string>
     <string name="remove_image">Verwijder afbeelding</string>
     <string name="pref_preferredSizeUnitTitle">Selecteer je gewenste grootte unit</string>
+    <string name="program_completed">U hebt uw programma afgerond! Wilt u om te sluiten?</string>
 
 </resources>
 

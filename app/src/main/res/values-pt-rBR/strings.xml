@@ -307,4 +307,5 @@
     <string name="no_chart_data_available">Nenhum dado</string>
     <string name="author_label">Autor:</string>
     <string name="remove_image">Remover imagem</string>
+    <string name="program_completed">Você completou seu programa! Você quer fechá-lo?</string>
 </resources>

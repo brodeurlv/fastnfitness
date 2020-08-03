@@ -377,4 +377,5 @@
     <string name="unit_settings_title">Units</string>
     <string name="no_chart_data_available">No data</string>
     <string name="remove_image">Remove Image</string>
+    <string name="program_completed">You have completed your program ! Do you want to close it ?</string>
 </resources>

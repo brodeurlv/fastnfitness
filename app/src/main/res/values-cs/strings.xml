@@ -287,5 +287,6 @@
     <string name="light_mode">Průhledná</string>
     <string name="remove_image">Delete image</string>
     <string name="pref_preferredSizeUnitTitle">Zvolit preferovanou velikost jednotky</string>
+    <string name="program_completed">Jste dokončili program! Chcete ji zavřít?</string>
 
 </resources>
