@@ -167,10 +167,12 @@
     </string-array>
 
     <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
+    <string name="maxLengthPerDate">Max duration per Date</string>
     <string name="nbSeriesPerDate">Nb Sets per Date</string>
 
     <string-array name="graph_static_functions" translate="false">
         <item>@string/maxWeightPerDuration</item>
+        <item>@string/maxLengthPerDate</item>
         <item>@string/nbSeriesPerDate</item>
     </string-array>
 

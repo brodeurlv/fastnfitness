@@ -308,4 +308,5 @@
     <string name="author_label">Autor:</string>
     <string name="remove_image">Remover imagem</string>
     <string name="program_completed">Você completou seu programa! Você quer fechá-lo?</string>
+    <string name="maxLengthPerDate">Max. duração por Data</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.19.2</string>
+    <string name="app_version" translatable="false">0.19.3</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,23 +10,14 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.2: July 15, 2020\n
-\t- Enhancement : Update the zoom feature for body tracking graph (#158)\n
-\t- Enhancement : Several UI enhancement (#147, #155) (Thank you @ironjan)\n
-\t- Bug : Fixed Body measure in kg/lbs/st while it should be in cm/in (#160)\n
-\t- Bug : Fixed spanish translation (#151) (Thank you @J053Fabi0)\n
+v0.19.3: August 3, 2020\n
+\t- Enhancement : Update auto clear mechanism for Exercise (#154) (Thank you ironjan)\n
+\t- Enhancement : Added max length graphic for isometric exercises \n
+\t- Bug : Fixed timer not vibrating (#145) (Thank you sdriv3r)\n
+\t- Bug : Fixed crash on program launch (#166) (Thank you ConstanHin)\n
+\t- Bug : Fixed exercise delete behavior (#162)\n
+\t- Bug : Fixed conversion issue on LB weight\n
 \n
-v0.19.1: July 10, 2020\n
-\t- Enhancement : Updated Exercise page UI (#130, #131, #132)\n
-\t- Enhancement : Added units for body measures (#102)\n
-\t- Bug : Fixed photo import from gallery on Android\n
-\t- Bug : Fixed program behavior when changing profile\n
-\t- Bug : Fixed crash after deleting a program that is in progress (#142) (Thank you @sdriv3r)\n
-\t- Bug : Fixed units not taking the values from settings (#140) (Thank you again @sdriv3r)\n
-\t- Bug : Fixed brazilian translation (#139) (Thank you again @rffontenelle)\n
-\t- Bug : Fixed CVS import crash\n
-\t- Bug : Fixed Bar Graph not at zero\n
-\t- Bug : Fixed Program template showing in graphs\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

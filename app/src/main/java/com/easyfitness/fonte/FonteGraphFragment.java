@@ -256,11 +256,7 @@ public class FonteGraphFragment extends Fragment {
                 lDAOFunction = DAOFonte.SUM_FCT;
             }
             // Recupere les enregistrements
-            List<GraphData> valueList = null;
-            if (m.getType() == ExerciseType.STRENGTH)
-                valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);
-            else
-                valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
+            List<GraphData> valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
             if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
@@ -329,13 +325,14 @@ public class FonteGraphFragment extends Fragment {
         } if (m.getType() == ExerciseType.ISOMETRIC) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxWeightPerDuration))) {
                 lDAOFunction = DAOStatic.MAX_FCT;
+            } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxLengthPerDate))) {
+                lDAOFunction = DAOStatic.MAX_LENGTH;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.nbSeriesPerDate))) {
                 lDAOFunction = DAOStatic.NBSERIE_FCT;
             }
             desc = lMachine + "/" + lFunction;
             // Recupere les enregistrements
-            List<GraphData> valueList = null;
-            valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
+            List<GraphData> valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
             if (valueList==null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
@@ -358,7 +355,7 @@ public class FonteGraphFragment extends Fragment {
                 mBarGraph.setGraphDescription(desc);
                 mBarGraph.draw(yBarVals, xAxisLabel);
 
-            } else if (lDAOFunction == DAOStatic.NBSERIE_FCT)  {
+            } else if (lDAOFunction == DAOStatic.NBSERIE_FCT || lDAOFunction == DAOStatic.MAX_LENGTH)  {
                 for (int i = 0; i < valueList.size(); i++) {
                     Entry value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
                     yVals.add(value);

@@ -27,8 +27,10 @@ public class DAOStatic extends DAORecord {
 
     public static final int MAX_FCT = 1;
     public static final int NBSERIE_FCT = 2;
+    public static final int MAX_LENGTH = 3;
 
     private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SETS + "," + SECONDS + "," + WEIGHT + "," + WEIGHT_UNIT + "," + PROFILE_KEY + "," + NOTES + "," + EXERCISE_KEY + "," + TIME;
+
 
     public DAOStatic(Context context) {
         super(context);
@@ -66,6 +68,15 @@ public class DAOStatic extends DAORecord {
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + SECONDS
                 + " ORDER BY " + SECONDS + " ASC";
+        } else if (pFunction == DAOStatic.MAX_LENGTH) {
+            selectQuery = "SELECT MAX(" + SECONDS + ") , " + DATE + " FROM "
+                + TABLE_NAME
+                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                + " GROUP BY " + DATE
+                + " ORDER BY date(" + DATE + ") ASC";
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
             selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
                 + TABLE_NAME
@@ -89,7 +100,7 @@ public class DAOStatic extends DAORecord {
         double i = 0;
 
         // looping through all rows and adding to list
-        if (pFunction == DAOStatic.NBSERIE_FCT) {
+        if (pFunction == DAOStatic.NBSERIE_FCT || pFunction == DAOStatic.MAX_LENGTH) {
             if (mCursor.moveToFirst()) {
                 do {
 

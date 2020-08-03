@@ -287,5 +287,6 @@
     <string name="remove_image">Lösche Bild</string>
     <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
     <string name="program_completed">Sie haben Ihr Programm abgeschlossen! Wollen Sie es schließen?</string>
+    <string name="maxLengthPerDate">Max Dauer pro Datum</string>
 </resources>
 

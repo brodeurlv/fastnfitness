@@ -288,6 +288,7 @@
     <string name="remove_image">Verwijder afbeelding</string>
     <string name="pref_preferredSizeUnitTitle">Selecteer je gewenste grootte unit</string>
     <string name="program_completed">U hebt uw programma afgerond! Wilt u om te sluiten?</string>
+    <string name="maxLengthPerDate">Max duur per Date</string>
 
 </resources>
 
