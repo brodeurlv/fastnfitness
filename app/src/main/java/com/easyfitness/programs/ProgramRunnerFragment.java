@@ -147,7 +147,6 @@ public class ProgramRunnerFragment extends Fragment {
                 // refresh table
                 refreshData();
             }
-
         }else{
             stopProgram();
         }
@@ -185,7 +184,7 @@ public class ProgramRunnerFragment extends Fragment {
         public void onEvent(String eventName) {
             // Open dialog box to finish program
             final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("You have completed your program ! Do you want to close it ?")
+                .setTitleText(getString(R.string.program_completed))
                 .setConfirmText(getContext().getString(R.string.global_yes))
                 .setCancelText(getContext().getString(R.string.global_no))
                 .setHideKeyBoardOnDismiss(true)
