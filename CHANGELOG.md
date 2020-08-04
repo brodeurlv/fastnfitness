@@ -1,5 +1,13 @@
 ## Change Log
 
+### 0.19.3: August 3, 2020
+- Enhancement : Update auto clear mechanism for Exercise (#154) (Thank you @ironjan)
+- Enhancement : Added max length graphic for isometric exercises
+- Bug : Fixed timer not vibrating (#145) (Thank you @sdriv3r)
+- Bug : Fixed crash on program launch (#166) (Thank you @ConstanHin)
+- Bug : Fixed exercise delete behavior (#162)
+- Bug : Fixed conversion issue on LB weight
+
 ### 0.19.2: July 15, 2020
 - Enhancement : Update the zoom feature for body tracking graph (#158)
 - Enhancement : Several UI enhancement (#147, #155) (Thank you @ironjan)
