@@ -10,6 +10,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
+v0.19.3.1: August 5, 2020\n
+\t- Bug : Fixed failed program date\n
+
 v0.19.3: August 3, 2020\n
 \t- Enhancement : Update auto clear mechanism for Exercise (#154) (Thank you ironjan)\n
 \t- Enhancement : Added max length graphic for isometric exercises \n

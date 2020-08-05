@@ -344,6 +344,8 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 if (mDisplayType == DisplayType.PROGRAM_RUNNING_DISPLAY) {
                     if (record.getProgramRecordStatus() != ProgramRecordStatus.FAILED) {
                         //Display Editor
+                        record.setDate(DateConverter.getNewDate());
+                        record.setTime(DateConverter.currentTime());
                         record.setProgramRecordStatus(ProgramRecordStatus.FAILED);
                         mDbRecord.updateRecord(record);
                         launchCountdown(record);

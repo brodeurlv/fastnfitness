@@ -615,7 +615,8 @@ public class DAORecord extends DAOBase {
                 + " WHERE " + EXERCISE_KEY + "=" + machineID;
         } else {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=" + machineID + " AND " + PROFILE_KEY + "=" + p.getId();
+                + " WHERE " + EXERCISE_KEY + "=" + machineID +
+                " AND " + PROFILE_KEY + "=" + p.getId();
         }
         mCursor = db.rawQuery(selectQuery, null);
 
