@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.19.3</string>
+    <string name="app_version" translatable="false">0.19.4</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,17 +10,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.3.1: August 5, 2020\n
-\t- Bug : Fixed failed program date\n
+v0.19.4: August 5, 2020\n
+\t- Bug : Fixed BMI index with Weight not in KG (#174)\n
 
-v0.19.3: August 3, 2020\n
-\t- Enhancement : Update auto clear mechanism for Exercise (#154) (Thank you ironjan)\n
-\t- Enhancement : Added max length graphic for isometric exercises \n
-\t- Bug : Fixed timer not vibrating (#145) (Thank you sdriv3r)\n
-\t- Bug : Fixed crash on program launch (#166) (Thank you ConstanHin)\n
-\t- Bug : Fixed exercise delete behavior (#162)\n
-\t- Bug : Fixed conversion issue on LB weight\n
-\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
