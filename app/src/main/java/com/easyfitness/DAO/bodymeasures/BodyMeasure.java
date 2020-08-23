@@ -46,6 +46,7 @@ public class BodyMeasure {
     }
 
     public float getBodyMeasure() { return mMeasure; }
+    public void setBodyMeasure(float bodyMeasure) { mMeasure=bodyMeasure; }
 
     public long getProfileID() {
         return mProfil_id;

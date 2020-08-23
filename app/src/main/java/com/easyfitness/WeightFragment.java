@@ -596,7 +596,7 @@ public class WeightFragment extends Fragment {
                         ffmiText.setText("-");
                         ffmiRank.setText(R.string.no_size_available);
                     } else {
-                        float imcValue = calculateImc(lastWeightValue.getBodyMeasure(), size);
+                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(),lastWeightValue.getUnit(),Unit.KG), size);
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
                         if (lastFatValue!=null) {

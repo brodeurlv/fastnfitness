@@ -42,23 +42,34 @@ public class DAOBodyMeasure extends DAOBase {
 
     /**
      * @param pDate           date of the weight measure
-     * @param pBodymeasure_id id of the body part
+     * @param pBodyPartId id of the body part
      * @param pMeasure        body measure
-     * @param pProfileID      profil associated with the measure
+     * @param pProfileId      profil associated with the measure
      */
-    public void addBodyMeasure(Date pDate, long pBodymeasure_id, float pMeasure, long pProfileID, Unit pUnit) {
+    public void addBodyMeasure(Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
 
-        String dateString = DateConverter.dateToDBDateStr(pDate);
-        value.put(DAOBodyMeasure.DATE, dateString);
-        value.put(DAOBodyMeasure.BODYPART_ID, pBodymeasure_id);
-        value.put(DAOBodyMeasure.MEASURE, pMeasure);
-        value.put(DAOBodyMeasure.PROFIL_KEY, pProfileID);
-        value.put(DAOBodyMeasure.UNIT, pUnit.ordinal());
+        // Only one measure pr day, so if one already existing, updates it.
+        BodyMeasure existingBodyMeasure = getBodyMeasuresFromDate(pBodyPartId, pDate, pProfileId);
+        if (existingBodyMeasure==null) {
 
-        db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
+            String dateString = DateConverter.dateToDBDateStr(pDate);
+            value.put(DAOBodyMeasure.DATE, dateString);
+            value.put(DAOBodyMeasure.BODYPART_ID, pBodyPartId);
+            value.put(DAOBodyMeasure.MEASURE, pMeasure);
+            value.put(DAOBodyMeasure.PROFIL_KEY, pProfileId);
+            value.put(DAOBodyMeasure.UNIT, pUnit.ordinal());
+
+            db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
+
+        } else {
+            existingBodyMeasure.setBodyMeasure(pMeasure);
+            existingBodyMeasure.setUnit(pUnit);
+
+            updateMeasure(existingBodyMeasure);
+        }
         db.close(); // Closing database connection
     }
 
@@ -76,15 +87,7 @@ public class DAOBodyMeasure extends DAOBase {
         if (mCursor != null)
             mCursor.moveToFirst();
 
-        Date date;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(DATE)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            date = new Date();
-        }
+        Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
         BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
             date,
@@ -111,15 +114,7 @@ public class DAOBodyMeasure extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
+                Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
                 BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
                     date,
@@ -151,7 +146,7 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public List<BodyMeasure> getBodyPartMeasuresList(long pBodyPartID, Profile pProfile) {
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
 
         // return value list
         return getMeasuresList(getReadableDatabase(), selectQuery);
@@ -166,7 +161,7 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public List<BodyMeasure> getBodyPartMeasuresListTop4(long pBodyPartID, Profile pProfile) {
         if (pProfile==null) return null;
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
         return getMeasuresList(getReadableDatabase(), selectQuery);
     }
 
@@ -200,7 +195,29 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public BodyMeasure getLastBodyMeasures(long pBodyPartID, Profile pProfile) {
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " GROUP BY " + DATE + " ORDER BY date(" + DATE + ") DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
+
+        List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
+        if (array.size() <= 0) {
+            return null;
+        }
+
+        // return value list
+        return getMeasuresList(getReadableDatabase(), selectQuery).get(0);
+    }
+
+    /**
+     * Getting All Measures associated to a Body part for a specific Profile
+     *
+     * @param pBodyPartID
+     * @param pProfileId
+     * @return List<BodyMeasure>
+     */
+    public BodyMeasure getBodyMeasuresFromDate(long pBodyPartID, Date pDate, long pProfileId) {
+        String dateString = DateConverter.dateToDBDateStr(pDate);
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC";
 
         List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
         if (array.size() <= 0) {
