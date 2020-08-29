@@ -41,19 +41,18 @@ public class DAOCardio extends DAORecord {
 
     /**
      * @param pDate
-     * @param pTime
      * @param pMachine
      * @param pDistance
      * @param pDuration
      * @param pProfileId
      * @return
      */
-    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
-        return addRecord(pDate, pTime, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addCardioRecord(Date pDate, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
+        return addRecord(pDate, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
+    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
+        return addRecord(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
             WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
             RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
             restTime, ProgramRecordStatus.NONE);

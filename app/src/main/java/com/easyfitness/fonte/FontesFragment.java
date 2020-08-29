@@ -192,15 +192,12 @@ public class FontesFragment extends Fragment {
             return;
         }
 
-        String timeStr;
         Date date;
 
         if (autoTimeCheckBox.isChecked()) {
             date = new Date();
-            timeStr = DateConverter.currentTime();
         }else {
-            date = DateConverter.editToDate(dateEdit.getText().toString());
-            timeStr = timeEdit.getText().toString();
+            date = DateConverter.editToDateTime(dateEdit.getText().toString(), timeEdit.getText().toString());
         }
 
         ExerciseType exerciseType;
@@ -222,7 +219,7 @@ public class FontesFragment extends Fragment {
             tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-                mDbBodyBuilding.addBodyBuildingRecord(date, timeStr,
+                mDbBodyBuilding.addBodyBuildingRecord(date,
                     machineEdit.getText().toString(),
                     workoutValuesInputView.getSets(),
                     workoutValuesInputView.getReps(),
@@ -249,7 +246,7 @@ public class FontesFragment extends Fragment {
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
-                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date,
                         machineEdit.getText().toString(),
                         1,
                         workoutValuesInputView.getReps(),
@@ -279,7 +276,7 @@ public class FontesFragment extends Fragment {
                     getProfile().getId(),
                     workoutValuesInputView.getWeightUnit(), // Store Unit for future display
                     "", //Notes
-                    timeStr, -1
+                    -1
                 );
 
                 float iTotalWeightSession = mDbStatic.getTotalWeightSession(date, getProfile());
@@ -300,7 +297,7 @@ public class FontesFragment extends Fragment {
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
-                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date,
                         machineEdit.getText().toString(),
                         1,
                         workoutValuesInputView.getSeconds(),
@@ -326,7 +323,6 @@ public class FontesFragment extends Fragment {
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbCardio.addCardioRecord(date,
-                    timeStr,
                     machineEdit.getText().toString(),
                     distance,
                     duration,
@@ -345,7 +341,6 @@ public class FontesFragment extends Fragment {
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
                     date,
-                    timeStr,
                     machineEdit.getText().toString(),
                     distance,
                     workoutValuesInputView.getDistanceUnit(),

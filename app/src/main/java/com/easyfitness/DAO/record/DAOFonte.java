@@ -19,6 +19,7 @@ import com.easyfitness.enums.ProgramRecordStatus;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -42,12 +43,12 @@ public class DAOFonte extends DAORecord {
      * @param pWeightUnit
      * @param pProfileId
      */
-    public long addBodyBuildingRecord(Date pDate, String pTime, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId, long pTemplateRecordId) {
-        return addRecord(pDate, pTime, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addBodyBuildingRecord(Date pDate, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId, long pTemplateRecordId) {
+        return addRecord(pDate, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
+    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
+        return addRecord(pDate, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
             pWeightUnit, "", 0, DistanceUnit.KM, 0, 0, -1,
             RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
             restTime, ProgramRecordStatus.NONE);
@@ -318,22 +319,26 @@ public class DAOFonte extends DAORecord {
     public void populate() {
         // DBORecord(long id, Date pDate, String pMachine, int pSerie, int
         // pRepetition, int pPoids)
-        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 34);
+        calendar.set(Calendar.SECOND, 56);
+        Date date = calendar.getTime();
         int poids = 10;
 
         for (int i = 1; i <= 5; i++) {
             String machine = "Biceps";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
 
-        date = new Date();
+        date = calendar.getTime();
         poids = 12;
 
         for (int i = 1; i <= 5; i++) {
             String machine = "Dev Couche";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
     }
 

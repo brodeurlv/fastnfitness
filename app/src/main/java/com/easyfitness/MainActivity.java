@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    mDbCardio.addCardioRecord(record.getDate(), "00:00:00", exerciseName, record.getDistance(), record.getDuration(), record.getProfil().getId(), DistanceUnit.KM, -1);
+                    mDbCardio.addCardioRecord(record.getDate(), exerciseName, record.getDistance(), record.getDuration(), record.getProfil().getId(), DistanceUnit.KM, -1);
                 }
                 mDbOldCardio.dropTable();
 
@@ -375,18 +375,18 @@ public class MainActivity extends AppCompatActivity {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
             if(lDbFonte.getCount()==0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01), "12:34:56", "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30), "12:34:56", "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01, 12, 34, 56), "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30, 12, 34, 56), "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01),  DateConverter.currentTime(), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), DateConverter.currentTime(), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
+                lDbCardio.addCardioRecord(DateConverter.DBDateTimeStrToDate("2019-07-01", DateConverter.currentTime()), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
+                lDbCardio.addCardioRecord(DateConverter.DBDateTimeStrToDate("2019-07-31", DateConverter.currentTime()), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
             }
             DAOStatic lDbStatic = new DAOStatic(this);
             if(lDbStatic.getCount()==0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", "12:34:56", -1);
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", "12:34:56", -1);
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01, 12, 34, 56), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", -1);
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31, 12, 34, 56), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", -1);
             }
             DAOProgram lDbWorkout = new DAOProgram(this);
             if(lDbWorkout.getCount()==0) {
