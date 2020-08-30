@@ -189,8 +189,8 @@ public class DAORecord extends DAOBase {
             templateOrder = records.size();
         }
 
-        value.put(DAORecord.DATE, DateConverter.dateToDBDateStr(pDate));
-        value.put(DAORecord.TIME, DateConverter.dateToDBTimeStr(pDate));
+        value.put(DAORecord.DATE, DateConverter.dateTimeToDBDateStr(pDate));
+        value.put(DAORecord.TIME, DateConverter.dateTimeToDBTimeStr(pDate));
         value.put(DAORecord.EXERCISE, pExercise);
         value.put(DAORecord.EXERCISE_KEY, machine_key);
         value.put(DAORecord.EXERCISE_TYPE, pExerciseType.ordinal());
@@ -722,8 +722,8 @@ public class DAORecord extends DAOBase {
         ContentValues value = new ContentValues();
 
         value.put(DAORecord.KEY, record.getId());
-        value.put(DAORecord.DATE, DateConverter.dateToDBDateStr(record.getDate()));
-        value.put(DAORecord.TIME, DateConverter.dateToDBTimeStr(record.getDate()));
+        value.put(DAORecord.DATE, DateConverter.dateTimeToDBDateStr(record.getDate()));
+        value.put(DAORecord.TIME, DateConverter.dateTimeToDBTimeStr(record.getDate()));
         value.put(DAORecord.EXERCISE, record.getExercise());
         value.put(DAORecord.EXERCISE_KEY, record.getExerciseId());
         value.put(DAORecord.EXERCISE_TYPE, record.getExerciseType().ordinal());

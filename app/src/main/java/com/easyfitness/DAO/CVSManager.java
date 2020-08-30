@@ -134,8 +134,8 @@ public class CVSManager {
 
                 Date dateRecord = records.get(i).getDate();
 
-                csvOutputFonte.write(DateConverter.dateToDBDateStr(dateRecord));
-                csvOutputFonte.write(DateConverter.dateToDBTimeStr(dateRecord));
+                csvOutputFonte.write(DateConverter.dateTimeToDBDateStr(dateRecord));
+                csvOutputFonte.write(DateConverter.dateTimeToDBTimeStr(dateRecord));
                 csvOutputFonte.write(records.get(i).getExercise());
                 csvOutputFonte.write(Integer.toString(ExerciseType.STRENGTH.ordinal()));
                 csvOutputFonte.write(Long.toString(records.get(i).getProfileId()));

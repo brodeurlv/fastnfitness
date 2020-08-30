@@ -127,7 +127,7 @@ public class ProgramRunnerFragment extends Fragment {
             if (mRunningProgram != null) {
                 long runningProgramId = mRunningProgram.getId();
                 long profileId = getProfile().getId();
-                ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(), DateConverter.currentTime(), "", "");
+                ProgramHistory programHistory = new ProgramHistory(-1, runningProgramId, profileId, ProgramStatus.RUNNING, DateConverter.currentDate(getContext()), DateConverter.currentTime(getContext()), "", "");
                 long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
                 mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
                 mProgramsSpinner.setEnabled(false);
@@ -155,8 +155,8 @@ public class ProgramRunnerFragment extends Fragment {
 
 
     private void stopProgram(){
-        mRunningProgramHistory.setEndDate(DateConverter.currentDate());
-        mRunningProgramHistory.setEndTime(DateConverter.currentTime());
+        mRunningProgramHistory.setEndDate(DateConverter.currentDate(getContext()));
+        mRunningProgramHistory.setEndTime(DateConverter.currentTime(getContext()));
         mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
         mDbWorkoutHistory.update(mRunningProgramHistory);
         mRunningProgram=null;

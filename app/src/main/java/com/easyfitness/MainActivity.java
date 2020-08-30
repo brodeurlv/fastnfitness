@@ -380,8 +380,8 @@ public class MainActivity extends AppCompatActivity {
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.DBDateTimeStrToDate("2019-07-01", DateConverter.currentTime()), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
-                lDbCardio.addCardioRecord(DateConverter.DBDateTimeStrToDate("2019-07-31", DateConverter.currentTime()), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
             }
             DAOStatic lDbStatic = new DAOStatic(this);
             if(lDbStatic.getCount()==0) {

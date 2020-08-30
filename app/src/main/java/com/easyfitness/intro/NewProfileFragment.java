@@ -90,7 +90,7 @@ public class NewProfileFragment extends SlideFragment {
                     lGender = Gender.OTHER;
                 }
 
-                Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()), lGender);
+                Profile p = new Profile(mName.getText().toString(), size, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getContext()), lGender);
                 // Create the new profil
                 mDbProfils.addProfil(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
@@ -109,7 +109,7 @@ public class NewProfileFragment extends SlideFragment {
     private OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
+            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
         }

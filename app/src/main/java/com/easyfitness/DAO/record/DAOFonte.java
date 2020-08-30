@@ -19,7 +19,6 @@ import com.easyfitness.enums.ProgramRecordStatus;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -319,11 +318,7 @@ public class DAOFonte extends DAORecord {
     public void populate() {
         // DBORecord(long id, Date pDate, String pMachine, int pSerie, int
         // pRepetition, int pPoids)
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 34);
-        calendar.set(Calendar.SECOND, 56);
-        Date date = calendar.getTime();
+        Date date = DateConverter.timeToDate(12, 34, 56);
         int poids = 10;
 
         for (int i = 1; i <= 5; i++) {
@@ -332,7 +327,7 @@ public class DAOFonte extends DAORecord {
             addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
 
-        date = calendar.getTime();
+        date = DateConverter.timeToDate(12, 34, 56);
         poids = 12;
 
         for (int i = 1; i <= 5; i++) {
