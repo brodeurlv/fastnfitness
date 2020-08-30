@@ -16,12 +16,9 @@ import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class DAOStatic extends DAORecord {
 
@@ -69,23 +66,23 @@ public class DAOStatic extends DAORecord {
                 + " GROUP BY " + SECONDS
                 + " ORDER BY " + SECONDS + " ASC";
         } else if (pFunction == DAOStatic.MAX_LENGTH) {
-            selectQuery = "SELECT MAX(" + SECONDS + ") , " + DATE + " FROM "
+            selectQuery = "SELECT MAX(" + SECONDS + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
-            selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
+            selectQuery = "SELECT count(" + KEY + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else {
             return null;
         }
@@ -104,16 +101,7 @@ public class DAOStatic extends DAORecord {
             if (mCursor.moveToFirst()) {
                 do {
 
-                    Date date;
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                        date = dateFormat.parse(mCursor.getString(1));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        date = new Date();
-                    }
-
+                    Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
                     GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
 
                     // Adding value to list
@@ -144,16 +132,14 @@ public class DAOStatic extends DAORecord {
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         long machine_key = lDAOMachine.getMachine(pMachine).getId();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
@@ -185,15 +171,13 @@ public class DAOStatic extends DAORecord {
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         long machine_key = lDAOMachine.getMachine(pMachine).getId();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
@@ -224,13 +208,11 @@ public class DAOStatic extends DAORecord {
         mCursor = null;
         float lReturn = 0;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT  + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\""
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\""
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
