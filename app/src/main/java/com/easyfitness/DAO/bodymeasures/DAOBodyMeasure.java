@@ -6,17 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOBase;
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class DAOBodyMeasure extends DAOBase {
 

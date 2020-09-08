@@ -14,7 +14,6 @@ public class Record {
     private long mId;
 
     private Date mDate;
-    private String mTime; // Time in HH:MM:SS
     private String mExercise;
     private long mExerciseId;
     private long mProfileId;
@@ -44,13 +43,12 @@ public class Record {
     private int mTemplateOrder;
     private ProgramRecordStatus mProgramRecordStatus;
 
-    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long recordTemplateId) {
-        this(date, time, exercise,  exerciseId, profileId,  sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.SUCCESS, RecordType.FREE_RECORD_TYPE);
+    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long recordTemplateId) {
+        this(date, exercise,  exerciseId, profileId,  sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.SUCCESS, RecordType.FREE_RECORD_TYPE);
     }
 
-    public Record(Date date, String time, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType) {
+    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType) {
         mDate = date;
-        mTime = time;
         mExercise = exercise;
         mExerciseId = exerciseId;
         mProfileId = profileId;
@@ -87,14 +85,6 @@ public class Record {
 
     public void setDate(Date date) {
         mDate = date;
-    }
-
-    public String getTime() {
-        return mTime;
-    }
-
-    public void setTime(String time) {
-        mTime = time;
     }
 
     public String getExercise() {

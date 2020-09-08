@@ -200,7 +200,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
         if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY || mDisplayType==DisplayType.HISTORY_DISPLAY) {
             viewHolder.ExerciseName.setText(record.getExercise());
             viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
-            viewHolder.Time.setText(record.getTime());
+            viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
 
             if (isSeparatorNeeded(position, record.getDate())) {
                 viewHolder.Separator.setText("- " + DateConverter.dateToLocalDateStr(record.getDate(), mContext) + " -");
@@ -290,7 +290,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                     viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_red_24dp));
                 }
                 viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
-                viewHolder.Time.setText(record.getTime());
+                viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
             }
 
             long key = record.getId();
@@ -311,7 +311,6 @@ public class RecordArrayAdapter extends ArrayAdapter{
                         record.setDuration(templateRecord.getDuration());
                         record.setProgramRecordStatus(ProgramRecordStatus.SUCCESS);
                         record.setDate(DateConverter.getNewDate());
-                        record.setTime(DateConverter.currentTime());
                         mDbRecord.updateRecord(record);
                         UpdateRecordTypeUI(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
@@ -345,7 +344,6 @@ public class RecordArrayAdapter extends ArrayAdapter{
                     if (record.getProgramRecordStatus() != ProgramRecordStatus.FAILED) {
                         //Display Editor
                         record.setDate(DateConverter.getNewDate());
-                        record.setTime(DateConverter.currentTime());
                         record.setProgramRecordStatus(ProgramRecordStatus.FAILED);
                         mDbRecord.updateRecord(record);
                         launchCountdown(record);

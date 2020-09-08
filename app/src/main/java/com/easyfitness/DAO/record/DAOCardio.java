@@ -14,12 +14,9 @@ import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class DAOCardio extends DAORecord {
 
@@ -41,19 +38,18 @@ public class DAOCardio extends DAORecord {
 
     /**
      * @param pDate
-     * @param pTime
      * @param pMachine
      * @param pDistance
      * @param pDuration
      * @param pProfileId
      * @return
      */
-    public long addCardioRecord(Date pDate, String pTime, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
-        return addRecord(pDate, pTime, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addCardioRecord(Date pDate, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
+        return addRecord(pDate, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
+    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
+        return addRecord(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
             WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
             RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
             restTime, ProgramRecordStatus.NONE);
@@ -72,40 +68,40 @@ public class DAOCardio extends DAORecord {
         }
 
         if (pFunction == DAOCardio.DISTANCE_FCT) {
-            selectQuery = "SELECT SUM(" + DISTANCE + "), " + DATE + " FROM " + TABLE_NAME
+            selectQuery = "SELECT SUM(" + DISTANCE + "), " + LOCAL_DATE + " FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.DURATION_FCT) {
-            selectQuery = "SELECT SUM(" + DURATION + ") , " + DATE + " FROM "
+            selectQuery = "SELECT SUM(" + DURATION + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.SPEED_FCT) {
-            selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + DATE + " FROM "
+            selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
-            selectQuery = "SELECT MAX(" + DISTANCE + ") , " + DATE + " FROM "
+            selectQuery = "SELECT MAX(" + DISTANCE + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         }
         // case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
         // "*" + WEIGHT +") FROM " + TABLE_NAME + " WHERE " + EXERCISE + "=\"" +
@@ -124,17 +120,9 @@ public class DAOCardio extends DAORecord {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
+                Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
-                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()),
+                GraphData value = new GraphData(DateConverter.nbDays(date),
                     mCursor.getDouble(0));
 
                 // Adding value to list

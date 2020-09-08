@@ -5,7 +5,6 @@ import android.content.Context;
 import com.easyfitness.DAO.DAOUtils;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +12,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static android.text.format.DateFormat.getDateFormat;
+import static android.text.format.DateFormat.getTimeFormat;
 
 public class DateConverter {
 
@@ -21,8 +21,10 @@ public class DateConverter {
     public DateConverter() {
     }
 
-    static public double nbDays(double millisecondes) {
-        return (int) (millisecondes / MILLISECONDINDAY);
+    static public double nbDays(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return ((calendar.getTimeInMillis() + calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / MILLISECONDINDAY);
     }
 
     static public double nbMinutes(double millisecondes) {
@@ -38,12 +40,13 @@ public class DateConverter {
         return new Date();
     }
 
-    static public Date editToDate(String editText) {
+    static public Date localDateTimeStrToDateTime(String dateText, String timeText, Context pContext) {
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(editText);
+            String dateFormat = ((SimpleDateFormat)getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            String timeFormat = ((SimpleDateFormat)getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
+            date = dateTimeFormat.parse(dateText + "T" + timeText);
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
@@ -56,8 +59,19 @@ public class DateConverter {
         Date date;
         try {
             DateFormat dateFormat = getDateFormat(pContext.getApplicationContext());
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = new Date();
+        }
+        return date;
+    }
+
+    static public Date localTimeStrToDate(String timeStr, Context pContext) {
+        Date date;
+        try {
+            DateFormat timeFormat = getTimeFormat(pContext.getApplicationContext());
+            date = timeFormat.parse(timeStr);
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
@@ -67,13 +81,18 @@ public class DateConverter {
 
     static public String dateToLocalDateStr(Date date, Context pContext) {
         DateFormat dateFormat3 = getDateFormat(pContext.getApplicationContext());
-        dateFormat3.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat3.format(date);
+    }
+
+    static public String dateTimeToDBDateStr(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return dateFormat.format(date);
     }
 
     static public String dateToDBDateStr(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        // No time is given, use local time
         return dateFormat.format(date);
     }
 
@@ -81,7 +100,7 @@ public class DateConverter {
         Date date;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            // No time is given, use local time
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -90,32 +109,40 @@ public class DateConverter {
         return date;
     }
 
-    static public String currentTime() {
-        //Rajoute le moment du dernier ajout dans le bouton Add
-        Calendar calendar = Calendar.getInstance();
-        int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
-        int seconds = calendar.get(Calendar.SECOND);
-
-        DecimalFormat df = new DecimalFormat("00");
-        return df.format(hours) + ":" + df.format(minutes) + ":" + df.format(seconds);
+    static public Date DBDateTimeStrToDate(String dateStr, String timeStr) {
+        Date date;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            date = dateFormat.parse(dateStr + "T" + timeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = new Date();
+        }
+        return date;
     }
 
-    static public String currentDate() {
-        //Rajoute le moment du dernier ajout dans le bouton Add
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        DecimalFormat df = new DecimalFormat("00");
-        return df.format(day) + "/" + df.format(month + 1) + "/" + df.format(year);
+    static public String dateToLocalTimeStr(Date date, Context pContext) {
+        DateFormat dateFormat3 = getTimeFormat(pContext.getApplicationContext());
+        return dateFormat3.format(date);
     }
 
-    static public String dateToString(int year, int month, int day) {
-        // Do something with the date chosen by the user
-        DecimalFormat df = new DecimalFormat("00");
-        return df.format(day) + "/" + df.format(month) + "/" + df.format(year);
+    static public String dateTimeToDBTimeStr(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.TIME_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return dateFormat.format(date);
+    }
+
+    static public String currentTime(Context pContext) {
+        //Rajoute le moment du dernier ajout dans le bouton Add
+        Date date = new Date();
+        return dateToLocalTimeStr(date, pContext);
+    }
+
+    static public String currentDate(Context pContext) {
+        //Rajoute le moment du dernier ajout dans le bouton Add
+        Date date = new Date();
+        return dateToLocalDateStr(date, pContext);
     }
 
     /**
@@ -137,6 +164,22 @@ public class DateConverter {
     static public Date dateToDate(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
+
+        return calendar.getTime();
+    }
+
+    static public Date dateToDate(int year, int month, int day, int hour, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, hour, minute, second);
+
+        return calendar.getTime();
+    }
+
+    static public Date timeToDate(int hour, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
 
         return calendar.getTime();
     }

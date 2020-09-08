@@ -16,12 +16,9 @@ import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.ProgramRecordStatus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class DAOFonte extends DAORecord {
 
@@ -42,12 +39,12 @@ public class DAOFonte extends DAORecord {
      * @param pWeightUnit
      * @param pProfileId
      */
-    public long addBodyBuildingRecord(Date pDate, String pTime, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId, long pTemplateRecordId) {
-        return addRecord(pDate, pTime, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addBodyBuildingRecord(Date pDate, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId, long pTemplateRecordId) {
+        return addRecord(pDate, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
     }
 
-    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pTime, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
-        return addRecord(pDate, pTime, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
+    public long addWeightRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
+        return addRecord(pDate, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
             pWeightUnit, "", 0, DistanceUnit.KM, 0, 0, -1,
             RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
             restTime, ProgramRecordStatus.NONE);
@@ -69,42 +66,42 @@ public class DAOFonte extends DAORecord {
         // TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
         if (pFunction == DAOFonte.SUM_FCT) {
             selectQuery = "SELECT SUM(" + SETS + "*" + REPS + "*"
-                + WEIGHT + "), " + DATE + " FROM " + TABLE_NAME
+                + WEIGHT + "), " + LOCAL_DATE + " FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOFonte.MAX5_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
+            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + REPS + ">=5"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOFonte.MAX1_FCT) {
-            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + DATE + " FROM "
+            selectQuery = "SELECT MAX(" + WEIGHT + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + REPS + ">=1"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOFonte.NBSERIE_FCT) {
-            selectQuery = "SELECT count(" + KEY + ") , " + DATE + " FROM "
+            selectQuery = "SELECT count(" + KEY + ") , " + LOCAL_DATE + " FROM "
                 + TABLE_NAME
                 + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + DATE
-                + " ORDER BY date(" + DATE + ") ASC";
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         }
 
         // Formation de tableau de valeur
@@ -119,17 +116,9 @@ public class DAOFonte extends DAORecord {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Date date;
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    date = dateFormat.parse(mCursor.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date = new Date();
-                }
+                Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
-                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
+                GraphData value = new GraphData(DateConverter.nbDays(date), mCursor.getDouble(0));
 
                 // Adding value to list
                 valueList.add(value);
@@ -152,16 +141,14 @@ public class DAOFonte extends DAORecord {
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         long machine_key = lDAOMachine.getMachine(pMachine).getId();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
@@ -193,15 +180,13 @@ public class DAOFonte extends DAORecord {
         DAOMachine lDAOMachine = new DAOMachine(mContext);
         long machine_key = lDAOMachine.getMachine(pMachine).getId();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + ", " + REPS + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
@@ -232,13 +217,11 @@ public class DAOFonte extends DAORecord {
         mCursor = null;
         float lReturn = 0;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String lDate = dateFormat.format(pDate);
+        String lDate = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + ", " + REPS + " FROM " + TABLE_NAME
-            + " WHERE " + DATE + "=\"" + lDate + "\""
+            + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\""
             + " AND " + PROFILE_KEY + "=" + pProfile.getId()
             + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
             + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
@@ -318,22 +301,22 @@ public class DAOFonte extends DAORecord {
     public void populate() {
         // DBORecord(long id, Date pDate, String pMachine, int pSerie, int
         // pRepetition, int pPoids)
-        Date date = new Date();
+        Date date = DateConverter.timeToDate(12, 34, 56);
         int poids = 10;
 
         for (int i = 1; i <= 5; i++) {
             String machine = "Biceps";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
 
-        date = new Date();
+        date = DateConverter.timeToDate(12, 34, 56);
         poids = 12;
 
         for (int i = 1; i <= 5; i++) {
             String machine = "Dev Couche";
             date.setDate(date.getDay() + i * 10);
-            addBodyBuildingRecord(date, "12:34:56", machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
+            addBodyBuildingRecord(date, machine, i * 2, 10 + i, poids * i, WeightUnit.KG, "", mProfile.getId(), -1);
         }
     }
 

@@ -70,6 +70,7 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -111,19 +112,8 @@ public class FontesFragment extends Fragment {
 
     private MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
-        String strMinute = "00";
-        String strHour = "00";
-        String strSecond = "00";
-
-        if (minute < 10) strMinute = "0" + minute;
-        else strMinute = Integer.toString(minute);
-        if (hourOfDay < 10) strHour = "0" + hourOfDay;
-        else strHour = Integer.toString(hourOfDay);
-        if (second < 10) strSecond = "0" + second;
-        else strSecond = Integer.toString(second);
-
-        String date = strHour + ":" + strMinute + ":" + strSecond;
-        timeEdit.setText(date);
+        Date date = DateConverter.timeToDate(hourOfDay, minute, second);
+        timeEdit.setText(DateConverter.dateToLocalTimeStr(date, getContext()));
         Keyboard.hide(getContext(), timeEdit);
     };
     private OnClickListener collapseDetailsClick = v -> {
@@ -192,15 +182,12 @@ public class FontesFragment extends Fragment {
             return;
         }
 
-        String timeStr;
         Date date;
 
         if (autoTimeCheckBox.isChecked()) {
             date = new Date();
-            timeStr = DateConverter.currentTime();
         }else {
-            date = DateConverter.editToDate(dateEdit.getText().toString());
-            timeStr = timeEdit.getText().toString();
+            date = DateConverter.localDateTimeStrToDateTime(dateEdit.getText().toString(), timeEdit.getText().toString(), getContext());
         }
 
         ExerciseType exerciseType;
@@ -222,7 +209,7 @@ public class FontesFragment extends Fragment {
             tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-                mDbBodyBuilding.addBodyBuildingRecord(date, timeStr,
+                mDbBodyBuilding.addBodyBuildingRecord(date,
                     machineEdit.getText().toString(),
                     workoutValuesInputView.getSets(),
                     workoutValuesInputView.getReps(),
@@ -249,7 +236,7 @@ public class FontesFragment extends Fragment {
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
-                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date,
                         machineEdit.getText().toString(),
                         1,
                         workoutValuesInputView.getReps(),
@@ -279,7 +266,7 @@ public class FontesFragment extends Fragment {
                     getProfile().getId(),
                     workoutValuesInputView.getWeightUnit(), // Store Unit for future display
                     "", //Notes
-                    timeStr, -1
+                    -1
                 );
 
                 float iTotalWeightSession = mDbStatic.getTotalWeightSession(date, getProfile());
@@ -300,7 +287,7 @@ public class FontesFragment extends Fragment {
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
-                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date, timeStr,
+                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date,
                         machineEdit.getText().toString(),
                         1,
                         workoutValuesInputView.getSeconds(),
@@ -326,7 +313,6 @@ public class FontesFragment extends Fragment {
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbCardio.addCardioRecord(date,
-                    timeStr,
                     machineEdit.getText().toString(),
                     distance,
                     duration,
@@ -345,7 +331,6 @@ public class FontesFragment extends Fragment {
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
                     date,
-                    timeStr,
                     machineEdit.getText().toString(),
                     distance,
                     workoutValuesInputView.getDistanceUnit(),
@@ -364,7 +349,7 @@ public class FontesFragment extends Fragment {
 
         //Rajoute le moment du dernier ajout dans le bouton Add
         if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY)
-            addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime() + ")");
+            addButton.setText(getView().getContext().getString(R.string.AddLabel) + "\n(" + DateConverter.currentTime(getContext()) + ")");
 
         mDbCardio.closeCursor();
         mDbBodyBuilding.closeCursor();
@@ -434,7 +419,7 @@ public class FontesFragment extends Fragment {
     };
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
-        dateEdit.setText(DateConverter.dateToString(year, month + 1, day));
+        dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
         Keyboard.hide(getContext(), dateEdit);
     };
     private OnClickListener clickDateEdit = v -> {
@@ -484,8 +469,8 @@ public class FontesFragment extends Fragment {
         dateEdit.setEnabled(!isChecked);
         timeEdit.setEnabled(!isChecked);
         if (isChecked) {
-            dateEdit.setText(DateConverter.currentDate());
-            timeEdit.setText(DateConverter.currentTime());
+            dateEdit.setText(DateConverter.currentDate(getContext()));
+            timeEdit.setText(DateConverter.currentTime(getContext()));
         }
     };
     private ProfileViMo profileViMo;
@@ -591,8 +576,8 @@ public class FontesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         this.mActivity = (MainActivity) this.getActivity();
-        dateEdit.setText(DateConverter.currentDate());
-        timeEdit.setText(DateConverter.currentTime());
+        dateEdit.setText(DateConverter.currentDate(getContext()));
+        timeEdit.setText(DateConverter.currentTime(getContext()));
         if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
             addButton.setText(R.string.add_to_template);
             detailsCardView.setVisibility(View.GONE);
@@ -697,25 +682,12 @@ public class FontesFragment extends Fragment {
     }
 
     private void showTimePicker(TextView timeTextView) {
-        String tx =  timeTextView.getText().toString();
-        int hour;
-        try {
-            hour = Integer.parseInt(tx.substring(0, 2));
-        } catch (Exception e) {
-            hour = 0;
-        }
-        int min;
-        try {
-            min = Integer.parseInt(tx.substring(3, 5));
-        } catch (Exception e) {
-            min = 0;
-        }
-        int sec;
-        try {
-            sec = Integer.parseInt(tx.substring(6));
-        } catch (Exception e) {
-            sec = 0;
-        }
+        Calendar calendar = Calendar.getInstance();
+        Date time = DateConverter.localTimeStrToDate(timeTextView.getText().toString(), getContext());
+        calendar.setTime(time);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min = calendar.get(Calendar.MINUTE);
+        int sec = calendar.get(Calendar.SECOND);
 
         switch(timeTextView.getId()) {
             case R.id.editTime:
@@ -973,8 +945,8 @@ public class FontesFragment extends Fragment {
 
                 // Set Initial text
                 if (autoTimeCheckBox.isChecked()) {
-                    dateEdit.setText(DateConverter.currentDate());
-                    timeEdit.setText(DateConverter.currentTime());
+                    dateEdit.setText(DateConverter.currentDate(getContext()));
+                    timeEdit.setText(DateConverter.currentTime(getContext()));
                 }
 
                 // Set Table

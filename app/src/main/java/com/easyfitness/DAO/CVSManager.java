@@ -134,8 +134,8 @@ public class CVSManager {
 
                 Date dateRecord = records.get(i).getDate();
 
-                csvOutputFonte.write(DateConverter.dateToDBDateStr(dateRecord));
-                csvOutputFonte.write(records.get(i).getTime());
+                csvOutputFonte.write(DateConverter.dateTimeToDBDateStr(dateRecord));
+                csvOutputFonte.write(DateConverter.dateTimeToDBTimeStr(dateRecord));
                 csvOutputFonte.write(records.get(i).getExercise());
                 csvOutputFonte.write(Integer.toString(ExerciseType.STRENGTH.ordinal()));
                 csvOutputFonte.write(Long.toString(records.get(i).getProfileId()));
@@ -321,8 +321,7 @@ public class CVSManager {
                 switch (csvRecords.get(TABLE_HEAD)) {
                     case DAORecord.TABLE_NAME: {
                         Date date;
-                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAORecord.DATE));
-                        String time = csvRecords.get(DAORecord.TIME);
+                        date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
                         String exercise = csvRecords.get(DAORecord.EXERCISE);
                         if ( dbcMachine.getMachine(exercise) != null ) {
                             long exerciseId = dbcMachine.getMachine(exercise).getId();
@@ -344,7 +343,7 @@ public class CVSManager {
                             }
                             String notes = csvRecords.get(DAORecord.NOTES);
 
-                            Record record = new Record(date, time, exercise, exerciseId, pProfile.getId(), serie, repetition, poids, unit, second, distance, distance_unit, duration, notes, exerciseType, -1);
+                            Record record = new Record(date, exercise, exerciseId, pProfile.getId(), serie, repetition, poids, unit, second, distance, distance_unit, duration, notes, exerciseType, -1);
                             recordsList.add(record);
                         } else {
                             return false;
@@ -362,7 +361,7 @@ public class CVSManager {
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
                         float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
                         int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
-                        dbcCardio.addCardioRecord(date, "", exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
+                        dbcCardio.addCardioRecord(date, exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
                         dbcCardio.close();
 
                         break;

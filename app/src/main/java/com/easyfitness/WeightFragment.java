@@ -340,7 +340,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(), Unit.KG));
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(), Unit.KG));
                     yVals.add(value);
                 }
 
@@ -364,7 +364,7 @@ public class WeightFragment extends Fragment {
 
             if ( valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
                 }
 
@@ -385,7 +385,7 @@ public class WeightFragment extends Fragment {
 
             if ( valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
                 }
 
@@ -407,7 +407,7 @@ public class WeightFragment extends Fragment {
 
             if ( valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
                 }
 

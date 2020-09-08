@@ -298,7 +298,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     normalizedMeasure=valueList.get(i).getBodyMeasure();
             }
 
-            Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate().getTime()), normalizedMeasure);
+            Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), normalizedMeasure);
             yVals.add(value);
             if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
             else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
