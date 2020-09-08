@@ -122,7 +122,7 @@ public class DAOCardio extends DAORecord {
             do {
                 Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
-                GraphData value = new GraphData(DateConverter.nbDays(date.getTime()),
+                GraphData value = new GraphData(DateConverter.nbDays(date),
                     mCursor.getDouble(0));
 
                 // Adding value to list

@@ -102,7 +102,7 @@ public class DAOStatic extends DAORecord {
                 do {
 
                     Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
-                    GraphData value = new GraphData(DateConverter.nbDays(date.getTime()), mCursor.getDouble(0));
+                    GraphData value = new GraphData(DateConverter.nbDays(date), mCursor.getDouble(0));
 
                     // Adding value to list
                     valueList.add(value);
