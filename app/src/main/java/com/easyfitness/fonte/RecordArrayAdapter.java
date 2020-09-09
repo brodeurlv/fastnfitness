@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -86,7 +87,6 @@ public class RecordArrayAdapter extends ArrayAdapter{
             viewHolder = new ViewHolder();
             viewHolder.ExerciseName = view.findViewById(R.id.MACHINE_CELL);
             viewHolder.CardView = view.findViewById(R.id.CARDVIEW);
-            viewHolder.RecordTableLayout = view.findViewById(R.id.RecordTableLayout);
 
             viewHolder.Separator = view.findViewById(R.id.SEPARATOR_CELL);
             viewHolder.Date = view.findViewById(R.id.DATE_CELL);
@@ -105,7 +105,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
             viewHolder.BtActionEdit = view.findViewById(R.id.editButton);
             viewHolder.BtActionCopy = view.findViewById(R.id.copyButton);
 
-            viewHolder.TemplateTableRow = view.findViewById(R.id.Template_TableRow);
+            viewHolder.SecondColumn = view.findViewById(R.id.second_column);
             viewHolder.TemplateName = view.findViewById(R.id.TEMPLATE_NAME_CELL);
             viewHolder.TemplateFirstColLabel = view.findViewById(R.id.TEMPLATE_SERIE_CELL);
             viewHolder.TemplateSecondColLabel = view.findViewById(R.id.TEMPLATE_REPETITION_CELL);
@@ -176,7 +176,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
             Program program = mDbWorkout.get(record.getTemplateId());
             Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
             if (program !=null) {
-                viewHolder.TemplateTableRow.setVisibility(View.VISIBLE);
+                showTemplateRow(View.VISIBLE, viewHolder);
                 viewHolder.TemplateName.setText(program.getName());
                 if (templateRecord!=null) {
                     if (exerciseType == ExerciseType.STRENGTH) {
@@ -194,7 +194,7 @@ public class RecordArrayAdapter extends ArrayAdapter{
                 }
             }
         } else {
-            viewHolder.TemplateTableRow.setVisibility(View.GONE);
+            showTemplateRow(View.GONE, viewHolder);
         }
 
         if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY || mDisplayType==DisplayType.HISTORY_DISPLAY) {
@@ -374,6 +374,13 @@ public class RecordArrayAdapter extends ArrayAdapter{
         }
     }
 
+    private void showTemplateRow(int visibility, ViewHolder viewHolder) {
+        viewHolder.TemplateName.setVisibility(visibility);
+        viewHolder.TemplateFirstColLabel.setVisibility(visibility);
+        viewHolder.TemplateSecondColLabel.setVisibility(visibility);
+        viewHolder.TemplateThirdColValue.setVisibility(visibility);
+    }
+
     private void showEditorDialog(Record record, int position, ViewHolder viewHolder) {
         RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record, mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY);
         recordEditorDialogbox.setOnCancelListener(dialog -> {
@@ -400,18 +407,18 @@ public class RecordArrayAdapter extends ArrayAdapter{
 
         switch (pExerciseType) {
             case CARDIO:
-                viewHolder.RecordTableLayout.setColumnCollapsed(2, true);
+                viewHolder.SecondColumn.setVisibility(View.GONE);
                 viewHolder.FirstColLabel.setText(mContext.getString(R.string.DistanceLabel));
                 viewHolder.ThirdColLabel.setText(mContext.getString(R.string.DurationLabel));
                 break;
             case STRENGTH:
-                viewHolder.RecordTableLayout.setColumnCollapsed(2, false);
+                viewHolder.SecondColumn.setVisibility(View.VISIBLE);
                 viewHolder.FirstColLabel.setText(mContext.getString(R.string.SerieLabel));
                 viewHolder.SecondColLabel.setText(mContext.getString(R.string.RepetitionLabel_short));
                 viewHolder.ThirdColLabel.setText(mContext.getString(R.string.PoidsLabel));
                 break;
             case ISOMETRIC:
-                viewHolder.RecordTableLayout.setColumnCollapsed(2, false);
+                viewHolder.SecondColumn.setVisibility(View.VISIBLE);
                 viewHolder.FirstColLabel.setText(mContext.getString(R.string.SerieLabel));
                 viewHolder.SecondColLabel.setText(mContext.getString(R.string.SecondsLabel_short));
                 viewHolder.ThirdColLabel.setText(mContext.getString(R.string.PoidsLabel));
@@ -574,19 +581,18 @@ public class RecordArrayAdapter extends ArrayAdapter{
     private static class ViewHolder {
 
         CardView CardView;
-        TableLayout RecordTableLayout;
         TextView Separator;
         TextView ExerciseName;
         TextView Date;
         TextView Time;
         TextView FirstColValue;
         TextView FirstColLabel;
+        LinearLayout SecondColumn;
         TextView SecondColValue;
         TextView SecondColLabel;
         TextView ThirdColValue;
         TextView ThirdColLabel;
 
-        TableRow TemplateTableRow;
         TextView TemplateName;
         TextView TemplateFirstColLabel;
         TextView TemplateSecondColLabel;
