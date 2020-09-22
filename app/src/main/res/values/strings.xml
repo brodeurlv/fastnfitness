@@ -245,7 +245,7 @@
     <!-- Intro slides -->
     <string name="fillNameField">Please enter your name, at least</string>
     <string name="introSlide1Title">Hello</string>
-    <string name="size_cm_optional">Size in cm (optional)</string>
+    <string name="size_cm_optional">Height (cm) (optional)</string>
     <string name="create">Create</string>
     <string name="birthday_optional">Birthday (optional)</string>
     <string name="name_or_pseudo">Name / pseudonym</string>
