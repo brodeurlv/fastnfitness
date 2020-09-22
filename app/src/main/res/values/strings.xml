@@ -294,10 +294,10 @@
     <string name="no_size_available">no size available</string>
     <string name="no_weight_available">no weight available</string>
     <string name="BMI_dialog_title">Body Mass Index (BMI)</string>
-    <string name="BMI_formula">BMI = weight(kg) / size(m)²</string>
+    <string name="BMI_formula">BMI = weight(kg) / height(m)²</string>
     <string name="RFM_dialog_title">Relative Fat Mass Index (RFM)</string>
-    <string name="RFM_female_formula">Women: RFM = 76 – (20 x (size/waist circumference))</string>
-    <string name="RFM_male_formula">Men: RFM = 64 – (20 x (size/waist circumference))</string>
+    <string name="RFM_female_formula">Women: RFM = 76 – (20 x (height/waist circumference))</string>
+    <string name="RFM_male_formula">Men: RFM = 64 – (20 x (height/waist circumference))</string>
     <string name="access_granted">Access granted</string>
     <string name="another_time_maybe">Maybe another time :)</string>
     <string name="new_folder">New folder</string>
@@ -344,7 +344,7 @@
     <string name="delete_bodypart_confirm">Do you want to delete this bodypart ? All associated measures will be deleted.</string>
     <string name="new_measure">New measure</string>
     <string name="enter_profile_name">Enter profile name</string>
-    <string name="enter_size_cm">Enter size (cm)</string>
+    <string name="enter_size_cm">Enter height (cm)</string>
     <string name="enter_birthday">Enter birthday</string>
     <string name="enter_bodypart_name">Enter Bodypart name</string>
 
