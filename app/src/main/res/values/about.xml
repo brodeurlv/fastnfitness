@@ -10,9 +10,11 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.4: September 8, 2020\n
+v0.19.4: September 27, 2020\n
+\t- Enhancement: Add Italian locale (Thank you @mimo84)\n
 \t- Bug : Fixed BMI index with Weight not in KG (#174)\n
 \t- Bug : Fixed timezone issue (Thank you @ChrisJAllan) (#170)\n
+\t- Bug: Fixed Incomplete program name in history (#171)
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

@@ -106,15 +106,16 @@
         <item name="android:gravity">start</item>
         <item name="android:marqueeRepeatLimit">marquee_forever</item>
         <item name="android:maxLines">1</item>
+        <item name="android:maxLength">25</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>
         <item name="android:textColor">@color/cardview_title_color</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="record_param_title">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_marginLeft">5dp</item>
@@ -122,7 +123,7 @@
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/cardview_title_color</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -155,6 +156,15 @@
         <item name="android:textColor">@drawable/edittext_selector</item>
         <item name="android:textSize">18sp</item>
         <item name="android:title">@string/edit_value</item>
+    </style>
+
+    <style name="valueRecordStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 
