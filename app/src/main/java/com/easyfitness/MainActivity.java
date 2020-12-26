@@ -2,7 +2,6 @@ package com.easyfitness;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,8 +11,7 @@ import android.os.Environment;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
-import android.text.format.DateUtils;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,8 +53,6 @@ import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.UnitConverter;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -90,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
     public static String WORKOUTPAGER = "WorkoutPager";
     public static String PREFS_NAME = "prefsfile";
     private final int REQUEST_CODE_INTRO = 111;
-    private final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
+    private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
+    private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
 
@@ -458,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
         } else {
             // Afficher une boite de dialogue pour confirmer
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
@@ -489,6 +486,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void importDatabase() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT);
+        } else {
+            // Create DirectoryChooserDialog and register a callback
+            FileChooserDialog fileChooserDialog =
+                    new FileChooserDialog(this, chosenDir -> {
+                        m_importCVSchosenDir = chosenDir;
+                        //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
+                        //    chosenDir, Toast.LENGTH_LONG).show();
+                        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText(this.getResources().getString(R.string.global_confirm_question))
+                                .setContentText(this.getResources().getString(R.string.import_new_exercise_first))
+                                .setConfirmText(this.getResources().getString(R.string.global_yes))
+                                .setConfirmClickListener(sDialog -> {
+                                    sDialog.dismissWithAnimation();
+                                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                                    if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
+                                        KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                    } else {
+                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                    }
+                                    setCurrentProfil(getCurrentProfile()); // Refresh profile
+                                })
+                                .setCancelText(this.getResources().getString(R.string.global_no))
+                                .show();
+                    });
+
+            fileChooserDialog.setFileFilter("csv");
+            fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
@@ -503,33 +539,7 @@ public class MainActivity extends AppCompatActivity {
                 exportDatabase();
                 return true;
             case R.id.import_database:
-                // Create DirectoryChooserDialog and register a callback
-                FileChooserDialog fileChooserDialog =
-                    new FileChooserDialog(this, chosenDir -> {
-                        m_importCVSchosenDir = chosenDir;
-                        //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
-                        //    chosenDir, Toast.LENGTH_LONG).show();
-                        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText(this.getResources().getString(R.string.global_confirm_question))
-                            .setContentText(this.getResources().getString(R.string.import_new_exercise_first))
-                            .setConfirmText(this.getResources().getString(R.string.global_yes))
-                            .setConfirmClickListener(sDialog -> {
-                                sDialog.dismissWithAnimation();
-                                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
-                                    KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
-                                } else {
-                                    KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
-                                }
-                                setCurrentProfil(getCurrentProfile()); // Refresh profile
-                            })
-                            .setCancelText(this.getResources().getString(R.string.global_no))
-                            .show();
-
-                    });
-
-                fileChooserDialog.setFileFilter("csv");
-                fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
+                importDatabase();
                 return true;
             case R.id.action_deleteDB:
                 // Afficher une boite de dialogue pour confirmer
@@ -593,14 +603,21 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
-        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+        if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT) {
             if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 exportDatabase();
             } else {
                 KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-
+            }
+        } else if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                importDatabase();
+            } else {
+                KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
         }
     }
