@@ -67,10 +67,10 @@ public class CVSManager {
 
             PrintWriter printWriter = null;
             try {
-                exportBodyMeasures(exportDir, pProfile);
-                exportRecords(exportDir, pProfile);
-                exportExercise(exportDir, pProfile);
-                exportBodyParts(exportDir, pProfile);
+                exportBodyMeasures(exportDir, pProfile, date);
+                exportRecords(exportDir, pProfile, date);
+                exportExercise(exportDir, pProfile, date);
+                exportBodyParts(exportDir, pProfile, date);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -84,11 +84,10 @@ public class CVSManager {
         }
     }
 
-    private boolean exportRecords(File exportDir, Profile pProfile) {
+    private boolean exportRecords(File exportDir, Profile pProfile, Date date) {
         try {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-            Date date = new Date();
 
             CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
@@ -163,10 +162,9 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyMeasures(File exportDir, Profile pProfile) {
+    private boolean exportBodyMeasures(File exportDir, Profile pProfile, Date date) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-            Date date = new Date();
 
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
@@ -209,10 +207,9 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyParts(File exportDir, Profile pProfile) {
+    private boolean exportBodyParts(File exportDir, Profile pProfile, Date date) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-            Date date = new Date();
 
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
@@ -249,11 +246,10 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportExercise(File exportDir, Profile pProfile) {
+    private boolean exportExercise(File exportDir, Profile pProfile, Date date) {
         try {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-            Date date = new Date();
 
             CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
 
