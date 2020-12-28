@@ -46,10 +46,7 @@ public class ExerciseDetailsPager extends Fragment {
     boolean isFavorite = false;
     boolean toBeSaved = false;
     DAOMachine mDbMachine = null;
-    DAORecord mDbRecord = null;
-    private String name;
-    private int id;
-    private View.OnClickListener onClickToolbarItem = v -> {
+    private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
             case R.id.deleteButton:
@@ -59,6 +56,9 @@ public class ExerciseDetailsPager extends Fragment {
                 getActivity().onBackPressed();
         }
     };
+    DAORecord mDbRecord = null;
+    private String name;
+    private int id;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -220,7 +220,7 @@ public class ExerciseDetailsPager extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.pager)).getAdapter();
     }
 
     @Override

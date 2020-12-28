@@ -6,8 +6,8 @@ import com.easyfitness.utils.UnitConverter;
 import java.text.DecimalFormat;
 
 public class Weight {
-    private float pWeight;
-    private WeightUnit pUnit;
+    private final float pWeight;
+    private final WeightUnit pUnit;
 
     public Weight(float weight, WeightUnit unit) {
         pWeight = weight;

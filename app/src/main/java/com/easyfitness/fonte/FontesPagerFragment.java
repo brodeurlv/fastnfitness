@@ -98,7 +98,7 @@ public class FontesPagerFragment extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.pager)).getAdapter();
     }
 
     @Override

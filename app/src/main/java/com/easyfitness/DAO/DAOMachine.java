@@ -34,7 +34,7 @@ public class DAOMachine extends DAOBase {
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
             + TABLE_NAME + ";";
 
-    private Profile mProfile = null;
+    private final Profile mProfile = null;
     private Cursor mCursor = null;
 
     public DAOMachine(Context context) {
@@ -131,9 +131,7 @@ public class DAOMachine extends DAOBase {
         if (mCursor != null)
             mCursor.moveToFirst();
 
-        if (mCursor.getCount() == 0)
-            return false;
-        return true;
+        return mCursor.getCount() != 0;
     }
 
     // Getting All Records

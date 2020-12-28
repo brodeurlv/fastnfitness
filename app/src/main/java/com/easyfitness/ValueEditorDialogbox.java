@@ -16,15 +16,14 @@ import java.util.Date;
 
 public class ValueEditorDialogbox extends Dialog implements View.OnClickListener {
 
+    private final Date mDate;
+    private final String mTime;
+    private final double mValue;
+    private final Unit mUnit;
     public Dialog d;
     private SingleValueInputView dateEdit;
     private SingleValueInputView timeEdit;
     private SingleValueInputView valueEdit;
-
-    private Date mDate;
-    private String mTime;
-    private double mValue;
-    private Unit mUnit;
     private Button updateButton;
     private Button cancelButton;
     private boolean mCancelled = false;
@@ -113,8 +112,6 @@ public class ValueEditorDialogbox extends Dialog implements View.OnClickListener
     public boolean isCancelled() {
         return mCancelled;
     }
-
-    ;
 
     public String getDate() {
         return dateEdit.getValue();

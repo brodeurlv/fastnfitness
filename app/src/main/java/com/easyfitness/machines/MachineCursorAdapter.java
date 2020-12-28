@@ -19,9 +19,9 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 public class MachineCursorAdapter extends CursorAdapter implements Filterable {
 
+    private final LayoutInflater mInflater;
     DAOMachine mDbMachine = null;
     MaterialFavoriteButton iFav = null;
-    private LayoutInflater mInflater;
 
     public MachineCursorAdapter(Context context, Cursor c, int flags, DAOMachine pDbMachine) {
         super(context, c, flags);

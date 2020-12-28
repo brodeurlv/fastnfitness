@@ -33,10 +33,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BodyPartListFragment extends Fragment {
-    ArrayList<BodyPart> dataModels;
-    ListView measureList = null;
-
-    private View.OnClickListener clickAddButton = v -> {
+    private final View.OnClickListener clickAddButton = v -> {
         final EditText editText = new EditText(getContext());
         editText.setText("");
         editText.setGravity(Gravity.CENTER);
@@ -82,7 +79,7 @@ public class BodyPartListFragment extends Fragment {
         dialog.show();
     };
 
-    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+    private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 
         TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
         long bodyPartID = Long.parseLong(textView.getText().toString());
@@ -97,6 +94,8 @@ public class BodyPartListFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
+    ArrayList<BodyPart> dataModels;
+    ListView measureList = null;
     private DAOBodyPart mdbBodyPart;
     private DAOBodyMeasure mdbMeasure;
     private BodyPartListAdapter mListAdapter;

@@ -56,11 +56,18 @@ public class NewProfileFragment extends SlideFragment {
     private EditText mName;
     private EditText mSize;
     private TextView mBirthday;
+    private final OnDateSetListener dateSet = new OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+        }
+    };
     private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
     private RadioButton mRbOtherGender;
-
     private boolean mProfilCreated = false;
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
@@ -106,14 +113,6 @@ public class NewProfileFragment extends SlideFragment {
     };
     private DatePickerDialogFragment mDateFrag = null;
     private MainActivity motherActivity;
-    private OnDateSetListener dateSet = new OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-        }
-    };
 
     public NewProfileFragment() {
         // Required empty public constructor

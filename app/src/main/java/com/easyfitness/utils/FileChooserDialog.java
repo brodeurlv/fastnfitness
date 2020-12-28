@@ -28,11 +28,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileChooserDialog {
+    private final Context m_context;
     private boolean m_isNewFolderEnabled = false;
     private boolean m_displayFolderOnly = false;
     private String m_fileFilter = "*";
     private String m_sdcardDirectory = "";
-    private Context m_context;
     private TextView m_titleView;
 
     private String m_dir = "";
@@ -116,7 +116,7 @@ public class FileChooserDialog {
         class DirectoryOnClickListener implements DialogInterface.OnClickListener {
             public void onClick(DialogInterface dialog, int item) {
 
-                if (((AlertDialog) dialog).getListView().getAdapter().getItem(item).toString().substring(0, 1).equals("/")) {
+                if (((AlertDialog) dialog).getListView().getAdapter().getItem(item).toString().startsWith("/")) {
                     // Navigate into the sub-directory
                     m_dir += ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
                     ((AlertDialog) dialog).getListView().smoothScrollToPositionFromTop(0, 0, 0);// Back on top of the ListView

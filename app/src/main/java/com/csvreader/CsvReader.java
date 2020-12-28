@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
@@ -48,25 +49,23 @@ public class CsvReader {
      * occurance of the text qualifier.
      */
     public static final int ESCAPE_MODE_BACKSLASH = 2;
+    // this holds all the values for switches that the user is allowed to set
+    private final UserSettings userSettings = new UserSettings();
+    private final DataBuffer dataBuffer = new DataBuffer();
+    private final ColumnBuffer columnBuffer = new ColumnBuffer();
+    private final RawRecordBuffer rawBuffer = new RawRecordBuffer();
+    private final HeadersHolder headersHolder = new HeadersHolder();
     private Reader inputStream = null;
     private String fileName = null;
-    // this holds all the values for switches that the user is allowed to set
-    private UserSettings userSettings = new UserSettings();
-
     // this will be our working buffer to hold data chunks
     // read in from the data file
     private Charset charset = null;
     private boolean useCustomRecordDelimiter = false;
-    private DataBuffer dataBuffer = new DataBuffer();
-    private ColumnBuffer columnBuffer = new ColumnBuffer();
-    private RawRecordBuffer rawBuffer = new RawRecordBuffer();
     private boolean[] isQualified = null;
-
     // these are all more or less global loop variables
     // to keep from needing to pass them all into various
     // methods during parsing
     private String rawRecord = "";
-    private HeadersHolder headersHolder = new HeadersHolder();
     private boolean startedColumn = false;
     private boolean startedWithQualifier = false;
     private boolean hasMoreData = true;
@@ -121,7 +120,7 @@ public class CsvReader {
      */
     public CsvReader(String fileName, char delimiter)
             throws FileNotFoundException {
-        this(fileName, delimiter, Charset.forName("ISO-8859-1"));
+        this(fileName, delimiter, StandardCharsets.ISO_8859_1);
     }
 
     /**
@@ -614,8 +613,9 @@ public class CsvReader {
 
                                     if (currentLetter == userSettings.Delimiter) {
                                         endColumn();
-                                    } else if ((!useCustomRecordDelimiter && (currentLetter == Letters.CR || currentLetter == Letters.LF))
-                                            || (useCustomRecordDelimiter && currentLetter == userSettings.RecordDelimiter)) {
+                                    } else if (useCustomRecordDelimiter ? currentLetter ==
+                                            userSettings.RecordDelimiter : currentLetter ==
+                                            Letters.CR || currentLetter == Letters.LF) {
                                         endColumn();
 
                                         endRecord();
@@ -768,8 +768,9 @@ public class CsvReader {
                                     if (lastLetterWasQualifier) {
                                         if (currentLetter == userSettings.Delimiter) {
                                             endColumn();
-                                        } else if ((!useCustomRecordDelimiter && (currentLetter == Letters.CR || currentLetter == Letters.LF))
-                                                || (useCustomRecordDelimiter && currentLetter == userSettings.RecordDelimiter)) {
+                                        } else if (useCustomRecordDelimiter ? currentLetter ==
+                                                userSettings.RecordDelimiter : currentLetter ==
+                                                Letters.CR || currentLetter == Letters.LF) {
                                             endColumn();
 
                                             endRecord();
@@ -844,7 +845,7 @@ public class CsvReader {
                         // this will skip blank lines
                         if (startedColumn
                                 || columnsCount > 0
-                                || (!userSettings.SkipEmptyRecords && (currentLetter == Letters.CR || lastLetter != Letters.CR))) {
+                                || !userSettings.SkipEmptyRecords && (currentLetter == Letters.CR || lastLetter != Letters.CR)) {
                             endColumn();
 
                             endRecord();
@@ -1030,8 +1031,9 @@ public class CsvReader {
                                 } else {
                                     if (currentLetter == userSettings.Delimiter) {
                                         endColumn();
-                                    } else if ((!useCustomRecordDelimiter && (currentLetter == Letters.CR || currentLetter == Letters.LF))
-                                            || (useCustomRecordDelimiter && currentLetter == userSettings.RecordDelimiter)) {
+                                    } else if (useCustomRecordDelimiter ? currentLetter ==
+                                            userSettings.RecordDelimiter : currentLetter ==
+                                            Letters.CR || currentLetter == Letters.LF) {
                                         endColumn();
 
                                         endRecord();

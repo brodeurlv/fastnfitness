@@ -24,7 +24,7 @@ public class DateConverter {
     static public double nbDays(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return ((calendar.getTimeInMillis() + calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / MILLISECONDINDAY);
+        return (calendar.getTimeInMillis() + calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / MILLISECONDINDAY;
     }
 
     static public double nbMinutes(double millisecondes) {

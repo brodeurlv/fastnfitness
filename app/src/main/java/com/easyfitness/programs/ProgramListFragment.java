@@ -28,10 +28,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramListFragment extends Fragment {
-    ArrayList<Program> dataModels;
-    ListView measureList = null;
-
-    private View.OnClickListener clickAddButton = v -> {
+    private final View.OnClickListener clickAddButton = v -> {
         final EditText editText = new EditText(getContext());
         editText.setText("");
         editText.setGravity(Gravity.CENTER);
@@ -77,7 +74,7 @@ public class ProgramListFragment extends Fragment {
         dialog.show();
     };
 
-    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+    private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 
         TextView textView = view.findViewById(R.id.LIST_WORKOUT_ID);
         long ID = Long.parseLong(textView.getText().toString());
@@ -92,7 +89,8 @@ public class ProgramListFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
-
+    ArrayList<Program> dataModels;
+    ListView measureList = null;
     private ProgramListAdapter mListAdapter;
     private Button addButton;
     private DAOProgram mDb;

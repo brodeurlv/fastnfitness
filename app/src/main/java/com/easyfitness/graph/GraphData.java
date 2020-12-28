@@ -1,7 +1,8 @@
 package com.easyfitness.graph;
 
 public class GraphData {
-    private double x, y;
+    private final double x;
+    private final double y;
 
     public GraphData(double x, double y) {
         this.x = x;

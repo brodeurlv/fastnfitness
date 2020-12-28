@@ -11,9 +11,9 @@ import java.util.Date;
 
 public class CustomExceptionHandler implements UncaughtExceptionHandler {
 
-    private UncaughtExceptionHandler defaultUEH;
+    private final UncaughtExceptionHandler defaultUEH;
 
-    private String localPath;
+    private final String localPath;
 
     //private String url;
 

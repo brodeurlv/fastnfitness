@@ -121,7 +121,7 @@ public class UnitConverter {
         // Convert total duration into time
         int hours = (int) (milliseconds / (1000 * 60 * 60));
         int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        int seconds = (int) (milliseconds % (1000 * 60 * 60) % (1000 * 60) / 1000);
         // Add hours if there
         if (hours > 0) {
             finalTimerString = hours + ":";
@@ -153,7 +153,7 @@ public class UnitConverter {
         long totalSeconds = (int) (totalDuration / 1000);
 
         // calculating percentage
-        percentage = (((double) currentSeconds) / totalSeconds) * 100;
+        percentage = (double) currentSeconds / totalSeconds * 100;
 
         // return percentage
         return (int) percentage;
@@ -168,7 +168,7 @@ public class UnitConverter {
     public int progressToTimer(int progress, int totalDuration) {
         int currentDuration = 0;
         totalDuration = totalDuration / 1000;
-        currentDuration = (int) ((((double) progress) / 100) * totalDuration);
+        currentDuration = (int) ((double) progress / 100 * totalDuration);
 
         // return current duration in milliseconds
         return currentDuration * 1000;

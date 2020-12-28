@@ -22,7 +22,7 @@ import static android.text.format.DateFormat.getDateFormat;
 
 public class WeightCursorAdapter extends CursorAdapter {
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     public WeightCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

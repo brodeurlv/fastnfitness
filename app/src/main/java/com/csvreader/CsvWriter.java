@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A stream based writer for writing delimited text data to a file or a stream.
@@ -42,16 +43,16 @@ public class CsvWriter {
      * occurrence of the text qualifier.
      */
     public static final int ESCAPE_MODE_BACKSLASH = 2;
+    // this holds all the values for switches that the user is allowed to set
+    private final UserSettings userSettings = new UserSettings();
+    private final String systemRecordDelimiter = System.getProperty("line.separator");
     private Writer outputStream = null;
     private String fileName = null;
     private boolean firstColumn = true;
     private boolean useCustomRecordDelimiter = false;
     private Charset charset = null;
-    // this holds all the values for switches that the user is allowed to set
-    private UserSettings userSettings = new UserSettings();
     private boolean initialized = false;
     private boolean closed = false;
-    private String systemRecordDelimiter = System.getProperty("line.separator");
 
     /**
      * Creates a {@link com.csvreader.CsvWriter CsvWriter} object using a file
@@ -84,7 +85,7 @@ public class CsvWriter {
      * @param fileName The path to the file to output the data.
      */
     public CsvWriter(String fileName) {
-        this(fileName, Letters.COMMA, Charset.forName("ISO-8859-1"));
+        this(fileName, Letters.COMMA, StandardCharsets.ISO_8859_1);
     }
 
     /**
@@ -280,16 +281,16 @@ public class CsvWriter {
                 && userSettings.UseTextQualifier
                 && (content.indexOf(userSettings.TextQualifier) > -1
                 || content.indexOf(userSettings.Delimiter) > -1
-                || (!useCustomRecordDelimiter && (content
+                || !useCustomRecordDelimiter && (content
                 .indexOf(Letters.LF) > -1 || content
-                .indexOf(Letters.CR) > -1))
-                || (useCustomRecordDelimiter && content
-                .indexOf(userSettings.RecordDelimiter) > -1)
-                || (firstColumn && content.length() > 0 && content
-                .charAt(0) == userSettings.Comment) ||
+                .indexOf(Letters.CR) > -1)
+                || useCustomRecordDelimiter && content
+                .indexOf(userSettings.RecordDelimiter) > -1
+                || firstColumn && content.length() > 0 && content
+                .charAt(0) == userSettings.Comment ||
                 // check for empty first column, which if on its own line must
                 // be qualified or the line will be skipped
-                (firstColumn && content.length() == 0))) {
+                firstColumn && content.length() == 0)) {
             textQualify = true;
         }
 

@@ -24,7 +24,7 @@ public class ProgramInfoFragment extends Fragment {
     MainActivity mActivity = null;
     private DAOProgram mDb = null;
     private Program mProgram;
-    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
+    private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -57,7 +57,7 @@ public class ProgramInfoFragment extends Fragment {
         mDb = new DAOProgram(getContext());
         mProgram = mDb.get(workoutID);
         nameEdit.setText(mProgram.getName());
-        descriptionEdit.setText((mProgram.getDescription()));
+        descriptionEdit.setText(mProgram.getDescription());
 
         return view;
     }

@@ -27,35 +27,7 @@ import com.easyfitness.enums.ExerciseType;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {
-    ListView machineList = null;
-    Button addButton = null;
-    AutoCompleteTextView searchField = null;
-    MachineCursorAdapter mTableAdapter;
-
-    private DAOMachine mDbMachine = null;
-    public TextWatcher onTextChangeListener = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            if (charSequence.length() == 0) {
-                refreshData();
-            } else {
-                if (mTableAdapter != null) {
-                    mTableAdapter.getFilter().filter(charSequence);
-                    mTableAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
-    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+    private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
         // Get Machine Name selected
         TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
         long machineId = Long.valueOf(textViewID.getText().toString());
@@ -69,7 +41,7 @@ public class MachineFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
-    private View.OnClickListener clickAddButton = v -> {
+    private final View.OnClickListener clickAddButton = v -> {
 
         // create a temporarily exercise with name="" and open it like any other existing exercises
         long new_id = -1;
@@ -155,6 +127,33 @@ public class MachineFragment extends Fragment {
             dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
         }
     };
+    ListView machineList = null;
+    Button addButton = null;
+    AutoCompleteTextView searchField = null;
+    MachineCursorAdapter mTableAdapter;
+    private DAOMachine mDbMachine = null;
+    public TextWatcher onTextChangeListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            if (charSequence.length() == 0) {
+                refreshData();
+            } else {
+                if (mTableAdapter != null) {
+                    mTableAdapter.getFilter().filter(charSequence);
+                    mTableAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -235,7 +234,7 @@ public class MachineFragment extends Fragment {
                         mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
                         machineList.setAdapter(mTableAdapter);
                     } else {
-                        mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
+                        mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
                         oldCursor = mTableAdapter.swapCursor(c);
                         if (oldCursor != null) oldCursor.close();
                     }

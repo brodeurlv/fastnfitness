@@ -42,9 +42,9 @@ public class CountdownDialogbox extends Dialog implements
     private float lTotalSession = 0;
     private float lTotalMachine = 0;
     private int iRestTime = 60;
-    private OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
+    private final OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
 
-        boolean bFirst = true;
+        final boolean bFirst = true;
 
         @Override
         public void onChronometerTick(Chronometer chronometer) {

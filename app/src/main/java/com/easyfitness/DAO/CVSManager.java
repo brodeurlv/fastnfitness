@@ -24,7 +24,7 @@ import com.easyfitness.utils.DateConverter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import java.util.Locale;
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
 public class CVSManager {
 
-    static private String TABLE_HEAD = "table";
-    static private String ID_HEAD = "id";
+    static private final String TABLE_HEAD = "table";
+    static private final String ID_HEAD = "id";
 
     private Context mContext = null;
 
@@ -89,7 +89,7 @@ public class CVSManager {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
-            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -167,7 +167,7 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
             DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
             daoBodyMeasure.open();
 
@@ -212,7 +212,7 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
             daoBodyPart.open();
 
@@ -251,7 +251,7 @@ public class CVSManager {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
-            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -305,7 +305,7 @@ public class CVSManager {
         boolean ret = true;
 
         try {
-            CsvReader csvRecords = new CsvReader(file, ',', Charset.forName("UTF-8"));
+            CsvReader csvRecords = new CsvReader(file, ',', StandardCharsets.UTF_8);
 
             csvRecords.readHeaders();
 
@@ -393,7 +393,7 @@ public class CVSManager {
                         }
                         break;
                     }
-                    case DAOBodyPart.TABLE_NAME: {
+                    case DAOBodyPart.TABLE_NAME:
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
                         int bodyPartId = -1;
@@ -401,7 +401,6 @@ public class CVSManager {
                         String customPicture = csvRecords.get(DAOBodyPart.CUSTOM_PICTURE);
                         dbcBodyPart.add(bodyPartId, customName, customPicture, 0, BodyPartExtensions.TYPE_MUSCLE);
                         break;
-                    }
                     case DAOProfile.TABLE_NAME:
                         // TODO : import profiles
                         break;

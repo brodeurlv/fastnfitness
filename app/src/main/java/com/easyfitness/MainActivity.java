@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_INTRO = 111;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
+    private final MusicController musicController = new MusicController(this);
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
-
     /* Fragments */
     private FontesPagerFragment mpFontesPagerFrag = null;
     private WeightFragment mpWeightFrag = null;
@@ -99,21 +99,18 @@ public class MainActivity extends AppCompatActivity {
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
     private ProgramListFragment mpWorkoutListFrag;
-
     private String currentFragmentName = "";
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
     private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
-
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private MusicController musicController = new MusicController(this);
     private CircularImageView roundProfile = null;
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private long mBackPressed;
     private ProfileViMo profileViMo;
 
-    private PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
+    private final PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
             case R.id.create_newprofil:
                 getActivity().CreateNewProfil();

@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class ExpandedListView extends ListView {
+    private final int oldCount = 0;
     private ViewGroup.LayoutParams params;
-    private int oldCount = 0;
 
     public ExpandedListView(Context context) {
         super(context);

@@ -189,7 +189,7 @@ public class ImageUtil {
         String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
 
         // If it is already a thumb do nothing
-        if (nameOfOutputImage.substring(nameOfOutputImage.length() - 3).equals("_TH")) {
+        if (nameOfOutputImage.endsWith("_TH")) {
             return pPath;
             // else check if it already exists
         } else {

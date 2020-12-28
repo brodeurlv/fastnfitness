@@ -50,9 +50,9 @@ public class ProfileFragment extends Fragment {
     private DAOProfile mDb = null;
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
-    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
     private ProfileViMo profileViMo;
-    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
+    private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
 
     /**
      * Create a new instance of DetailsFragment, initialized to

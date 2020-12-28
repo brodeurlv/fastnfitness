@@ -40,29 +40,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class WeightFragment extends Fragment {
-    MainActivity mActivity = null;
-    private TextView weightEdit = null;
-    private TextView fatEdit = null;
-    private TextView musclesEdit = null;
-    private TextView waterEdit = null;
-    private TextView imcText = null;
-    private TextView imcRank = null;
-    private TextView ffmiText = null;
-    private TextView ffmiRank = null;
-    private TextView rfmText = null;
-    private TextView rfmRank = null;
-
-    private LineChart mWeightLineChart;
-    private LineChart mFatLineChart;
-    private LineChart mMusclesLineChart;
-    private LineChart mWaterLineChart;
-
-
-    private DAOProfileWeight mWeightDb = null;
-    private DAOBodyMeasure mDbBodyMeasure = null;
-    private DAOBodyPart mDbBodyPart;
-    private DAOProfile mDb = null;
-    private AdapterView.OnClickListener showDetailsFragment = v -> {
+    private final DAOProfile mDb = null;
+    private final AdapterView.OnClickListener showDetailsFragment = v -> {
         int bodyPartID = BodyPartExtensions.WEIGHT;
         switch (v.getId()) {
             case R.id.weightGraph:
@@ -93,7 +72,7 @@ public class WeightFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
-    private OnClickListener showHelp = v -> {
+    private final OnClickListener showHelp = v -> {
         switch (v.getId()) {
             case R.id.imcHelp:
                 new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
@@ -122,6 +101,24 @@ public class WeightFragment extends Fragment {
                 break;
         }
     };
+    MainActivity mActivity = null;
+    private TextView weightEdit = null;
+    private TextView fatEdit = null;
+    private TextView musclesEdit = null;
+    private TextView waterEdit = null;
+    private TextView imcText = null;
+    private TextView imcRank = null;
+    private TextView ffmiText = null;
+    private TextView ffmiRank = null;
+    private TextView rfmText = null;
+    private TextView rfmRank = null;
+    private LineChart mWeightLineChart;
+    private LineChart mFatLineChart;
+    private LineChart mMusclesLineChart;
+    private LineChart mWaterLineChart;
+    private DAOProfileWeight mWeightDb = null;
+    private DAOBodyMeasure mDbBodyMeasure = null;
+    private DAOBodyPart mDbBodyPart;
     private MiniDateGraph mWeightGraph;
     private MiniDateGraph mFatGraph;
     private MiniDateGraph mMusclesGraph;
@@ -131,7 +128,7 @@ public class WeightFragment extends Fragment {
     private BodyPart musclesBobyPart;
     private BodyPart waterBobyPart;
     private ProfileViMo profileViMo;
-    private OnClickListener mOnClickListener = new OnClickListener() {
+    private final OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
             ValueEditorDialogbox editorDialogbox;
@@ -487,7 +484,7 @@ public class WeightFragment extends Fragment {
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1 - (bodyFat / 100)) / (size / 100.0 * size / 100.0);
+        ffmi = weight * (1 - bodyFat / 100) / (size / 100.0 * size / 100.0);
 
         return ffmi;
     }
@@ -503,7 +500,7 @@ public class WeightFragment extends Fragment {
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1 - (bodyFat / 100)) / (size * size) + 6.1 * (1.8 - size);
+        ffmi = weight * (1 - bodyFat / 100) / (size * size) + 6.1 * (1.8 - size);
 
         return ffmi;
     }

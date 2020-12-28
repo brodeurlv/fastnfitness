@@ -43,41 +43,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramRunnerFragment extends Fragment {
-    private Button mStartStopButton;
-    private Button mNewButton;
-    private Button mEditButton;
-    private ListView mProgramRecordsList;
-    private Spinner mProgramsSpinner;
-    private TextView mProgramRecordsListTitle;
-
-    private DAOProgram mDbWorkout;
-    private DAOProgramHistory mDbWorkoutHistory;
-    private DAORecord mDbRecord;
-    private ArrayAdapter<Program> mAdapterPrograms;
-    private List<Program> mProgramsArray;
-    private Program mRunningProgram;
-    private ProgramHistory mRunningProgramHistory;
-    private boolean mIsProgramRunning = false;
-
-    private ProfileViMo profileViMo;
-
-    private View.OnClickListener onClickEditProgram = view -> {
-
-        Program program = (Program) mProgramsSpinner.getSelectedItem();
-        if (program == null) return;
-
-        ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(program.getId());
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
-    };
-
-    private View.OnClickListener clickAddProgramButton = v -> {
+    private final View.OnClickListener clickAddProgramButton = v -> {
         final EditText editText = new EditText(getContext());
         editText.setText("");
         editText.setGravity(Gravity.CENTER);
@@ -122,7 +88,37 @@ public class ProgramRunnerFragment extends Fragment {
         dialog.setCustomView(linearLayout);
         dialog.show();
     };
-    private OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
+    private Button mStartStopButton;
+    private Button mNewButton;
+    private Button mEditButton;
+    private ListView mProgramRecordsList;
+    private Spinner mProgramsSpinner;
+    private final View.OnClickListener onClickEditProgram = view -> {
+
+        Program program = (Program) mProgramsSpinner.getSelectedItem();
+        if (program == null) return;
+
+        ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(program.getId());
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    };
+    private TextView mProgramRecordsListTitle;
+    private DAOProgram mDbWorkout;
+    private DAOProgramHistory mDbWorkoutHistory;
+    private DAORecord mDbRecord;
+    private ArrayAdapter<Program> mAdapterPrograms;
+    private List<Program> mProgramsArray;
+    private Program mRunningProgram;
+    private ProgramHistory mRunningProgramHistory;
+    private boolean mIsProgramRunning = false;
+    private ProfileViMo profileViMo;
+    private final OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
         @Override
         public void onEvent(String eventName) {
             // Open dialog box to finish program
@@ -138,7 +134,7 @@ public class ProgramRunnerFragment extends Fragment {
             dialog.show();
         }
     };
-    private View.OnClickListener clickStartStopButton = v -> {
+    private final View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram == null) {
             mRunningProgram = (Program) mProgramsSpinner.getSelectedItem();
             if (mRunningProgram != null) {
@@ -168,7 +164,7 @@ public class ProgramRunnerFragment extends Fragment {
             stopProgram();
         }
     };
-    private AdapterView.OnItemSelectedListener onProgramSelected = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener onProgramSelected = new AdapterView.OnItemSelectedListener() {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,

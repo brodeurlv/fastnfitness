@@ -16,10 +16,10 @@ import com.easyfitness.views.WorkoutValuesInputView;
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
     private final boolean mShowRestTime;
+    private final Activity mActivity;
+    private final Record mRecord;
     public Dialog d;
-    private Activity mActivity;
     private WorkoutValuesInputView mWorkoutValuesInput;
-    private Record mRecord;
     private boolean mCancelled = false;
 
     public RecordEditorDialogbox(Activity a, Record record) {
@@ -106,7 +106,5 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     public boolean isCancelled() {
         return mCancelled;
     }
-
-    ;
 
 }

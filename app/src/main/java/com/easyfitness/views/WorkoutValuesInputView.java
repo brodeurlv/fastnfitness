@@ -47,11 +47,7 @@ public class WorkoutValuesInputView extends LinearLayout {
     private SingleValueInputView secondsInputView;
     private SingleValueInputView distanceInputView;
     private SingleValueInputView durationInputView;
-
-    private CardView restTimeCardView = null;
-    private AppCompatEditText restTimeEditText;
-    private AppCompatCheckBox restTimeCheckBox;
-    private OnClickListener clickExerciseTypeSelector = v -> {
+    private final OnClickListener clickExerciseTypeSelector = v -> {
         switch (v.getId()) {
             case R.id.IsometricSelector:
                 setSelectedType(ExerciseType.ISOMETRIC);
@@ -65,6 +61,9 @@ public class WorkoutValuesInputView extends LinearLayout {
                 break;
         }
     };
+    private CardView restTimeCardView = null;
+    private AppCompatEditText restTimeEditText;
+    private AppCompatCheckBox restTimeCheckBox;
 
     public WorkoutValuesInputView(@NonNull Context context) {
         super(context);

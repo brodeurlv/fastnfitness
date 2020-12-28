@@ -127,12 +127,12 @@ public class DAOBodyPart extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(this.KEY)),
-                        mCursor.getInt(mCursor.getColumnIndex(this.BODYPART_RESID)),
-                        mCursor.getString(mCursor.getColumnIndex(this.CUSTOM_NAME)),
-                        mCursor.getString(mCursor.getColumnIndex(this.CUSTOM_PICTURE)),
-                        mCursor.getInt(mCursor.getColumnIndex(this.DISPLAY_ORDER)),
-                        mCursor.getInt(mCursor.getColumnIndex(this.TYPE))
+                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+                        mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
+                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
+                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
+                        mCursor.getInt(mCursor.getColumnIndex(TYPE))
                 );
 
                 // Adding value to list
@@ -191,7 +191,7 @@ public class DAOBodyPart extends DAOBase {
      */
     public void deleteAllEmptyBodyPart() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, this.BODYPART_RESID + "=? " + " AND " + this.CUSTOM_NAME + "=?",
+        db.delete(TABLE_NAME, BODYPART_RESID + "=? " + " AND " + CUSTOM_NAME + "=?",
                 new String[]{"-1", ""});
         db.close();
     }

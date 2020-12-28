@@ -30,9 +30,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class DirectoryChooserDialog {
+    private final Context m_context;
     private boolean m_isNewFolderEnabled = true;
     private String m_sdcardDirectory = "";
-    private Context m_context;
     private TextView m_titleView;
 
     private String m_dir = "";

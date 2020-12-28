@@ -29,7 +29,7 @@ public class DAOBodyMeasure extends DAOBase {
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-    private Profile mProfile = null;
+    private final Profile mProfile = null;
     private Cursor mCursor = null;
 
     public DAOBodyMeasure(Context context) {

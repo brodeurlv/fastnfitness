@@ -93,37 +93,31 @@ public class FontesFragment extends Fragment {
     private CardView detailsCardView = null;
     private CheckBox autoTimeCheckBox = null;
     private TextView dateEdit = null;
+    private final DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
+        dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+        Keyboard.hide(getContext(), dateEdit);
+    };
     private TextView timeEdit = null;
-
-    private Button addButton = null;
-    private ExpandedListView recordList = null;
-    private AlertDialog machineListDialog;
-    private DatePickerDialogFragment mDateFrag = null;
-    private TimePickerDialogFragment mTimeFrag = null;
-    private WorkoutValuesInputView workoutValuesInputView;
-
-    private DAOFonte mDbBodyBuilding = null;
-    private DAOCardio mDbCardio = null;
-    private DAOStatic mDbStatic = null;
-    private DAORecord mDbRecord = null;
-    private DAOMachine mDbMachine = null;
-
-    private MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
+    private final MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         Date date = DateConverter.timeToDate(hourOfDay, minute, second);
         timeEdit.setText(DateConverter.dateToLocalTimeStr(date, getContext()));
         Keyboard.hide(getContext(), timeEdit);
     };
-    private OnClickListener collapseDetailsClick = v -> {
-        detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
-        saveSharedParams();
+    private final CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
+        dateEdit.setEnabled(!isChecked);
+        timeEdit.setEnabled(!isChecked);
+        if (isChecked) {
+            dateEdit.setText(DateConverter.currentDate(getContext()));
+            timeEdit.setText(DateConverter.currentTime(getContext()));
+        }
     };
-    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
-        dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
-        Keyboard.hide(getContext(), dateEdit);
-    };
-    private OnClickListener clickDateEdit = v -> {
+    private Button addButton = null;
+    private ExpandedListView recordList = null;
+    private AlertDialog machineListDialog;
+    private DatePickerDialogFragment mDateFrag = null;
+    private TimePickerDialogFragment mTimeFrag = null;
+    private final OnClickListener clickDateEdit = v -> {
         switch (v.getId()) {
             case R.id.editDate:
                 showDatePickerFragment();
@@ -133,16 +127,19 @@ public class FontesFragment extends Fragment {
                 break;
         }
     };
-    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
-        dateEdit.setEnabled(!isChecked);
-        timeEdit.setEnabled(!isChecked);
-        if (isChecked) {
-            dateEdit.setText(DateConverter.currentDate(getContext()));
-            timeEdit.setText(DateConverter.currentTime(getContext()));
-        }
+    private WorkoutValuesInputView workoutValuesInputView;
+    private final OnClickListener collapseDetailsClick = v -> {
+        detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
+        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
+        saveSharedParams();
     };
+    private DAOFonte mDbBodyBuilding = null;
+    private DAOCardio mDbCardio = null;
+    private DAOStatic mDbStatic = null;
+    private DAORecord mDbRecord = null;
+    private DAOMachine mDbMachine = null;
     private ProfileViMo profileViMo;
-    private BtnClickListener itemClickCopyRecord = v -> {
+    private final BtnClickListener itemClickCopyRecord = v -> {
         Record r = mDbRecord.getRecord((long) v.getTag());
         if (r != null) {
             // Copy values above
@@ -164,7 +161,7 @@ public class FontesFragment extends Fragment {
                 float distance = r.getDistance();
                 DistanceUnit distanceUnit = DistanceUnit.KM;
                 if (r.getDistanceUnit() == DistanceUnit.MILES) {
-                    distance = UnitConverter.KmToMiles((r.getDistance()));
+                    distance = UnitConverter.KmToMiles(r.getDistance());
                     distanceUnit = DistanceUnit.MILES;
                 }
                 workoutValuesInputView.setDistance(distance, distanceUnit);
@@ -173,11 +170,11 @@ public class FontesFragment extends Fragment {
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     };
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+    private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
         showRecordListMenu(id);
         return true;
     };
-    private TextWatcher exerciseTextWatcher = new TextWatcher() {
+    private final TextWatcher exerciseTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
             String exerciseName = s.toString();
             MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
@@ -198,7 +195,7 @@ public class FontesFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     };
-    private OnClickListener clickAddButton = v -> {
+    private final OnClickListener clickAddButton = v -> {
         // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.missinginfo).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
@@ -381,7 +378,7 @@ public class FontesFragment extends Fragment {
 
         saveSharedParams();
     };
-    private OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
+    private final OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Cursor c;
@@ -407,7 +404,7 @@ public class FontesFragment extends Fragment {
                     //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
                     machineList.setAdapter(mTableAdapter);
                 } else {
-                    MachineCursorAdapter mTableAdapter = ((MachineCursorAdapter) machineList.getAdapter());
+                    MachineCursorAdapter mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
                     oldCursor = mTableAdapter.swapCursor(c);
                     if (oldCursor != null) oldCursor.close();
                 }
@@ -436,8 +433,8 @@ public class FontesFragment extends Fragment {
             }
         }
     };
-    private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
-    private OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
+    private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
+    private final OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
         if (hasFocus) {
             updateMachineImage();
 

@@ -82,7 +82,7 @@ public class BarGraph {
 
         data.setValueTextSize(12);
         data.setValueFormatter(new ValueFormatter() {
-            private DecimalFormat mFormat = new DecimalFormat("#.##");
+            private final DecimalFormat mFormat = new DecimalFormat("#.##");
 
             @Override
             public String getFormattedValue(float value) {

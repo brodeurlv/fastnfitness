@@ -50,12 +50,12 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
     private final DAOProgram mDbWorkout;
     private final Activity mActivity;
+    private final int mFirstColorOdd = 0;
+    private final Context mContext;
+    private final DisplayType mDisplayType;
+    private final DAORecord mDbRecord;
     List<Record> mRecordList;
     private LayoutInflater mInflater;
-    private int mFirstColorOdd = 0;
-    private Context mContext;
-    private DisplayType mDisplayType;
-    private DAORecord mDbRecord;
     private BtnClickListener mAction2ClickListener = null;
     private OnCustomEventListener mProgramCompletedListener;
 
@@ -533,12 +533,8 @@ public class RecordArrayAdapter extends ArrayAdapter {
         } else {
             Record record = mRecordList.get(position - 1);
             Date datePrevious = record.getDate();
-            if (datePrevious.compareTo(date) != 0) {
-                return true;
-            }
+            return datePrevious.compareTo(date) != 0;
         }
-
-        return false;
     }
 
     public void setRecords(List<Record> data) {

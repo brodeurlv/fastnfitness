@@ -21,8 +21,8 @@ import java.util.Date;
 
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 
+    private final LayoutInflater mInflater;
     BtnClickListener mClickListener = null;
-    private LayoutInflater mInflater;
     private Context mContext = null;
 
     public BodyMeasureCursorAdapter(Context context, Cursor c, int flags, BtnClickListener mD) {

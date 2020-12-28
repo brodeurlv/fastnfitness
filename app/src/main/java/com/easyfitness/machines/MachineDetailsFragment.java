@@ -73,7 +73,15 @@ public class MachineDetailsFragment extends Fragment {
     View fragmentView = null;
 
     ImageUtil imgUtil = null;
+    private final OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
     boolean isCreateMuscleDialogActive = false;
+    private final OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
+    private final OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
+        if (arg1) {
+            CreateMuscleDialog();
+        }
+    };
     String mCurrentPhotoPath = null;
     public TextWatcher watcher = new TextWatcher() {
         @Override
@@ -91,15 +99,7 @@ public class MachineDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
-    private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
-        if (arg1) {
-            CreateMuscleDialog();
-        }
-    };
-    private EditableInputView.OnTextChangedListener textChangeListener = view -> {
+    private final EditableInputView.OnTextChangedListener textChangeListener = view -> {
         requestForSave();
     };
 
@@ -174,7 +174,7 @@ public class MachineDetailsFragment extends Fragment {
                         float photoH = bmOptions.outHeight;
 
                         // Determine how much to scale down the image
-                        int scaleFactor = (int) (photoW / (machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        int scaleFactor = (int) (photoW / machinePhoto.getWidth());//Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                         machinePhoto.setAdjustViewBounds(true);
                         machinePhoto.setMaxHeight((int) (photoH / scaleFactor));
                         machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

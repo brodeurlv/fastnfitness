@@ -51,6 +51,7 @@ import java.util.List;
 
 
 public class BodyPartDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+    private final String mCurrentPhotoPath = null;
     private TextView addButton = null;
     private EditableInputView nameEdit = null;
     private ExpandedListView measureList = null;
@@ -59,9 +60,9 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private DAOBodyMeasure mBodyMeasureDb = null;
     private DAOBodyPart mDbBodyPart;
     private BodyPart mInitialBodyPart;
-    private String mCurrentPhotoPath = null;
+    private final EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
     private ProfileViMo profileViMo;
-    private BtnClickListener itemClickDeleteRecord = view -> {
+    private final BtnClickListener itemClickDeleteRecord = view -> {
         switch (view.getId()) {
             case R.id.deleteButton:
                 showDeleteDialog((long) view.getTag());
@@ -72,7 +73,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         }
     };
-    private OnClickListener onClickAddMeasure = new OnClickListener() {
+    private final OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
             ValueEditorDialogbox editorDialogbox;
@@ -100,7 +101,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             editorDialogbox.show();
         }
     };
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+    private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         // Get the cursor, positioned to the corresponding row in the result set
         //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
@@ -127,13 +128,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         return true;
     };
-
-    private ImageButton deleteButton;
-    private EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
-    private TextView editDate;
-    private EditText editText;
-    private ImageView bodyPartImageView;
-    private View.OnClickListener onClickToolbarItem = v -> {
+    private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
             case R.id.deleteButton:
@@ -141,6 +136,10 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                 break;
         }
     };
+    private ImageButton deleteButton;
+    private TextView editDate;
+    private EditText editText;
+    private ImageView bodyPartImageView;
 
     /**
      * Create a new instance of DetailsFragment, initialized to

@@ -52,7 +52,7 @@ public class FonteHistoryFragment extends Fragment {
     Machine mSelectedMachine = null;
     private ProfileViMo profileViMo;
     private DAORecord mDbRecord = null;
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+    private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         mDbRecord.deleteRecord(id);
 
@@ -63,7 +63,7 @@ public class FonteHistoryFragment extends Fragment {
 
         return true;
     };
-    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
+    private final OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,

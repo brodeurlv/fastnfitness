@@ -19,13 +19,12 @@ import java.util.Date;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SweetAlertDialogWithDate extends SweetAlertDialog implements DatePickerDialog.OnDateSetListener {
+    private final View view = null;
+    private final ViewGroup viewGroup = null;
     private Date date;
     private TextView dateEditView = null;
     private EditText editText = null;
     private LinearLayout linearLayout = null;
-
-    private View view = null;
-    private ViewGroup viewGroup = null;
 
     public SweetAlertDialogWithDate(Context context) {
         super(context);
@@ -56,7 +55,7 @@ public class SweetAlertDialogWithDate extends SweetAlertDialog implements DatePi
         dateEditView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         dateEditView.setGravity(Gravity.CENTER);
         dateEditView.setLayoutParams(params);
-        dateEditView.setOnClickListener((view) -> {
+        dateEditView.setOnClickListener(view -> {
             Calendar calendar = Calendar.getInstance();
 
             calendar.setTime(DateConverter.getNewDate());

@@ -32,38 +32,31 @@ public class MusicController {
     static final int MUSICCONTROLLER = 1563540;
     static final int MUSICCONTROLLER_PLAY_CLICK = MUSICCONTROLLER;
     public static String PREFS_NAME = "music_prefsfile";
+    private final UnitConverter utils = new UnitConverter();
+    // Handler to update UI timer, progress bar etc,.
+    private final Handler mHandler = new Handler();
     AppCompatActivity mActivity = null;
     NoisyAudioStreamReceiver myNoisyAudioStreamReceiver = null;
-
     // Music Controller
     private ImageButton musicPlay = null;
     private ImageButton musicReplay = null;
     private TextView barSongTitle = null;
     private TextView barSongTime = null;
     private SeekBar seekProgressBar = null;
-
-    private UnitConverter utils = new UnitConverter();
-
     private boolean isStopped = true;
     private boolean isPaused = false;
     private boolean newSongSelected = false;
     private boolean isReplayOn = false;
-
     private FileChooserDialog fileChooserDialog = null;
     private List<String> songList;
     private String currentFile = "";
     private String currentPath = "";
     private int currentIndexSongList = -1;
-
-    // Handler to update UI timer, progress bar etc,.
-    private Handler mHandler = new Handler();
-
-
     private MediaPlayer mediaPlayer;
     /*
      * Moves the cursor of the progress bar to accelerate a song.
      */
-    private SeekBar.OnSeekBarChangeListener seekBarTouch = new SeekBar.OnSeekBarChangeListener() {
+    private final SeekBar.OnSeekBarChangeListener seekBarTouch = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -85,7 +78,7 @@ public class MusicController {
     /**
      * Background Runnable thread
      */
-    private Runnable mUpdateTimeTask = new Runnable() {
+    private final Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
             if (mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
@@ -108,7 +101,7 @@ public class MusicController {
     };
     private IntentFilter intentFilter = null;
     //private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
-    private OnCompletionListener songCompletion = new OnCompletionListener() {
+    private final OnCompletionListener songCompletion = new OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             if (currentIndexSongList + 1 < songList.size()) {
@@ -126,7 +119,7 @@ public class MusicController {
         }
     };
     //private OnFocusChangeListener touchRazEdit = new View.OnFocusChangeListener() {
-    private OnPreparedListener mediaplayerReady = new OnPreparedListener() {
+    private final OnPreparedListener mediaplayerReady = new OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
             mediaPlayer.start();
@@ -137,7 +130,7 @@ public class MusicController {
             updateProgressBar();
         }
     };
-    private OnClickListener playerClick = new View.OnClickListener() {
+    private final OnClickListener playerClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (mediaPlayer == null) {

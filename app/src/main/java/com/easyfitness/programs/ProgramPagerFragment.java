@@ -34,7 +34,7 @@ public class ProgramPagerFragment extends Fragment {
     ViewPager mViewPager = null;
 
     private long mTemplateId;
-    private View.OnClickListener onClickToolbarItem = v -> {
+    private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
         switch (v.getId()) {
             case R.id.deleteButton:
@@ -163,7 +163,7 @@ public class ProgramPagerFragment extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.program_pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.program_pager)).getAdapter();
     }
 
     @Override

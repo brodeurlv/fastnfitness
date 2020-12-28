@@ -24,7 +24,7 @@ public class AboutFragment extends Fragment {
     private int id;
     private MainActivity mActivity = null;
 
-    private View.OnClickListener clickLicense = v -> {
+    private final View.OnClickListener clickLicense = v -> {
 
         String name = null;
         String url = null;

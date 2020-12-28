@@ -56,16 +56,7 @@ public class FonteGraphFragment extends Fragment {
     private Spinner machineList = null;
     private ZoomType currentZoom = ZoomType.ZOOM_ALL;
     private DateGraph mDateGraph = null;
-    private LineChart mLineChart = null;
-    private LinearLayout mGraphZoomSelector = null;
-    private BarGraph mBarGraph = null;
-    private BarChart mBarChart = null;
-    private DAOFonte mDbFonte = null;
-    private DAOCardio mDbCardio = null;
-    private DAOStatic mDbStatic = null;
-    private DAOMachine mDbMachine = null;
-    private View mFragmentView = null;
-    private OnClickListener onZoomClick = v -> {
+    private final OnClickListener onZoomClick = v -> {
         switch (v.getId()) {
             case R.id.allbutton:
                 currentZoom = ZoomType.ZOOM_ALL;
@@ -82,8 +73,17 @@ public class FonteGraphFragment extends Fragment {
         }
         mDateGraph.setZoom(currentZoom);
     };
+    private LineChart mLineChart = null;
+    private LinearLayout mGraphZoomSelector = null;
+    private BarGraph mBarGraph = null;
+    private BarChart mBarChart = null;
+    private DAOFonte mDbFonte = null;
+    private DAOCardio mDbCardio = null;
+    private DAOStatic mDbStatic = null;
+    private DAOMachine mDbMachine = null;
+    private View mFragmentView = null;
     private ProfileViMo profileViMo;
-    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
+    private final OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
@@ -214,7 +214,7 @@ public class FonteGraphFragment extends Fragment {
         adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         functionList.setAdapter(adapterFunction);
         if (functionList.getSelectedItemPosition() != getFunctionListPositionParams()) {
-            if (getFunctionListPositionParams() <= (adapterFunction.getCount() - 1)) {
+            if (getFunctionListPositionParams() <= adapterFunction.getCount() - 1) {
                 functionList.setSelection(getFunctionListPositionParams());
             }
         }

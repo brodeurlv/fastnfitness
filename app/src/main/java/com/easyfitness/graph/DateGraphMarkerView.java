@@ -21,14 +21,14 @@ import static android.text.format.DateFormat.getDateFormat;
 
 public class DateGraphMarkerView extends MarkerView {
 
-    private TextView tvContent;
-    private TextView tvDate;
-    private DecimalFormat mFormat = new DecimalFormat("#.##");
-    private Chart lineChart = null;
+    private final TextView tvContent;
+    private final TextView tvDate;
+    private final DecimalFormat mFormat = new DecimalFormat("#.##");
     /**
      * Screen width in pixels.
      */
-    private int uiScreenWidth;
+    private final int uiScreenWidth;
+    private Chart lineChart = null;
     private MPPointF mOffset;
 
     public DateGraphMarkerView(Context context, int layoutResource, Chart chart) {
