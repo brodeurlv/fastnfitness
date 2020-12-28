@@ -8,16 +8,12 @@ public enum WeightUnit {
     private String mDisplayName = "";
 
     //Constructeur
-    WeightUnit(String displayName){
+    WeightUnit(String displayName) {
         this.mDisplayName = displayName;
     }
 
-    public String toString(){
-        return mDisplayName;
-    }
-
     public static WeightUnit fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return KG;
             case 1:
@@ -35,8 +31,12 @@ public enum WeightUnit {
         return null;
     }
 
+    public String toString() {
+        return mDisplayName;
+    }
+
     public Unit toUnit() {
-        switch(ordinal()) {
+        switch (ordinal()) {
             case 0:
                 return Unit.KG;
             case 1:

@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
-import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.UnitConverter;
@@ -17,23 +16,23 @@ import com.easyfitness.views.WorkoutValuesInputView;
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
     private final boolean mShowRestTime;
-    private Activity mActivity;
     public Dialog d;
+    private Activity mActivity;
     private WorkoutValuesInputView mWorkoutValuesInput;
     private Record mRecord;
-    private boolean mCancelled=false;
+    private boolean mCancelled = false;
 
     public RecordEditorDialogbox(Activity a, Record record) {
         super(a);
         this.mActivity = a;
-        mRecord=record;
-        mShowRestTime=false;
+        mRecord = record;
+        mShowRestTime = false;
     }
 
     public RecordEditorDialogbox(Activity a, Record record, boolean showRestTime) {
         super(a);
         this.mActivity = a;
-        mRecord=record;
+        mRecord = record;
         mShowRestTime = showRestTime;
     }
 
@@ -58,7 +57,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_cancel) {
-            mCancelled=true;
+            mCancelled = true;
             cancel();
         } else if (v.getId() == R.id.btn_update) {
             // update record
@@ -66,7 +65,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
             switch (mRecord.getExerciseType()) {
                 case CARDIO:
                     float distance = mWorkoutValuesInput.getDistanceValue();
-                    if (mWorkoutValuesInput.getDistanceUnit()== DistanceUnit.MILES) {
+                    if (mWorkoutValuesInput.getDistanceUnit() == DistanceUnit.MILES) {
                         distance = UnitConverter.MilesToKm(distance); // Always convert to KG
                     }
                     mRecord.setDuration(mWorkoutValuesInput.getDurationValue());
@@ -75,7 +74,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     break;
                 case ISOMETRIC:
                     float tmpPoids = mWorkoutValuesInput.getWeightValue();
-                    tmpPoids = UnitConverter.weightConverter(tmpPoids,mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+                    tmpPoids = UnitConverter.weightConverter(tmpPoids, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setSeconds(mWorkoutValuesInput.getSeconds());
@@ -84,7 +83,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     break;
                 case STRENGTH:
                     float tmpWeight = mWorkoutValuesInput.getWeightValue();
-                    tmpPoids = UnitConverter.weightConverter(tmpWeight,mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+                    tmpPoids = UnitConverter.weightConverter(tmpWeight, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setReps(mWorkoutValuesInput.getReps());
                     mRecord.setWeight(tmpPoids);
@@ -104,6 +103,10 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         }
     }
 
-    public boolean isCancelled() { return mCancelled; };
+    public boolean isCancelled() {
+        return mCancelled;
+    }
+
+    ;
 
 }

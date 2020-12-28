@@ -10,7 +10,7 @@ import android.widget.Button;
 import gr.antoniom.chronometer.Chronometer;
 
 public class ChronoDialogbox extends Dialog implements
-    android.view.View.OnClickListener {
+        android.view.View.OnClickListener {
 
     public Activity c;
     public Dialog d;

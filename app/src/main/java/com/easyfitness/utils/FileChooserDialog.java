@@ -138,7 +138,7 @@ public class FileChooserDialog {
         }
 
         AlertDialog.Builder dialogBuilder =
-            createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
+                createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
 
 /*
         dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
@@ -288,8 +288,8 @@ public class FileChooserDialog {
 
             // Show new folder name input dialog
             new AlertDialog.Builder(m_context).
-                setTitle("New folder name").
-                setView(input).setPositiveButton(m_context.getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+                    setTitle("New folder name").
+                    setView(input).setPositiveButton(m_context.getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
                 Editable newDir = input.getText();
                 String newDirName = newDir.toString();
                 // Create new directory
@@ -299,7 +299,7 @@ public class FileChooserDialog {
                     updateDirectory();
                 } else {
                     Toast.makeText(
-                        m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
+                            m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
                 }
             }).setNegativeButton(m_context.getResources().getText(R.string.global_cancel), null).show();
         });
@@ -332,7 +332,7 @@ public class FileChooserDialog {
 
     private ArrayAdapter<String> createListAdapter(List<String> items) {
         return new ArrayAdapter<String>(m_context,
-            layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
+                layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
         {
             @Override
             public View getView(int position, View convertView,

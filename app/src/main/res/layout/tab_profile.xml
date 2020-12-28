@@ -76,8 +76,8 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:textSize="24sp"
-                    tools:text="Profile Name"
-                    android:title="@string/enter_profile_name" />
+                    android:title="@string/enter_profile_name"
+                    tools:text="Profile Name" />
 
                 <com.easyfitness.views.EditableInputView
                     android:id="@+id/gender"
@@ -99,8 +99,8 @@
                     android:gravity="center_horizontal"
                     android:inputType="date"
                     android:textSize="18sp"
-                    tools:text="XX/XX/XX"
-                    android:title="@string/enter_birthday"/>
+                    android:title="@string/enter_birthday"
+                    tools:text="XX/XX/XX" />
 
                 <com.easyfitness.views.EditableInputView
                     android:id="@+id/size"

@@ -234,8 +234,8 @@ public class ImageUtil {
                 // Camera
                 case 0:
                     CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(pF.getContext(), pF);
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(pF.getContext(), pF);
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
@@ -265,8 +265,8 @@ public class ImageUtil {
             }
             // Continue only if the File was successfully created
             Uri photoURI = FileProvider.getUriForFile(pF.getActivity(),
-                BuildConfig.APPLICATION_ID + ".provider",
-                photoFile);
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             pF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
@@ -304,9 +304,9 @@ public class ImageUtil {
         }
         //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
         File image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",         /* suffix */
-            storageDir      /* directory */
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -317,17 +317,17 @@ public class ImageUtil {
     private void requestPermissionForWriting(Fragment pF) {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(pF.getActivity(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(pF.getActivity(),
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(pF.getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
             // No explanation needed, we can request the permission.
 
             int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
             ActivityCompat.requestPermissions(pF.getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 

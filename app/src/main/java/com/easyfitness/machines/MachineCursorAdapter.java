@@ -52,24 +52,24 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 String lThumbPath = imgUtil.getThumbPath(lPath);
                 ImageUtil.setThumb(i0, lThumbPath);
             } catch (Exception e) {
-                if (lType == ExerciseType.STRENGTH ) {
-                    i0.setImageResource(R.drawable.ic_gym_bench_50dp); }
-                else if (lType == ExerciseType.ISOMETRIC ) {
+                if (lType == ExerciseType.STRENGTH) {
+                    i0.setImageResource(R.drawable.ic_gym_bench_50dp);
+                } else if (lType == ExerciseType.ISOMETRIC) {
                     i0.setImageResource(R.drawable.ic_static);
-                }
-                else {
+                } else {
                     i0.setImageResource(R.drawable.ic_training_white_50dp);
-                i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE); }
+                    i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
                 e.printStackTrace();
             }
         } else {
             if (lType == ExerciseType.STRENGTH) {
-                i0.setImageResource(R.drawable.ic_gym_bench_50dp); }
-            else if (lType == ExerciseType.ISOMETRIC ) {
+                i0.setImageResource(R.drawable.ic_gym_bench_50dp);
+            } else if (lType == ExerciseType.ISOMETRIC) {
                 i0.setImageResource(R.drawable.ic_static);
+            } else {
+                i0.setImageResource(R.drawable.ic_training_white_50dp);
             }
-            else {
-                i0.setImageResource(R.drawable.ic_training_white_50dp); }
 
             i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }

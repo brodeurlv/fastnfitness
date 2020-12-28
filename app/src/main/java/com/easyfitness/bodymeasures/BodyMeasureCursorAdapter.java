@@ -14,19 +14,10 @@ import androidx.cardview.widget.CardView;
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.R;
-import com.easyfitness.enums.SizeUnit;
 import com.easyfitness.enums.Unit;
-import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.UnitConverter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
-
-import static android.text.format.DateFormat.getDateFormat;
 
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 

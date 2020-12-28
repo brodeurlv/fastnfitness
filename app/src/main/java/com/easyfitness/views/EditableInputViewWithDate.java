@@ -53,8 +53,8 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
     @Override
     protected void editDialog(Context context) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         );
 
         final TextView editDate = new TextView(getContext());
@@ -64,16 +64,16 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         editDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         editDate.setGravity(Gravity.CENTER);
         editDate.setOnClickListener((view) -> {
-                Calendar calendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
 
-                calendar.setTime(DateConverter.getNewDate());
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int month = calendar.get(Calendar.MONTH);
-                int year = calendar.get(Calendar.YEAR);
+            calendar.setTime(DateConverter.getNewDate());
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
-                dateEditView = editDate;
-                datePickerDialog.show();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
+            dateEditView = editDate;
+            datePickerDialog.show();
         });
 
         final EditText editText = new EditText(context);
@@ -97,21 +97,22 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         linearLayout.addView(editText);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(mTitle)
-            .showCancelButton(true)
-            .setCancelClickListener(sDialog -> {
-                editText.clearFocus();
-                Keyboard.hide(context, editText);
-                sDialog.dismissWithAnimation();})
-            .setCancelText(getContext().getString(R.string.global_cancel))
-            .setConfirmText(getContext().getString(R.string.AddLabel))
-            .setConfirmClickListener(sDialog -> {
-                Keyboard.hide(sDialog.getContext(), editText);
-                setText(editText.getText().toString());
-                if (mConfirmClickListener != null)
-                    mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
-                sDialog.dismissWithAnimation();
-            });
+                .setTitleText(mTitle)
+                .showCancelButton(true)
+                .setCancelClickListener(sDialog -> {
+                    editText.clearFocus();
+                    Keyboard.hide(context, editText);
+                    sDialog.dismissWithAnimation();
+                })
+                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setConfirmText(getContext().getString(R.string.AddLabel))
+                .setConfirmClickListener(sDialog -> {
+                    Keyboard.hide(sDialog.getContext(), editText);
+                    setText(editText.getText().toString());
+                    if (mConfirmClickListener != null)
+                        mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+                    sDialog.dismissWithAnimation();
+                });
         dialog.setCustomView(linearLayout);
         dialog.setOnShowListener(sDialog -> Keyboard.show(getContext(), editText));
         dialog.show();

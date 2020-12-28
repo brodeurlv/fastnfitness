@@ -57,16 +57,16 @@ public class DAOProgram extends DAOBase {
         if (mCursor != null) mCursor.close();
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, NAME, DESCRIPTION},
-            KEY + "=?",
-            new String[]{String.valueOf(id)},
-            null, null, null, null);
+                new String[]{KEY, NAME, DESCRIPTION},
+                KEY + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null, null);
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
             Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
             );
             mCursor.close();
             close();
@@ -93,8 +93,8 @@ public class DAOProgram extends DAOBase {
         if (mCursor.moveToFirst()) {
             do {
                 Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
                 );
 
                 // Adding value to list
@@ -126,7 +126,7 @@ public class DAOProgram extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Profile
@@ -143,7 +143,7 @@ public class DAOProgram extends DAOBase {
         // Delete the Workout
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-            new String[]{String.valueOf(id)});
+                new String[]{String.valueOf(id)});
 
         close();
     }
@@ -166,9 +166,9 @@ public class DAOProgram extends DAOBase {
 
     /* DEBUG ONLY */
     public void populate() {
-        Program m = new Program(0,"Template 1", "Description 1");
+        Program m = new Program(0, "Template 1", "Description 1");
         this.add(m);
-        m = new Program(0,"Template 2", "Description 2");
+        m = new Program(0, "Template 2", "Description 2");
         this.add(m);
     }
 
@@ -177,8 +177,8 @@ public class DAOProgram extends DAOBase {
      */
     public void deleteAllEmptyWorkout() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME,  NAME + "=?",
-            new String[]{""});
+        db.delete(TABLE_NAME, NAME + "=?",
+                new String[]{""});
         db.close();
     }
 }

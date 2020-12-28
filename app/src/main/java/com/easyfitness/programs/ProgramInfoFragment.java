@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.views.EditableInputView;
 import com.onurkaganaldemir.ktoastlib.KToast;
-
-import androidx.fragment.app.Fragment;
 
 
 public class ProgramInfoFragment extends Fragment {
@@ -23,9 +23,8 @@ public class ProgramInfoFragment extends Fragment {
 
     MainActivity mActivity = null;
     private DAOProgram mDb = null;
-
-    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
     private Program mProgram;
+    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
 
     /**
      * Create a new instance of DetailsFragment, initialized to

@@ -72,8 +72,7 @@
         app:stl_indicatorWithoutPadding="false"
         app:stl_overlineThickness="0dp"
         app:stl_titleOffset="24dp"
-        app:stl_underlineThickness="1dp"
-        />
+        app:stl_underlineThickness="1dp" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"

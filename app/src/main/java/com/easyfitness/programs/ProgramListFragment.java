@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
@@ -22,8 +25,6 @@ import com.easyfitness.utils.Keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramListFragment extends Fragment {
@@ -41,30 +42,31 @@ public class ProgramListFragment extends Fragment {
         linearLayout.addView(editText);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getString(R.string.enter_workout_name))
-            .setCancelText(getContext().getString(R.string.global_cancel))
-            .setHideKeyBoardOnDismiss(true)
-            .setCancelClickListener(sDialog -> {
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                sDialog.dismissWithAnimation();})
-            .setConfirmClickListener(sDialog -> {
+                .setTitleText(getString(R.string.enter_workout_name))
+                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setHideKeyBoardOnDismiss(true)
+                .setCancelClickListener(sDialog -> {
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    sDialog.dismissWithAnimation();
+                })
+                .setConfirmClickListener(sDialog -> {
 
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                DAOProgram daoProgram = new DAOProgram(getContext());
-                long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    DAOProgram daoProgram = new DAOProgram(getContext());
+                    long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
 
-                sDialog.dismiss();
-                ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            });
+                    sDialog.dismiss();
+                    ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                });
         //Keyboard.hide(context, editText);});
         dialog.setOnShowListener(sDialog -> {
             editText.requestFocus();
@@ -112,10 +114,10 @@ public class ProgramListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate (Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             mDb = new DAOProgram(this.getContext());
             dataModels = new ArrayList<>();
             mListAdapter = new ProgramListAdapter(dataModels, getContext());
@@ -131,7 +133,7 @@ public class ProgramListFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_program_list, container, false);
 
 
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             addButton = view.findViewById(R.id.newWorkout);
             addButton.setOnClickListener(clickAddButton);
 
@@ -153,7 +155,7 @@ public class ProgramListFragment extends Fragment {
     }
 
     private void refreshData() {
-        if (dataModels==null) {
+        if (dataModels == null) {
             dataModels = new ArrayList<>();
         }
 
@@ -163,12 +165,11 @@ public class ProgramListFragment extends Fragment {
         dataModels.addAll(lList);
 
 
-        if (mListAdapter==null) {
+        if (mListAdapter == null) {
             mListAdapter = new ProgramListAdapter(dataModels, getContext());
             mListAdapter.setProfile(getProfile());
             measureList.setAdapter(mListAdapter);
-        }
-        else {
+        } else {
             mListAdapter.notifyDataSetChanged();
         }
     }

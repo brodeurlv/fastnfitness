@@ -32,15 +32,15 @@ public class DAOOldCardio extends DAOBase {
     public static final String VITESSE = "vitesse";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + DATE + " DATE, "
-        + EXERCICE + " TEXT, "
-        + DISTANCE + " FLOAT, "
-        + DURATION + " INTEGER, "
-        + PROFIL_KEY + " INTEGER, "
-        + NOTES + " TEXT, "
-        + DISTANCE_UNIT + " TEXT, "
-        + VITESSE + " FLOAT);";
+            + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + DATE + " DATE, "
+            + EXERCICE + " TEXT, "
+            + DISTANCE + " FLOAT, "
+            + DURATION + " INTEGER, "
+            + PROFIL_KEY + " INTEGER, "
+            + NOTES + " TEXT, "
+            + DISTANCE_UNIT + " TEXT, "
+            + VITESSE + " FLOAT);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -78,10 +78,10 @@ public class DAOOldCardio extends DAOBase {
                 Profile lProfile = lDAOProfile.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
 
                 OldCardio value = new OldCardio(date,
-                    mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.EXERCICE)),
-                    mCursor.getFloat(mCursor.getColumnIndex(DAOOldCardio.DISTANCE)),
-                    mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.DURATION)),
-                    lProfile);
+                        mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.EXERCICE)),
+                        mCursor.getFloat(mCursor.getColumnIndex(DAOOldCardio.DISTANCE)),
+                        mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.DURATION)),
+                        lProfile);
 
                 value.setId(Long.parseLong(mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.KEY))));
 
@@ -101,7 +101,7 @@ public class DAOOldCardio extends DAOBase {
     public List<OldCardio> getAllRecords() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-            + KEY + " DESC";
+                + KEY + " DESC";
 
         // return value list
         return getRecordsList(selectQuery);

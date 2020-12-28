@@ -29,9 +29,8 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
     protected TextView valueTextView;
     protected View editButton;
     protected OnTextChangedListener mConfirmClickListener = null;
-    private int textViewInputType = InputType.TYPE_CLASS_NUMBER;
     protected String mTitle = "";
-
+    private int textViewInputType = InputType.TYPE_CLASS_NUMBER;
     /**
      * when CustomerDialogBuilder is used the OnTextChangedListener is not triggered
      */
@@ -75,9 +74,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.editableinput_view,
-                0, 0);
+                    attrs,
+                    R.styleable.editableinput_view,
+                    0, 0);
             try {
                 mTitle = a.getString(R.styleable.editableinput_view_android_title);
                 this.setText(a.getString(R.styleable.editableinput_view_android_text));
@@ -117,7 +116,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 int year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getContext(), this, year, month, day);
+                        getContext(), this, year, month, day);
                 datePickerDialog.show();
             } else {
                 final EditText editText = new EditText(context);
@@ -131,31 +130,33 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 linearLayout.addView(editText);
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(mTitle)
-                    .setCancelText(getContext().getString(R.string.global_cancel))
-                    .setHideKeyBoardOnDismiss(true)
-                    .setCancelClickListener(sDialog -> {
-                        editText.clearFocus();
-                        Keyboard.hide(context, editText);
-                        sDialog.dismissWithAnimation();})
-                    .setConfirmClickListener(sDialog -> {
-                        editText.clearFocus();
-                        Keyboard.hide(context, editText);
-                        setText(editText.getText().toString());
-                        sDialog.dismissWithAnimation();
-                        if (mConfirmClickListener != null)
-                            mConfirmClickListener.onTextChanged(EditableInputView.this);
-                    });
-                    dialog.setOnDismissListener(sDialog -> {
-                        rootView.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if ( imm !=null)
-                            imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);});
-                        //Keyboard.hide(context, editText);});
-                    dialog.setOnShowListener(sDialog -> {
-                        editText.requestFocus();
-                        Keyboard.show(context, editText);
-                    });
+                        .setTitleText(mTitle)
+                        .setCancelText(getContext().getString(R.string.global_cancel))
+                        .setHideKeyBoardOnDismiss(true)
+                        .setCancelClickListener(sDialog -> {
+                            editText.clearFocus();
+                            Keyboard.hide(context, editText);
+                            sDialog.dismissWithAnimation();
+                        })
+                        .setConfirmClickListener(sDialog -> {
+                            editText.clearFocus();
+                            Keyboard.hide(context, editText);
+                            setText(editText.getText().toString());
+                            sDialog.dismissWithAnimation();
+                            if (mConfirmClickListener != null)
+                                mConfirmClickListener.onTextChanged(EditableInputView.this);
+                        });
+                dialog.setOnDismissListener(sDialog -> {
+                    rootView.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null)
+                        imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
+                });
+                //Keyboard.hide(context, editText);});
+                dialog.setOnShowListener(sDialog -> {
+                    editText.requestFocus();
+                    Keyboard.show(context, editText);
+                });
 
                 dialog.setCustomView(linearLayout);
                 dialog.show();

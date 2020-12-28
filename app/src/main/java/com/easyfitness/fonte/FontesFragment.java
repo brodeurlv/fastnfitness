@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,6 +30,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
@@ -51,18 +54,17 @@ import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.TimePickerDialogFragment;
 import com.easyfitness.enums.DisplayType;
-import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.machines.ExerciseDetailsPager;
 import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.machines.MachineCursorAdapter;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.enums.DistanceUnit;
-import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.UnitConverter;
-import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.views.WorkoutValuesInputView;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -74,10 +76,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FontesFragment extends Fragment {
@@ -121,30 +119,31 @@ public class FontesFragment extends Fragment {
         detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
         saveSharedParams();
     };
-
-    private TextWatcher exerciseTextWatcher =  new TextWatcher () {
-        public void afterTextChanged(Editable s) {
-            String exerciseName = s.toString();
-            MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
-            if (adapter!=null) {
-                boolean exerciseExists = adapter.containsExercise(exerciseName);
-                if (exerciseExists == false) {
-                    workoutValuesInputView.setShowExerciseTypeSelector(true);
-                    updateMachineImage();
-                } else {
-                    setCurrentMachine(exerciseName);
-                }
-            }
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
+        dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+        Keyboard.hide(getContext(), dateEdit);
+    };
+    private OnClickListener clickDateEdit = v -> {
+        switch (v.getId()) {
+            case R.id.editDate:
+                showDatePickerFragment();
+                break;
+            case R.id.editTime:
+                showTimePicker(timeEdit);
+                break;
         }
     };
+    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
+        dateEdit.setEnabled(!isChecked);
+        timeEdit.setEnabled(!isChecked);
+        if (isChecked) {
+            dateEdit.setText(DateConverter.currentDate(getContext()));
+            timeEdit.setText(DateConverter.currentTime(getContext()));
+        }
+    };
+    private ProfileViMo profileViMo;
     private BtnClickListener itemClickCopyRecord = v -> {
-        Record r = mDbRecord.getRecord((long)v.getTag());
+        Record r = mDbRecord.getRecord((long) v.getTag());
         if (r != null) {
             // Copy values above
             setCurrentMachine(r.getExercise());
@@ -161,7 +160,7 @@ public class FontesFragment extends Fragment {
                 Float poids = r.getWeight();
                 poids = UnitConverter.weightConverter(poids, WeightUnit.KG, r.getWeightUnit());
                 workoutValuesInputView.setWeight(poids, r.getWeightUnit());
-            }else if (r.getExerciseType() == ExerciseType.CARDIO) {
+            } else if (r.getExerciseType() == ExerciseType.CARDIO) {
                 float distance = r.getDistance();
                 DistanceUnit distanceUnit = DistanceUnit.KM;
                 if (r.getDistanceUnit() == DistanceUnit.MILES) {
@@ -174,7 +173,31 @@ public class FontesFragment extends Fragment {
             KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     };
+    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+        showRecordListMenu(id);
+        return true;
+    };
+    private TextWatcher exerciseTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            String exerciseName = s.toString();
+            MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
+            if (adapter != null) {
+                boolean exerciseExists = adapter.containsExercise(exerciseName);
+                if (exerciseExists == false) {
+                    workoutValuesInputView.setShowExerciseTypeSelector(true);
+                    updateMachineImage();
+                } else {
+                    setCurrentMachine(exerciseName);
+                }
+            }
+        }
 
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+    };
     private OnClickListener clickAddButton = v -> {
         // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
@@ -186,7 +209,7 @@ public class FontesFragment extends Fragment {
 
         if (autoTimeCheckBox.isChecked()) {
             date = new Date();
-        }else {
+        } else {
             date = DateConverter.localDateTimeStrToDateTime(dateEdit.getText().toString(), timeEdit.getText().toString(), getContext());
         }
 
@@ -206,17 +229,17 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+            tmpPoids = UnitConverter.weightConverter(tmpPoids, workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
-            if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
+            if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbBodyBuilding.addBodyBuildingRecord(date,
-                    machineEdit.getText().toString(),
-                    workoutValuesInputView.getSets(),
-                    workoutValuesInputView.getReps(),
-                    tmpPoids, // Always save in KG
-                    workoutValuesInputView.getWeightUnit(), // Store Unit for future display
-                    "", //Notes
-                    getProfile().getId(), -1);
+                        machineEdit.getText().toString(),
+                        workoutValuesInputView.getSets(),
+                        workoutValuesInputView.getReps(),
+                        tmpPoids, // Always save in KG
+                        workoutValuesInputView.getWeightUnit(), // Store Unit for future display
+                        "", //Notes
+                        getProfile().getId(), -1);
 
                 float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date, getProfile());
                 float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString(), getProfile());
@@ -235,14 +258,14 @@ public class FontesFragment extends Fragment {
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
+                for (int i = 0; i < workoutValuesInputView.getSets(); i++) {
                     mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date,
-                        machineEdit.getText().toString(),
-                        1,
-                        workoutValuesInputView.getReps(),
-                        tmpPoids, // Always save in KG
-                        workoutValuesInputView.getWeightUnit(),
-                        workoutValuesInputView.getRestTime()
+                            machineEdit.getText().toString(),
+                            1,
+                            workoutValuesInputView.getReps(),
+                            tmpPoids, // Always save in KG
+                            workoutValuesInputView.getWeightUnit(),
+                            workoutValuesInputView.getRestTime()
                     );
                 }
             }
@@ -255,18 +278,18 @@ public class FontesFragment extends Fragment {
 
             /* Convertion du poid */
             float tmpPoids = workoutValuesInputView.getWeightValue();
-            tmpPoids = UnitConverter.weightConverter(tmpPoids,workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+            tmpPoids = UnitConverter.weightConverter(tmpPoids, workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
-            if(mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
+            if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbStatic.addStaticRecord(date,
-                    machineEdit.getText().toString(),
-                    workoutValuesInputView.getSets(),
-                    workoutValuesInputView.getSeconds(),
-                    tmpPoids, // Always save in KG
-                    getProfile().getId(),
-                    workoutValuesInputView.getWeightUnit(), // Store Unit for future display
-                    "", //Notes
-                    -1
+                        machineEdit.getText().toString(),
+                        workoutValuesInputView.getSets(),
+                        workoutValuesInputView.getSeconds(),
+                        tmpPoids, // Always save in KG
+                        getProfile().getId(),
+                        workoutValuesInputView.getWeightUnit(), // Store Unit for future display
+                        "", //Notes
+                        -1
                 );
 
                 float iTotalWeightSession = mDbStatic.getTotalWeightSession(date, getProfile());
@@ -286,14 +309,14 @@ public class FontesFragment extends Fragment {
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                for (int i = 0; i<workoutValuesInputView.getSets(); i++ ) {
+                for (int i = 0; i < workoutValuesInputView.getSets(); i++) {
                     mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date,
-                        machineEdit.getText().toString(),
-                        1,
-                        workoutValuesInputView.getSeconds(),
-                        tmpPoids, // Always save in KG
-                        workoutValuesInputView.getWeightUnit(),
-                        workoutValuesInputView.getRestTime()
+                            machineEdit.getText().toString(),
+                            1,
+                            workoutValuesInputView.getSeconds(),
+                            tmpPoids, // Always save in KG
+                            workoutValuesInputView.getWeightUnit(),
+                            workoutValuesInputView.getRestTime()
                     );
                 }
             }
@@ -307,17 +330,17 @@ public class FontesFragment extends Fragment {
             long duration = workoutValuesInputView.getDurationValue();
 
             float distance = workoutValuesInputView.getDistanceValue();
-            if (workoutValuesInputView.getDistanceUnit()==DistanceUnit.MILES) {
+            if (workoutValuesInputView.getDistanceUnit() == DistanceUnit.MILES) {
                 distance = UnitConverter.MilesToKm(distance); // Always convert to KG
             }
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 mDbCardio.addCardioRecord(date,
-                    machineEdit.getText().toString(),
-                    distance,
-                    duration,
-                    getProfile().getId(),
-                    workoutValuesInputView.getDistanceUnit(), -1);
+                        machineEdit.getText().toString(),
+                        distance,
+                        duration,
+                        getProfile().getId(),
+                        workoutValuesInputView.getDistanceUnit(), -1);
 
                 //--Launch Rest Dialog
                 boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
@@ -330,12 +353,12 @@ public class FontesFragment extends Fragment {
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
-                    date,
-                    machineEdit.getText().toString(),
-                    distance,
-                    workoutValuesInputView.getDistanceUnit(),
-                    duration,
-                    workoutValuesInputView.getRestTime()
+                        date,
+                        machineEdit.getText().toString(),
+                        distance,
+                        workoutValuesInputView.getDistanceUnit(),
+                        duration,
+                        workoutValuesInputView.getRestTime()
                 );
             }
         }
@@ -413,25 +436,7 @@ public class FontesFragment extends Fragment {
             }
         }
     };
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
-        showRecordListMenu(id);
-        return true;
-    };
     private OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentMachine(machineEdit.getText().toString());
-    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
-        dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
-        Keyboard.hide(getContext(), dateEdit);
-    };
-    private OnClickListener clickDateEdit = v -> {
-        switch (v.getId()) {
-            case R.id.editDate:
-                showDatePickerFragment();
-                break;
-            case R.id.editTime:
-                showTimePicker(timeEdit);
-                break;
-        }
-    };
     private OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
         if (hasFocus) {
             updateMachineImage();
@@ -451,31 +456,6 @@ public class FontesFragment extends Fragment {
         updateMachineImage();
     };
 
-    private void updateMachineImage() {
-        switch (workoutValuesInputView.getSelectedType()) {
-            case CARDIO:
-                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
-                break;
-            case ISOMETRIC:
-                machineImage.setImageResource(R.drawable.ic_static);
-                break;
-            case STRENGTH:
-            default:
-                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
-        }
-    }
-
-    private CompoundButton.OnCheckedChangeListener checkedAutoTimeCheckBox = (buttonView, isChecked) -> {
-        dateEdit.setEnabled(!isChecked);
-        timeEdit.setEnabled(!isChecked);
-        if (isChecked) {
-            dateEdit.setText(DateConverter.currentDate(getContext()));
-            timeEdit.setText(DateConverter.currentTime(getContext()));
-        }
-    };
-    private ProfileViMo profileViMo;
-
-
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -490,6 +470,20 @@ public class FontesFragment extends Fragment {
         f.setArguments(args);
 
         return f;
+    }
+
+    private void updateMachineImage() {
+        switch (workoutValuesInputView.getSelectedType()) {
+            case CARDIO:
+                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                break;
+            case ISOMETRIC:
+                machineImage.setImageResource(R.drawable.ic_static);
+                break;
+            case STRENGTH:
+            default:
+                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        }
     }
 
     @Override
@@ -578,7 +572,7 @@ public class FontesFragment extends Fragment {
         this.mActivity = (MainActivity) this.getActivity();
         dateEdit.setText(DateConverter.currentDate(getContext()));
         timeEdit.setText(DateConverter.currentTime(getContext()));
-        if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
+        if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
             addButton.setText(R.string.add_to_template);
             detailsCardView.setVisibility(View.GONE);
         }
@@ -631,7 +625,7 @@ public class FontesFragment extends Fragment {
                     //Toast.makeText(getActivity(), "Share soon available", Toast.LENGTH_SHORT).show();
                     Record r = mDbRecord.getRecord(id);
                     String text = "";
-                    if (r.getExerciseType() == ExerciseType.STRENGTH ||r.getExerciseType() == ExerciseType.ISOMETRIC  ) {
+                    if (r.getExerciseType() == ExerciseType.STRENGTH || r.getExerciseType() == ExerciseType.ISOMETRIC) {
                         // Build text
                         text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
                         text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(r.getWeight()));
@@ -654,21 +648,21 @@ public class FontesFragment extends Fragment {
     private void showDeleteDialog(final long idToDelete) {
 
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-            .setTitleText(getString(R.string.DeleteRecordDialog))
-            .setContentText(getResources().getText(R.string.areyousure).toString())
-            .setCancelText(getResources().getText(R.string.global_no).toString())
-            .setConfirmText(getResources().getText(R.string.global_yes).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                mDbRecord.deleteRecord(idToDelete);
+                .setTitleText(getString(R.string.DeleteRecordDialog))
+                .setContentText(getResources().getText(R.string.areyousure).toString())
+                .setCancelText(getResources().getText(R.string.global_no).toString())
+                .setConfirmText(getResources().getText(R.string.global_yes).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(sDialog -> {
+                    mDbRecord.deleteRecord(idToDelete);
 
-                updateRecordTable(machineEdit.getText().toString());
+                    updateRecordTable(machineEdit.getText().toString());
 
-                // Info
-                KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                sDialog.dismissWithAnimation();
-            })
-            .show();
+                    // Info
+                    KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    sDialog.dismissWithAnimation();
+                })
+                .show();
     }
 
     private void showDatePickerFragment() {
@@ -689,7 +683,7 @@ public class FontesFragment extends Fragment {
         int min = calendar.get(Calendar.MINUTE);
         int sec = calendar.get(Calendar.SECOND);
 
-        switch(timeTextView.getId()) {
+        switch (timeTextView.getId()) {
             case R.id.editTime:
                 if (mTimeFrag == null) {
                     mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
@@ -804,14 +798,14 @@ public class FontesFragment extends Fragment {
     }
 
     private void updateMinMax(Machine m) {
-        String comment ="";
+        String comment = "";
         String unitStr = "";
         float weight = 0;
         if (getProfile() != null && m != null) {
             if (m.getType() == ExerciseType.STRENGTH || m.getType() == ExerciseType.ISOMETRIC) {
                 DecimalFormat numberFormat = new DecimalFormat("#.##");
                 Weight minValue = mDbBodyBuilding.getMin(getProfile(), m);
-                if (minValue != null && minValue.getStoredWeight()!=0) {
+                if (minValue != null && minValue.getStoredWeight() != 0) {
                     weight = UnitConverter.weightConverter(minValue.getStoredWeight(), WeightUnit.KG, minValue.getStoredUnit());
                     unitStr = minValue.getStoredUnit().toString();
 
@@ -819,10 +813,10 @@ public class FontesFragment extends Fragment {
                 }
 
                 Weight maxValue = mDbBodyBuilding.getMax(getProfile(), m);
-                if (maxValue != null && maxValue.getStoredWeight()!=0) {
+                if (maxValue != null && maxValue.getStoredWeight() != 0) {
                     weight = UnitConverter.weightConverter(maxValue.getStoredWeight(), WeightUnit.KG, maxValue.getStoredUnit());
                     unitStr = maxValue.getStoredUnit().toString();
-                    comment = comment + getContext().getString(R.string.max) + ":" + numberFormat.format(weight) +  unitStr;
+                    comment = comment + getContext().getString(R.string.max) + ":" + numberFormat.format(weight) + unitStr;
                 } else {
                     comment = "";
                 }
@@ -830,7 +824,7 @@ public class FontesFragment extends Fragment {
                 comment = "";
             }
         } else {
-            comment ="";
+            comment = "";
         }
 
         workoutValuesInputView.setWeightComment(comment);
@@ -872,29 +866,29 @@ public class FontesFragment extends Fragment {
     private void updateRecordTable(String pMachine) {
         // Informe l'activité de la machine courante
         this.getMainActivity().setCurrentMachine(pMachine);
-        if (getView()==null) return;
+        if (getView() == null) return;
         getView().post(() -> {
 
             Cursor c = null;
-            if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
+            if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 c = mDbRecord.getTop3DatesRecords(getProfile());
-            } else if (mDisplayType==DisplayType.PROGRAM_EDIT_DISPLAY) {
+            } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 c = mDbRecord.getProgramTemplateRecords(mTemplateId);
             }
 
             List<Record> records = mDbRecord.fromCursorToList(c);
 
-            if (records.size()==0) {
+            if (records.size() == 0) {
                 recordList.setAdapter(null);
             } else {
                 //if (mDisplayType==DisplayType.FREE_WORKOUT_DISPLAY) {
-                    if (recordList.getAdapter() == null) {
-                        RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
-                        //RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.PROGRAM_EDIT_DISPLAY, itemClickCopyRecord);
-                        recordList.setAdapter(mTableAdapter);
-                    } else {
-                        ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
-                    }
+                if (recordList.getAdapter() == null) {
+                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
+                    //RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.PROGRAM_EDIT_DISPLAY, itemClickCopyRecord);
+                    recordList.setAdapter(mTableAdapter);
+                } else {
+                    ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
+                }
                 //}
             }
         });

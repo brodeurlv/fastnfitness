@@ -96,10 +96,10 @@ public class NewProfileFragment extends SlideFragment {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
                 new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(p.getName())
-                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                    .setConfirmClickListener(sDialog -> nextSlide())
-                    .show();
+                        .setTitleText(p.getName())
+                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                        .setConfirmClickListener(sDialog -> nextSlide())
+                        .show();
                 mProfilCreated = true;
             }
         }
@@ -145,8 +145,8 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnClickListener((View v)-> {
-                showDatePickerFragment();
+        mBirthday.setOnClickListener((View v) -> {
+            showDatePickerFragment();
         });
 
         /* Initialisation des boutons */

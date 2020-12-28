@@ -75,9 +75,9 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             List<SpinnerItem> userList = new ArrayList<>();
 
             userList.add(new SpinnerItem(R.drawable.ic_person_black_24dp, "bloop",
-                "bloop@gmail.com"));
+                    "bloop@gmail.com"));
             userList.add(new SpinnerItem(R.drawable.ic_person_black_24dp, "blip",
-                "blip@gmail.com"));
+                    "blip@gmail.com"));
 
             CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(context, R.layout.custom_spinner_item, userList);
 
@@ -89,7 +89,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
                 public void onItemSelected(AdapterView<?> arg0,
                                            View arg1, int arg2, long arg3) {
                     Toast.makeText(context, context.getResources().getString(R.string.userChanged),
-                        Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

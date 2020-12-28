@@ -1,7 +1,6 @@
 package com.easyfitness.DAO.bodymeasures;
 
 import com.easyfitness.R;
-import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
 
 /* DataBase Object */

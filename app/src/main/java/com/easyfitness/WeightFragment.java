@@ -2,8 +2,6 @@ package com.easyfitness;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOProfileWeight;
@@ -29,19 +27,15 @@ import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.UnitConverter;
-import com.easyfitness.views.EditableInputView;
-import com.easyfitness.views.EditableInputViewWithDate;
 import com.easyfitness.utils.Gender;
+import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
-import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -68,8 +62,75 @@ public class WeightFragment extends Fragment {
     private DAOBodyMeasure mDbBodyMeasure = null;
     private DAOBodyPart mDbBodyPart;
     private DAOProfile mDb = null;
+    private AdapterView.OnClickListener showDetailsFragment = v -> {
+        int bodyPartID = BodyPartExtensions.WEIGHT;
+        switch (v.getId()) {
+            case R.id.weightGraph:
+            case R.id.weightDetailsButton:
+                bodyPartID = BodyPartExtensions.WEIGHT;
+                break;
+            case R.id.fatGraph:
+            case R.id.fatDetailsButton:
+                bodyPartID = BodyPartExtensions.FAT;
+                break;
+            case R.id.musclesGraph:
+            case R.id.musclesDetailsButton:
+                bodyPartID = BodyPartExtensions.MUSCLES;
+                break;
+            case R.id.waterGraph:
+            case R.id.waterDetailsButton:
+                bodyPartID = BodyPartExtensions.WATER;
+                break;
+        }
 
+        BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
+        transaction.addToBackStack(null);
 
+        // Commit the transaction
+        transaction.commit();
+    };
+    private OnClickListener showHelp = v -> {
+        switch (v.getId()) {
+            case R.id.imcHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(R.string.BMI_dialog_title)
+                        .setContentText(getString(R.string.BMI_formula))
+                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .showCancelButton(true)
+                        .show();
+                break;
+            case R.id.ffmiHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(R.string.FFMI_dialog_title)
+                        .setContentText(getString(R.string.FFMI_formula))
+                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .showCancelButton(true)
+                        .show();
+                break;
+            case R.id.rfmHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(R.string.RFM_dialog_title)
+                        .setContentText(getString(R.string.RFM_female_formula) +
+                                getString(R.string.RFM_male_formula))
+                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .showCancelButton(true)
+                        .show();
+                break;
+        }
+    };
+    private MiniDateGraph mWeightGraph;
+    private MiniDateGraph mFatGraph;
+    private MiniDateGraph mMusclesGraph;
+    private MiniDateGraph mWaterGraph;
+    private BodyPart weightBobyPart;
+    private BodyPart fatBobyPart;
+    private BodyPart musclesBobyPart;
+    private BodyPart waterBobyPart;
+    private ProfileViMo profileViMo;
     private OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -158,79 +219,6 @@ public class WeightFragment extends Fragment {
             }
         }
     };
-
-    private AdapterView.OnClickListener showDetailsFragment = v -> {
-        int bodyPartID = BodyPartExtensions.WEIGHT;
-        switch (v.getId()) {
-            case R.id.weightGraph:
-            case R.id.weightDetailsButton:
-                bodyPartID = BodyPartExtensions.WEIGHT;
-                break;
-            case R.id.fatGraph:
-            case R.id.fatDetailsButton:
-                bodyPartID = BodyPartExtensions.FAT;
-                break;
-            case R.id.musclesGraph:
-            case R.id.musclesDetailsButton:
-                bodyPartID = BodyPartExtensions.MUSCLES;
-                break;
-            case R.id.waterGraph:
-            case R.id.waterDetailsButton:
-                bodyPartID = BodyPartExtensions.WATER;
-                break;
-        }
-
-        BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, fragment, MainActivity.BODYTRACKINGDETAILS);
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
-    };
-
-    private OnClickListener showHelp = v -> {
-        switch (v.getId()) {
-            case R.id.imcHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(R.string.BMI_dialog_title)
-                    .setContentText(getString(R.string.BMI_formula))
-                    .setConfirmText(getResources().getText(R.string.global_ok).toString())
-                    .showCancelButton(true)
-                    .show();
-                break;
-            case R.id.ffmiHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(R.string.FFMI_dialog_title)
-                    .setContentText(getString(R.string.FFMI_formula))
-                    .setConfirmText(getResources().getText(R.string.global_ok).toString())
-                    .showCancelButton(true)
-                    .show();
-                break;
-            case R.id.rfmHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(R.string.RFM_dialog_title)
-                    .setContentText(getString(R.string.RFM_female_formula) +
-                        getString(R.string.RFM_male_formula))
-                    .setConfirmText(getResources().getText(R.string.global_ok).toString())
-                    .showCancelButton(true)
-                    .show();
-                break;
-        }
-    };
-
-    private MiniDateGraph mWeightGraph;
-    private MiniDateGraph mFatGraph;
-    private MiniDateGraph mMusclesGraph;
-    private MiniDateGraph mWaterGraph;
-    private BodyPart weightBobyPart;
-    private BodyPart fatBobyPart;
-    private BodyPart musclesBobyPart;
-    private BodyPart waterBobyPart;
-
-    private ProfileViMo profileViMo;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -324,9 +312,9 @@ public class WeightFragment extends Fragment {
 
 
     private void DrawGraph() {
-        if (getView()==null) return;
+        if (getView() == null) return;
         getView().post(() -> {
-            if ( weightBobyPart == null ) return;
+            if (weightBobyPart == null) return;
 
             List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(weightBobyPart.getId(), getProfile());
 
@@ -340,7 +328,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(), Unit.KG));
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), Unit.KG));
                     yVals.add(value);
                 }
 
@@ -350,7 +338,7 @@ public class WeightFragment extends Fragment {
         });
 
         getView().post(() -> {
-            if (fatBobyPart==null) return;
+            if (fatBobyPart == null) return;
 
             List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(fatBobyPart.getId(), getProfile());
 
@@ -362,7 +350,7 @@ public class WeightFragment extends Fragment {
 
             ArrayList<Entry> yVals = new ArrayList<>();
 
-            if ( valueList.size() > 0) {
+            if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
                     Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
@@ -372,7 +360,7 @@ public class WeightFragment extends Fragment {
             }
         });
         getView().post(() -> {
-            if (musclesBobyPart==null) return;
+            if (musclesBobyPart == null) return;
             List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(musclesBobyPart.getId(), getProfile());
 
             // Recupere les enregistrements
@@ -383,7 +371,7 @@ public class WeightFragment extends Fragment {
 
             ArrayList<Entry> yVals = new ArrayList<>();
 
-            if ( valueList.size() > 0) {
+            if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
                     Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
@@ -394,7 +382,7 @@ public class WeightFragment extends Fragment {
         });
 
         getView().post(() -> {
-            if (waterBobyPart==null) return;
+            if (waterBobyPart == null) return;
             List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(waterBobyPart.getId(), getProfile());
 
             // Recupere les enregistrements
@@ -405,7 +393,7 @@ public class WeightFragment extends Fragment {
 
             ArrayList<Entry> yVals = new ArrayList<>();
 
-            if ( valueList.size() > 0) {
+            if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
                     Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
                     yVals.add(value);
@@ -499,7 +487,7 @@ public class WeightFragment extends Fragment {
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1-(bodyFat/100)) / (size/ 100.0*size/ 100.0);
+        ffmi = weight * (1 - (bodyFat / 100)) / (size / 100.0 * size / 100.0);
 
         return ffmi;
     }
@@ -515,7 +503,7 @@ public class WeightFragment extends Fragment {
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1-(bodyFat/100)) / (size*size) + 6.1*(1.8-size);
+        ffmi = weight * (1 - (bodyFat / 100)) / (size * size) + 6.1 * (1.8 - size);
 
         return ffmi;
     }
@@ -526,7 +514,8 @@ public class WeightFragment extends Fragment {
      * 20 - 21: above average     *
      * 22: excellent              *
      * 23 – 25: superior          *
-     * 26 – 27: scores considered suspicious but still attainable naturally     */
+     * 26 – 27: scores considered suspicious but still attainable naturally
+     */
     private String getFfmiTextForMen(double ffmi) {
         if (ffmi < 17) {
             return "below average";
@@ -534,11 +523,11 @@ public class WeightFragment extends Fragment {
             return "average";
         } else if (ffmi < 21) {
             return "above average";
-        }else if (ffmi < 23) {
+        } else if (ffmi < 23) {
             return "excellent";
-        }else if (ffmi < 25) {
+        } else if (ffmi < 25) {
             return "superior";
-        }else if (ffmi < 27) {
+        } else if (ffmi < 27) {
             return "suspicious";
         } else {
             return "very suspicious";
@@ -551,7 +540,8 @@ public class WeightFragment extends Fragment {
      * 20 - 21: above average     *
      * 22: excellent     *
      * 23 – 25: superior     *
-     * 26 – 27: scores considered suspicious but still attainable naturally     */
+     * 26 – 27: scores considered suspicious but still attainable naturally
+     */
     private String getFfmiTextForWomen(double ffmi) {
         if (ffmi < 14) {
             return "below average";
@@ -559,11 +549,11 @@ public class WeightFragment extends Fragment {
             return "average";
         } else if (ffmi < 18) {
             return "above average";
-        }else if (ffmi < 20) {
+        } else if (ffmi < 20) {
             return "excellent";
-        }else if (ffmi < 22) {
+        } else if (ffmi < 22) {
             return "superior";
-        }else if (ffmi < 24) {
+        } else if (ffmi < 24) {
             return "suspicious";
         } else {
             return "very suspicious";
@@ -596,17 +586,17 @@ public class WeightFragment extends Fragment {
                         ffmiText.setText("-");
                         ffmiRank.setText(R.string.no_size_available);
                     } else {
-                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(),lastWeightValue.getUnit(),Unit.KG), size);
+                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG), size);
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
-                        if (lastFatValue!=null) {
-                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(),lastWeightValue.getUnit(),Unit.KG), size, lastFatValue.getBodyMeasure() );
+                        if (lastFatValue != null) {
+                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG), size, lastFatValue.getBodyMeasure());
                             ffmiText.setText(String.format("%.1f", ffmiValue));
-                            if(getProfile().getGender()== Gender.FEMALE)
+                            if (getProfile().getGender() == Gender.FEMALE)
                                 ffmiRank.setText(getFfmiTextForWomen(ffmiValue));
-                            else if(getProfile().getGender()== Gender.MALE)
+                            else if (getProfile().getGender() == Gender.MALE)
                                 ffmiRank.setText(getFfmiTextForMen(ffmiValue));
-                            else if(getProfile().getGender()== Gender.OTHER)
+                            else if (getProfile().getGender() == Gender.OTHER)
                                 ffmiRank.setText(getFfmiTextForMen(ffmiValue));
                             else
                                 ffmiRank.setText("no gender defined");
@@ -627,8 +617,7 @@ public class WeightFragment extends Fragment {
                 if (lastWaterValue != null) {
                     String editText = String.format("%.1f", lastWaterValue.getBodyMeasure()) + lastWaterValue.getUnit().toString();
                     waterEdit.setText(editText);
-                }
-                else
+                } else
                     waterEdit.setText("-");
 
                 if (lastFatValue != null) {
@@ -640,8 +629,7 @@ public class WeightFragment extends Fragment {
                 if (lastMusclesValue != null) {
                     String editText = String.format("%.1f", lastMusclesValue.getBodyMeasure()) + lastMusclesValue.getUnit().toString();
                     musclesEdit.setText(editText);
-                }
-                else
+                } else
                     musclesEdit.setText("-");
 
 

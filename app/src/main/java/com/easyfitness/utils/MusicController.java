@@ -185,14 +185,14 @@ public class MusicController {
 
         // Create DirectoryChooserDialog and register a callback
         fileChooserDialog =
-            new FileChooserDialog(this.mActivity, file -> {
-                currentFile = file;
-                currentPath = getParentDirPath(currentFile);
-                buildSongList(currentPath);
-                currentIndexSongList = songList.indexOf(getFileName(file));
-                newSongSelected = true;
-                Play();
-                savePreferences();
+                new FileChooserDialog(this.mActivity, file -> {
+                    currentFile = file;
+                    currentPath = getParentDirPath(currentFile);
+                    buildSongList(currentPath);
+                    currentIndexSongList = songList.indexOf(getFileName(file));
+                    newSongSelected = true;
+                    Play();
+                    savePreferences();
 /*
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(file);
@@ -201,7 +201,7 @@ public class MusicController {
                 musicPlay.setImageResource(R.drawable.pause);
                 isStopped = false;
 */
-            });
+                });
 
         fileChooserDialog.setNewFolderEnabled(false);
         fileChooserDialog.setDisplayFolderOnly(false);
@@ -212,7 +212,7 @@ public class MusicController {
     public static String getParentDirPath(String fileOrDirPath) {
         boolean endsWithSlash = fileOrDirPath.endsWith(File.separator);
         return fileOrDirPath.substring(0, fileOrDirPath.lastIndexOf(File.separatorChar,
-            endsWithSlash ? fileOrDirPath.length() - 2 : fileOrDirPath.length() - 1));
+                endsWithSlash ? fileOrDirPath.length() - 2 : fileOrDirPath.length() - 1));
     }
 
     public static String getFileName(String fileOrDirPath) {

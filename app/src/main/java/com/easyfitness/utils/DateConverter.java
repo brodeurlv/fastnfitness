@@ -43,8 +43,8 @@ public class DateConverter {
     static public Date localDateTimeStrToDateTime(String dateText, String timeText, Context pContext) {
         Date date;
         try {
-            String dateFormat = ((SimpleDateFormat)getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
-            String timeFormat = ((SimpleDateFormat)getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            String dateFormat = ((SimpleDateFormat) getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            String timeFormat = ((SimpleDateFormat) getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
             date = dateTimeFormat.parse(dateText + "T" + timeText);
         } catch (ParseException e) {

@@ -9,17 +9,17 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Keyboard;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
 import java.util.Calendar;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatSpinner;
 
 public class SingleValueInputView extends LinearLayout {
     private View rootView;
@@ -65,9 +65,9 @@ public class SingleValueInputView extends LinearLayout {
         commentLayout = rootView.findViewById(R.id.singlevalueinput_commentLayout);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
-            attrs,
-            R.styleable.SingleValueInputView,
-            0, 0);
+                attrs,
+                R.styleable.SingleValueInputView,
+                0, 0);
 
         try {
             mShowUnit = a.getBoolean(R.styleable.SingleValueInputView_showUnit, false);
@@ -83,8 +83,7 @@ public class SingleValueInputView extends LinearLayout {
             mType = a.getInteger(R.styleable.SingleValueInputView_type, 0);
             setType(mType);
             CharSequence[] entries = a.getTextArray(R.styleable.SingleValueInputView_units);
-            if (entries != null)
-            {
+            if (entries != null) {
                 setUnits(entries);
             }
             mImeOptions = a.getInt(R.styleable.SingleValueInputView_android_imeOptions, 0);
@@ -140,7 +139,7 @@ public class SingleValueInputView extends LinearLayout {
     public void setComment(String comment) {
         mComment = comment;
         commentTextView.setText(mComment);
-        if (comment==null || comment.isEmpty()) {
+        if (comment == null || comment.isEmpty()) {
             commentLayout.setVisibility(View.GONE);
         } else {
             commentLayout.setVisibility(View.VISIBLE);
@@ -164,20 +163,6 @@ public class SingleValueInputView extends LinearLayout {
         return mUnits;
     }
 
-    public String getSelectedUnit() {
-        return unitSpinner.getSelectedItem().toString();
-    }
-
-    public void setSelectedUnit(String selectedUnit) {
-        ArrayAdapter arrayAdapter = (ArrayAdapter)unitSpinner.getAdapter();
-        if (arrayAdapter!=null)
-            unitSpinner.setSelection(arrayAdapter.getPosition(selectedUnit));
-    }
-
-    public void setSelectedUnit(int selectedUnit) {
-        unitSpinner.setSelection(selectedUnit);
-    }
-
     public void setUnits(CharSequence[] value) {
         mUnits = value;
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(unitSpinner.getContext(), android.R.layout.simple_spinner_item, mUnits);
@@ -185,6 +170,20 @@ public class SingleValueInputView extends LinearLayout {
         unitSpinner.setAdapter(adapter);
         invalidate();
         requestLayout();
+    }
+
+    public String getSelectedUnit() {
+        return unitSpinner.getSelectedItem().toString();
+    }
+
+    public void setSelectedUnit(String selectedUnit) {
+        ArrayAdapter arrayAdapter = (ArrayAdapter) unitSpinner.getAdapter();
+        if (arrayAdapter != null)
+            unitSpinner.setSelection(arrayAdapter.getPosition(selectedUnit));
+    }
+
+    public void setSelectedUnit(int selectedUnit) {
+        unitSpinner.setSelection(selectedUnit);
     }
 
     public boolean isEmpty() {
@@ -254,12 +253,13 @@ public class SingleValueInputView extends LinearLayout {
                 DatePickerDialog mDatePicker;
                 Calendar cal = Calendar.getInstance();
                 mDatePicker = new DatePickerDialog(this.getContext(),
-                    (view, year, month, day) -> {
-                        valueEditText.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
-                        Keyboard.hide(getContext(), valueEditText); },
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH));
+                        (view, year, month, day) -> {
+                            valueEditText.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+                            Keyboard.hide(getContext(), valueEditText);
+                        },
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH));
 
                 mDatePicker.setOnDismissListener(dialog -> mIsDatePickerShown = false);
                 mDatePicker.setTitle("Select Date");

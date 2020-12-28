@@ -7,16 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.ProgramRecordStatus;
 import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.enums.ProgramRecordStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,46 +53,46 @@ public class DAORecord extends DAOBase {
 
     // For Workout Templates
     public static final String RECORD_TYPE = "RECORD_TYPE";
-    public static final String TEMPLATE_KEY =  "TEMPLATE_KEY";
-    public static final String TEMPLATE_RECORD_KEY =  "TEMPLATE_RECORD_KEY";
-    public static final String TEMPLATE_SESSION_KEY =  "TEMPLATE_SESSION_KEY";
-    public static final String TEMPLATE_ORDER =  "TEMPLATE_ORDER";
-    public static final String TEMPLATE_REST_TIME =  "TEMPLATE_SECONDS";
+    public static final String TEMPLATE_KEY = "TEMPLATE_KEY";
+    public static final String TEMPLATE_RECORD_KEY = "TEMPLATE_RECORD_KEY";
+    public static final String TEMPLATE_SESSION_KEY = "TEMPLATE_SESSION_KEY";
+    public static final String TEMPLATE_ORDER = "TEMPLATE_ORDER";
+    public static final String TEMPLATE_REST_TIME = "TEMPLATE_SECONDS";
 
-    public static final int FREE_RECORD_TYPE =  0;
-    public static final int PROGRAM_RECORD_TYPE =  1;
-    public static final int TEMPLATE_TYPE =  2;
+    public static final int FREE_RECORD_TYPE = 0;
+    public static final int PROGRAM_RECORD_TYPE = 1;
+    public static final int TEMPLATE_TYPE = 2;
 
     public static final String TEMPLATE_RECORD_STATUS = "TEMPLATE_RECORD_STATUS";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + PROFILE_KEY + " INTEGER, "
-        + EXERCISE_KEY + " INTEGER,"
-        + DATE + " DATE, "
-        + TIME + " TEXT,"
-        + EXERCISE + " TEXT, "
-        + SETS + " INTEGER, "
-        + REPS + " INTEGER, "
-        + WEIGHT + " REAL, "
-        + WEIGHT_UNIT + " INTEGER, "
-        + NOTES + " TEXT, "
-        + DISTANCE + " REAL, "
-        + DURATION + " TEXT, "
-        + EXERCISE_TYPE + " INTEGER, "
-        + SECONDS + " INTEGER, "
-        + DISTANCE_UNIT + " INTEGER,"
-        + TEMPLATE_KEY + " INTEGER,"
-        + TEMPLATE_RECORD_KEY + " INTEGER,"
-        + TEMPLATE_SESSION_KEY + " INTEGER,"
-        + TEMPLATE_ORDER + " INTEGER,"
-        + TEMPLATE_REST_TIME + " INTEGER,"
-        + TEMPLATE_RECORD_STATUS + " INTEGER,"
-        + RECORD_TYPE + " INTEGER"
-        + " );";
+            + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PROFILE_KEY + " INTEGER, "
+            + EXERCISE_KEY + " INTEGER,"
+            + DATE + " DATE, "
+            + TIME + " TEXT,"
+            + EXERCISE + " TEXT, "
+            + SETS + " INTEGER, "
+            + REPS + " INTEGER, "
+            + WEIGHT + " REAL, "
+            + WEIGHT_UNIT + " INTEGER, "
+            + NOTES + " TEXT, "
+            + DISTANCE + " REAL, "
+            + DURATION + " TEXT, "
+            + EXERCISE_TYPE + " INTEGER, "
+            + SECONDS + " INTEGER, "
+            + DISTANCE_UNIT + " INTEGER,"
+            + TEMPLATE_KEY + " INTEGER,"
+            + TEMPLATE_RECORD_KEY + " INTEGER,"
+            + TEMPLATE_SESSION_KEY + " INTEGER,"
+            + TEMPLATE_ORDER + " INTEGER,"
+            + TEMPLATE_REST_TIME + " INTEGER,"
+            + TEMPLATE_RECORD_STATUS + " INTEGER,"
+            + RECORD_TYPE + " INTEGER"
+            + " );";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-        + TABLE_NAME + ";";
+            + TABLE_NAME + ";";
 
 
     protected Profile mProfile = null;
@@ -130,34 +129,34 @@ public class DAORecord extends DAOBase {
 
     public long addRecord(Record record) {
         return addRecord(record.getDate(),
-            record.getExercise(), record.getExerciseType(),
-            record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
-            record.getNote(),
-            record.getDistance(), record.getDistanceUnit(), record.getDuration(),
-            record.getSeconds(),
-            record.getProfileId(), record.getRecordType(),
-            record.getTemplateRecordId(),record.getTemplateId(), record.getTemplateSessionId(), record.getRestTime(), record.getProgramRecordStatus());
+                record.getExercise(), record.getExerciseType(),
+                record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
+                record.getNote(),
+                record.getDistance(), record.getDistanceUnit(), record.getDuration(),
+                record.getSeconds(),
+                record.getProfileId(), record.getRecordType(),
+                record.getTemplateRecordId(), record.getTemplateId(), record.getTemplateSessionId(), record.getRestTime(), record.getProgramRecordStatus());
     }
 
     /**
-     * @param pDate    Date
-     * @param pExercise Machine name
+     * @param pDate             Date
+     * @param pExercise         Machine name
      * @param pProfileId
      * @param pTemplateRecordId Id of the Template record that has been used to generate this Record
      * @return id of the added record, -1 if error
      */
     public long addRecord(Date pDate, String pExercise, ExerciseType pExerciseType, int pSets, int pReps, float pWeight,
                           WeightUnit pUnit, int pSeconds, float pDistance, DistanceUnit pDistanceUnit, long pDuration, String pNote, long pProfileId,
-                          long pTemplateRecordId, RecordType pRecordType){
+                          long pTemplateRecordId, RecordType pRecordType) {
         return addRecord(pDate, pExercise, pExerciseType, pSets, pReps, pWeight, pUnit, pNote, pDistance, pDistanceUnit, pDuration, pSeconds, pProfileId,
-            pRecordType, pTemplateRecordId, -1, -1, 0, ProgramRecordStatus.SUCCESS);
+                pRecordType, pTemplateRecordId, -1, -1, 0, ProgramRecordStatus.SUCCESS);
     }
 
     /**
-     * @param pDate    Date
-     * @param pExercise Machine name
-     * @param pExerciseType Weight, Cardio or Isometric
-     * @param pWeightUnit LBS or KG
+     * @param pDate              Date
+     * @param pExercise          Machine name
+     * @param pExerciseType      Weight, Cardio or Isometric
+     * @param pWeightUnit        LBS or KG
      * @param pProfileId
      * @param pTemplateRecordId
      * @param pTemplateSessionId
@@ -181,7 +180,7 @@ public class DAORecord extends DAOBase {
         }
 
         int templateOrder = 0;
-        if (pRecordType==RecordType.TEMPLATE_TYPE) {
+        if (pRecordType == RecordType.TEMPLATE_TYPE) {
             Cursor cursor = this.getProgramTemplateRecords(pTemplateId);
             List<Record> records = fromCursorToList(cursor);
             templateOrder = records.size();
@@ -218,15 +217,15 @@ public class DAORecord extends DAOBase {
     }
 
     public void addList(List<Record> list) {
-        for (Record record: list) {
+        for (Record record : list) {
             addRecord(record.getDate(),
-                record.getExercise(), record.getExerciseType(),
-                record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
-                record.getSeconds(),
-                record.getDistance(), record.getDistanceUnit(), record.getDuration(),
-                record.getNote(),
-                record.getProfileId(), record.getTemplateRecordId(),
-                record.getRecordType());
+                    record.getExercise(), record.getExerciseType(),
+                    record.getSets(), record.getReps(), record.getWeight(), record.getWeightUnit(),
+                    record.getSeconds(),
+                    record.getDistance(), record.getDistanceUnit(), record.getDuration(),
+                    record.getNote(),
+                    record.getProfileId(), record.getTemplateRecordId(),
+                    record.getRecordType());
         }
     }
 
@@ -253,8 +252,8 @@ public class DAORecord extends DAOBase {
 
     private Record fromCursor(Cursor cursor) {
         Date date = DateConverter.DBDateTimeStrToDate(
-            cursor.getString(cursor.getColumnIndex(DAOFonte.DATE)),
-            cursor.getString(cursor.getColumnIndex(DAOFonte.TIME))
+                cursor.getString(cursor.getColumnIndex(DAOFonte.DATE)),
+                cursor.getString(cursor.getColumnIndex(DAOFonte.TIME))
         );
 
         long machine_key = -1;
@@ -268,26 +267,26 @@ public class DAORecord extends DAOBase {
         }
 
         Record value = new Record(date,
-            cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)),
-            machine_key,
-            cursor.getLong(cursor.getColumnIndex(DAORecord.PROFILE_KEY)),
-            cursor.getInt(cursor.getColumnIndex(DAORecord.SETS)),
-            cursor.getInt(cursor.getColumnIndex(DAORecord.REPS)),
-            cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)),
-            WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))),
-            cursor.getInt(cursor.getColumnIndex(DAORecord.SECONDS)),
-            cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)),
-            DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))),
-            cursor.getLong(cursor.getColumnIndex(DAORecord.DURATION)),
-            cursor.getString(cursor.getColumnIndex(DAORecord.NOTES)),
-            ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.EXERCISE_TYPE))),
-            cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_KEY)),
-            cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_KEY)),
-            cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_SESSION_KEY)),
-            cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_REST_TIME)),
-            cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_ORDER)),
-            ProgramRecordStatus.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_STATUS))),
-            RecordType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.RECORD_TYPE))));
+                cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)),
+                machine_key,
+                cursor.getLong(cursor.getColumnIndex(DAORecord.PROFILE_KEY)),
+                cursor.getInt(cursor.getColumnIndex(DAORecord.SETS)),
+                cursor.getInt(cursor.getColumnIndex(DAORecord.REPS)),
+                cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)),
+                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))),
+                cursor.getInt(cursor.getColumnIndex(DAORecord.SECONDS)),
+                cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)),
+                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))),
+                cursor.getLong(cursor.getColumnIndex(DAORecord.DURATION)),
+                cursor.getString(cursor.getColumnIndex(DAORecord.NOTES)),
+                ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.EXERCISE_TYPE))),
+                cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_KEY)),
+                cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_KEY)),
+                cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_SESSION_KEY)),
+                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_REST_TIME)),
+                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_ORDER)),
+                ProgramRecordStatus.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_STATUS))),
+                RecordType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.RECORD_TYPE))));
 
         value.setId(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
         return value;
@@ -295,10 +294,10 @@ public class DAORecord extends DAOBase {
 
     public List<Record> fromCursorToList(Cursor cursor) {
         List<Record> valueList = new ArrayList<>();
-        if (cursor!=null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 Record record = fromCursor(cursor);
-                if (record!=null) valueList.add(record);
+                if (record != null) valueList.add(record);
             } while (cursor.moveToNext());
         }
         return valueList;
@@ -308,7 +307,7 @@ public class DAORecord extends DAOBase {
     public List<Record> getAllRecords() {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " ORDER BY " + KEY + " DESC";
+                + " ORDER BY " + KEY + " DESC";
 
         // return value list
         return getRecordsList(selectQuery);
@@ -326,9 +325,9 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
-            + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-            + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
+                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
         return getRecordsListCursor(selectQuery);
@@ -359,8 +358,8 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME +
-            " WHERE " + PROFILE_KEY + "=" + pProfile.getId() +
-            " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
+                " WHERE " + PROFILE_KEY + "=" + pProfile.getId() +
+                " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // Return value list
         return getRecordsListCursor(selectQuery);
@@ -384,10 +383,10 @@ public class DAORecord extends DAOBase {
         String selectQuery = "";
         if (pProfile == null) {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
+                    + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
         } else {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+                    + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
         }
         mCursor = db.rawQuery(selectQuery, null);
 
@@ -415,7 +414,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-            + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+                + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
         int size = mCursor.getCount();
@@ -435,7 +434,6 @@ public class DAORecord extends DAOBase {
         // return value list
         return valueList;
     }
-
 
 
     // Getting All Dates
@@ -488,27 +486,27 @@ public class DAORecord extends DAOBase {
             return null;
 
         selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
-            + " AND " + LOCAL_DATE + " IN (SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME + " WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " AND " + TEMPLATE_KEY + "=-1" + " ORDER BY " + LOCAL_DATE + " DESC LIMIT 3)"
-            + " AND " + TEMPLATE_KEY + "=-1"
-            + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+                + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + LOCAL_DATE + " IN (SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME + " WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " AND " + TEMPLATE_KEY + "=-1" + " ORDER BY " + LOCAL_DATE + " DESC LIMIT 3)"
+                + " AND " + TEMPLATE_KEY + "=-1"
+                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
 
         return getRecordsListCursor(selectQuery);
     }
 
     public Cursor getProgramTemplateRecords(long mTemplateId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + TEMPLATE_KEY + "=" + mTemplateId
-            + " AND " + RECORD_TYPE + "=" + RecordType.TEMPLATE_TYPE.ordinal()
-            + " ORDER BY " + TEMPLATE_ORDER + " ASC";
+                + " WHERE " + TEMPLATE_KEY + "=" + mTemplateId
+                + " AND " + RECORD_TYPE + "=" + RecordType.TEMPLATE_TYPE.ordinal()
+                + " ORDER BY " + TEMPLATE_ORDER + " ASC";
 
         return getRecordsListCursor(selectQuery);
     }
 
     public Cursor getProgramWorkoutRecords(long mProgramSessionId) {
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + TEMPLATE_SESSION_KEY + "=" + mProgramSessionId
-            + " ORDER BY " + TEMPLATE_ORDER + " ASC";
+                + " WHERE " + TEMPLATE_SESSION_KEY + "=" + mProgramSessionId
+                + " ORDER BY " + TEMPLATE_ORDER + " ASC";
 
         return getRecordsListCursor(selectQuery);
     }
@@ -530,28 +528,28 @@ public class DAORecord extends DAOBase {
 
         if (lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine
-                + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+                    + " WHERE " + EXERCISE + "=\"" + pMachine
+                    + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (!lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+                    + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+                    + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         }
 
         // return value list
@@ -569,7 +567,7 @@ public class DAORecord extends DAOBase {
 
         // Select last record
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-            + " WHERE " + PROFILE_KEY + "=" + pProfile.getId();
+                + " WHERE " + PROFILE_KEY + "=" + pProfile.getId();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through only the first rows.
@@ -601,11 +599,11 @@ public class DAORecord extends DAOBase {
         String selectQuery;
         if (p == null) {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=" + machineID;
+                    + " WHERE " + EXERCISE_KEY + "=" + machineID;
         } else {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=" + machineID +
-                " AND " + PROFILE_KEY + "=" + p.getId();
+                    + " WHERE " + EXERCISE_KEY + "=" + machineID +
+                    " AND " + PROFILE_KEY + "=" + p.getId();
         }
         mCursor = db.rawQuery(selectQuery, null);
 
@@ -666,17 +664,15 @@ public class DAORecord extends DAOBase {
     }
 
 
-
     public List<Record> getAllTemplateRecordByProgramArray(long pTemplateId) {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-            + " WHERE " + TEMPLATE_KEY + "=" + pTemplateId
-            + " AND " + RECORD_TYPE + "=" + DAORecord.TEMPLATE_TYPE;
+                + " WHERE " + TEMPLATE_KEY + "=" + pTemplateId
+                + " AND " + RECORD_TYPE + "=" + DAORecord.TEMPLATE_TYPE;
 
         // return value list
         return getRecordsList(selectQuery);
     }
-
 
 
     // Getting All Records
@@ -734,7 +730,7 @@ public class DAORecord extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(record.getId())});
+                new String[]{String.valueOf(record.getId())});
     }
 
     public void closeCursor() {
@@ -745,7 +741,6 @@ public class DAORecord extends DAOBase {
         if (mCursor != null) mCursor.close();
         close();
     }
-
 
 
 }

@@ -52,7 +52,7 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
     private void writeToFile(String stacktrace, String filename) {
         try {
             BufferedWriter bos = new BufferedWriter(new FileWriter(
-                localPath + "/" + filename));
+                    localPath + "/" + filename));
             bos.write(stacktrace);
             bos.flush();
             bos.close();

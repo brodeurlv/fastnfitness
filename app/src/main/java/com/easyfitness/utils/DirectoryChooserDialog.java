@@ -97,7 +97,7 @@ public class DirectoryChooserDialog {
         }
 
         AlertDialog.Builder dialogBuilder =
-            createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
+                createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
 
         dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
             // Current directory chosen
@@ -192,8 +192,8 @@ public class DirectoryChooserDialog {
 
             // Show new folder name input dialog
             new AlertDialog.Builder(m_context).
-                setTitle("New folder name").
-                setView(input).setPositiveButton(m_context.getString(R.string.global_ok), (dialog, whichButton) -> {
+                    setTitle("New folder name").
+                    setView(input).setPositiveButton(m_context.getString(R.string.global_ok), (dialog, whichButton) -> {
                 Editable newDir = input.getText();
                 String newDirName = newDir.toString();
                 // Create new directory
@@ -203,8 +203,8 @@ public class DirectoryChooserDialog {
                     updateDirectory();
                 } else {
                     Toast.makeText(
-                        m_context, "Failed to create '" + newDirName +
-                            "' folder", Toast.LENGTH_SHORT).show();
+                            m_context, "Failed to create '" + newDirName +
+                                    "' folder", Toast.LENGTH_SHORT).show();
                 }
             }).setNegativeButton(m_context.getString(R.string.global_cancel), null).show();
         });
@@ -236,7 +236,7 @@ public class DirectoryChooserDialog {
 
     private ArrayAdapter<String> createListAdapter(List<String> items) {
         return new ArrayAdapter<String>(m_context,
-            layout.select_dialog_item, id.text1, items) {
+                layout.select_dialog_item, id.text1, items) {
             @Override
             public View getView(int position, View convertView,
                                 ViewGroup parent) {

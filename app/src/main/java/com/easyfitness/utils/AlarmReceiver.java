@@ -3,17 +3,17 @@ package com.easyfitness.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.media.AudioAttributes;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent arg1) {
         long[] pattern = {
-            0,  // Start immediately
-            500, 500, 500, 500, 500};
+                0,  // Start immediately
+                500, 500, 500, 500, 500};
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

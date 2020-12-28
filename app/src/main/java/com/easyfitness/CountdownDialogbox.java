@@ -6,10 +6,8 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,7 +27,7 @@ import gr.antoniom.chronometer.Chronometer;
 import gr.antoniom.chronometer.Chronometer.OnChronometerTickListener;
 
 public class CountdownDialogbox extends Dialog implements
-    View.OnClickListener {
+        View.OnClickListener {
 
     private final ExerciseType mExerciseType;
     private final Machine mExercise;
@@ -66,7 +64,7 @@ public class CountdownDialogbox extends Dialog implements
         iRestTime = pRestTime;
 
         mExercise = exercise;
-        if(mExercise!=null)
+        if (mExercise != null)
             mExerciseType = exercise.getType();
         else
             mExerciseType = ExerciseType.CARDIO; // The simplest by default
@@ -110,7 +108,7 @@ public class CountdownDialogbox extends Dialog implements
 
         exit.setOnClickListener(this);
 
-        if (mExerciseType!=ExerciseType.CARDIO) {
+        if (mExerciseType != ExerciseType.CARDIO) {
             WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(activity);
             DecimalFormat numberFormat = new DecimalFormat("#.##");
             totalMachine.setText(numberFormat.format(UnitConverter.weightConverter(lTotalMachine, Unit.KG, defaultUnit.toUnit())) + " " + defaultUnit.toString());

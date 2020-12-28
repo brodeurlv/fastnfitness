@@ -8,11 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
+import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.program.ProgramHistory;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
-import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
@@ -23,17 +29,21 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-
 public class ProgramPagerFragment extends Fragment {
     FragmentPagerItemAdapter pagerAdapter = null;
     ViewPager mViewPager = null;
 
     private long mTemplateId;
+    private View.OnClickListener onClickToolbarItem = v -> {
+        // Handle presses on the action bar items
+        switch (v.getId()) {
+            case R.id.deleteButton:
+                deleteProgram();
+                break;
+            default:
+                getActivity().onBackPressed();
+        }
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -51,8 +61,6 @@ public class ProgramPagerFragment extends Fragment {
         return f;
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,10 +77,10 @@ public class ProgramPagerFragment extends Fragment {
             mTemplateId = args.getLong("templateId");
 
             pagerAdapter = new FragmentPagerItemAdapter(
-                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add("Info", ProgramInfoFragment.class, args)
-                .add("Editor", FontesFragment.class, args)
-                .create());
+                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                    .add("Info", ProgramInfoFragment.class, args)
+                    .add("Editor", FontesFragment.class, args)
+                    .create());
 
             mViewPager.setAdapter(pagerAdapter);
 
@@ -111,17 +119,6 @@ public class ProgramPagerFragment extends Fragment {
         return view;
     }
 
-    private View.OnClickListener onClickToolbarItem = v -> {
-        // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                deleteProgram();
-                break;
-            default:
-                getActivity().onBackPressed();
-        }
-    };
-
     private void deleteProgram() {
         AlertDialog.Builder deleteDialogBuilder = new AlertDialog.Builder(this.getActivity());
 
@@ -139,10 +136,8 @@ public class ProgramPagerFragment extends Fragment {
             deleteRecordsAssociatedToTemplate();
             // Delete all program history.
             List<ProgramHistory> lProgramHistories = dbProgramHistory.getAll();
-            for (ProgramHistory history : lProgramHistories)
-            {
-                if (history.getProgramId() == mTemplateId)
-                {
+            for (ProgramHistory history : lProgramHistories) {
+                if (history.getProgramId() == mTemplateId) {
                     dbProgramHistory.delete(history);
                 }
             }

@@ -1,7 +1,6 @@
 package com.easyfitness.utils;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ListView;

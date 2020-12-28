@@ -36,15 +36,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/programs"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/programs" />
 
                 <Spinner
                     android:id="@+id/programSpinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/newProgram"
@@ -52,10 +52,10 @@
                     android:layout_height="30dp"
                     android:layout_marginEnd="2dp"
                     android:background="@color/add_button_background"
-                    android:text="@string/newStr"
                     android:minWidth="0dp"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"/>
+                    android:paddingEnd="10dp"
+                    android:text="@string/newStr" />
 
                 <Button
                     android:id="@+id/editProgram"
@@ -109,9 +109,9 @@
             android:id="@+id/listProgramEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/this_program_is_empty"
             android:textColor="@color/index_color"
-            android:gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

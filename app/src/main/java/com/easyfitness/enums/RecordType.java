@@ -6,7 +6,7 @@ public enum RecordType {
     TEMPLATE_TYPE;
 
     public static RecordType fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return FREE_RECORD_TYPE;
             case 1:

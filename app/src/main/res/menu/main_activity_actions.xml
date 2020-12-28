@@ -12,8 +12,7 @@
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Profil"
         android:visible="false"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
 
     <item
         android:id="@+id/action_deleteDB"

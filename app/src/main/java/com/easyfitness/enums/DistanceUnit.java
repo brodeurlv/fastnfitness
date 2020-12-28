@@ -7,16 +7,12 @@ public enum DistanceUnit {
     private String mDisplayName = "";
 
     //Constructeur
-    DistanceUnit(String displayName){
+    DistanceUnit(String displayName) {
         this.mDisplayName = displayName;
     }
 
-    public String toString(){
-        return mDisplayName;
-    }
-
     public static DistanceUnit fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return KM;
             case 1:
@@ -31,8 +27,12 @@ public enum DistanceUnit {
         return null;
     }
 
+    public String toString() {
+        return mDisplayName;
+    }
+
     public Unit toUnit() {
-        switch(ordinal()) {
+        switch (ordinal()) {
             case 0:
                 return Unit.KM;
             case 1:

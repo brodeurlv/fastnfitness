@@ -27,9 +27,9 @@ import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAORecord;
-import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
@@ -99,7 +99,7 @@ public class MachineDetailsFragment extends Fragment {
             CreateMuscleDialog();
         }
     };
-    private EditableInputView.OnTextChangedListener textChangeListener= view -> {
+    private EditableInputView.OnTextChangedListener textChangeListener = view -> {
         requestForSave();
     };
 
@@ -409,7 +409,7 @@ public class MachineDetailsFragment extends Fragment {
 
         Collections.sort(_musclesArray);
 
-         _selections = new boolean[_musclesArray.size()];
+        _selections = new boolean[_musclesArray.size()];
     }
 
     /*
@@ -491,7 +491,7 @@ public class MachineDetailsFragment extends Fragment {
         Machine m = new Machine(machineName.getText(),
                 machineDescription.getText(),
                 selectedType,
-                getDBStringFromInput(musclesList.getText().toString()),mCurrentPhotoPath,mMachine.getFavorite());
+                getDBStringFromInput(musclesList.getText().toString()), mCurrentPhotoPath, mMachine.getFavorite());
         m.setId(mMachine.getId());
         /*m.setName(machineName.getText());
         m.setDescription(machineDescription.getText());
@@ -578,7 +578,7 @@ public class MachineDetailsFragment extends Fragment {
             result = true;
         }
 
-        if(result) {
+        if (result) {
             mMachine = newMachine;
         }
 

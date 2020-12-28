@@ -84,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:selectedType="cardio"
-            app:showTypeSelector="true"
-            app:showRestTime="true"/>
+            app:showRestTime="true"
+            app:showTypeSelector="true" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/detailsCardView"
@@ -151,11 +151,11 @@
                             android:text="@string/DateLabel" />
 
                         <TextView
-                            android:layout_width="wrap_content"
                             android:id="@+id/editDate"
                             style="@style/editableTextView"
-                            android:enabled="false"
+                            android:layout_width="wrap_content"
                             android:ems="8"
+                            android:enabled="false"
                             tools:text="10/05/20" />
 
                     </LinearLayout>
@@ -175,15 +175,14 @@
                             android:text="@string/timeLabel" />
 
                         <TextView
-                            android:layout_width="wrap_content"
                             android:id="@+id/editTime"
                             style="@style/editableTextView"
-                            android:enabled="false"
+                            android:layout_width="wrap_content"
                             android:ems="8"
+                            android:enabled="false"
                             tools:text="18:26:10" />
 
                     </LinearLayout>
-
 
 
                     <LinearLayout

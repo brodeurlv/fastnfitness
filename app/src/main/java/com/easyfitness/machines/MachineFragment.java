@@ -45,8 +45,8 @@ public class MachineFragment extends Fragment {
                 refreshData();
             } else {
                 if (mTableAdapter != null) {
-                        mTableAdapter.getFilter().filter(charSequence);
-                        mTableAdapter.notifyDataSetChanged();
+                    mTableAdapter.getFilter().filter(charSequence);
+                    mTableAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -76,60 +76,60 @@ public class MachineFragment extends Fragment {
 
 
         SweetAlertDialog dlg = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getString(R.string.what_type_of_exercise))
-            .setContentText("")
-            .setCancelText(getResources().getText(R.string.CardioLabel).toString())
-            .setConfirmText(getResources().getText(R.string.strength_category).toString())
-            .setNeutralText(getResources().getText(R.string.staticExercise).toString())
-            .showCancelButton(true)
-            .setConfirmClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.STRENGTH, "", false,"");
-                sDialog.dismissWithAnimation();
+                .setTitleText(getString(R.string.what_type_of_exercise))
+                .setContentText("")
+                .setCancelText(getResources().getText(R.string.CardioLabel).toString())
+                .setConfirmText(getResources().getText(R.string.strength_category).toString())
+                .setNeutralText(getResources().getText(R.string.staticExercise).toString())
+                .showCancelButton(true)
+                .setConfirmClickListener(sDialog -> {
+                    long temp_machine_key = -1;
+                    String pMachine = "";
+                    DAOMachine lDAOMachine = new DAOMachine(getContext());
+                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.STRENGTH, "", false, "");
+                    sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            })
-            .setNeutralClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.ISOMETRIC, "", false, "");
-                sDialog.dismissWithAnimation();
+                    ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                })
+                .setNeutralClickListener(sDialog -> {
+                    long temp_machine_key = -1;
+                    String pMachine = "";
+                    DAOMachine lDAOMachine = new DAOMachine(getContext());
+                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.ISOMETRIC, "", false, "");
+                    sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            })
-            .setCancelClickListener(sDialog -> {
-                long temp_machine_key = -1;
-                String pMachine = "";
-                DAOMachine lDAOMachine = new DAOMachine(getContext());
-                temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.CARDIO, "", false, "");
-                sDialog.dismissWithAnimation();
+                    ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                })
+                .setCancelClickListener(sDialog -> {
+                    long temp_machine_key = -1;
+                    String pMachine = "";
+                    DAOMachine lDAOMachine = new DAOMachine(getContext());
+                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.CARDIO, "", false, "");
+                    sDialog.dismissWithAnimation();
 
-                ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            });
+                    ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, machineDetailsFragment, MainActivity.MACHINESDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                });
 
         dlg.show();
 

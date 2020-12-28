@@ -1,13 +1,5 @@
 package com.easyfitness.enums;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-
-import com.easyfitness.SettingsFragment;
-import com.easyfitness.ValueEditorDialogbox;
-
-import androidx.preference.PreferenceManager;
-
 public enum Unit {
     KG("kg", UnitType.WEIGHT),
     LBS("lb", UnitType.WEIGHT),
@@ -23,20 +15,13 @@ public enum Unit {
     private final UnitType mUnitType;
 
     //Constructeur
-    Unit(String displayName, UnitType unitType){
+    Unit(String displayName, UnitType unitType) {
         mDisplayName = displayName;
         mUnitType = unitType;
     }
 
-    public String toString(){
-        return mDisplayName;
-    }
-    public UnitType getUnitType(){
-        return mUnitType;
-    }
-
     public static Unit fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return KG;
             case 1:
@@ -72,5 +57,13 @@ public enum Unit {
         if (x.equals(PERCENTAGE.mDisplayName)) return PERCENTAGE;
         if (x.equals(UNITLESS.mDisplayName)) return UNITLESS;
         return null;
+    }
+
+    public String toString() {
+        return mDisplayName;
+    }
+
+    public UnitType getUnitType() {
+        return mUnitType;
     }
 }

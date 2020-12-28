@@ -7,7 +7,7 @@ public enum ZoomType {
     ZOOM_WEEK;
 
     public static ZoomType fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return ZOOM_ALL;
             case 1:

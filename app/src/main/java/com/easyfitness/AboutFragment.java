@@ -120,9 +120,9 @@ public class AboutFragment extends Fragment {
 
         final Notice notice = new Notice(name, url, copyright, license);
         new LicensesDialog.Builder(getMainActivity())
-            .setNotices(notice)
-            .build()
-            .show();
+                .setNotices(notice)
+                .build()
+                .show();
     };
 
     /**

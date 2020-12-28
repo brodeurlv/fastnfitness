@@ -72,14 +72,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="50"
                         android:gravity="center_vertical"
-                        android:inputType="text"
                         android:hint="@string/name"
+                        android:inputType="text"
                         android:lines="1"
                         android:maxLines="1"
                         android:text=""
-                        tools:text="Bodypart Name"
                         android:textSize="24sp"
-                        android:title="@string/enter_bodypart_name"/>
+                        android:title="@string/enter_bodypart_name"
+                        tools:text="Bodypart Name" />
 
                     <TextView
                         android:id="@+id/buttonAdd"
@@ -112,7 +112,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     app:graphType="date"
-                    app:name=""/>
+                    app:name="" />
 
             </androidx.cardview.widget.CardView>
 

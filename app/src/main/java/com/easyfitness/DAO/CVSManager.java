@@ -226,8 +226,8 @@ public class CVSManager {
             cvsOutput.write(DAOBodyPart.CUSTOM_PICTURE);
             cvsOutput.endRecord();
 
-            for (BodyPart bp : bodyParts ) {
-                if (bp.getBodyPartResKey()==-1) { // Only custom BodyPart are exported
+            for (BodyPart bp : bodyParts) {
+                if (bp.getBodyPartResKey() == -1) { // Only custom BodyPart are exported
                     cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
                     cvsOutput.write(Long.toString(bp.getId()));
                     cvsOutput.write(bp.getName(mContext));
@@ -309,7 +309,7 @@ public class CVSManager {
 
             csvRecords.readHeaders();
 
-            ArrayList<Record> recordsList = new ArrayList<>() ;
+            ArrayList<Record> recordsList = new ArrayList<>();
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
 
@@ -319,7 +319,7 @@ public class CVSManager {
                         Date date;
                         date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
                         String exercise = csvRecords.get(DAORecord.EXERCISE);
-                        if ( dbcMachine.getMachine(exercise) != null ) {
+                        if (dbcMachine.getMachine(exercise) != null) {
                             long exerciseId = dbcMachine.getMachine(exercise).getId();
                             ExerciseType exerciseType = dbcMachine.getMachine(exercise).getType();
 
@@ -352,7 +352,7 @@ public class CVSManager {
                         dbcCardio.open();
                         Date date;
 
-                        date =DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
+                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
 
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
                         float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
@@ -467,7 +467,7 @@ public class CVSManager {
 
     private Unit TryGetUnit(String value, Unit defaultValue) {
         Unit unit = Unit.fromString(value);
-        if (unit!=null) {
+        if (unit != null) {
             return unit;
         }
         return defaultValue;

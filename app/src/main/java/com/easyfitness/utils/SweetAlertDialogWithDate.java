@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.easyfitness.R;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,8 +45,8 @@ public class SweetAlertDialogWithDate extends SweetAlertDialog implements DatePi
     private void init() {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         );
 
         dateEditView = new TextView(getContext().getApplicationContext());

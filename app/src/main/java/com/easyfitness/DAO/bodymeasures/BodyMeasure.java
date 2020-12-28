@@ -22,7 +22,7 @@ public class BodyMeasure {
         mBodypart_id = pBodypart_id;
         mMeasure = pMeasure;
         mProfil_id = pProfil_id;
-        mUnit=pUnit;
+        mUnit = pUnit;
     }
 
     public long getId() {
@@ -45,14 +45,24 @@ public class BodyMeasure {
         return mBodypart_id;
     }
 
-    public float getBodyMeasure() { return mMeasure; }
-    public void setBodyMeasure(float bodyMeasure) { mMeasure=bodyMeasure; }
+    public float getBodyMeasure() {
+        return mMeasure;
+    }
+
+    public void setBodyMeasure(float bodyMeasure) {
+        mMeasure = bodyMeasure;
+    }
 
     public long getProfileID() {
         return mProfil_id;
     }
 
-    public Unit getUnit() { return mUnit; }
-    public void setUnit(Unit unit) {  mUnit = unit; }
+    public Unit getUnit() {
+        return mUnit;
+    }
+
+    public void setUnit(Unit unit) {
+        mUnit = unit;
+    }
 
 }

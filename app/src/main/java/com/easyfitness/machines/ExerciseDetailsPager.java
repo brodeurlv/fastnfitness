@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Machine;
@@ -26,11 +31,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.List;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class ExerciseDetailsPager extends Fragment {
     Toolbar top_toolbar = null;
@@ -92,10 +92,10 @@ public class ExerciseDetailsPager extends Fragment {
             machineProfilIdArg = args.getLong("machineProfile");
 
             pagerAdapter = new FragmentPagerItemAdapter(
-                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add(getString(R.string.MachineLabel), MachineDetailsFragment.class, args)
-                .add(getString(R.string.HistoryLabel), FonteHistoryFragment.class, args)
-                .create());
+                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                    .add(getString(R.string.MachineLabel), MachineDetailsFragment.class, args)
+                    .add(getString(R.string.HistoryLabel), FonteHistoryFragment.class, args)
+                    .create());
 
             mViewPager.setAdapter(pagerAdapter);
 

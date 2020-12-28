@@ -15,13 +15,17 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.record.DAORecord;
-import com.easyfitness.DAO.record.Record;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.program.ProgramHistory;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.ProfileViMo;
 import com.easyfitness.R;
@@ -36,9 +40,6 @@ import com.easyfitness.utils.OnCustomEventListener;
 
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProgramRunnerFragment extends Fragment {
@@ -63,7 +64,7 @@ public class ProgramRunnerFragment extends Fragment {
     private View.OnClickListener onClickEditProgram = view -> {
 
         Program program = (Program) mProgramsSpinner.getSelectedItem();
-        if (program==null) return;
+        if (program == null) return;
 
         ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(program.getId());
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -87,30 +88,31 @@ public class ProgramRunnerFragment extends Fragment {
         linearLayout.addView(editText);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getString(R.string.enter_workout_name))
-            .setCancelText(getContext().getString(R.string.global_cancel))
-            .setHideKeyBoardOnDismiss(true)
-            .setCancelClickListener(sDialog -> {
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                sDialog.dismissWithAnimation();})
-            .setConfirmClickListener(sDialog -> {
+                .setTitleText(getString(R.string.enter_workout_name))
+                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setHideKeyBoardOnDismiss(true)
+                .setCancelClickListener(sDialog -> {
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    sDialog.dismissWithAnimation();
+                })
+                .setConfirmClickListener(sDialog -> {
 
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                DAOProgram daoProgram = new DAOProgram(getContext());
-                long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    DAOProgram daoProgram = new DAOProgram(getContext());
+                    long temp_key = daoProgram.add(new Program(0, editText.getText().toString(), ""));
 
-                sDialog.dismiss();
-                ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            });
+                    sDialog.dismiss();
+                    ProgramPagerFragment fragment = ProgramPagerFragment.newInstance(temp_key);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                });
         //Keyboard.hide(context, editText);});
         dialog.setOnShowListener(sDialog -> {
             editText.requestFocus();
@@ -120,10 +122,25 @@ public class ProgramRunnerFragment extends Fragment {
         dialog.setCustomView(linearLayout);
         dialog.show();
     };
-
+    private OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
+        @Override
+        public void onEvent(String eventName) {
+            // Open dialog box to finish program
+            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText(getString(R.string.program_completed))
+                    .setConfirmText(getContext().getString(R.string.global_yes))
+                    .setCancelText(getContext().getString(R.string.global_no))
+                    .setHideKeyBoardOnDismiss(true)
+                    .setConfirmClickListener(sDialog -> {
+                        stopProgram();
+                        sDialog.dismiss();
+                    });
+            dialog.show();
+        }
+    };
     private View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram == null) {
-            mRunningProgram=(Program)mProgramsSpinner.getSelectedItem();
+            mRunningProgram = (Program) mProgramsSpinner.getSelectedItem();
             if (mRunningProgram != null) {
                 long runningProgramId = mRunningProgram.getId();
                 long profileId = getProfile().getId();
@@ -147,25 +164,10 @@ public class ProgramRunnerFragment extends Fragment {
                 // refresh table
                 refreshData();
             }
-        }else{
+        } else {
             stopProgram();
         }
     };
-
-
-
-    private void stopProgram(){
-        mRunningProgramHistory.setEndDate(DateConverter.currentDate(getContext()));
-        mRunningProgramHistory.setEndTime(DateConverter.currentTime(getContext()));
-        mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
-        mDbWorkoutHistory.update(mRunningProgramHistory);
-        mRunningProgram=null;
-        mRunningProgramHistory=null;
-        mProgramsSpinner.setEnabled(true);
-        mStartStopButton.setText(R.string.start_program);
-        refreshData();
-    }
-
     private AdapterView.OnItemSelectedListener onProgramSelected = new AdapterView.OnItemSelectedListener() {
 
         @Override
@@ -177,22 +179,6 @@ public class ProgramRunnerFragment extends Fragment {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
-        }
-    };
-    private OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
-        @Override
-        public void onEvent(String eventName) {
-            // Open dialog box to finish program
-            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText(getString(R.string.program_completed))
-                .setConfirmText(getContext().getString(R.string.global_yes))
-                .setCancelText(getContext().getString(R.string.global_no))
-                .setHideKeyBoardOnDismiss(true)
-                .setConfirmClickListener(sDialog -> {
-                    stopProgram();
-                    sDialog.dismiss();
-                });
-            dialog.show();
         }
     };
 
@@ -212,8 +198,20 @@ public class ProgramRunnerFragment extends Fragment {
         return f;
     }
 
+    private void stopProgram() {
+        mRunningProgramHistory.setEndDate(DateConverter.currentDate(getContext()));
+        mRunningProgramHistory.setEndTime(DateConverter.currentTime(getContext()));
+        mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
+        mDbWorkoutHistory.update(mRunningProgramHistory);
+        mRunningProgram = null;
+        mRunningProgramHistory = null;
+        mProgramsSpinner.setEnabled(true);
+        mStartStopButton.setText(R.string.start_program);
+        refreshData();
+    }
+
     @Override
-    public void onCreate (Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbWorkout = new DAOProgram(this.getContext());
         mDbWorkoutHistory = new DAOProgramHistory(this.getContext());
@@ -271,8 +269,8 @@ public class ProgramRunnerFragment extends Fragment {
             mProgramsArray = mDbWorkout.getAll();
             //Data are refreshed on show
             mAdapterPrograms = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mProgramsArray);
+                    getContext(), android.R.layout.simple_spinner_item,
+                    mProgramsArray);
             mAdapterPrograms.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mProgramsSpinner.setAdapter(mAdapterPrograms);
         } else {
@@ -289,7 +287,7 @@ public class ProgramRunnerFragment extends Fragment {
         // 2. If a program is running, then put it in the spinner, update the button text to Stop,
         mIsProgramRunning = false;
         mRunningProgramHistory = mDbWorkoutHistory.getRunningProgram(getProfile());
-        if (mRunningProgramHistory!=null) {
+        if (mRunningProgramHistory != null) {
             int position = 0;
             for (int i = 0; i < mAdapterPrograms.getCount(); i++) {
                 if (mAdapterPrograms.getItem(i).getId() == mRunningProgramHistory.getProgramId()) {
@@ -306,7 +304,7 @@ public class ProgramRunnerFragment extends Fragment {
         }
 
         if (!mIsProgramRunning) {
-            mRunningProgram=null;
+            mRunningProgram = null;
             mProgramsSpinner.setEnabled(true);
             mStartStopButton.setText(R.string.start_program);
             mProgramRecordsListTitle.setText(R.string.program_preview);
@@ -318,8 +316,8 @@ public class ProgramRunnerFragment extends Fragment {
             cursor = mDbRecord.getProgramWorkoutRecords(mRunningProgramHistory.getId());
         } else {
             Program selectedProgram = (Program) mProgramsSpinner.getSelectedItem();
-            if (selectedProgram !=null) {
-                cursor = mDbRecord.getProgramTemplateRecords(((Program)mProgramsSpinner.getSelectedItem()).getId());
+            if (selectedProgram != null) {
+                cursor = mDbRecord.getProgramTemplateRecords(((Program) mProgramsSpinner.getSelectedItem()).getId());
             }
         }
 
@@ -332,7 +330,7 @@ public class ProgramRunnerFragment extends Fragment {
             displayType = DisplayType.PROGRAM_PREVIEW_DISPLAY;
         }
 
-        if (recordList.size()==0) {
+        if (recordList.size() == 0) {
             mProgramRecordsList.setAdapter(null);
         } else {
             if (mProgramRecordsList.getAdapter() == null) {
@@ -340,8 +338,8 @@ public class ProgramRunnerFragment extends Fragment {
                 mTableAdapter.setOnProgramCompletedListener(onProgramCompletedListener);
                 mProgramRecordsList.setAdapter(mTableAdapter);
             } else {
-                RecordArrayAdapter mTableAdapter = (RecordArrayAdapter)mProgramRecordsList.getAdapter();
-                if (mTableAdapter.getDisplayType()!=displayType) {
+                RecordArrayAdapter mTableAdapter = (RecordArrayAdapter) mProgramRecordsList.getAdapter();
+                if (mTableAdapter.getDisplayType() != displayType) {
                     mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), recordList, displayType, null);
                     mTableAdapter.setOnProgramCompletedListener(onProgramCompletedListener);
                     mProgramRecordsList.setAdapter(mTableAdapter);

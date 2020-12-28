@@ -40,15 +40,15 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="@string/weightLabel"
-                        style="@style/CardViewTitle" />
+                        style="@style/CardViewTitle"
+                        android:text="@string/weightLabel" />
 
                     <TextView
                         android:id="@+id/weightInput"
+                        style="@style/PrimaryWeightMeasure"
                         android:text=" - "
-                        tools:text="70.5"
                         android:title="@string/weightLabel"
-                        style="@style/PrimaryWeightMeasure" />
+                        tools:text="70.5" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/weightGraph"
@@ -84,8 +84,8 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="@string/fatLabel"
-                        style="@style/CardViewTitle" />
+                        style="@style/CardViewTitle"
+                        android:text="@string/fatLabel" />
 
                     <TextView
                         android:id="@+id/fatInput"
@@ -186,7 +186,7 @@
 
                     <TextView
                         style="@style/CardViewTitle"
-                        android:text="@string/waterLabel"/>
+                        android:text="@string/waterLabel" />
 
                     <TextView
                         android:id="@+id/waterInput"
@@ -262,8 +262,8 @@
 
                         <TextView
                             android:id="@+id/imcValue"
-                            tools:text="20"
-                            style="@style/WeightIndexStyle" />
+                            style="@style/WeightIndexStyle"
+                            tools:text="20" />
 
                         <TextView
                             android:id="@+id/imcViewText"
@@ -277,8 +277,8 @@
 
                         <ImageButton
                             android:id="@+id/imcHelp"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px"
-                            style="@style/InfoButton" />
+                            style="@style/InfoButton"
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
                     </TableRow>
 
                     <TableRow
@@ -307,9 +307,8 @@
 
                         <ImageButton
                             android:id="@+id/ffmiHelp"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px"
                             style="@style/InfoButton"
-                            />
+                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
 
                     </TableRow>
 

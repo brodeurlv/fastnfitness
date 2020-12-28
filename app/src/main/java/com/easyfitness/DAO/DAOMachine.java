@@ -24,15 +24,15 @@ public class DAOMachine extends DAOBase {
     public static final String FAVORITES = "favorites"; // DEPRECATED - Specific DataBase created for this.
 
     public static final String TABLE_CREATE_5 = "CREATE TABLE " + TABLE_NAME
-        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-        + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER);";
+            + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
+            + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER);";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-        + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-        + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT, " + FAVORITES + " INTEGER);"; //", " + PICTURE_RES + " INTEGER);";
+            + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
+            + " TEXT, " + DESCRIPTION + " TEXT, " + TYPE + " INTEGER, " + BODYPARTS + " TEXT, " + PICTURE + " TEXT, " + FAVORITES + " INTEGER);"; //", " + PICTURE_RES + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS "
-        + TABLE_NAME + ";";
+            + TABLE_NAME + ";";
 
     private Profile mProfile = null;
     private Cursor mCursor = null;
@@ -76,7 +76,7 @@ public class DAOMachine extends DAOBase {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.query(TABLE_NAME, new String[]{KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE, FAVORITES}, KEY + "=?",
-            new String[]{String.valueOf(id)}, null, null, null, null);
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
@@ -84,11 +84,11 @@ public class DAOMachine extends DAOBase {
             return null;
 
         Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-            ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-            mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+                mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
         value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
         // return value
@@ -102,7 +102,7 @@ public class DAOMachine extends DAOBase {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.query(TABLE_NAME, new String[]{KEY, NAME, DESCRIPTION, TYPE, BODYPARTS, PICTURE, FAVORITES}, NAME + "=?",
-            new String[]{pName}, null, null, null, null);
+                new String[]{pName}, null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
@@ -110,11 +110,11 @@ public class DAOMachine extends DAOBase {
             return null;
 
         Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-            ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-            mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-            mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+                mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+                mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
         value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
         // return value
@@ -127,7 +127,7 @@ public class DAOMachine extends DAOBase {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.query(TABLE_NAME, new String[]{NAME}, NAME + "=?",
-            new String[]{name}, null, null, null, null);
+                new String[]{name}, null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
@@ -149,11 +149,11 @@ public class DAOMachine extends DAOBase {
         if (mCursor.moveToFirst()) {
             do {
                 Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-                    ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
+                        ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
+                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
 
                 value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
 
@@ -188,7 +188,7 @@ public class DAOMachine extends DAOBase {
     public Cursor getAllMachines() {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-            + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -201,7 +201,7 @@ public class DAOMachine extends DAOBase {
         // Select All Query
         String selectQuery = "";
         selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
-            + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineListCursor(selectQuery);
@@ -214,7 +214,7 @@ public class DAOMachine extends DAOBase {
         // Select All Query
         // like '%"+inputText+"%'";
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' " + " ORDER BY "
-            + FAVORITES + " DESC," + NAME + " ASC";
+                + FAVORITES + " DESC," + NAME + " ASC";
         // return value list
         return getMachineListCursor(selectQuery);
     }
@@ -226,7 +226,7 @@ public class DAOMachine extends DAOBase {
     public void deleteAllEmptyExercises() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, NAME + " = ?",
-            new String[]{""});
+                new String[]{""});
         db.close();
     }
 
@@ -236,7 +236,7 @@ public class DAOMachine extends DAOBase {
     public ArrayList<Machine> getAllMachinesArray() {
 // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
-            + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineList(selectQuery);
@@ -254,7 +254,7 @@ public class DAOMachine extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
-            + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
         return getMachineList(selectQuery);
@@ -267,7 +267,7 @@ public class DAOMachine extends DAOBase {
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT  " + NAME + " FROM "
-            + TABLE_NAME + " ORDER BY " + NAME + " COLLATE NOCASE ASC";
+                + TABLE_NAME + " ORDER BY " + NAME + " COLLATE NOCASE ASC";
         mCursor = db.rawQuery(selectQuery, null);
 
         int size = mCursor.getCount();
@@ -304,7 +304,7 @@ public class DAOMachine extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Record
@@ -312,7 +312,7 @@ public class DAOMachine extends DAOBase {
         if (m != null) {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_NAME, KEY + " = ?",
-                new String[]{String.valueOf(m.getId())});
+                    new String[]{String.valueOf(m.getId())});
             db.close();
         }
     }

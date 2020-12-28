@@ -5,7 +5,7 @@ public enum ProgramStatus {
     CLOSED;
 
     public static ProgramStatus fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return RUNNING;
             case 1:

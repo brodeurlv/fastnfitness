@@ -10,17 +10,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
 import com.easyfitness.ProfileViMo;
@@ -36,9 +36,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.lifecycle.ViewModelProvider;
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class FonteHistoryFragment extends Fragment {
     Spinner dateList = null;
     Spinner exerciseList = null;
@@ -46,25 +43,21 @@ public class FonteHistoryFragment extends Fragment {
     ListView filterList = null;
 
     MainActivity mActivity = null;
-    private ProfileViMo profileViMo;
-
     List<String> mExerciseArray = null;
     List<String> mDateArray = null;
-
     ArrayAdapter<String> mAdapterMachine = null;
     ArrayAdapter<String> mAdapterDate = null;
-
     long machineIdArg = -1;
     long machineProfilIdArg = -1;
-
     Machine mSelectedMachine = null;
+    private ProfileViMo profileViMo;
     private DAORecord mDbRecord = null;
     private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         mDbRecord.deleteRecord(id);
 
         FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-            .getSelectedItem().toString());
+                .getSelectedItem().toString());
 
         KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
@@ -94,7 +87,7 @@ public class FonteHistoryFragment extends Fragment {
             }
             if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
                 FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                    .getSelectedItem().toString());
+                        .getSelectedItem().toString());
             }
         }
 
@@ -142,8 +135,8 @@ public class FonteHistoryFragment extends Fragment {
         mExerciseArray = new ArrayList<>();
         mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterMachine = new ArrayAdapter<>(
-            getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
-            mExerciseArray);
+                getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
+                mExerciseArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseList.setAdapter(mAdapterMachine);
         mDbRecord.closeCursor();
@@ -163,8 +156,8 @@ public class FonteHistoryFragment extends Fragment {
         mDateArray = new ArrayList<>();
         mDateArray.add(getContext().getResources().getText(R.string.all).toString());
         mAdapterDate = new ArrayAdapter<>(
-            getContext(), android.R.layout.simple_spinner_item,
-            mDateArray);
+                getContext(), android.R.layout.simple_spinner_item,
+                mDateArray);
         mAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateList.setAdapter(mAdapterDate);
 
@@ -179,7 +172,7 @@ public class FonteHistoryFragment extends Fragment {
             refreshData();
             if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
                 FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                    .getSelectedItem().toString());
+                        .getSelectedItem().toString());
             }
         });
 
@@ -223,7 +216,7 @@ public class FonteHistoryFragment extends Fragment {
 
         List<Record> records = mDbRecord.fromCursorToList(c);
 
-        if (records.size()==0) {
+        if (records.size() == 0) {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {

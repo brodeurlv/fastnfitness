@@ -29,10 +29,10 @@ public class DatePickerDialogFragment extends DialogFragment {
 
         Calendar cal = Calendar.getInstance();
         return new DatePickerDialog(getActivity(),
-            onDateSetListener,
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH));
+                onDateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
     }
 
     private void setOnDateSetListener(DatePickerDialog.OnDateSetListener listener) {
