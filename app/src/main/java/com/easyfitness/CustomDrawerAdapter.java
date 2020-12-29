@@ -123,7 +123,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
 
             if (!dItem.isActive()) {
-                drawerHolder.ItemName.setAlpha((float) 0.5);
+                drawerHolder.ItemName.setAlpha(0.5f);
                 drawerHolder.ItemName.setText(dItem.getItemName() + "(soon)");
             } else {
                 drawerHolder.ItemName.setText(dItem.getItemName());

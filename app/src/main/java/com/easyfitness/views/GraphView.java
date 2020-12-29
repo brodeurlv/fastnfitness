@@ -139,7 +139,7 @@ public class GraphView extends ConstraintLayout {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-        leftAxis.setGranularity((float) 0.5);
+        leftAxis.setGranularity(0.5f);
         leftAxis.setTextSize(12);
         leftAxis.resetAxisMinimum();
 

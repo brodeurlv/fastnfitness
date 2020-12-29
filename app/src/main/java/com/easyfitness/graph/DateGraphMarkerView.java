@@ -60,7 +60,7 @@ public class DateGraphMarkerView extends MarkerView {
 
         if (mOffset == null) {
             // center the marker horizontally and vertically
-            mOffset = new MPPointF(-(getWidth() / 2), -getHeight());
+            mOffset = new MPPointF(-(getWidth() / 2.0f), -getHeight());
         }
 
         return mOffset;

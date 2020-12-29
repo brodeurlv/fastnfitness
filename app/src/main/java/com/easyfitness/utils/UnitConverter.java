@@ -49,15 +49,15 @@ public class UnitConverter {
     }
 
     static public float KgtoLbs(float pKg) {
-        return pKg / (float) 0.45359237;
+        return pKg / 0.45359237f;
     }
 
     static public float KgtoStones(float pKg) {
-        return pKg / (float) 6.35029;
+        return pKg / 6.35029f;
     }
 
     static public float LbstoKg(float pLbs) {
-        return pLbs * (float) 0.45359237;
+        return pLbs * 0.45359237f;
     }
 
     static public float LbstoStones(float pLbs) {
@@ -65,7 +65,7 @@ public class UnitConverter {
     }
 
     static public float StonestoKg(float pSt) {
-        return pSt * (float) 6.35029;
+        return pSt * 6.35029f;
     }
 
     static public float StonestoLbs(float pSt) {
@@ -73,11 +73,11 @@ public class UnitConverter {
     }
 
     static public float KmToMiles(float pKm) {
-        return pKm * (float) 1.609344;
+        return pKm * 1.609344f;
     }
 
     static public float MilesToKm(float pMiles) {
-        return pMiles / (float) 1.609344;
+        return pMiles / 1.609344f;
     }
 
     static public float sizeConverter(float pSize, Unit pUnitIn, Unit pUnitOut) {
@@ -98,11 +98,11 @@ public class UnitConverter {
     }
 
     private static float InchToCm(float pSize) {
-        return pSize * (float) 2.54;
+        return pSize * 2.54f;
     }
 
     private static float CmtoInch(float pSize) {
-        return pSize / (float) 2.54;
+        return pSize / 2.54f;
     }
 
     /**
