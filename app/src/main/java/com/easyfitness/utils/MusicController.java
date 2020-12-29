@@ -278,13 +278,8 @@ public class MusicController {
                     isStopped = false;
                     isPaused = false;
                 }
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (IllegalArgumentException | SecurityException
+                    | IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
         }

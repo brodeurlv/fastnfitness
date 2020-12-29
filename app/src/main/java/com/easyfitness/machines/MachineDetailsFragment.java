@@ -51,7 +51,7 @@ import java.util.List;
 
 
 public class MachineDetailsFragment extends Fragment {
-    protected List<String> _musclesArray = new ArrayList<String>();
+    protected List<String> _musclesArray = new ArrayList<>();
     protected boolean[] _selections;
     TextView musclesList = null;
     EditableInputView machineName = null;

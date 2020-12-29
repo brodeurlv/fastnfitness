@@ -165,7 +165,7 @@ public class SingleValueInputView extends LinearLayout {
 
     public void setUnits(CharSequence[] value) {
         mUnits = value;
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(unitSpinner.getContext(), android.R.layout.simple_spinner_item, mUnits);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(unitSpinner.getContext(), android.R.layout.simple_spinner_item, mUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(adapter);
         invalidate();

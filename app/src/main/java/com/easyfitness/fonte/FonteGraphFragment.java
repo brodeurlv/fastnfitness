@@ -169,7 +169,7 @@ public class FonteGraphFragment extends Fragment {
         super.onStart();
 
         if (getProfile() != null) {
-            mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
+            mMachinesArray = new ArrayList<>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
             // lMachinesArray = prepend(lMachinesArray, "All");
             mAdapterMachine = new ArrayAdapter<>(
                     getContext(), android.R.layout.simple_spinner_item,
@@ -389,7 +389,7 @@ public class FonteGraphFragment extends Fragment {
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDbFonte.getAllMachinesStrList();
                     //Data are refreshed on show
-                    mAdapterMachine = new ArrayAdapter<String>(
+                    mAdapterMachine = new ArrayAdapter<>(
                             getContext(), android.R.layout.simple_spinner_item,
                             mMachinesArray);
                     mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -422,7 +422,7 @@ public class FonteGraphFragment extends Fragment {
 
     private ArrayAdapter<String> getAdapterMachine() {
         ArrayAdapter<String> a;
-        mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
+        mMachinesArray = new ArrayList<>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
         // lMachinesArray = prepend(lMachinesArray, "All");
         mAdapterMachine = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item,

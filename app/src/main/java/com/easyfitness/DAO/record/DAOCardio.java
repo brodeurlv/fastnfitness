@@ -109,7 +109,7 @@ public class DAOCardio extends DAORecord {
         // break;
 
         // Formation de tableau de valeur
-        List<GraphData> valueList = new ArrayList<GraphData>();
+        List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.rawQuery(selectQuery, null);
