@@ -633,7 +633,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         newProfilBuilder.setView(input);
 
-        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(android.R.string.ok), (dialog, whichButton) -> {
             String value = input.getText().toString();
 
             if (value.isEmpty()) {
@@ -646,7 +646,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
+        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
             if (getCurrentProfile() == null) {
                 CreateNewProfil();
             }
@@ -668,7 +668,7 @@ public class MainActivity extends AppCompatActivity {
         input.setText(getCurrentProfile().getName());
         newBuilder.setView(input);
 
-        newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+        newBuilder.setPositiveButton(getActivity().getResources().getText(android.R.string.ok), (dialog, whichButton) -> {
             String value = input.getText().toString();
 
             if (!value.isEmpty()) {
@@ -683,7 +683,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        newBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
+        newBuilder.setNegativeButton(getActivity().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
         });
 
         newBuilder.show();

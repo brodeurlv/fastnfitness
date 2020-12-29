@@ -78,7 +78,7 @@ public class WeightFragment extends Fragment {
                 new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText(R.string.BMI_dialog_title)
                         .setContentText(getString(R.string.BMI_formula))
-                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
                         .showCancelButton(true)
                         .show();
                 break;
@@ -86,7 +86,7 @@ public class WeightFragment extends Fragment {
                 new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText(R.string.FFMI_dialog_title)
                         .setContentText(getString(R.string.FFMI_formula))
-                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
                         .showCancelButton(true)
                         .show();
                 break;
@@ -95,7 +95,7 @@ public class WeightFragment extends Fragment {
                         .setTitleText(R.string.RFM_dialog_title)
                         .setContentText(getString(R.string.RFM_female_formula) +
                                 getString(R.string.RFM_male_formula))
-                        .setConfirmText(getResources().getText(R.string.global_ok).toString())
+                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
                         .showCancelButton(true)
                         .show();
                 break;

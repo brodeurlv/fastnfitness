@@ -277,7 +277,7 @@ public class MachineDetailsFragment extends Fragment {
         });
 
         // Set an EditText view to get user input
-        newMuscleBuilder.setPositiveButton(getResources().getString(R.string.global_ok), (dialog, whichButton) -> {
+        newMuscleBuilder.setPositiveButton(getResources().getString(android.R.string.ok), (dialog, whichButton) -> {
             StringBuilder msg = new StringBuilder();
             int i = 0;
             boolean firstSelection = true;
@@ -296,7 +296,7 @@ public class MachineDetailsFragment extends Fragment {
 
             isCreateMuscleDialogActive = false;
         });
-        newMuscleBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
+        newMuscleBuilder.setNegativeButton(getResources().getString(android.R.string.cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
 
         newMuscleBuilder.show();
 

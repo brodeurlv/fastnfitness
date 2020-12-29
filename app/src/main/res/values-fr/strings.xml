@@ -2,8 +2,6 @@
 <resources>
     <string name="global_confirm">Confirmer</string>
     <string name="global_warning">Attention</string>
-    <string name="global_cancel">Annuler</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
 

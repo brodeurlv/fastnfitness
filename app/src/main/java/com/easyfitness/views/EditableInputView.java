@@ -131,7 +131,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText(mTitle)
-                        .setCancelText(getContext().getString(R.string.global_cancel))
+                        .setCancelText(getContext().getString(android.R.string.cancel))
                         .setHideKeyBoardOnDismiss(true)
                         .setCancelClickListener(sDialog -> {
                             editText.clearFocus();

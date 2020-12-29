@@ -723,7 +723,7 @@ public class FontesFragment extends Fragment {
             }
         });
 
-        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(R.string.global_cancel), new DialogInterface.OnClickListener() {
+        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(android.R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }

@@ -4,8 +4,6 @@
     <string name="global_confirm">Conferma</string>
     <string name="global_confirm_question">Sei sicuro/a?</string>
     <string name="global_warning">Attenzione</string>
-    <string name="global_cancel">Annulla</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Si</string>
     <string name="global_no">No</string>
 

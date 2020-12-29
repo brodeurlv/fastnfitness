@@ -55,7 +55,7 @@ public class ProgramRunnerFragment extends Fragment {
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getString(R.string.enter_workout_name))
-                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setCancelText(getContext().getString(android.R.string.cancel))
                 .setHideKeyBoardOnDismiss(true)
                 .setCancelClickListener(sDialog -> {
                     editText.clearFocus();

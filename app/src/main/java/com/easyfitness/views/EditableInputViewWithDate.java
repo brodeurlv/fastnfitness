@@ -104,7 +104,7 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
                     Keyboard.hide(context, editText);
                     sDialog.dismissWithAnimation();
                 })
-                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setCancelText(getContext().getString(android.R.string.cancel))
                 .setConfirmText(getContext().getString(R.string.AddLabel))
                 .setConfirmClickListener(sDialog -> {
                     Keyboard.hide(sDialog.getContext(), editText);

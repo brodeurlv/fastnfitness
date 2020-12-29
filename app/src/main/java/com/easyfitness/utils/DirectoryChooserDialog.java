@@ -193,7 +193,7 @@ public class DirectoryChooserDialog {
             // Show new folder name input dialog
             new AlertDialog.Builder(m_context).
                     setTitle("New folder name").
-                    setView(input).setPositiveButton(m_context.getString(R.string.global_ok), (dialog, whichButton) -> {
+                    setView(input).setPositiveButton(m_context.getString(android.R.string.ok), (dialog, whichButton) -> {
                 Editable newDir = input.getText();
                 String newDirName = newDir.toString();
                 // Create new directory
@@ -206,7 +206,7 @@ public class DirectoryChooserDialog {
                             m_context, "Failed to create '" + newDirName +
                                     "' folder", Toast.LENGTH_SHORT).show();
                 }
-            }).setNegativeButton(m_context.getString(R.string.global_cancel), null).show();
+            }).setNegativeButton(m_context.getString(android.R.string.cancel), null).show();
         });
 
         if (!m_isNewFolderEnabled) {
