@@ -180,7 +180,7 @@ public class FontesFragment extends Fragment {
             MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
             if (adapter != null) {
                 boolean exerciseExists = adapter.containsExercise(exerciseName);
-                if (exerciseExists == false) {
+                if (!exerciseExists) {
                     workoutValuesInputView.setShowExerciseTypeSelector(true);
                     updateMachineImage();
                 } else {
@@ -625,14 +625,13 @@ public class FontesFragment extends Fragment {
                         // Build text
                         text = getView().getContext().getResources().getText(R.string.ShareTextDefault).toString();
                         text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamWeight), String.valueOf(r.getWeight()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), r.getExercise());
                     } else {
                         // Build text
                         text = "I have done __METER__ in __TIME__ on __MACHINE__.";
                         text = text.replace("__METER__", String.valueOf(r.getDistance()));
                         text = text.replace("__TIME__", String.valueOf(r.getDuration()));
-                        text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), r.getExercise());
                     }
+                    text = text.replace(getView().getContext().getResources().getText(R.string.ShareParamMachine), r.getExercise());
                     shareRecord(text);
                     break;
                 default:
@@ -679,22 +678,20 @@ public class FontesFragment extends Fragment {
         int min = calendar.get(Calendar.MINUTE);
         int sec = calendar.get(Calendar.SECOND);
 
-        switch (timeTextView.getId()) {
-            case R.id.editTime:
-                if (mTimeFrag == null) {
-                    mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
+        if (timeTextView.getId() == R.id.editTime) {
+            if (mTimeFrag == null) {
+                mTimeFrag = TimePickerDialogFragment.newInstance(timeSet, hour, min, sec);
+                mTimeFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
+            } else {
+                if (!mTimeFrag.isVisible()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("HOUR", hour);
+                    bundle.putInt("MINUTE", min);
+                    bundle.putInt("SECOND", sec);
+                    mTimeFrag.setArguments(bundle);
                     mTimeFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
-                } else {
-                    if (!mTimeFrag.isVisible()) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("HOUR", hour);
-                        bundle.putInt("MINUTE", min);
-                        bundle.putInt("SECOND", sec);
-                        mTimeFrag.setArguments(bundle);
-                        mTimeFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog_time");
-                    }
                 }
-                break;
+            }
         }
     }
 

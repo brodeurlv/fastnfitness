@@ -48,12 +48,10 @@ public class ExerciseDetailsPager extends Fragment {
     DAOMachine mDbMachine = null;
     private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                deleteMachine();
-                break;
-            default:
-                getActivity().onBackPressed();
+        if (v.getId() == R.id.deleteButton) {
+            deleteMachine();
+        } else {
+            getActivity().onBackPressed();
         }
     };
     DAORecord mDbRecord = null;

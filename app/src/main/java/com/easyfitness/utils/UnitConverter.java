@@ -83,19 +83,15 @@ public class UnitConverter {
     static public float sizeConverter(float pSize, Unit pUnitIn, Unit pUnitOut) {
         switch (pUnitIn) {
             case CM:
-                switch (pUnitOut) {
-                    case INCH:
-                        return CmtoInch(pSize);
-                    default:
-                        return pSize;
+                if (pUnitOut == Unit.INCH) {
+                    return CmtoInch(pSize);
                 }
+                return pSize;
             case INCH:
-                switch (pUnitOut) {
-                    case CM:
-                        return InchToCm(pSize);
-                    default:
-                        return pSize;
+                if (pUnitOut == Unit.CM) {
+                    return InchToCm(pSize);
                 }
+                return pSize;
             default:
                 return pSize;
         }

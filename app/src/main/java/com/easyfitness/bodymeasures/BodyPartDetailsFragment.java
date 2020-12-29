@@ -113,14 +113,11 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(getActivity());
         itemActionBuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
 
-            switch (which) {
-                // Delete
-                case 0:
-                    mBodyMeasureDb.deleteMeasure(selectedID);
-                    refreshData();
-                    KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                    break;
-                default:
+            // Delete
+            if (which == 0) {
+                mBodyMeasureDb.deleteMeasure(selectedID);
+                refreshData();
+                KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
         });
         itemActionBuilder.show();
@@ -129,10 +126,8 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     };
     private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                delete();
-                break;
+        if (v.getId() == R.id.deleteButton) {
+            delete();
         }
     };
     private ImageButton deleteButton;

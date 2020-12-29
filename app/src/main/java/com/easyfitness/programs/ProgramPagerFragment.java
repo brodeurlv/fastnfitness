@@ -36,12 +36,10 @@ public class ProgramPagerFragment extends Fragment {
     private long mTemplateId;
     private final View.OnClickListener onClickToolbarItem = v -> {
         // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                deleteProgram();
-                break;
-            default:
-                getActivity().onBackPressed();
+        if (v.getId() == R.id.deleteButton) {
+            deleteProgram();
+        } else {
+            getActivity().onBackPressed();
         }
     };
 

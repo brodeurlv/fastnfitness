@@ -205,7 +205,7 @@ public class MusicController {
     public static String getParentDirPath(String fileOrDirPath) {
         boolean endsWithSlash = fileOrDirPath.endsWith(File.separator);
         return fileOrDirPath.substring(0, fileOrDirPath.lastIndexOf(File.separatorChar,
-                endsWithSlash ? fileOrDirPath.length() - 2 : fileOrDirPath.length() - 1));
+                fileOrDirPath.length() - (endsWithSlash ? 2 : 1)));
     }
 
     public static String getFileName(String fileOrDirPath) {
@@ -370,7 +370,7 @@ public class MusicController {
     }
 
     private void showMP3Player(boolean showit) {
-        if (showit == true) {
+        if (showit) {
             //this.ba.showMP3Player();
         } else {
 

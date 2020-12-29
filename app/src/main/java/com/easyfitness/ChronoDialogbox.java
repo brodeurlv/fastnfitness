@@ -64,11 +64,10 @@ public class ChronoDialogbox extends Dialog implements
                 } else {
                     if (chronoResetted) {
                         startTime = SystemClock.elapsedRealtime();
-                        chrono.setBase(startTime);
                     } else {
                         startTime = SystemClock.elapsedRealtime() - (stopTime - startTime);
-                        chrono.setBase(startTime);
                     }
+                    chrono.setBase(startTime);
                     chrono.start();
                     chronoStarted = true;
                     startstop.setText("Stop");

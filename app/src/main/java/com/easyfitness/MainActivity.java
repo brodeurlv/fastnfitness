@@ -786,15 +786,13 @@ public class MainActivity extends AppCompatActivity {
         if (thumbPath != null) {
             ImageUtil.setPic(roundProfile, thumbPath);
             mDrawerAdapter.getItem(0).setImg(thumbPath);
-            mDrawerAdapter.notifyDataSetChanged();
-            mDrawerLayout.invalidate();
         } else {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
             mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person_black_24dp);
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
-            mDrawerAdapter.notifyDataSetChanged();
-            mDrawerLayout.invalidate();
         }
+        mDrawerAdapter.notifyDataSetChanged();
+        mDrawerLayout.invalidate();
     }
 
     private void savePhotoProfile(String path) {
