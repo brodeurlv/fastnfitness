@@ -19,7 +19,7 @@
         android:layout_marginEnd="6dip"
         android:background="@color/record_background_even"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_fitness_center_white_24dp" />
+        android:src="@drawable/ic_fitness_center" />
 
     <LinearLayout
         android:layout_width="fill_parent"

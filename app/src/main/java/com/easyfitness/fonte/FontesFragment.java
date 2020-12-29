@@ -129,7 +129,7 @@ public class FontesFragment extends Fragment {
     private WorkoutValuesInputView workoutValuesInputView;
     private final OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
-        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
+        detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less : R.drawable.ic_expand_more);
         saveSharedParams();
     };
     private DAOFonte mDbBodyBuilding = null;
@@ -470,10 +470,10 @@ public class FontesFragment extends Fragment {
     private void updateMachineImage() {
         switch (workoutValuesInputView.getSelectedType()) {
             case CARDIO:
-                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                machineImage.setImageResource(R.drawable.ic_training_50dp);
                 break;
             case ISOMETRIC:
-                machineImage.setImageResource(R.drawable.ic_static);
+                machineImage.setImageResource(R.drawable.ic_static_50dp);
                 break;
             case STRENGTH:
             default:
@@ -764,10 +764,10 @@ public class FontesFragment extends Fragment {
         // Default image
         switch (lMachine.getType()) {
             case CARDIO:
-                machineImage.setImageResource(R.drawable.ic_training_white_50dp);
+                machineImage.setImageResource(R.drawable.ic_training_50dp);
                 break;
             case ISOMETRIC:
-                machineImage.setImageResource(R.drawable.ic_static);
+                machineImage.setImageResource(R.drawable.ic_static_50dp);
                 break;
             default:
                 machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
@@ -970,7 +970,7 @@ public class FontesFragment extends Fragment {
         } else {
             detailsLayout.setVisibility(View.GONE);
         }
-        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
+        detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.ic_expand_less : R.drawable.ic_expand_more);
     }
 
     /*@Override

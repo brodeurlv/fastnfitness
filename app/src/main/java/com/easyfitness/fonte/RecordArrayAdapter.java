@@ -272,17 +272,17 @@ public class RecordArrayAdapter extends ArrayAdapter {
             }
 
             if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING || mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
-                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_white_24dp));
-                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_white_24dp));
+                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
                 viewHolder.Date.setText("");
                 viewHolder.Time.setText("");
             } else {
                 if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
-                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_green_24dp));
-                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_white_24dp));
+                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_active));
+                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
                 } else {
-                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_white_24dp));
-                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_red_24dp));
+                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_active));
                 }
                 viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
                 viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));

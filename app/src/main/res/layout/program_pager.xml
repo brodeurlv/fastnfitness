@@ -21,7 +21,7 @@
             android:background="@android:color/transparent"
             android:baselineAlignBottom="false"
             android:cropToPadding="false"
-            android:src="@drawable/ic_delete_black_24dp" />
+            android:src="@drawable/ic_delete" />
 
     </androidx.appcompat.widget.Toolbar>
 

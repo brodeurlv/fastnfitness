@@ -125,7 +125,7 @@
         android:layout_margin="32dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_menu_camera"
+        android:src="@drawable/ic_photo_camera"
         app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/photo"
         app:layout_anchorGravity="bottom|right|end" />

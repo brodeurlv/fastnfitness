@@ -55,9 +55,9 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
                 if (lType == ExerciseType.STRENGTH) {
                     i0.setImageResource(R.drawable.ic_gym_bench_50dp);
                 } else if (lType == ExerciseType.ISOMETRIC) {
-                    i0.setImageResource(R.drawable.ic_static);
+                    i0.setImageResource(R.drawable.ic_static_50dp);
                 } else {
-                    i0.setImageResource(R.drawable.ic_training_white_50dp);
+                    i0.setImageResource(R.drawable.ic_training_50dp);
                     i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
                 e.printStackTrace();
@@ -66,9 +66,9 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
             if (lType == ExerciseType.STRENGTH) {
                 i0.setImageResource(R.drawable.ic_gym_bench_50dp);
             } else if (lType == ExerciseType.ISOMETRIC) {
-                i0.setImageResource(R.drawable.ic_static);
+                i0.setImageResource(R.drawable.ic_static_50dp);
             } else {
-                i0.setImageResource(R.drawable.ic_training_white_50dp);
+                i0.setImageResource(R.drawable.ic_training_50dp);
             }
 
             i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

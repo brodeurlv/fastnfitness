@@ -126,7 +126,7 @@ public class MusicController {
             mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
             mediaPlayer.setOnCompletionListener(songCompletion);
             barSongTitle.setText(currentFile);
-            musicPlay.setImageResource(R.drawable.ic_pause_black_24dp);
+            musicPlay.setImageResource(R.drawable.ic_pause);
             updateProgressBar();
         }
     };
@@ -162,10 +162,10 @@ public class MusicController {
                 case R.id.playerLoop:
                     if (isReplayOn) {
                         isReplayOn = false;
-                        musicReplay.setImageResource(R.drawable.ic_replay_blue_24dp);
+                        musicReplay.setImageResource(R.drawable.ic_replay_blue);
                     } else {
                         isReplayOn = true;
-                        musicReplay.setImageResource(R.drawable.ic_replay_black_24dp);
+                        musicReplay.setImageResource(R.drawable.ic_replay_black);
                     }
 
                     break;
@@ -273,7 +273,7 @@ public class MusicController {
                 } else if (isPaused) { // differe de STOP
                     mediaPlayer.start();
                     mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-                    musicPlay.setImageResource(R.drawable.ic_pause_black_24dp);
+                    musicPlay.setImageResource(R.drawable.ic_pause);
                     updateProgressBar();
                     isStopped = false;
                     isPaused = false;
@@ -294,7 +294,7 @@ public class MusicController {
         }
         // Changing Button Image to pause image
         isPaused = true;
-        musicPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        musicPlay.setImageResource(R.drawable.ic_play_arrow);
     }
 
     public void Stop() {
@@ -311,7 +311,7 @@ public class MusicController {
         barSongTime.setText("");
         currentIndexSongList = -1;
         // Changing Button Image to play image
-        musicPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        musicPlay.setImageResource(R.drawable.ic_play_arrow);
     }
 
     public void Next() {

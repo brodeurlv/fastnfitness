@@ -308,16 +308,16 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
 
-        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_person_black_24dp, true);
+        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_person, true);
 
         dataList.add(drawerTitleItem);
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center_white_24dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_gym_bench_50dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_exercises, true));
         dataList.add(new DrawerItem("Programs List", R.drawable.ic_exam, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale_white_50dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler_white_50dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings_white_24dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline_white_24dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
 
         mDrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
                 dataList);
@@ -785,8 +785,8 @@ public class MainActivity extends AppCompatActivity {
             ImageUtil.setPic(roundProfile, thumbPath);
             mDrawerAdapter.getItem(0).setImg(thumbPath);
         } else {
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
-            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person_black_24dp);
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
         }
         mDrawerAdapter.notifyDataSetChanged();

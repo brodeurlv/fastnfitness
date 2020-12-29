@@ -76,7 +76,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"
                 app:layout_constraintStart_toEndOf="@+id/LIST_BODYMEASURE_WEIGHT"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_edit_text_black_24dp"
+                app:srcCompat="@drawable/ic_edit"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -92,7 +92,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/editButton"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_delete_black_24dp" />
+                app:srcCompat="@drawable/ic_delete" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

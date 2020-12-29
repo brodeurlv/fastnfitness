@@ -278,7 +278,7 @@
                         <ImageButton
                             android:id="@+id/imcHelp"
                             style="@style/InfoButton"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+                            app:srcCompat="@drawable/ic_help_outline" />
                     </TableRow>
 
                     <TableRow
@@ -308,7 +308,7 @@
                         <ImageButton
                             android:id="@+id/ffmiHelp"
                             style="@style/InfoButton"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+                            app:srcCompat="@drawable/ic_help_outline" />
 
                     </TableRow>
 
@@ -356,7 +356,7 @@
                             android:adjustViewBounds="false"
                             android:background="@color/background"
                             android:cropToPadding="false"
-                            app:srcCompat="@drawable/ic_baseline_help_outline_24px" />
+                            app:srcCompat="@drawable/ic_help_outline" />
 
                     </TableRow>
 

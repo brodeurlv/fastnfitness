@@ -218,9 +218,9 @@ public class MachineDetailsFragment extends Fragment {
                     if (mMachine.getType() == ExerciseType.STRENGTH) {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
                     } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
                     } else {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
                     }
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
@@ -236,9 +236,9 @@ public class MachineDetailsFragment extends Fragment {
             if (mMachine.getType() == ExerciseType.STRENGTH) {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
             } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
             } else {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
             }
             machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;

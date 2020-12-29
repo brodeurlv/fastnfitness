@@ -25,7 +25,7 @@
             android:background="@android:color/transparent"
             android:baselineAlignBottom="false"
             android:cropToPadding="false"
-            android:src="@drawable/ic_delete_black_24dp" />
+            android:src="@drawable/ic_delete" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -64,7 +64,7 @@
                         android:layout_marginEnd="6dip"
                         android:background="@color/record_background_even"
                         android:scaleType="centerInside"
-                        tools:src="@drawable/ic_fitness_center_white_24dp" />
+                        tools:src="@drawable/ic_fitness_center" />
 
                     <com.easyfitness.views.EditableInputView
                         android:id="@+id/BODYPART_NAME"

@@ -44,7 +44,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|center"
-                        android:src="@drawable/ic_gym_bench_50dp"
+                        android:src="@drawable/ic_exercises"
                         app:civ_background_color="@color/record_background_even"
                         app:civ_border_width="0dp"
                         app:civ_shadow="false" />
@@ -73,7 +73,7 @@
                         android:background="@android:color/transparent"
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
-                        android:src="@drawable/ic_baseline_list_alt_24px" />
+                        android:src="@drawable/ic_list_alt" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -109,7 +109,7 @@
                     android:background="@android:color/transparent"
                     android:baselineAlignBottom="false"
                     android:cropToPadding="false"
-                    android:src="@drawable/ic_expand_more_black_24dp" />
+                    android:src="@drawable/ic_expand_more" />
 
                 <LinearLayout
                     android:id="@+id/notesLayout"
