@@ -326,7 +326,7 @@ public class ProgramRunnerFragment extends Fragment {
             displayType = DisplayType.PROGRAM_PREVIEW_DISPLAY;
         }
 
-        if (recordList.size() == 0) {
+        if (recordList.isEmpty()) {
             mProgramRecordsList.setAdapter(null);
         } else {
             if (mProgramRecordsList.getAdapter() == null) {

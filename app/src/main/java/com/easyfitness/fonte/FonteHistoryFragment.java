@@ -216,7 +216,7 @@ public class FonteHistoryFragment extends Fragment {
 
         List<Record> records = mDbRecord.fromCursorToList(c);
 
-        if (records.size() == 0) {
+        if (records.isEmpty()) {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
