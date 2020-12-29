@@ -72,7 +72,7 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
             viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
         else
             viewHolder.txtLastMeasure.setText("-");
-        if (!dataModel.getCustomPicture().equals("")) {
+        if (!dataModel.getCustomPicture().isEmpty()) {
             ImageUtil.setPic(viewHolder.logo, dataModel.getCustomPicture());
         } else {
             if (dataModel.getBodyPartResKey() != -1)

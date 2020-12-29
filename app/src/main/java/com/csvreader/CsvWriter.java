@@ -317,22 +317,21 @@ public class CsvWriter {
             if (userSettings.EscapeMode == ESCAPE_MODE_BACKSLASH) {
                 content = replace(content, "" + Letters.BACKSLASH, ""
                         + Letters.BACKSLASH + Letters.BACKSLASH);
-                content = replace(content, "" + userSettings.TextQualifier, ""
-                        + Letters.BACKSLASH + userSettings.TextQualifier);
+                content = replace(content, String.valueOf(userSettings.TextQualifier),
+                        String.valueOf(Letters.BACKSLASH) + userSettings.TextQualifier);
             } else {
-                content = replace(content, "" + userSettings.TextQualifier, ""
-                        + userSettings.TextQualifier
-                        + userSettings.TextQualifier);
+                content = replace(content, String.valueOf(userSettings.TextQualifier),
+                        String.valueOf(userSettings.TextQualifier) + userSettings.TextQualifier);
             }
         } else if (userSettings.EscapeMode == ESCAPE_MODE_BACKSLASH) {
             content = replace(content, "" + Letters.BACKSLASH, ""
                     + Letters.BACKSLASH + Letters.BACKSLASH);
-            content = replace(content, "" + userSettings.Delimiter, ""
-                    + Letters.BACKSLASH + userSettings.Delimiter);
+            content = replace(content, String.valueOf(userSettings.Delimiter),
+                    String.valueOf(Letters.BACKSLASH) + userSettings.Delimiter);
 
             if (useCustomRecordDelimiter) {
-                content = replace(content, "" + userSettings.RecordDelimiter,
-                        "" + Letters.BACKSLASH + userSettings.RecordDelimiter);
+                content = replace(content, String.valueOf(userSettings.RecordDelimiter),
+                        String.valueOf(Letters.BACKSLASH) + userSettings.RecordDelimiter);
             } else {
                 content = replace(content, "" + Letters.CR, ""
                         + Letters.BACKSLASH + Letters.CR);
@@ -343,10 +342,9 @@ public class CsvWriter {
             if (firstColumn && content.length() > 0
                     && content.charAt(0) == userSettings.Comment) {
                 if (content.length() > 1) {
-                    content = "" + Letters.BACKSLASH + userSettings.Comment
-                            + content.substring(1);
+                    content = String.valueOf(Letters.BACKSLASH) + userSettings.Comment + content.substring(1);
                 } else {
-                    content = "" + Letters.BACKSLASH + userSettings.Comment;
+                    content = String.valueOf(Letters.BACKSLASH) + userSettings.Comment;
                 }
             }
         }

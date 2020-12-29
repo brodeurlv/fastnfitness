@@ -127,7 +127,7 @@ public class UnitConverter {
         if (seconds < 10) {
             secondsString = "0" + seconds;
         } else {
-            secondsString = "" + seconds;
+            secondsString = String.valueOf(seconds);
         }
 
         finalTimerString = finalTimerString + minutes + ":" + secondsString;

@@ -343,7 +343,7 @@ public class ImageUtil {
 
     public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
         File newFile = null;
-        if (newFileName.equals(""))
+        if (newFileName.isEmpty())
             newFile = new File(dir, file.getName());
         else
             newFile = new File(dir, newFileName);

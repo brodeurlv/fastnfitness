@@ -184,7 +184,7 @@ public class MachineDetailsFragment extends Fragment {
         mMachine = mDbMachine.getMachine(machineIdArg);
         machineNameArg = mMachine.getName();
 
-        if (machineNameArg.equals("")) {
+        if (machineNameArg.isEmpty()) {
             machineName.setText("Default exercise");
         } else {
             machineName.setText(machineNameArg);
@@ -263,7 +263,7 @@ public class MachineDetailsFragment extends Fragment {
         AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
         newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[_musclesArray.size()]), _selections, (arg0, arg1, arg2) -> {
+        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[0]), _selections, (arg0, arg1, arg2) -> {
             if (arg2) {
                 // If user select a item then add it in selected items
                 selectMuscleList.add(arg1);
@@ -504,7 +504,7 @@ public class MachineDetailsFragment extends Fragment {
         final String lMachineName = newMachine.getName(); // Potentiel nouveau nom dans le EditText
 
         // Si le nom est different du nom actuel
-        if (lMachineName.equals("")) {
+        if (lMachineName.isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         } else if (!initialMachine.getName().equals(lMachineName)) {
             final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);

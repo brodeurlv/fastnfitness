@@ -86,7 +86,7 @@ public class MusicController {
                     long currentDuration = mediaPlayer.getCurrentPosition();
 
                     // Displaying Total Duration time
-                    barSongTime.setText("" + utils.milliSecondsToTimer(currentDuration) + "/" + utils.milliSecondsToTimer(totalDuration));
+                    barSongTime.setText(utils.milliSecondsToTimer(currentDuration) + "/" + utils.milliSecondsToTimer(totalDuration));
 
                     // Updating progress bar
                     int progress = utils.getProgressPercentage(currentDuration, totalDuration);
@@ -251,7 +251,7 @@ public class MusicController {
     public void Play() {
         // Play song
         if (currentIndexSongList < 0)
-            if (currentPath.equals(""))
+            if (currentPath.isEmpty())
                 fileChooserDialog.chooseDirectory(currentPath);
             else {
                 currentIndexSongList = 0;
