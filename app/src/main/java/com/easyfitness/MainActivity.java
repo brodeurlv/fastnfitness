@@ -189,12 +189,10 @@ public class MainActivity extends AppCompatActivity {
             int currentNightMode = getResources().getConfiguration().uiMode
                     & Configuration.UI_MODE_NIGHT_MASK;
             switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                    SweetAlertDialog.DARK_STYLE = false;
-                    break;
                 case Configuration.UI_MODE_NIGHT_YES:
                     SweetAlertDialog.DARK_STYLE = true;
                     break;
+                case Configuration.UI_MODE_NIGHT_NO:
                 default:
                     SweetAlertDialog.DARK_STYLE = false;
             }

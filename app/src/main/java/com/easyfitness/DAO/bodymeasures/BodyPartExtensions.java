@@ -100,49 +100,38 @@ public class BodyPartExtensions {
     public static int getBodyLogoID(int pBodyID) {
         switch (pBodyID) {
             case ABDOMINAUX:
-                return R.drawable.ic_chest;
-            case ADDUCTEURS:
-                return R.drawable.ic_leg;
-            case BICEPS:
-                return R.drawable.ic_arm;
-            case TRICEPS:
-                return R.drawable.ic_arm;
             case DELTOIDS:
-                return R.drawable.ic_chest;
-            case MOLLETS:
-                return R.drawable.ic_leg;
-            case PECTORAUX:
-                return R.drawable.ic_chest_measure;
             case DORSEAUX:
                 return R.drawable.ic_chest;
+            case ADDUCTEURS:
+            case MOLLETS:
             case QUADRICEPS:
-                return R.drawable.ic_leg;
             case ISCHIOJAMBIERS:
                 return R.drawable.ic_leg;
+            case BICEPS:
+            case TRICEPS:
+                return R.drawable.ic_arm;
+            case PECTORAUX:
+                return R.drawable.ic_chest_measure;
             case LEFTBICEPS:
-                return R.drawable.ic_arm_measure;
             case RIGHTBICEPS:
                 return R.drawable.ic_arm_measure;
             case LEFTTHIGH:
-                return R.drawable.ic_tight_measure;
             case RIGHTTHIGH:
                 return R.drawable.ic_tight_measure;
             case LEFTCALVES:
-                return R.drawable.ic_calve_measure;
             case RIGHTCALVES:
                 return R.drawable.ic_calve_measure;
             case WAIST:
                 return R.drawable.ic_waist_measure;
             case NECK:
+            case TRAPEZIUS:
+            case SHOULDERS:
                 return R.drawable.ic_neck;
             case BEHIND:
                 return R.drawable.ic_buttock_measure;
-            case TRAPEZIUS:
-                return R.drawable.ic_neck;
             case OBLIQUES:
                 return R.string.obliques;
-            case SHOULDERS:
-                return R.drawable.ic_neck;
         }
 
         return -1;
