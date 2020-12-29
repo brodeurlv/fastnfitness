@@ -102,9 +102,8 @@ public class CVSManager {
              * containing all records of the table (all fields).
              * The code of this class is omitted for brevity.
              */
-            List<Record> records = null;
             Cursor cursor = dbc.getAllRecordsByProfile(pProfile);
-            records = dbc.fromCursorToList(cursor);
+            List<Record> records = dbc.fromCursorToList(cursor);
 
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
@@ -173,8 +172,7 @@ public class CVSManager {
 
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
 
-            List<BodyMeasure> bodyMeasures;
-            bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
+            List<BodyMeasure> bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
 
             cvsOutput.write(TABLE_HEAD);
             cvsOutput.write(ID_HEAD);
@@ -217,8 +215,7 @@ public class CVSManager {
             daoBodyPart.open();
 
 
-            List<BodyPart> bodyParts;
-            bodyParts = daoBodyPart.getList();
+            List<BodyPart> bodyParts = daoBodyPart.getList();
 
             cvsOutput.write(TABLE_HEAD);
             cvsOutput.write(DAOBodyPart.KEY);
@@ -264,8 +261,7 @@ public class CVSManager {
              * containing all records of the table (all fields).
              * The code of this class is omitted for brevity.
              */
-            List<Machine> records = null;
-            records = dbcMachine.getAllMachinesArray();
+            List<Machine> records = dbcMachine.getAllMachinesArray();
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutput.write(TABLE_HEAD);
@@ -316,8 +312,7 @@ public class CVSManager {
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
                     case DAORecord.TABLE_NAME: {
-                        Date date;
-                        date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
+                        Date date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
                         String exercise = csvRecords.get(DAORecord.EXERCISE);
                         if (dbcMachine.getMachine(exercise) != null) {
                             long exerciseId = dbcMachine.getMachine(exercise).getId();
@@ -350,9 +345,8 @@ public class CVSManager {
                     case DAOOldCardio.TABLE_NAME: {
                         DAOCardio dbcCardio = new DAOCardio(mContext);
                         dbcCardio.open();
-                        Date date;
 
-                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
+                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
 
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
                         float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
@@ -365,8 +359,7 @@ public class CVSManager {
                     case DAOProfileWeight.TABLE_NAME: {
                         DAOBodyMeasure dbcWeight = new DAOBodyMeasure(mContext);
                         dbcWeight.open();
-                        Date date;
-                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
+                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
 
                         float poids = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
                         dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId(), Unit.KG);
@@ -381,8 +374,7 @@ public class CVSManager {
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
-                        List<BodyPart> bodyParts;
-                        bodyParts = dbcBodyPart.getList();
+                        List<BodyPart> bodyParts = dbcBodyPart.getList();
                         for (BodyPart bp : bodyParts) {
                             if (bp.getName(mContext).equals(bodyPartName)) {
                                 float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));

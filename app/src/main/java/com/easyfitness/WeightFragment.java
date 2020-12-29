@@ -425,13 +425,10 @@ public class WeightFragment extends Fragment {
      * @return
      */
     private float calculateImc(float weight, int size) {
-        float imc = 0;
 
         if (size == 0) return 0;
 
-        imc = (float) (weight / (size / 100.0 * size / 100.0));
-
-        return imc;
+        return (float) (weight / (size / 100.0 * size / 100.0));
     }
 
     /**
@@ -481,13 +478,10 @@ public class WeightFragment extends Fragment {
      * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
      */
     private double calculateFfmi(float weight, int size, float bodyFat) {
-        double ffmi = 0;
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1 - bodyFat / 100) / (size / 100.0 * size / 100.0);
-
-        return ffmi;
+        return weight * (1 - bodyFat / 100) / (size / 100.0 * size / 100.0);
     }
 
     /**
@@ -497,13 +491,10 @@ public class WeightFragment extends Fragment {
      * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
      */
     private double calculateNormalizedFfmi(float weight, int size, float bodyFat) {
-        double ffmi = 0;
 
         if (bodyFat == 0) return 0;
 
-        ffmi = weight * (1 - bodyFat / 100) / (size * size) + 6.1 * (1.8 - size);
-
-        return ffmi;
+        return weight * (1 - bodyFat / 100) / (size * size) + 6.1 * (1.8 - size);
     }
 
     /**
@@ -562,15 +553,11 @@ public class WeightFragment extends Fragment {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
-                BodyMeasure lastWeightValue = null;
-                BodyMeasure lastWaterValue = null;
-                BodyMeasure lastFatValue = null;
-                BodyMeasure lastMusclesValue = null;
 
-                lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(weightBobyPart.getId(), getProfile());
-                lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(waterBobyPart.getId(), getProfile());
-                lastFatValue = mDbBodyMeasure.getLastBodyMeasures(fatBobyPart.getId(), getProfile());
-                lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(musclesBobyPart.getId(), getProfile());
+                BodyMeasure lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(weightBobyPart.getId(), getProfile());
+                BodyMeasure lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(waterBobyPart.getId(), getProfile());
+                BodyMeasure lastFatValue = mDbBodyMeasure.getLastBodyMeasures(fatBobyPart.getId(), getProfile());
+                BodyMeasure lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(musclesBobyPart.getId(), getProfile());
 
                 if (lastWeightValue != null) {
                     String editText = String.format("%.1f", lastWeightValue.getBodyMeasure()) + lastWeightValue.getUnit().toString();

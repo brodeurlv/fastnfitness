@@ -72,8 +72,7 @@ public class DAOProfileWeight extends DAOBase {
         if (mCursor != null)
             mCursor.moveToFirst();
 
-        Date date;
-        date = DateConverter.DBDateStrToDate(mCursor.getString(1));
+        Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
         ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
                 date,

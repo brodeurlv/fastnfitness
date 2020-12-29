@@ -224,8 +224,6 @@ public class FonteGraphFragment extends Fragment {
 
         if (getProfile() == null) return;
 
-        String lMachine = null;
-        String lFunction = null;
         int lDAOFunction = 0;
 
         mLineChart.clear();
@@ -236,8 +234,8 @@ public class FonteGraphFragment extends Fragment {
             return;
         }
 
-        lMachine = machineList.getSelectedItem().toString();
-        lFunction = functionList.getSelectedItem().toString();
+        String lMachine = machineList.getSelectedItem().toString();
+        String lFunction = functionList.getSelectedItem().toString();
 
         DAOMachine mDbExercise = new DAOMachine(mActivity);
         Machine m = mDbExercise.getMachine(lMachine);
@@ -265,9 +263,8 @@ public class FonteGraphFragment extends Fragment {
             WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
 
             for (int i = 0; i < valueList.size(); i++) {
-                Entry value = null;
                 desc = lMachine + "/" + lFunction + "(" + defaultUnit.toString() + ")";
-                value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
+                Entry value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
 
                 yVals.add(value);
             }

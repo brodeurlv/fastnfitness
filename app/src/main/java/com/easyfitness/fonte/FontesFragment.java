@@ -381,7 +381,6 @@ public class FontesFragment extends Fragment {
     private final OnClickListener onClickMachineListWithIcons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Cursor c;
             Cursor oldCursor;
 
             // In case the dialog is already open
@@ -392,7 +391,7 @@ public class FontesFragment extends Fragment {
             ListView machineList = new ListView(v.getContext());
 
             // Version avec table Machine
-            c = mDbMachine.getAllMachines();
+            Cursor c = mDbMachine.getAllMachines();
 
             if (c == null || c.getCount() == 0) {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -897,9 +896,8 @@ public class FontesFragment extends Fragment {
             if (getProfile() != null) {
                 mDbRecord.setProfile(getProfile());
 
-                ArrayList<Machine> machineListArray;
                 // Version avec table Machine
-                machineListArray = mDbMachine.getAllMachinesArray();
+                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray();
 
                 /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);

@@ -105,9 +105,8 @@ public class MainIntroActivity extends IntroActivity {
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
         if (mDbProfils.getCount() == 0) {
-            final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
-            profileSlide = new FragmentSlide.Builder()
+            final Slide profileSlide = new FragmentSlide.Builder()
                     .background(R.color.launcher_background)
                     .backgroundDark(R.color.launcher_background)
                     .fragment(NewProfileFragment.newInstance())

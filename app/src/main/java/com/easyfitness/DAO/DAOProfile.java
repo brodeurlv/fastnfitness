@@ -285,16 +285,14 @@ public class DAOProfile extends DAOBase {
         open();
 
         // Supprime les enregistrements de poids
-        DAOProfileWeight mWeightDb;
-        mWeightDb = new DAOProfileWeight(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
+        DAOProfileWeight mWeightDb = new DAOProfileWeight(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
         List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil(id));
         for (int i = 0; i < valueList.size(); i++) {
             mWeightDb.deleteMeasure(valueList.get(i).getId());
         }
 
         // Supprime les enregistrements de measure de body
-        DAOBodyMeasure mBodyDb;
-        mBodyDb = new DAOBodyMeasure(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
+        DAOBodyMeasure mBodyDb = new DAOBodyMeasure(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
         List<BodyMeasure> bodyMeasuresList = mBodyDb.getBodyMeasuresList(getProfil(id));
         for (int i = 0; i < bodyMeasuresList.size(); i++) {
             mBodyDb.deleteMeasure(bodyMeasuresList.get(i).getId());

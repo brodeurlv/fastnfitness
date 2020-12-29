@@ -98,11 +98,10 @@ public class ImageUtil {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = (int) scaleFactor;
 
-        Bitmap ThumbImage = null;
         //if (photoW < photoH)
         Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
         Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
-        ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
+        Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
         //ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int) (96 / scaleFactor), 96);
 
@@ -181,8 +180,7 @@ public class ImageUtil {
     public String getThumbPath(String pPath) {
         if (pPath == null || pPath.isEmpty()) return null;
         // extract path without the .jpg
-        String nameOfOutputImage = "";
-        nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
+        String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
         String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
 
         // If it is already a thumb do nothing
@@ -191,8 +189,7 @@ public class ImageUtil {
             // else check if it already exists
         } else {
             // extract path without the .jpg
-            String pathOfThumbImage = "";
-            pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
+            String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
             File f = new File(pathOfThumbImage);
             if (!f.exists())
                 return saveThumb(pPath); // create thumb file

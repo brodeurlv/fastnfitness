@@ -134,8 +134,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         //addPreferencesFromResource(R.xml.settings);
         setPreferencesFromResource(R.xml.settings2, param);
 
-        SharedPreferences sharedPreferences;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         ListPreference myPref2 = (ListPreference) findPreference(SettingsFragment.WEIGHT_UNIT_PARAM);
         String boolVal = sharedPreferences.getString(SettingsFragment.WEIGHT_UNIT_PARAM, String.valueOf(WeightUnit.KG));

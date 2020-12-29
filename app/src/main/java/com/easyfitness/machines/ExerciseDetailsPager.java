@@ -204,15 +204,11 @@ public class ExerciseDetailsPager extends Fragment {
     }
 
     public MachineDetailsFragment getExerciseFragment() {
-        MachineDetailsFragment mpExerciseFrag;
-        mpExerciseFrag = (MachineDetailsFragment) pagerAdapter.getPage(0);
-        return mpExerciseFrag;
+        return (MachineDetailsFragment) pagerAdapter.getPage(0);
     }
 
     public FonteHistoryFragment getHistoricFragment() {
-        FonteHistoryFragment mpHistoryFrag;
-        mpHistoryFrag = (FonteHistoryFragment) pagerAdapter.getPage(1);
-        return mpHistoryFrag;
+        return (FonteHistoryFragment) pagerAdapter.getPage(1);
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {

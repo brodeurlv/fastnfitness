@@ -237,10 +237,9 @@ public class FileChooserDialog {
      */
     private boolean isInFilter(String fileName) {
         boolean ret = false;
-        String extension = "";
 
         // recupere l'extension du fichier
-        extension = getExtension(fileName);
+        String extension = getExtension(fileName);
 
         // verifie si l'extension est prise en compte
         if (this.m_fileFilter.contains("*"))

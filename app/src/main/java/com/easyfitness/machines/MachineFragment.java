@@ -55,10 +55,9 @@ public class MachineFragment extends Fragment {
                 .setNeutralText(getResources().getText(R.string.staticExercise).toString())
                 .showCancelButton(true)
                 .setConfirmClickListener(sDialog -> {
-                    long temp_machine_key = -1;
                     String pMachine = "";
                     DAOMachine lDAOMachine = new DAOMachine(getContext());
-                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.STRENGTH, "", false, "");
+                    long temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.STRENGTH, "", false, "");
                     sDialog.dismissWithAnimation();
 
                     ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
@@ -71,10 +70,9 @@ public class MachineFragment extends Fragment {
                     transaction.commit();
                 })
                 .setNeutralClickListener(sDialog -> {
-                    long temp_machine_key = -1;
                     String pMachine = "";
                     DAOMachine lDAOMachine = new DAOMachine(getContext());
-                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.ISOMETRIC, "", false, "");
+                    long temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.ISOMETRIC, "", false, "");
                     sDialog.dismissWithAnimation();
 
                     ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());
@@ -87,10 +85,9 @@ public class MachineFragment extends Fragment {
                     transaction.commit();
                 })
                 .setCancelClickListener(sDialog -> {
-                    long temp_machine_key = -1;
                     String pMachine = "";
                     DAOMachine lDAOMachine = new DAOMachine(getContext());
-                    temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.CARDIO, "", false, "");
+                    long temp_machine_key = lDAOMachine.addMachine(pMachine, "", ExerciseType.CARDIO, "", false, "");
                     sDialog.dismissWithAnimation();
 
                     ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(temp_machine_key, ((MainActivity) getActivity()).getCurrentProfile().getId());

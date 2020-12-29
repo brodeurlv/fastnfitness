@@ -32,7 +32,6 @@ public class DAOBodyPart extends DAOBase {
     }
 
     public long add(int pBodyPartId, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
-        long new_id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
@@ -43,7 +42,7 @@ public class DAOBodyPart extends DAOBase {
         value.put(DAOBodyPart.DISPLAY_ORDER, pDisplay);
         value.put(DAOBodyPart.TYPE, pType);
 
-        new_id = db.insert(DAOBodyPart.TABLE_NAME, null, value);
+        long new_id = db.insert(DAOBodyPart.TABLE_NAME, null, value);
         db.close(); // Closing database connection
         return new_id;
     }

@@ -147,13 +147,12 @@ public class UnitConverter {
      * @param totalDuration
      */
     public int getProgressPercentage(long currentDuration, long totalDuration) {
-        double percentage;
 
         long currentSeconds = (int) (currentDuration / 1000);
         long totalSeconds = (int) (totalDuration / 1000);
 
         // calculating percentage
-        percentage = (double) currentSeconds / totalSeconds * 100;
+        double percentage = (double) currentSeconds / totalSeconds * 100;
 
         // return percentage
         return (int) percentage;
@@ -166,9 +165,8 @@ public class UnitConverter {
      * @param totalDuration returns current duration in milliseconds
      */
     public int progressToTimer(int progress, int totalDuration) {
-        int currentDuration = 0;
         totalDuration = totalDuration / 1000;
-        currentDuration = (int) ((double) progress / 100 * totalDuration);
+        int currentDuration = (int) ((double) progress / 100 * totalDuration);
 
         // return current duration in milliseconds
         return currentDuration * 1000;

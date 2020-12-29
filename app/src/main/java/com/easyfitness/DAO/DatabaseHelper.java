@@ -240,8 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + DAOProfileWeight.TABLE_NAME;
         //SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        Cursor mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {

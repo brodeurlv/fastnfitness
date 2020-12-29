@@ -222,8 +222,7 @@ public class SingleValueInputView extends LinearLayout {
                     seconds = 0;
                 }
 
-                MyTimePickerDialog mTimePicker;
-                mTimePicker = new MyTimePickerDialog(this.getContext(), (timePicker, selectedHour, selectedMinute, selectedSeconds) -> {
+                MyTimePickerDialog mTimePicker = new MyTimePickerDialog(this.getContext(), (timePicker, selectedHour, selectedMinute, selectedSeconds) -> {
                     String strMinute = "00";
                     String strHour = "00";
                     String strSecond = "00";
@@ -250,9 +249,8 @@ public class SingleValueInputView extends LinearLayout {
                 if (mIsDatePickerShown) return;
                 String tx = valueEditText.getText().toString();
 
-                DatePickerDialog mDatePicker;
                 Calendar cal = Calendar.getInstance();
-                mDatePicker = new DatePickerDialog(this.getContext(),
+                DatePickerDialog mDatePicker = new DatePickerDialog(this.getContext(),
                         (view, year, month, day) -> {
                             valueEditText.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
                             Keyboard.hide(getContext(), valueEditText);

@@ -168,7 +168,6 @@ public class DAORecord extends DAOBase {
                           int pRestTime, ProgramRecordStatus pProgramRecordStatus) {
 
         ContentValues value = new ContentValues();
-        long new_id = -1;
         long machine_key = -1;
 
         //Test is Machine exists. If not create it.
@@ -210,7 +209,7 @@ public class DAORecord extends DAOBase {
         value.put(DAORecord.TEMPLATE_RECORD_STATUS, pProgramRecordStatus.ordinal());
 
         SQLiteDatabase db = open();
-        new_id = db.insert(DAORecord.TABLE_NAME, null, value);
+        long new_id = db.insert(DAORecord.TABLE_NAME, null, value);
         close();
 
         return new_id;
@@ -480,12 +479,10 @@ public class DAORecord extends DAOBase {
 
     public Cursor getTop3DatesRecords(Profile pProfile) {
 
-        String selectQuery = null;
-
         if (pProfile == null)
             return null;
 
-        selectQuery = "SELECT * FROM " + TABLE_NAME
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + LOCAL_DATE + " IN (SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME + " WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " AND " + TEMPLATE_KEY + "=-1" + " ORDER BY " + LOCAL_DATE + " DESC LIMIT 3)"
                 + " AND " + TEMPLATE_KEY + "=-1"

@@ -274,9 +274,8 @@ public class MainActivity extends AppCompatActivity {
                 DAOCardio mDbCardio = new DAOCardio(this);
                 List<OldCardio> mList = mDbOldCardio.getAllRecords();
                 for (OldCardio record : mList) {
-                    String exerciseName = "";
                     Machine m = lDAOMachine.getMachine(record.getExercice());
-                    exerciseName = record.getExercice();
+                    String exerciseName = record.getExercice();
                     if (m != null) { // if a machine exists
                         if (m.getType() == ExerciseType.STRENGTH) { // if it is not a Cardio type
                             exerciseName = exerciseName + "-Cardio"; // add a suffix to

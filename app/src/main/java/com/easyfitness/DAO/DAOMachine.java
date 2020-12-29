@@ -53,7 +53,6 @@ public class DAOMachine extends DAOBase {
      * @param pType
      */
     public long addMachine(String pName, String pDescription, ExerciseType pType, String pPicture, boolean pFav, String pBodyParts) {
-        long new_id = -1;
 
         ContentValues value = new ContentValues();
 
@@ -65,7 +64,7 @@ public class DAOMachine extends DAOBase {
         value.put(DAOMachine.BODYPARTS, pBodyParts);
 
         SQLiteDatabase db = this.getWritableDatabase();
-        new_id = db.insert(DAOMachine.TABLE_NAME, null, value);
+        long new_id = db.insert(DAOMachine.TABLE_NAME, null, value);
         close();
 
         return new_id;
@@ -197,8 +196,7 @@ public class DAOMachine extends DAOBase {
      */
     public Cursor getAllMachines(int type) {
         // Select All Query
-        String selectQuery = "";
-        selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + type + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list

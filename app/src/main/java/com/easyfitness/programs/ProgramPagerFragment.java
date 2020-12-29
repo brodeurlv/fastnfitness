@@ -105,14 +105,12 @@ public class ProgramPagerFragment extends Fragment {
             });
         }
 
-        Toolbar top_toolbar;
         ((MainActivity) getActivity()).getActivityToolbar().setVisibility(View.GONE);
-        top_toolbar = view.findViewById(R.id.toolbar);
+        Toolbar top_toolbar = view.findViewById(R.id.toolbar);
         top_toolbar.setNavigationIcon(R.drawable.ic_back);
         top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
 
-        ImageButton deleteButton;
-        deleteButton = view.findViewById(R.id.deleteButton);
+        ImageButton deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
 
         // Inflate the layout for this fragment

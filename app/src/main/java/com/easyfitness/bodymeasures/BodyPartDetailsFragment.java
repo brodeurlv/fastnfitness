@@ -76,7 +76,6 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private final OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            ValueEditorDialogbox editorDialogbox;
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
             double lastValue;
             if (lastBodyMeasure == null) {
@@ -86,7 +85,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             }
             Unit unitDef = getValidUnit(lastBodyMeasure);
 
-            editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
+            ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
             editorDialogbox.setOnDismissListener(dialog -> {

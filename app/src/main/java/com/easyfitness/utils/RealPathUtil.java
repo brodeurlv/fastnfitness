@@ -15,10 +15,8 @@ import static android.provider.MediaStore.Video;
 public class RealPathUtil {
 
     public static String getRealPath(Context context, Uri fileUri) {
-        String realPath;
         // SDK < API11
-        realPath = RealPathUtil.getRealPathFromURI_API19(context, fileUri);
-        return realPath;
+        return RealPathUtil.getRealPathFromURI_API19(context, fileUri);
     }
 
     /**

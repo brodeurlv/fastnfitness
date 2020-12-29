@@ -325,8 +325,7 @@ public class MachineDetailsFragment extends Fragment {
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
                     ImageUtil.setPic(machinePhoto, realPath);
                     ImageUtil.saveThumb(realPath);
@@ -338,8 +337,7 @@ public class MachineDetailsFragment extends Fragment {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == Activity.RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
 
                     // Le fichier est crée dans le cache.
                     // Déplacer le fichier dans le repertoire de FastNFitness
