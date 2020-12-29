@@ -93,10 +93,6 @@ public class DAOOldCardio extends DAOBase {
         return valueList;
     }
 
-    public Cursor GetCursor() {
-        return mCursor;
-    }
-
     // Getting All Records
     public List<OldCardio> getAllRecords() {
         // Select All Query

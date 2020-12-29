@@ -3,7 +3,6 @@ package com.easyfitness.utils;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
@@ -20,39 +19,6 @@ public class RealPathUtil {
         // SDK < API11
         realPath = RealPathUtil.getRealPathFromURI_API19(context, fileUri);
         return realPath;
-    }
-
-
-    @SuppressLint("NewApi")
-    public static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
-        String[] proj = {Images.Media.DATA};
-        String result = null;
-
-        CursorLoader cursorLoader = new CursorLoader(context, contentUri, proj, null, null, null);
-        Cursor cursor = cursorLoader.loadInBackground();
-
-        if (cursor != null) {
-            int column_index = cursor.getColumnIndexOrThrow(Images.Media.DATA);
-            cursor.moveToFirst();
-            result = cursor.getString(column_index);
-            cursor.close();
-        }
-        return result;
-    }
-
-    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri) {
-        String[] proj = {Images.Media.DATA};
-        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-        int column_index = 0;
-        String result = "";
-        if (cursor != null) {
-            column_index = cursor.getColumnIndexOrThrow(Images.Media.DATA);
-            cursor.moveToFirst();
-            result = cursor.getString(column_index);
-            cursor.close();
-            return result;
-        }
-        return result;
     }
 
     /**

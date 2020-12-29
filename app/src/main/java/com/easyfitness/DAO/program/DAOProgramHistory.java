@@ -133,10 +133,6 @@ public class DAOProgramHistory extends DAOBase {
         return valueList;
     }
 
-    public Cursor GetCursor() {
-        return mCursor;
-    }
-
     // Getting All
     public List<ProgramHistory> getAll() {
         // Select All Query

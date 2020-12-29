@@ -215,10 +215,6 @@ public class ExerciseDetailsPager extends Fragment {
         return mpHistoryFrag;
     }
 
-    public ViewPager getViewPager() {
-        return (ViewPager) getView().findViewById(R.id.pager);
-    }
-
     public FragmentPagerItemAdapter getViewPagerAdapter() {
         return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.pager)).getAdapter();
     }

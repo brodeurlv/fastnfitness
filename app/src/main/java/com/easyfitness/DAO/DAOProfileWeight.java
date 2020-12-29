@@ -160,10 +160,6 @@ public class DAOProfileWeight extends DAOBase {
         return valueList;
     }
 
-    public Cursor GetCursor() {
-        return mCursor;
-    }
-
     // Getting All Measures
     public List<ProfileWeight> getWeightList(Profile pProfile) {
         // Select All Query

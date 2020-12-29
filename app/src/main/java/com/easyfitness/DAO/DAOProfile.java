@@ -188,10 +188,6 @@ public class DAOProfile extends DAOBase {
         return valueList;
     }
 
-    public Cursor GetCursor() {
-        return mCursor;
-    }
-
     // Getting All Profils
     public List<Profile> getAllProfils() {
         // Select All Query
