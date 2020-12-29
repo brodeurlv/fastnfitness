@@ -57,11 +57,17 @@ public class AboutFragment extends Fragment {
                 copyright = "Copyright 2013 Philip Schiffer";
                 license = new ApacheSoftwareLicense20();
                 break;
-            case R.id.PagerSlidingTabStrip:
-                name = "PagerSlidingTabStrip";
-                url = "https://github.com/astuetz/PagerSlidingTabStrip";
-                copyright = "Andreas Stuetz - andreas.stuetz@gmail.com";
-                license = new ApacheSoftwareLicense20();
+            case R.id.MaterialIntro:
+                name = "Material-Intro";
+                url = "https://github.com/heinrichreimer/material-intro";
+                copyright = "Copyright (c) 2017 Jan Heinrich Reimer";
+                license = new MITLicense();
+                break;
+            case R.id.TimePickerWithSeconds:
+                name = "TimePickerWithSeconds";
+                url = "https://github.com/IvanKovac/TimePickerWithSeconds";
+                copyright = "Copyright (c) 2017 Ivan Kovac";
+                license = new CustomLicense("WTFPL License", "http://www.wtfpl.net/txt/copying/");
                 break;
             case R.id.SmartTabLayout:
                 name = "SmartTabLayout";
@@ -164,8 +170,8 @@ public class AboutFragment extends Fragment {
         TextView mpJavaCVSTextView = view.findViewById(R.id.javaCSV);
         TextView mpLicenseDialogTextView = view.findViewById(R.id.LicensesDialog);
         TextView mpChronometerTextView = view.findViewById(R.id.antoniomChronometer);
-        TextView mpPagerSlidingTabStripTextView = view.findViewById(R.id.PagerSlidingTabStrip);
-
+        TextView mpMaterialIntroTextView = view.findViewById(R.id.MaterialIntro);
+        TextView mpTimePickerWithSecondsTextView = view.findViewById(R.id.TimePickerWithSeconds);
         TextView mpSmartTabLayoutTextView = view.findViewById(R.id.SmartTabLayout);
         TextView mpFlaticonTextView = view.findViewById(R.id.flaticonCredits);
         TextView mpFreepikView = view.findViewById(R.id.freepikCredits);
@@ -181,7 +187,8 @@ public class AboutFragment extends Fragment {
         mpJavaCVSTextView.setOnClickListener(clickLicense);
         mpLicenseDialogTextView.setOnClickListener(clickLicense);
         mpChronometerTextView.setOnClickListener(clickLicense);
-        mpPagerSlidingTabStripTextView.setOnClickListener(clickLicense);
+        mpMaterialIntroTextView.setOnClickListener(clickLicense);
+        mpTimePickerWithSecondsTextView.setOnClickListener(clickLicense);
         mpSmartTabLayoutTextView.setOnClickListener(clickLicense);
         mpFlaticonTextView.setOnClickListener(clickLicense);
         mpFreepikView.setOnClickListener(clickLicense);
