@@ -3,7 +3,6 @@ package com.easyfitness.fonte;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -707,22 +706,18 @@ public class FontesFragment extends Fragment {
         input.setText(text);
         newProfilBuilder.setView(input);
 
-        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
+        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), (dialog, whichButton) -> {
+            String value = input.getText().toString();
 
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, value);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
-            }
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, value);
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         });
 
-        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(android.R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
 
-            }
         });
 
         newProfilBuilder.show();

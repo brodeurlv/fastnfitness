@@ -118,21 +118,18 @@ public class ProgramRunnerFragment extends Fragment {
     private ProgramHistory mRunningProgramHistory;
     private boolean mIsProgramRunning = false;
     private ProfileViMo profileViMo;
-    private final OnCustomEventListener onProgramCompletedListener = new OnCustomEventListener() {
-        @Override
-        public void onEvent(String eventName) {
-            // Open dialog box to finish program
-            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(getString(R.string.program_completed))
-                    .setConfirmText(getContext().getString(R.string.global_yes))
-                    .setCancelText(getContext().getString(R.string.global_no))
-                    .setHideKeyBoardOnDismiss(true)
-                    .setConfirmClickListener(sDialog -> {
-                        stopProgram();
-                        sDialog.dismiss();
-                    });
-            dialog.show();
-        }
+    private final OnCustomEventListener onProgramCompletedListener = eventName -> {
+        // Open dialog box to finish program
+        final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getString(R.string.program_completed))
+                .setConfirmText(getContext().getString(R.string.global_yes))
+                .setCancelText(getContext().getString(R.string.global_no))
+                .setHideKeyBoardOnDismiss(true)
+                .setConfirmClickListener(sDialog -> {
+                    stopProgram();
+                    sDialog.dismiss();
+                });
+        dialog.show();
     };
     private final View.OnClickListener clickStartStopButton = v -> {
         if (mRunningProgram == null) {

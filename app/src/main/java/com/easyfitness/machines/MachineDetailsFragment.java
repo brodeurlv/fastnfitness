@@ -99,10 +99,7 @@ public class MachineDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private final EditableInputView.OnTextChangedListener textChangeListener = view -> {
-        requestForSave();
-    };
-
+    private final EditableInputView.OnTextChangedListener textChangeListener = view -> requestForSave();
 
     /**
      * Create a new instance of DetailsFragment, initialized to

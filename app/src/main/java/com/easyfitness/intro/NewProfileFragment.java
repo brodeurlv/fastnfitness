@@ -145,9 +145,7 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnClickListener((View v) -> {
-            showDatePickerFragment();
-        });
+        mBirthday.setOnClickListener(v -> showDatePickerFragment());
 
         /* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);

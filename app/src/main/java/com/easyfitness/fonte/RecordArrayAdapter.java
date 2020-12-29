@@ -142,14 +142,10 @@ public class RecordArrayAdapter extends ArrayAdapter {
         ExerciseType exerciseType = record.getExerciseType();
 
         viewHolder.BtActionDelete.setTag(record.getId());
-        viewHolder.BtActionDelete.setOnClickListener(v -> {
-            showDeleteDialog(record);
-        });
+        viewHolder.BtActionDelete.setOnClickListener(v -> showDeleteDialog(record));
 
         viewHolder.BtActionEdit.setTag(record.getId());
-        viewHolder.BtActionEdit.setOnClickListener(v -> {
-            showEditorDialog(record, position, viewHolder);
-        });
+        viewHolder.BtActionEdit.setOnClickListener(v -> showEditorDialog(record, position, viewHolder));
 
         if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING) {
             viewHolder.FirstColValue.setText("-");
