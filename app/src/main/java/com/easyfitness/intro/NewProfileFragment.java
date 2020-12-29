@@ -26,7 +26,6 @@ package com.easyfitness.intro;
 
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +37,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
@@ -127,7 +128,7 @@ public class NewProfileFragment extends SlideFragment {
             mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
         }
 
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         mDateFrag.show(ft, "dialog");
     }
 

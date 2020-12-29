@@ -1,8 +1,9 @@
 package com.easyfitness;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 

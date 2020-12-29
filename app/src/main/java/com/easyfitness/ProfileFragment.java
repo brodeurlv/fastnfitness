@@ -1,6 +1,7 @@
 package com.easyfitness;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -188,9 +190,9 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public String getName() {

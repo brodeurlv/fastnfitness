@@ -1,6 +1,5 @@
 package com.easyfitness.fonte;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -183,9 +183,9 @@ public class FonteGraphFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public MainActivity getMainActivity() {

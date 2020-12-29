@@ -1,12 +1,13 @@
 package com.easyfitness.programs;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.program.DAOProgram;
@@ -73,9 +74,9 @@ public class ProgramInfoFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public String getName() {

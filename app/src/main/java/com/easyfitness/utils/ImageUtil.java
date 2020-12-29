@@ -73,7 +73,6 @@ public class ImageUtil {
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
             bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
@@ -98,7 +97,6 @@ public class ImageUtil {
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = (int) scaleFactor;
-        bmOptions.inPurgeable = true;
 
         Bitmap ThumbImage = null;
         //if (photoW < photoH)
@@ -152,7 +150,6 @@ public class ImageUtil {
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
             bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
