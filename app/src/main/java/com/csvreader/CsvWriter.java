@@ -123,7 +123,7 @@ public class CsvWriter {
         int found = original.indexOf(pattern);
 
         if (found > -1) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             int start = 0;
 
             while (found != -1) {
@@ -402,8 +402,8 @@ public class CsvWriter {
     public void writeRecord(String[] values, boolean preserveSpaces)
             throws IOException {
         if (values != null && values.length > 0) {
-            for (int i = 0; i < values.length; i++) {
-                write(values[i], preserveSpaces);
+            for (String value : values) {
+                write(value, preserveSpaces);
             }
 
             endRecord();

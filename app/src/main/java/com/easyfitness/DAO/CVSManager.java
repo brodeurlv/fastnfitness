@@ -349,8 +349,8 @@ public class CVSManager {
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
 
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
-                        float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
-                        int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
+                        float distance = Float.parseFloat(csvRecords.get(DAOOldCardio.DISTANCE));
+                        int duration = Integer.parseInt(csvRecords.get(DAOOldCardio.DURATION));
                         dbcCardio.addCardioRecord(date, exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
                         dbcCardio.close();
 
@@ -377,7 +377,7 @@ public class CVSManager {
                         List<BodyPart> bodyParts = dbcBodyPart.getList();
                         for (BodyPart bp : bodyParts) {
                             if (bp.getName(mContext).equals(bodyPartName)) {
-                                float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
+                                float measure = Float.parseFloat(csvRecords.get(DAOBodyMeasure.MEASURE));
                                 dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId(), unit);
                                 dbcBodyPart.close();
                                 break;

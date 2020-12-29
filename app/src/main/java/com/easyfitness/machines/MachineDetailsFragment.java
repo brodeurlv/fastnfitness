@@ -467,12 +467,12 @@ public class MachineDetailsFragment extends Fragment {
                 if (data[0].isEmpty()) return "";
 
                 if (!data[i].equals("-1")) {
-                    output = new StringBuilder(getMuscleNameFromId(Integer.valueOf(data[i])));
-                    _selections[Integer.valueOf(data[i])] = true;
+                    output = new StringBuilder(getMuscleNameFromId(Integer.parseInt(data[i])));
+                    _selections[Integer.parseInt(data[i])] = true;
                     for (i = 1; i < data.length; i++) {
                         if (!data[i].equals("-1")) {
-                            output.append(";").append(getMuscleNameFromId(Integer.valueOf(data[i])));
-                            _selections[Integer.valueOf(data[i])] = true;
+                            output.append(";").append(getMuscleNameFromId(Integer.parseInt(data[i])));
+                            _selections[Integer.parseInt(data[i])] = true;
                         }
                     }
                 }

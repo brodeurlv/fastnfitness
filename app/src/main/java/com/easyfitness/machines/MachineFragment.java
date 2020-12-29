@@ -30,7 +30,7 @@ public class MachineFragment extends Fragment {
     private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
         // Get Machine Name selected
         TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
-        long machineId = Long.valueOf(textViewID.getText().toString());
+        long machineId = Long.parseLong(textViewID.getText().toString());
 
         ExerciseDetailsPager machineDetailsFragment = ExerciseDetailsPager.newInstance(machineId, ((MainActivity) getActivity()).getCurrentProfile().getId());
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
