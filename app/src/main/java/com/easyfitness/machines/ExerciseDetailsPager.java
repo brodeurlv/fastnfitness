@@ -81,7 +81,7 @@ public class ExerciseDetailsPager extends Fragment {
         View view = inflater.inflate(R.layout.exercise_pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager);
+        mViewPager = view.findViewById(R.id.exercise_viewpager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -97,7 +97,7 @@ public class ExerciseDetailsPager extends Fragment {
 
             mViewPager.setAdapter(pagerAdapter);
 
-            viewPagerTab = view.findViewById(R.id.viewpagertab);
+            viewPagerTab = view.findViewById(R.id.exercise_pagertab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
@@ -210,7 +210,7 @@ public class ExerciseDetailsPager extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.pager)).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.exercise_viewpager)).getAdapter();
     }
 
     @Override

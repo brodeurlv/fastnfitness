@@ -6,7 +6,7 @@
     android:layout_gravity="center_horizontal">
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/viewpagertab"
+        android:id="@+id/fontes_pagertab"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:stl_clickable="true"
@@ -33,9 +33,9 @@
         app:stl_underlineThickness="1dp" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/fontes_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/viewpagertab" />
+        android:layout_below="@id/fontes_pagertab" />
 
 </RelativeLayout>

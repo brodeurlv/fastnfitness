@@ -26,7 +26,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/programPagerTab"
+        android:id="@+id/program_pagertab"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/toolbar"
@@ -54,9 +54,9 @@
         app:stl_underlineThickness="1dp" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/program_pager"
+        android:id="@+id/program_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/programPagerTab" />
+        android:layout_below="@id/program_pagertab" />
 
 </RelativeLayout>

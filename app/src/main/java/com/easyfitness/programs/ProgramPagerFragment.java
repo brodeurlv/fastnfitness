@@ -66,7 +66,7 @@ public class ProgramPagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.program_pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.program_pager);
+        mViewPager = view.findViewById(R.id.program_viewpager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -82,7 +82,7 @@ public class ProgramPagerFragment extends Fragment {
 
             mViewPager.setAdapter(pagerAdapter);
 
-            SmartTabLayout viewPagerTab = view.findViewById(R.id.programPagerTab);
+            SmartTabLayout viewPagerTab = view.findViewById(R.id.program_pagertab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
@@ -159,7 +159,7 @@ public class ProgramPagerFragment extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.program_pager)).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.program_viewpager)).getAdapter();
     }
 
     @Override
