@@ -118,10 +118,10 @@ public class BodyPartExtensions {
                 return R.drawable.ic_arm_measure;
             case LEFTTHIGH:
             case RIGHTTHIGH:
-                return R.drawable.ic_tight_measure;
+                return R.drawable.ic_thigh_measure;
             case LEFTCALVES:
             case RIGHTCALVES:
-                return R.drawable.ic_calve_measure;
+                return R.drawable.ic_calf_measure;
             case WAIST:
                 return R.drawable.ic_waist_measure;
             case NECK:
@@ -129,7 +129,7 @@ public class BodyPartExtensions {
             case SHOULDERS:
                 return R.drawable.ic_neck;
             case BEHIND:
-                return R.drawable.ic_buttock_measure;
+                return R.drawable.ic_hip_measure;
             case OBLIQUES:
                 return R.string.obliques;
         }
