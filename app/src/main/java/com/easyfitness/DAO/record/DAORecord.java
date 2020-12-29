@@ -341,8 +341,7 @@ public class DAORecord extends DAOBase {
     public List<Record> getAllRecordsByProfileList(Profile pProfile) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = getAllRecordsByProfile(pProfile, -1);
-        List<Record> list = fromCursorToList(cursor);
-        return list;
+        return fromCursorToList(cursor);
     }
 
     /**

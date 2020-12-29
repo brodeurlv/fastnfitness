@@ -27,8 +27,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      * show the text at 'index'.
      */
     public static SettingsFragment newInstance(String name, int id) {
-        SettingsFragment f = new SettingsFragment();
-        return f;
+        return new SettingsFragment();
     }
 
     public static WeightUnit getDefaultWeightUnit(Activity activity) {
