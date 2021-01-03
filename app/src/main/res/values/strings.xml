@@ -149,11 +149,13 @@
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
     <string name="sum">Sum</string>
+    <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
 
     <string-array name="graph_functions" translatable="false">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
+        <item>@string/oneRepMax</item>
     </string-array>
 
     <string name="sumDistance">Distance</string>
