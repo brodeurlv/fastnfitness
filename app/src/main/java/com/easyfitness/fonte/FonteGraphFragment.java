@@ -251,6 +251,8 @@ public class FonteGraphFragment extends Fragment {
                 lDAOFunction = DAOFonte.MAX5_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sum))) {
                 lDAOFunction = DAOFonte.SUM_FCT;
+            } else if (lFunction.equals(mActivity.getResources().getString(R.string.oneRepMax))) {
+                lDAOFunction = DAOFonte.ONEREPMAX_FCT;
             }
             // Recupere les enregistrements
             List<GraphData> valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);

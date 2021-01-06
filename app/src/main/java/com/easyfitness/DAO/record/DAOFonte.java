@@ -1,6 +1,7 @@
 package com.easyfitness.DAO.record;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOMachine;
@@ -25,6 +26,7 @@ public class DAOFonte extends DAORecord {
     public static final int MAX1_FCT = 1;
     public static final int MAX5_FCT = 2;
     public static final int NBSERIE_FCT = 3;
+    public static final int ONEREPMAX_FCT = 4;
 
     private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SETS + "," + REPS + "," + WEIGHT + "," + WEIGHT_UNIT + "," + PROFILE_KEY + "," + NOTES + "," + EXERCISE_KEY + "," + TIME;
 
@@ -94,13 +96,24 @@ public class DAOFonte extends DAORecord {
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOFonte.NBSERIE_FCT) {
             selectQuery = "SELECT count(" + KEY + ") , " + LOCAL_DATE + " FROM "
-                    + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                    + " GROUP BY " + LOCAL_DATE
-                    + " ORDER BY " + DATE_TIME + " ASC";
+                + TABLE_NAME
+                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
+        } else if (pFunction == DAOFonte.ONEREPMAX_FCT) {
+            //https://en.wikipedia.org/wiki/One-repetition_maximum#Brzycki
+            selectQuery = "SELECT MAX(" + WEIGHT + " * (36.0 / (37.0 - " + REPS + "))) , " + LOCAL_DATE + " FROM "
+                + TABLE_NAME
+                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                + " AND " + REPS + "<=10"
+                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                + " GROUP BY " + LOCAL_DATE
+                + " ORDER BY " + DATE_TIME + " ASC";
         }
 
         // Formation de tableau de valeur
