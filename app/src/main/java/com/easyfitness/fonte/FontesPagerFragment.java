@@ -41,10 +41,10 @@ public class FontesPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.pager, container, false);
+        View view = inflater.inflate(R.layout.fontes_pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager);
+        mViewPager = view.findViewById(R.id.fontes_viewpager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -62,16 +62,16 @@ public class FontesPagerFragment extends Fragment {
             args.putLong("machineProfile", -1);
 
             pagerAdapter = new FragmentPagerItemAdapter(
-                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add(R.string.free_workout, FontesFragment.class, freeWorkoutArgs)
-                .add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
-                .add(R.string.GraphLabel, FonteGraphFragment.class, args)
-                .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
-                .create());
+                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                    .add(R.string.free_workout, FontesFragment.class, freeWorkoutArgs)
+                    .add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
+                    .add(R.string.GraphLabel, FonteGraphFragment.class, args)
+                    .add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
+                    .create());
 
             mViewPager.setAdapter(pagerAdapter);
 
-            SmartTabLayout viewPagerTab = view.findViewById(R.id.viewpagertab);
+            SmartTabLayout viewPagerTab = view.findViewById(R.id.fontes_pagertab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
@@ -98,7 +98,7 @@ public class FontesPagerFragment extends Fragment {
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.fontes_viewpager)).getAdapter();
     }
 
     @Override

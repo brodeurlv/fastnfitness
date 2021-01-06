@@ -4,11 +4,11 @@ import java.util.Date;
 
 /* DataBase Object */
 public class ProfileWeight {
+    private final Date mDate;
+    private final float mWeight;
+    private final long mProfil_id;
     // Notez que l'identifiant est un long
     private long id;
-    private Date mDate;
-    private float mWeight;
-    private long mProfil_id;
 
     public ProfileWeight(long id, Date pDate, float pWeight, long pProfil_id) {
         super();

@@ -7,12 +7,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
+
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
-import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
@@ -20,13 +27,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.cardview.widget.CardView;
 
 public class WorkoutValuesInputView extends LinearLayout {
 
@@ -47,7 +47,20 @@ public class WorkoutValuesInputView extends LinearLayout {
     private SingleValueInputView secondsInputView;
     private SingleValueInputView distanceInputView;
     private SingleValueInputView durationInputView;
-
+    private final OnClickListener clickExerciseTypeSelector = v -> {
+        switch (v.getId()) {
+            case R.id.IsometricSelector:
+                setSelectedType(ExerciseType.ISOMETRIC);
+                break;
+            case R.id.CardioSelector:
+                setSelectedType(ExerciseType.CARDIO);
+                break;
+            case R.id.StrenghSelector:
+            default:
+                setSelectedType(ExerciseType.STRENGTH);
+                break;
+        }
+    };
     private CardView restTimeCardView = null;
     private AppCompatEditText restTimeEditText;
     private AppCompatCheckBox restTimeCheckBox;
@@ -76,7 +89,7 @@ public class WorkoutValuesInputView extends LinearLayout {
         isometricSelector = rootView.findViewById(R.id.IsometricSelector);
         exerciseTypeSelectorLayout = rootView.findViewById(R.id.ExerciseTypeSelectorLayout);
 
-        setsInputView  = rootView.findViewById(R.id.SetsInputView);
+        setsInputView = rootView.findViewById(R.id.SetsInputView);
         repsInputView = rootView.findViewById(R.id.RepsInputView);
         weightInputView = rootView.findViewById(R.id.WeightInputView);
         secondsInputView = rootView.findViewById(R.id.SecondsInputView);
@@ -85,12 +98,12 @@ public class WorkoutValuesInputView extends LinearLayout {
 
         restTimeCardView = rootView.findViewById(R.id.restTimeCardView);
         restTimeEditText = rootView.findViewById(R.id.restTimeEditText);
-        restTimeCheckBox  = rootView.findViewById(R.id.restTimeCheckBox);
+        restTimeCheckBox = rootView.findViewById(R.id.restTimeCheckBox);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
-            attrs,
-            R.styleable.WorkoutValuesInputView,
-            0, 0);
+                attrs,
+                R.styleable.WorkoutValuesInputView,
+                0, 0);
 
         try {
             mShowExerciseTypeSelector = a.getBoolean(R.styleable.WorkoutValuesInputView_showTypeSelector, false);
@@ -174,6 +187,12 @@ public class WorkoutValuesInputView extends LinearLayout {
         return Integer.parseInt(setsInputView.getValue());
     }
 
+    public void setSets(int sets) {
+        setsInputView.setValue(String.valueOf(sets));
+        invalidate();
+        requestLayout();
+    }
+
     public int getReps() {
         try {
             return Integer.parseInt(repsInputView.getValue());
@@ -182,12 +201,24 @@ public class WorkoutValuesInputView extends LinearLayout {
         }
     }
 
+    public void setReps(int reps) {
+        repsInputView.setValue(String.valueOf(reps));
+        invalidate();
+        requestLayout();
+    }
+
     public int getSeconds() {
         try {
             return Integer.parseInt(secondsInputView.getValue());
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    public void setSeconds(int seconds) {
+        secondsInputView.setValue(String.valueOf(seconds));
+        invalidate();
+        requestLayout();
     }
 
     public float getWeightValue() {
@@ -200,6 +231,10 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public WeightUnit getWeightUnit() {
         return WeightUnit.fromString(weightInputView.getSelectedUnit());
+    }
+
+    public void setWeightUnit(WeightUnit unit) {
+        weightInputView.setSelectedUnit(unit.toString());
     }
 
     public long getDurationValue() {
@@ -224,24 +259,6 @@ public class WorkoutValuesInputView extends LinearLayout {
         return DistanceUnit.fromString(distanceInputView.getSelectedUnit());
     }
 
-    public void setSets(int sets) {
-        setsInputView.setValue(String.valueOf(sets));
-        invalidate();
-        requestLayout();
-    }
-
-    public void setReps(int reps) {
-        repsInputView.setValue(String.valueOf(reps));
-        invalidate();
-        requestLayout();
-    }
-
-    public void setSeconds(int seconds) {
-        secondsInputView.setValue(String.valueOf(seconds));
-        invalidate();
-        requestLayout();
-    }
-
     public void setWeight(float weight, WeightUnit unit) {
         DecimalFormat numberFormat = new DecimalFormat("#.##");
         weightInputView.setValue(numberFormat.format(weight));
@@ -264,21 +281,6 @@ public class WorkoutValuesInputView extends LinearLayout {
         requestLayout();
     }
 
-    private OnClickListener clickExerciseTypeSelector = v -> {
-        switch (v.getId()) {
-            case R.id.IsometricSelector:
-                setSelectedType(ExerciseType.ISOMETRIC);
-                break;
-            case R.id.CardioSelector:
-                setSelectedType(ExerciseType.CARDIO);
-                break;
-            case R.id.StrenghSelector:
-            default:
-                setSelectedType(ExerciseType.STRENGTH);
-                break;
-        }
-    };
-
     public boolean isFilled() {
         switch (mSelectedType) {
             case CARDIO:
@@ -294,10 +296,6 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public void setWeightComment(String s) {
         weightInputView.setComment(s);
-    }
-
-    public void setWeightUnit(WeightUnit unit) {
-        weightInputView.setSelectedUnit(unit.toString());
     }
 
     public void setDurationUnit(DistanceUnit unit) {
@@ -318,10 +316,6 @@ public class WorkoutValuesInputView extends LinearLayout {
         restTimeCheckBox.setChecked(activated);
     }
 
-    public void setRestTime(int unit) {
-        restTimeEditText.setText(String.valueOf(unit));
-    }
-
     public int getRestTime() {
         if (isRestTimeActivated())
             return Integer.parseInt(restTimeEditText.getText().toString());
@@ -329,26 +323,30 @@ public class WorkoutValuesInputView extends LinearLayout {
             return 0;
     }
 
+    public void setRestTime(int unit) {
+        restTimeEditText.setText(String.valueOf(unit));
+    }
+
     public void setRecord(Record record) {
         setSelectedType(record.getExerciseType());
         activatedRestTime(record.getRestTime() != 0);
         setRestTime(record.getRestTime());
         switch (record.getExerciseType()) {
-        case STRENGTH:
-            setSets(record.getSets());
-            setReps(record.getReps());
-            setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
-            break;
-        case ISOMETRIC:
-            setSets(record.getSets());
-            setSeconds(record.getSeconds());
-            setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
-        case CARDIO:
-            setDuration(record.getDuration());
-            if (record.getDistanceUnit() == DistanceUnit.MILES)
-                setDistance(UnitConverter.KmToMiles(record.getDistance()), DistanceUnit.MILES);
-            else
-                setDistance(record.getDistance(), DistanceUnit.KM);
+            case STRENGTH:
+                setSets(record.getSets());
+                setReps(record.getReps());
+                setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
+                break;
+            case ISOMETRIC:
+                setSets(record.getSets());
+                setSeconds(record.getSeconds());
+                setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
+            case CARDIO:
+                setDuration(record.getDuration());
+                if (record.getDistanceUnit() == DistanceUnit.MILES)
+                    setDistance(UnitConverter.KmToMiles(record.getDistance()), DistanceUnit.MILES);
+                else
+                    setDistance(record.getDistance(), DistanceUnit.KM);
         }
     }
 }

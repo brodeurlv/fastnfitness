@@ -1,6 +1,7 @@
 package com.easyfitness;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -14,15 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.views.EditableInputView;
 import com.easyfitness.utils.Gender;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
+import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -33,8 +36,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -51,9 +52,9 @@ public class ProfileFragment extends Fragment {
     private DAOProfile mDb = null;
     private Profile mProfile = null;
     private ImageUtil imgUtil = null;
-    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
-    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
     private ProfileViMo profileViMo;
+    private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -97,61 +98,61 @@ public class ProfileFragment extends Fragment {
         /* Initialisation des boutons */
 
         genderEdit.setCustomDialogBuilder(view1 -> {
-            SweetAlertDialog dlg =  new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getContext().getString(R.string.edit_value))
-                .setNeutralText(getString(R.string.maleGender))
-                .setCancelText(getString(R.string.femaleGender))
-                .setConfirmText(getString(R.string.otherGender))
-                .setNeutralClickListener(sDialog -> {
-                    String oldValue = genderEdit.getText();
-                    if (!oldValue.equals(getString(R.string.maleGender))) {
-                        genderEdit.setText(getString(R.string.maleGender));
-                        requestForSave(genderEdit);
-                    }
-                    sDialog.dismissWithAnimation();
-                })
-                .setCancelClickListener(sDialog -> {
-                    String oldValue = genderEdit.getText();
-                    if (!oldValue.equals(getString(R.string.femaleGender))) {
-                        genderEdit.setText(getString(R.string.femaleGender));
-                        requestForSave(genderEdit);
-                    }
-                    sDialog.dismissWithAnimation();
-                })
-                .setConfirmClickListener(sDialog -> {
-                    String oldValue = genderEdit.getText();
-                    if (!oldValue.equals(getString(R.string.otherGender))) {
-                        genderEdit.setText(getString(R.string.otherGender));
-                        requestForSave(genderEdit);
-                    }
-                    sDialog.dismissWithAnimation();
-                });
+            SweetAlertDialog dlg = new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(getContext().getString(R.string.edit_value))
+                    .setNeutralText(getString(R.string.maleGender))
+                    .setCancelText(getString(R.string.femaleGender))
+                    .setConfirmText(getString(R.string.otherGender))
+                    .setNeutralClickListener(sDialog -> {
+                        String oldValue = genderEdit.getText();
+                        if (!oldValue.equals(getString(R.string.maleGender))) {
+                            genderEdit.setText(getString(R.string.maleGender));
+                            requestForSave(genderEdit);
+                        }
+                        sDialog.dismissWithAnimation();
+                    })
+                    .setCancelClickListener(sDialog -> {
+                        String oldValue = genderEdit.getText();
+                        if (!oldValue.equals(getString(R.string.femaleGender))) {
+                            genderEdit.setText(getString(R.string.femaleGender));
+                            requestForSave(genderEdit);
+                        }
+                        sDialog.dismissWithAnimation();
+                    })
+                    .setConfirmClickListener(sDialog -> {
+                        String oldValue = genderEdit.getText();
+                        if (!oldValue.equals(getString(R.string.otherGender))) {
+                            genderEdit.setText(getString(R.string.otherGender));
+                            requestForSave(genderEdit);
+                        }
+                        sDialog.dismissWithAnimation();
+                    });
 
-                dlg.setOnShowListener(sDialog -> {
-                    SweetAlertDialog sweetDlg = (SweetAlertDialog) sDialog;
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
-                    //LayoutParams params = (LayoutParams)sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).getLayoutParams();
-                    //params.setMargins(0, 0, 0, 0);
-                    //dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-                    }
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
+            dlg.setOnShowListener(sDialog -> {
+                SweetAlertDialog sweetDlg = (SweetAlertDialog) sDialog;
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
+                //LayoutParams params = (LayoutParams)sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).getLayoutParams();
+                //params.setMargins(0, 0, 0, 0);
+                //dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
 
-                    //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-                    }
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
-                    sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
+                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
+                sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
 
-                    //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
-                    }
-                });
+                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
+                }
+            });
 
             return dlg;
         });
@@ -159,7 +160,7 @@ public class ProfileFragment extends Fragment {
         photoButton.setOnClickListener(onClickMachinePhoto);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
+            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
             mCurrentPhotoPath = null;
             requestForSave(imgUtil.getView());
         });
@@ -189,9 +190,9 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public String getName() {
@@ -321,8 +322,7 @@ public class ProfileFragment extends Fragment {
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
                     ImageUtil.setPic(roundProfile, realPath);
                     ImageUtil.saveThumb(realPath);
@@ -334,8 +334,7 @@ public class ProfileFragment extends Fragment {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == Activity.RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
 
                     // Le fichier est crée dans le cache.
                     // Déplacer le fichier dans le repertoire de FastNFitness

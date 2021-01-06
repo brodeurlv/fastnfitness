@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ProgramListAdapter extends ArrayAdapter<Program> {
 
     Context mContext;
+    private Profile mProfile = null;
 
     public ProgramListAdapter(ArrayList<Program> data, Context context) {
         super(context, R.layout.program_row, data);
@@ -55,7 +56,6 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         return mProfile;
     }
 
-    private Profile mProfile = null;
     public void setProfile(Profile profileID) {
         mProfile = profileID;
     }

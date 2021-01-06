@@ -27,13 +27,13 @@ public class DAOProgramHistory extends DAOBase {
     public static final String END_TIME = "end_time";
 
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        PROGRAM_KEY + " INTEGER, " +
-        PROFILE_KEY + " INTEGER, " +
-        STATUS + " INTEGER, " +
-        START_DATE + " TEXT, " +
-        START_TIME + " TEXT, " +
-        END_DATE + " TEXT, " +
-        END_TIME + " TEXT);";
+            PROGRAM_KEY + " INTEGER, " +
+            PROFILE_KEY + " INTEGER, " +
+            STATUS + " INTEGER, " +
+            START_DATE + " TEXT, " +
+            START_TIME + " TEXT, " +
+            END_DATE + " TEXT, " +
+            END_TIME + " TEXT);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -73,21 +73,21 @@ public class DAOProgramHistory extends DAOBase {
         if (mCursor != null) mCursor.close();
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, PROGRAM_KEY, PROFILE_KEY, STATUS, START_DATE, START_TIME, END_DATE, END_TIME},
-            KEY + "=?",
-            new String[]{String.valueOf(id)},
-            null, null, null, null);
+                new String[]{KEY, PROGRAM_KEY, PROFILE_KEY, STATUS, START_DATE, START_TIME, END_DATE, END_TIME},
+                KEY + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null, null);
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
             ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
-                ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
-                mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
+                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
+                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
+                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
+                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
             );
             mCursor.close();
             close();
@@ -114,13 +114,13 @@ public class DAOProgramHistory extends DAOBase {
         if (mCursor.moveToFirst()) {
             do {
                 ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
-                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
+                        mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
+                        mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
+                        ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
+                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
                 );
 
                 // Adding value to list
@@ -131,10 +131,6 @@ public class DAOProgramHistory extends DAOBase {
         close();
         // return value list
         return valueList;
-    }
-
-    public Cursor GetCursor() {
-        return mCursor;
     }
 
     // Getting All
@@ -150,13 +146,13 @@ public class DAOProgramHistory extends DAOBase {
     public ProgramHistory getRunningProgram(Profile profile) {
         String selectQuery = "";
         // Select All Query
-        if (profile==null)
-          selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " ORDER BY " + KEY + " DESC";
+        if (profile == null)
+            selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " ORDER BY " + KEY + " DESC";
         else
-          selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " AND " + PROFILE_KEY + "=" + profile.getId() + " ORDER BY " + KEY + " DESC";
+            selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STATUS + "=" + ProgramStatus.RUNNING.ordinal() + " AND " + PROFILE_KEY + "=" + profile.getId() + " ORDER BY " + KEY + " DESC";
 
         List<ProgramHistory> list = getList(selectQuery);
-        if (list.size()>0) {
+        if (list.size() > 0) {
             return list.get(0);
         } else {
             return null;
@@ -178,7 +174,7 @@ public class DAOProgramHistory extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Profile
@@ -195,7 +191,7 @@ public class DAOProgramHistory extends DAOBase {
         // Delete the Workout
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-            new String[]{String.valueOf(id)});
+                new String[]{String.valueOf(id)});
 
         close();
     }

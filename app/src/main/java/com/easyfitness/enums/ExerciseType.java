@@ -6,7 +6,7 @@ public enum ExerciseType {
     ISOMETRIC;
 
     public static ExerciseType fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return STRENGTH;
             case 1:

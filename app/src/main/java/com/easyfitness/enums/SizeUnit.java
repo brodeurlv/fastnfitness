@@ -1,22 +1,18 @@
 package com.easyfitness.enums;
 
-public enum SizeUnit{
+public enum SizeUnit {
     CM("cm"),
     INCH("in");
 
     private String mDisplayName = "";
 
     //Constructeur
-    SizeUnit(String displayName){
+    SizeUnit(String displayName) {
         this.mDisplayName = displayName;
     }
 
-    public String toString(){
-        return mDisplayName;
-    }
-
     public static SizeUnit fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return CM;
             case 1:
@@ -32,10 +28,14 @@ public enum SizeUnit{
     }
 
     public static float CmToInch(double cm) {
-        return (float) (cm*0.393700787);
+        return (float) (cm * 0.393700787);
     }
 
     public static float InchToCm(double in) {
-        return (float) (in/0.393700787);
+        return (float) (in / 0.393700787);
+    }
+
+    public String toString() {
+        return mDisplayName;
     }
 }

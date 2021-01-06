@@ -6,11 +6,11 @@ import android.graphics.drawable.Drawable;
 /* DataBase Object */
 public class BodyPart {
     private int mBodyPartKey = 0;
-    private String mCustomName ="";
-    private String mCustomPicture ="";
+    private String mCustomName = "";
+    private String mCustomPicture = "";
     private int mDisplayOrder = 0;
     private int mType = BodyPartExtensions.TYPE_MUSCLE;
-    private long id=0;    // Notez que l'identifiant est un long
+    private long id = 0;    // Notez que l'identifiant est un long
 
     private BodyMeasure mLastMeasure;
 
@@ -31,14 +31,17 @@ public class BodyPart {
 
     /**
      * Return legacy Resource Key.
+     *
      * @return
      */
-    public int getBodyPartResKey() {return mBodyPartKey;}
+    public int getBodyPartResKey() {
+        return mBodyPartKey;
+    }
 
     public String getName(Context context) {
         if (!mCustomName.isEmpty()) return mCustomName;
         else {
-            if (mBodyPartKey !=-1)
+            if (mBodyPartKey != -1)
                 return context.getResources().getString(BodyPartExtensions.getBodyStringID((int) mBodyPartKey));
             else
                 return "";
@@ -46,24 +49,41 @@ public class BodyPart {
     }
 
     public Drawable getPicture(Context context) {
-            if (mBodyPartKey !=-1)
-                if ( BodyPartExtensions.getBodyLogoID((int) mBodyPartKey) != -1)
-                    return context.getDrawable( BodyPartExtensions.getBodyLogoID((int) mBodyPartKey) );
+        if (mBodyPartKey != -1)
+            if (BodyPartExtensions.getBodyLogoID((int) mBodyPartKey) != -1)
+                return context.getDrawable(BodyPartExtensions.getBodyLogoID((int) mBodyPartKey));
 
-            return null;
+        return null;
     }
 
 
-    public String getCustomName() {return mCustomName;}
-    public void setCustomName(String customName) {  mCustomName = customName;}
+    public String getCustomName() {
+        return mCustomName;
+    }
 
-    public String getCustomPicture() {return mCustomPicture;}
-    public void setCustomPicture(String path) { mCustomPicture = path;}
+    public void setCustomName(String customName) {
+        mCustomName = customName;
+    }
 
-    public int getDisplayOrder() {return mDisplayOrder;}
-    public void setDisplayOrder(int displayOrder) { mDisplayOrder = displayOrder;}
+    public String getCustomPicture() {
+        return mCustomPicture;
+    }
 
-    public int getType() {return mType;}
+    public void setCustomPicture(String path) {
+        mCustomPicture = path;
+    }
+
+    public int getDisplayOrder() {
+        return mDisplayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        mDisplayOrder = displayOrder;
+    }
+
+    public int getType() {
+        return mType;
+    }
 
 
     /**
@@ -83,6 +103,7 @@ public class BodyPart {
     public BodyMeasure getLastMeasure() {
         return this.mLastMeasure;
     }
+
     public void setLastMeasure(BodyMeasure lastmeasure) {
         this.mLastMeasure = lastmeasure;
     }

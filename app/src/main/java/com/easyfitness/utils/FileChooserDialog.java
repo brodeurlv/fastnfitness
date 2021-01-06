@@ -28,11 +28,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileChooserDialog {
+    private final Context m_context;
     private boolean m_isNewFolderEnabled = false;
     private boolean m_displayFolderOnly = false;
     private String m_fileFilter = "*";
     private String m_sdcardDirectory = "";
-    private Context m_context;
     private TextView m_titleView;
 
     private String m_dir = "";
@@ -116,7 +116,7 @@ public class FileChooserDialog {
         class DirectoryOnClickListener implements DialogInterface.OnClickListener {
             public void onClick(DialogInterface dialog, int item) {
 
-                if (((AlertDialog) dialog).getListView().getAdapter().getItem(item).toString().substring(0, 1).equals("/")) {
+                if (((AlertDialog) dialog).getListView().getAdapter().getItem(item).toString().startsWith("/")) {
                     // Navigate into the sub-directory
                     m_dir += ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
                     ((AlertDialog) dialog).getListView().smoothScrollToPositionFromTop(0, 0, 0);// Back on top of the ListView
@@ -138,7 +138,7 @@ public class FileChooserDialog {
         }
 
         AlertDialog.Builder dialogBuilder =
-            createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
+                createDirectoryChooserDialog(dir, m_subdirs, new DirectoryOnClickListener());
 
 /*
         dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
@@ -237,10 +237,9 @@ public class FileChooserDialog {
      */
     private boolean isInFilter(String fileName) {
         boolean ret = false;
-        String extension = "";
 
         // recupere l'extension du fichier
-        extension = getExtension(fileName);
+        String extension = getExtension(fileName);
 
         // verifie si l'extension est prise en compte
         if (this.m_fileFilter.contains("*"))
@@ -288,8 +287,8 @@ public class FileChooserDialog {
 
             // Show new folder name input dialog
             new AlertDialog.Builder(m_context).
-                setTitle("New folder name").
-                setView(input).setPositiveButton(m_context.getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+                    setTitle("New folder name").
+                    setView(input).setPositiveButton(m_context.getResources().getText(android.R.string.ok), (dialog, whichButton) -> {
                 Editable newDir = input.getText();
                 String newDirName = newDir.toString();
                 // Create new directory
@@ -299,9 +298,9 @@ public class FileChooserDialog {
                     updateDirectory();
                 } else {
                     Toast.makeText(
-                        m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
+                            m_context, m_context.getResources().getText(R.string.failedtocreatefolder) + " " + newDirName, Toast.LENGTH_SHORT).show();
                 }
-            }).setNegativeButton(m_context.getResources().getText(R.string.global_cancel), null).show();
+            }).setNegativeButton(m_context.getResources().getText(android.R.string.cancel), null).show();
         });
 
         if (!m_isNewFolderEnabled) {
@@ -332,7 +331,7 @@ public class FileChooserDialog {
 
     private ArrayAdapter<String> createListAdapter(List<String> items) {
         return new ArrayAdapter<String>(m_context,
-            layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
+                layout.simple_list_item_1, android.R.id.text1, items) //.select_dialog_item
         {
             @Override
             public View getView(int position, View convertView,

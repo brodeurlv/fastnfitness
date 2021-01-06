@@ -11,14 +11,11 @@ import android.widget.TextView;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
-import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
-import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ImageUtil;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ import java.util.List;
 public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.OnClickListener {
 
     Context mContext;
+    private Profile mProfile = null;
 
     public BodyPartListAdapter(ArrayList<BodyPart> data, Context context) {
         super(context, R.layout.bodypart_row, data);
@@ -74,38 +72,38 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
             viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
         else
             viewHolder.txtLastMeasure.setText("-");
-        if (!dataModel.getCustomPicture().equals("")) {
+        if (!dataModel.getCustomPicture().isEmpty()) {
             ImageUtil.setPic(viewHolder.logo, dataModel.getCustomPicture());
         } else {
-            if (dataModel.getBodyPartResKey()!=-1)
+            if (dataModel.getBodyPartResKey() != -1)
                 viewHolder.logo.setImageDrawable(dataModel.getPicture(getContext()));
             else
                 viewHolder.logo.setImageDrawable(null); // Remove the image, Custom is not managed yet
         }
 
         convertView.post(() -> {
-                DAOBodyMeasure mDbBodyMeasure = new DAOBodyMeasure(getContext());
+                    DAOBodyMeasure mDbBodyMeasure = new DAOBodyMeasure(getContext());
 
-                List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(dataModel.getId(), getProfile());
+                    List<BodyMeasure> valueList = mDbBodyMeasure.getBodyPartMeasuresListTop4(dataModel.getId(), getProfile());
 
-                if (valueList != null) {
-                    // Recupere les enregistrements
-                    if (valueList.size() < 1) {
-                        viewHolder.miniGraph.getChart().clear();
-                    } else {
-                        ArrayList<Entry> yVals = new ArrayList<>();
+                    if (valueList != null) {
+                        // Recupere les enregistrements
+                        if (valueList.size() < 1) {
+                            viewHolder.miniGraph.getChart().clear();
+                        } else {
+                            ArrayList<Entry> yVals = new ArrayList<>();
 
-                        if (valueList.size() > 0) {
-                            for (int i = valueList.size() - 1; i >= 0; i--) {
-                                Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
-                                yVals.add(value);
+                            if (valueList.size() > 0) {
+                                for (int i = valueList.size() - 1; i >= 0; i--) {
+                                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                                    yVals.add(value);
+                                }
+
+                                viewHolder.miniGraph.draw(yVals);
                             }
-
-                            viewHolder.miniGraph.draw(yVals);
                         }
                     }
                 }
-            }
         );
 
         // Return the completed view to render on screen
@@ -116,7 +114,6 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
         return mProfile;
     }
 
-    private Profile mProfile = null;
     public void setProfile(Profile profileID) {
         mProfile = profileID;
     }

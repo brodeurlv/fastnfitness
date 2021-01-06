@@ -1,11 +1,14 @@
 package com.easyfitness.programs;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
@@ -14,8 +17,6 @@ import com.easyfitness.R;
 import com.easyfitness.views.EditableInputView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
-import androidx.fragment.app.Fragment;
-
 
 public class ProgramInfoFragment extends Fragment {
     EditableInputView descriptionEdit = null;
@@ -23,9 +24,8 @@ public class ProgramInfoFragment extends Fragment {
 
     MainActivity mActivity = null;
     private DAOProgram mDb = null;
-
-    private EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
     private Program mProgram;
+    private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -58,7 +58,7 @@ public class ProgramInfoFragment extends Fragment {
         mDb = new DAOProgram(getContext());
         mProgram = mDb.get(workoutID);
         nameEdit.setText(mProgram.getName());
-        descriptionEdit.setText((mProgram.getDescription()));
+        descriptionEdit.setText(mProgram.getDescription());
 
         return view;
     }
@@ -74,9 +74,9 @@ public class ProgramInfoFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public String getName() {

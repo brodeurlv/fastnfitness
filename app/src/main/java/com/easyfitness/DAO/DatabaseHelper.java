@@ -12,10 +12,10 @@ import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
-import com.easyfitness.DAO.record.DAOFonte;
-import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Unit;
 
@@ -70,8 +70,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(
-        final SQLiteDatabase db, final int oldVersion,
-        final int newVersion) {
+            final SQLiteDatabase db, final int oldVersion,
+            final int newVersion) {
         int upgradeTo = oldVersion + 1;
         while (upgradeTo <= newVersion) {
             switch (upgradeTo) {
@@ -178,8 +178,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onDowngrade(
-        final SQLiteDatabase db, final int oldVersion,
-        final int newVersion) {
+            final SQLiteDatabase db, final int oldVersion,
+            final int newVersion) {
         int upgradeTo = oldVersion - 1;
         while (upgradeTo >= newVersion) {
             switch (upgradeTo) {
@@ -240,8 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + DAOProfileWeight.TABLE_NAME;
         //SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        Cursor mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -293,22 +292,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void initBodyPartTable(SQLiteDatabase db){
-        int display_order=0;
+    public void initBodyPartTable(SQLiteDatabase db) {
+        int display_order = 0;
 
-        addInitialBodyPart(db, BodyPartExtensions.LEFTBICEPS, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.RIGHTBICEPS, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.PECTORAUX,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.WAIST, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.BEHIND,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.LEFTTHIGH,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.RIGHTTHIGH,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.LEFTCALVES, "","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.RIGHTCALVES,"","", display_order++, BodyPartExtensions.TYPE_MUSCLE);
-        addInitialBodyPart(db, BodyPartExtensions.WEIGHT,"","", 0, BodyPartExtensions.TYPE_WEIGHT);
-        addInitialBodyPart(db, BodyPartExtensions.MUSCLES, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
-        addInitialBodyPart(db, BodyPartExtensions.WATER, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
-        addInitialBodyPart(db, BodyPartExtensions.FAT, "","", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.LEFTBICEPS, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTBICEPS, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.PECTORAUX, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.WAIST, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.BEHIND, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.LEFTTHIGH, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTTHIGH, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.LEFTCALVES, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.RIGHTCALVES, "", "", display_order++, BodyPartExtensions.TYPE_MUSCLE);
+        addInitialBodyPart(db, BodyPartExtensions.WEIGHT, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.MUSCLES, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.WATER, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.FAT, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
     }
 
     public void addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {

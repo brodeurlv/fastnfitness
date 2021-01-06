@@ -2,8 +2,6 @@
 <resources>
     <string name="global_confirm">Bestätigen</string>
     <string name="global_warning">Warnung</string>
-    <string name="global_cancel">Abbrechen</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Ja</string>
     <string name="global_no">Nein</string>
 

@@ -7,11 +7,16 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
 import com.easyfitness.R;
 import com.easyfitness.graph.DateGraphMarkerView;
 import com.easyfitness.graph.ZoomType;
 import com.easyfitness.utils.DateConverter;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
@@ -33,12 +38,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-
 public class GraphView extends ConstraintLayout {
     private View rootView;
     private AppCompatSpinner mZoomSpinner;
@@ -48,6 +47,18 @@ public class GraphView extends ConstraintLayout {
     private String mChartName;
     private String mName;
     private ZoomType mZoom = ZoomType.ZOOM_ALL;
+    private final AdapterView.OnItemSelectedListener itemSelected = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            int pos = mZoomSpinner.getSelectedItemPosition();
+            setZoom(ZoomType.fromInteger(pos));
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
 
     public GraphView(@NonNull Context context) {
         super(context);
@@ -70,9 +81,9 @@ public class GraphView extends ConstraintLayout {
         mChart = rootView.findViewById(R.id.graphview_linechart);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
-            attrs,
-            R.styleable.GraphView,
-            0, 0);
+                attrs,
+                R.styleable.GraphView,
+                0, 0);
 
         mZoomSpinner.setOnItemSelectedListener(itemSelected);
 
@@ -128,25 +139,12 @@ public class GraphView extends ConstraintLayout {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-        leftAxis.setGranularity((float) 0.5);
+        leftAxis.setGranularity(0.5f);
         leftAxis.setTextSize(12);
         leftAxis.resetAxisMinimum();
 
         mChart.getAxisRight().setEnabled(false);
     }
-
-    private AdapterView.OnItemSelectedListener itemSelected = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            int pos = mZoomSpinner.getSelectedItemPosition();
-            setZoom(ZoomType.fromInteger(pos));
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
-    };
 
     public void setType(int value) {
         mType = value;
@@ -162,19 +160,19 @@ public class GraphView extends ConstraintLayout {
             case ZOOM_WEEK:
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 7); // allow 7 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (7)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) 7); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_MONTH:
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 30); // allow 30 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (30)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) 30); // set the left edge of the chart to x-index 10
                 }
                 break;
             case ZOOM_YEAR:
                 if (mChart.getData() != null) {
                     mChart.setVisibleXRangeMaximum((float) 365); // allow 365 values to be displayed at once on the x-axis, not more
-                    mChart.moveViewToX(mChart.getData().getXMax() - (float) (365)); // set the left edge of the chart to x-index 10
+                    mChart.moveViewToX(mChart.getData().getXMax() - (float) 365); // set the left edge of the chart to x-index 10
                 }
                 break;
         }
@@ -226,11 +224,11 @@ public class GraphView extends ConstraintLayout {
         mChart.setDescription(desc);
     }
 
-    public void setName(String name) {
-        mName = name;
-    }
-
     public String getName() {
         return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 }

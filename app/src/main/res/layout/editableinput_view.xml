@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/valueTextView"
@@ -12,7 +12,7 @@
         android:layout_toStartOf="@id/editButton"
         android:gravity="center_vertical"
         android:textSize="12sp"
-        tools:text="Editable input"/>
+        tools:text="Editable input" />
 
     <ImageView
         android:id="@+id/editButton"
@@ -25,7 +25,7 @@
         android:layout_marginBottom="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_edit_text_black_24dp"
+        android:src="@drawable/ic_edit"
         android:visibility="gone" />
 
 </RelativeLayout>

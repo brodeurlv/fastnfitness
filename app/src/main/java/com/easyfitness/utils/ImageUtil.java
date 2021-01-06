@@ -73,7 +73,6 @@ public class ImageUtil {
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
             bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
@@ -98,13 +97,11 @@ public class ImageUtil {
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = (int) scaleFactor;
-        bmOptions.inPurgeable = true;
 
-        Bitmap ThumbImage = null;
         //if (photoW < photoH)
         Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
         Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
-        ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
+        Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
         //else
         //ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int) (96 / scaleFactor), 96);
 
@@ -152,7 +149,6 @@ public class ImageUtil {
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
             bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
             Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
@@ -184,18 +180,16 @@ public class ImageUtil {
     public String getThumbPath(String pPath) {
         if (pPath == null || pPath.isEmpty()) return null;
         // extract path without the .jpg
-        String nameOfOutputImage = "";
-        nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
+        String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
         String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
 
         // If it is already a thumb do nothing
-        if (nameOfOutputImage.substring(nameOfOutputImage.length() - 3).equals("_TH")) {
+        if (nameOfOutputImage.endsWith("_TH")) {
             return pPath;
             // else check if it already exists
         } else {
             // extract path without the .jpg
-            String pathOfThumbImage = "";
-            pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
+            String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
             File f = new File(pathOfThumbImage);
             if (!f.exists())
                 return saveThumb(pPath); // create thumb file
@@ -234,8 +228,8 @@ public class ImageUtil {
                 // Camera
                 case 0:
                     CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(pF.getContext(), pF);
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(pF.getContext(), pF);
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
@@ -265,8 +259,8 @@ public class ImageUtil {
             }
             // Continue only if the File was successfully created
             Uri photoURI = FileProvider.getUriForFile(pF.getActivity(),
-                BuildConfig.APPLICATION_ID + ".provider",
-                photoFile);
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             pF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
@@ -304,9 +298,9 @@ public class ImageUtil {
         }
         //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
         File image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",         /* suffix */
-            storageDir      /* directory */
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -317,17 +311,17 @@ public class ImageUtil {
     private void requestPermissionForWriting(Fragment pF) {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(pF.getActivity(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(pF.getActivity(),
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(pF.getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
             // No explanation needed, we can request the permission.
 
             int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
             ActivityCompat.requestPermissions(pF.getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 
@@ -349,7 +343,7 @@ public class ImageUtil {
 
     public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
         File newFile = null;
-        if (newFileName.equals(""))
+        if (newFileName.isEmpty())
             newFile = new File(dir, file.getName());
         else
             newFile = new File(dir, newFileName);

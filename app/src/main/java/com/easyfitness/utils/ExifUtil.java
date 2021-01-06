@@ -81,21 +81,9 @@ class ExifUtil {
             Field tagOrientationField = exifClass.getField("TAG_ORIENTATION");
             String tagOrientation = (String) tagOrientationField.get(null);
             orientation = (Integer) getAttributeInt.invoke(exifInstance, new Object[]{tagOrientation, 1});
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
+        } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
+                | IllegalArgumentException | InstantiationException | IllegalAccessException
+                | InvocationTargetException | NoSuchFieldException e) {
             e.printStackTrace();
         }
 

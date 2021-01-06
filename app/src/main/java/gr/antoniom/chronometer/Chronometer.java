@@ -26,17 +26,17 @@ public class Chronometer extends AppCompatTextView {
     private boolean mPreciseClock = true;
     private OnChronometerTickListener mOnChronometerTickListener;
     private long timeElapsed;
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         public void handleMessage(Message m) {
             if (mRunning) {
                 updateText(SystemClock.elapsedRealtime());
                 dispatchChronometerTick();
                 if (mPreciseClock)
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                        TICK_WHAT), 100);
+                            TICK_WHAT), 100);
                 else
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                        TICK_WHAT), 1000);
+                            TICK_WHAT), 1000);
             }
         }
     };
@@ -79,7 +79,7 @@ public class Chronometer extends AppCompatTextView {
     }
 
     public void setOnChronometerTickListener(
-        OnChronometerTickListener listener) {
+            OnChronometerTickListener listener) {
         mOnChronometerTickListener = listener;
     }
 
@@ -126,11 +126,11 @@ public class Chronometer extends AppCompatTextView {
         remaining = remaining % (60 * 1000);
 
         int seconds = remaining / 1000;
-        remaining = remaining % (1000);
+        remaining = remaining % 1000;
 
         int milliseconds = 0;
         if (mPreciseClock) {
-            milliseconds = ((int) timeElapsed % 1000) / 100;
+            milliseconds = (int) timeElapsed % 1000 / 100;
         }
 
         String text = "";
@@ -154,10 +154,10 @@ public class Chronometer extends AppCompatTextView {
                 dispatchChronometerTick();
                 if (mPreciseClock) {
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                        TICK_WHAT), 100);
+                            TICK_WHAT), 100);
                 } else {
                     mHandler.sendMessageDelayed(Message.obtain(mHandler,
-                        TICK_WHAT), 1000);
+                            TICK_WHAT), 1000);
                 }
             } else {
                 mHandler.removeMessages(TICK_WHAT);

@@ -49,56 +49,60 @@ public class UnitConverter {
     }
 
     static public float KgtoLbs(float pKg) {
-        return pKg / (float) 0.45359237;
+        return pKg / 0.45359237f;
     }
+
     static public float KgtoStones(float pKg) {
-        return pKg / (float) 6.35029;
+        return pKg / 6.35029f;
     }
 
     static public float LbstoKg(float pLbs) {
-        return pLbs * (float) 0.45359237;
+        return pLbs * 0.45359237f;
     }
+
     static public float LbstoStones(float pLbs) {
         return pLbs / (float) 14;
     }
 
     static public float StonestoKg(float pSt) {
-        return pSt * (float) 6.35029;
+        return pSt * 6.35029f;
     }
+
     static public float StonestoLbs(float pSt) {
         return pSt * (float) 14;
     }
 
-    static public float KmToMiles(float pKm) { return pKm * (float) 1.609344; }
-    static public float MilesToKm(float pMiles) { return pMiles / (float) 1.609344; }
+    static public float KmToMiles(float pKm) {
+        return pKm * 1.609344f;
+    }
+
+    static public float MilesToKm(float pMiles) {
+        return pMiles / 1.609344f;
+    }
 
     static public float sizeConverter(float pSize, Unit pUnitIn, Unit pUnitOut) {
         switch (pUnitIn) {
             case CM:
-                switch (pUnitOut) {
-                    case INCH:
-                        return CmtoInch(pSize);
-                    default:
-                        return pSize;
+                if (pUnitOut == Unit.INCH) {
+                    return CmtoInch(pSize);
                 }
+                return pSize;
             case INCH:
-                switch (pUnitOut) {
-                    case CM:
-                        return InchToCm(pSize);
-                    default:
-                        return pSize;
+                if (pUnitOut == Unit.CM) {
+                    return InchToCm(pSize);
                 }
+                return pSize;
             default:
                 return pSize;
         }
     }
 
     private static float InchToCm(float pSize) {
-        return pSize * (float)2.54;
+        return pSize * 2.54f;
     }
 
     private static float CmtoInch(float pSize) {
-        return pSize / (float)2.54;
+        return pSize / 2.54f;
     }
 
     /**
@@ -113,7 +117,7 @@ public class UnitConverter {
         // Convert total duration into time
         int hours = (int) (milliseconds / (1000 * 60 * 60));
         int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        int seconds = (int) (milliseconds % (1000 * 60 * 60) % (1000 * 60) / 1000);
         // Add hours if there
         if (hours > 0) {
             finalTimerString = hours + ":";
@@ -123,7 +127,7 @@ public class UnitConverter {
         if (seconds < 10) {
             secondsString = "0" + seconds;
         } else {
-            secondsString = "" + seconds;
+            secondsString = String.valueOf(seconds);
         }
 
         finalTimerString = finalTimerString + minutes + ":" + secondsString;
@@ -139,13 +143,12 @@ public class UnitConverter {
      * @param totalDuration
      */
     public int getProgressPercentage(long currentDuration, long totalDuration) {
-        double percentage;
 
         long currentSeconds = (int) (currentDuration / 1000);
         long totalSeconds = (int) (totalDuration / 1000);
 
         // calculating percentage
-        percentage = (((double) currentSeconds) / totalSeconds) * 100;
+        double percentage = (double) currentSeconds / totalSeconds * 100;
 
         // return percentage
         return (int) percentage;
@@ -158,9 +161,8 @@ public class UnitConverter {
      * @param totalDuration returns current duration in milliseconds
      */
     public int progressToTimer(int progress, int totalDuration) {
-        int currentDuration = 0;
         totalDuration = totalDuration / 1000;
-        currentDuration = (int) ((((double) progress) / 100) * totalDuration);
+        int currentDuration = (int) ((double) progress / 100 * totalDuration);
 
         // return current duration in milliseconds
         return currentDuration * 1000;

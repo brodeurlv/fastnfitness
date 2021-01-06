@@ -6,13 +6,10 @@ buildscript {
         jcenter()
         maven { url "https://jitpack.io" }
         mavenCentral()
-        //maven { url "https://repo.boundlessgeo.com/main/" } //javacsv
-        //maven { url "https://maven.fabric.io/public" }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        //classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -25,8 +22,6 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         mavenCentral()
-        //maven { url "https://repo.boundlessgeo.com/main/" } //javacsv
-        //maven { url "https://maven.fabric.io/public" }
     }
 }
 

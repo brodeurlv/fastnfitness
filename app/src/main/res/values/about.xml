@@ -18,8 +18,9 @@ v0.19.5: December 27, 2020\n
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
     <string name="javaCSV_content" translatable="false">JavaCSV (LGPL)</string>
     <string name="antoniomChronometer_content" translatable="false">Millisecond-Chronometer (Apache 2.0)</string>
-    <string name="PagerSlidingTabStrip_content" translatable="false">PagerSlidingTabStrip (Apache 2.0)</string>
     <string name="LicensesDialog_content" translatable="false">LicensesDialog (Apache 2.0)</string>
+    <string name="MaterialIntro_content" translatable="false">Material-Intro (MIT)</string>
+    <string name="TimePickerWithSeconds_content" translatable="false">TimePickerWithSeconds (WTFPL License)</string>
     <string name="SmartTabLayout_content" translatable="false">SmartTabLayout (Apache 2.0)</string>
     <string name="freepik_content" translatable="false">Freepik (Free License with attribution)</string>
     <string name="flaticon_content" translatable="false">Flaticon (Free License with attribution)</string>

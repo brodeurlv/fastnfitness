@@ -3,8 +3,6 @@
     <string name="global_confirm">Potvrdit</string>
     <string name="global_confirm_question">Jste si jisti</string>
     <string name="global_warning">Varování</string>
-    <string name="global_cancel">Zrušit</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Ano</string>
     <string name="global_no">Ne</string>
 

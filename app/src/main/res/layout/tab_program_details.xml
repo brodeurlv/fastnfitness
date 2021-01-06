@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:name="tab_program_details"
     android:layout_width="match_parent"
@@ -49,9 +48,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/description"
                     android:layout_marginTop="5dp"
-                    android:textSize="12sp"/>
+                    android:text="@string/description"
+                    android:textSize="12sp" />
 
                 <com.easyfitness.views.EditableInputView
                     android:id="@+id/workout_description"

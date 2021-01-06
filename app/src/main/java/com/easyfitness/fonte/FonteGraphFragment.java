@@ -1,6 +1,5 @@
 package com.easyfitness.fonte;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,25 +14,26 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.easyfitness.DAO.record.DAOCardio;
-import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.record.DAOCardio;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAOStatic;
+import com.easyfitness.MainActivity;
 import com.easyfitness.ProfileViMo;
+import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.WeightUnit;
-import com.easyfitness.graph.GraphData;
-import com.easyfitness.MainActivity;
-import com.easyfitness.R;
 import com.easyfitness.graph.BarGraph;
 import com.easyfitness.graph.DateGraph;
+import com.easyfitness.graph.GraphData;
 import com.easyfitness.graph.ZoomType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
@@ -56,34 +56,7 @@ public class FonteGraphFragment extends Fragment {
     private Spinner machineList = null;
     private ZoomType currentZoom = ZoomType.ZOOM_ALL;
     private DateGraph mDateGraph = null;
-    private LineChart mLineChart = null;
-    private LinearLayout mGraphZoomSelector = null;
-    private BarGraph mBarGraph =null;
-    private BarChart mBarChart = null;
-    private DAOFonte mDbFonte = null;
-    private DAOCardio mDbCardio = null;
-    private DAOStatic mDbStatic = null;
-    private DAOMachine mDbMachine = null;
-    private View mFragmentView = null;
-    private OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view,
-                                   int position, long id) {
-            if (parent.getId() == R.id.filterGraphMachine) {
-                updateFunctionSpinner(); // Update functions only when changing exercise
-            } else if(parent.getId() == R.id.filterGraphFunction ) {
-                saveSharedParams();
-            }
-            drawGraph();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-    private OnClickListener onZoomClick = v -> {
+    private final OnClickListener onZoomClick = v -> {
         switch (v.getId()) {
             case R.id.allbutton:
                 currentZoom = ZoomType.ZOOM_ALL;
@@ -100,8 +73,34 @@ public class FonteGraphFragment extends Fragment {
         }
         mDateGraph.setZoom(currentZoom);
     };
-
+    private LineChart mLineChart = null;
+    private LinearLayout mGraphZoomSelector = null;
+    private BarGraph mBarGraph = null;
+    private BarChart mBarChart = null;
+    private DAOFonte mDbFonte = null;
+    private DAOCardio mDbCardio = null;
+    private DAOStatic mDbStatic = null;
+    private DAOMachine mDbMachine = null;
+    private View mFragmentView = null;
     private ProfileViMo profileViMo;
+    private final OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+            if (parent.getId() == R.id.filterGraphMachine) {
+                updateFunctionSpinner(); // Update functions only when changing exercise
+            } else if (parent.getId() == R.id.filterGraphFunction) {
+                saveSharedParams();
+            }
+            drawGraph();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -170,11 +169,11 @@ public class FonteGraphFragment extends Fragment {
         super.onStart();
 
         if (getProfile() != null) {
-            mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
+            mMachinesArray = new ArrayList<>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
             // lMachinesArray = prepend(lMachinesArray, "All");
             mAdapterMachine = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mMachinesArray);
+                    getContext(), android.R.layout.simple_spinner_item,
+                    mMachinesArray);
             mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             machineList.setAdapter(mAdapterMachine);
             mDbFonte.closeCursor();
@@ -184,9 +183,9 @@ public class FonteGraphFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (MainActivity) activity;
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public MainActivity getMainActivity() {
@@ -200,22 +199,22 @@ public class FonteGraphFragment extends Fragment {
         if (machine == null) return;
 
         ArrayAdapter<String> adapterFunction = null;
-        if (machine.getType() == ExerciseType.STRENGTH ) {
+        if (machine.getType() == ExerciseType.STRENGTH) {
             adapterFunction = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mActivity.getResources().getStringArray(R.array.graph_functions));
+                    getContext(), android.R.layout.simple_spinner_item,
+                    mActivity.getResources().getStringArray(R.array.graph_functions));
         } else if (machine.getType() == ExerciseType.CARDIO) {
             adapterFunction = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
+                    getContext(), android.R.layout.simple_spinner_item,
+                    mActivity.getResources().getStringArray(R.array.graph_cardio_functions));
         } else if (machine.getType() == ExerciseType.ISOMETRIC) {
-            adapterFunction = new ArrayAdapter<>( getContext(), android.R.layout.simple_spinner_item,
-                mActivity.getResources().getStringArray(R.array.graph_static_functions));
+            adapterFunction = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                    mActivity.getResources().getStringArray(R.array.graph_static_functions));
         }
         adapterFunction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         functionList.setAdapter(adapterFunction);
-        if (functionList.getSelectedItemPosition()!=getFunctionListPositionParams()) {
-            if (getFunctionListPositionParams() <= (adapterFunction.getCount()-1)) {
+        if (functionList.getSelectedItemPosition() != getFunctionListPositionParams()) {
+            if (getFunctionListPositionParams() <= adapterFunction.getCount() - 1) {
                 functionList.setSelection(getFunctionListPositionParams());
             }
         }
@@ -225,8 +224,6 @@ public class FonteGraphFragment extends Fragment {
 
         if (getProfile() == null) return;
 
-        String lMachine = null;
-        String lFunction = null;
         int lDAOFunction = 0;
 
         mLineChart.clear();
@@ -237,8 +234,8 @@ public class FonteGraphFragment extends Fragment {
             return;
         }
 
-        lMachine = machineList.getSelectedItem().toString();
-        lFunction = functionList.getSelectedItem().toString();
+        String lMachine = machineList.getSelectedItem().toString();
+        String lFunction = functionList.getSelectedItem().toString();
 
         DAOMachine mDbExercise = new DAOMachine(mActivity);
         Machine m = mDbExercise.getMachine(lMachine);
@@ -258,7 +255,7 @@ public class FonteGraphFragment extends Fragment {
             // Recupere les enregistrements
             List<GraphData> valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
-            if (valueList==null || valueList.size() <= 0) {
+            if (valueList == null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
                 return;
             }
@@ -266,9 +263,8 @@ public class FonteGraphFragment extends Fragment {
             WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
 
             for (int i = 0; i < valueList.size(); i++) {
-                Entry value = null;
-                desc = lMachine + "/" + lFunction + "("+ defaultUnit.toString() +")";
-                value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
+                desc = lMachine + "/" + lFunction + "(" + defaultUnit.toString() + ")";
+                Entry value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
 
                 yVals.add(value);
             }
@@ -283,19 +279,19 @@ public class FonteGraphFragment extends Fragment {
 
             if (lFunction.equals(mActivity.getResources().getString(R.string.sumDistance))) {
                 lDAOFunction = DAOCardio.DISTANCE_FCT;
-                desc = lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+")";
+                desc = lMachine + "/" + lFunction + "(" + defaultDistanceUnit.toString() + ")";
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sumDuration))) {
                 lDAOFunction = DAOCardio.DURATION_FCT;
                 desc = lMachine + "/" + lFunction + "(min)";
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.speed))) {
                 lDAOFunction = DAOCardio.SPEED_FCT;
-                desc = lMachine + "/" + lFunction + "("+defaultDistanceUnit.toString()+"/h)";
+                desc = lMachine + "/" + lFunction + "(" + defaultDistanceUnit.toString() + "/h)";
             }
 
             // Recupere les enregistrements
             List<GraphData> valueList = mDbCardio.getFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
-            if (valueList==null || valueList.size() <= 0) {
+            if (valueList == null || valueList.size() <= 0) {
                 return;
             }
 
@@ -304,15 +300,15 @@ public class FonteGraphFragment extends Fragment {
                 if (lDAOFunction == DAOCardio.DURATION_FCT) {
                     value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
                 } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
-                    if ( defaultDistanceUnit == DistanceUnit.MILES)
-                        value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float)valueList.get(i).getY()) * (60 * 60 * 1000));
+                    if (defaultDistanceUnit == DistanceUnit.MILES)
+                        value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float) valueList.get(i).getY()) * (60 * 60 * 1000));
                     else
                         value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY() * (60 * 60 * 1000));
                 } else {
-                    if ( defaultDistanceUnit == DistanceUnit.MILES)
-                        value = new Entry((float) valueList.get(i).getX(), (float)UnitConverter.KmToMiles((float)valueList.get(i).getY()));
+                    if (defaultDistanceUnit == DistanceUnit.MILES)
+                        value = new Entry((float) valueList.get(i).getX(), (float) UnitConverter.KmToMiles((float) valueList.get(i).getY()));
                     else
-                        value = new Entry((float) valueList.get(i).getX(), (float)valueList.get(i).getY());
+                        value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
                 }
                 yVals.add(value);
             }
@@ -322,7 +318,8 @@ public class FonteGraphFragment extends Fragment {
             mDateGraph.getChart().setVisibility(View.VISIBLE);
             mDateGraph.setGraphDescription(desc);
             mDateGraph.draw(yVals);
-        } if (m.getType() == ExerciseType.ISOMETRIC) {
+        }
+        if (m.getType() == ExerciseType.ISOMETRIC) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxWeightPerDuration))) {
                 lDAOFunction = DAOStatic.MAX_FCT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxLengthPerDate))) {
@@ -334,7 +331,7 @@ public class FonteGraphFragment extends Fragment {
             // Recupere les enregistrements
             List<GraphData> valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
-            if (valueList==null || valueList.size() <= 0) {
+            if (valueList == null || valueList.size() <= 0) {
                 // mLineChart.clear(); Already cleared
                 return;
             }
@@ -355,7 +352,7 @@ public class FonteGraphFragment extends Fragment {
                 mBarGraph.setGraphDescription(desc);
                 mBarGraph.draw(yBarVals, xAxisLabel);
 
-            } else if (lDAOFunction == DAOStatic.NBSERIE_FCT || lDAOFunction == DAOStatic.MAX_LENGTH)  {
+            } else if (lDAOFunction == DAOStatic.NBSERIE_FCT || lDAOFunction == DAOStatic.MAX_LENGTH) {
                 for (int i = 0; i < valueList.size(); i++) {
                     Entry value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
                     yVals.add(value);
@@ -369,11 +366,13 @@ public class FonteGraphFragment extends Fragment {
         }
 
         LineChart.LayoutParams layoutParams = mLineChart.getLayoutParams();
-        if ( mLineChart.getHeight() > mLineChart.getWidth() ) layoutParams.height = mLineChart.getWidth();
+        if (mLineChart.getHeight() > mLineChart.getWidth())
+            layoutParams.height = mLineChart.getWidth();
         mLineChart.setLayoutParams(layoutParams);
 
         BarChart.LayoutParams layoutParamsBar = mBarChart.getLayoutParams();
-        if ( mBarChart.getHeight() > mBarChart.getWidth() ) layoutParamsBar.height = mBarChart.getWidth();
+        if (mBarChart.getHeight() > mBarChart.getWidth())
+            layoutParamsBar.height = mBarChart.getWidth();
         mBarChart.setLayoutParams(layoutParamsBar);
     }
 
@@ -390,9 +389,9 @@ public class FonteGraphFragment extends Fragment {
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDbFonte.getAllMachinesStrList();
                     //Data are refreshed on show
-                    mAdapterMachine = new ArrayAdapter<String>(
-                        getContext(), android.R.layout.simple_spinner_item,
-                        mMachinesArray);
+                    mAdapterMachine = new ArrayAdapter<>(
+                            getContext(), android.R.layout.simple_spinner_item,
+                            mMachinesArray);
                     mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     machineList.setAdapter(mAdapterMachine);
                 } else {
@@ -423,11 +422,11 @@ public class FonteGraphFragment extends Fragment {
 
     private ArrayAdapter<String> getAdapterMachine() {
         ArrayAdapter<String> a;
-        mMachinesArray = new ArrayList<String>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
+        mMachinesArray = new ArrayList<>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
         // lMachinesArray = prepend(lMachinesArray, "All");
         mAdapterMachine = new ArrayAdapter<>(
-            getContext(), android.R.layout.simple_spinner_item,
-            mMachinesArray);
+                getContext(), android.R.layout.simple_spinner_item,
+                mMachinesArray);
         mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         machineList.setAdapter(mAdapterMachine);
         return mAdapterMachine;

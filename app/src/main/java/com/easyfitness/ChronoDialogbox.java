@@ -10,7 +10,7 @@ import android.widget.Button;
 import gr.antoniom.chronometer.Chronometer;
 
 public class ChronoDialogbox extends Dialog implements
-    android.view.View.OnClickListener {
+        android.view.View.OnClickListener {
 
     public Activity c;
     public Dialog d;
@@ -64,11 +64,10 @@ public class ChronoDialogbox extends Dialog implements
                 } else {
                     if (chronoResetted) {
                         startTime = SystemClock.elapsedRealtime();
-                        chrono.setBase(startTime);
                     } else {
                         startTime = SystemClock.elapsedRealtime() - (stopTime - startTime);
-                        chrono.setBase(startTime);
                     }
+                    chrono.setBase(startTime);
                     chrono.start();
                     chronoStarted = true;
                     startstop.setText("Stop");

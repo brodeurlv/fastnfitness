@@ -34,7 +34,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_person_black_24dp"
+                android:src="@drawable/ic_person"
                 app:civ_border_color="#EEEEEE"
                 app:civ_border_width="0dp"
                 app:civ_shadow="false"
@@ -125,7 +125,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_skip_previous_black_24dp" />
+                        android:src="@drawable/ic_skip_previous" />
 
                     <ImageButton
                         android:id="@+id/playerStop"
@@ -138,7 +138,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_stop_black_24dp" />
+                        android:src="@drawable/ic_stop" />
 
                     <ImageButton
                         android:id="@+id/playerPlay"
@@ -151,7 +151,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_play_arrow_black_24dp" />
+                        android:src="@drawable/ic_play_arrow" />
 
                     <ImageButton
                         android:id="@+id/playerNext"
@@ -164,7 +164,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_skip_next_black_24dp" />
+                        android:src="@drawable/ic_skip_next" />
 
                     <ImageButton
                         android:id="@+id/playerLoop"
@@ -177,7 +177,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_replay_blue_24dp" />
+                        android:src="@drawable/ic_replay_blue" />
 
                     <ImageButton
                         android:id="@+id/playerList"
@@ -190,7 +190,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_library_music_black_24dp" />
+                        android:src="@drawable/ic_library_music" />
 
                 </LinearLayout>
             </LinearLayout>

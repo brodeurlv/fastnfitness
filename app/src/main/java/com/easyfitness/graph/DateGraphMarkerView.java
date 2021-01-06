@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -22,14 +21,14 @@ import static android.text.format.DateFormat.getDateFormat;
 
 public class DateGraphMarkerView extends MarkerView {
 
-    private TextView tvContent;
-    private TextView tvDate;
-    private DecimalFormat mFormat = new DecimalFormat("#.##");
-    private Chart lineChart = null;
+    private final TextView tvContent;
+    private final TextView tvDate;
+    private final DecimalFormat mFormat = new DecimalFormat("#.##");
     /**
      * Screen width in pixels.
      */
-    private int uiScreenWidth;
+    private final int uiScreenWidth;
+    private Chart lineChart = null;
     private MPPointF mOffset;
 
     public DateGraphMarkerView(Context context, int layoutResource, Chart chart) {
@@ -61,7 +60,7 @@ public class DateGraphMarkerView extends MarkerView {
 
         if (mOffset == null) {
             // center the marker horizontally and vertically
-            mOffset = new MPPointF(-(getWidth() / 2), -getHeight());
+            mOffset = new MPPointF(-(getWidth() / 2.0f), -getHeight());
         }
 
         return mOffset;

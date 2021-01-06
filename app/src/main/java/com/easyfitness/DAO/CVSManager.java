@@ -24,7 +24,7 @@ import com.easyfitness.utils.DateConverter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import java.util.Locale;
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
 public class CVSManager {
 
-    static private String TABLE_HEAD = "table";
-    static private String ID_HEAD = "id";
+    static private final String TABLE_HEAD = "table";
+    static private final String ID_HEAD = "id";
 
     private Context mContext = null;
 
@@ -89,7 +89,7 @@ public class CVSManager {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
-            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -102,9 +102,8 @@ public class CVSManager {
              * containing all records of the table (all fields).
              * The code of this class is omitted for brevity.
              */
-            List<Record> records = null;
             Cursor cursor = dbc.getAllRecordsByProfile(pProfile);
-            records = dbc.fromCursorToList(cursor);
+            List<Record> records = dbc.fromCursorToList(cursor);
 
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
@@ -167,14 +166,13 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
             DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
             daoBodyMeasure.open();
 
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
 
-            List<BodyMeasure> bodyMeasures;
-            bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
+            List<BodyMeasure> bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
 
             cvsOutput.write(TABLE_HEAD);
             cvsOutput.write(ID_HEAD);
@@ -212,13 +210,12 @@ public class CVSManager {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
             daoBodyPart.open();
 
 
-            List<BodyPart> bodyParts;
-            bodyParts = daoBodyPart.getList();
+            List<BodyPart> bodyParts = daoBodyPart.getList();
 
             cvsOutput.write(TABLE_HEAD);
             cvsOutput.write(DAOBodyPart.KEY);
@@ -226,8 +223,8 @@ public class CVSManager {
             cvsOutput.write(DAOBodyPart.CUSTOM_PICTURE);
             cvsOutput.endRecord();
 
-            for (BodyPart bp : bodyParts ) {
-                if (bp.getBodyPartResKey()==-1) { // Only custom BodyPart are exported
+            for (BodyPart bp : bodyParts) {
+                if (bp.getBodyPartResKey() == -1) { // Only custom BodyPart are exported
                     cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
                     cvsOutput.write(Long.toString(bp.getId()));
                     cvsOutput.write(bp.getName(mContext));
@@ -251,7 +248,7 @@ public class CVSManager {
             // FONTE
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
 
-            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', Charset.forName("UTF-8"));
+            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -264,8 +261,7 @@ public class CVSManager {
              * containing all records of the table (all fields).
              * The code of this class is omitted for brevity.
              */
-            List<Machine> records = null;
-            records = dbcMachine.getAllMachinesArray();
+            List<Machine> records = dbcMachine.getAllMachinesArray();
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutput.write(TABLE_HEAD);
@@ -305,21 +301,20 @@ public class CVSManager {
         boolean ret = true;
 
         try {
-            CsvReader csvRecords = new CsvReader(file, ',', Charset.forName("UTF-8"));
+            CsvReader csvRecords = new CsvReader(file, ',', StandardCharsets.UTF_8);
 
             csvRecords.readHeaders();
 
-            ArrayList<Record> recordsList = new ArrayList<>() ;
+            ArrayList<Record> recordsList = new ArrayList<>();
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
 
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
                     case DAORecord.TABLE_NAME: {
-                        Date date;
-                        date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
+                        Date date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
                         String exercise = csvRecords.get(DAORecord.EXERCISE);
-                        if ( dbcMachine.getMachine(exercise) != null ) {
+                        if (dbcMachine.getMachine(exercise) != null) {
                             long exerciseId = dbcMachine.getMachine(exercise).getId();
                             ExerciseType exerciseType = dbcMachine.getMachine(exercise).getType();
 
@@ -350,13 +345,12 @@ public class CVSManager {
                     case DAOOldCardio.TABLE_NAME: {
                         DAOCardio dbcCardio = new DAOCardio(mContext);
                         dbcCardio.open();
-                        Date date;
 
-                        date =DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
+                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOCardio.DATE));
 
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
-                        float distance = Float.valueOf(csvRecords.get(DAOOldCardio.DISTANCE));
-                        int duration = Integer.valueOf(csvRecords.get(DAOOldCardio.DURATION));
+                        float distance = Float.parseFloat(csvRecords.get(DAOOldCardio.DISTANCE));
+                        int duration = Integer.parseInt(csvRecords.get(DAOOldCardio.DURATION));
                         dbcCardio.addCardioRecord(date, exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
                         dbcCardio.close();
 
@@ -365,8 +359,7 @@ public class CVSManager {
                     case DAOProfileWeight.TABLE_NAME: {
                         DAOBodyMeasure dbcWeight = new DAOBodyMeasure(mContext);
                         dbcWeight.open();
-                        Date date;
-                        date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
+                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
 
                         float poids = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
                         dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId(), Unit.KG);
@@ -381,11 +374,10 @@ public class CVSManager {
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
-                        List<BodyPart> bodyParts;
-                        bodyParts = dbcBodyPart.getList();
+                        List<BodyPart> bodyParts = dbcBodyPart.getList();
                         for (BodyPart bp : bodyParts) {
                             if (bp.getName(mContext).equals(bodyPartName)) {
-                                float measure = Float.valueOf(csvRecords.get(DAOBodyMeasure.MEASURE));
+                                float measure = Float.parseFloat(csvRecords.get(DAOBodyMeasure.MEASURE));
                                 dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId(), unit);
                                 dbcBodyPart.close();
                                 break;
@@ -393,7 +385,7 @@ public class CVSManager {
                         }
                         break;
                     }
-                    case DAOBodyPart.TABLE_NAME: {
+                    case DAOBodyPart.TABLE_NAME:
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
                         int bodyPartId = -1;
@@ -401,7 +393,6 @@ public class CVSManager {
                         String customPicture = csvRecords.get(DAOBodyPart.CUSTOM_PICTURE);
                         dbcBodyPart.add(bodyPartId, customName, customPicture, 0, BodyPartExtensions.TYPE_MUSCLE);
                         break;
-                    }
                     case DAOProfile.TABLE_NAME:
                         // TODO : import profiles
                         break;
@@ -467,7 +458,7 @@ public class CVSManager {
 
     private Unit TryGetUnit(String value, Unit defaultValue) {
         Unit unit = Unit.fromString(value);
-        if (unit!=null) {
+        if (unit != null) {
             return unit;
         }
         return defaultValue;
