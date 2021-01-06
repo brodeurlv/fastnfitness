@@ -87,7 +87,7 @@
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:adjustViewBounds">false</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:drawableStart">@drawable/ic_baseline_list_alt_24px</item>
+        <item name="android:drawableStart">@drawable/ic_list_alt</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>

@@ -1,7 +1,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tab_machine_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -76,8 +75,8 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:textSize="24sp"
-                    tools:text="Profile Name"
-                    android:title="@string/enter_profile_name" />
+                    android:title="@string/enter_profile_name"
+                    tools:text="Profile Name" />
 
                 <com.easyfitness.views.EditableInputView
                     android:id="@+id/gender"
@@ -99,8 +98,8 @@
                     android:gravity="center_horizontal"
                     android:inputType="date"
                     android:textSize="18sp"
-                    tools:text="XX/XX/XX"
-                    android:title="@string/enter_birthday"/>
+                    android:title="@string/enter_birthday"
+                    tools:text="XX/XX/XX" />
 
                 <com.easyfitness.views.EditableInputView
                     android:id="@+id/size"
@@ -126,7 +125,7 @@
         android:layout_margin="32dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_menu_camera"
+        android:src="@drawable/ic_photo_camera"
         app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/photo"
         app:layout_anchorGravity="bottom|right|end" />

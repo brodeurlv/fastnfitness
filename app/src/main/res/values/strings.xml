@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Fast N Fitness</string>
-
     <string name="global_confirm">Confirm</string>
     <string name="global_confirm_question">Are you sure?</string>
     <string name="global_warning">Warning</string>
-    <string name="global_cancel">Cancel</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Yes</string>
     <string name="global_no">No</string>
 
@@ -353,7 +349,7 @@
     <string name="strength_category">Strength</string>
 
     <string name="automatic_date_time">Automatic date/time</string>
-	<string name="enter_workout_name">Enter program name</string>
+    <string name="enter_workout_name">Enter program name</string>
     <string name="workout_list_menu_item">Program list</string>
     <string name="finish_program">Finish program</string>
     <string name="start_program">Start program</string>

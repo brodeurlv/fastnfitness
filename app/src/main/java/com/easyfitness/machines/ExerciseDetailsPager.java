@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Machine;
@@ -27,11 +32,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-
 public class ExerciseDetailsPager extends Fragment {
     Toolbar top_toolbar = null;
     long machineIdArg = 0;
@@ -46,19 +46,17 @@ public class ExerciseDetailsPager extends Fragment {
     boolean isFavorite = false;
     boolean toBeSaved = false;
     DAOMachine mDbMachine = null;
+    private final View.OnClickListener onClickToolbarItem = v -> {
+        // Handle presses on the action bar items
+        if (v.getId() == R.id.deleteButton) {
+            deleteMachine();
+        } else {
+            getActivity().onBackPressed();
+        }
+    };
     DAORecord mDbRecord = null;
     private String name;
     private int id;
-    private View.OnClickListener onClickToolbarItem = v -> {
-        // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                deleteMachine();
-                break;
-            default:
-                getActivity().onBackPressed();
-        }
-    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -83,7 +81,7 @@ public class ExerciseDetailsPager extends Fragment {
         View view = inflater.inflate(R.layout.exercise_pager, container, false);
 
         // Locate the viewpager in activity_main.xml
-        mViewPager = view.findViewById(R.id.pager);
+        mViewPager = view.findViewById(R.id.exercise_viewpager);
 
         if (mViewPager.getAdapter() == null) {
 
@@ -92,14 +90,14 @@ public class ExerciseDetailsPager extends Fragment {
             machineProfilIdArg = args.getLong("machineProfile");
 
             pagerAdapter = new FragmentPagerItemAdapter(
-                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                .add(getString(R.string.MachineLabel), MachineDetailsFragment.class, args)
-                .add(getString(R.string.HistoryLabel), FonteHistoryFragment.class, args)
-                .create());
+                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                    .add(getString(R.string.MachineLabel), MachineDetailsFragment.class, args)
+                    .add(getString(R.string.HistoryLabel), FonteHistoryFragment.class, args)
+                    .create());
 
             mViewPager.setAdapter(pagerAdapter);
 
-            viewPagerTab = view.findViewById(R.id.viewpagertab);
+            viewPagerTab = view.findViewById(R.id.exercise_pagertab);
             viewPagerTab.setViewPager(mViewPager);
 
             viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
@@ -204,23 +202,15 @@ public class ExerciseDetailsPager extends Fragment {
     }
 
     public MachineDetailsFragment getExerciseFragment() {
-        MachineDetailsFragment mpExerciseFrag;
-        mpExerciseFrag = (MachineDetailsFragment) pagerAdapter.getPage(0);
-        return mpExerciseFrag;
+        return (MachineDetailsFragment) pagerAdapter.getPage(0);
     }
 
     public FonteHistoryFragment getHistoricFragment() {
-        FonteHistoryFragment mpHistoryFrag;
-        mpHistoryFrag = (FonteHistoryFragment) pagerAdapter.getPage(1);
-        return mpHistoryFrag;
-    }
-
-    public ViewPager getViewPager() {
-        return (ViewPager) getView().findViewById(R.id.pager);
+        return (FonteHistoryFragment) pagerAdapter.getPage(1);
     }
 
     public FragmentPagerItemAdapter getViewPagerAdapter() {
-        return (FragmentPagerItemAdapter) ((ViewPager) (getView().findViewById(R.id.pager))).getAdapter();
+        return (FragmentPagerItemAdapter) ((ViewPager) getView().findViewById(R.id.exercise_viewpager)).getAdapter();
     }
 
     @Override

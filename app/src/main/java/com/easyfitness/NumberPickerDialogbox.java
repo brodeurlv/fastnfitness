@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 public class NumberPickerDialogbox extends Dialog implements
-    View.OnClickListener {
+        View.OnClickListener {
 
     public Activity c;
     public Dialog d;
@@ -52,22 +52,14 @@ public class NumberPickerDialogbox extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
+            case R.id.btn_minusOne:
+            case R.id.btn_plusOne:
+            case R.id.btn_minusFive:
+            case R.id.btn_plusFive:
                 //dismiss();
                 break;
             case R.id.btn_cancel:
                 dismiss();
-                break;
-            case R.id.btn_minusOne:
-                //dismiss();
-                break;
-            case R.id.btn_plusOne:
-                //dismiss();
-                break;
-            case R.id.btn_minusFive:
-                //dismiss();
-                break;
-            case R.id.btn_plusFive:
-                //dismiss();
                 break;
             default:
                 break;

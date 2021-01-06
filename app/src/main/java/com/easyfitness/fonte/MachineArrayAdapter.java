@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class MachineArrayAdapter extends ArrayAdapter<Machine> implements View.OnClickListener {
 
+    private final int lastPosition = -1;
     Context mContext;
-    private int lastPosition = -1;
 
     public MachineArrayAdapter(ArrayList<Machine> data, Context context) {
         super(context, R.layout.bodypart_row, data);

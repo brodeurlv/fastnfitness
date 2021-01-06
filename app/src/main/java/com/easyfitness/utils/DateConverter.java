@@ -24,7 +24,7 @@ public class DateConverter {
     static public double nbDays(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return ((calendar.getTimeInMillis() + calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / MILLISECONDINDAY);
+        return (calendar.getTimeInMillis() + calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / MILLISECONDINDAY;
     }
 
     static public double nbMinutes(double millisecondes) {
@@ -43,8 +43,8 @@ public class DateConverter {
     static public Date localDateTimeStrToDateTime(String dateText, String timeText, Context pContext) {
         Date date;
         try {
-            String dateFormat = ((SimpleDateFormat)getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
-            String timeFormat = ((SimpleDateFormat)getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            String dateFormat = ((SimpleDateFormat) getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
+            String timeFormat = ((SimpleDateFormat) getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
             date = dateTimeFormat.parse(dateText + "T" + timeText);
         } catch (ParseException e) {

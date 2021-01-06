@@ -26,7 +26,6 @@ package com.easyfitness.intro;
 
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +37,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
@@ -56,11 +57,18 @@ public class NewProfileFragment extends SlideFragment {
     private EditText mName;
     private EditText mSize;
     private TextView mBirthday;
+    private final OnDateSetListener dateSet = new OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+        }
+    };
     private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
     private RadioButton mRbOtherGender;
-
     private boolean mProfilCreated = false;
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
@@ -96,24 +104,16 @@ public class NewProfileFragment extends SlideFragment {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
                 new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(p.getName())
-                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                    .setConfirmClickListener(sDialog -> nextSlide())
-                    .show();
+                        .setTitleText(p.getName())
+                        .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                        .setConfirmClickListener(sDialog -> nextSlide())
+                        .show();
                 mProfilCreated = true;
             }
         }
     };
     private DatePickerDialogFragment mDateFrag = null;
     private MainActivity motherActivity;
-    private OnDateSetListener dateSet = new OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-        }
-    };
 
     public NewProfileFragment() {
         // Required empty public constructor
@@ -128,7 +128,7 @@ public class NewProfileFragment extends SlideFragment {
             mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
         }
 
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         mDateFrag.show(ft, "dialog");
     }
 
@@ -145,9 +145,7 @@ public class NewProfileFragment extends SlideFragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
-        mBirthday.setOnClickListener((View v)-> {
-                showDatePickerFragment();
-        });
+        mBirthday.setOnClickListener(v -> showDatePickerFragment());
 
         /* Initialisation des boutons */
         mBtCreate.setOnClickListener(clickCreateButton);

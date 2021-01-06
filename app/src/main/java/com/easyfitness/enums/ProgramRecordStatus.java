@@ -7,7 +7,7 @@ public enum ProgramRecordStatus {
     NONE;
 
     public static ProgramRecordStatus fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return SUCCESS;
             case 1:

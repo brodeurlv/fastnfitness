@@ -1,7 +1,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tab_machine_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -127,7 +126,7 @@
         android:layout_margin="32dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_menu_camera"
+        android:src="@drawable/ic_photo_camera"
         app:backgroundTint="@color/launcher_background"
         app:layout_anchor="@id/machine_photo"
         app:layout_anchorGravity="bottom|right|end" />

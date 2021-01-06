@@ -3,17 +3,16 @@
 
     <item
         android:id="@+id/action_chrono"
-        android:icon="@drawable/ic_timer_black_24dp"
+        android:icon="@drawable/ic_timer"
         android:title="@string/ChronometerLabel"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_profil"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_person"
         android:title="Profil"
         android:visible="false"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
 
     <item
         android:id="@+id/action_deleteDB"

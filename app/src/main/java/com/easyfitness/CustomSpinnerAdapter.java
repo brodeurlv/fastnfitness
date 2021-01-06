@@ -13,9 +13,9 @@ import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<SpinnerItem> {
 
-    private Context context;
-    private int layoutResID;
-    private List<SpinnerItem> spinnerData;
+    private final Context context;
+    private final int layoutResID;
+    private final List<SpinnerItem> spinnerData;
 
     public CustomSpinnerAdapter(Context context, int layoutResourceID,
                                 int textViewResourceId, List<SpinnerItem> spinnerDataList) {

@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="25"
         android:gravity="center_vertical"
-        tools:text="Name"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="Name" />
 
     <TextView
         android:id="@+id/LIST_WORKOUT_DESCRIPTION"
@@ -27,9 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="25"
         android:gravity="center_vertical"
-        tools:text="@string/description"
-        android:textSize="12sp" />
-
+        android:textSize="12sp"
+        tools:text="@string/description" />
 
 
 </LinearLayout>

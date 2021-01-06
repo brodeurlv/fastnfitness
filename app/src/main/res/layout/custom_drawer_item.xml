@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_person_black_24dp"
+            android:src="@drawable/ic_person"
             app:civ_border_color="#EEEEEE"
             app:civ_border_width="0dp"
             app:civ_shadow="false"
@@ -73,7 +73,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitCenter"
-            tools:src="@drawable/ic_training_white_50dp" />
+            tools:src="@drawable/ic_training_50dp" />
 
         <TextView
             android:id="@+id/drawer_itemName"

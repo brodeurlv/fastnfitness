@@ -1,20 +1,19 @@
 package com.easyfitness;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
 //@SuppressLint("ValidFragment")
 public class TimePickerDialogFragment extends DialogFragment {
 
+    private final int Hours = 0;
+    private final int Minutes = 0;
+    private final int Seconds = 0;
     private MyTimePickerDialog.OnTimeSetListener onTimeSetListener;
-    private int Hours=0;
-    private int Minutes=0;
-    private int Seconds=0;
 
     static public TimePickerDialogFragment newInstance(MyTimePickerDialog.OnTimeSetListener onTimeSetListener, int hour, int min, int sec) {
         TimePickerDialogFragment pickerFragment = new TimePickerDialogFragment();

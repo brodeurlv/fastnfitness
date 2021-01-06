@@ -8,10 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
-
-import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
-
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,41 +19,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.easyfitness.DAO.CVSManager;
-import com.easyfitness.DAO.DAOMachine;
-import com.easyfitness.DAO.DAOProfile;
-import com.easyfitness.DAO.DatabaseHelper;
-import com.easyfitness.DAO.Machine;
-import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.cardio.DAOOldCardio;
-import com.easyfitness.DAO.cardio.OldCardio;
-import com.easyfitness.DAO.record.DAOCardio;
-import com.easyfitness.DAO.record.DAOFonte;
-import com.easyfitness.DAO.record.DAORecord;
-import com.easyfitness.DAO.record.DAOStatic;
-import com.easyfitness.DAO.record.Record;
-import com.easyfitness.DAO.program.DAOProgram;
-import com.easyfitness.bodymeasures.BodyPartListFragment;
-import com.easyfitness.enums.DistanceUnit;
-import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.WeightUnit;
-import com.easyfitness.fonte.FontesPagerFragment;
-import com.easyfitness.intro.MainIntroActivity;
-import com.easyfitness.machines.MachineFragment;
-import com.easyfitness.utils.CustomExceptionHandler;
-import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.FileChooserDialog;
-import com.easyfitness.utils.ImageUtil;
-import com.easyfitness.utils.MusicController;
-import com.easyfitness.programs.ProgramListFragment;
-import com.easyfitness.utils.UnitConverter;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.onurkaganaldemir.ktoastlib.KToast;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -68,6 +29,44 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
+
+import com.easyfitness.DAO.CVSManager;
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.DatabaseHelper;
+import com.easyfitness.DAO.Machine;
+import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.cardio.DAOOldCardio;
+import com.easyfitness.DAO.cardio.OldCardio;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.record.DAOCardio;
+import com.easyfitness.DAO.record.DAOFonte;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.DAOStatic;
+import com.easyfitness.DAO.record.Record;
+import com.easyfitness.bodymeasures.BodyPartListFragment;
+import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.fonte.FontesPagerFragment;
+import com.easyfitness.intro.MainIntroActivity;
+import com.easyfitness.machines.MachineFragment;
+import com.easyfitness.programs.ProgramListFragment;
+import com.easyfitness.utils.CustomExceptionHandler;
+import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.FileChooserDialog;
+import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.utils.MusicController;
+import com.easyfitness.utils.UnitConverter;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.onurkaganaldemir.ktoastlib.KToast;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_INTRO = 111;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
+    private final MusicController musicController = new MusicController(this);
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
-
     /* Fragments */
     private FontesPagerFragment mpFontesPagerFrag = null;
     private WeightFragment mpWeightFrag = null;
@@ -100,21 +99,18 @@ public class MainActivity extends AppCompatActivity {
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
     private ProgramListFragment mpWorkoutListFrag;
-
     private String currentFragmentName = "";
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
     private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
-
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private MusicController musicController = new MusicController(this);
     private CircularImageView roundProfile = null;
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
@@ -122,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private long mBackPressed;
     private ProfileViMo profileViMo;
 
-    private PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
+    private final PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
             case R.id.create_newprofil:
                 getActivity().CreateNewProfil();
@@ -132,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
                 changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
-                    .setItems(profilListArray, (dialog, which) -> {
-                        ListView lv = ((AlertDialog) dialog).getListView();
-                        Object checkedItem = lv.getAdapter().getItem(which);
-                        setCurrentProfil(checkedItem.toString());
-                        KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
-                    });
+                        .setItems(profilListArray, (dialog, which) -> {
+                            ListView lv = ((AlertDialog) dialog).getListView();
+                            Object checkedItem = lv.getAdapter().getItem(which);
+                            setCurrentProfil(checkedItem.toString());
+                            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                            //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
+                        });
                 changeProfilbuilder.show();
                 return true;
             case R.id.delete_profil:
@@ -146,17 +142,17 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
                 deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
-                    .setItems(profildeleteListArray, (dialog, which) -> {
-                        ListView lv = ((AlertDialog) dialog).getListView();
-                        Object checkedItem = lv.getAdapter().getItem(which);
-                        if (getCurrentProfile().getName().equals(checkedItem.toString())) {
-                            KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        } else {
-                            Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
-                            mDbProfils.deleteProfil(profileToDelete);
-                            KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                        }
-                    });
+                        .setItems(profildeleteListArray, (dialog, which) -> {
+                            ListView lv = ((AlertDialog) dialog).getListView();
+                            Object checkedItem = lv.getAdapter().getItem(which);
+                            if (getCurrentProfile().getName().equals(checkedItem.toString())) {
+                                KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                            } else {
+                                Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
+                                mDbProfils.deleteProfil(profileToDelete);
+                                KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                            }
+                        });
                 deleteProfilbuilder.show();
                 return true;
             case R.id.rename_profil:
@@ -179,34 +175,34 @@ public class MainActivity extends AppCompatActivity {
         int dayNightAutoValue;
         try {
             dayNightAutoValue = Integer.parseInt(dayNightAuto);
-        }catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             dayNightAutoValue = 2;
         }
-        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
+        if (dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            SweetAlertDialog.DARK_STYLE=true;
+            SweetAlertDialog.DARK_STYLE = true;
         } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            SweetAlertDialog.DARK_STYLE=false;
+            SweetAlertDialog.DARK_STYLE = false;
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
+                    & Configuration.UI_MODE_NIGHT_MASK;
             switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                    SweetAlertDialog.DARK_STYLE=false; break;
                 case Configuration.UI_MODE_NIGHT_YES:
-                    SweetAlertDialog.DARK_STYLE=true; break;
+                    SweetAlertDialog.DARK_STYLE = true;
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
                 default:
-                    SweetAlertDialog.DARK_STYLE=false;
+                    SweetAlertDialog.DARK_STYLE = false;
             }
         }
 
         super.onCreate(savedInstanceState);
 
         if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
 
             /* creation de l'arborescence de l'application */
             File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
@@ -222,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             if (folder.exists()) {
                 if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
                     Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
-                        Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
+                            Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
                 }
             }
         }
@@ -234,14 +230,17 @@ public class MainActivity extends AppCompatActivity {
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
 
         if (savedInstanceState == null) {
-            if (mpFontesPagerFrag == null) mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+            if (mpFontesPagerFrag == null)
+                mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
             if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
             if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
             if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 4);
             if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
-            if (mpBodyPartListFrag == null) mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
-            if (mpWorkoutListFrag == null) mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
+            if (mpBodyPartListFrag == null)
+                mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
+            if (mpWorkoutListFrag == null)
+                mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
         } else {
             mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
             mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
@@ -273,9 +272,8 @@ public class MainActivity extends AppCompatActivity {
                 DAOCardio mDbCardio = new DAOCardio(this);
                 List<OldCardio> mList = mDbOldCardio.getAllRecords();
                 for (OldCardio record : mList) {
-                    String exerciseName = "";
                     Machine m = lDAOMachine.getMachine(record.getExercice());
-                    exerciseName = record.getExercice();
+                    String exerciseName = record.getExercice();
                     if (m != null) { // if a machine exists
                         if (m.getType() == ExerciseType.STRENGTH) { // if it is not a Cardio type
                             exerciseName = exerciseName + "-Cardio"; // add a suffix to
@@ -310,29 +308,29 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.left_drawer);
 
-        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_person_black_24dp, true);
+        DrawerItem drawerTitleItem = new DrawerItem("TITLE", R.drawable.ic_person, true);
 
         dataList.add(drawerTitleItem);
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center_white_24dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_gym_bench_50dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.menu_Workout), R.drawable.ic_fitness_center, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.MachinesLabel), R.drawable.ic_exercises, true));
         dataList.add(new DrawerItem("Programs List", R.drawable.ic_exam, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale_white_50dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler_white_50dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings_white_24dp, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline_white_24dp, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
 
         mDrawerAdapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
-            dataList);
+                dataList);
 
         mDrawerList.setAdapter(mDrawerAdapter);
 
         roundProfile = top_toolbar.findViewById(R.id.imageProfile);
 
         mDrawerToggle = new ActionBarDrawerToggle(
-            this,                  /* host Activity */
-            mDrawerLayout,         /* DrawerLayout object */
-            top_toolbar,  /* nav drawer icon to replace 'Up' caret */
-            R.string.drawer_open, R.string.drawer_close
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                top_toolbar,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open, R.string.drawer_close
         );
 
         // Set the list's click listener
@@ -371,22 +369,22 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG_MODE) {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
-            if(lDbFonte.getCount()==0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 07, 01, 12, 34, 56), "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 06, 30, 12, 34, 56), "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
+            if (lDbFonte.getCount() == 0) {
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
+                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 6, 30, 12, 34, 56), "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
             }
             DAOCardio lDbCardio = new DAOCardio(this);
-            if(lDbCardio.getCount()==0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 01), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 07, 31), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
+            if (lDbCardio.getCount() == 0) {
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 7, 1), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
+                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 7, 31), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
             }
             DAOStatic lDbStatic = new DAOStatic(this);
-            if(lDbStatic.getCount()==0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 01, 12, 34, 56), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", -1);
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 07, 31, 12, 34, 56), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", -1);
+            if (lDbStatic.getCount() == 0) {
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", -1);
+                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 7, 31, 12, 34, 56), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", -1);
             }
             DAOProgram lDbWorkout = new DAOProgram(this);
-            if(lDbWorkout.getCount()==0) {
+            if (lDbWorkout.getCount() == 0) {
                 lDbWorkout.populate();
             }
         }
@@ -450,11 +448,11 @@ public class MainActivity extends AppCompatActivity {
     private void exportDatabase() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
         } else {
             // Afficher une boite de dialogue pour confirmer
@@ -509,10 +507,10 @@ public class MainActivity extends AppCompatActivity {
                                 .setConfirmClickListener(sDialog -> {
                                     sDialog.dismissWithAnimation();
                                     CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                    if(cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
-                                        KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                    if (cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
+                                        KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                                     } else {
-                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT );
+                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                                     }
                                     setCurrentProfil(getCurrentProfile()); // Refresh profile
                                 })
@@ -565,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // redisplay the intro
-                    mIntro014Launched=false;
+                    mIntro014Launched = false;
 
                     // Do nothing but close the dialog
                     dialog.dismiss();
@@ -605,7 +603,7 @@ public class MainActivity extends AppCompatActivity {
         // If request is cancelled, the result arrays are empty.
         if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT) {
             if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 exportDatabase();
             } else {
@@ -632,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         newProfilBuilder.setView(input);
 
-        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+        newProfilBuilder.setPositiveButton(getActivity().getResources().getText(android.R.string.ok), (dialog, whichButton) -> {
             String value = input.getText().toString();
 
             if (value.isEmpty()) {
@@ -645,7 +643,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
+        newProfilBuilder.setNegativeButton(getActivity().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
             if (getCurrentProfile() == null) {
                 CreateNewProfil();
             }
@@ -667,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
         input.setText(getCurrentProfile().getName());
         newBuilder.setView(input);
 
-        newBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_ok), (dialog, whichButton) -> {
+        newBuilder.setPositiveButton(getActivity().getResources().getText(android.R.string.ok), (dialog, whichButton) -> {
             String value = input.getText().toString();
 
             if (!value.isEmpty()) {
@@ -682,7 +680,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        newBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_cancel), (dialog, whichButton) -> {
+        newBuilder.setNegativeButton(getActivity().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
         });
 
         newBuilder.show();
@@ -745,7 +743,7 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getSettingsFragment(), SETTINGS);
         } else if (pFragmentName.equals(MACHINES)) {
             ft.replace(R.id.fragment_container, getMachineFragment(), MACHINES);
-        }  else if (pFragmentName.equals(WORKOUTS)) {
+        } else if (pFragmentName.equals(WORKOUTS)) {
             ft.replace(R.id.fragment_container, getWorkoutListFragment(), WORKOUTS);
         } else if (pFragmentName.equals(ABOUT)) {
             ft.replace(R.id.fragment_container, getAboutFragment(), ABOUT);
@@ -786,15 +784,13 @@ public class MainActivity extends AppCompatActivity {
         if (thumbPath != null) {
             ImageUtil.setPic(roundProfile, thumbPath);
             mDrawerAdapter.getItem(0).setImg(thumbPath);
-            mDrawerAdapter.notifyDataSetChanged();
-            mDrawerLayout.invalidate();
         } else {
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person_black_24dp));
-            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person_black_24dp);
+            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
-            mDrawerAdapter.notifyDataSetChanged();
-            mDrawerLayout.invalidate();
         }
+        mDrawerAdapter.notifyDataSetChanged();
+        mDrawerLayout.invalidate();
     }
 
     private void savePhotoProfile(String path) {

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
@@ -31,11 +30,10 @@ import com.easyfitness.utils.Keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BodyPartListFragment extends Fragment {
-    ArrayList<BodyPart> dataModels;
-    ListView measureList = null;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
-    private View.OnClickListener clickAddButton = v -> {
+public class BodyPartListFragment extends Fragment {
+    private final View.OnClickListener clickAddButton = v -> {
         final EditText editText = new EditText(getContext());
         editText.setText("");
         editText.setGravity(Gravity.CENTER);
@@ -46,30 +44,31 @@ public class BodyPartListFragment extends Fragment {
         linearLayout.addView(editText);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getContext().getString(R.string.enter_bodypart_name))
-            .setCancelText(getContext().getString(R.string.global_cancel))
-            .setHideKeyBoardOnDismiss(true)
-            .setCancelClickListener(sDialog -> {
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                sDialog.dismissWithAnimation();})
-            .setConfirmClickListener(sDialog -> {
+                .setTitleText(getContext().getString(R.string.enter_bodypart_name))
+                .setCancelText(getContext().getString(android.R.string.cancel))
+                .setHideKeyBoardOnDismiss(true)
+                .setCancelClickListener(sDialog -> {
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    sDialog.dismissWithAnimation();
+                })
+                .setConfirmClickListener(sDialog -> {
 
-                editText.clearFocus();
-                Keyboard.hide(getContext(), editText);
-                DAOBodyPart daoBodyPart = new DAOBodyPart(getContext());
-                long temp_key = daoBodyPart.add(-1, editText.getText().toString(), "", daoBodyPart.getCount(), BodyPartExtensions.TYPE_MUSCLE);
+                    editText.clearFocus();
+                    Keyboard.hide(getContext(), editText);
+                    DAOBodyPart daoBodyPart = new DAOBodyPart(getContext());
+                    long temp_key = daoBodyPart.add(-1, editText.getText().toString(), "", daoBodyPart.getCount(), BodyPartExtensions.TYPE_MUSCLE);
 
-                sDialog.dismiss();
-                BodyPartDetailsFragment bodyPartDetailsFragment = BodyPartDetailsFragment.newInstance(temp_key, true);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, bodyPartDetailsFragment, MainActivity.BODYTRACKINGDETAILS);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-            });
+                    sDialog.dismiss();
+                    BodyPartDetailsFragment bodyPartDetailsFragment = BodyPartDetailsFragment.newInstance(temp_key, true);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, bodyPartDetailsFragment, MainActivity.BODYTRACKINGDETAILS);
+                    transaction.addToBackStack(null);
+                    // Commit the transaction
+                    transaction.commit();
+                });
         //Keyboard.hide(context, editText);});
         dialog.setOnShowListener(sDialog -> {
             editText.requestFocus();
@@ -80,7 +79,7 @@ public class BodyPartListFragment extends Fragment {
         dialog.show();
     };
 
-    private OnItemClickListener onClickListItem = (parent, view, position, id) -> {
+    private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
 
         TextView textView = view.findViewById(R.id.LIST_BODYPART_ID);
         long bodyPartID = Long.parseLong(textView.getText().toString());
@@ -95,6 +94,8 @@ public class BodyPartListFragment extends Fragment {
         // Commit the transaction
         transaction.commit();
     };
+    ArrayList<BodyPart> dataModels;
+    ListView measureList = null;
     private DAOBodyPart mdbBodyPart;
     private DAOBodyMeasure mdbMeasure;
     private BodyPartListAdapter mListAdapter;
@@ -158,16 +159,16 @@ public class BodyPartListFragment extends Fragment {
     }
 
     private void refreshData() {
-        if (dataModels==null) {
+        if (dataModels == null) {
             dataModels = new ArrayList<>();
         }
 
         dataModels.clear();
 
         List<BodyPart> lBodyPartList = mdbBodyPart.getMusclesList();
-        for (BodyPart bp: lBodyPartList) {
+        for (BodyPart bp : lBodyPartList) {
             BodyMeasure bm = null;
-            if (getProfile()!=null)
+            if (getProfile() != null)
                 bm = mdbMeasure.getLastBodyMeasures(bp.getId(), getProfile());
 
             bp.setLastMeasure(bm);
@@ -175,12 +176,11 @@ public class BodyPartListFragment extends Fragment {
             dataModels.add(bp);
         }
 
-        if (mListAdapter==null) {
+        if (mListAdapter == null) {
             mListAdapter = new BodyPartListAdapter(dataModels, getContext());
             mListAdapter.setProfile(getProfile());
             measureList.setAdapter(mListAdapter);
-        }
-        else {
+        } else {
             mListAdapter.notifyDataSetChanged();
         }
     }

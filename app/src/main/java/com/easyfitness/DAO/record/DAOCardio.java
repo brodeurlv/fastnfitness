@@ -3,16 +3,15 @@ package com.easyfitness.DAO.record;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.R;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.ProgramRecordStatus;
 import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
-import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.enums.ProgramRecordStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,9 +49,9 @@ public class DAOCardio extends DAORecord {
 
     public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
         return addRecord(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
-            WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
-            RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
-            restTime, ProgramRecordStatus.NONE);
+                WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
+                RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
+                restTime, ProgramRecordStatus.NONE);
     }
 
     // Getting Function records
@@ -69,39 +68,39 @@ public class DAOCardio extends DAORecord {
 
         if (pFunction == DAOCardio.DISTANCE_FCT) {
             selectQuery = "SELECT SUM(" + DISTANCE + "), " + LOCAL_DATE + " FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + LOCAL_DATE
-                + " ORDER BY " + DATE_TIME + " ASC";
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.DURATION_FCT) {
             selectQuery = "SELECT SUM(" + DURATION + ") , " + LOCAL_DATE + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + LOCAL_DATE
-                + " ORDER BY " + DATE_TIME + " ASC";
+                    + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.SPEED_FCT) {
             selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + LOCAL_DATE + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + LOCAL_DATE
-                + " ORDER BY " + DATE_TIME + " ASC";
+                    + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
             selectQuery = "SELECT MAX(" + DISTANCE + ") , " + LOCAL_DATE + " FROM "
-                + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
-                + " GROUP BY " + LOCAL_DATE
-                + " ORDER BY " + DATE_TIME + " ASC";
+                    + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
         }
         // case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
         // "*" + WEIGHT +") FROM " + TABLE_NAME + " WHERE " + EXERCISE + "=\"" +
@@ -110,7 +109,7 @@ public class DAOCardio extends DAORecord {
         // break;
 
         // Formation de tableau de valeur
-        List<GraphData> valueList = new ArrayList<GraphData>();
+        List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.rawQuery(selectQuery, null);
@@ -123,7 +122,7 @@ public class DAOCardio extends DAORecord {
                 Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
                 GraphData value = new GraphData(DateConverter.nbDays(date),
-                    mCursor.getDouble(0));
+                        mCursor.getDouble(0));
 
                 // Adding value to list
                 valueList.add(value);

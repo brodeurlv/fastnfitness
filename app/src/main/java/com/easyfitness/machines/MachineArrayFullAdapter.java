@@ -15,8 +15,6 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-
 /**
  * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
  * de jonction de table
@@ -30,7 +28,7 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
     }
 
     public boolean containsExercise(String exerciseName) {
-        for (int i = 0;i<this.getCount();i++) {
+        for (int i = 0; i < this.getCount(); i++) {
             if (this.getItem(i).getName().equals(exerciseName)) {
                 return true;
             }

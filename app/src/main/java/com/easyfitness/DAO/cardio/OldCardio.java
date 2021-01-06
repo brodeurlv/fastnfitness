@@ -6,13 +6,13 @@ import java.util.Date;
 
 /* DataBase Object */
 public class OldCardio {
+    private final Date mDate;
+    private final String mExercice;
+    private final float mDistance;
+    private final long mDuration;
+    private final Profile mProfile;
     // Notez que l'identifiant est un long
     private long id;
-    private Date mDate;
-    private String mExercice;
-    private float mDistance;
-    private long mDuration;
-    private Profile mProfile;
 
     public OldCardio(Date pDate, String pExercice, float pDistance, long pDuration, Profile pProfile) {
         super();

@@ -8,7 +8,7 @@ public enum DisplayType {
     PROGRAM_EDIT_DISPLAY;
 
     public static DisplayType fromInteger(int x) {
-        switch(x) {
+        switch (x) {
             case 0:
                 return FREE_WORKOUT_DISPLAY;
             case 1:

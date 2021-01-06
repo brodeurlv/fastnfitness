@@ -29,7 +29,7 @@ public class DAOBodyMeasure extends DAOBase {
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-    private Profile mProfile = null;
+    private final Profile mProfile = null;
     private Cursor mCursor = null;
 
     public DAOBodyMeasure(Context context) {
@@ -37,10 +37,10 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     /**
-     * @param pDate           date of the weight measure
+     * @param pDate       date of the weight measure
      * @param pBodyPartId id of the body part
-     * @param pMeasure        body measure
-     * @param pProfileId      profil associated with the measure
+     * @param pMeasure    body measure
+     * @param pProfileId  profil associated with the measure
      */
     public void addBodyMeasure(Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -49,7 +49,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         // Only one measure pr day, so if one already existing, updates it.
         BodyMeasure existingBodyMeasure = getBodyMeasuresFromDate(pBodyPartId, pDate, pProfileId);
-        if (existingBodyMeasure==null) {
+        if (existingBodyMeasure == null) {
 
             String dateString = DateConverter.dateToDBDateStr(pDate);
             value.put(DAOBodyMeasure.DATE, dateString);
@@ -76,21 +76,21 @@ public class DAOBodyMeasure extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT},
-            KEY + "=?",
-            new String[]{String.valueOf(id)},
-            null, null, null, null);
+                new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT},
+                KEY + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
         Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
         BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-            date,
-            mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
-            mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-            mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
-            Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
+                date,
+                mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
+                mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
+                Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
         );
 
         db.close();
@@ -113,11 +113,11 @@ public class DAOBodyMeasure extends DAOBase {
                 Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
                 BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                    date,
-                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
-                    mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-                    mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
-                    Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
+                        date,
+                        mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                        mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
+                        mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
+                        Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
                 );
 
                 // Adding value to list
@@ -156,7 +156,7 @@ public class DAOBodyMeasure extends DAOBase {
      * @return List<BodyMeasure>
      */
     public List<BodyMeasure> getBodyPartMeasuresListTop4(long pBodyPartID, Profile pProfile) {
-        if (pProfile==null) return null;
+        if (pProfile == null) return null;
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
         return getMeasuresList(getReadableDatabase(), selectQuery);
     }
@@ -168,13 +168,14 @@ public class DAOBodyMeasure extends DAOBase {
      * @return List<BodyMeasure>
      */
     public List<BodyMeasure> getBodyMeasuresList(Profile pProfile) {
-        if (pProfile==null) return null;
+        if (pProfile == null) return null;
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
         return getMeasuresList(getReadableDatabase(), selectQuery);
     }
 
     /**
      * Getting All Measures
+     *
      * @return List<BodyMeasure>
      */
     public List<BodyMeasure> getAllBodyMeasures() {
@@ -241,14 +242,14 @@ public class DAOBodyMeasure extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Measure
     public void deleteMeasure(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-            new String[]{String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
     // Getting Profils Count

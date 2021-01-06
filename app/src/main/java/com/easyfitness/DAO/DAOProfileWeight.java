@@ -65,20 +65,19 @@ public class DAOProfileWeight extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, DATE, POIDS, PROFIL_KEY},
-            KEY + "=?",
-            new String[]{String.valueOf(id)},
-            null, null, null, null);
+                new String[]{KEY, DATE, POIDS, PROFIL_KEY},
+                KEY + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null, null);
         if (mCursor != null)
             mCursor.moveToFirst();
 
-        Date date;
-        date = DateConverter.DBDateStrToDate(mCursor.getString(1));
+        Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
 
         ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
-            date,
-            mCursor.getFloat(2),
-            mCursor.getLong(3)
+                date,
+                mCursor.getFloat(2),
+                mCursor.getLong(3)
         );
 
         db.close();
@@ -93,10 +92,10 @@ public class DAOProfileWeight extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, DATE, POIDS, PROFIL_KEY},
-            PROFIL_KEY + "=?",
-            new String[]{String.valueOf(mProfile.getId())},
-            null, null, DATE + " desc, " + KEY + " desc", null);
+                new String[]{KEY, DATE, POIDS, PROFIL_KEY},
+                PROFIL_KEY + "=?",
+                new String[]{String.valueOf(mProfile.getId())},
+                null, null, DATE + " desc, " + KEY + " desc", null);
 
         if (mCursor != null)
             mCursor.moveToFirst();
@@ -112,9 +111,9 @@ public class DAOProfileWeight extends DAOBase {
         }
 
         ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
-            date,
-            mCursor.getFloat(2),
-            mCursor.getLong(3)
+                date,
+                mCursor.getFloat(2),
+                mCursor.getLong(3)
         );
 
         db.close();
@@ -146,9 +145,9 @@ public class DAOProfileWeight extends DAOBase {
                 }
 
                 ProfileWeight value = new ProfileWeight(mCursor.getLong(0),
-                    date,
-                    mCursor.getFloat(2),
-                    mCursor.getLong(3)
+                        date,
+                        mCursor.getFloat(2),
+                        mCursor.getLong(3)
                 );
 
                 // Adding value to list
@@ -158,10 +157,6 @@ public class DAOProfileWeight extends DAOBase {
 
         // return value list
         return valueList;
-    }
-
-    public Cursor GetCursor() {
-        return mCursor;
     }
 
     // Getting All Measures
@@ -184,7 +179,7 @@ public class DAOProfileWeight extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Measure
@@ -196,7 +191,7 @@ public class DAOProfileWeight extends DAOBase {
     public void deleteMeasure(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-            new String[]{String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
     // Getting Profils Count

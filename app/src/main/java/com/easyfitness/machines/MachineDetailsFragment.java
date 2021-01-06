@@ -27,9 +27,9 @@ import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAORecord;
-import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
@@ -51,7 +51,7 @@ import java.util.List;
 
 
 public class MachineDetailsFragment extends Fragment {
-    protected List<String> _musclesArray = new ArrayList<String>();
+    protected List<String> _musclesArray = new ArrayList<>();
     protected boolean[] _selections;
     TextView musclesList = null;
     EditableInputView machineName = null;
@@ -73,7 +73,15 @@ public class MachineDetailsFragment extends Fragment {
     View fragmentView = null;
 
     ImageUtil imgUtil = null;
+    private final OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
     boolean isCreateMuscleDialogActive = false;
+    private final OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
+    private final OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
+        if (arg1) {
+            CreateMuscleDialog();
+        }
+    };
     String mCurrentPhotoPath = null;
     public TextWatcher watcher = new TextWatcher() {
         @Override
@@ -91,18 +99,7 @@ public class MachineDetailsFragment extends Fragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
-    private OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
-        if (arg1) {
-            CreateMuscleDialog();
-        }
-    };
-    private EditableInputView.OnTextChangedListener textChangeListener= view -> {
-        requestForSave();
-    };
-
+    private final EditableInputView.OnTextChangedListener textChangeListener = view -> requestForSave();
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -174,7 +171,7 @@ public class MachineDetailsFragment extends Fragment {
                         float photoH = bmOptions.outHeight;
 
                         // Determine how much to scale down the image
-                        int scaleFactor = (int) (photoW / (machinePhoto.getWidth())); //Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        int scaleFactor = (int) (photoW / machinePhoto.getWidth());//Math.min(photoW/targetW, photoH/targetH);machinePhoto.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                         machinePhoto.setAdjustViewBounds(true);
                         machinePhoto.setMaxHeight((int) (photoH / scaleFactor));
                         machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -187,7 +184,7 @@ public class MachineDetailsFragment extends Fragment {
         mMachine = mDbMachine.getMachine(machineIdArg);
         machineNameArg = mMachine.getName();
 
-        if (machineNameArg.equals("")) {
+        if (machineNameArg.isEmpty()) {
             machineName.setText("Default exercise");
         } else {
             machineName.setText(machineNameArg);
@@ -221,9 +218,9 @@ public class MachineDetailsFragment extends Fragment {
                     if (mMachine.getType() == ExerciseType.STRENGTH) {
                         imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
                     } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
                     } else {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
                     }
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
@@ -239,9 +236,9 @@ public class MachineDetailsFragment extends Fragment {
             if (mMachine.getType() == ExerciseType.STRENGTH) {
                 imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
             } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static));
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
             } else {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_white_50dp));
+                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
             }
             machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;
@@ -266,7 +263,7 @@ public class MachineDetailsFragment extends Fragment {
         AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
 
         newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[_musclesArray.size()]), _selections, (arg0, arg1, arg2) -> {
+        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[0]), _selections, (arg0, arg1, arg2) -> {
             if (arg2) {
                 // If user select a item then add it in selected items
                 selectMuscleList.add(arg1);
@@ -277,7 +274,7 @@ public class MachineDetailsFragment extends Fragment {
         });
 
         // Set an EditText view to get user input
-        newMuscleBuilder.setPositiveButton(getResources().getString(R.string.global_ok), (dialog, whichButton) -> {
+        newMuscleBuilder.setPositiveButton(getResources().getString(android.R.string.ok), (dialog, whichButton) -> {
             StringBuilder msg = new StringBuilder();
             int i = 0;
             boolean firstSelection = true;
@@ -296,7 +293,7 @@ public class MachineDetailsFragment extends Fragment {
 
             isCreateMuscleDialogActive = false;
         });
-        newMuscleBuilder.setNegativeButton(getResources().getString(R.string.global_cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
+        newMuscleBuilder.setNegativeButton(getResources().getString(android.R.string.cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
 
         newMuscleBuilder.show();
 
@@ -325,8 +322,7 @@ public class MachineDetailsFragment extends Fragment {
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
 
                     ImageUtil.setPic(machinePhoto, realPath);
                     ImageUtil.saveThumb(realPath);
@@ -338,8 +334,7 @@ public class MachineDetailsFragment extends Fragment {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == Activity.RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    String realPath;
-                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+                    String realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
 
                     // Le fichier est crée dans le cache.
                     // Déplacer le fichier dans le repertoire de FastNFitness
@@ -409,7 +404,7 @@ public class MachineDetailsFragment extends Fragment {
 
         Collections.sort(_musclesArray);
 
-         _selections = new boolean[_musclesArray.size()];
+        _selections = new boolean[_musclesArray.size()];
     }
 
     /*
@@ -469,12 +464,12 @@ public class MachineDetailsFragment extends Fragment {
                 if (data[0].isEmpty()) return "";
 
                 if (!data[i].equals("-1")) {
-                    output = new StringBuilder(getMuscleNameFromId(Integer.valueOf(data[i])));
-                    _selections[Integer.valueOf(data[i])] = true;
+                    output = new StringBuilder(getMuscleNameFromId(Integer.parseInt(data[i])));
+                    _selections[Integer.parseInt(data[i])] = true;
                     for (i = 1; i < data.length; i++) {
                         if (!data[i].equals("-1")) {
-                            output.append(";").append(getMuscleNameFromId(Integer.valueOf(data[i])));
-                            _selections[Integer.valueOf(data[i])] = true;
+                            output.append(";").append(getMuscleNameFromId(Integer.parseInt(data[i])));
+                            _selections[Integer.parseInt(data[i])] = true;
                         }
                     }
                 }
@@ -491,7 +486,7 @@ public class MachineDetailsFragment extends Fragment {
         Machine m = new Machine(machineName.getText(),
                 machineDescription.getText(),
                 selectedType,
-                getDBStringFromInput(musclesList.getText().toString()),mCurrentPhotoPath,mMachine.getFavorite());
+                getDBStringFromInput(musclesList.getText().toString()), mCurrentPhotoPath, mMachine.getFavorite());
         m.setId(mMachine.getId());
         /*m.setName(machineName.getText());
         m.setDescription(machineDescription.getText());
@@ -509,7 +504,7 @@ public class MachineDetailsFragment extends Fragment {
         final String lMachineName = newMachine.getName(); // Potentiel nouveau nom dans le EditText
 
         // Si le nom est different du nom actuel
-        if (lMachineName.equals("")) {
+        if (lMachineName.isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.name_is_required).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         } else if (!initialMachine.getName().equals(lMachineName)) {
             final Machine machineWithSameName = mDbMachine.getMachine(lMachineName);
@@ -578,7 +573,7 @@ public class MachineDetailsFragment extends Fragment {
             result = true;
         }
 
-        if(result) {
+        if (result) {
             mMachine = newMachine;
         }
 

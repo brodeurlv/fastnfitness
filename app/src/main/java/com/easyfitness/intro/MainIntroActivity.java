@@ -46,40 +46,40 @@ public class MainIntroActivity extends IntroActivity {
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         addSlide(new SimpleSlide.Builder()
-            .title(R.string.introSlide1Title)
-            .description(R.string.introSlide1Text)
-            .image(R.drawable.web_hi_res_512)
-            .background(R.color.launcher_background)
-            .backgroundDark(R.color.launcher_background)
-            .scrollable(true)
-            .build());
+                .title(R.string.introSlide1Title)
+                .description(R.string.introSlide1Text)
+                .image(R.drawable.web_hi_res_512)
+                .background(R.color.launcher_background)
+                .backgroundDark(R.color.launcher_background)
+                .scrollable(true)
+                .build());
 
         addSlide(new SimpleSlide.Builder()
-            .title(R.string.introSlide2Title)
-            .description(R.string.introSlide2Text)
-            .image(R.drawable.bench_hi_res_512)
-            .background(R.color.launcher_background)
-            .backgroundDark(R.color.launcher_background)
-            .scrollable(true)
-            .build());
+                .title(R.string.introSlide2Title)
+                .description(R.string.introSlide2Text)
+                .image(R.drawable.bench_hi_res_512)
+                .background(R.color.launcher_background)
+                .backgroundDark(R.color.launcher_background)
+                .scrollable(true)
+                .build());
 
         addSlide(new SimpleSlide.Builder()
-            .title(R.string.titleSlideEssential)
-            .description(R.string.textSlideEssential)
-            .image(R.drawable.idea_hi_res_485)
-            .background(R.color.launcher_background)
-            .backgroundDark(R.color.launcher_background)
-            .scrollable(true)
-            .build());
+                .title(R.string.titleSlideEssential)
+                .description(R.string.textSlideEssential)
+                .image(R.drawable.idea_hi_res_485)
+                .background(R.color.launcher_background)
+                .backgroundDark(R.color.launcher_background)
+                .scrollable(true)
+                .build());
 
         addSlide(new SimpleSlide.Builder()
-            .title(R.string.titleSlideOpenSource)
-            .description(R.string.textSlideOpenSource)
-            .image(R.drawable.group_hi_res_512)
-            .background(R.color.launcher_background)
-            .backgroundDark(R.color.launcher_background)
-            .scrollable(true)
-            .build());
+                .title(R.string.titleSlideOpenSource)
+                .description(R.string.textSlideOpenSource)
+                .image(R.drawable.group_hi_res_512)
+                .background(R.color.launcher_background)
+                .backgroundDark(R.color.launcher_background)
+                .scrollable(true)
+                .build());
 
 /*
         final Slide permissionsSlide;
@@ -105,13 +105,12 @@ public class MainIntroActivity extends IntroActivity {
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
         if (mDbProfils.getCount() == 0) {
-            final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
-            profileSlide = new FragmentSlide.Builder()
-                .background(R.color.launcher_background)
-                .backgroundDark(R.color.launcher_background)
-                .fragment(NewProfileFragment.newInstance())
-                .build();
+            final Slide profileSlide = new FragmentSlide.Builder()
+                    .background(R.color.launcher_background)
+                    .backgroundDark(R.color.launcher_background)
+                    .fragment(NewProfileFragment.newInstance())
+                    .build();
             addSlide(profileSlide);
         }
     }

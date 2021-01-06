@@ -9,7 +9,7 @@ public class Keyboard {
 
     public static void hide(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if ( imm !=null)
+        if (imm != null)
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

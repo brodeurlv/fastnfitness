@@ -11,9 +11,9 @@ import java.util.Date;
 
 public class CustomExceptionHandler implements UncaughtExceptionHandler {
 
-    private UncaughtExceptionHandler defaultUEH;
+    private final UncaughtExceptionHandler defaultUEH;
 
-    private String localPath;
+    private final String localPath;
 
     //private String url;
 
@@ -52,7 +52,7 @@ public class CustomExceptionHandler implements UncaughtExceptionHandler {
     private void writeToFile(String stacktrace, String filename) {
         try {
             BufferedWriter bos = new BufferedWriter(new FileWriter(
-                localPath + "/" + filename));
+                    localPath + "/" + filename));
             bos.write(stacktrace);
             bos.flush();
             bos.close();

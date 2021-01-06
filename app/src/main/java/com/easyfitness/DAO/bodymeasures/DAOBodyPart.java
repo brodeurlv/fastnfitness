@@ -22,7 +22,7 @@ public class DAOBodyPart extends DAOBase {
     public static final String DISPLAY_ORDER = "display_order";
     public static final String TYPE = "type"; // Muscles or Body weight
 
-    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BODYPART_RESID + " INTEGER, " + CUSTOM_NAME + " TEXT, " + CUSTOM_PICTURE + " TEXT, "+ DISPLAY_ORDER + " INTEGER, " + TYPE + " INTEGER);";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BODYPART_RESID + " INTEGER, " + CUSTOM_NAME + " TEXT, " + CUSTOM_PICTURE + " TEXT, " + DISPLAY_ORDER + " INTEGER, " + TYPE + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     private Cursor mCursor = null;
@@ -32,7 +32,6 @@ public class DAOBodyPart extends DAOBase {
     }
 
     public long add(int pBodyPartId, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
-        long new_id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
@@ -43,9 +42,9 @@ public class DAOBodyPart extends DAOBase {
         value.put(DAOBodyPart.DISPLAY_ORDER, pDisplay);
         value.put(DAOBodyPart.TYPE, pType);
 
-        new_id = db.insert(DAOBodyPart.TABLE_NAME, null, value);
+        long new_id = db.insert(DAOBodyPart.TABLE_NAME, null, value);
         db.close(); // Closing database connection
-        return  new_id;
+        return new_id;
     }
 
     // Getting single value
@@ -54,20 +53,20 @@ public class DAOBodyPart extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, BODYPART_RESID, CUSTOM_NAME, CUSTOM_PICTURE, DISPLAY_ORDER, TYPE},
-            KEY + "=?",
-            new String[]{String.valueOf(id)},
-            null, null, null, null);
+                new String[]{KEY, BODYPART_RESID, CUSTOM_NAME, CUSTOM_PICTURE, DISPLAY_ORDER, TYPE},
+                KEY + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null, null);
         BodyPart value = null;
-        if (mCursor != null && mCursor.getCount()!=0) {
+        if (mCursor != null && mCursor.getCount() != 0) {
             mCursor.moveToFirst();
 
             value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
-                mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
-                mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
-                mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
-                mCursor.getInt(mCursor.getColumnIndex(TYPE))
+                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
+                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
+                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
+                    mCursor.getInt(mCursor.getColumnIndex(TYPE))
             );
         }
 
@@ -82,20 +81,20 @@ public class DAOBodyPart extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-            new String[]{KEY, BODYPART_RESID, CUSTOM_NAME, CUSTOM_PICTURE, DISPLAY_ORDER, TYPE},
-            BODYPART_RESID + "=?",
-            new String[]{String.valueOf(bodyPartKey)},
-            null, null, null, null);
+                new String[]{KEY, BODYPART_RESID, CUSTOM_NAME, CUSTOM_PICTURE, DISPLAY_ORDER, TYPE},
+                BODYPART_RESID + "=?",
+                new String[]{String.valueOf(bodyPartKey)},
+                null, null, null, null);
         BodyPart value = null;
-        if (mCursor != null && mCursor.getCount()!=0) {
+        if (mCursor != null && mCursor.getCount() != 0) {
             mCursor.moveToFirst();
 
             value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
-                mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
-                mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
-                mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
-                mCursor.getInt(mCursor.getColumnIndex(TYPE))
+                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
+                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
+                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
+                    mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
+                    mCursor.getInt(mCursor.getColumnIndex(TYPE))
             );
         }
 
@@ -107,12 +106,12 @@ public class DAOBodyPart extends DAOBase {
 
     // Getting All Measures
     public List<BodyPart> getList() {
-        return getList("SELECT * FROM " + TABLE_NAME  + " ORDER BY " + DISPLAY_ORDER + " ASC");
+        return getList("SELECT * FROM " + TABLE_NAME + " ORDER BY " + DISPLAY_ORDER + " ASC");
     }
 
     // Getting All Measures
     public List<BodyPart> getMusclesList() {
-        return getList("SELECT * FROM " + TABLE_NAME  + " WHERE " + TYPE + "=" + BodyPartExtensions.TYPE_MUSCLE +  " ORDER BY " + DISPLAY_ORDER + " ASC");
+        return getList("SELECT * FROM " + TABLE_NAME + " WHERE " + TYPE + "=" + BodyPartExtensions.TYPE_MUSCLE + " ORDER BY " + DISPLAY_ORDER + " ASC");
     }
 
     // Getting All Measures
@@ -127,12 +126,12 @@ public class DAOBodyPart extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(this.KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(this.BODYPART_RESID)),
-                    mCursor.getString(mCursor.getColumnIndex(this.CUSTOM_NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(this.CUSTOM_PICTURE)),
-                    mCursor.getInt(mCursor.getColumnIndex(this.DISPLAY_ORDER)),
-                    mCursor.getInt(mCursor.getColumnIndex(this.TYPE))
+                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+                        mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
+                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
+                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
+                        mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
+                        mCursor.getInt(mCursor.getColumnIndex(TYPE))
                 );
 
                 // Adding value to list
@@ -161,14 +160,14 @@ public class DAOBodyPart extends DAOBase {
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
-            new String[]{String.valueOf(m.getId())});
+                new String[]{String.valueOf(m.getId())});
     }
 
     // Deleting single Measure
     public void delete(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY + " = ?",
-            new String[]{String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
     // Getting Profils Count
@@ -191,8 +190,8 @@ public class DAOBodyPart extends DAOBase {
      */
     public void deleteAllEmptyBodyPart() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, this.BODYPART_RESID + "=? " + " AND " + this.CUSTOM_NAME + "=?",
-            new String[]{"-1", ""});
+        db.delete(TABLE_NAME, BODYPART_RESID + "=? " + " AND " + CUSTOM_NAME + "=?",
+                new String[]{"-1", ""});
         db.close();
     }
 

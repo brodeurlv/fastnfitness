@@ -3,8 +3,6 @@
     <string name="global_confirm">Confirmar</string>
     <string name="global_confirm_question">¿Estás seguro?</string>
     <string name="global_warning">Aviso</string>
-    <string name="global_cancel">Cancelar</string>
-    <string name="global_ok">Aceptar</string>
     <string name="global_yes">Sí</string>
     <string name="global_no">No</string>
 

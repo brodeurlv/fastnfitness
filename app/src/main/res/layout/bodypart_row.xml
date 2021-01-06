@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="6dip">
 
@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone" />
+
     <ImageView
         android:id="@+id/LIST_BODYPART_LOGO"
         android:layout_width="45dp"
@@ -18,51 +19,51 @@
         android:layout_marginEnd="6dip"
         android:background="@color/record_background_even"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_fitness_center_white_24dp" />
+        android:src="@drawable/ic_fitness_center" />
 
     <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:padding="0dip"
-            android:weightSum="100">
-
-    <TextView
-        android:id="@+id/LIST_BODYPART"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="25"
-        android:gravity="center_vertical"
-        tools:text="Example Body Part"
-        android:textSize="16sp" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/LIST_BODYPART_MINIGRAPH"
-        style="@style/MiniLineChart"
-        android:layout_weight="35"
-        android:layout_width="match_parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_weight="40"
-        android:orientation="vertical">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:padding="0dip"
+        android:weightSum="100">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/lastRecordLabel"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/LIST_BODYPART_LASTRECORD"
+            android:id="@+id/LIST_BODYPART"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            tools:text="50 cm"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:layout_weight="25"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            tools:text="Example Body Part" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/LIST_BODYPART_MINIGRAPH"
+            style="@style/MiniLineChart"
+            android:layout_width="match_parent"
+            android:layout_weight="35" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_weight="40"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/lastRecordLabel"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/LIST_BODYPART_LASTRECORD"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                tools:text="50 cm" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

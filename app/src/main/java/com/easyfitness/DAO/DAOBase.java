@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DAOBase {
 
+    private final DatabaseHelper dbHelper;
     private SQLiteDatabase database;
-    private DatabaseHelper dbHelper;
 
     public DAOBase(Context context) {
         dbHelper = DatabaseHelper.getInstance(context);

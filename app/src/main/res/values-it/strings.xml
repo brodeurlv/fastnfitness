@@ -4,8 +4,6 @@
     <string name="global_confirm">Conferma</string>
     <string name="global_confirm_question">Sei sicuro/a?</string>
     <string name="global_warning">Attenzione</string>
-    <string name="global_cancel">Annulla</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Si</string>
     <string name="global_no">No</string>
 
@@ -291,7 +289,7 @@
     <string name="strength_category">Forza</string>
 
     <string name="automatic_date_time">Data e ora automatica</string>
-	<string name="enter_workout_name">Inserisci nome programma</string>
+    <string name="enter_workout_name">Inserisci nome programma</string>
     <string name="workout_list_menu_item">Lista programmi</string>
     <string name="finish_program">Completa programma</string>
     <string name="start_program">Inizia programma</string>

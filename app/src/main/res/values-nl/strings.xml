@@ -3,8 +3,6 @@
     <string name="global_confirm">Bevestig</string>
     <string name="global_confirm_question">Weet je het zeker?</string>
     <string name="global_warning">Waarschuwing</string>
-    <string name="global_cancel">Annuleer</string>
-    <string name="global_ok">Ok</string>
     <string name="global_yes">Ja</string>
     <string name="global_no">Nee</string>
 

@@ -183,7 +183,7 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/global_cancel"
+            android:text="@android:string/cancel"
             android:textColor="@color/background"
             android:textStyle="bold" />
 
@@ -196,7 +196,7 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/global_ok"
+            android:text="@android:string/ok"
             android:textColor="@color/background"
             android:textStyle="bold" />
 

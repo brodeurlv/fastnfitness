@@ -38,9 +38,9 @@ import com.easyfitness.ValueEditorDialogbox;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.EditableInputView;
-import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.views.GraphView;
 import com.github.mikephil.charting.data.Entry;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -51,6 +51,7 @@ import java.util.List;
 
 
 public class BodyPartDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+    private final String mCurrentPhotoPath = null;
     private TextView addButton = null;
     private EditableInputView nameEdit = null;
     private ExpandedListView measureList = null;
@@ -59,33 +60,32 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private DAOBodyMeasure mBodyMeasureDb = null;
     private DAOBodyPart mDbBodyPart;
     private BodyPart mInitialBodyPart;
-    private String mCurrentPhotoPath = null;
-
-    private BtnClickListener itemClickDeleteRecord = view -> {
+    private final EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
+    private ProfileViMo profileViMo;
+    private final BtnClickListener itemClickDeleteRecord = view -> {
         switch (view.getId()) {
             case R.id.deleteButton:
-                showDeleteDialog((long)view.getTag());
+                showDeleteDialog((long) view.getTag());
                 break;
             case R.id.editButton:
-                showEditDialog((long)view.getTag());
+                showEditDialog((long) view.getTag());
                 break;
 
         }
     };
-    private OnClickListener onClickAddMeasure = new OnClickListener() {
+    private final OnClickListener onClickAddMeasure = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            ValueEditorDialogbox editorDialogbox;
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
             double lastValue;
             if (lastBodyMeasure == null) {
-                lastValue=0;
+                lastValue = 0;
             } else {
-                lastValue=lastBodyMeasure.getBodyMeasure();
+                lastValue = lastBodyMeasure.getBodyMeasure();
             }
             Unit unitDef = getValidUnit(lastBodyMeasure);
 
-            editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
+            ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
             editorDialogbox.setOnDismissListener(dialog -> {
@@ -100,9 +100,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             editorDialogbox.show();
         }
     };
-    private ProfileViMo profileViMo;
-
-    private OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
+    private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         // Get the cursor, positioned to the corresponding row in the result set
         //Cursor cursor = (Cursor) listView.getItemAtPosition(position);
@@ -115,23 +113,24 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(getActivity());
         itemActionBuilder.setTitle("").setItems(profilListArray, (dialog, which) -> {
 
-            switch (which) {
-                // Delete
-                case 0:
-                    mBodyMeasureDb.deleteMeasure(selectedID);
-                    refreshData();
-                    KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                    break;
-                default:
+            // Delete
+            if (which == 0) {
+                mBodyMeasureDb.deleteMeasure(selectedID);
+                refreshData();
+                KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.removedid).toString() + " " + selectedID, Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
         });
         itemActionBuilder.show();
 
         return true;
     };
-
+    private final View.OnClickListener onClickToolbarItem = v -> {
+        // Handle presses on the action bar items
+        if (v.getId() == R.id.deleteButton) {
+            delete();
+        }
+    };
     private ImageButton deleteButton;
-    private EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
     private TextView editDate;
     private EditText editText;
     private ImageView bodyPartImageView;
@@ -151,15 +150,6 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         return f;
     }
-
-    private View.OnClickListener onClickToolbarItem = v -> {
-        // Handle presses on the action bar items
-        switch (v.getId()) {
-            case R.id.deleteButton:
-                delete();
-                break;
-        }
-    };
 
     private void delete() {
         // afficher un message d'alerte
@@ -225,7 +215,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             addButton.setVisibility(View.VISIBLE);
         }*/
 
-        if (mInitialBodyPart.getBodyPartResKey()!=-1) {
+        if (mInitialBodyPart.getBodyPartResKey() != -1) {
             bodyPartImageView.setVisibility(View.VISIBLE);
             bodyPartImageView.setImageDrawable(mInitialBodyPart.getPicture(getContext()));
         } else {
@@ -234,7 +224,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         }
 
         /* Initialisation des boutons */
-        if (mInitialBodyPart.getType()==BodyPartExtensions.TYPE_WEIGHT) {
+        if (mInitialBodyPart.getType() == BodyPartExtensions.TYPE_WEIGHT) {
             nameEdit.ActivateDialog(false);
         }
         nameEdit.setOnTextChangeListener(onTextChangeListener);
@@ -252,7 +242,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
-        if(mInitialBodyPart.getType()== BodyPartExtensions.TYPE_WEIGHT) {
+        if (mInitialBodyPart.getType() == BodyPartExtensions.TYPE_WEIGHT) {
             deleteButton.setVisibility(View.GONE); // Weight bodypart should not be deleted.
         }
 
@@ -287,15 +277,15 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float normalizedMeasure;
-            switch (valueList.get(i).getUnit().getUnitType()){
+            switch (valueList.get(i).getUnit().getUnitType()) {
                 case WEIGHT:
-                    normalizedMeasure =UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(),SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
                     break;
                 case SIZE:
-                    normalizedMeasure =UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure(),valueList.get(i).getUnit(),SettingsFragment.getDefaultSizeUnit(getActivity()));
+                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
                     break;
                 default:
-                    normalizedMeasure=valueList.get(i).getBodyMeasure();
+                    normalizedMeasure = valueList.get(i).getBodyMeasure();
             }
 
             Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), normalizedMeasure);
@@ -352,7 +342,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     mBodyMeasureDb.deleteMeasure(idToDelete);
                     refreshData();
                     Toast.makeText(getActivity(), getResources().getText(R.string.removedid) + " " + idToDelete, Toast.LENGTH_SHORT)
-                        .show();
+                            .show();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -363,7 +353,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(getResources().getText(R.string.DeleteRecordDialog)).setPositiveButton(getResources().getText(R.string.global_yes), dialogClickListener)
-            .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
+                .setNegativeButton(getResources().getText(R.string.global_no), dialogClickListener).show();
     }
 
     private void showEditDialog(final long idToEdit) {
@@ -427,13 +417,12 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private Unit getValidUnit(BodyMeasure lastBodyMeasure) {
         UnitType unitType = BodyPartExtensions.getUnitType(mInitialBodyPart.getBodyPartResKey());
         if (lastBodyMeasure != null) {
-            if (unitType!=lastBodyMeasure.getUnit().getUnitType())
-            {
-                lastBodyMeasure=null;
+            if (unitType != lastBodyMeasure.getUnit().getUnitType()) {
+                lastBodyMeasure = null;
             }
         }
 
-        Unit unitDef=Unit.UNITLESS;
+        Unit unitDef = Unit.UNITLESS;
         if (lastBodyMeasure == null) {
             switch (unitType) {
                 case WEIGHT:
@@ -446,9 +435,8 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     unitDef = Unit.PERCENTAGE;
                     break;
             }
-        }
-        else {
-            unitDef=lastBodyMeasure.getUnit();
+        } else {
+            unitDef = lastBodyMeasure.getUnit();
         }
         return unitDef;
     }
