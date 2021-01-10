@@ -30,6 +30,8 @@ import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.UnitType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.BarGraph;
 import com.easyfitness.graph.DateGraph;
@@ -244,15 +246,27 @@ public class FonteGraphFragment extends Fragment {
         ArrayList<BarEntry> yBarVals = new ArrayList<>();
         String desc = "";
 
+        UnitType unitType = UnitType.NONE;
+
         if (m.getType() == ExerciseType.STRENGTH) {
             if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep1))) {
                 lDAOFunction = DAOFonte.MAX1_FCT;
+                unitType = UnitType.WEIGHT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxRep5d))) {
                 lDAOFunction = DAOFonte.MAX5_FCT;
+                unitType = UnitType.WEIGHT;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.sum))) {
                 lDAOFunction = DAOFonte.SUM_FCT;
+                unitType = UnitType.WEIGHT;
+            } else if (lFunction.equals(mActivity.getResources().getString(R.string.sumReps))) {
+                lDAOFunction = DAOFonte.TOTAL_REP_FCT;
+                unitType = UnitType.NONE;
+            } else if (lFunction.equals(mActivity.getResources().getString(R.string.maxReps))) {
+                lDAOFunction = DAOFonte.MAX_REP_FCT;
+                unitType = UnitType.NONE;
             } else if (lFunction.equals(mActivity.getResources().getString(R.string.oneRepMax))) {
                 lDAOFunction = DAOFonte.ONEREPMAX_FCT;
+                unitType = UnitType.WEIGHT;
             }
             // Recupere les enregistrements
             List<GraphData> valueList = mDbFonte.getBodyBuildingFunctionRecords(getProfile(), lMachine, lDAOFunction);
@@ -262,13 +276,19 @@ public class FonteGraphFragment extends Fragment {
                 return;
             }
 
-            WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
-
-            for (int i = 0; i < valueList.size(); i++) {
+            if (unitType==UnitType.WEIGHT) {
+                WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
                 desc = lMachine + "/" + lFunction + "(" + defaultUnit.toString() + ")";
-                Entry value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));//-minDate)/86400000));
-
-                yVals.add(value);
+                for (int i = 0; i < valueList.size(); i++) {
+                    Entry value = new Entry((float) valueList.get(i).getX(), UnitConverter.weightConverter((float) valueList.get(i).getY(), WeightUnit.KG, defaultUnit));
+                    yVals.add(value);
+                }
+            } else if (unitType==UnitType.NONE)  {
+                desc = lMachine + "/" + lFunction;
+                for (int i = 0; i < valueList.size(); i++) {
+                    Entry value = new Entry((float) valueList.get(i).getX(), (float) valueList.get(i).getY());
+                    yVals.add(value);
+                }
             }
 
             mBarGraph.getChart().setVisibility(View.GONE);
@@ -333,10 +353,7 @@ public class FonteGraphFragment extends Fragment {
             // Recupere les enregistrements
             List<GraphData> valueList = mDbStatic.getStaticFunctionRecords(getProfile(), lMachine, lDAOFunction);
 
-            if (valueList == null || valueList.size() <= 0) {
-                // mLineChart.clear(); Already cleared
-                return;
-            }
+            if (valueList == null || valueList.size() <= 0) return;
 
             if (lDAOFunction == DAOStatic.MAX_FCT) {
                 WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(getMainActivity());
@@ -383,11 +400,8 @@ public class FonteGraphFragment extends Fragment {
     }
 
     private void refreshData() {
-        //View fragmentView = getView();
-
         if (mFragmentView != null) {
             if (getProfile() != null) {
-                //functionList.setOnItemSelectedListener(onItemSelectedList);
                 if (mAdapterMachine == null) {
                     mMachinesArray = mDbFonte.getAllMachinesStrList();
                     //Data are refreshed on show

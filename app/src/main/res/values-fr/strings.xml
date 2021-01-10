@@ -84,7 +84,7 @@
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
-    <string name="sum">Somme</string>
+    <string name="sum">Somme du poids</string>
 
     <string name="all">All</string>
 
@@ -277,4 +277,6 @@
     <string name="pref_preferredSizeUnitTitle">Sélectionne ton unité de taille préférée</string>
     <string name="program_completed">Vous avez terminé votre programme! Voulez-vous le fermer?</string>
     <string name="maxLengthPerDate">Durée maximum par date</string>
+    <string name="maxReps">Max reps</string>
+    <string name="sumReps">Somme Répétitions</string>
 </resources>

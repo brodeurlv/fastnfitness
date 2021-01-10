@@ -99,7 +99,7 @@
 
     <string name="maxRep1">Máximo (Reps >= 1)</string>
     <string name="maxRep5d">Máximo (Reps >= 5)</string>
-    <string name="sum">Suma</string>
+    <string name="sum">Suma de peso</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
@@ -293,5 +293,7 @@
     <string name="pref_preferredSizeUnitTitle">Selecciona tu unidad de tamaño preferida</string>
     <string name="program_completed">Ha completado su programa! ¿Quieres cerrarla?</string>
     <string name="maxLengthPerDate">Duración máxima por Fecha</string>
+    <string name="maxReps">Máx de Reps</string>
+    <string name="sumReps">Suma de Reps</string>
 
 </resources>

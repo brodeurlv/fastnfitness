@@ -93,7 +93,7 @@
 
     <string name="maxRep1">Maximum (Wied. >= 1)</string>
     <string name="maxRep5d">Maximum (Wied. >= 5)</string>
-    <string name="sum">Summe</string>
+    <string name="sum">Gewicht Summe</string>
 
     <string name="all">Alle</string>
 
@@ -286,5 +286,7 @@
     <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
     <string name="program_completed">Sie haben Ihr Programm abgeschlossen! Wollen Sie es schließen?</string>
     <string name="maxLengthPerDate">Max Dauer pro Datum</string>
+    <string name="maxReps">Max Wied.</string>
+    <string name="sumReps">Wied. Summe</string>
 </resources>
 

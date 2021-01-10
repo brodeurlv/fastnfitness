@@ -101,7 +101,7 @@
 
     <string name="maxRep1">Máximo (Reps >= 1)</string>
     <string name="maxRep5d">Máximo (Reps >= 5)</string>
-    <string name="sum">Soma</string>
+    <string name="sum">Soma de peso</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
@@ -307,4 +307,6 @@
     <string name="remove_image">Remover imagem</string>
     <string name="program_completed">Você completou seu programa! Você quer fechá-lo?</string>
     <string name="maxLengthPerDate">Max. duração por Data</string>
+    <string name="maxReps">Máx de Reps</string>
+    <string name="sumReps">Soma de Reps</string>
 </resources>

@@ -97,9 +97,9 @@
     <string name="drawer_open">Otevřít panel navigace</string>
     <string name="drawer_close">Zavřít panel navigace</string>
 
-    <string name="maxRep1">Maximum (Opak >= 1)</string>
+    <string name="maxRep1">Max Hmotnost (Opak >= 1)</string>
     <string name="maxRep5d">Maximum (Opak >= 5)</string>
-    <string name="sum">Suma</string>
+    <string name="sum">Hmotnost Suma</string>
 
     <string name="sumDistance">Vzdálenost</string>
     <string name="sumDuration">Trvání</string>
@@ -287,5 +287,7 @@
     <string name="pref_preferredSizeUnitTitle">Zvolit preferovanou velikost jednotky</string>
     <string name="program_completed">Jste dokončili program! Chcete ji zavřít?</string>
     <string name="maxLengthPerDate">Maximální délka trvání jednoho Datum</string>
+    <string name="maxReps">Max Opk</string>
+    <string name="sumReps">Opk Suma</string>
 
 </resources>

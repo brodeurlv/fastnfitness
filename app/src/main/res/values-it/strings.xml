@@ -103,7 +103,7 @@
     <string name="drawer_close">Chiudi menu</string>
 
     <string name="maxRep1">Massimale (Ripetizioni >= 1)</string>
-    <string name="maxRep5d">Maximum (Ripetizioni >= 5)</string>
+    <string name="maxRep5d">Massimale (Ripetizioni >= 5)</string>
     <string name="sum">Totale</string>
 
     <string name="sumDistance">Distanza</string>
@@ -318,4 +318,6 @@
     <string name="remove_image">Rimuovi immagine</string>
     <string name="program_completed">Hai completato il programma! Vuoi chiuderlo?</string>
     <string name="author_label">Autore:</string>
+    <string name="maxReps">Mass. di Ripetizioni</string>
+    <string name="sumReps">Totale di Ripetizioni</string>
 </resources>
