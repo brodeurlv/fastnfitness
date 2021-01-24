@@ -1,7 +1,6 @@
 package com.easyfitness.DAO.record;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOMachine;
@@ -10,11 +9,11 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.Weight;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.ProgramRecordStatus;
 import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.enums.ProgramRecordStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +25,9 @@ public class DAOFonte extends DAORecord {
     public static final int MAX1_FCT = 1;
     public static final int MAX5_FCT = 2;
     public static final int NBSERIE_FCT = 3;
-    public static final int ONEREPMAX_FCT = 4;
+    public static final int TOTAL_REP_FCT = 4;
+    public static final int MAX_REP_FCT = 5;
+    public static final int ONEREPMAX_FCT = 6;
 
     private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SETS + "," + REPS + "," + WEIGHT + "," + WEIGHT_UNIT + "," + PROFILE_KEY + "," + NOTES + "," + EXERCISE_KEY + "," + TIME;
 
@@ -114,6 +115,24 @@ public class DAOFonte extends DAORecord {
                 + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
                 + " GROUP BY " + LOCAL_DATE
                 + " ORDER BY " + DATE_TIME + " ASC";
+        } else if (pFunction == DAOFonte.TOTAL_REP_FCT) {
+            selectQuery = "SELECT SUM(" + SETS + "*" + REPS + "), " + LOCAL_DATE + " FROM "
+                    + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
+        } else if (pFunction == DAOFonte.MAX_REP_FCT) {
+            selectQuery = "SELECT MAX(" + REPS + ") , " + LOCAL_DATE + " FROM "
+                    + TABLE_NAME
+                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " GROUP BY " + LOCAL_DATE
+                    + " ORDER BY " + DATE_TIME + " ASC";
         }
 
         // Formation de tableau de valeur

@@ -100,7 +100,7 @@
 
     <string name="maxRep1">Maximum (Reps >= 1)</string>
     <string name="maxRep5d">Maximum (Reps >= 5)</string>
-    <string name="sum">Sum</string>
+    <string name="sum">Gewicht Sum</string>
 
     <string name="sumDistance">Distance</string>
     <string name="sumDuration">Duration</string>
@@ -287,6 +287,8 @@
     <string name="pref_preferredSizeUnitTitle">Selecteer je gewenste grootte unit</string>
     <string name="program_completed">U hebt uw programma afgerond! Wilt u om te sluiten?</string>
     <string name="maxLengthPerDate">Max duur per Date</string>
+    <string name="maxReps">Max Herhalingen</string>
+    <string name="sumReps">Sum Herhalingen</string>
 
 </resources>
 
