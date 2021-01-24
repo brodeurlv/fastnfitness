@@ -277,6 +277,7 @@
     <string name="pref_preferredSizeUnitTitle">Sélectionne ton unité de taille préférée</string>
     <string name="program_completed">Vous avez terminé votre programme! Voulez-vous le fermer?</string>
     <string name="maxLengthPerDate">Durée maximum par date</string>
-    <string name="maxReps">Max reps</string>
-    <string name="sumReps">Somme Répétitions</string>
+    <string name="maxReps">Max Reps</string>
+    <string name="sumReps">Somme Reps</string>
+    <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
 </resources>

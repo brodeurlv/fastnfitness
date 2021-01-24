@@ -289,5 +289,6 @@
     <string name="maxLengthPerDate">Maximální délka trvání jednoho Datum</string>
     <string name="maxReps">Max Opk</string>
     <string name="sumReps">Opk Suma</string>
+    <string name="oneRepMax">1RM (Opk &lt;= 10)</string>
 
 </resources>

@@ -289,6 +289,7 @@
     <string name="maxLengthPerDate">Max duur per Date</string>
     <string name="maxReps">Max Herhalingen</string>
     <string name="sumReps">Sum Herhalingen</string>
+    <string name="oneRepMax">1RM (Herhalingen &lt;= 10)</string>
 
 </resources>
 

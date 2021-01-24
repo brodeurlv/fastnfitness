@@ -320,4 +320,5 @@
     <string name="author_label">Autore:</string>
     <string name="maxReps">Mass. di Ripetizioni</string>
     <string name="sumReps">Totale di Ripetizioni</string>
+    <string name="oneRepMax">1RM (Rip &lt;= 10)</string>
 </resources>

@@ -295,5 +295,6 @@
     <string name="maxLengthPerDate">Duración máxima por Fecha</string>
     <string name="maxReps">Máx de Reps</string>
     <string name="sumReps">Suma de Reps</string>
+    <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
 
 </resources>

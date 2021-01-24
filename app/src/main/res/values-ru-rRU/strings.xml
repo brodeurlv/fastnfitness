@@ -239,4 +239,7 @@
     <string name="no_chart_data_available">Нет данных</string>
     <string name="remove_image">Удалить изображение</string>
     <string name="program_completed">Вы выполнили свою программу! Вы хотите её закрыть?</string>
+    <string name="sumReps">Сумма повторений</string>
+    <string name="maxReps">Макс. повторений</string>
+    <string name="oneRepMax">1RM (повторений &lt;= 10)</string>
 </resources>

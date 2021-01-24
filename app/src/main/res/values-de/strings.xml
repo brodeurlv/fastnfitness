@@ -288,5 +288,6 @@
     <string name="maxLengthPerDate">Max Dauer pro Datum</string>
     <string name="maxReps">Max Wied.</string>
     <string name="sumReps">Wied. Summe</string>
+    <string name="oneRepMax">1RM (Wied. &lt;= 10)</string>
 </resources>
 
