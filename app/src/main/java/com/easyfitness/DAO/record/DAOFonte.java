@@ -27,7 +27,7 @@ public class DAOFonte extends DAORecord {
     public static final int NBSERIE_FCT = 3;
     public static final int TOTAL_REP_FCT = 4;
     public static final int MAX_REP_FCT = 5;
-    public static final int ONEREPMAX_FCT = 4;
+    public static final int ONEREPMAX_FCT = 6;
 
     private static final String TABLE_ARCHI = KEY + "," + DATE + "," + EXERCISE + "," + SETS + "," + REPS + "," + WEIGHT + "," + WEIGHT_UNIT + "," + PROFILE_KEY + "," + NOTES + "," + EXERCISE_KEY + "," + TIME;
 

@@ -149,7 +149,6 @@
     <string name="maxReps">Max Reps</string>
     <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
 
-
     <string-array name="graph_functions" translatable="false">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
