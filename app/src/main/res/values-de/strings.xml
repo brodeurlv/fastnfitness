@@ -18,15 +18,15 @@
     <string name="AddLabel">Hinzufügen</string>
     <string name="DeleteLabel">Löschen</string>
     <string name="ShareLabel">Teilen</string>
-    <string name="EditLabel">Editieren</string>
-    <string name="DeleteRecordDialog">Aufzeichnung löschen ?</string>
+    <string name="EditLabel">Bearbeiten</string>
+    <string name="DeleteRecordDialog">Aufzeichnung löschen?</string>
 
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Sätze</string>
     <string name="RepetitionLabel_short">Wied.</string>
     <string name="MachineLabel">Übung</string>
-    <string name="PoidsLabel">Gewicht</string>
+    <string name="PoidsLabel">Gew.</string>
     <string name="NotesLabel">Notizen</string>
     <string name="TopTenLabel">Letzte Aufzeichnungen:</string>
 
@@ -45,13 +45,13 @@
     <string name="weightMenuLabel">Gewicht</string>
     <string name="weightLabel">Gewicht</string>
     <string name="measureLabel">Messen</string>
-    <string name="sizeTableLabel">Messergebnisse : </string>
+    <string name="sizeTableLabel">Messergebnisse: </string>
     <string name="createProfilTitle">Neues Profil erstellen</string>
     <string name="profileSelected">Profil ausgewählt</string>
-    <string name="createProfilQuestion">Wähle deinen Profilnamen ?</string>
+    <string name="createProfilQuestion">Wähle deinen Profilnamen?</string>
     <string name="userChanged">Benutzer geändert</string>
-    <string name="renameProfilTitle">Profil umbennen</string>
-    <string name="renameProfilQuestion">Wähle deinen neuen Prodilnamen ?</string>
+    <string name="renameProfilTitle">Profil umbenennen</string>
+    <string name="renameProfilQuestion">Wähle deinen neuen Profilnamen?</string>
 
 
     <!-- Pour le menu settings -->
@@ -61,7 +61,7 @@
     <string name="export_success">Datenbank exportiert</string>
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
     <string name="import_database">Aufzeichnungen importieren</string>
-    <string name="deleteDB_warning">Diese Aktion setzt deine App zurück. Alle Dateien gehen verloren. Bist du sicher ? Dies beendet die App.</string>
+    <string name="deleteDB_warning">Diese Aktion setzt deine App zurück. Alle Dateien gehen verloren. Bist du sicher? Dies beendet die App.</string>
     <string name="ResetAppLabel">App zurücksetzen</string>
 
     <!-- Machine Fragment -->
@@ -88,8 +88,8 @@
     <string name="AboutLabel">Über</string>
 
     <!-- Navigation Drawer -->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">Navigationsleiste öffnen</string>
+    <string name="drawer_close">Navigationsleiste schließen</string>
 
     <string name="maxRep1">Maximum (Wied. >= 1)</string>
     <string name="maxRep5d">Maximum (Wied. >= 5)</string>
@@ -126,14 +126,14 @@
     <string name="behind">Hüfte</string>
 
 
-    <string name="backDialog_confirm_text">Willst du vor dem beenden speichern?</string>
-    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen ? Alle dazugehörigen aufzeichnungen werden gelöscht</string>
-    <string name="renameMachine_warning_text">WARNUNG: dieser Übungsname  existiert bereits. Aufzeichungen werden mit anderen Übung verknüpft.</string>
+    <string name="backDialog_confirm_text">Willst du vor dem Beenden speichern?</string>
+    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen? Alle dazugehörigen Aufzeichnungen werden gelöscht</string>
+    <string name="renameMachine_warning_text">WARNUNG: Dieser Übungsname existiert bereits. Die Aufzeichungen beider Übungen werden miteinander verknüpft.</string>
 
 
     <!-- Photo -->
     <string name="camera">Kamera</string>
-    <string name="gallery">Gallerie</string>
+    <string name="gallery">Galerie</string>
 
     <!-- DateGraph -->
     <string name="graph_all">Alle</string>
@@ -143,21 +143,21 @@
 
 
     <!-- Chronometer -->
-    <string name="ChronometerLabel">Zeitmesser</string>
-    <string name="CountdownLabel">Pausezeit</string>
+    <string name="ChronometerLabel">Stoppuhr</string>
+    <string name="CountdownLabel">Ruhezeit</string>
     <string name="activate_rest_time">Aktiviere Pause</string>
-    <string name="rest_time">Pausezeit (sek)</string>
+    <string name="rest_time">Ruhezeit (sek)</string>
     <string name="lastRecordLabel">Letzte Aufzeichnung</string>
-    <string name="FilterHint">Filtern nach Übungsname</string>
-    <string name="total_weight">Gesamtgewicht</string>
-    <string name="total_session">Gesamt wärend der Einheit</string>
+    <string name="FilterHint">Suche nach Übungsname</string>
+    <string name="total_weight">Ges.-Gewicht</string>
+    <string name="total_session">Gesamt während der Einheit</string>
     <string name="total_machine">Gesamt an dem Gerät</string>
-    <string name="nb_serie">Anz. Sätze</string>
+    <string name="nb_serie">Anzahl Sätze</string>
     <string name="exit">Beenden</string>
     <string name="selectMachineDialogLabel">Wähle ein Gerät aus</string>
 
     <!-- Intro slides -->
-    <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen</string>
+    <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen an</string>
     <string name="introSlide1Title">Hallo</string>
     <string name="size_cm_optional">Größe in cm (optional)</string>
     <string name="create">Erstellen</string>
@@ -165,25 +165,25 @@
     <string name="name_or_pseudo">Name oder Pseudonym</string>
     <string name="name_is_required">Name wird benötigt</string>
     <string name="create_a_profile">Profil erstellen</string>
-    <string name="introSlide1Text">Willkommen bei Fast n Fitness, der App in der du deine Workouts aufzeichnen kannst und eine Übersicht deiner Fortschritte deine Körpers siehst.</string>
-    <string name="introSlide2Text">Gib der Übung/Gerät einen Namen und füge die Details hinzu. Du kannst diese dann aus einer Liste auswählen.</string>
-    <string name="introSlide2Title">Einfach und Schnell</string>
-    <string name="titleSlideEssential">Kein unnötiger Kontent</string>
-    <string name="textSlideEssential">Keine nutzlosen Übungen sind voreingestellt. Du erstellst deine Übungen und Geräte selbst genauso wie du Sie in deinem Studio vorfindest inkl. Bildern dazu.</string>
-    <string name="pressBackAgain">Klicke nochmal ZURÜCK zum beenden</string>
+    <string name="introSlide1Text">Willkommen bei Fast n Fitness, der App mit der du deine Workouts aufzeichnen kannst und eine Übersicht zu den Fortschritten deines Körpers siehst.</string>
+    <string name="introSlide2Text">Gib der Übung oder dem Gerät einen Namen und füge die Details hinzu. Diese kannst du dann aus einer Liste auswählen.</string>
+    <string name="introSlide2Title">Einfach und schnell</string>
+    <string name="titleSlideEssential">Kein unnötiger Inhalt</string>
+    <string name="textSlideEssential">Keine nutzlosen Übungen sind voreingestellt. Du erstellst deine Übungen und Geräte selbst, genauso wie du Sie in deinem Studio vorfindest inkl. Bildern.</string>
+    <string name="pressBackAgain">Klicke nochmal ZURÜCK zum Beenden</string>
     <string name="titleSlideOpenSource">Es ist Open Source !</string>
     <string name="textSlideOpenSource">Tritt der Community bei und last uns die beste Fitness App erstellen! Besuche uns auf https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Profil erstellt</string>
     <string name="missinginfo">Fehlende Informationen</string>
     <string name="createExerciseFirst">Du musst zuerst eine Übung erstellen</string>
-    <string name="impossibleToDeleteProfile">Unmöglich das aktuelle Profil zu löschen</string>
+    <string name="impossibleToDeleteProfile">Das aktuelle Profil kann nicht gelöscht werden</string>
     <string name="profileDeleted">Profil gelöscht</string>
-    <string name="min">Min</string>
-    <string name="max">Max</string>
+    <string name="min">Min.</string>
+    <string name="max">Max.</string>
     <string name="areyousure">Bist du sicher?</string>
     <string name="name">Name</string>
     <string name="profileEnterYourSize">Ihre Größe</string>
-    <string name="profileEnterYourBirthday">Ihre Geburstag</string>
+    <string name="profileEnterYourBirthday">Ihr Geburtstag</string>
     <string name="ProfileLabel">Profil</string>
     <string name="profile_page">Profilseite</string>
     <string name="start">Start</string>
@@ -191,12 +191,12 @@
     <string name="muscles">Muskeln</string>
     <string name="description">Beschreibung</string>
     <string name="edit_soon_available">in Kürze verfügbar</string>
-    <string name="edit_value">Neue Wert</string>
+    <string name="edit_value">Neuer Wert</string>
     <string name="sumDistance">Entfernung</string>
     <string name="sumDuration">Dauer</string>
     <string name="speed">Geschwindigkeit</string>
     <string name="menu_Workout">Training</string>
-    <string name="renameMachine_error_text2">WARNUNG: Dieses Gerät existiert bereits. Aufzeichungen werden mit anderen Gerät verknüpft.</string>
+    <string name="renameMachine_error_text2">FEHLER: Dieser Übungsname existiert bereits. Es ist nicht möglich Übungen von unterschiedlichem Typ aber gleichem Name zu verknüpfen.</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
     <string name="fatLabel">Fett</string>
     <string name="bonesLabel">Knochen</string>
@@ -204,7 +204,7 @@
     <string name="musclesLabel">Muskeln</string>
     <string name="maleGender">Mann</string>
     <string name="femaleGender">Frau</string>
-    <string name="otherGender">Andere</string>
+    <string name="otherGender">Divers</string>
     <string name="underweight">Untergewicht</string>
     <string name="normal">normal</string>
     <string name="overweight">Übergewicht</string>
@@ -220,7 +220,7 @@
     <string name="BMI_formula">BMI = Gewicht(kg) / Größe(m)*Größe(m)</string>
     <string name="RFM_dialog_title">Relativer Fettmassenindex (RFM)</string>
     <string name="access_granted">Zugriff gewährt</string>
-    <string name="another_time_maybe">Später vielleicht :)</string>
+    <string name="another_time_maybe">Vielleicht später :)</string>
     <string name="new_folder">Neuer Ordner</string>
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
@@ -228,12 +228,12 @@
     <string name="indexLabel">Index</string>
     <string name="SecondsLabel_short">Secs</string>
     <string name="staticExercise">"Isometrische "</string>
-    <string name="what_type_of_exercise">Welche Art von Training ?</string>
+    <string name="what_type_of_exercise">Welche Art von Training?</string>
     <string name="exercise_type">Art von Training:</string>
-    <string name="global_confirm_question">Sind sie sicher?</string>
-    <string name="imported_successfully">import gelungen</string>
-    <string name="import_failed">import ist fehlgeschlagen</string>
-    <string name="maxWeightPerDuration">Max Gewicht pro Dauer</string>
+    <string name="global_confirm_question">Sind Sie sicher?</string>
+    <string name="imported_successfully">Import gelungen</string>
+    <string name="import_failed">Import ist fehlgeschlagen</string>
+    <string name="maxWeightPerDuration">Max. Gewicht pro Dauer</string>
     <string name="nbSeriesPerDate">Nb Serien nach Datum</string>
     <string name="author_label">Author:</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
@@ -245,33 +245,33 @@
     <string name="timeLabel">Zeit</string>
     <string name="pref_preferredDistanceUnitTitle">Wähle deine gewünschte Entfernungseinheit</string>
     <string name="daynightmode_settingtitle">Wählen Sie Ihr Thema (Neustart erforderlich)</string>
-    <string name="delete_bodypart_confirm">Wollen Sie diesen Körperteil löschen? Alle damit verbundenen Maßnahmen werden gelöscht.</string>
-    <string name="new_measure">Neue Maßnahme</string>
-    <string name="enter_profile_name">Geben Sie Profilnamen</string>
-    <string name="enter_size_cm">Geben Sie Größe (cm)</string>
-    <string name="enter_birthday">Geben Sie Geburtstag</string>
+    <string name="delete_bodypart_confirm">Wollen Sie dieses Körperteil löschen? Alle damit verbundenen Messungen werden gelöscht.</string>
+    <string name="new_measure">Neue Messung</string>
+    <string name="enter_profile_name">Geben Sie ihren Profilnamen ein</string>
+    <string name="enter_size_cm">Geben Sie ihre Größe (cm) ein</string>
+    <string name="enter_birthday">Geben Sie ihr Geburtstag ein</string>
     <string name="enter_bodypart_name">Geben Sie Körperteil Name</string>
     <string name="strength_category">Stärke</string>
-    <string name="add_to_template">In dem Programm</string>
+    <string name="add_to_template">Zum Programm hinzufügen</string>
     <string name="automatic_date_time">Automatische Einstellung von Datum / Uhrzeit</string>
     <string name="edit">Bearbeiten</string>
     <string name="enter_workout_name">Programmname eingeben</string>
-    <string name="filter_by_workout_name">Filter nach Programmnamen</string>
-    <string name="finish_program">Beenden das Programm</string>
+    <string name="filter_by_workout_name">Suche nach Programmnamen</string>
+    <string name="finish_program">Programm beenden</string>
     <string name="newStr">Neu</string>
     <string name="new_program">Neues Programm</string>
     <string name="program_running">Programm:</string>
     <string name="program_preview">Programmvorschau:</string>
     <string name="programs">Programme:</string>
-    <string name="start_program">Start Programm</string>
+    <string name="start_program">Programm starten</string>
     <string name="update">Aktualisieren</string>
     <string name="workout_list_menu_item">Programmliste</string>
     <string name="record_editor">Editor</string>
-    <string name="please_start_program_first">Bitte starten Programm zuerst</string>
+    <string name="please_start_program_first">Bitte zuerst das Programm starten</string>
     <string name="program_ongoing">Programm Andauernd:</string>
     <string name="rest_time_row">Ruhezeit:</string>
     <string name="program">Programm</string>
-    <string name="free_workout">Zweiten Training</string>
+    <string name="free_workout">Freies Training</string>
     <string name="this_program_is_empty">Dieses Programm ist leer</string>
     <string name="total_on">Gesamt an</string>
     <string name="info">Informationen</string>
@@ -281,12 +281,12 @@
     <string name="details">Einzelheiten</string>
     <string name="unit_settings_title">Einheiten</string>
     <string name="no_chart_data_available">Keine Daten</string>
-    <string name="light_mode">klar</string>
+    <string name="light_mode">Hell</string>
     <string name="remove_image">Lösche Bild</string>
     <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
     <string name="program_completed">Sie haben Ihr Programm abgeschlossen! Wollen Sie es schließen?</string>
     <string name="maxLengthPerDate">Max Dauer pro Datum</string>
-    <string name="maxReps">Max Wied.</string>
+    <string name="maxReps">Max. Wiederholung</string>
     <string name="sumReps">Wied. Summe</string>
     <string name="oneRepMax">1RM (Wied. &lt;= 10)</string>
 </resources>
