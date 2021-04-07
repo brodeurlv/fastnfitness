@@ -108,7 +108,7 @@ public class MusicController {
     private final OnCompletionListener songCompletion = new OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            if(isRandomOn){
+            if (isRandomOn) {
                 NextRandom();
             } else {
                 if (currentIndexSongList + 1 < songList.size()) {
@@ -159,14 +159,14 @@ public class MusicController {
                     Stop();
                     break;
                 case R.id.playerNext:
-                    if(isRandomOn){
+                    if (isRandomOn) {
                         NextRandom();
                     } else {
                         Next();
                     }
                     break;
                 case R.id.playerPrevious:
-                    if(isRandomOn){
+                    if (isRandomOn) {
                         NextRandom();
                     } else {
                         Previous();
@@ -357,7 +357,7 @@ public class MusicController {
         /* load the new source randomly */
         if (currentIndexSongList >= 0) {
             int randomSongListIndex = randomIntGenerator.nextInt(songList.size());
-            while(currentIndexSongList == randomSongListIndex) {
+            while (currentIndexSongList == randomSongListIndex) {
                 randomSongListIndex = randomIntGenerator.nextInt(songList.size());
             }
             currentIndexSongList = randomSongListIndex;
