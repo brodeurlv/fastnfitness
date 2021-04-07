@@ -349,6 +349,10 @@ public class MusicController {
                 currentIndexSongList = currentIndexSongList + 1;
                 newSongSelected = true;
                 Play();
+            } else if (isReplayOn) {
+                currentIndexSongList = 0;
+                newSongSelected = true;
+                Play();
             }
         }
     }
@@ -370,6 +374,10 @@ public class MusicController {
         /* load the new source */
         if (currentIndexSongList > 0) {
             currentIndexSongList = currentIndexSongList - 1;
+            newSongSelected = true;
+            Play();
+        } else if (isReplayOn) {
+            currentIndexSongList = songList.size() - 1;
             newSongSelected = true;
             Play();
         }
