@@ -177,7 +177,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_replay_blue" />
+                        android:src="@drawable/ic_replay_white" />
 
                     <ImageButton
                         android:id="@+id/playerRandom"
@@ -190,7 +190,7 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_random_blue" />
+                        android:src="@drawable/ic_random_white" />
 
                     <ImageButton
                         android:id="@+id/playerList"

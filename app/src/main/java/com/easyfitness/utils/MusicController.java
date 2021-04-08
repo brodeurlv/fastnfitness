@@ -178,20 +178,20 @@ public class MusicController {
                 case R.id.playerLoop:
                     if (isReplayOn) {
                         isReplayOn = false;
-                        musicReplay.setImageResource(R.drawable.ic_replay_blue);
+                        musicReplay.setImageResource(R.drawable.ic_replay_white);
                     } else {
                         isReplayOn = true;
-                        musicReplay.setImageResource(R.drawable.ic_replay_black);
+                        musicReplay.setImageResource(R.drawable.ic_replay_green);
                     }
 
                     break;
                 case R.id.playerRandom:
                     if (isRandomOn) {
                         isRandomOn = false;
-                        musicRandom.setImageResource(R.drawable.ic_random_blue);
+                        musicRandom.setImageResource(R.drawable.ic_random_white);
                     } else {
                         isRandomOn = true;
-                        musicRandom.setImageResource(R.drawable.ic_random_black);
+                        musicRandom.setImageResource(R.drawable.ic_random_green);
                     }
 
                     break;
