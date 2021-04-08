@@ -212,14 +212,14 @@ public class MusicController {
                     newSongSelected = true;
                     Play();
                     savePreferences();
-/*
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(file);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                musicPlay.setImageResource(R.drawable.pause);
-                isStopped = false;
-*/
+                    /*
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(file);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    musicPlay.setImageResource(R.drawable.pause);
+                    isStopped = false;
+                    */
                 });
 
         fileChooserDialog.setNewFolderEnabled(false);
@@ -298,7 +298,7 @@ public class MusicController {
                     mediaPlayer.prepareAsync();
                     isStopped = false;
                     isPaused = false;
-                } else if (isPaused) { // differe de STOP
+                } else if (isPaused) { // different from STOP
                     mediaPlayer.start();
                     mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
                     musicPlay.setImageResource(R.drawable.ic_pause);
