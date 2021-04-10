@@ -2,6 +2,7 @@ package com.easyfitness.fonte;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -271,22 +272,33 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 viewHolder.RestTimeTextView.setText("No Rest");
             }
 
-            if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING || mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
-                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
-                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
+            if (mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
                 viewHolder.Date.setText("");
                 viewHolder.Time.setText("");
             } else {
-                if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
-                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_active));
-                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
-                } else {
-                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
-                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_active));
+                if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS || record.getProgramRecordStatus() == ProgramRecordStatus.FAILED) {
+                    viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
+                    viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
                 }
-                viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
-                viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
             }
+
+            if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING) {
+                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
+                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
+                viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
+            } else if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
+                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_active));
+                viewHolder.BtActionSuccess.setBackgroundColor(Color.parseColor("#00AF80"));
+                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
+                viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
+            } else {
+                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
+                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_active));
+                viewHolder.BtActionFailed.setBackgroundColor(Color.RED);
+            }
+
 
             long key = record.getId();
 
@@ -455,8 +467,8 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
                 break;
             case PROGRAM_PREVIEW_DISPLAY:
-                viewHolder.BtActionSuccess.setVisibility(View.VISIBLE);
-                viewHolder.BtActionFailed.setVisibility(View.VISIBLE);
+                viewHolder.BtActionSuccess.setVisibility(View.GONE);
+                viewHolder.BtActionFailed.setVisibility(View.GONE);
                 viewHolder.BtActionMoveDown.setVisibility(View.GONE);
                 viewHolder.BtActionMoveUp.setVisibility(View.GONE);
                 viewHolder.BtActionCopy.setVisibility(View.GONE);
