@@ -41,8 +41,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/record_layout"
@@ -57,6 +56,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.30"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -128,11 +130,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/SERIE_LABEL"
+                        android:layout_width="match_parent"
                         style="@style/record_param_title"
                         android:layout_gravity="bottom"
                         android:text="@string/SerieLabel" />
@@ -168,12 +173,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/REP_LABEL"
                         style="@style/record_param_title"
+                        android:layout_width="match_parent"
                         android:layout_gravity="bottom"
                         android:text="@string/RepetitionLabel_short" />
 
@@ -210,10 +218,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/WEIGHT_LABEL"
+                        android:layout_width="match_parent"
                         style="@style/record_param_title"
                         android:layout_gravity="bottom"
                         android:text="@string/PoidsLabel" />
@@ -286,31 +297,7 @@
                     tool:ignore="ContentDescription"
                     tool:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/successButton"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:srcCompat="@drawable/ic_check_inactive"
-                    tool:ignore="ContentDescription"
-                    tool:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/failedButton"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:srcCompat="@drawable/ic_cross_inactive"
-                    tool:ignore="ContentDescription"
-                    tool:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/copyButton"
@@ -350,6 +337,39 @@
                     app:srcCompat="@drawable/ic_delete"
                     tool:ignore="ContentDescription" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/successButton"
+                        android:layout_width="35dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:srcCompat="@drawable/ic_check_inactive"
+                        tool:ignore="ContentDescription"
+                        tool:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/failedButton"
+                        android:layout_width="35dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:srcCompat="@drawable/ic_cross_inactive"
+                        tool:ignore="ContentDescription"
+                        tool:visibility="gone" />
+
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
