@@ -177,7 +177,20 @@
                         android:baselineAlignBottom="false"
                         android:cropToPadding="false"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_replay_blue" />
+                        android:src="@drawable/ic_replay_white" />
+
+                    <ImageButton
+                        android:id="@+id/playerRandom"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="5"
+                        android:adjustViewBounds="false"
+                        android:background="@android:color/transparent"
+                        android:baselineAlignBottom="false"
+                        android:cropToPadding="false"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_random_white" />
 
                     <ImageButton
                         android:id="@+id/playerList"

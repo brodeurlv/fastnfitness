@@ -25,6 +25,7 @@ import com.easyfitness.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 
 public class MusicController {
@@ -40,6 +41,7 @@ public class MusicController {
     // Music Controller
     private ImageButton musicPlay = null;
     private ImageButton musicReplay = null;
+    private ImageButton musicRandom = null;
     private TextView barSongTitle = null;
     private TextView barSongTime = null;
     private SeekBar seekProgressBar = null;
@@ -47,6 +49,8 @@ public class MusicController {
     private boolean isPaused = false;
     private boolean newSongSelected = false;
     private boolean isReplayOn = false;
+    private boolean isRandomOn = false;
+    private final Random randomIntGenerator = new Random();
     private FileChooserDialog fileChooserDialog = null;
     private List<String> songList;
     private String currentFile = "";
@@ -104,16 +108,20 @@ public class MusicController {
     private final OnCompletionListener songCompletion = new OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            if (currentIndexSongList + 1 < songList.size()) {
-                Next();
+            if (isRandomOn) {
+                NextRandom();
             } else {
-                if (isReplayOn) {
-                    newSongSelected = true;
-                    currentIndexSongList = 0;
-                    Play();
+                if (currentIndexSongList + 1 < songList.size()) {
+                    Next();
                 } else {
-                    /* release mediaplayer */
-                    Stop();
+                    if (isReplayOn) {
+                        newSongSelected = true;
+                        currentIndexSongList = 0;
+                        Play();
+                    } else {
+                        /* release mediaplayer */
+                        Stop();
+                    }
                 }
             }
         }
@@ -151,10 +159,18 @@ public class MusicController {
                     Stop();
                     break;
                 case R.id.playerNext:
-                    Next();
+                    if (isRandomOn) {
+                        NextRandom();
+                    } else {
+                        Next();
+                    }
                     break;
                 case R.id.playerPrevious:
-                    Previous();
+                    if (isRandomOn) {
+                        NextRandom();
+                    } else {
+                        Previous();
+                    }
                     break;
                 case R.id.playerList:
                     fileChooserDialog.chooseDirectory(currentPath);
@@ -162,10 +178,20 @@ public class MusicController {
                 case R.id.playerLoop:
                     if (isReplayOn) {
                         isReplayOn = false;
-                        musicReplay.setImageResource(R.drawable.ic_replay_blue);
+                        musicReplay.setImageResource(R.drawable.ic_replay_white);
                     } else {
                         isReplayOn = true;
-                        musicReplay.setImageResource(R.drawable.ic_replay_black);
+                        musicReplay.setImageResource(R.drawable.ic_replay_green);
+                    }
+
+                    break;
+                case R.id.playerRandom:
+                    if (isRandomOn) {
+                        isRandomOn = false;
+                        musicRandom.setImageResource(R.drawable.ic_random_white);
+                    } else {
+                        isRandomOn = true;
+                        musicRandom.setImageResource(R.drawable.ic_random_green);
                     }
 
                     break;
@@ -186,14 +212,14 @@ public class MusicController {
                     newSongSelected = true;
                     Play();
                     savePreferences();
-/*
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(file);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                musicPlay.setImageResource(R.drawable.pause);
-                isStopped = false;
-*/
+                    /*
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(file);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    musicPlay.setImageResource(R.drawable.pause);
+                    isStopped = false;
+                    */
                 });
 
         fileChooserDialog.setNewFolderEnabled(false);
@@ -220,6 +246,7 @@ public class MusicController {
         ImageButton musicPrevious = mActivity.findViewById(R.id.playerPrevious);
         ImageButton musicList = mActivity.findViewById(R.id.playerList);
         musicReplay = mActivity.findViewById(R.id.playerLoop);
+        musicRandom = mActivity.findViewById(R.id.playerRandom);
         //playerTopLayout = (LinearLayout) mActivity.findViewById(R.id.playerTopLayout);
 
         barSongTitle = mActivity.findViewById(R.id.playerSongTitle);
@@ -240,6 +267,7 @@ public class MusicController {
         musicPrevious.setOnClickListener(playerClick);
         musicList.setOnClickListener(playerClick);
         musicReplay.setOnClickListener(playerClick);
+        musicRandom.setOnClickListener(playerClick);
         //playerTopLayout.setOnTouchListener(progressBarTouch);
         seekProgressBar.setOnSeekBarChangeListener(seekBarTouch);
 
@@ -270,7 +298,7 @@ public class MusicController {
                     mediaPlayer.prepareAsync();
                     isStopped = false;
                     isPaused = false;
-                } else if (isPaused) { // differe de STOP
+                } else if (isPaused) { // different from STOP
                     mediaPlayer.start();
                     mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
                     musicPlay.setImageResource(R.drawable.ic_pause);
@@ -321,7 +349,24 @@ public class MusicController {
                 currentIndexSongList = currentIndexSongList + 1;
                 newSongSelected = true;
                 Play();
+            } else if (isReplayOn) {
+                currentIndexSongList = 0;
+                newSongSelected = true;
+                Play();
             }
+        }
+    }
+
+    public void NextRandom() {
+        /* load the new source randomly */
+        if (currentIndexSongList >= 0) {
+            int randomSongListIndex = randomIntGenerator.nextInt(songList.size());
+            while (currentIndexSongList == randomSongListIndex) {
+                randomSongListIndex = randomIntGenerator.nextInt(songList.size());
+            }
+            currentIndexSongList = randomSongListIndex;
+            newSongSelected = true;
+            Play();
         }
     }
 
@@ -329,6 +374,10 @@ public class MusicController {
         /* load the new source */
         if (currentIndexSongList > 0) {
             currentIndexSongList = currentIndexSongList - 1;
+            newSongSelected = true;
+            Play();
+        } else if (isReplayOn) {
+            currentIndexSongList = songList.size() - 1;
             newSongSelected = true;
             Play();
         }
