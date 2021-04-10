@@ -12,7 +12,8 @@
     <color name="index_color">#3c40c6</color>
     <color name="add_button_background">#FFFFFF</color>
     <color name="dark_icon_background">#5E5E5E</color>
-    <color name="icon_enable">#FFFFFF</color>
-    <color name="icon_disabled">#C1C1C1</color>
+    <color name="drawer_icon">#FFFFFF</color>
+    <color name="icon_enable">#0DD815</color>
+    <color name="icon_disable">#bababa</color>
     <color name="dialog_title_color">#5DBCD2</color>
 </resources>
