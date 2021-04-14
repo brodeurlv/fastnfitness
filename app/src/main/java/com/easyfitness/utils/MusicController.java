@@ -177,8 +177,11 @@ public class MusicController {
                     }
                     break;
                 case R.id.playerList:
-                    requestPermissionForWriting();
-                    fileChooserDialog.chooseDirectory(currentPath);
+                    if (isExternalStoragePermissionDenied()) {
+                        requestPermissionForWriting();
+                    } else {
+                        chooseDirectory();
+                    }
                     break;
                 case R.id.playerLoop:
                     if (isReplayOn) {
@@ -284,15 +287,18 @@ public class MusicController {
     public void Play() {
         // Play song
         if (currentIndexSongList < 0) {
-            requestPermissionForWriting();
-            if (currentPath.isEmpty())
-                fileChooserDialog.chooseDirectory(currentPath);
-            else {
-                currentIndexSongList = 0;
-                buildSongList(currentPath);
-                currentFile = songList.get(0);
-                newSongSelected = true;
-                Play();
+            if (isExternalStoragePermissionDenied()) {
+                requestPermissionForWriting();
+            } else {
+                if (currentPath.isEmpty())
+                    chooseDirectory();
+                else {
+                    currentIndexSongList = 0;
+                    buildSongList(currentPath);
+                    currentFile = songList.get(0);
+                    newSongSelected = true;
+                    Play();
+                }
             }
         } else {
             try {
@@ -389,21 +395,23 @@ public class MusicController {
         }
     }
 
-    private void requestPermissionForWriting() {
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(mActivity,
+    public void chooseDirectory() {
+        fileChooserDialog.chooseDirectory(currentPath);
+    }
+
+    private boolean isExternalStoragePermissionDenied() {
+        return ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED;
+    }
 
-            // No explanation needed, we can request the permission.
-
-            int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
-            ActivityCompat.requestPermissions(mActivity,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        }
+    private void requestPermissionForWriting() {
+        int MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE = 102;
+        ActivityCompat.requestPermissions(mActivity,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE);
     }
 
     private void buildSongList(String path) {
@@ -432,7 +440,7 @@ public class MusicController {
     }
 
     // Helper method to delete currentPath for testing purpose
-    private void deleteSpecificPreferences(String preferenceName){
+    private void deleteSpecificPreferences(String preferenceName) {
         SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(preferenceName);
