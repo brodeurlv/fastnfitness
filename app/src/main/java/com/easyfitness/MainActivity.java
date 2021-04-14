@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_INTRO = 111;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
-    private final int MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE = 102;
+    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
     private final MusicController musicController = new MusicController(this);
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
@@ -618,7 +618,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
-        } else if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE) {
+        } else if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);

@@ -178,7 +178,7 @@ public class MusicController {
                     break;
                 case R.id.playerList:
                     if (isExternalStoragePermissionDenied()) {
-                        requestPermissionForWriting();
+                        requestPermissionForReading();
                     } else {
                         chooseDirectory();
                     }
@@ -288,7 +288,7 @@ public class MusicController {
         // Play song
         if (currentIndexSongList < 0) {
             if (isExternalStoragePermissionDenied()) {
-                requestPermissionForWriting();
+                requestPermissionForReading();
             } else {
                 if (currentPath.isEmpty())
                     chooseDirectory();
@@ -401,17 +401,15 @@ public class MusicController {
 
     private boolean isExternalStoragePermissionDenied() {
         return ContextCompat.checkSelfPermission(mActivity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestPermissionForWriting() {
-        int MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE = 102;
+    private void requestPermissionForReading() {
+        int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
         ActivityCompat.requestPermissions(mActivity,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_WRITE_AND_READ_EXTERNAL_STORAGE);
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
     }
 
     private void buildSongList(String path) {
