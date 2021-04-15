@@ -1,10 +1,12 @@
 package com.easyfitness.utils;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -19,6 +21,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.easyfitness.R;
 
@@ -173,7 +177,11 @@ public class MusicController {
                     }
                     break;
                 case R.id.playerList:
-                    fileChooserDialog.chooseDirectory(currentPath);
+                    if (isExternalStoragePermissionDenied()) {
+                        requestPermissionForReading();
+                    } else {
+                        chooseDirectory();
+                    }
                     break;
                 case R.id.playerLoop:
                     if (isReplayOn) {
@@ -278,17 +286,21 @@ public class MusicController {
 
     public void Play() {
         // Play song
-        if (currentIndexSongList < 0)
-            if (currentPath.isEmpty())
-                fileChooserDialog.chooseDirectory(currentPath);
-            else {
-                currentIndexSongList = 0;
-                buildSongList(currentPath);
-                currentFile = songList.get(0);
-                newSongSelected = true;
-                Play();
+        if (currentIndexSongList < 0) {
+            if (isExternalStoragePermissionDenied()) {
+                requestPermissionForReading();
+            } else {
+                if (currentPath.isEmpty())
+                    chooseDirectory();
+                else {
+                    currentIndexSongList = 0;
+                    buildSongList(currentPath);
+                    currentFile = songList.get(0);
+                    newSongSelected = true;
+                    Play();
+                }
             }
-        else {
+        } else {
             try {
                 if (newSongSelected) {
                     newSongSelected = false;
@@ -383,6 +395,23 @@ public class MusicController {
         }
     }
 
+    public void chooseDirectory() {
+        fileChooserDialog.chooseDirectory(currentPath);
+    }
+
+    private boolean isExternalStoragePermissionDenied() {
+        return ContextCompat.checkSelfPermission(mActivity,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissionForReading() {
+        int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
+        ActivityCompat.requestPermissions(mActivity,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+
     private void buildSongList(String path) {
         songList = fileChooserDialog.getFiles(currentPath);
     }
@@ -405,6 +434,14 @@ public class MusicController {
         SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("currentPath", currentPath);
+        boolean x = editor.commit();
+    }
+
+    // Helper method to delete currentPath for testing purpose
+    private void deleteSpecificPreferences(String preferenceName) {
+        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(preferenceName);
         boolean x = editor.commit();
     }
 
