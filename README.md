@@ -14,7 +14,7 @@ Now you can track your progress easily and quickly!
 You can create as many machines as you want with the name you want!
 It's your choice!
 
-Graphics will show your progress and your body evolution. 
+Graphics will show your progress and your body evolution.
 
 Don't leave the app to get your music : a music player is integrated into the app!
 
@@ -50,7 +50,7 @@ See [Contributing.md](/Contributing.md/)
 
 BSD 3-Clause License
 
-Copyright (c) 2019-2020, Charles Combes
+Copyright (c) 2019-2021, Charles Combes
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

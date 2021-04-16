@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     private final PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
             case R.id.create_newprofil:
-                getActivity().CreateNewProfil();
+                getActivity().CreateNewProfile();
                 return true;
             case R.id.change_profil:
                 String[] profilListArray = getActivity().mDbProfils.getAllProfil();
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         .setItems(profilListArray, (dialog, which) -> {
                             ListView lv = ((AlertDialog) dialog).getListView();
                             Object checkedItem = lv.getAdapter().getItem(which);
-                            setCurrentProfil(checkedItem.toString());
+                            setCurrentProfile(checkedItem.toString());
                             KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                             //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
                         });
@@ -513,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
                                     } else {
                                         KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                                     }
-                                    setCurrentProfil(getCurrentProfile()); // Refresh profile
+                                    setCurrentProfile(getCurrentProfile()); // Refresh profile
                                 })
                                 .setCancelText(this.getResources().getString(R.string.global_no))
                                 .show();
@@ -629,7 +629,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean CreateNewProfil() {
+    public boolean CreateNewProfile() {
         AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(this);
 
         newProfilBuilder.setTitle(getActivity().getResources().getText(R.string.createProfilTitle));
@@ -643,18 +643,18 @@ public class MainActivity extends AppCompatActivity {
             String value = input.getText().toString();
 
             if (value.isEmpty()) {
-                CreateNewProfil();
+                CreateNewProfile();
             } else {
                 // Create the new profil
                 mDbProfils.addProfile(value);
                 // Make it the current.
-                setCurrentProfil(value);
+                setCurrentProfile(value);
             }
         });
 
         newProfilBuilder.setNegativeButton(getActivity().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
             if (getCurrentProfile() == null) {
-                CreateNewProfil();
+                CreateNewProfile();
             }
         });
 
@@ -678,14 +678,14 @@ public class MainActivity extends AppCompatActivity {
             String value = input.getText().toString();
 
             if (!value.isEmpty()) {
-                // Get current profil
+                // Get current profile
                 Profile temp = getCurrentProfile();
                 // Rename it
                 temp.setName(value);
                 // Commit it
                 mDbProfils.updateProfile(temp);
                 // Make it the current.
-                setCurrentProfil(value);
+                setCurrentProfile(value);
             }
         });
 
@@ -776,12 +776,12 @@ public class MainActivity extends AppCompatActivity {
         return profileViMo.getProfile().getValue();
     }
 
-    public void setCurrentProfil(String newProfilName) {
+    public void setCurrentProfile(String newProfilName) {
         Profile newProfil = this.mDbProfils.getProfil(newProfilName);
-        setCurrentProfil(newProfil);
+        setCurrentProfile(newProfil);
     }
 
-    public void setCurrentProfil(Profile newProfil) {
+    public void setCurrentProfile(Profile newProfil) {
         profileViMo.setProfile(newProfil);
     }
 
@@ -969,11 +969,11 @@ public class MainActivity extends AppCompatActivity {
                 List<Profile> lList = mDbProfils.getAllProfils();
                 mCurrentProfile = lList.get(0);
             } catch (IndexOutOfBoundsException e) {
-                this.CreateNewProfil();
+                this.CreateNewProfile();
             }
         }
 
-        if (mCurrentProfile != null) setCurrentProfil(mCurrentProfile.getName());
+        if (mCurrentProfile != null) setCurrentProfile(mCurrentProfile.getName());
 
     }
 
