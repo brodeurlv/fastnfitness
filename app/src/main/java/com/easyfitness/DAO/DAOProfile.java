@@ -42,7 +42,7 @@ public class DAOProfile extends DAOBase {
     /**
      * @param m DBOProfil Profile a ajouter a la base
      */
-    public void addProfil(Profile m) {
+    public void addProfile(Profile m) {
         // Check if profil already exists
         Profile check = getProfil(m.getName());
         if (check != null) return;
@@ -66,7 +66,7 @@ public class DAOProfile extends DAOBase {
     /**
      * @param pName String Nom du profil a ajouter a la base
      */
-    public void addProfil(String pName) {
+    public void addProfile(String pName) {
         // Check if profil already exists
         Profile check = getProfil(pName);
         if (check != null) return;
@@ -327,8 +327,8 @@ public class DAOProfile extends DAOBase {
         Date date = new Date();
         Date dateBirthday = DateConverter.getNewDate();
         Profile m = new Profile(0, date, "Champignon", 120, dateBirthday, null, 0);
-        this.addProfil(m);
+        this.addProfile(m);
         m = new Profile(0, date, "Musclor", 150, dateBirthday, null, 0);
-        this.addProfil(m);
+        this.addProfile(m);
     }
 }

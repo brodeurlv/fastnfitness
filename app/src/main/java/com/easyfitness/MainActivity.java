@@ -646,7 +646,7 @@ public class MainActivity extends AppCompatActivity {
                 CreateNewProfil();
             } else {
                 // Create the new profil
-                mDbProfils.addProfil(value);
+                mDbProfils.addProfile(value);
                 // Make it the current.
                 setCurrentProfil(value);
             }

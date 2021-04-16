@@ -60,7 +60,7 @@ public class NewProfileFragment extends SlideFragment {
     private final OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
+            mBirthday.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
         }
@@ -74,7 +74,7 @@ public class NewProfileFragment extends SlideFragment {
         @Override
         public void onClick(View v) {
             // Initialisation des objets DB
-            DAOProfile mDbProfils = new DAOProfile(v.getContext());
+            DAOProfile mDbProfiles = new DAOProfile(v.getContext());
 
             if (mName.getText().toString().isEmpty()) {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class NewProfileFragment extends SlideFragment {
 
                 Profile p = new Profile(mName.getText().toString(), size, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getContext()), lGender);
                 // Create the new profil
-                mDbProfils.addProfil(p);
+                mDbProfiles.addProfile(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
 
                 new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
