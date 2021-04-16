@@ -12,7 +12,8 @@
     <string name="revision_history" translatable="false">\n
 v0.19.6: April 07, 2021\n
         \t- Enhancement: Fixed German translation (Thank you @lucca-ruhland)\n
-        \t- Bug: Fix small UI bug \n
+        \t- Bug: Fixed small UI bug \n
+        \t- Bug: Fixed Profile birthday update
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

@@ -58,7 +58,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        valueTextView.setText(DateConverter.dateToLocalDateStr(year, month, dayOfMonth, getContext()));
+        setText(DateConverter.dateToLocalDateStr(year, month, dayOfMonth, getContext()));
         if (mConfirmClickListener != null)
             mConfirmClickListener.onTextChanged(EditableInputView.this);
     }
@@ -170,7 +170,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
     public void setText(String newValue) {
         mTextValue = newValue;
-        valueTextView.setText(newValue + mSuffix);
+        valueTextView.setText(String.format("%s%s", newValue, mSuffix));
     }
 
     public void setHint(String newValue) {
