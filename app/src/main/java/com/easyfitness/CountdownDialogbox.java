@@ -128,7 +128,7 @@ public class CountdownDialogbox extends Dialog implements
 
         setOnDismissListener(onDismissChrono);
 
-        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime - 2) * 1000);
+        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime - 3) * 1000);
     }
 
     @Override

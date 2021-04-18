@@ -43,4 +43,13 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_audio_setting">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefPlaySoundAfterRestTimer"
+            android:summary="@string/pref_play_sound_after_rest_timer_summary"
+            android:title="@string/pref_play_sound_after_rest_timer" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
