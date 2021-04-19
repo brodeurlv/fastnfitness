@@ -3,12 +3,15 @@ package com.easyfitness.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
+import androidx.preference.PreferenceManager;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
@@ -17,8 +20,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                 0,  // Start immediately
                 500, 500, 500, 500, 500};
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        toneGen.startTone(ToneGenerator.TONE_SUP_BUSY, 3000);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean playSound = prefs.getBoolean("prefPlaySoundAfterRestTimer", true);
+        Log.i("Sound value", "" + playSound);
+
+        if (playSound) {
+            ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            toneGen.startTone(ToneGenerator.TONE_SUP_BUSY, 3000);
+        }
         // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createWaveform(pattern, -1), new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
