@@ -26,12 +26,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         // Vibrate for 500 milliseconds
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createWaveform(pattern, -1), new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
-        } else {
-            //deprecated in API 26
-            if (v != null) {
-                v.vibrate(pattern, -1);
+        if(intent.getBooleanExtra("playVibrationAfterRestTimer", true)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createWaveform(pattern, -1), new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
+            } else {
+                //deprecated in API 26
+                if (v != null) {
+                    v.vibrate(pattern, -1);
+                }
             }
         }
     }

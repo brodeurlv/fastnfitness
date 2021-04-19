@@ -74,10 +74,12 @@ public class CountdownDialogbox extends Dialog implements
 
     public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Boolean playSound = prefs.getBoolean("prefPlaySoundAfterRestTimer", true);
+        boolean playSound = prefs.getBoolean("prefPlaySoundAfterRestTimer", true);
+        boolean playVibration = prefs.getBoolean("prefPlayVibrationAfterRestTimer", true);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("playSoundAfterRestTimer", playSound);
+        intent.putExtra("playVibrationAfterRestTimer", playVibration);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
