@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -71,7 +73,11 @@ public class CountdownDialogbox extends Dialog implements
     }
 
     public static void registerAlarm(Context context, int uniqueId, long triggerAlarmAt) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean playSound = prefs.getBoolean("prefPlaySoundAfterRestTimer", true);
+
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra("playSoundAfterRestTimer", playSound);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
