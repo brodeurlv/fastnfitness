@@ -58,4 +58,8 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_scheduled_backup_setting">
+        
+    </PreferenceCategory>
+
 </PreferenceScreen>

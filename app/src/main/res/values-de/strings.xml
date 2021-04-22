@@ -79,6 +79,9 @@
     <string name="pref_play_vibration_after_rest_timer">Vibration abspielen</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibration abspielen nachdem Timer für Pause abgelaufen ist</string>
 
+    <string name="pref_scheduled_backup_setting">Geplante Backups Einstellungen</string>
+
+
     <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
     <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
 

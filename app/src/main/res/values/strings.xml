@@ -95,6 +95,8 @@
     <string name="pref_play_vibration_after_rest_timer">Play vibration</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Play vibration after rest timer finished</string>
 
+    <string name="pref_scheduled_backup_setting">Scheduled Backup Settings</string>
+
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
     <string name="pref_preferredDistanceUnitTitle">Select your preferred distance unit</string>
