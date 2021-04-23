@@ -73,6 +73,12 @@
     <string name="pref_show_mp3_player">Zeige MP3 Player</string>
     <string name="pref_show_mp3_player_summary">Zeige/Verstecke die MP3 Player Toolbar</string>
 
+    <string name="pref_audio_setting">Ruhezeit Timer Einstellungen</string>
+    <string name="pref_play_sound_after_rest_timer">Ton abspielen</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Ton abspielen nachdem Timer für Pause abgelaufen ist</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibration abspielen</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibration abspielen nachdem Timer für Pause abgelaufen ist</string>
+
     <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
     <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
 

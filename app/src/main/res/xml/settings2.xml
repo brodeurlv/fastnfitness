@@ -43,4 +43,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_audio_setting">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefPlaySoundAfterRestTimer"
+            android:summary="@string/pref_play_sound_after_rest_timer_summary"
+            android:title="@string/pref_play_sound_after_rest_timer" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefPlayVibrationAfterRestTimer"
+            android:summary="@string/pref_play_vibration_after_rest_timer_summary"
+            android:title="@string/pref_play_vibration_after_rest_timer" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

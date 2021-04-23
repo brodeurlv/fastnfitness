@@ -1,6 +1,13 @@
 ## Change Log
 
-### 0.19.5: January 24, 2021\n
+v0.19.6: April 18, 2021
+- Enhancement: Fixed German translation (Thank you @lucca-ruhland)
+- Enhancement: Added Ramdom play for music player (#13 - Thank you @alextsakpinis)
+- Bug: Fixed access grant for music player (#194 - Thank you @alextsakpinis)
+- Bug: Fixed small UI bug
+- Bug: Fixed profile birthday update (#189)
+
+### 0.19.5: January 24, 2021
 - Enhancement: Add 1 Max Rep in graph (#185 - Thank you @realGWM)
 - Enhancement: Updated graph function - view rep count (#182)
 - Enhancement: Added Russian language (#187 - Thank you @zayn1991)
