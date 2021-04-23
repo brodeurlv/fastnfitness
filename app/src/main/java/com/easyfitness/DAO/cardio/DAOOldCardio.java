@@ -75,7 +75,7 @@ public class DAOOldCardio extends DAOBase {
 
                 // Get Profile
                 DAOProfile lDAOProfile = new DAOProfile(mContext);
-                Profile lProfile = lDAOProfile.getProfil(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
+                Profile lProfile = lDAOProfile.getProfile(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
 
                 OldCardio value = new OldCardio(date,
                         mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.EXERCICE)),

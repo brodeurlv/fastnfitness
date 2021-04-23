@@ -530,7 +530,7 @@ public class MachineDetailsFragment extends Fragment {
                     // Rename all the records with that machine and rename them
                     DAORecord lDbRecord = new DAORecord(getView().getContext());
                     DAOProfile mDbProfil = new DAOProfile(getView().getContext());
-                    Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+                    Profile lProfile = mDbProfil.getProfile(machineProfilIdArg);
 
                     List<Record> listRecords = lDbRecord.getAllRecordByMachineStrArray(lProfile, initialMachine.getName()); // Recupere tous les records de la machine courante
                     for (Record record : listRecords) {
@@ -557,7 +557,7 @@ public class MachineDetailsFragment extends Fragment {
                 // Rename all the records with that machine and rename them
                 DAORecord lDbRecord = new DAORecord(getContext());
                 DAOProfile mDbProfil = new DAOProfile(getContext());
-                Profile lProfile = mDbProfil.getProfil(machineProfilIdArg);
+                Profile lProfile = mDbProfil.getProfile(machineProfilIdArg);
                 // Recupere tous les records de la machine courante
                 List<Record> listRecords = lDbRecord.getAllRecordByMachineIdArray(lProfile, initialMachine.getId());
                 for (Record record : listRecords) {

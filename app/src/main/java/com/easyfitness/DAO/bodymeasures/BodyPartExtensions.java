@@ -32,6 +32,7 @@ public class BodyPartExtensions {
     public static final int TRAPEZIUS = 24;
     public static final int OBLIQUES = 25;
     public static final int SHOULDERS = 26;
+    public static final int SIZE = 27;
 
     public static final int TYPE_MUSCLE = 0;
     public static final int TYPE_WEIGHT = 1;
@@ -92,6 +93,8 @@ public class BodyPartExtensions {
                 return R.string.waterLabel;
             case MUSCLES:
                 return R.string.musclesLabel;
+            case SIZE:
+                return R.string.size;
         }
 
         return -1;

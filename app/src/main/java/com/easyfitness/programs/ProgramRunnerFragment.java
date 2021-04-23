@@ -27,7 +27,7 @@ import com.easyfitness.DAO.program.ProgramHistory;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
-import com.easyfitness.ProfileViMo;
+import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.ProgramRecordStatus;
@@ -117,7 +117,7 @@ public class ProgramRunnerFragment extends Fragment {
     private Program mRunningProgram;
     private ProgramHistory mRunningProgramHistory;
     private boolean mIsProgramRunning = false;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
     private final OnCustomEventListener onProgramCompletedListener = eventName -> {
         // Open dialog box to finish program
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
@@ -234,9 +234,9 @@ public class ProgramRunnerFragment extends Fragment {
         mNewButton.setOnClickListener(clickAddProgramButton);
         mEditButton.setOnClickListener(onClickEditProgram);
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
@@ -344,7 +344,7 @@ public class ProgramRunnerFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
 }

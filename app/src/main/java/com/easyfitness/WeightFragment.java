@@ -128,7 +128,7 @@ public class WeightFragment extends Fragment {
     private BodyPart fatBobyPart;
     private BodyPart musclesBobyPart;
     private BodyPart waterBobyPart;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
     private final OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -298,9 +298,9 @@ public class WeightFragment extends Fragment {
         mWaterGraph.getChart().setOnClickListener(showDetailsFragment);
         waterBobyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.WATER);
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
@@ -424,7 +424,7 @@ public class WeightFragment extends Fragment {
      * @param size   in cm
      * @return
      */
-    private float calculateImc(float weight, int size) {
+    private float calculateImc(float weight, float size) {
 
         if (size == 0) return 0;
 
@@ -477,7 +477,7 @@ public class WeightFragment extends Fragment {
      * Normalized Fat-Free Mass Index: Normalized FFMI [kg/m2] = FFM [kg] / (height [m])2 + 6.1 × (1.8 − height [m])
      * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
      */
-    private double calculateFfmi(float weight, int size, float bodyFat) {
+    private double calculateFfmi(float weight, float size, float bodyFat) {
 
         if (bodyFat == 0) return 0;
 
@@ -490,7 +490,7 @@ public class WeightFragment extends Fragment {
      * Normalized Fat-Free Mass Index: Normalized FFMI [kg/m2] = FFM [kg] / (height [m])2 + 6.1 × (1.8 − height [m])
      * https://goodcalculators.com/ffmi-fat-free-mass-index-calculator/
      */
-    private double calculateNormalizedFfmi(float weight, int size, float bodyFat) {
+    private double calculateNormalizedFfmi(float weight, float size, float bodyFat) {
 
         if (bodyFat == 0) return 0;
 
@@ -553,7 +553,6 @@ public class WeightFragment extends Fragment {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
-
                 BodyMeasure lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(weightBobyPart.getId(), getProfile());
                 BodyMeasure lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(waterBobyPart.getId(), getProfile());
                 BodyMeasure lastFatValue = mDbBodyMeasure.getLastBodyMeasures(fatBobyPart.getId(), getProfile());
@@ -564,18 +563,22 @@ public class WeightFragment extends Fragment {
 
                     weightEdit.setText(editText);
                     // update IMC
-                    int size = getProfile().getSize();
-                    if (size == 0) {
+                    BodyPart sizeBodyPart = mDbBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
+                    BodyMeasure lastSizeValue = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
+                    if (lastSizeValue.getBodyMeasure() == 0) {
                         imcText.setText("-");
                         imcRank.setText(R.string.no_size_available);
                         ffmiText.setText("-");
                         ffmiRank.setText(R.string.no_size_available);
                     } else {
-                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG), size);
+                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG),
+                                UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit(), Unit.CM) );
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
                         if (lastFatValue != null) {
-                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG), size, lastFatValue.getBodyMeasure());
+                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit(), Unit.CM),
+                                    lastFatValue.getBodyMeasure());
                             ffmiText.setText(String.format("%.1f", ffmiValue));
                             if (getProfile().getGender() == Gender.FEMALE)
                                 ffmiRank.setText(getFfmiTextForWomen(ffmiValue));
@@ -624,7 +627,7 @@ public class WeightFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
     public Fragment getFragment() {

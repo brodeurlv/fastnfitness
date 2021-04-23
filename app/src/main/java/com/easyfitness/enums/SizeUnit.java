@@ -6,7 +6,6 @@ public enum SizeUnit {
 
     private String mDisplayName = "";
 
-    //Constructeur
     SizeUnit(String displayName) {
         this.mDisplayName = displayName;
     }
@@ -38,4 +37,6 @@ public enum SizeUnit {
     public String toString() {
         return mDisplayName;
     }
+
+
 }

@@ -23,7 +23,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
-import com.easyfitness.ProfileViMo;
+import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.utils.Keyboard;
 
@@ -99,7 +99,7 @@ public class BodyPartListFragment extends Fragment {
     private DAOBodyPart mdbBodyPart;
     private DAOBodyMeasure mdbMeasure;
     private BodyPartListAdapter mListAdapter;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -135,9 +135,9 @@ public class BodyPartListFragment extends Fragment {
         mdbBodyPart = new DAOBodyPart(this.getContext());
         dataModels = new ArrayList<>();
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             mListAdapter.setProfile(profile);
             refreshData();
@@ -186,7 +186,7 @@ public class BodyPartListFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
 }

@@ -3,10 +3,13 @@ package com.easyfitness.DAO;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.preference.PreferenceManager;
 
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
@@ -18,6 +21,7 @@ import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Unit;
+import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 22;
+    public static final int DATABASE_VERSION = 23;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -171,6 +175,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // update all unitless bodymeasures based on BODYPART_ID
                     upgradeBodyMeasureUnits(db);
                     break;
+                case 23:
+                    long sizeBodyPartId = addInitialBodyPart(db, BodyPartExtensions.SIZE, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
+                    DAOProfile daoProfile = new DAOProfile(mContext);
+                    DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
+
+                    // Get Size unit preference
+                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    String defaultSizeUnitString = SP.getString("defaultSizeUnit", Unit.CM.toString());
+                    Unit defaultSizeUnit = Unit.fromString(defaultSizeUnitString);
+
+                    List<Profile> profileList = daoProfile.getAllProfiles(db);
+                    for (Profile profile:profileList) {
+                        daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, profile.getSize(), profile.getId(), defaultSizeUnit);
+                    }
+                    break;
             }
             upgradeTo++;
         }
@@ -288,8 +307,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             daoBodyMeasure.updateMeasure(db, bodyMeasure);
         }
-
-
     }
 
     public void initBodyPartTable(SQLiteDatabase db) {
@@ -310,7 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addInitialBodyPart(db, BodyPartExtensions.FAT, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
     }
 
-    public void addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
+    public long addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
         ContentValues value = new ContentValues();
 
         value.put(DAOBodyPart.KEY, pKey);
@@ -320,6 +337,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         value.put(DAOBodyPart.DISPLAY_ORDER, pDisplay);
         value.put(DAOBodyPart.TYPE, pType);
 
-        db.insert(DAOBodyPart.TABLE_NAME, null, value);
+        return db.insert(DAOBodyPart.TABLE_NAME, null, value);
     }
 }
