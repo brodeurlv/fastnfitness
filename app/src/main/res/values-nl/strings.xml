@@ -296,6 +296,7 @@
     <string name="pref_play_vibration_after_rest_timer">Vibratie</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Trillen aan het eind van rust timer</string>
     <string name="size">Grootte</string>
+    <string name="gender">Geslacht</string>
 
 </resources>
 

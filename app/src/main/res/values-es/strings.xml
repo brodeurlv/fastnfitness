@@ -302,5 +302,6 @@
     <string name="pref_play_vibration_after_rest_timer">Vibración</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrar al final del temporizador de reposo</string>
     <string name="size">Tamaño</string>
+    <string name="gender">Género</string>
 
 </resources>

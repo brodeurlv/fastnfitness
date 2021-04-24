@@ -300,6 +300,7 @@
     <string name="femaleGender">Female</string>
     <string name="otherGender">Other</string>
     <string name="enter_gender_here">Enter gender</string>
+    <string name="gender">Gender</string>
     <string name="no_size_available">no size available</string>
     <string name="no_weight_available">no weight available</string>
     <string name="BMI_dialog_title">Body Mass Index (BMI)</string>
