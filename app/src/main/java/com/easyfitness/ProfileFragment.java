@@ -215,8 +215,13 @@ public class ProfileFragment extends Fragment {
             }
         });
         profileViMo.getSizeUnit().observe(getViewLifecycleOwner(), sizeUnit -> {
-            sizeEdit.setText(String.valueOf(profileViMo.getSize().getValue().toString()) + sizeUnit);
-        });
+            if (profileViMo.getSize().getValue() == 0) {
+                sizeEdit.setText("");
+                sizeEdit.setHint(getString(R.string.profileEnterYourSize));
+            } else {
+                sizeEdit.setText(String.valueOf(profileViMo.getSize().getValue().toString()) + sizeUnit);
+            }
+            });
         profileViMo.getName().observe(getViewLifecycleOwner(), name -> {
             nameEdit.setText(name);
         });
@@ -246,17 +251,15 @@ public class ProfileFragment extends Fragment {
 
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         appViMo.getProfile().observe(getViewLifecycleOwner(), newProfile -> {
-            if(!isSaving) {
-                // Update the UI, in this case, a TextView.
-                profileViMo.setBirthday(newProfile.getBirthday());
-                profileViMo.setGender(newProfile.getGender());
-                profileViMo.setPhoto(newProfile.getPhoto());
-                profileViMo.setName(newProfile.getName());
+            if (!isSaving) {
+                updateProfileViMo(newProfile);
             }
         });
 
         return view;
     }
+
+
 
     @Override
     public void onStart() {
@@ -265,28 +268,28 @@ public class ProfileFragment extends Fragment {
         Profile profile = appViMo.getProfile().getValue();
 
         //Init View Model
-        BodyMeasure sizeMeasure = daoBodyMeasure.getLastBodyMeasures(BodyPartExtensions.SIZE, profile);
-        profileViMo.setBirthday(profile.getBirthday());
-        profileViMo.setGender(profile.getGender());
-        profileViMo.setPhoto(profile.getPhoto());
-        profileViMo.setName(profile.getName());
-        profileViMo.setSize(sizeMeasure.getBodyMeasure());
-        profileViMo.setSizeUnit(sizeMeasure.getUnit());
-
-        nameEdit.setOnTextChangeListener(view -> {
-            profileViMo.setName(nameEdit.getText());
-            requestForSave();
-        } );
-        birthdayEdit.setOnTextChangeListener(view -> {
-            profileViMo.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
-            requestForSave();
-        });
+        updateProfileViMo(profile);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.mActivity = (MainActivity) context;
+    }
+
+    private void updateProfileViMo(Profile profile) {
+        profileViMo.setBirthday(profile.getBirthday());
+        profileViMo.setGender(profile.getGender());
+        profileViMo.setPhoto(profile.getPhoto());
+        profileViMo.setName(profile.getName());
+        BodyMeasure sizeMeasure = daoBodyMeasure.getLastBodyMeasures(BodyPartExtensions.SIZE, profile);
+        if (sizeMeasure!=null) {
+            profileViMo.setSize(sizeMeasure.getBodyMeasure());
+            profileViMo.setSizeUnit(sizeMeasure.getUnit());
+        } else {
+            profileViMo.setSize(0);
+            profileViMo.setSizeUnit(Unit.CM);
+        }
     }
 
     public String getName() {
