@@ -310,4 +310,9 @@
     <string name="maxReps">Máx de Reps</string>
     <string name="sumReps">Soma de Reps</string>
     <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
+    <string name="pref_audio_setting">Definições do temporizador de descanso</string>
+    <string name="pref_play_sound_after_rest_timer">Bip</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Bip no final do temporizador resto</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibração</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibrar no final do temporizador resto</string>
 </resources>

@@ -90,10 +90,10 @@
     <string name="pref_show_mp3_player_summary">Show/hide the MP3 player toolbar</string>
 
     <string name="pref_audio_setting">Rest Timer Settings</string>
-    <string name="pref_play_sound_after_rest_timer">Play sound</string>
-    <string name="pref_play_sound_after_rest_timer_summary">Play sound after rest timer finished</string>
-    <string name="pref_play_vibration_after_rest_timer">Play vibration</string>
-    <string name="pref_play_vibration_after_rest_timer_summary">Play vibration after rest timer finished</string>
+    <string name="pref_play_sound_after_rest_timer">Beep</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Beep at the end of rest timer</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibration</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibrate at the end of rest timer</string>
 
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>

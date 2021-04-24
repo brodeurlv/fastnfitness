@@ -242,4 +242,9 @@
     <string name="sumReps">Сумма повторений</string>
     <string name="maxReps">Макс. повторений</string>
     <string name="oneRepMax">1RM (повторений &lt;= 10)</string>
+    <string name="pref_audio_setting">гудок</string>
+    <string name="pref_play_sound_after_rest_timer">Звуковой сигнал в конце таймера отдыха</string>
+    <string name="pref_play_sound_after_rest_timer_summary">вибрация</string>
+    <string name="pref_play_vibration_after_rest_timer">Виброзвонок в конце таймера отдыха</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Размер</string>
 </resources>

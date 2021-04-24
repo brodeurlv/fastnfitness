@@ -321,4 +321,9 @@
     <string name="maxReps">Mass. di Ripetizioni</string>
     <string name="sumReps">Totale di Ripetizioni</string>
     <string name="oneRepMax">1RM (Rip &lt;= 10)</string>
+    <string name="pref_audio_setting">Impostazioni timer di riposo</string>
+    <string name="pref_play_sound_after_rest_timer">Bip</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Bip alla fine del timer riposo</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibrazione</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibrare alla fine del timer riposo</string>
 </resources>
