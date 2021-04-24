@@ -55,7 +55,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class NewProfileFragment extends SlideFragment {
 
     private EditText mName;
-    private EditText mSize;
     private TextView mBirthday;
     private final OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
@@ -80,15 +79,6 @@ public class NewProfileFragment extends SlideFragment {
                 //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
                 KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             } else {
-                int size = 0;
-                try {
-                    if (!mSize.getText().toString().isEmpty()) {
-                        size = Double.valueOf(mSize.getText().toString()).intValue();
-                    }
-                } catch (NumberFormatException e) {
-                    size = 0;
-                }
-
                 int lGender = Gender.UNKNOWN;
                 if (mRbMale.isChecked()) {
                     lGender = Gender.MALE;
@@ -98,7 +88,7 @@ public class NewProfileFragment extends SlideFragment {
                     lGender = Gender.OTHER;
                 }
 
-                Profile p = new Profile(mName.getText().toString(), size, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getContext()), lGender);
+                Profile p = new Profile(mName.getText().toString(), 0, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getContext()), lGender);
                 // Create the new profil
                 mDbProfiles.addProfile(p);
                 //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
@@ -138,7 +128,6 @@ public class NewProfileFragment extends SlideFragment {
         View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
 
         mName = view.findViewById(R.id.profileName);
-        mSize = view.findViewById(R.id.profileSize);
         mBirthday = view.findViewById(R.id.profileBirthday);
         mBtCreate = view.findViewById(R.id.create_newprofil);
         mRbMale = view.findViewById(R.id.radioButtonMale);

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.bodymeasures.BodyMeasure;
+import com.easyfitness.DAO.bodymeasures.BodyPart;
+import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
+import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Gender;
 import com.easyfitness.utils.ImageUtil;
@@ -40,7 +47,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class ProfileFragment extends Fragment {
-    EditableInputView sizeEdit = null;
+    TextView sizeEdit = null;
     EditableInputView birthdayEdit = null;
     EditableInputView nameEdit = null;
     EditableInputView genderEdit = null;
@@ -49,12 +56,41 @@ public class ProfileFragment extends Fragment {
     String mCurrentPhotoPath = null;
 
     MainActivity mActivity = null;
-    private DAOProfile mDb = null;
-    private Profile mProfile = null;
+    private DAOProfile daoProfile = null;
+    private DAOBodyMeasure daoBodyMeasure = null;
+    private DAOBodyPart daoBodyPart = null;
     private ImageUtil imgUtil = null;
     private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private AppViMo appViMo;
     private ProfileViMo profileViMo;
-    private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
+    private final OnClickListener mOnClickListener = view -> {
+        ValueEditorDialogbox editorDialogbox;
+        if (view.getId() == R.id.size) {
+                BodyPart sizeBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
+                BodyMeasure lastSizeValue = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
+                if (lastSizeValue == null) {
+                    editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultSizeUnit(getActivity()));
+                } else {
+                    editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit());
+                }
+                editorDialogbox.setTitle(R.string.AddLabel);
+                editorDialogbox.setPositiveButton(R.string.AddLabel);
+                editorDialogbox.setOnDismissListener(dialog -> {
+                    if (!editorDialogbox.isCancelled()) {
+                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
+                        Unit unit = Unit.fromString(editorDialogbox.getUnit());
+                        daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), value, appViMo.getProfile().getValue().getId(), unit);
+                        profileViMo.setSize(value);
+                        profileViMo.setSizeUnit(unit);
+                        requestForSave();
+                    }
+                });
+                editorDialogbox.show();
+        }
+    };
+    private boolean isSaving;
+
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -86,10 +122,12 @@ public class ProfileFragment extends Fragment {
         roundProfile = view.findViewById(R.id.photo);
         photoButton = view.findViewById(R.id.actionCamera);
 
-        sizeEdit.setTextSuffix(" cm");
+        daoProfile = new DAOProfile(view.getContext());
+        daoBodyMeasure = new DAOBodyMeasure(view.getContext());
+        daoBodyPart = new DAOBodyPart(view.getContext());
 
-        mDb = new DAOProfile(view.getContext());
-        mProfile = getProfil();
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
+
 
         /* Initialisation des valeurs */
         imgUtil = new ImageUtil(roundProfile);
@@ -104,26 +142,26 @@ public class ProfileFragment extends Fragment {
                     .setCancelText(getString(R.string.femaleGender))
                     .setConfirmText(getString(R.string.otherGender))
                     .setNeutralClickListener(sDialog -> {
-                        String oldValue = genderEdit.getText();
-                        if (!oldValue.equals(getString(R.string.maleGender))) {
-                            genderEdit.setText(getString(R.string.maleGender));
-                            requestForSave(genderEdit);
+                        int oldValue = profileViMo.getGender().getValue();
+                        if (oldValue != Gender.MALE) {
+                            profileViMo.setGender(Gender.MALE);
+                            requestForSave();
                         }
                         sDialog.dismissWithAnimation();
                     })
                     .setCancelClickListener(sDialog -> {
-                        String oldValue = genderEdit.getText();
-                        if (!oldValue.equals(getString(R.string.femaleGender))) {
-                            genderEdit.setText(getString(R.string.femaleGender));
-                            requestForSave(genderEdit);
+                        int oldValue = profileViMo.getGender().getValue();
+                        if (oldValue != Gender.FEMALE) {
+                            profileViMo.setGender(Gender.FEMALE);
+                            requestForSave();
                         }
                         sDialog.dismissWithAnimation();
                     })
                     .setConfirmClickListener(sDialog -> {
-                        String oldValue = genderEdit.getText();
-                        if (!oldValue.equals(getString(R.string.otherGender))) {
-                            genderEdit.setText(getString(R.string.otherGender));
-                            requestForSave(genderEdit);
+                        int oldValue = profileViMo.getGender().getValue();
+                        if (oldValue != Gender.OTHER) {
+                            profileViMo.setGender(Gender.OTHER);
+                            requestForSave();
                         }
                         sDialog.dismissWithAnimation();
                     });
@@ -132,23 +170,16 @@ public class ProfileFragment extends Fragment {
                 SweetAlertDialog sweetDlg = (SweetAlertDialog) sDialog;
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setBackgroundResource(R.color.record_background_odd);
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setPadding(0, 0, 0, 0);
-                //LayoutParams params = (LayoutParams)sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).getLayoutParams();
-                //params.setMargins(0, 0, 0, 0);
-                //dlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sweetDlg.getButton(SweetAlertDialog.BUTTON_CONFIRM).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
                 }
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setBackgroundResource(R.color.record_background_odd);
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setPadding(0, 0, 0, 0);
-
-                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sweetDlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
                 }
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setBackgroundResource(R.color.record_background_odd);
                 sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setPadding(0, 0, 0, 0);
-
-                //dlg.getButton(SweetAlertDialog.BUTTON_CANCEL).setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sweetDlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
                 }
@@ -158,35 +189,86 @@ public class ProfileFragment extends Fragment {
         });
 
         photoButton.setOnClickListener(onClickMachinePhoto);
+        sizeEdit.setOnClickListener(mOnClickListener);
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
             imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
-            mCurrentPhotoPath = null;
-            requestForSave(imgUtil.getView());
+            profileViMo.setPhoto("");
+            requestForSave();
         });
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
+        profileViMo.getBirthday().observe(getViewLifecycleOwner(), birthday -> {
+            if (birthday.getTime() == 0) {
+                birthdayEdit.setText("");
+                birthdayEdit.setHint(getString(R.string.profileEnterYourBirthday));
+            } else {
+                birthdayEdit.setText(DateConverter.dateToLocalDateStr(birthday, getContext()));
+            }
+        });
+        profileViMo.getSize().observe(getViewLifecycleOwner(), size -> {
+            if (size == 0) {
+                sizeEdit.setText("");
+                sizeEdit.setHint(getString(R.string.profileEnterYourSize));
+            } else {
+                sizeEdit.setText(String.valueOf(size) + profileViMo.getSizeUnit().getValue().toString());
+            }
+        });
+        profileViMo.getSizeUnit().observe(getViewLifecycleOwner(), sizeUnit -> {
+            if (profileViMo.getSize().getValue() == 0) {
+                sizeEdit.setText("");
+                sizeEdit.setHint(getString(R.string.profileEnterYourSize));
+            } else {
+                sizeEdit.setText(String.valueOf(profileViMo.getSize().getValue().toString()) + sizeUnit);
+            }
+            });
+        profileViMo.getName().observe(getViewLifecycleOwner(), name -> {
+            nameEdit.setText(name);
+        });
+        profileViMo.getPhoto().observe(getViewLifecycleOwner(), photo -> {
+            if (photo != null) {
+                ImageUtil.setPic(roundProfile, photo);
+                roundProfile.invalidate();
+            } else
+                roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
+        });
+        profileViMo.getGender().observe(getViewLifecycleOwner(), gender -> {
+            switch (gender) {
+                case Gender.MALE:
+                    genderEdit.setText(getString(R.string.maleGender));
+                    break;
+                case Gender.FEMALE:
+                    genderEdit.setText(getString(R.string.femaleGender));
+                    break;
+                case Gender.OTHER:
+                    genderEdit.setText(getString(R.string.otherGender));
+                    break;
+                default:
+                    genderEdit.setText("");
+                    genderEdit.setHint(getString(R.string.enter_gender_here));
+            }
+        });
+
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
-            // Update the UI, in this case, a TextView.
-            mProfile = profile;
-            refreshData();
+        appViMo.getProfile().observe(getViewLifecycleOwner(), newProfile -> {
+            if (!isSaving) {
+                updateProfileViMo(newProfile);
+            }
         });
 
         return view;
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
 
-        roundProfile.post(() -> {
-            refreshData();
-            sizeEdit.setOnTextChangeListener(itemOnTextChange);
-            birthdayEdit.setOnTextChangeListener(itemOnTextChange);
-            nameEdit.setOnTextChangeListener(itemOnTextChange);
-            genderEdit.setOnTextChangeListener(itemOnTextChange);
-        });
+        Profile profile = appViMo.getProfile().getValue();
+
+        //Init View Model
+        updateProfileViMo(profile);
     }
 
     @Override
@@ -195,110 +277,45 @@ public class ProfileFragment extends Fragment {
         this.mActivity = (MainActivity) context;
     }
 
+    private void updateProfileViMo(Profile profile) {
+        profileViMo.setBirthday(profile.getBirthday());
+        profileViMo.setGender(profile.getGender());
+        profileViMo.setPhoto(profile.getPhoto());
+        profileViMo.setName(profile.getName());
+        BodyMeasure sizeMeasure = daoBodyMeasure.getLastBodyMeasures(BodyPartExtensions.SIZE, profile);
+        if (sizeMeasure!=null) {
+            profileViMo.setSize(sizeMeasure.getBodyMeasure());
+            profileViMo.setSizeUnit(sizeMeasure.getUnit());
+        } else {
+            profileViMo.setSize(0);
+            profileViMo.setSizeUnit(Unit.CM);
+        }
+    }
+
     public String getName() {
         return getArguments().getString("name");
     }
 
-    private void refreshData() {
-        mProfile = getProfil();
+    private void requestForSave() {
+        isSaving = true;
 
-        /* Initialisation des valeurs */
-        if (mProfile.getSize() == 0) {
-            sizeEdit.setText("");
-            sizeEdit.setHint(getString(R.string.profileEnterYourSize));
-        } else {
-            sizeEdit.setText(String.valueOf(mProfile.getSize()));
-        }
+        Profile profile = appViMo.getProfile().getValue();
 
-        switch (mProfile.getGender()) {
-            case Gender.MALE:
-                genderEdit.setText(getString(R.string.maleGender));
-                break;
-            case Gender.FEMALE:
-                genderEdit.setText(getString(R.string.femaleGender));
-                break;
-            case Gender.OTHER:
-                genderEdit.setText(getString(R.string.otherGender));
-                break;
-            default:
-                genderEdit.setText("");
-                genderEdit.setHint(getString(R.string.enter_gender_here));
-        }
+        profile.setBirthday(profileViMo.getBirthday().getValue());
+        profile.setGender(profileViMo.getGender().getValue());
+        profile.setName(profileViMo.getName().getValue());
+        profile.setPhoto(profileViMo.getPhoto().getValue());
 
-        if (mProfile.getBirthday().getTime() == 0) {
-            birthdayEdit.setText("");
-            birthdayEdit.setHint(getString(R.string.profileEnterYourBirthday));
-        } else {
-            birthdayEdit.setText(DateConverter.dateToLocalDateStr(mProfile.getBirthday(), getContext()));
-        }
+        daoProfile.updateProfile(profile);
+        KToast.infoToast(getActivity(), profile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        appViMo.setProfile(profile);
 
-        nameEdit.setText(mProfile.getName());
-
-        if (mProfile.getPhoto() != null) {
-            ImageUtil.setPic(roundProfile, mProfile.getPhoto());
-            roundProfile.invalidate();
-        } else
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
-    }
-
-    private void requestForSave(View view) {
-        boolean profileToUpdate = false;
-
-        // Save all the fields in the Profile
-        switch (view.getId()) {
-            case R.id.name:
-                mProfile.setName(nameEdit.getText());
-                profileToUpdate = true;
-                break;
-            case R.id.size:
-                try {
-                    mProfile.setSize((int) Float.parseFloat(sizeEdit.getText()));
-                } catch (NumberFormatException e) {
-                    mProfile.setSize(0);
-                }
-                profileToUpdate = true;
-                break;
-            case R.id.birthday:
-                mProfile.setBirthday(DateConverter.localDateStrToDate(birthdayEdit.getText(), getContext()));
-                profileToUpdate = true;
-                break;
-            case R.id.photo:
-                mProfile.setPhoto(mCurrentPhotoPath);
-                profileToUpdate = true;
-                break;
-            case R.id.gender:
-                int lGender = Gender.UNKNOWN;
-                if (genderEdit.getText().equals(getString(R.string.maleGender))) {
-                    lGender = Gender.MALE;
-                } else if (genderEdit.getText().equals(getString(R.string.femaleGender))) {
-                    lGender = Gender.FEMALE;
-                } else if (genderEdit.getText().equals(getString(R.string.otherGender))) {
-                    lGender = Gender.OTHER;
-                }
-                mProfile.setGender(lGender);
-                profileToUpdate = true;
-                break;
-        }
-
-        if (profileToUpdate) {
-            mDb.updateProfile(mProfile);
-            KToast.infoToast(getActivity(), mProfile.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            profileViMo.setProfile(mProfile);
-        }
-    }
-
-    private Profile getProfil() {
-        return ((MainActivity) getActivity()).getCurrentProfile();
+        isSaving = false;
     }
 
     public Fragment getFragment() {
         return this;
     }
-
-    /*@Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) refreshData();
-    }*/
 
     private boolean CreatePhotoSourceDialog() {
         if (imgUtil == null)
@@ -313,21 +330,20 @@ public class ProfileFragment extends Fragment {
         switch (requestCode) {
             case ImageUtil.REQUEST_TAKE_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    mCurrentPhotoPath = imgUtil.getFilePath();
+                    profileViMo.setPhoto(imgUtil.getFilePath());
+                    requestForSave();
                     ImageUtil.setPic(roundProfile, mCurrentPhotoPath);
                     ImageUtil.saveThumb(mCurrentPhotoPath);
                     imgUtil.galleryAddPic(this, mCurrentPhotoPath);
-                    requestForSave(roundProfile);
                 }
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
                     String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
-
                     ImageUtil.setPic(roundProfile, realPath);
                     ImageUtil.saveThumb(realPath);
-                    mCurrentPhotoPath = realPath;
-                    requestForSave(roundProfile);
+                    profileViMo.setPhoto(realPath);
+                    requestForSave();
                 }
                 break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
@@ -367,8 +383,8 @@ public class ProfileFragment extends Fragment {
 
                     ImageUtil.setPic(roundProfile, realPath);
                     ImageUtil.saveThumb(realPath);
-                    mCurrentPhotoPath = realPath;
-                    requestForSave(roundProfile);
+                    profileViMo.setPhoto(realPath);
+                    requestForSave();
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }

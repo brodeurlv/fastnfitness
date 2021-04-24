@@ -202,7 +202,7 @@
     <string name="normal">normal</string>
     <string name="overweight">surpoids</string>
     <string name="obese">obèse</string>
-    <string name="enter_gender_here">Choisis ton sexe</string>
+    <string name="enter_gender_here">Choisis ton genre</string>
     <string name="no_size_available">taille non disponible</string>
     <string name="no_weight_available">poids non disponible</string>
     <string name="BMI_dialog_title">Indice de Masse Corporel (IMC)</string>
@@ -285,4 +285,6 @@
     <string name="pref_play_sound_after_rest_timer_summary">Bip à la fin de la minuterie de repos</string>
     <string name="pref_play_vibration_after_rest_timer">Vibration</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrer à la fin de la minuterie de repos</string>
+    <string name="size">Taille</string>
+    <string name="gender">Genre</string>
 </resources>

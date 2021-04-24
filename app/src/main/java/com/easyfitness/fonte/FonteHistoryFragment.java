@@ -23,7 +23,7 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
-import com.easyfitness.ProfileViMo;
+import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.enums.DisplayType;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -50,7 +50,7 @@ public class FonteHistoryFragment extends Fragment {
     long machineIdArg = -1;
     long machineProfilIdArg = -1;
     Machine mSelectedMachine = null;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
     private DAORecord mDbRecord = null;
     private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
@@ -165,9 +165,9 @@ public class FonteHistoryFragment extends Fragment {
         filterList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         dateList.setOnItemSelectedListener(onItemSelectedList);
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
             if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
@@ -270,6 +270,6 @@ public class FonteHistoryFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 }

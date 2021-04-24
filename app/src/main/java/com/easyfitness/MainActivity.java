@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mIntro014Launched = false;
     private boolean mMigrationBD15done = false;
     private long mBackPressed;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
 
     private final PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
         switch (item.getItemId()) {
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 getActivity().CreateNewProfile();
                 return true;
             case R.id.change_profil:
-                String[] profilListArray = getActivity().mDbProfils.getAllProfil();
+                String[] profilListArray = getActivity().mDbProfils.getAllProfile();
 
                 AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
                 changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 changeProfilbuilder.show();
                 return true;
             case R.id.delete_profil:
-                String[] profildeleteListArray = getActivity().mDbProfils.getAllProfil();
+                String[] profildeleteListArray = getActivity().mDbProfils.getAllProfile();
 
                 AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
                 deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
                             if (getCurrentProfile().getName().equals(checkedItem.toString())) {
                                 KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                             } else {
-                                Profile profileToDelete = mDbProfils.getProfil(checkedItem.toString());
-                                mDbProfils.deleteProfil(profileToDelete);
+                                Profile profileToDelete = mDbProfils.getProfile(checkedItem.toString());
+                                mDbProfils.deleteProfile(profileToDelete);
                                 KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                             }
                         });
@@ -255,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
 
         loadPreferences();
 
-        profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
-        profileViMo.getProfile().observe(this, profile -> {
+        appViMo = new ViewModelProvider(this).get(AppViMo.class);
+        appViMo.getProfile().observe(this, profile -> {
             // Update UI
             setDrawerTitle(profile.getName());
             setPhotoProfile(profile.getPhoto());
@@ -550,10 +550,10 @@ public class MainActivity extends AppCompatActivity {
                 // Si oui, supprimer la base de donnee et refaire un Start.
                 deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                     // recupere le premier ID de la liste.
-                    List<Profile> lList = mDbProfils.getAllProfils();
+                    List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
                     for (int i = 0; i < lList.size(); i++) {
                         Profile mTempProfile = lList.get(i);
-                        mDbProfils.deleteProfil(mTempProfile.getId());
+                        mDbProfils.deleteProfile(mTempProfile.getId());
                     }
                     DAOMachine mDbMachines = new DAOMachine(getActivity());
                     // recupere le premier ID de la liste.
@@ -773,16 +773,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Profile getCurrentProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
     public void setCurrentProfile(String newProfilName) {
-        Profile newProfil = this.mDbProfils.getProfil(newProfilName);
+        Profile newProfil = this.mDbProfils.getProfile(newProfilName);
         setCurrentProfile(newProfil);
     }
 
     public void setCurrentProfile(Profile newProfil) {
-        profileViMo.setProfile(newProfil);
+        appViMo.setProfile(newProfil);
     }
 
     private void setPhotoProfile(String path) {
@@ -963,10 +963,10 @@ public class MainActivity extends AppCompatActivity {
         mDbProfils = new DAOProfile(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        mCurrentProfile = mDbProfils.getProfil(mCurrentProfilID);
+        mCurrentProfile = mDbProfils.getProfile(mCurrentProfilID);
         if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
             try {
-                List<Profile> lList = mDbProfils.getAllProfils();
+                List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
                 mCurrentProfile = lList.get(0);
             } catch (IndexOutOfBoundsException e) {
                 this.CreateNewProfile();

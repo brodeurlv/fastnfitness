@@ -180,7 +180,7 @@ public class ExerciseDetailsPager extends Fragment {
         DAORecord mDbRecord = new DAORecord(getContext());
         DAOProfile mDbProfil = new DAOProfile(getContext());
 
-        Profile lProfile = mDbProfil.getProfil(this.machineProfilIdArg);
+        Profile lProfile = mDbProfil.getProfile(this.machineProfilIdArg);
 
         List<Record> listRecords = mDbRecord.getAllRecordByMachineStrArray(lProfile, machine.getName());
         for (Record record : listRecords) {

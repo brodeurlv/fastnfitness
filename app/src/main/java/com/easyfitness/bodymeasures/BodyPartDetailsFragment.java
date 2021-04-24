@@ -31,7 +31,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.MainActivity;
-import com.easyfitness.ProfileViMo;
+import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.ValueEditorDialogbox;
@@ -61,7 +61,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private DAOBodyPart mDbBodyPart;
     private BodyPart mInitialBodyPart;
     private final EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
     private final BtnClickListener itemClickDeleteRecord = view -> {
         switch (view.getId()) {
             case R.id.deleteButton:
@@ -246,9 +246,9 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             deleteButton.setVisibility(View.GONE); // Weight bodypart should not be deleted.
         }
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
@@ -378,7 +378,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
     public Fragment getFragment() {

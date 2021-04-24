@@ -36,8 +36,7 @@
             android:fitsSystemWindows="false"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/mi_baseline"
-            android:weightSum="1">
+            android:padding="@dimen/mi_baseline">
 
             <TextView
                 android:layout_width="match_parent"
@@ -46,31 +45,37 @@
                 android:text="@string/create_a_profile"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_input_layout_name"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/name_or_pseudo"
+                android:textSize="12sp" />
 
-                <EditText
-                    android:id="@+id/profileName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mi_baseline"
-                    android:hint="@string/name_or_pseudo"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    tools:text="people name" />
+            <EditText
+                android:id="@+id/profileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_or_pseudo"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:singleLine="true" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/birthday_optional"
+                android:text="@string/gender"
+                android:textSize="12sp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioButtonMale"
@@ -78,12 +83,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:gravity="center_horizontal"
                     android:padding="2dp"
                     android:text="@string/maleGender"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black" />
 
                 <RadioButton
@@ -92,13 +97,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center_horizontal"
                     android:padding="2dp"
                     android:text="@string/femaleGender"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black" />
 
                 <RadioButton
@@ -107,50 +112,37 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:gravity="center_horizontal"
                     android:padding="2dp"
                     android:text="@string/otherGender"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black" />
 
             </RadioGroup>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_input_layout_name2"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:hint="@string/birthday_optional"
+                android:importantForAutofill="no"
+                android:singleLine="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/birthday_optional"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/profileBirthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/editTextBackground"
-                    android:hint="@string/birthday_optional"
-                    android:importantForAutofill="no"
-                    android:singleLine="true"
-                    android:textSize="18sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_input_layout_name3"
+            <TextView
+                android:id="@+id/profileBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:background="?attr/editTextBackground"
+                android:hint="@string/birthday_optional"
+                android:importantForAutofill="no"
+                android:singleLine="true"
+                android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/profileSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/size_cm_optional"
-                    android:importantForAutofill="no"
-                    android:inputType="numberSigned"
-                    android:singleLine="true" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/create_newprofil"

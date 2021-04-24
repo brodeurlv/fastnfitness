@@ -25,12 +25,11 @@ import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAOStatic;
 import com.easyfitness.MainActivity;
-import com.easyfitness.ProfileViMo;
+import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.BarGraph;
@@ -84,7 +83,7 @@ public class FonteGraphFragment extends Fragment {
     private DAOStatic mDbStatic = null;
     private DAOMachine mDbMachine = null;
     private View mFragmentView = null;
-    private ProfileViMo profileViMo;
+    private AppViMo appViMo;
     private final OnItemSelectedListener onItemSelectedList = new OnItemSelectedListener() {
 
         @Override
@@ -156,9 +155,9 @@ public class FonteGraphFragment extends Fragment {
         if (mDbStatic == null) mDbStatic = new DAOStatic(getContext());
         if (mDbMachine == null) mDbMachine = new DAOMachine(getContext());
 
-        profileViMo = new ViewModelProvider(requireActivity()).get(ProfileViMo.class);
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        profileViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
+        appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
@@ -449,7 +448,7 @@ public class FonteGraphFragment extends Fragment {
     }
 
     private Profile getProfile() {
-        return profileViMo.getProfile().getValue();
+        return appViMo.getProfile().getValue();
     }
 
     private String getFontesMachine() {

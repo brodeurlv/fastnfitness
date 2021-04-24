@@ -1,5 +1,7 @@
 package com.easyfitness.DAO;
 
+import com.easyfitness.enums.SizeUnit;
+import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.Gender;
 
 import java.util.Date;
@@ -15,6 +17,7 @@ public class Profile {
     private int mSize = 0;
     private int mGender = Gender.MALE;
     private String mPhoto = "";
+    private SizeUnit mSizeUnit = SizeUnit.CM;
 
     public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto, int pGender) {
         //super();
@@ -57,14 +60,11 @@ public class Profile {
 
     /**
      * @return size in centimeter
+     * @deprecated
      */
     public int getSize() {
         return mSize;
-    }
-
-    public void setSize(int mSize) {
-        this.mSize = mSize;
-    }
+    } /*OBSOLETE, Only used for migration*/
 
     public String getName() {
         return mName;
@@ -98,6 +98,6 @@ public class Profile {
         else if (mBirthday != null && p.getBirthday() == null) birthdayEquals = false;
         else if (!p.mBirthday.equals(mBirthday)) birthdayEquals = false;
 
-        return birthdayEquals && p.mName.equals(mName) && p.mSize == mSize && p.mGender == mGender && p.mPhoto.equals(mPhoto);
+        return birthdayEquals && p.mName.equals(mName) && p.mGender == mGender && p.mPhoto.equals(mPhoto);
     }
 }

@@ -44,7 +44,7 @@ public class DAOProfile extends DAOBase {
      */
     public void addProfile(Profile m) {
         // Check if profil already exists
-        Profile check = getProfil(m.getName());
+        Profile check = getProfile(m.getName());
         if (check != null) return;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -54,7 +54,7 @@ public class DAOProfile extends DAOBase {
         value.put(DAOProfile.CREATIONDATE, DateConverter.dateToDBDateStr(new Date()));
         value.put(DAOProfile.NAME, m.getName());
         value.put(DAOProfile.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
-        value.put(DAOProfile.SIZE, m.getSize());
+        value.put(DAOProfile.SIZE, 0);
         value.put(DAOProfile.PHOTO, m.getPhoto());
         value.put(DAOProfile.GENDER, m.getGender());
 
@@ -68,7 +68,7 @@ public class DAOProfile extends DAOBase {
      */
     public void addProfile(String pName) {
         // Check if profil already exists
-        Profile check = getProfil(pName);
+        Profile check = getProfile(pName);
         if (check != null) return;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,8 +77,6 @@ public class DAOProfile extends DAOBase {
 
         value.put(DAOProfile.CREATIONDATE, DateConverter.dateToDBDateStr(new Date()));
         value.put(DAOProfile.NAME, pName);
-        //value.put(DAOProfil.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
-        //value.put(DAOProfil.SIZE, 0);
 
         db.insert(DAOProfile.TABLE_NAME, null, value);
 
@@ -88,7 +86,7 @@ public class DAOProfile extends DAOBase {
     /**
      * @param id long id of the Profile
      */
-    public Profile getProfil(long id) {
+    public Profile getProfile(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         if (mCursor != null) mCursor.close();
         mCursor = null;
@@ -124,7 +122,7 @@ public class DAOProfile extends DAOBase {
     /**
      * @param name String name of the Profile
      */
-    public Profile getProfil(String name) {
+    public Profile getProfile(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         if (mCursor != null) mCursor.close();
         mCursor = null;
@@ -158,11 +156,10 @@ public class DAOProfile extends DAOBase {
     }
 
     // Getting All Profils
-    public List<Profile> getProfilsList(String pRequest) {
+    public List<Profile> getProfilesList(SQLiteDatabase db, String pRequest) {
         List<Profile> valueList = new ArrayList<>();
         // Select All Query
 
-        SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         mCursor = db.rawQuery(pRequest, null);
 
@@ -183,31 +180,23 @@ public class DAOProfile extends DAOBase {
             } while (mCursor.moveToNext());
         }
 
-        close();
+        //close();
+
         // return value list
         return valueList;
     }
 
     // Getting All Profils
-    public List<Profile> getAllProfils() {
+    public List<Profile> getAllProfiles(SQLiteDatabase db) {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + KEY + " DESC";
 
         // return value list
-        return getProfilsList(selectQuery);
-    }
-
-    // Getting Top 10 Profils
-    public List<Profile> getTop10Profils() {
-        // Select All Query
-        String selectQuery = "SELECT TOP 10 * FROM " + TABLE_NAME + " ORDER BY " + KEY + " DESC";
-
-        // return value list
-        return getProfilsList(selectQuery);
+        return getProfilesList(db, selectQuery);
     }
 
     // Getting All Machines
-    public String[] getAllProfil() {
+    public String[] getAllProfile() {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
@@ -230,14 +219,14 @@ public class DAOProfile extends DAOBase {
             } while (mCursor.moveToNext());
         }
 
-        close();
+        //close();
 
         // return value list
         return valueList;
     }
 
     // Getting last record
-    public Profile getLastProfil() {
+    public Profile getLastProfile() {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
@@ -250,7 +239,7 @@ public class DAOProfile extends DAOBase {
         mCursor.moveToFirst();
         long value = Long.parseLong(mCursor.getString(0));
 
-        Profile prof = this.getProfil(value);
+        Profile prof = this.getProfile(value);
         mCursor.close();
         close();
 
@@ -266,7 +255,7 @@ public class DAOProfile extends DAOBase {
         value.put(DAOProfile.CREATIONDATE, DateConverter.dateToDBDateStr(m.getCreationDate()));
         value.put(DAOProfile.NAME, m.getName());
         value.put(DAOProfile.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
-        value.put(DAOProfile.SIZE, m.getSize());
+        value.put(DAOProfile.SIZE, 0);
         value.put(DAOProfile.PHOTO, m.getPhoto());
         value.put(DAOProfile.GENDER, m.getGender());
 
@@ -276,24 +265,24 @@ public class DAOProfile extends DAOBase {
     }
 
     // Deleting single Profile
-    public void deleteProfil(Profile m) {
-        deleteProfil(m.getId());
+    public void deleteProfile(Profile m) {
+        deleteProfile(m.getId());
     }
 
     // Deleting single Profile
-    public void deleteProfil(long id) {
+    public void deleteProfile(long id) {
         open();
 
         // Supprime les enregistrements de poids
         DAOProfileWeight mWeightDb = new DAOProfileWeight(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
-        List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfil(id));
+        List<ProfileWeight> valueList = mWeightDb.getWeightList(getProfile(id));
         for (int i = 0; i < valueList.size(); i++) {
             mWeightDb.deleteMeasure(valueList.get(i).getId());
         }
 
         // Supprime les enregistrements de measure de body
         DAOBodyMeasure mBodyDb = new DAOBodyMeasure(null); // null car a ce moment le DatabaseHelper est cree depuis bien longtemps.
-        List<BodyMeasure> bodyMeasuresList = mBodyDb.getBodyMeasuresList(getProfil(id));
+        List<BodyMeasure> bodyMeasuresList = mBodyDb.getBodyMeasuresList(getProfile(id));
         for (int i = 0; i < bodyMeasuresList.size(); i++) {
             mBodyDb.deleteMeasure(bodyMeasuresList.get(i).getId());
         }

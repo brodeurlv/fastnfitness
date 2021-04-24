@@ -85,7 +85,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 valueTextView.setMaxLines(a.getInt(R.styleable.editableinput_view_android_maxLines, 1));
                 valueTextView.setLines(a.getInt(R.styleable.editableinput_view_android_lines, 1));
                 textViewInputType = a.getInt(R.styleable.editableinput_view_android_inputType, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                valueTextView.setInputType(textViewInputType);
+                //valueTextView.setInputType(textViewInputType);
                 if (a.getBoolean(R.styleable.editableinput_view_iconVisible, false)) {
                     editButton.setVisibility(View.VISIBLE);
                 } else {

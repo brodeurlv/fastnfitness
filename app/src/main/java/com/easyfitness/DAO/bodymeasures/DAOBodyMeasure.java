@@ -44,11 +44,21 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public void addBodyMeasure(Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
         SQLiteDatabase db = this.getWritableDatabase();
+        addBodyMeasure(db, pDate, pBodyPartId, pMeasure, pProfileId, pUnit);
+    }
 
+    /**
+     * @param db            database
+     * @param pDate       date of the weight measure
+     * @param pBodyPartId id of the body part
+     * @param pMeasure    body measure
+     * @param pProfileId  profil associated with the measure
+     */
+    public void addBodyMeasure(SQLiteDatabase db, Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
         ContentValues value = new ContentValues();
 
         // Only one measure pr day, so if one already existing, updates it.
-        BodyMeasure existingBodyMeasure = getBodyMeasuresFromDate(pBodyPartId, pDate, pProfileId);
+        BodyMeasure existingBodyMeasure = getBodyMeasuresFromDate(db, pBodyPartId, pDate, pProfileId);
         if (existingBodyMeasure == null) {
 
             String dateString = DateConverter.dateToDBDateStr(pDate);
@@ -64,9 +74,9 @@ public class DAOBodyMeasure extends DAOBase {
             existingBodyMeasure.setBodyMeasure(pMeasure);
             existingBodyMeasure.setUnit(pUnit);
 
-            updateMeasure(existingBodyMeasure);
+            updateMeasure(db, existingBodyMeasure);
         }
-        db.close(); // Closing database connection
+        //db.close(); // Closing database connection
     }
 
     // Getting single value
@@ -93,7 +103,7 @@ public class DAOBodyMeasure extends DAOBase {
                 Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
         );
 
-        db.close();
+        //db.close();
 
         // return value
         return value;
@@ -210,13 +220,13 @@ public class DAOBodyMeasure extends DAOBase {
      * @param pProfileId
      * @return List<BodyMeasure>
      */
-    public BodyMeasure getBodyMeasuresFromDate(long pBodyPartID, Date pDate, long pProfileId) {
+    public BodyMeasure getBodyMeasuresFromDate(SQLiteDatabase db,  long pBodyPartID, Date pDate, long pProfileId) {
         String dateString = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC";
 
-        List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
+        List<BodyMeasure> array = getMeasuresList(db, selectQuery);
         if (array.size() <= 0) {
             return null;
         }
