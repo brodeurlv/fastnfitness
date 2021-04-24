@@ -182,8 +182,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                     // Get Size unit preference
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mContext);
-                    String defaultSizeUnitString = SP.getString("defaultSizeUnit", Unit.CM.toString());
-                    Unit defaultSizeUnit = Unit.fromString(defaultSizeUnitString);
+                    String defaultSizeUnitString = SP.getString("defaultSizeUnit", String.valueOf(Unit.CM.ordinal()));
+                    int defaultSizeUnitInteger;
+                    try {
+                        defaultSizeUnitInteger = Integer.parseInt(defaultSizeUnitString);
+                    } catch (NumberFormatException e) {
+                        defaultSizeUnitInteger = Unit.CM.ordinal();
+                    }
+                    Unit defaultSizeUnit = Unit.fromInteger(defaultSizeUnitInteger);
 
                     List<Profile> profileList = daoProfile.getAllProfiles(db);
                     for (Profile profile:profileList) {
@@ -325,6 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addInitialBodyPart(db, BodyPartExtensions.MUSCLES, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
         addInitialBodyPart(db, BodyPartExtensions.WATER, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
         addInitialBodyPart(db, BodyPartExtensions.FAT, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
+        addInitialBodyPart(db, BodyPartExtensions.SIZE, "", "", 0, BodyPartExtensions.TYPE_WEIGHT);
     }
 
     public long addInitialBodyPart(SQLiteDatabase db, long pKey, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
