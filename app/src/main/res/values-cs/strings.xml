@@ -290,5 +290,10 @@
     <string name="maxReps">Max Opk</string>
     <string name="sumReps">Opk Suma</string>
     <string name="oneRepMax">1RM (Opk &lt;= 10)</string>
+    <string name="pref_audio_setting">Rest Nastavení časovače</string>
+    <string name="pref_play_sound_after_rest_timer">Pípnutí</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Pípnutí na konci klidové časovače</string>
+    <string name="pref_play_vibration_after_rest_timer">Chvění</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibrace na konci klidové časovače</string>
 
 </resources>

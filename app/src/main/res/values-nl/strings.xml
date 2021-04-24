@@ -290,6 +290,11 @@
     <string name="maxReps">Max Herhalingen</string>
     <string name="sumReps">Sum Herhalingen</string>
     <string name="oneRepMax">1RM (Herhalingen &lt;= 10)</string>
+    <string name="pref_audio_setting">Rest Timer Instellingen</string>
+    <string name="pref_play_sound_after_rest_timer">Signaal</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Beep aan het eind van rust timer</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibratie</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Trillen aan het eind van rust timer</string>
 
 </resources>
 

@@ -280,4 +280,9 @@
     <string name="maxReps">Max Reps</string>
     <string name="sumReps">Somme Reps</string>
     <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
+    <string name="pref_audio_setting">Réglages de la minuterie de repos</string>
+    <string name="pref_play_sound_after_rest_timer">Bip</string>
+    <string name="pref_play_sound_after_rest_timer_summary">Bip à la fin de la minuterie de repos</string>
+    <string name="pref_play_vibration_after_rest_timer">Vibration</string>
+    <string name="pref_play_vibration_after_rest_timer_summary">Vibrer à la fin de la minuterie de repos</string>
 </resources>
