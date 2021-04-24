@@ -295,5 +295,6 @@
     <string name="maxReps">Max. Wiederholung</string>
     <string name="sumReps">Wied. Summe</string>
     <string name="oneRepMax">1RM (Wied. &lt;= 10)</string>
+    <string name="size">Größe</string>
 </resources>
 
