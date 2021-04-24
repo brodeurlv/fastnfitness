@@ -66,8 +66,8 @@ public class ProfileFragment extends Fragment {
     private final OnClickListener mOnClickListener = view -> {
         ValueEditorDialogbox editorDialogbox;
         if (view.getId() == R.id.size) {
-                BodyPart heightBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
-                BodyMeasure lastSizeValue = daoBodyMeasure.getLastBodyMeasures(heightBodyPart.getId(), appViMo.getProfile().getValue());
+                BodyPart sizeBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
+                BodyMeasure lastSizeValue = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
                 if (lastSizeValue == null) {
                     editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultSizeUnit(getActivity()));
                 } else {
@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
                         Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
                         float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
                         Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                        daoBodyMeasure.addBodyMeasure(date, BodyPartExtensions.SIZE, value, appViMo.getProfile().getValue().getId(), unit);
+                        daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), value, appViMo.getProfile().getValue().getId(), unit);
                         profileViMo.setSize(value);
                         profileViMo.setSizeUnit(unit);
                         requestForSave();

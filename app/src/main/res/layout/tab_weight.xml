@@ -59,6 +59,7 @@
                     <Button
                         android:id="@+id/weightDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                        android:drawableStart="@drawable/ic_list_alt"
                         android:text="@string/details" />
 
 
@@ -106,6 +107,7 @@
                     <Button
                         android:id="@+id/fatDetailsButton"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                        android:drawableStart="@drawable/ic_list_alt"
                         android:text="@string/details" />
 
                 </LinearLayout>
@@ -159,10 +161,9 @@
 
                     <Button
                         android:id="@+id/musclesDetailsButton"
+                        android:drawableStart="@drawable/ic_list_alt"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="@string/details" />
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -206,6 +207,7 @@
 
                     <Button
                         android:id="@+id/waterDetailsButton"
+                        android:drawableStart="@drawable/ic_list_alt"
                         style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
                         android:text="@string/details" />
                 </LinearLayout>
@@ -214,6 +216,55 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:orientation="horizontal"
+            android:padding="6dip">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    style="@style/CardViewTitle"
+                    android:text="@string/size" />
+
+                <TextView
+                    android:id="@+id/sizeInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    style="@style/PrimaryWeightMeasure"
+                    android:gravity="center"
+                    android:layout_weight="50"
+                    tools:text="50" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/sizeGraph"
+                    style="@style/MiniLineChart"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="50" />
+
+                <Button
+                    android:id="@+id/sizeDetailsButton"
+                    style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                    android:drawableTop="@drawable/ic_list_alt"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="0dp"
+                    android:text="@string/details"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
