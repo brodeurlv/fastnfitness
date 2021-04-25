@@ -96,6 +96,20 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Play vibration after rest timer finished</string>
 
     <string name="pref_scheduled_backup_setting">Scheduled Backup Settings</string>
+    <string-array name="backup_options">
+        <item>Manually</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
+    <string-array name="backup_settings_Enum" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="pref_preferredBackupSettingSummary">Preferred Backup Setting:</string>
+    <string name="pref_preferredBackupSettingTitle">Select your preferred Backup Setting</string>
 
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
