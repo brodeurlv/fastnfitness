@@ -98,6 +98,7 @@
     <string name="pref_scheduled_backup_setting">Scheduled Backup Settings</string>
     <string-array name="backup_options">
         <item>Manually</item>
+        <item>Daily</item>
         <item>Weekly</item>
         <item>Monthly</item>
     </string-array>
@@ -106,10 +107,14 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string name="pref_preferredBackupSettingSummary">Preferred Backup Setting:</string>
     <string name="pref_preferredBackupSettingTitle">Select your preferred Backup Setting</string>
+    <string name="backup_warning_day">One Day passed after your last Backup</string>
+    <string name="backup_warning_week">One Week passed after your last Backup</string>
+    <string name="backup_warning_month">One Month passed after your last Backup</string>
 
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
