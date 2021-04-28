@@ -376,7 +376,11 @@ public class MainActivity extends AppCompatActivity {
         long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
         int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
         if (lastBackupUTCTime == -1) {
-            SP.edit().putLong("prefLastTimeBackupUTCTime", System.currentTimeMillis()).apply();
+            long currentTime = System.currentTimeMillis();
+            SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
+            if(mpSettingFrag.getContext() != null) {
+                mpSettingFrag.updateLastBackupSummary(SP, currentTime);
+            }
         } else {
             if (prefBackupSetting == 1 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfDay) {
                 KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
@@ -492,7 +496,11 @@ public class MainActivity extends AppCompatActivity {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
                 if (cvsMan.exportDatabase(getCurrentProfile())) {
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    SP.edit().putLong("prefLastTimeBackupUTCTime", System.currentTimeMillis()).apply();
+                    long currentTime = System.currentTimeMillis();
+                    SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
+                    if(mpSettingFrag.getContext() != null) {
+                        mpSettingFrag.updateLastBackupSummary(SP, currentTime);
+                    }
                     KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
                     KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
