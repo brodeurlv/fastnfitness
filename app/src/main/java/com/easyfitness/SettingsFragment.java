@@ -124,6 +124,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             if (newValue instanceof String) {
                 //find the index of changed value in settings.
                 updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredBackupSettingSummary));
+                myPref5.setSummary(myPref5.getSummary() + "\n" + getString(R.string.pref_lastBackupSettingSummary));
             }
 
             return true;
@@ -162,6 +163,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
         String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
         updateSummary(myPref5, boolVal5, getString(R.string.pref_preferredBackupSettingSummary));
+        myPref5.setSummary(myPref5.getSummary() + "\n" + getString(R.string.pref_lastBackupSettingSummary));
 
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");

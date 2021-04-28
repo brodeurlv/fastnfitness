@@ -111,6 +111,7 @@
     </string-array>
 
     <string name="pref_preferredBackupSettingSummary">Preferred Backup Setting:</string>
+    <string name="pref_lastBackupSettingSummary">Last Backup:</string>
     <string name="pref_preferredBackupSettingTitle">Select your preferred Backup Setting</string>
     <string name="backup_warning_day">One Day passed after your last Backup</string>
     <string name="backup_warning_week">One Week passed after your last Backup</string>
