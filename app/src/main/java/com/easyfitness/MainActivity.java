@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -366,6 +365,10 @@ public class MainActivity extends AppCompatActivity {
         boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
         this.showMP3Toolbar(bShowMP3);
 
+        this.checkLastBackup(SP);
+    }
+
+    private void checkLastBackup(SharedPreferences SP) {
         int milliSecondsOfDay = 10000;//86400000; // 24 * 60 * 60 * 1000
         int milliSecondsOfWeek = 30000;//604800000; // 7 * 24 * 60 * 60 * 1000
         long milliSecondsOfMonth = 60000;//2419200000L; // 4 * 7 * 24 * 60 * 60 * 1000
@@ -374,23 +377,18 @@ public class MainActivity extends AppCompatActivity {
         int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
         if (lastBackupUTCTime == -1) {
             SP.edit().putLong("prefLastTimeBackupUTCTime", System.currentTimeMillis()).apply();
-            Log.i("Alex", "Last Time Backup Date initialized");
         } else {
             if (prefBackupSetting == 1 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfDay) {
                 KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 exportDatabase();
-                Log.i("Alex", "One Day passed");
             } else if (prefBackupSetting == 2 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfWeek) {
                 KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_week).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 exportDatabase();
-                Log.i("Alex", "One Week passed");
             } else if (prefBackupSetting == 3 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfMonth) {
                 KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_month).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 exportDatabase();
-                Log.i("Alex", "One Month passed");
             }
         }
-
     }
 
     private void initDEBUGdata() {
@@ -495,7 +493,6 @@ public class MainActivity extends AppCompatActivity {
                 if (cvsMan.exportDatabase(getCurrentProfile())) {
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                     SP.edit().putLong("prefLastTimeBackupUTCTime", System.currentTimeMillis()).apply();
-                    Log.i("Alex", "Last Time Backup Date Updated");
                     KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
                     KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
