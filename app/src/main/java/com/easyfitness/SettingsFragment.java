@@ -14,6 +14,9 @@ import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     public final static String WEIGHT_UNIT_PARAM = "defaultUnit";
@@ -124,7 +127,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             if (newValue instanceof String) {
                 //find the index of changed value in settings.
                 updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredBackupSettingSummary));
-                myPref5.setSummary(myPref5.getSummary() + "\n" + getString(R.string.pref_lastBackupSettingSummary));
+                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
+                myPref5.setSummary(myPref5.getSummary() + "\n"
+                        + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
             }
 
             return true;
@@ -139,6 +145,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         });
+    }
+
+    private String getDate(long milliSeconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
     @Override
@@ -163,7 +176,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
         String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
         updateSummary(myPref5, boolVal5, getString(R.string.pref_preferredBackupSettingSummary));
-        myPref5.setSummary(myPref5.getSummary() + "\n" + getString(R.string.pref_lastBackupSettingSummary));
+        long lastBackupUTCTime = sharedPreferences.getLong("prefLastTimeBackupUTCTime", -1);
+        myPref5.setSummary(myPref5.getSummary() + "\n"
+                + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
 
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
