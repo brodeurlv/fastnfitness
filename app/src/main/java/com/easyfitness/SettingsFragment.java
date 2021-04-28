@@ -19,6 +19,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public final static String WEIGHT_UNIT_PARAM = "defaultUnit";
     public final static String DISTANCE_UNIT_PARAM = "defaultDistanceUnit";
     public final static String SIZE_UNIT_PARAM = "defaultSizeUnit";
+    public final static String FREQUENCY_BACKUP_PARAM = "defaultBackupSetting";
     Toolbar top_toolbar = null;
     MainActivity mActivity = null;
 
@@ -117,6 +118,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
+        Preference myPref5 = findPreference(FREQUENCY_BACKUP_PARAM);
+        myPref5.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                //find the index of changed value in settings.
+                updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredBackupSettingSummary));
+            }
+
+            return true;
+        });
+
         Preference dayNightModePref = findPreference("dayNightAuto");
         dayNightModePref.setOnPreferenceChangeListener((preference, newValue) -> {
             ListPreference listPreference = (ListPreference) preference;
@@ -146,6 +158,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference myPref4 = (ListPreference) findPreference(SettingsFragment.SIZE_UNIT_PARAM);
         String boolVal4 = sharedPreferences.getString(SettingsFragment.SIZE_UNIT_PARAM, String.valueOf(Unit.CM));
         updateSummary(myPref4, boolVal4, getString(R.string.pref_preferredUnitSummary));
+
+        ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
+        String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
+        updateSummary(myPref5, boolVal5, getString(R.string.pref_preferredBackupSettingSummary));
 
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
