@@ -29,7 +29,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.Gender;
+import com.easyfitness.enums.Gender;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.RealPathUtil;
 import com.easyfitness.views.EditableInputView;
@@ -332,61 +332,21 @@ public class ProfileFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     profileViMo.setPhoto(imgUtil.getFilePath());
                     requestForSave();
-                    ImageUtil.setPic(roundProfile, mCurrentPhotoPath);
-                    ImageUtil.saveThumb(mCurrentPhotoPath);
-                    imgUtil.galleryAddPic(this, mCurrentPhotoPath);
+                    imgUtil.saveThumb(imgUtil.getFilePath());
                 }
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
-                    ImageUtil.setPic(roundProfile, realPath);
-                    ImageUtil.saveThumb(realPath);
-                    profileViMo.setPhoto(realPath);
-                    requestForSave();
-                }
-                break;
-            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    String realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
-
-                    // Le fichier est crée dans le cache.
-                    // Déplacer le fichier dans le repertoire de FastNFitness
-                    File SourceFile = new File(realPath);
-
-                    File storageDir = null;
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
-                    String state = Environment.getExternalStorageState();
-                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
-                        return;
-                    } else {
-                        //We use the FastNFitness directory for saving our .csv file.
-                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
-                        if (!storageDir.exists()) {
-                            storageDir.mkdirs();
-                        }
-                    }
-                    new File(storageDir.getPath() + imageFileName);
-                    File DestinationFile;
-
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    Uri selectedImageUri = data.getData();
                     try {
-                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
-                        Log.v("Moving", "Moving file successful.");
-                        realPath = DestinationFile.getPath();
-                    } catch (IOException e) {
+                        File newFile = imgUtil.copyFileFromUri(getContext(), selectedImageUri, storageDir, "newfile.jpg");
+                        imgUtil.saveThumb(newFile.getAbsolutePath());
+                        profileViMo.setPhoto(newFile.getAbsolutePath());
+                        requestForSave();
+                    } catch (Exception e){
                         e.printStackTrace();
-                        Log.v("Moving", "Moving file failed.");
                     }
-
-                    ImageUtil.setPic(roundProfile, realPath);
-                    ImageUtil.saveThumb(realPath);
-                    profileViMo.setPhoto(realPath);
-                    requestForSave();
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
                 }
                 break;
         }

@@ -2,10 +2,13 @@ package com.easyfitness;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
@@ -19,6 +22,8 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -64,8 +69,18 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -88,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
+
+    private static final int EXPORT_DATABASE = 1;
+    private static final int IMPORT_DATABASE = 2;
+
     private final MusicController musicController = new MusicController(this);
     CustomDrawerAdapter mDrawerAdapter;
     List<DrawerItem> dataList;
@@ -167,6 +186,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public void migrateToScopedStorage(Context context) {
+        List<Uri> images;
+        IntentSender result = null;
+
+        // Migrate all images
+        String externalDir =  Environment.getExternalStorageDirectory().getPath();
+        // Migrate crashreports
+        // Migrate exports
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Log.e("Starting MainActivity", "Starting MainActivity");
@@ -201,11 +230,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+
+        /*
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            /* creation de l'arborescence de l'application */
+            // creation de l'arborescence de l'application
             File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
             boolean success = true;
             if (!folder.exists()) {
@@ -222,9 +253,19 @@ public class MainActivity extends AppCompatActivity {
                             Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
                 }
             }
-        }
+        }*/
 
         setContentView(R.layout.activity_main);
+
+        if ( !migrateToScopedStorage() )
+        {
+            // Afficher une boite de dialogue pour confirmer
+            AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
+            exportDbBuilder.setTitle("Database migration");
+            exportDbBuilder.setMessage("Arf, something went wrong!");
+            AlertDialog exportDbDialog = exportDbBuilder.create();
+            exportDbDialog.show();
+        }
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
         setSupportActionBar(top_toolbar);
@@ -299,6 +340,8 @@ public class MainActivity extends AppCompatActivity {
             mMigrationBD15done = true;
             savePreferences();
         }
+
+
 
         if (savedInstanceState == null) {
             showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
@@ -446,16 +489,58 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    private boolean migrateToScopedStorage() {
+        boolean success = true;
+        File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
+
+        if (folder.exists()) { //migrate all pictures
+            //Migrate profile pictures
+            DAOProfile daoProfile = new DAOProfile(getBaseContext());
+            List<Profile> profileList = daoProfile.getAllProfiles(daoProfile.getWritableDatabase());
+            for (Profile profile:profileList) {
+                if(!profile.getPhoto().isEmpty()) {
+                    File sourceFile = new File(profile.getPhoto());
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    try {
+                        File destFile = ImageUtil.moveFile(sourceFile, storageDir);
+                        profile.setPhoto(destFile.getAbsolutePath());
+                        daoProfile.updateProfile(profile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        success = false;
+                    }
+                }
+            }
+
+            //Migrate exercises pictures
+            DAOMachine daoMachine = new DAOMachine(getBaseContext());
+            List<Machine> machineList = daoMachine.getAllMachinesArray();
+            for (Machine machine:machineList) {
+                if(!machine.getPicture().isEmpty()) {
+                    File sourceFile = new File(machine.getPicture());
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    try {
+                        File destFile = ImageUtil.moveFile(sourceFile, storageDir);
+                        machine.setPicture(destFile.getAbsolutePath());
+                        daoMachine.updateMachine(machine);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        success = false;
+                    }
+                }
+            }
+        }
+        return success;
+    }
+
     private void exportDatabase() {
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
+        /*if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
-        } else {
+        } else {*/
             // Afficher une boite de dialogue pour confirmer
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
@@ -465,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
             // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                if (cvsMan.exportDatabase(getCurrentProfile())) {
+                if (cvsMan.exportDatabase(appViMo.getProfile().getValue())) {
                     KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
                     KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
@@ -482,10 +567,24 @@ public class MainActivity extends AppCompatActivity {
 
             AlertDialog exportDbDialog = exportDbBuilder.create();
             exportDbDialog.show();
-        }
+        //}
     }
 
+    // Request code for selecting a PDF document.
+
     private void importDatabase() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/*");
+
+        // Optionally, specify a URI for the file that should appear in the
+        // system file picker when it loads.
+        //intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+
+        startActivityForResult(intent, IMPORT_DATABASE);
+
+
+        /*
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -521,7 +620,7 @@ public class MainActivity extends AppCompatActivity {
 
             fileChooserDialog.setFileFilter("csv");
             fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
-        }
+        }*/
     }
 
     @Override
@@ -629,7 +728,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean CreateNewProfile() {
+        public boolean CreateNewProfile() {
         AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(this);
 
         newProfilBuilder.setTitle(getActivity().getResources().getText(R.string.createProfilTitle));
@@ -795,16 +894,11 @@ public class MainActivity extends AppCompatActivity {
             mDrawerAdapter.getItem(0).setImg(thumbPath);
         } else {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource so it needs to be reset
             mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
-            mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource
         }
         mDrawerAdapter.notifyDataSetChanged();
         mDrawerLayout.invalidate();
-    }
-
-    private void savePhotoProfile(String path) {
-        mCurrentProfile.setPhoto(path);// Enregistrer sur le profile le path de la photo.
-        mDbProfils.updateProfile(mCurrentProfile);
     }
 
     public String getCurrentMachine() {
@@ -933,6 +1027,22 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 // Cancelled the intro. You can then e.g. finish this activity too.
                 finish();
+            }
+        } else if (resultCode == RESULT_OK && requestCode == IMPORT_DATABASE) {
+            Uri file = data.getData();
+            CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+            InputStream inputStream = null;
+            try {
+                inputStream = getContentResolver().openInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                inputStream = null;
+            }
+
+            if (cvsMan.importDatabase(inputStream, appViMo.getProfile().getValue())) {
+                KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            } else {
+                KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
             }
         }
     }

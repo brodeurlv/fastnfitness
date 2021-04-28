@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 53
         versionName "0.19.6"
 
@@ -75,9 +75,6 @@ android {
 }
 
 dependencies {
-    //implementation files('libs/javacsv-2.1.jar')
-    //implementation 'net.sourceforge.javacsv:javacsv:2.1'
-
 // Support
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'

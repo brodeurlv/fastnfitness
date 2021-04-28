@@ -1,4 +1,4 @@
-package com.easyfitness.utils;
+package com.easyfitness.enums;
 
 public class Gender {
     public static final int UNKNOWN = 0;

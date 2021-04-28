@@ -28,7 +28,7 @@ import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.Gender;
+import com.easyfitness.enums.Gender;
 import com.easyfitness.utils.UnitConverter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;

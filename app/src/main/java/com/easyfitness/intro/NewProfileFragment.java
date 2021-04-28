@@ -46,7 +46,7 @@ import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.Gender;
+import com.easyfitness.enums.Gender;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
