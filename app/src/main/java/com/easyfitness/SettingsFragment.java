@@ -13,9 +13,11 @@ import androidx.preference.PreferenceManager;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.DateConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -148,10 +150,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private String getDate(long milliSeconds) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
-        return formatter.format(calendar.getTime());
+        Date date = calendar.getTime();
+        return DateConverter.dateToLocalDateStr(date, getContext()) + " " + formatter.format(date);
     }
 
     @Override
