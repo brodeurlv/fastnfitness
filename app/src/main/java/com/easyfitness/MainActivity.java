@@ -375,12 +375,9 @@ public class MainActivity extends AppCompatActivity {
 
         long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
         int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
-        if (lastBackupUTCTime == -1) {
-            long currentTime = System.currentTimeMillis();
-            SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
-            if(mpSettingFrag.getContext() != null) {
-                mpSettingFrag.updateLastBackupSummary(SP, currentTime);
-            }
+        if (lastBackupUTCTime == -1 && prefBackupSetting > 0) {
+            KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_never).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            exportDatabase();
         } else {
             if (prefBackupSetting == 1 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfDay) {
                 KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);

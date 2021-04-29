@@ -130,9 +130,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 //find the index of changed value in settings.
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
+                String dateText;
+                if (lastBackupUTCTime == -1) {
+                    dateText = getString(R.string.backup_notStarted);
+                } else {
+                    dateText = getDate(lastBackupUTCTime);
+                }
                 int prefIndex = listPreference.findIndexOfValue((String) newValue);
                 myPref5.setSummary(listPreference.getEntries()[prefIndex] + "\n"
-                        + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
+                        + getString(R.string.pref_lastBackupSettingSummary) + dateText);
             }
 
             return true;
@@ -188,8 +194,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
         String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
         int prefIndex = myPref5.findIndexOfValue(boolVal5);
+        String dateText;
+        if (lastBackupUTCTime == -1) {
+            dateText = getString(R.string.backup_notStarted);
+        } else {
+            dateText = getDate(lastBackupUTCTime);
+        }
         myPref5.setSummary(myPref5.getEntries()[prefIndex] + "\n"
-                + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
+                + getString(R.string.pref_lastBackupSettingSummary) + dateText);
     }
 
     private void updateSummary(ListPreference pref, String val, String prefix) {

@@ -96,6 +96,8 @@
 
     <string name="pref_lastBackupSettingSummary">Letztes Backup:</string>
     <string name="pref_preferredBackupSettingTitle">Häufigkeit</string>
+    <string name="backup_notStarted">Kein Backup gestartet</string>
+    <string name="backup_warning_never">Mach jetzt dein erstes Backup</string>
     <string name="backup_warning_day">Ein Tag vergangen seit letztem Backup</string>
     <string name="backup_warning_week">Eine Woche vergangen seit letztem Backup</string>
     <string name="backup_warning_month">Ein Monat vergangen seit letztem Backup</string>
