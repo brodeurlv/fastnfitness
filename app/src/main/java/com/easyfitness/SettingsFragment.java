@@ -126,10 +126,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             ListPreference listPreference = (ListPreference) preference;
             if (newValue instanceof String) {
                 //find the index of changed value in settings.
-                updateSummary(listPreference, (String) newValue, getString(R.string.pref_preferredBackupSettingSummary));
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
-                myPref5.setSummary(myPref5.getSummary() + "\n"
+                int prefIndex = listPreference.findIndexOfValue((String) newValue);
+                myPref5.setSummary(listPreference.getEntries()[prefIndex] + "\n"
                         + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
             }
 
@@ -181,11 +181,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         updateSummary(dayNightModePref, dayNightValue, "");
     }
 
-    public void updateLastBackupSummary(SharedPreferences sharedPreferences, long lastBackupUTCTime){
+    public void updateLastBackupSummary(SharedPreferences sharedPreferences, long lastBackupUTCTime) {
         ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
         String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
-        updateSummary(myPref5, boolVal5, getString(R.string.pref_preferredBackupSettingSummary));
-        myPref5.setSummary(myPref5.getSummary() + "\n"
+        int prefIndex = myPref5.findIndexOfValue(boolVal5);
+        myPref5.setSummary(myPref5.getEntries()[prefIndex] + "\n"
                 + getString(R.string.pref_lastBackupSettingSummary) + getDate(lastBackupUTCTime));
     }
 
