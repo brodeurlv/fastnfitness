@@ -369,9 +369,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkLastBackup(SharedPreferences SP) {
-        int milliSecondsOfDay = 10000;//86400000; // 24 * 60 * 60 * 1000
-        int milliSecondsOfWeek = 30000;//604800000; // 7 * 24 * 60 * 60 * 1000
-        long milliSecondsOfMonth = 60000;//2419200000L; // 4 * 7 * 24 * 60 * 60 * 1000
+        int milliSecondsOfDay = 86400000; // 24 * 60 * 60 * 1000
+        int milliSecondsOfWeek = 604800000; // 7 * 24 * 60 * 60 * 1000
+        long milliSecondsOfMonth = 2419200000L; // 4 * 7 * 24 * 60 * 60 * 1000
 
         long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
         int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
