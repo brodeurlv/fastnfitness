@@ -13,12 +13,18 @@ import androidx.preference.PreferenceManager;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.DateConverter;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     public final static String WEIGHT_UNIT_PARAM = "defaultUnit";
     public final static String DISTANCE_UNIT_PARAM = "defaultDistanceUnit";
     public final static String SIZE_UNIT_PARAM = "defaultSizeUnit";
+    public final static String FREQUENCY_BACKUP_PARAM = "defaultBackupSetting";
     Toolbar top_toolbar = null;
     MainActivity mActivity = null;
 
@@ -117,6 +123,27 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
+        Preference myPref5 = findPreference(FREQUENCY_BACKUP_PARAM);
+        myPref5.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                //find the index of changed value in settings.
+                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
+                String dateText;
+                if (lastBackupUTCTime == -1) {
+                    dateText = getString(R.string.backup_notStarted);
+                } else {
+                    dateText = getDate(lastBackupUTCTime);
+                }
+                int prefIndex = listPreference.findIndexOfValue((String) newValue);
+                myPref5.setSummary(listPreference.getEntries()[prefIndex] + "\n"
+                        + getString(R.string.pref_lastBackupSettingSummary) + dateText);
+            }
+
+            return true;
+        });
+
         Preference dayNightModePref = findPreference("dayNightAuto");
         dayNightModePref.setOnPreferenceChangeListener((preference, newValue) -> {
             ListPreference listPreference = (ListPreference) preference;
@@ -126,6 +153,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         });
+    }
+
+    private String getDate(long milliSeconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        Date date = calendar.getTime();
+        return DateConverter.dateToLocalDateStr(date, getContext()) + " " + formatter.format(date);
     }
 
     @Override
@@ -147,9 +182,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String boolVal4 = sharedPreferences.getString(SettingsFragment.SIZE_UNIT_PARAM, String.valueOf(Unit.CM));
         updateSummary(myPref4, boolVal4, getString(R.string.pref_preferredUnitSummary));
 
+        long lastBackupUTCTime = sharedPreferences.getLong("prefLastTimeBackupUTCTime", -1);
+        updateLastBackupSummary(sharedPreferences, lastBackupUTCTime);
+
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
         updateSummary(dayNightModePref, dayNightValue, "");
+    }
+
+    public void updateLastBackupSummary(SharedPreferences sharedPreferences, long lastBackupUTCTime) {
+        ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
+        String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
+        int prefIndex = myPref5.findIndexOfValue(boolVal5);
+        String dateText;
+        if (lastBackupUTCTime == -1) {
+            dateText = getString(R.string.backup_notStarted);
+        } else {
+            dateText = getDate(lastBackupUTCTime);
+        }
+        myPref5.setSummary(myPref5.getEntries()[prefIndex] + "\n"
+                + getString(R.string.pref_lastBackupSettingSummary) + dateText);
     }
 
     private void updateSummary(ListPreference pref, String val, String prefix) {
