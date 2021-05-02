@@ -229,9 +229,9 @@ public class ImageUtil {
                 // Camera
                 case 0:
                     dispatchTakePictureIntent(pF);
-                    /* CropImage.activity()
+                    /*CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(pF.getContext(), pF); */
+                            .start(pF.getContext(), pF);*/
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)

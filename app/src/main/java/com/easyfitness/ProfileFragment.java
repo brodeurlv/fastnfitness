@@ -332,6 +332,7 @@ public class ProfileFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     profileViMo.setPhoto(imgUtil.getFilePath());
                     requestForSave();
+                    mCurrentPhotoPath = imgUtil.getFilePath();
                     ImageUtil.setPic(roundProfile, mCurrentPhotoPath);
                     ImageUtil.saveThumb(mCurrentPhotoPath);
                     imgUtil.galleryAddPic(this, mCurrentPhotoPath);
