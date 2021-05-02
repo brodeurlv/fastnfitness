@@ -113,10 +113,10 @@
     <string name="pref_lastBackupSettingSummary">Last Backup:</string>
     <string name="pref_preferredBackupSettingTitle">Frequency</string>
     <string name="backup_notStarted">No Backup started</string>
-    <string name="backup_warning_never">Do your first Backup now</string>
-    <string name="backup_warning_day">One Day passed after your last Backup</string>
-    <string name="backup_warning_week">One Week passed after your last Backup</string>
-    <string name="backup_warning_month">One Month passed after your last Backup</string>
+    <string name="backup_warning_never">"Do your first Backup now. "</string>
+    <string name="backup_warning_day">"One Day passed since your last Backup. "</string>
+    <string name="backup_warning_week">"One Week passed since your last Backup. "</string>
+    <string name="backup_warning_month">"One Month passed since your last Backup. "</string>
 
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>

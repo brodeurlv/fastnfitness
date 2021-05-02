@@ -317,4 +317,12 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrar no final do temporizador resto</string>
     <string name="size">Tamanho</string>
     <string name="gender">Gênero</string>
+    <string name="pref_scheduled_backup_setting">Configurações de backup automático</string>
+    <string name="pref_lastBackupSettingSummary">Ultimo Back up:</string>
+    <string name="pref_preferredBackupSettingTitle">Frequência</string>
+    <string name="backup_notStarted">Nenhum backup começou</string>
+    <string name="backup_warning_never">Faça o seu primeiro backup agora.</string>
+    <string name="backup_warning_day">Um dia passou desde o último backup.</string>
+    <string name="backup_warning_week">Uma semana se passou desde o último backup.</string>
+    <string name="backup_warning_month">Um mês se passou desde o último backup.</string>
 </resources>

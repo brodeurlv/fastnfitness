@@ -303,5 +303,13 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrar al final del temporizador de reposo</string>
     <string name="size">Tamaño</string>
     <string name="gender">Género</string>
+    <string name="pref_scheduled_backup_setting">Configuración de copia de seguridad automática</string>
+    <string name="pref_lastBackupSettingSummary">Última copia de seguridad:</string>
+    <string name="pref_preferredBackupSettingTitle">Frecuencia</string>
+    <string name="backup_notStarted">No se copia de seguridad comenzó</string>
+    <string name="backup_warning_never">Haga su primera copia de seguridad ahora.</string>
+    <string name="backup_warning_day">Pasó un día desde su última copia de seguridad.</string>
+    <string name="backup_warning_week">Pasó una semana desde su última copia de seguridad.</string>
+    <string name="backup_warning_month">Un mes transcurrido desde la última copia de seguridad.</string>
 
 </resources>

@@ -376,18 +376,18 @@ public class MainActivity extends AppCompatActivity {
         long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
         int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
         if (lastBackupUTCTime == -1 && prefBackupSetting > 0) {
-            KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_never).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-            exportDatabase();
+            //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_never).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            exportDatabase(getActivity().getResources().getText(R.string.backup_warning_never).toString());
         } else {
             if (prefBackupSetting == 1 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfDay) {
-                KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                exportDatabase();
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_day).toString());
             } else if (prefBackupSetting == 2 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfWeek) {
-                KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_week).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                exportDatabase();
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_week).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_week).toString());
             } else if (prefBackupSetting == 3 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfMonth) {
-                KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_month).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                exportDatabase();
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_month).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_month).toString());
             }
         }
     }
@@ -472,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void exportDatabase() {
+    private void exportDatabase(String autoExportMessage) {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
             exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
+            exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
 
             // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
@@ -567,7 +567,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.export_database:
-                exportDatabase();
+                exportDatabase("");
                 return true;
             case R.id.import_database:
                 importDatabase();
@@ -638,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                exportDatabase();
+                exportDatabase("");
             } else {
                 KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
