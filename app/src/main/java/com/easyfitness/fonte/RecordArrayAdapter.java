@@ -541,7 +541,9 @@ public class RecordArrayAdapter extends ArrayAdapter {
         } else {
             Record record = mRecordList.get(position - 1);
             Date datePrevious = record.getDate();
-            return datePrevious.compareTo(date) != 0;
+            String dateString = DateConverter.dateTimeToDBDateStr(date);
+            String datePreviousString = DateConverter.dateTimeToDBDateStr(datePrevious);
+            return !datePreviousString.equals(dateString);
         }
     }
 
