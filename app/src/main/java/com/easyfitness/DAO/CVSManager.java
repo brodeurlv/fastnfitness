@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.icu.util.Output;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 
@@ -39,6 +40,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
 public class CVSManager {
@@ -58,12 +61,14 @@ public class CVSManager {
          * the device storage.
          */
 
+         boolean ret = true;
+
         PrintWriter printWriter = null;
             try {
-                exportBodyMeasures(pProfile);
-                exportRecords(pProfile);
-                exportExercise(pProfile);
-                exportBodyParts(pProfile);
+                ret &= exportBodyMeasures(pProfile);
+                ret &= exportRecords(pProfile);
+                ret &= exportExercise(pProfile);
+                ret &= exportBodyParts(pProfile);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -73,7 +78,7 @@ public class CVSManager {
             }
 
             //If there are no errors, return true.
-            return true;
+            return ret;
     }
 
     private OutputStream CreateNewFile(String name, Profile pProfile) {
@@ -87,7 +92,14 @@ public class CVSManager {
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
         contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/FastNFitness");
-        Uri file = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues);
+        Uri collection = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+        }
+
+        Uri file = resolver.insert(collection, contentValues);
         try {
             return resolver.openOutputStream(file);
         } catch (FileNotFoundException e) {
@@ -115,7 +127,6 @@ public class CVSManager {
              */
             Cursor cursor = dbc.getAllRecordsByProfile(pProfile);
             List<Record> records = dbc.fromCursorToList(cursor);
-
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutputFonte.write(TABLE_HEAD);

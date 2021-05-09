@@ -6,7 +6,9 @@ import android.R.layout;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.view.Gravity;
 import android.view.View;
@@ -42,7 +44,10 @@ public class FileChooserDialog {
 
     public FileChooserDialog(Context context, ChosenFileListener chosenDirectoryListener) {
         m_context = context;
-        m_sdcardDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Uri m_sdcardDirectoryUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        m_sdcardDirectory =   m_sdcardDirectoryUri.toString();
+
+                // Environment.getExternalStorageDirectory().getAbsolutePath();
         m_chosenFileListener = chosenDirectoryListener;
 
         try {

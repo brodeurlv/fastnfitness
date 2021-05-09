@@ -87,6 +87,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+
     public static String FONTESPAGER = "FontePager";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int EXPORT_DATABASE = 1;
     private static final int IMPORT_DATABASE = 2;
+    public static final int OPEN_MUSIC_FILE = 3;
 
     private final MusicController musicController = new MusicController(this);
     CustomDrawerAdapter mDrawerAdapter;
@@ -186,16 +188,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void migrateToScopedStorage(Context context) {
-        List<Uri> images;
-        IntentSender result = null;
-
-        // Migrate all images
-        String externalDir =  Environment.getExternalStorageDirectory().getPath();
-        // Migrate crashreports
-        // Migrate exports
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Log.e("Starting MainActivity", "Starting MainActivity");
@@ -260,11 +252,11 @@ public class MainActivity extends AppCompatActivity {
         if ( !migrateToScopedStorage() )
         {
             // Afficher une boite de dialogue pour confirmer
-            AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
-            exportDbBuilder.setTitle("Database migration");
-            exportDbBuilder.setMessage("Arf, something went wrong!");
-            AlertDialog exportDbDialog = exportDbBuilder.create();
-            exportDbDialog.show();
+            AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
+            errorDialogBuilder.setTitle("Database migration");
+            errorDialogBuilder.setMessage("Arf, something went wrong!");
+            AlertDialog errorDialog = errorDialogBuilder.create();
+            errorDialog.show();
         }
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
@@ -489,6 +481,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @SuppressWarnings("deprecation")
     private boolean migrateToScopedStorage() {
         boolean success = true;
         File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
@@ -1029,20 +1022,30 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         } else if (resultCode == RESULT_OK && requestCode == IMPORT_DATABASE) {
-            Uri file = data.getData();
-            CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-            InputStream inputStream = null;
-            try {
-                inputStream = getContentResolver().openInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                inputStream = null;
-            }
+            Uri file = null;
+            if (data != null) {
+                file = data.getData();
+                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+                InputStream inputStream = null;
+                try {
+                    inputStream = getContentResolver().openInputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    inputStream = null;
+                }
 
-            if (cvsMan.importDatabase(inputStream, appViMo.getProfile().getValue())) {
-                KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
-            } else {
-                KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                if (cvsMan.importDatabase(inputStream, appViMo.getProfile().getValue())) {
+                    KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                } else {
+                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                }
+            }
+        } else if (resultCode == RESULT_OK && requestCode == OPEN_MUSIC_FILE) {
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
+                // Return for MusicController Choose file
+                musicController.OpenMusicFileIntentResult(uri);
             }
         }
     }
