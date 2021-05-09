@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
     private boolean mMigrationBD15done = false;
+    private boolean mMigrationToScopedStoragedone = false;
     private long mBackPressed;
     private AppViMo appViMo;
 
@@ -249,14 +250,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        if ( !migrateToScopedStorage() )
-        {
-            // Afficher une boite de dialogue pour confirmer
-            AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
-            errorDialogBuilder.setTitle("Database migration");
-            errorDialogBuilder.setMessage("Arf, something went wrong!");
-            AlertDialog errorDialog = errorDialogBuilder.create();
-            errorDialog.show();
+        loadPreferences();
+
+        if ( !mMigrationToScopedStoragedone) { //does the migration only once.
+            if (!migrateToScopedStorage()) {
+                // Display error box for information
+                AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
+                errorDialogBuilder.setTitle("Database migration");
+                errorDialogBuilder.setMessage("Arf, something went wrong!");
+                AlertDialog errorDialog = errorDialogBuilder.create();
+                errorDialog.show();
+            } else {
+                KToast.infoToast(this, "App files migrated successfully", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
+            mMigrationToScopedStoragedone = true;
+            savePreferences();
         }
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
@@ -285,8 +293,6 @@ public class MainActivity extends AppCompatActivity {
             mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, BODYTRACKING);
             mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().getFragment(savedInstanceState, WORKOUTS);
         }
-
-        loadPreferences();
 
         appViMo = new ViewModelProvider(this).get(AppViMo.class);
         appViMo.getProfile().observe(this, profile -> {
@@ -912,6 +918,7 @@ public class MainActivity extends AppCompatActivity {
         mCurrentProfilID = settings.getLong("currentProfil", -1); // return -1 if it doesn't exist
         mIntro014Launched = settings.getBoolean("intro014Launched", false);
         mMigrationBD15done = settings.getBoolean("migrationBD15done", false);
+        mMigrationToScopedStoragedone = settings.getBoolean("migrationToScopedStoragedone", false);
     }
 
     private void savePreferences() {
@@ -921,6 +928,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putLong("currentProfil", mCurrentProfilID);
         editor.putBoolean("intro014Launched", mIntro014Launched);
         editor.putBoolean("migrationBD15done", mMigrationBD15done);
+        editor.putBoolean("migrationToScopedStoragedone", mMigrationToScopedStoragedone);
         editor.apply();
     }
 
