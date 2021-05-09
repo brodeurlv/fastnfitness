@@ -301,21 +301,33 @@ public class MusicController {
                 else {
                     currentIndexSongList = 0;
                     buildSongList(currentPath);
-                    currentFile = songList.get(0);
-                    newSongSelected = true;
-                    Play();
+                    if (songList.size()!=0) {
+                        currentFile = songList.get(currentIndexSongList);
+                        newSongSelected = true;
+                        Play();
+                    } else {
+                        currentPath = null;
+                        currentFile = null;
+                        currentIndexSongList = -1;
+                    }
                 }
             }
         } else {
             try {
                 if (newSongSelected) {
                     newSongSelected = false;
-                    currentFile = songList.get(currentIndexSongList);
-                    mediaPlayer.reset();
-                    mediaPlayer.setDataSource(mActivity.getApplicationContext(), currentFile);
-                    mediaPlayer.prepareAsync();
-                    isStopped = false;
-                    isPaused = false;
+                    if (songList.size()!=0) {
+                        currentFile = songList.get(currentIndexSongList);
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(mActivity.getApplicationContext(), currentFile);
+                        mediaPlayer.prepareAsync();
+                        isStopped = false;
+                        isPaused = false;
+                    } else {
+                        currentPath = null;
+                        currentFile = null;
+                        currentIndexSongList = -1;
+                    }
                 } else if (isPaused) { // different from STOP
                     mediaPlayer.start();
                     mActivity.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
@@ -418,11 +430,18 @@ public class MusicController {
         //
         currentPath = folder; //getParentDirPath(currentFile);
         buildSongList(currentPath);
-        currentFile = songList.get(0);
-        currentIndexSongList = 0; //.indexOf(getFileName(file));
-        newSongSelected = true;
-        Play();
-        savePreferences();
+        if (songList.size()!=0) {
+            currentFile = songList.get(0);
+            currentIndexSongList = 0; //.indexOf(getFileName(file));
+            newSongSelected = true;
+            Play();
+            savePreferences();
+        } else {
+            currentIndexSongList = -1;
+            currentPath = null;
+            currentFile = null;
+            newSongSelected = false;
+        }
     }
     private boolean isExternalStoragePermissionDenied() {
         return ContextCompat.checkSelfPermission(mActivity,
@@ -466,34 +485,6 @@ public class MusicController {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             songList.sort((m1, m2) -> m1.getPath().compareTo(m2.getPath()));
         }
-
-
-        /*String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
-
-        try (Cursor cursor = mActivity.getContentResolver().query(path, new String[]{MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME, MediaStore.Audio.Media.DURATION}, null, null, sortOrder);
-        ) {
-            // Cache column indices.
-            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
-            int nameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
-            int durationColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
-
-            while (cursor.moveToNext()) {
-                // Get values of columns for a given video.
-                long id = cursor.getLong(idColumn);
-                String name = cursor.getString(nameColumn);
-                int duration = cursor.getInt(durationColumn);
-
-                Uri contentUri = ContentUris.withAppendedId(
-                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-
-                // Stores column values and the contentUri in a local object
-                // that represents the media file.
-                songList.add(new Audio(contentUri, name, duration));
-            }
-        }*/
     }
 
     /**
