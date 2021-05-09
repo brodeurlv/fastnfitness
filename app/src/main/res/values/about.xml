@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.19.6</string>
+    <string name="app_version" translatable="false">0.20.1</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="author" translatable="false">Charles Combes</string>
@@ -10,12 +10,8 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.19.6: April 18, 2021\n
-        \t- Enhancement: Fixed German translation (Thank you @lucca-ruhland)\n
-        \t- Enhancement: Added Ramdom play for music player (Thank you @alextsakpinis)\n
-        \t- Bug: Fixed access grant for music player (Thank you @alextsakpinis)\n
-        \t- Bug: Fixed small UI bug \n
-        \t- Bug: Fixed profile birthday update\n
+v0.20.1: May 09, 2021\n
+        \t- Enhancement: Migration to scoped storage
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
