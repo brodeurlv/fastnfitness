@@ -2,15 +2,20 @@ package com.easyfitness.utils;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
@@ -22,14 +27,16 @@ import androidx.fragment.app.Fragment;
 
 import com.easyfitness.BuildConfig;
 import com.easyfitness.R;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.nio.channels.WritableByteChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -149,7 +156,7 @@ public class ImageUtil {
             // Determine how much to scale down the image
             int scaleFactor = 1;
             if (targetW!=0) {
-                scaleFactor = (int) (photoW / targetW); //Math.min(photoW/targetW, photoH/targetH);
+                scaleFactor = photoW / targetW; //Math.min(photoW/targetW, photoH/targetH);
             }
 
             // Decode the image file into a Bitmap sized to fill the View
@@ -180,24 +187,29 @@ public class ImageUtil {
      * @return path to the thumb file
      */
     public String getThumbPath(String pPath) {
-        if (pPath == null || pPath.isEmpty()) return null;
-        // extract path without the .jpg
-        String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
-        String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
-
-        // If it is already a thumb do nothing
-        if (nameOfOutputImage.endsWith("_TH")) {
-            return pPath;
-            // else check if it already exists
-        } else {
+        try {
+            if (pPath == null || pPath.isEmpty()) return null;
             // extract path without the .jpg
-            String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
-            File f = new File(pathOfThumbImage);
-            if (!f.exists())
-                return saveThumb(pPath); // create thumb file
-            else {
-                return pathOfThumbImage;
+            String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
+            String pathOfOutputFolder = pPath.substring(0, pPath.lastIndexOf('/'));
+
+            // If it is already a thumb do nothing
+            if (nameOfOutputImage.endsWith("_TH")) {
+                return pPath;
+                // else check if it already exists
+            } else {
+                // extract path without the .jpg
+                String pathOfThumbImage = pathOfOutputFolder + "/.thumb/" + nameOfOutputImage + "_TH.jpg";
+                File f = new File(pathOfThumbImage);
+                if (!f.exists())
+                    return saveThumb(pPath); // create thumb file
+                else {
+                    return pathOfThumbImage;
+                }
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -209,29 +221,28 @@ public class ImageUtil {
         mDeleteImageListener = listener;
     }
 
-    public boolean CreatePhotoSourceDialog(Fragment pF) {
+    public boolean CreatePhotoSourceDialog(Fragment fragment) {
         String[] optionListArray = new String[3];
-        optionListArray[0] = pF.getResources().getString(R.string.camera);
-        optionListArray[1] = pF.getResources().getString(R.string.gallery);
-        optionListArray[2] = pF.getResources().getString(R.string.remove_image);
+        optionListArray[0] = fragment.getResources().getString(R.string.camera);
+        optionListArray[1] = fragment.getResources().getString(R.string.gallery);
+        optionListArray[2] = fragment.getResources().getString(R.string.remove_image);
 
-        requestPermissionForWriting(pF);
+        requestPermissionForWriting(fragment);
 
-        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(pF.getActivity());
+        AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(fragment.getActivity());
         itemActionBuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
             ListView lv = ((AlertDialog) dialog).getListView();
 
             switch (which) {
-                // Galery
-                case 1:
-                    getGaleryPict(pF);
-                    break;
                 // Camera
                 case 0:
-                    dispatchTakePictureIntent(pF);
-                    /*CropImage.activity()
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(pF.getContext(), pF);*/
+
+                    dispatchTakePictureIntent(fragment);
+                    break;
+                // Galery
+                case 1:
+                    getGaleryPict(fragment);
+
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
@@ -246,26 +257,61 @@ public class ImageUtil {
         return true;
     }
 
-    private void dispatchTakePictureIntent(Fragment pF) {
+    private void dispatchTakePictureIntent(Fragment fragment) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(pF.getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(fragment.getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
+            File photo = null;
             try {
-                photoFile = createImageFile(pF);
-                mFilePath = photoFile.getAbsolutePath();
+                photo = createImageFile(fragment);
+                mFilePath = photo.getAbsolutePath();
             } catch (IOException ex) {
-                // Error occurred while creating the File
-                return;
+                KToast.errorToast(fragment.getActivity(), "error", Gravity.BOTTOM, KToast.LENGTH_LONG);
             }
             // Continue only if the File was successfully created
-            Uri photoURI = FileProvider.getUriForFile(pF.getActivity(),
-                    BuildConfig.APPLICATION_ID + ".provider",
-                    photoFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            pF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            if (photo != null) {
+                Uri photoURI = FileProvider.getUriForFile(fragment.getContext(),
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
+                        photo);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                fragment.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
+    }
+
+    private File createImageFile(Fragment fragment) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = fragment.getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",  /* suffix */
+                storageDir      /* directory */
+        );
+        return image;
+    }
+    private Uri createMediaStoreImage(Fragment fragment) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+
+        ContentResolver resolver = fragment.getContext().getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, imageFileName);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/FastNFitness/Profile");
+
+        Uri collection;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        }
+
+        Uri file = resolver.insert(collection, contentValues);
+        return file;
     }
 
     private void getGaleryPict(Fragment pF) {
@@ -280,34 +326,6 @@ public class ImageUtil {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         pF.getActivity().sendBroadcast(mediaScanIntent);
-    }
-
-    private File createImageFile(Fragment pF) throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = null;
-
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)) {
-            return null;
-        } else {
-            //We use the FastNFitness directory for saving our .csv file.
-            storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/DCIM/");
-            if (!storageDir.exists()) {
-                storageDir.mkdirs();
-            }
-        }
-        //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        //mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
     private void requestPermissionForWriting(Fragment pF) {
@@ -327,23 +345,23 @@ public class ImageUtil {
         }
     }
 
-    public File moveFile(File file, File dir) throws IOException {
+    static public File moveFile(File file, File dir) throws IOException {
         return copyFile(file, dir, "", true);
     }
 
-    public File moveFile(File file, File dir, String newFileName) throws IOException {
+    static public File moveFile(File file, File dir, String newFileName) throws IOException {
         return copyFile(file, dir, newFileName, true);
     }
 
-    public File copyFile(File file, File dir) throws IOException {
+    static public File copyFile(File file, File dir) throws IOException {
         return copyFile(file, dir, "", false);
     }
 
-    public File copyFile(File file, File dir, String newFileName) throws IOException {
+    static public File copyFile(File file, File dir, String newFileName) throws IOException {
         return copyFile(file, dir, newFileName, false);
     }
 
-    public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
+    static public File copyFile(File file, File dir, String newFileName, boolean moveFile) throws IOException {
         File newFile = null;
         if (newFileName.isEmpty())
             newFile = new File(dir, file.getName());
@@ -356,6 +374,46 @@ public class ImageUtil {
             if (moveFile) file.delete();
         }
 
+        return newFile;
+    }
+
+    static public File copyFileFromUri(Context context, Uri fileUri, File destFolder, String newFileName)
+    {
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        File newFile = null;
+
+        try
+        {
+            ContentResolver content = context.getContentResolver();
+            inputStream =  (FileInputStream) content.openInputStream(fileUri);
+
+            // create directory if it doesn't exists
+            destFolder.mkdirs();
+
+            newFile = new File(destFolder, newFileName);
+
+            outputStream = new FileOutputStream(newFile);
+            if(outputStream != null){
+                Log.e( "TAG", "Output Stream Opened successfully");
+            }
+
+            FileChannel inputChannel = inputStream.getChannel();
+            FileChannel outputChannel = outputStream.getChannel();
+            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+            inputChannel.close();
+
+            /*byte[] buffer = new byte[1000];
+            int bytesRead = 0;
+            while ( ( bytesRead = inputStream.read( buffer, 0, buffer.length ) ) >= 0 )
+            {
+                outputStream.write( buffer, 0, buffer.length );
+            }*/
+        } catch ( Exception e ){
+            Log.e( "TAG", "Exception occurred " + e.getMessage());
+        } finally{
+
+        }
         return newFile;
     }
 

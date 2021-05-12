@@ -1,8 +1,14 @@
 package com.easyfitness.DAO;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.icu.util.Output;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
@@ -22,15 +28,19 @@ import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
 
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
@@ -46,31 +56,19 @@ public class CVSManager {
     }
 
     public boolean exportDatabase(Profile pProfile) {
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-
-        /**First of all we check if the external storage of the device is available for writing.
+         /**First of all we check if the external storage of the device is available for writing.
          * Remember that the external storage is not necessarily the sd card. Very often it is
          * the device storage.
          */
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)) {
-            return false;
-        } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s_", Locale.getDefault());
-            Date date = new Date();
 
-            //We use the FastNFitness directory for saving our .csv file.
-            File exportDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/export/" + dateFormat.format(date) + pProfile.getName());
-            if (!exportDir.exists()) {
-                exportDir.mkdirs();
-            }
+         boolean ret = true;
 
-            PrintWriter printWriter = null;
+        PrintWriter printWriter = null;
             try {
-                exportBodyMeasures(exportDir, pProfile, date);
-                exportRecords(exportDir, pProfile, date);
-                exportExercise(exportDir, pProfile, date);
-                exportBodyParts(exportDir, pProfile, date);
+                ret &= exportBodyMeasures(pProfile);
+                ret &= exportRecords(pProfile);
+                ret &= exportExercise(pProfile);
+                ret &= exportBodyParts(pProfile);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -80,16 +78,41 @@ public class CVSManager {
             }
 
             //If there are no errors, return true.
-            return true;
+            return ret;
+    }
+
+    private OutputStream CreateNewFile(String name, Profile pProfile) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
+        Date date = new Date();
+
+        String fileName = "export_" + name + "_" + pProfile.getName() + "_" + dateFormat.format(date);
+
+        ContentResolver resolver = mContext.getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
+        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/FastNFitness");
+        Uri collection = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+        }
+
+        Uri file = resolver.insert(collection, contentValues);
+        try {
+            return resolver.openOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    private boolean exportRecords(File exportDir, Profile pProfile, Date date) {
+    private boolean exportRecords(Profile pProfile) {
         try {
-            // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
+            OutputStream exportFile = CreateNewFile("Records", pProfile);
 
-            CsvWriter csvOutputFonte = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Records_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
+            CsvWriter csvOutputFonte = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -104,7 +127,6 @@ public class CVSManager {
              */
             Cursor cursor = dbc.getAllRecordsByProfile(pProfile);
             List<Record> records = dbc.fromCursorToList(cursor);
-
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutputFonte.write(TABLE_HEAD);
@@ -161,12 +183,12 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyMeasures(File exportDir, Profile pProfile, Date date) {
+    private boolean exportBodyMeasures(Profile pProfile) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
+            OutputStream exportFile = CreateNewFile("BodyMeasures", pProfile);
 
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_BodyMeasures_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
+            CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
             daoBodyMeasure.open();
 
@@ -205,12 +227,11 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyParts(File exportDir, Profile pProfile, Date date) {
+    private boolean exportBodyParts(Profile pProfile) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-
+            OutputStream exportFile = CreateNewFile("BodyParts", pProfile);
             // use FileWriter constructor that specifies open for appending
-            CsvWriter cvsOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_CustomBodyPart_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
+            CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
             daoBodyPart.open();
 
@@ -243,12 +264,11 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportExercise(File exportDir, Profile pProfile, Date date) {
+    private boolean exportExercise(Profile pProfile) {
         try {
             // FONTE
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-
-            CsvWriter csvOutput = new CsvWriter(exportDir.getPath() + "/" + "EF_" + pProfile.getName() + "_Exercises_" + dateFormat.format(date) + ".csv", ',', StandardCharsets.UTF_8);
+            OutputStream exportFile = CreateNewFile("Exercises", pProfile);
+            CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.
              * The code of this class is omitted for brevity.
@@ -296,7 +316,7 @@ public class CVSManager {
         return true;
     }
 
-    public boolean importDatabase(String file, Profile pProfile) {
+    public boolean importDatabase(InputStream file, Profile pProfile) {
 
         boolean ret = true;
 

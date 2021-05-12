@@ -252,7 +252,6 @@ public class DAOProfile extends DAOBase {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
-        value.put(DAOProfile.CREATIONDATE, DateConverter.dateToDBDateStr(m.getCreationDate()));
         value.put(DAOProfile.NAME, m.getName());
         value.put(DAOProfile.BIRTHDAY, DateConverter.dateToDBDateStr(m.getBirthday()));
         value.put(DAOProfile.SIZE, 0);

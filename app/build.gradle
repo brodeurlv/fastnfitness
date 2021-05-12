@@ -8,9 +8,8 @@ android {
         applicationId "com.easyfitness"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 55
-        versionName "0.19.7"
-
+        versionCode 56
+        versionName "0.20.1"
         vectorDrawables.useSupportLibrary true
     }
 
@@ -75,9 +74,6 @@ android {
 }
 
 dependencies {
-    //implementation files('libs/javacsv-2.1.jar')
-    //implementation 'net.sourceforge.javacsv:javacsv:2.1'
-
 // Support
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
