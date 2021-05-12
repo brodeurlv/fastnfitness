@@ -10,7 +10,7 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.20.1: May 09, 2021\n
+v0.20.1: TBD\n
         \t- Enhancement: Migration to scoped storage
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>

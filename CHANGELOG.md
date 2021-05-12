@@ -1,6 +1,11 @@
 ## Change Log
 
-v0.19.6: April 18, 2021
+### 0.19.7: May 02, 2021
+- Enhancement: Audible beeps at the end of rest timer #159 (Thank you @alextsakpinis)
+- Enhancement: Automatic exports for backup purpose #113 (Thank you @alextsakpinis)
+- Enhancement: Consider an option to track height in "Body Track" section #186
+
+### 0.19.6: April 18, 2021
 - Enhancement: Fixed German translation (Thank you @lucca-ruhland)
 - Enhancement: Added Ramdom play for music player (#13 - Thank you @alextsakpinis)
 - Bug: Fixed access grant for music player (#194 - Thank you @alextsakpinis)
@@ -14,10 +19,10 @@ v0.19.6: April 18, 2021
 - Bug: Unable to import after fresh install (#180)
 - Bug: Fix wrong names for exported files (#183)
 
-### 0.19.4: Setpember 28, 2020\n
+### 0.19.4: September 28, 2020\n
 - Enhancement:  Add Italian language (#179 - Thank you @mimo84)
 - Bug: Incomplete program name in history (#171)
-- Bug: BMI wrong when weight is not in kg (#174) 
+- Bug: BMI wrong when weight is not in kg (#174)
 
 ### 0.19.3: August 3, 2020
 - Enhancement : Update auto clear mechanism for Exercise (#154) (Thank you @ironjan)

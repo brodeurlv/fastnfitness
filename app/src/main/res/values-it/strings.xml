@@ -328,4 +328,12 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrare alla fine del timer riposo</string>
     <string name="size">Dimensione</string>
     <string name="gender">Genere</string>
+    <string name="pref_scheduled_backup_setting">Impostazioni di backup automatico</string>
+    <string name="pref_lastBackupSettingSummary">Ultimo backup:</string>
+    <string name="pref_preferredBackupSettingTitle">Frequenza</string>
+    <string name="backup_notStarted">No Backup avviato</string>
+    <string name="backup_warning_never">Fate il vostro primo backup ora.</string>
+    <string name="backup_warning_day">Un giorno passò dopo l\'ultimo backup.</string>
+    <string name="backup_warning_week">Una settimana passata dopo l\'ultimo backup.</string>
+    <string name="backup_warning_month">Un mese passò dopo l\'ultimo backup.</string>
 </resources>

@@ -79,6 +79,30 @@
     <string name="pref_play_vibration_after_rest_timer">Vibration</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrieren am Ende des Ruhezeitgebers</string>
 
+    <string name="pref_scheduled_backup_setting">Automatische Backup Einstellungen</string>
+    <string-array name="backup_options">
+        <item>Manuell</item>
+        <item>Täglich</item>
+        <item>Wöchentlich</item>
+        <item>Monatlich</item>
+    </string-array>
+
+    <string-array name="backup_settings_Enum" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="pref_lastBackupSettingSummary">Letztes Backup:</string>
+    <string name="pref_preferredBackupSettingTitle">Häufigkeit</string>
+    <string name="backup_notStarted">Kein Backup gestartet</string>
+    <string name="backup_warning_never">Mach jetzt dein erstes Backup.</string>
+    <string name="backup_warning_day">Ein Tag vergangen seit letztem Backup.</string>
+    <string name="backup_warning_week">Eine Woche vergangen seit letztem Backup.</string>
+    <string name="backup_warning_month">Ein Monat vergangen seit letztem Backup.</string>
+
+
     <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
     <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
 

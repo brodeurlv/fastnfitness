@@ -287,4 +287,12 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrer à la fin de la minuterie de repos</string>
     <string name="size">Taille</string>
     <string name="gender">Genre</string>
+    <string name="pref_scheduled_backup_setting">Paramètres de sauvegarde automatique</string>
+    <string name="pref_lastBackupSettingSummary">Dernière sauvegarde:</string>
+    <string name="pref_preferredBackupSettingTitle">Fréquence</string>
+    <string name="backup_notStarted">Pas de sauvegarde</string>
+    <string name="backup_warning_never">Faites de votre première sauvegarde maintenant.</string>
+    <string name="backup_warning_day">Un jour passé depuis votre dernière sauvegarde.</string>
+    <string name="backup_warning_week">Une semaine passée depuis votre dernière sauvegarde.</string>
+    <string name="backup_warning_month">Un mois a passé depuis votre dernière sauvegarde.</string>
 </resources>

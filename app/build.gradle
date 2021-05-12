@@ -10,7 +10,6 @@ android {
         targetSdkVersion 29
         versionCode 56
         versionName "0.20.1"
-
         vectorDrawables.useSupportLibrary true
     }
 

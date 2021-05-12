@@ -249,4 +249,12 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Размер</string>
     <string name="size">Размер</string>
     <string name="gender">Пол</string>
+    <string name="pref_scheduled_backup_setting">Автоматическое резервное копирование настроек</string>
+    <string name="pref_lastBackupSettingSummary">Последнее резервное копирование:</string>
+    <string name="pref_preferredBackupSettingTitle">Частота</string>
+    <string name="backup_notStarted">Нет резервного копирования не началась</string>
+    <string name="backup_warning_never">Сделайте свою первую резервную копию прямо сейчас.</string>
+    <string name="backup_warning_day">Один день с момента последнего резервного копирования.</string>
+    <string name="backup_warning_week">Одна неделя с момента последнего резервного копирования.</string>
+    <string name="backup_warning_month">За один месяц с момента последнего резервного копирования.</string>
 </resources>

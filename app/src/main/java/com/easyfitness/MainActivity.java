@@ -405,6 +405,32 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
         this.showMP3Toolbar(bShowMP3);
+
+        this.checkLastBackup(SP);
+    }
+
+    private void checkLastBackup(SharedPreferences SP) {
+        int milliSecondsOfDay = 86400000; // 24 * 60 * 60 * 1000
+        int milliSecondsOfWeek = 604800000; // 7 * 24 * 60 * 60 * 1000
+        long milliSecondsOfMonth = 2419200000L; // 4 * 7 * 24 * 60 * 60 * 1000
+
+        long lastBackupUTCTime = SP.getLong("prefLastTimeBackupUTCTime", -1);
+        int prefBackupSetting = Integer.parseInt(SP.getString("defaultBackupSetting", "0"));
+        if (lastBackupUTCTime == -1 && prefBackupSetting > 0) {
+            //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_never).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            exportDatabase(getActivity().getResources().getText(R.string.backup_warning_never).toString());
+        } else {
+            if (prefBackupSetting == 1 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfDay) {
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_day).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_day).toString());
+            } else if (prefBackupSetting == 2 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfWeek) {
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_week).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_week).toString());
+            } else if (prefBackupSetting == 3 && System.currentTimeMillis() - lastBackupUTCTime > milliSecondsOfMonth) {
+                //KToast.warningToast(getActivity(), getActivity().getResources().getText(R.string.backup_warning_month).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                exportDatabase(getActivity().getResources().getText(R.string.backup_warning_month).toString());
+            }
+        }
     }
 
     private void initDEBUGdata() {
@@ -544,12 +570,18 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
             exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-            exportDbBuilder.setMessage(getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
+            exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
 
             // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                if (cvsMan.exportDatabase(appViMo.getProfile().getValue())) {
+                if (cvsMan.exportDatabase(getCurrentProfile())) {
+                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    long currentTime = System.currentTimeMillis();
+                    SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
+                    if(mpSettingFrag.getContext() != null) {
+                        mpSettingFrag.updateLastBackupSummary(SP, currentTime);
+                    }
                     KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 } else {
                     KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
@@ -633,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.export_database:
-                exportDatabase();
+                exportDatabase("");
                 return true;
             case R.id.import_database:
                 importDatabase();
@@ -704,7 +736,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                exportDatabase();
+                exportDatabase("");
             } else {
                 KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }

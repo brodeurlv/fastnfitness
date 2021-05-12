@@ -75,7 +75,10 @@ public class ImageUtil {
             float photoH = bmOptions.outHeight;
 
             // Determine how much to scale down the image
-            int scaleFactor = (int) (photoW / targetW); //Math.min(photoW/targetW, photoH/targetH);
+            int scaleFactor = 1;
+            if (targetW!=0) {
+                scaleFactor = (int) (photoW / targetW); //Math.min(photoW/targetW, photoH/targetH);
+            }
 
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
@@ -99,18 +102,18 @@ public class ImageUtil {
         float photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        float scaleFactor = photoW / photoH; //Math.min(photoW/targetW, photoH/targetH);
+        float scaleFactor = 1;
+        if (photoH!=0) {
+            scaleFactor = photoW / photoH; //Math.min(photoW/targetW, photoH/targetH);
+        }
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = (int) scaleFactor;
 
-        //if (photoW < photoH)
         Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
         Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
         Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(orientedBitmap, 128, (int) (128 / scaleFactor));
-        //else
-        //ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pPath), (int) (96 / scaleFactor), 96);
 
         // extract path without the .jpg
         String nameOfOutputImage = pPath.substring(pPath.lastIndexOf('/') + 1, pPath.lastIndexOf('.'));
@@ -226,7 +229,6 @@ public class ImageUtil {
 
         requestPermissionForWriting(fragment);
 
-
         AlertDialog.Builder itemActionBuilder = new AlertDialog.Builder(fragment.getActivity());
         itemActionBuilder.setTitle("").setItems(optionListArray, (dialog, which) -> {
             ListView lv = ((AlertDialog) dialog).getListView();
@@ -234,11 +236,13 @@ public class ImageUtil {
             switch (which) {
                 // Camera
                 case 0:
+
                     dispatchTakePictureIntent(fragment);
                     break;
                 // Galery
                 case 1:
                     getGaleryPict(fragment);
+
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)

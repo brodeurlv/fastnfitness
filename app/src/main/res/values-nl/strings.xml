@@ -297,6 +297,14 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Trillen aan het eind van rust timer</string>
     <string name="size">Grootte</string>
     <string name="gender">Geslacht</string>
+    <string name="pref_scheduled_backup_setting">Automatic Backup Settings</string>
+    <string name="pref_lastBackupSettingSummary">Laatste backup:</string>
+    <string name="pref_preferredBackupSettingTitle">Frequentie</string>
+    <string name="backup_notStarted">Geen back-up begonnen</string>
+    <string name="backup_warning_never">Doe nu uw eerste Backup.</string>
+    <string name="backup_warning_day">One Day verstreken sinds de laatste back-up.</string>
+    <string name="backup_warning_week">Een week verstreken sinds de laatste back-up.</string>
+    <string name="backup_warning_month">Een maand verstreken sinds de laatste back-up.</string>
 
 </resources>
 

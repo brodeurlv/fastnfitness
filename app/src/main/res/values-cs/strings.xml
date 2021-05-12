@@ -297,5 +297,13 @@
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrace na konci klidové časovače</string>
     <string name="size">Velikost</string>
     <string name="gender">Rod</string>
+    <string name="pref_scheduled_backup_setting">Automatické zálohování Nastavení</string>
+    <string name="pref_lastBackupSettingSummary">Poslední zálohování:</string>
+    <string name="pref_preferredBackupSettingTitle">Frekvence</string>
+    <string name="backup_notStarted">No Backup začal</string>
+    <string name="backup_warning_never">Provést první zálohování nyní.</string>
+    <string name="backup_warning_day">Jeden den uplynulo od posledního zálohování.</string>
+    <string name="backup_warning_week">Jeden týden uplynulo od posledního zálohování.</string>
+    <string name="backup_warning_month">Jeden měsíc uplynul od posledního zálohování.</string>
 
 </resources>
