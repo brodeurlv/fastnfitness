@@ -43,10 +43,14 @@ public class DateConverter {
     static public Date localDateTimeStrToDateTime(String dateText, String timeText, Context pContext) {
         Date date;
         try {
-            String dateFormat = ((SimpleDateFormat) getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
-            String timeFormat = ((SimpleDateFormat) getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
-            date = dateTimeFormat.parse(dateText + "T" + timeText);
+            if (timeText.isEmpty()) {
+                date = localDateStrToDate(dateText, pContext);
+            } else {
+                String dateFormat = ((SimpleDateFormat) getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
+                String timeFormat = ((SimpleDateFormat) getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
+                SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
+                date = dateTimeFormat.parse(dateText + "T" + timeText);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
@@ -112,9 +116,13 @@ public class DateConverter {
     static public Date DBDateTimeStrToDate(String dateStr, String timeStr) {
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            date = dateFormat.parse(dateStr + "T" + timeStr);
+            if (timeStr.isEmpty()) { // For old record where there was no Time
+                date = DBDateStrToDate(dateStr);
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT);
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                date = dateFormat.parse(dateStr + "T" + timeStr);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             date = new Date();
