@@ -251,6 +251,18 @@ public class DAOMachine extends DAOBase {
     }
 
     /**
+     * @return List of Machine object ordered by Favorite and Name given exercise types as input
+     */
+    public ArrayList<Machine> getAllMachinesArray(String types) {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + types + " ORDER BY "
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+
+        // return value list
+        return getMachineList(selectQuery);
+    }
+
+    /**
      * @param idList List of Machine IDs to be return
      * @return List of Machine object ordered by Favorite and Name
      */

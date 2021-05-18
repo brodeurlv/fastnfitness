@@ -273,6 +273,7 @@
     <string name="nb_serie">Nb Sets</string>
     <string name="exit">Exit</string>
     <string name="selectMachineDialogLabel">Select an existing exercise</string>
+    <string name="filterExerciseTypeDialogLabel">Filter for Exercise Types</string>
 
     <!-- Intro slides -->
     <string name="fillNameField">Please enter your name, at least</string>

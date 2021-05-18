@@ -185,6 +185,7 @@
     <string name="nb_serie">Anzahl Sätze</string>
     <string name="exit">Beenden</string>
     <string name="selectMachineDialogLabel">Wähle ein Gerät aus</string>
+    <string name="filterExerciseTypeDialogLabel">Filter für Übungstypen</string>
 
     <!-- Intro slides -->
     <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen an</string>

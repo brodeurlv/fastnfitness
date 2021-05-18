@@ -152,7 +152,7 @@ public class MachineFragment extends Fragment {
             KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setTitle(R.string.selectMachineDialogLabel);
+            builder.setTitle(R.string.filterExerciseTypeDialogLabel);
             String[] availableExerciseTypes = {getResources().getText(R.string.strength_category).toString(),
                     getResources().getText(R.string.CardioLabel).toString(),
                     getResources().getText(R.string.staticExercise).toString()};
