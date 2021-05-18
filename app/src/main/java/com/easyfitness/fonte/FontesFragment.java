@@ -225,7 +225,7 @@ public class FontesFragment extends Fragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //refreshData();
+                    // Maybe open directly exercise list?
                 }
             });
             builder.setNegativeButton("Cancel", null);
@@ -433,8 +433,12 @@ public class FontesFragment extends Fragment {
             Cursor c = mDbMachine.getAllMachines(getRequiredTypes());
 
             if (c == null || c.getCount() == 0) {
-                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                if (getRequiredTypes().equals("()")) {
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                } else {
+                    //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                }
                 machineList.setAdapter(null);
             } else {
                 if (machineList.getAdapter() == null) {
@@ -925,7 +929,7 @@ public class FontesFragment extends Fragment {
         });
     }
 
-    private String getRequiredTypes(){
+    private String getRequiredTypes() {
         String requiredTypes = "(";
         int numRequiredTypes = 0;
 

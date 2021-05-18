@@ -295,6 +295,7 @@
     <string name="profileCreated">Profile created</string>
     <string name="missinginfo">Missing info</string>
     <string name="createExerciseFirst">You must create an exercise first</string>
+    <string name="selectExerciseTypeFirst">You must select at least one exercise type</string>
     <string name="impossibleToDeleteProfile">Impossible to delete current profile</string>
     <string name="profileDeleted">Profile deleted</string>
     <string name="min">Min</string>

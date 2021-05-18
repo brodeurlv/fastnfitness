@@ -207,6 +207,7 @@
     <string name="profileCreated">Profil erstellt</string>
     <string name="missinginfo">Fehlende Informationen</string>
     <string name="createExerciseFirst">Du musst zuerst eine Übung erstellen</string>
+    <string name="selectExerciseTypeFirst">Du musst mindestens einen Übungstyp auswählen</string>
     <string name="impossibleToDeleteProfile">Das aktuelle Profil kann nicht gelöscht werden</string>
     <string name="profileDeleted">Profil gelöscht</string>
     <string name="min">Min.</string>
