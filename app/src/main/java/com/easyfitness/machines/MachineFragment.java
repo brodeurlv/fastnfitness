@@ -39,7 +39,7 @@ public class MachineFragment extends Fragment {
     AutoCompleteTextView searchField = null;
     MachineCursorAdapter mTableAdapter;
     ImageButton filterButton = null;
-    boolean[] checkedFilterItems = {true, true, true};
+    private boolean[] checkedFilterItems = {true, true, true};
     private DAOMachine mDbMachine = null;
     private AlertDialog machineFilterDialog;
 

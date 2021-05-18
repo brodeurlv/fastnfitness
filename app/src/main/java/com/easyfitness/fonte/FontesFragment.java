@@ -89,7 +89,7 @@ public class FontesFragment extends Fragment {
     private CircularImageView machineImage = null;
     private ImageButton machineListButton = null;
     private ImageButton filterButton = null;
-    boolean[] checkedFilterItems = {true, true, true};
+    private boolean[] checkedFilterItems = {true, true, true};
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
     private CardView detailsCardView = null;
