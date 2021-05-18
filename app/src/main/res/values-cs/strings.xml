@@ -305,5 +305,9 @@
     <string name="backup_warning_day">Jeden den uplynulo od posledního zálohování.</string>
     <string name="backup_warning_week">Jeden týden uplynulo od posledního zálohování.</string>
     <string name="backup_warning_month">Jeden měsíc uplynul od posledního zálohování.</string>
+    <string name="license">Licence:</string>
+    <string name="database_migration">Migrace databáze</string>
+    <string name="something_went_wrong">Něco se pokazilo!</string>
+    <string name="database_migration_success">App soubory úspěšně migrovat</string>
 
 </resources>

@@ -15,6 +15,7 @@ import com.easyfitness.licenses.CustomLicense;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.BSD3ClauseLicense;
 import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
 import de.psdev.licensesdialog.licenses.License;
 import de.psdev.licensesdialog.licenses.MITLicense;
@@ -33,6 +34,12 @@ public class AboutFragment extends Fragment {
         License license = null;
 
         switch (v.getId()) {
+            case R.id.FastNFitness:
+                name = "FastNFitness";
+                url = "https://github.com/brodeurlv/fastnfitness";
+                copyright = "Copyright(c) 2021 - Charles Combes - All rights reserved";
+                license = new BSD3ClauseLicense();
+                break;
             case R.id.MPAndroidChart:
                 name = "MPAndroidChart";
                 url = "https://github.com/PhilJay/MPAndroidChart";
@@ -111,12 +118,12 @@ public class AboutFragment extends Fragment {
                 copyright = "Pedant (http://pedant.cn)";
                 license = new MITLicense();
                 break;
-            case R.id.AndroidImageCropper:
+            /*case R.id.AndroidImageCropper:
                 name = "Android-Image-Cropper";
                 url = "https://github.com/ArthurHub/Android-Image-Cropper";
                 copyright = "Copyright 2016, Arthur Teplitzki, 2013, Edmodo, Inc.";
                 license = new ApacheSoftwareLicense20();
-                break;
+                break;*/
             case R.id.MaterialFavoriteButton:
                 name = "Material Favorite Button";
                 url = "https://github.com/IvBaranov/MaterialFavoriteButton";
@@ -160,9 +167,6 @@ public class AboutFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_about, container, false);
 
-        //TextView pAppVersion = view.findViewById(R.id.app_version_textview);
-        //pAppVersion.setText(); TODO get code version from Manifest
-
         TextView mpDBVersionTextView = view.findViewById(R.id.database_version);
         mpDBVersionTextView.setText(Integer.toString(DatabaseHelper.DATABASE_VERSION));
 
@@ -179,8 +183,8 @@ public class AboutFragment extends Fragment {
         TextView mpCircularImageView = view.findViewById(R.id.CircularImageView);
         TextView mpkToast = view.findViewById(R.id.ktoast);
         TextView mpSweetAlertDialog = view.findViewById(R.id.SweetAlertDialog);
-        TextView mpAndroidImageCropper = view.findViewById(R.id.AndroidImageCropper);
         TextView mpMaterialFavoriteButton = view.findViewById(R.id.MaterialFavoriteButton);
+        TextView mpFastNFitnesss = view.findViewById(R.id.FastNFitness);
 
 
         mpMPAndroidChartTextView.setOnClickListener(clickLicense);
@@ -196,8 +200,8 @@ public class AboutFragment extends Fragment {
         mpCircularImageView.setOnClickListener(clickLicense);
         mpkToast.setOnClickListener(clickLicense);
         mpSweetAlertDialog.setOnClickListener(clickLicense);
-        mpAndroidImageCropper.setOnClickListener(clickLicense);
         mpMaterialFavoriteButton.setOnClickListener(clickLicense);
+        mpFastNFitnesss.setOnClickListener(clickLicense);
 
         // Inflate the layout for this fragment
         return view;

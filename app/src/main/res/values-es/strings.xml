@@ -311,5 +311,9 @@
     <string name="backup_warning_day">Pasó un día desde su última copia de seguridad.</string>
     <string name="backup_warning_week">Pasó una semana desde su última copia de seguridad.</string>
     <string name="backup_warning_month">Un mes transcurrido desde la última copia de seguridad.</string>
+    <string name="license">Licencia:</string>
+    <string name="database_migration">Migración de base de datos</string>
+    <string name="something_went_wrong">Arf, algo salió mal!</string>
+    <string name="database_migration_success">Archivos de aplicaciones migrado correctamente</string>
 
 </resources>

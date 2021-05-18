@@ -305,6 +305,10 @@
     <string name="backup_warning_day">One Day verstreken sinds de laatste back-up.</string>
     <string name="backup_warning_week">Een week verstreken sinds de laatste back-up.</string>
     <string name="backup_warning_month">Een maand verstreken sinds de laatste back-up.</string>
+    <string name="license">Licentie:</string>
+    <string name="database_migration">Database migratie</string>
+    <string name="something_went_wrong">Arf, ging er iets mis!</string>
+    <string name="database_migration_success">App-bestanden gemigreerd</string>
 
 </resources>
 

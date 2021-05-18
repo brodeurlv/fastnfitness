@@ -336,4 +336,8 @@
     <string name="backup_warning_day">Un giorno passò dopo l\'ultimo backup.</string>
     <string name="backup_warning_week">Una settimana passata dopo l\'ultimo backup.</string>
     <string name="backup_warning_month">Un mese passò dopo l\'ultimo backup.</string>
+    <string name="license">Licenza:</string>
+    <string name="database_migration">Migrazione di database</string>
+    <string name="something_went_wrong">Arf, qualcosa è andato storto!</string>
+    <string name="database_migration_success">File migrati con successo</string>
 </resources>

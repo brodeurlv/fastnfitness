@@ -257,4 +257,8 @@
     <string name="backup_warning_day">Один день с момента последнего резервного копирования.</string>
     <string name="backup_warning_week">Одна неделя с момента последнего резервного копирования.</string>
     <string name="backup_warning_month">За один месяц с момента последнего резервного копирования.</string>
+    <string name="license">Лицензия:</string>
+    <string name="database_migration">База данных миграции</string>
+    <string name="something_went_wrong">Арфа, что-то пошло не так!</string>
+    <string name="database_migration_success">App файлы успешно перенесены</string>
 </resources>

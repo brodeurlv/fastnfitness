@@ -223,49 +223,24 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-
-        /*
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            // creation de l'arborescence de l'application
-            File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
-            boolean success = true;
-            if (!folder.exists()) {
-                success = folder.mkdir();
-            }
-            if (success) {
-                folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport");
-                success = folder.mkdir();
-            }
-
-            if (folder.exists()) {
-                if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-                    Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
-                            Environment.getExternalStorageDirectory() + "/FastnFitness/crashreport"));
-                }
-            }
-        }*/
-
         setContentView(R.layout.activity_main);
 
         loadPreferences();
 
-        if ( !mMigrationToScopedStoragedone) { //does the migration only once.
+        /*if ( !mMigrationToScopedStoragedone) { //does the migration only once.
             if (!migrateToScopedStorage()) {
                 // Display error box for information
                 AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
-                errorDialogBuilder.setTitle("Database migration");
-                errorDialogBuilder.setMessage("Arf, something went wrong!");
+                errorDialogBuilder.setTitle(R.string.database_migration);
+                errorDialogBuilder.setMessage(R.string.something_went_wrong);
                 AlertDialog errorDialog = errorDialogBuilder.create();
                 errorDialog.show();
             } else {
-                KToast.infoToast(this, "App files migrated successfully", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                KToast.infoToast(this, getString(R.string.database_migration_success), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
             mMigrationToScopedStoragedone = true;
             savePreferences();
-        }
+        }*/
 
         top_toolbar = this.findViewById(R.id.actionToolbar);
         setSupportActionBar(top_toolbar);
@@ -402,10 +377,13 @@ public class MainActivity extends AppCompatActivity {
             initDEBUGdata();
         }
 
+        if ( !mMigrationToScopedStoragedone) { //do the migration only once.
+            migrateDatabase();
+        }
+
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
         this.showMP3Toolbar(bShowMP3);
-
         this.checkLastBackup(SP);
     }
 
@@ -558,7 +536,38 @@ public class MainActivity extends AppCompatActivity {
         return success;
     }
 
-    private void exportDatabase() {
+    @SuppressWarnings("deprecation")
+    private void migrateDatabase() {
+        File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
+        if (!folder.exists()) {
+            mMigrationToScopedStoragedone = true;
+            savePreferences();
+            return;
+        }
+
+        AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
+        exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.database_migration));
+        exportDbBuilder.setMessage("Due to changes from Google, application files needs to be migrated. This can take some time if you have a lot of pictures. Please be patient.");
+        exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
+            if (!migrateToScopedStorage()) {
+                // Display error box for information
+                AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
+                errorDialogBuilder.setTitle(R.string.database_migration);
+                errorDialogBuilder.setMessage(R.string.something_went_wrong);
+                AlertDialog errorDialog = errorDialogBuilder.create();
+                errorDialog.show();
+            } else {
+                KToast.infoToast(this, getString(R.string.database_migration_success), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
+            mMigrationToScopedStoragedone = true;
+            savePreferences();
+        });
+
+        AlertDialog exportDbDialog = exportDbBuilder.create();
+        exportDbDialog.show();
+    }
+
+    private void exportDatabase(String autoExportMessage) {
         /*if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -566,13 +575,10 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
         } else {*/
-            // Afficher une boite de dialogue pour confirmer
             AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
             exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
             exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
-
-            // Si oui, supprimer la base de donnee et refaire un Start.
             exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
                 if (cvsMan.exportDatabase(getCurrentProfile())) {
@@ -586,13 +592,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
-
-                // Do nothing but close the dialog
                 dialog.dismiss();
             });
 
             exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
-                // Do nothing
                 dialog.dismiss();
             });
 
@@ -601,57 +604,11 @@ public class MainActivity extends AppCompatActivity {
         //}
     }
 
-    // Request code for selecting a PDF document.
-
     private void importDatabase() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/*");
-
-        // Optionally, specify a URI for the file that should appear in the
-        // system file picker when it loads.
-        //intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
         startActivityForResult(intent, IMPORT_DATABASE);
-
-
-        /*
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // No explanation needed; request the permission
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT);
-        } else {
-            // Create DirectoryChooserDialog and register a callback
-            FileChooserDialog fileChooserDialog =
-                    new FileChooserDialog(this, chosenDir -> {
-                        m_importCVSchosenDir = chosenDir;
-                        //Toast.makeText(getActivity().getBaseContext(), "Chosen directory: " +
-                        //    chosenDir, Toast.LENGTH_LONG).show();
-                        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText(this.getResources().getString(R.string.global_confirm_question))
-                                .setContentText(this.getResources().getString(R.string.import_new_exercise_first))
-                                .setConfirmText(this.getResources().getString(R.string.global_yes))
-                                .setConfirmClickListener(sDialog -> {
-                                    sDialog.dismissWithAnimation();
-                                    CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                                    if (cvsMan.importDatabase(m_importCVSchosenDir, getCurrentProfile())) {
-                                        KToast.successToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                                    } else {
-                                        KToast.errorToast(getActivity(), m_importCVSchosenDir + " " + getActivity().getResources().getString(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                                    }
-                                    setCurrentProfile(getCurrentProfile()); // Refresh profile
-                                })
-                                .setCancelText(this.getResources().getString(R.string.global_no))
-                                .show();
-                    });
-
-            fileChooserDialog.setFileFilter("csv");
-            fileChooserDialog.chooseDirectory(Environment.getExternalStorageDirectory() + "/FastnFitness/export");
-        }*/
     }
 
     @Override

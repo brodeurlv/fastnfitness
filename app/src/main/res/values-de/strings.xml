@@ -321,5 +321,9 @@
     <string name="oneRepMax">1RM (Wied. &lt;= 10)</string>
     <string name="size">Größe</string>
     <string name="gender">Geschlecht</string>
+    <string name="license">Lizenz:</string>
+    <string name="database_migration">Datenbank-Migration</string>
+    <string name="something_went_wrong">Arf, etwas schief gelaufen ist!</string>
+    <string name="database_migration_success">App-Dateien erfolgreich migriert</string>
 </resources>
 

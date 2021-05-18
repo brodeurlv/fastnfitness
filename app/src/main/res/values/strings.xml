@@ -413,4 +413,7 @@
     <string name="no_chart_data_available">No data</string>
     <string name="remove_image">Remove Image</string>
     <string name="program_completed">You have completed your program ! Do you want to close it ?</string>
+    <string name="database_migration">Database migration</string>
+    <string name="something_went_wrong">Arf, something went wrong!</string>
+    <string name="database_migration_success">App files migrated successfully</string>
 </resources>
