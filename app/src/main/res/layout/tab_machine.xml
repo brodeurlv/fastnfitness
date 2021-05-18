@@ -14,17 +14,42 @@
         android:id="@+id/addExercise"
         style="@style/Widget.AppCompat.Button.AddButton"
         android:text="Add new Exercise" />
-
-    <AutoCompleteTextView
-        android:id="@+id/searchField"
-        android:layout_width="match_parent"
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:hint="@string/FilterHint"
-        android:imeOptions="actionNext"
-        android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
-        android:nextFocusForward="@+id/SetsInputView"
-        android:singleLine="true" />
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/searchField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/FilterHint"
+                android:imeOptions="actionNext"
+                android:inputType="text|textCapWords|textAutoComplete|textNoSuggestions|textVisiblePassword"
+                android:nextFocusForward="@+id/SetsInputView"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/buttonFilterListMachine"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:baselineAlignBottom="false"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_filter_list" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listMachine"
