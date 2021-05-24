@@ -430,10 +430,10 @@ public class FontesFragment extends Fragment {
             ListView machineList = new ListView(v.getContext());
 
             // Version avec table Machine
-            Cursor c = mDbMachine.getAllMachines(getRequiredTypes());
+            Cursor c = mDbMachine.getAllMachines(checkedFilterItems);
 
             if (c == null || c.getCount() == 0) {
-                if (getRequiredTypes().equals("()")) {
+                if (checkedFilterItems.equals(new boolean[]{false, false, false})) {
                     KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 } else {
                     //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -929,24 +929,6 @@ public class FontesFragment extends Fragment {
         });
     }
 
-    private String getRequiredTypes() {
-        String requiredTypes = "(";
-        int numRequiredTypes = 0;
-
-        for (int i = 0; i < checkedFilterItems.length; i++) {
-            if (checkedFilterItems[i]) {
-                requiredTypes = requiredTypes.concat(i + ",");
-                numRequiredTypes++;
-            }
-        }
-        if (numRequiredTypes == 0) {
-            requiredTypes = requiredTypes.concat(")");
-        } else {
-            requiredTypes = requiredTypes.substring(0, requiredTypes.length() - 1).concat(")");
-        }
-        return requiredTypes;
-    }
-
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -954,7 +936,7 @@ public class FontesFragment extends Fragment {
                 mDbRecord.setProfile(getProfile());
 
                 // Version avec table Machine
-                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(getRequiredTypes());
+                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(checkedFilterItems);
 
                 /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);

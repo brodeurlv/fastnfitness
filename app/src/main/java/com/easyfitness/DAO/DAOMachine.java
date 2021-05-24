@@ -206,8 +206,9 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine objects ordered by Favorite and Name given exercise types as input
      */
-    public Cursor getAllMachines(String types) {
+    public Cursor getAllMachines(boolean[] checkedFilterItems) {
         // Select All Query
+        String types = getRequiredTypesAsString(checkedFilterItems);
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + types + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
@@ -218,11 +219,13 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name
      */
-    public Cursor getFilteredMachines(CharSequence filterString) {
+    public Cursor getFilteredMachines(CharSequence filterString, boolean[] checkedFilterItems) {
         // Select All Query
         // like '%"+inputText+"%'";
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' " + " ORDER BY "
-                + FAVORITES + " DESC," + NAME + " ASC";
+        String types = getRequiredTypesAsString(checkedFilterItems);
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' "
+                + " AND " + TYPE + " IN " + types + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
         // return value list
         return getMachineListCursor(selectQuery);
     }
@@ -253,8 +256,9 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name given exercise types as input
      */
-    public ArrayList<Machine> getAllMachinesArray(String types) {
+    public ArrayList<Machine> getAllMachinesArray(boolean[] checkedFilterItems) {
         // Select All Query
+        String types = getRequiredTypesAsString(checkedFilterItems);
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + types + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
@@ -363,5 +367,23 @@ public class DAOMachine extends DAOBase {
     public void populate() {
         addMachine("Dev Couche", "Developper couche : blabla ", ExerciseType.STRENGTH, "", true, "");
         addMachine("Biceps", "Developper couche : blabla ", ExerciseType.STRENGTH, "", false, "");
+    }
+
+    public String getRequiredTypesAsString(boolean[] checkedFilterItems){
+        String requiredTypes = "(";
+        int numRequiredTypes = 0;
+
+        for (int i = 0; i < checkedFilterItems.length; i++) {
+            if (checkedFilterItems[i]) {
+                requiredTypes = requiredTypes.concat(i + ",");
+                numRequiredTypes++;
+            }
+        }
+        if (numRequiredTypes == 0) {
+            requiredTypes = requiredTypes.concat(")");
+        } else {
+            requiredTypes = requiredTypes.substring(0, requiredTypes.length() - 1).concat(")");
+        }
+        return requiredTypes;
     }
 }

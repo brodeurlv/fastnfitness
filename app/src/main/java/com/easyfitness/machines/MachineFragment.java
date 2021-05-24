@@ -271,22 +271,7 @@ public class MachineFragment extends Fragment {
             if (getProfil() != null) {
 
                 // Version avec table Machine
-                String requiredTypes = "(";
-                int numRequiredTypes = 0;
-
-                for (int i = 0; i < checkedFilterItems.length; i++) {
-                    if (checkedFilterItems[i]) {
-                        requiredTypes = requiredTypes.concat(i + ",");
-                        numRequiredTypes++;
-                    }
-                }
-                if (numRequiredTypes == 0) {
-                    requiredTypes = requiredTypes.concat(")");
-                } else {
-                    requiredTypes = requiredTypes.substring(0, requiredTypes.length() - 1).concat(")");
-                }
-
-                c = mDbMachine.getAllMachines(requiredTypes);
+                c = mDbMachine.getAllMachines(checkedFilterItems);
                 if (c == null || c.getCount() == 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     machineList.setAdapter(null);
@@ -300,7 +285,7 @@ public class MachineFragment extends Fragment {
                         if (oldCursor != null) oldCursor.close();
                     }
 
-                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint));
+                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint, checkedFilterItems));
                 }
             }
         }
