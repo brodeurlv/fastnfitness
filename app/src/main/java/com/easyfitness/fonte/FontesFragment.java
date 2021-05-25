@@ -224,7 +224,7 @@ public class FontesFragment extends Fragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // refreshDialogData();
+                    refreshDialogData();
                 }
             });
             builder.setNegativeButton("Cancel", null);
@@ -942,6 +942,38 @@ public class FontesFragment extends Fragment {
                 //}
             }
         });
+    }
+
+    private void refreshDialogData() {
+        Cursor oldCursor;
+
+        ListView machineList = new ListView(getContext());
+
+        // Version avec table Machine
+        Cursor c = mDbMachine.getAllMachines(checkedFilterItems);
+
+        if (c == null || c.getCount() == 0) {
+            if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
+                KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            } else {
+                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
+                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
+            machineList.setAdapter(null);
+        } else {
+            if (machineList.getAdapter() == null) {
+                MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
+                //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
+                machineList.setAdapter(mTableAdapter);
+            } else {
+                MachineCursorAdapter mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
+                oldCursor = mTableAdapter.swapCursor(c);
+                if (oldCursor != null) oldCursor.close();
+            }
+
+            ListView listView = machineListDialog.findViewById(R.id.listMachine);
+            listView.setAdapter(machineList.getAdapter());
+        }
     }
 
     private void refreshData() {
