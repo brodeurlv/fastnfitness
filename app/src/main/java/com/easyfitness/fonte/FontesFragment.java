@@ -88,7 +88,6 @@ public class FontesFragment extends Fragment {
     private MachineArrayFullAdapter machineEditAdapter = null;
     private CircularImageView machineImage = null;
     private ImageButton machineListButton = null;
-    private ImageButton filterButton = null;
     private boolean[] checkedFilterItems = {true, true, true};
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
@@ -225,7 +224,7 @@ public class FontesFragment extends Fragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // Maybe open directly exercise list?
+                    // refreshDialogData();
                 }
             });
             builder.setNegativeButton("Cancel", null);
@@ -455,6 +454,12 @@ public class FontesFragment extends Fragment {
                 View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
                 Button addButton = customLayout.findViewById(R.id.addExercise);
                 addButton.setVisibility(View.GONE);
+
+                AutoCompleteTextView textFilter = customLayout.findViewById(R.id.searchField);
+                textFilter.setVisibility(View.GONE);
+
+                ImageButton filterButton = customLayout.findViewById(R.id.buttonFilterListMachine);
+                filterButton.setOnClickListener(clickFilterButton);
                 ListView listView = customLayout.findViewById(R.id.listMachine);
                 listView.setAdapter(machineList.getAdapter());
                 listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -545,9 +550,6 @@ public class FontesFragment extends Fragment {
         recordList = view.findViewById(R.id.listRecord);
         machineListButton = view.findViewById(R.id.buttonListMachine);
         addButton = view.findViewById(R.id.addperff);
-
-        filterButton = view.findViewById(R.id.buttonFilterListMachineFontes);
-        filterButton.setOnClickListener(clickFilterButton);
 
         detailsCardView = view.findViewById(R.id.detailsCardView);
         detailsLayout = view.findViewById(R.id.notesLayout);

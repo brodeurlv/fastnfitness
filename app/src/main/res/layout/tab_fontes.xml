@@ -55,26 +55,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_toStartOf="@+id/buttonFilterListMachineFontes"
+                        android:layout_toStartOf="@+id/buttonListMachine"
                         android:layout_toEndOf="@+id/imageMachine"
                         android:hint="@string/MachineHint"
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords|textAutoComplete"
                         android:selectAllOnFocus="true"
                         android:singleLine="true" />
-
-                    <ImageButton
-                        android:id="@+id/buttonFilterListMachineFontes"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="30dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:baselineAlignBottom="false"
-                        android:cropToPadding="false"
-                        android:src="@drawable/ic_filter_list" />
 
                     <ImageButton
                         android:id="@+id/buttonListMachine"
