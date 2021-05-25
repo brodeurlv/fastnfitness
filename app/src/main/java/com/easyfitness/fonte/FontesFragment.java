@@ -451,7 +451,13 @@ public class FontesFragment extends Fragment {
                     if (oldCursor != null) oldCursor.close();
                 }
 
-                machineList.setOnItemClickListener((parent, view, position, id) -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
+                Button addButton = customLayout.findViewById(R.id.addExercise);
+                addButton.setVisibility(View.GONE);
+                ListView listView = customLayout.findViewById(R.id.listMachine);
+                listView.setAdapter(machineList.getAdapter());
+                listView.setOnItemClickListener((parent, view, position, id) -> {
                     TextView textView = view.findViewById(R.id.LIST_MACHINE_ID);
                     long machineID = Long.parseLong(textView.getText().toString());
                     DAOMachine lMachineDb = new DAOMachine(getContext());
@@ -466,12 +472,6 @@ public class FontesFragment extends Fragment {
                         machineListDialog.dismiss();
                     }
                 });
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
-                Button addButton = customLayout.findViewById(R.id.addExercise);
-                addButton.setVisibility(View.GONE);
-                ListView listView = customLayout.findViewById(R.id.listMachine);
-                listView.setAdapter(machineList.getAdapter());
                 builder.setTitle(R.string.selectMachineDialogLabel);
                 builder.setView(customLayout);
                 machineListDialog = builder.create();
