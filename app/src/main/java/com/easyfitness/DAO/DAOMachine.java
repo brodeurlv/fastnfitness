@@ -369,7 +369,7 @@ public class DAOMachine extends DAOBase {
         addMachine("Biceps", "Developper couche : blabla ", ExerciseType.STRENGTH, "", false, "");
     }
 
-    public String getRequiredTypesAsString(boolean[] checkedFilterItems){
+    public String getRequiredTypesAsString(boolean[] checkedFilterItems) {
         String requiredTypes = "(";
         int numRequiredTypes = 0;
 

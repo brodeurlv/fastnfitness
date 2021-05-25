@@ -29,7 +29,6 @@ import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {

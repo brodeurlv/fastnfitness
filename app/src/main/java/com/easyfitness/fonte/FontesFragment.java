@@ -465,8 +465,8 @@ public class FontesFragment extends Fragment {
                 AutoCompleteTextView textFilter = customLayout.findViewById(R.id.searchField);
                 textFilter.setVisibility(View.GONE);
 
-                TextView txtView = customLayout.findViewById(R.id.textViewFilterByTypes);
-                txtView.setVisibility(View.VISIBLE);
+                TextView textViewFilterExplanation = customLayout.findViewById(R.id.textViewFilterByTypes);
+                textViewFilterExplanation.setVisibility(View.VISIBLE);
 
                 ImageButton filterButton = customLayout.findViewById(R.id.buttonFilterListMachine);
                 filterButton.setOnClickListener(clickFilterButton);
