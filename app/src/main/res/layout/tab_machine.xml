@@ -13,8 +13,8 @@
     <Button
         android:id="@+id/addExercise"
         style="@style/Widget.AppCompat.Button.AddButton"
-        android:text="Add new Exercise" />
-    
+        android:text="@string/add_new_exercise" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

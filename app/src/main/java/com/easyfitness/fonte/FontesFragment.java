@@ -466,10 +466,14 @@ public class FontesFragment extends Fragment {
                         machineListDialog.dismiss();
                     }
                 });
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
+                Button addButton = customLayout.findViewById(R.id.addExercise);
+                addButton.setVisibility(View.GONE);
+                ListView listView = customLayout.findViewById(R.id.listMachine);
+                listView.setAdapter(machineList.getAdapter());
                 builder.setTitle(R.string.selectMachineDialogLabel);
-                builder.setView(machineList);
+                builder.setView(customLayout);
                 machineListDialog = builder.create();
                 machineListDialog.show();
             }
