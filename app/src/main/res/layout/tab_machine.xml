@@ -36,6 +36,16 @@
                 android:nextFocusForward="@+id/SetsInputView"
                 android:singleLine="true" />
 
+            <TextView
+                android:id="@+id/textViewFilterByTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusForward="@+id/SetsInputView"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/FilterTextViewType"
+            />
+
             <ImageButton
                 android:id="@+id/buttonFilterListMachine"
                 android:layout_width="24dp"

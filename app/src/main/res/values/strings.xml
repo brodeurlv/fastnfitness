@@ -267,6 +267,7 @@
     <string name="rest_time">Rest time (sec)</string>
     <string name="lastRecordLabel">Last record</string>
     <string name="FilterHint">Filter by exercise name</string>
+    <string name="FilterTextViewType">Filter by exercise type</string>
     <string name="total_weight">Total weight</string>
     <string name="total_session">Total during session</string>
     <string name="total_machine">Total on exercise</string>

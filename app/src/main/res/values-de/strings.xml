@@ -179,6 +179,7 @@
     <string name="rest_time">Ruhezeit (sek)</string>
     <string name="lastRecordLabel">Letzte Aufzeichnung</string>
     <string name="FilterHint">Suche nach Übungsname</string>
+    <string name="FilterTextViewType">Filtern nach Übungstypen</string>
     <string name="total_weight">Ges.-Gewicht</string>
     <string name="total_session">Gesamt während der Einheit</string>
     <string name="total_machine">Gesamt an dem Gerät</string>
