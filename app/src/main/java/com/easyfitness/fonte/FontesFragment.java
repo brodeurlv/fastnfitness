@@ -72,6 +72,7 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -224,7 +225,13 @@ public class FontesFragment extends Fragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    refreshDialogData();
+                    if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
+                        KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                        Arrays.fill(checkedFilterItems, true);
+
+                    } else {
+                        refreshDialogData();
+                    }
                 }
             });
             builder.setNegativeButton("Cancel", null);
