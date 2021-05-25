@@ -433,7 +433,7 @@ public class FontesFragment extends Fragment {
             Cursor c = mDbMachine.getAllMachines(checkedFilterItems);
 
             if (c == null || c.getCount() == 0) {
-                if (checkedFilterItems.equals(new boolean[]{false, false, false})) {
+                if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
                     KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 } else {
                     //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -830,6 +830,15 @@ public class FontesFragment extends Fragment {
         updateMinMax(lMachine);
         // Update last values
         updateLastRecord(lMachine);
+    }
+
+    private boolean areAllExerciseTypeFiltersFalse(boolean[] checkedFilterItems) {
+        for (boolean b : checkedFilterItems) {
+            if (b) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void updateMinMax(Machine m) {
