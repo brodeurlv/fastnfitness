@@ -29,6 +29,8 @@ import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
+import java.util.ArrayList;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {
@@ -39,6 +41,7 @@ public class MachineFragment extends Fragment {
     MachineCursorAdapter mTableAdapter;
     ImageButton filterButton = null;
     private boolean[] checkedFilterItems = {true, true, true};
+    private ArrayList<ExerciseType> selectedTypes = new ArrayList();
     private DAOMachine mDbMachine = null;
     private AlertDialog machineFilterDialog;
 
@@ -158,6 +161,11 @@ public class MachineFragment extends Fragment {
             builder.setMultiChoiceItems(availableExerciseTypes, checkedFilterItems, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    if (isChecked) {
+                        selectedTypes.add(ExerciseType.fromInteger(which));
+                    } else {
+                        selectedTypes.remove(ExerciseType.fromInteger(which));
+                    }
                 }
             });
 
@@ -217,6 +225,10 @@ public class MachineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        selectedTypes.add(ExerciseType.CARDIO);
+        selectedTypes.add(ExerciseType.ISOMETRIC);
+        selectedTypes.add(ExerciseType.STRENGTH);
+
         // activates onCreateOptionsMenu in this fragment
         setHasOptionsMenu(true);
 
@@ -270,7 +282,7 @@ public class MachineFragment extends Fragment {
             if (getProfil() != null) {
 
                 // Version avec table Machine
-                c = mDbMachine.getAllMachines(checkedFilterItems);
+                c = mDbMachine.getAllMachines(selectedTypes);
                 if (c == null || c.getCount() == 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     machineList.setAdapter(null);
@@ -284,7 +296,7 @@ public class MachineFragment extends Fragment {
                         if (oldCursor != null) oldCursor.close();
                     }
 
-                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint, checkedFilterItems));
+                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint, selectedTypes));
                 }
             }
         }

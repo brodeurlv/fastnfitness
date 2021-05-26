@@ -206,10 +206,10 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine objects ordered by Favorite and Name given exercise types as input
      */
-    public Cursor getAllMachines(boolean[] checkedFilterItems) {
+    public Cursor getAllMachines(ArrayList<ExerciseType> selectedTypes) {
         // Select All Query
-        String types = getRequiredTypesAsString(checkedFilterItems);
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + types + " ORDER BY "
+        String requiredTypes = getSelectedTypesAsString(selectedTypes);
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + requiredTypes + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
@@ -219,13 +219,13 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name
      */
-    public Cursor getFilteredMachines(CharSequence filterString, boolean[] checkedFilterItems) {
+    public Cursor getFilteredMachines(CharSequence filterString, ArrayList<ExerciseType> selectedTypes) {
         // Select All Query
         // like '%"+inputText+"%'";
-        String types = getRequiredTypesAsString(checkedFilterItems);
+        String requiredTypes = getSelectedTypesAsString(selectedTypes);
 
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' "
-                + " AND " + TYPE + " IN " + types + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
+                + " AND " + TYPE + " IN " + requiredTypes + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
         // return value list
         return getMachineListCursor(selectQuery);
     }
@@ -256,10 +256,10 @@ public class DAOMachine extends DAOBase {
     /**
      * @return List of Machine object ordered by Favorite and Name given exercise types as input
      */
-    public ArrayList<Machine> getAllMachinesArray(boolean[] checkedFilterItems) {
+    public ArrayList<Machine> getAllMachinesArray(ArrayList<ExerciseType> selectedTypes) {
         // Select All Query
-        String types = getRequiredTypesAsString(checkedFilterItems);
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + types + " ORDER BY "
+        String requiredTypes = getSelectedTypesAsString(selectedTypes);
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + requiredTypes + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
@@ -369,21 +369,15 @@ public class DAOMachine extends DAOBase {
         addMachine("Biceps", "Developper couche : blabla ", ExerciseType.STRENGTH, "", false, "");
     }
 
-    public String getRequiredTypesAsString(boolean[] checkedFilterItems) {
-        String requiredTypes = "(";
-        int numRequiredTypes = 0;
-
-        for (int i = 0; i < checkedFilterItems.length; i++) {
-            if (checkedFilterItems[i]) {
-                requiredTypes = requiredTypes.concat(i + ",");
-                numRequiredTypes++;
-            }
-        }
-        if (numRequiredTypes == 0) {
-            requiredTypes = requiredTypes.concat(")");
+    public String getSelectedTypesAsString(ArrayList<ExerciseType> selectedTypes) {
+        if (selectedTypes.size() == 0) {
+            return "()";
         } else {
-            requiredTypes = requiredTypes.substring(0, requiredTypes.length() - 1).concat(")");
+            String selectedTypesAsString = "(";
+            for (ExerciseType type : selectedTypes) {
+                selectedTypesAsString = selectedTypesAsString.concat(type.ordinal() + ",");
+            }
+            return selectedTypesAsString.substring(0, selectedTypesAsString.length() - 1).concat(")");
         }
-        return requiredTypes;
     }
 }

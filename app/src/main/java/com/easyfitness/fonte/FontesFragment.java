@@ -90,6 +90,7 @@ public class FontesFragment extends Fragment {
     private CircularImageView machineImage = null;
     private ImageButton machineListButton = null;
     private boolean[] checkedFilterItems = {true, true, true};
+    private ArrayList<ExerciseType> selectedTypes = new ArrayList();
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
     private CardView detailsCardView = null;
@@ -218,6 +219,11 @@ public class FontesFragment extends Fragment {
             builder.setMultiChoiceItems(availableExerciseTypes, checkedFilterItems, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    if (isChecked) {
+                        selectedTypes.add(ExerciseType.fromInteger(which));
+                    } else {
+                        selectedTypes.remove(ExerciseType.fromInteger(which));
+                    }
                 }
             });
 
@@ -225,13 +231,14 @@ public class FontesFragment extends Fragment {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
+                    if (selectedTypes.size() == 0) {
                         KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                         Arrays.fill(checkedFilterItems, true);
-
-                    } else {
-                        refreshDialogData();
+                        selectedTypes.add(ExerciseType.CARDIO);
+                        selectedTypes.add(ExerciseType.ISOMETRIC);
+                        selectedTypes.add(ExerciseType.STRENGTH);
                     }
+                    refreshDialogData();
                 }
             });
             builder.setNegativeButton("Cancel", null);
@@ -436,10 +443,10 @@ public class FontesFragment extends Fragment {
             ListView machineList = new ListView(v.getContext());
 
             // Version avec table Machine
-            Cursor c = mDbMachine.getAllMachines(checkedFilterItems);
+            Cursor c = mDbMachine.getAllMachines(selectedTypes);
 
             if (c == null || c.getCount() == 0) {
-                if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
+                if (selectedTypes.size() == 0) {
                     KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
                 } else {
                     //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -547,6 +554,10 @@ public class FontesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        selectedTypes.add(ExerciseType.CARDIO);
+        selectedTypes.add(ExerciseType.ISOMETRIC);
+        selectedTypes.add(ExerciseType.STRENGTH);
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
@@ -848,15 +859,6 @@ public class FontesFragment extends Fragment {
         updateLastRecord(lMachine);
     }
 
-    private boolean areAllExerciseTypeFiltersFalse(boolean[] checkedFilterItems) {
-        for (boolean b : checkedFilterItems) {
-            if (b) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private void updateMinMax(Machine m) {
         String comment = "";
         String unitStr = "";
@@ -960,10 +962,10 @@ public class FontesFragment extends Fragment {
         ListView machineList = new ListView(getContext());
 
         // Version avec table Machine
-        Cursor c = mDbMachine.getAllMachines(checkedFilterItems);
+        Cursor c = mDbMachine.getAllMachines(selectedTypes);
 
         if (c == null || c.getCount() == 0) {
-            if (areAllExerciseTypeFiltersFalse(checkedFilterItems)) {
+            if (selectedTypes.size() == 0) {
                 KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             } else {
                 //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
@@ -993,7 +995,7 @@ public class FontesFragment extends Fragment {
                 mDbRecord.setProfile(getProfile());
 
                 // Version avec table Machine
-                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(checkedFilterItems);
+                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(selectedTypes);
 
                 /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
