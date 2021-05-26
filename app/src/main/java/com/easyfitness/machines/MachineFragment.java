@@ -40,6 +40,7 @@ public class MachineFragment extends Fragment {
     AutoCompleteTextView searchField = null;
     MachineCursorAdapter mTableAdapter;
     ImageButton filterButton = null;
+    private CharSequence filterText;
     private boolean[] checkedFilterItems = {true, true, true};
     private ArrayList<ExerciseType> selectedTypes = new ArrayList();
     private DAOMachine mDbMachine = null;
@@ -189,7 +190,7 @@ public class MachineFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            filterText = charSequence;
             if (charSequence.length() == 0) {
                 refreshData();
             } else {
@@ -224,6 +225,7 @@ public class MachineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        filterText = "";
 
         selectedTypes.add(ExerciseType.CARDIO);
         selectedTypes.add(ExerciseType.ISOMETRIC);
@@ -282,7 +284,12 @@ public class MachineFragment extends Fragment {
             if (getProfil() != null) {
 
                 // Version avec table Machine
-                c = mDbMachine.getAllMachines(selectedTypes);
+                if (filterText.length() == 0) {
+                    c = mDbMachine.getAllMachines(selectedTypes);
+                } else {
+                    c = mDbMachine.getFilteredMachines(filterText, selectedTypes);
+                }
+
                 if (c == null || c.getCount() == 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     machineList.setAdapter(null);
