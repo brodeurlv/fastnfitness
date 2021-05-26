@@ -3,6 +3,7 @@ package com.easyfitness.fonte;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -71,6 +72,7 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -87,6 +89,8 @@ public class FontesFragment extends Fragment {
     private MachineArrayFullAdapter machineEditAdapter = null;
     private CircularImageView machineImage = null;
     private ImageButton machineListButton = null;
+    private boolean[] checkedFilterItems = {true, true, true};
+    private ArrayList<ExerciseType> selectedTypes = new ArrayList();
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
     private CardView detailsCardView = null;
@@ -114,6 +118,7 @@ public class FontesFragment extends Fragment {
     private Button addButton = null;
     private ExpandedListView recordList = null;
     private AlertDialog machineListDialog;
+    private AlertDialog machineFilterDialog;
     private DatePickerDialogFragment mDateFrag = null;
     private TimePickerDialogFragment mTimeFrag = null;
     private final OnClickListener clickDateEdit = v -> {
@@ -126,6 +131,7 @@ public class FontesFragment extends Fragment {
                 break;
         }
     };
+
     private WorkoutValuesInputView workoutValuesInputView;
     private final OnClickListener collapseDetailsClick = v -> {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
@@ -194,6 +200,53 @@ public class FontesFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     };
+
+    private final View.OnClickListener clickFilterButton = v -> {
+        if (machineFilterDialog != null && machineFilterDialog.isShowing()) {
+            return;
+        }
+
+        Cursor c = mDbMachine.getAllMachines();
+
+        if (c == null || c.getCount() == 0) {
+            KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle(R.string.filterExerciseTypeDialogLabel);
+            String[] availableExerciseTypes = {getResources().getText(R.string.strength_category).toString(),
+                    getResources().getText(R.string.CardioLabel).toString(),
+                    getResources().getText(R.string.staticExercise).toString()};
+            builder.setMultiChoiceItems(availableExerciseTypes, checkedFilterItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    if (isChecked) {
+                        selectedTypes.add(ExerciseType.fromInteger(which));
+                    } else {
+                        selectedTypes.remove(ExerciseType.fromInteger(which));
+                    }
+                }
+            });
+
+            // Add OK and Cancel buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (selectedTypes.size() == 0) {
+                        KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                        Arrays.fill(checkedFilterItems, true);
+                        selectedTypes.add(ExerciseType.CARDIO);
+                        selectedTypes.add(ExerciseType.ISOMETRIC);
+                        selectedTypes.add(ExerciseType.STRENGTH);
+                    }
+                    refreshDialogData();
+                }
+            });
+            builder.setNegativeButton("Cancel", null);
+            machineFilterDialog = builder.create();
+            machineFilterDialog.show();
+        }
+    };
+
     private final OnClickListener clickAddButton = v -> {
         // Verifie que les infos sont completes
         if (machineEdit.getText().toString().isEmpty()) {
@@ -390,11 +443,15 @@ public class FontesFragment extends Fragment {
             ListView machineList = new ListView(v.getContext());
 
             // Version avec table Machine
-            Cursor c = mDbMachine.getAllMachines();
+            Cursor c = mDbMachine.getAllMachines(selectedTypes);
 
             if (c == null || c.getCount() == 0) {
-                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                if (selectedTypes.size() == 0) {
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                } else {
+                    //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
+                    KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                }
                 machineList.setAdapter(null);
             } else {
                 if (machineList.getAdapter() == null) {
@@ -407,7 +464,22 @@ public class FontesFragment extends Fragment {
                     if (oldCursor != null) oldCursor.close();
                 }
 
-                machineList.setOnItemClickListener((parent, view, position, id) -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
+                Button addButton = customLayout.findViewById(R.id.addExercise);
+                addButton.setVisibility(View.GONE);
+
+                AutoCompleteTextView textFilter = customLayout.findViewById(R.id.searchField);
+                textFilter.setVisibility(View.GONE);
+
+                TextView textViewFilterExplanation = customLayout.findViewById(R.id.textViewFilterByTypes);
+                textViewFilterExplanation.setVisibility(View.VISIBLE);
+
+                ImageButton filterButton = customLayout.findViewById(R.id.buttonFilterListMachine);
+                filterButton.setOnClickListener(clickFilterButton);
+                ListView listView = customLayout.findViewById(R.id.listMachine);
+                listView.setAdapter(machineList.getAdapter());
+                listView.setOnItemClickListener((parent, view, position, id) -> {
                     TextView textView = view.findViewById(R.id.LIST_MACHINE_ID);
                     long machineID = Long.parseLong(textView.getText().toString());
                     DAOMachine lMachineDb = new DAOMachine(getContext());
@@ -422,10 +494,8 @@ public class FontesFragment extends Fragment {
                         machineListDialog.dismiss();
                     }
                 });
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle(R.string.selectMachineDialogLabel);
-                builder.setView(machineList);
+                builder.setView(customLayout);
                 machineListDialog = builder.create();
                 machineListDialog.show();
             }
@@ -484,6 +554,10 @@ public class FontesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        selectedTypes.add(ExerciseType.CARDIO);
+        selectedTypes.add(ExerciseType.ISOMETRIC);
+        selectedTypes.add(ExerciseType.STRENGTH);
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
@@ -882,6 +956,38 @@ public class FontesFragment extends Fragment {
         });
     }
 
+    private void refreshDialogData() {
+        Cursor oldCursor;
+
+        ListView machineList = new ListView(getContext());
+
+        // Version avec table Machine
+        Cursor c = mDbMachine.getAllMachines(selectedTypes);
+
+        if (c == null || c.getCount() == 0) {
+            if (selectedTypes.size() == 0) {
+                KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            } else {
+                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
+                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
+            machineList.setAdapter(null);
+        } else {
+            if (machineList.getAdapter() == null) {
+                MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
+                //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
+                machineList.setAdapter(mTableAdapter);
+            } else {
+                MachineCursorAdapter mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
+                oldCursor = mTableAdapter.swapCursor(c);
+                if (oldCursor != null) oldCursor.close();
+            }
+
+            ListView listView = machineListDialog.findViewById(R.id.listMachine);
+            listView.setAdapter(machineList.getAdapter());
+        }
+    }
+
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -889,7 +995,7 @@ public class FontesFragment extends Fragment {
                 mDbRecord.setProfile(getProfile());
 
                 // Version avec table Machine
-                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray();
+                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(selectedTypes);
 
                 /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);

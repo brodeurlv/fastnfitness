@@ -267,12 +267,14 @@
     <string name="rest_time">Rest time (sec)</string>
     <string name="lastRecordLabel">Last record</string>
     <string name="FilterHint">Filter by exercise name</string>
+    <string name="FilterTextViewType">Filter by exercise type</string>
     <string name="total_weight">Total weight</string>
     <string name="total_session">Total during session</string>
     <string name="total_machine">Total on exercise</string>
     <string name="nb_serie">Nb Sets</string>
     <string name="exit">Exit</string>
     <string name="selectMachineDialogLabel">Select an existing exercise</string>
+    <string name="filterExerciseTypeDialogLabel">Filter for Exercise Types</string>
 
     <!-- Intro slides -->
     <string name="fillNameField">Please enter your name, at least</string>
@@ -294,6 +296,8 @@
     <string name="profileCreated">Profile created</string>
     <string name="missinginfo">Missing info</string>
     <string name="createExerciseFirst">You must create an exercise first</string>
+    <string name="selectExerciseTypeFirst">You must select at least one exercise type</string>
+    <string name="add_new_exercise">Add new Exercise</string>
     <string name="impossibleToDeleteProfile">Impossible to delete current profile</string>
     <string name="profileDeleted">Profile deleted</string>
     <string name="min">Min</string>

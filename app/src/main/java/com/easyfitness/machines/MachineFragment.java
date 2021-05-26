@@ -1,17 +1,21 @@
 package com.easyfitness.machines;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,10 +27,25 @@ import com.easyfitness.DAO.Profile;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
+import com.onurkaganaldemir.ktoastlib.KToast;
+
+import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MachineFragment extends Fragment {
+
+    ListView machineList = null;
+    Button addButton = null;
+    AutoCompleteTextView searchField = null;
+    MachineCursorAdapter mTableAdapter;
+    ImageButton filterButton = null;
+    private CharSequence filterText;
+    private boolean[] checkedFilterItems = {true, true, true};
+    private ArrayList<ExerciseType> selectedTypes = new ArrayList();
+    private DAOMachine mDbMachine = null;
+    private AlertDialog machineFilterDialog;
+
     private final OnItemClickListener onClickListItem = (parent, view, position, id) -> {
         // Get Machine Name selected
         TextView textViewID = view.findViewById(R.id.LIST_MACHINE_ID);
@@ -124,11 +143,46 @@ public class MachineFragment extends Fragment {
             dlg.getButton(SweetAlertDialog.BUTTON_NEUTRAL).setAutoSizeTextTypeUniformWithConfiguration(8, 12, 1, TypedValue.COMPLEX_UNIT_SP);
         }
     };
-    ListView machineList = null;
-    Button addButton = null;
-    AutoCompleteTextView searchField = null;
-    MachineCursorAdapter mTableAdapter;
-    private DAOMachine mDbMachine = null;
+
+    private final View.OnClickListener clickFilterButton = v -> {
+        if (machineFilterDialog != null && machineFilterDialog.isShowing()) {
+            return;
+        }
+
+        Cursor c = mDbMachine.getAllMachines();
+
+        if (c == null || c.getCount() == 0) {
+            KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle(R.string.filterExerciseTypeDialogLabel);
+            String[] availableExerciseTypes = {getResources().getText(R.string.strength_category).toString(),
+                    getResources().getText(R.string.CardioLabel).toString(),
+                    getResources().getText(R.string.staticExercise).toString()};
+            builder.setMultiChoiceItems(availableExerciseTypes, checkedFilterItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    if (isChecked) {
+                        selectedTypes.add(ExerciseType.fromInteger(which));
+                    } else {
+                        selectedTypes.remove(ExerciseType.fromInteger(which));
+                    }
+                }
+            });
+
+            // Add OK and Cancel buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    refreshData();
+                }
+            });
+            builder.setNegativeButton("Cancel", null);
+            machineFilterDialog = builder.create();
+            machineFilterDialog.show();
+        }
+    };
+
     public TextWatcher onTextChangeListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -136,7 +190,7 @@ public class MachineFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            filterText = charSequence;
             if (charSequence.length() == 0) {
                 refreshData();
             } else {
@@ -171,6 +225,11 @@ public class MachineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        filterText = "";
+
+        selectedTypes.add(ExerciseType.CARDIO);
+        selectedTypes.add(ExerciseType.ISOMETRIC);
+        selectedTypes.add(ExerciseType.STRENGTH);
 
         // activates onCreateOptionsMenu in this fragment
         setHasOptionsMenu(true);
@@ -180,6 +239,9 @@ public class MachineFragment extends Fragment {
 
         addButton = view.findViewById(R.id.addExercise);
         addButton.setOnClickListener(clickAddButton);
+
+        filterButton = view.findViewById(R.id.buttonFilterListMachine);
+        filterButton.setOnClickListener(clickFilterButton);
 
         searchField = view.findViewById(R.id.searchField);
         searchField.addTextChangedListener(onTextChangeListener);
@@ -222,7 +284,12 @@ public class MachineFragment extends Fragment {
             if (getProfil() != null) {
 
                 // Version avec table Machine
-                c = mDbMachine.getAllMachines();
+                if (filterText.length() == 0) {
+                    c = mDbMachine.getAllMachines(selectedTypes);
+                } else {
+                    c = mDbMachine.getFilteredMachines(filterText, selectedTypes);
+                }
+
                 if (c == null || c.getCount() == 0) {
                     //Toast.makeText(getActivity(), "No records", Toast.LENGTH_SHORT).show();
                     machineList.setAdapter(null);
@@ -236,7 +303,7 @@ public class MachineFragment extends Fragment {
                         if (oldCursor != null) oldCursor.close();
                     }
 
-                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint));
+                    mTableAdapter.setFilterQueryProvider(constraint -> mDbMachine.getFilteredMachines(constraint, selectedTypes));
                 }
             }
         }
