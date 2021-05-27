@@ -29,6 +29,7 @@ import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -85,23 +86,29 @@ public class CVSManager {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
         Date date = new Date();
 
-        String fileName = "export_" + name + "_" + pProfile.getName() + "_" + dateFormat.format(date);
+        String fileName = "export_" + name + "_" + pProfile.getName();
+        String folderName = "/FastnFitness/export/" +  dateFormat.format(date);
 
-        ContentResolver resolver = mContext.getContentResolver();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
-        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/FastNFitness");
-        Uri collection = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
-        } else {
-            collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-        }
-
-        Uri file = resolver.insert(collection, contentValues);
         try {
-            return resolver.openOutputStream(file);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContentResolver resolver = mContext.getContentResolver();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + folderName);
+                Uri collection = null;
+                collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+                Uri file = resolver.insert(collection, contentValues);
+                return resolver.openOutputStream(file);
+            } else {
+                File exportDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + folderName );
+                if (!exportDir.exists()) {
+                    exportDir.mkdirs();
+                }
+
+                File exportFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + folderName + "/" + fileName);
+                return new FileOutputStream(exportFile);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;

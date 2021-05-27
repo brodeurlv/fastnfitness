@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
@@ -567,41 +568,49 @@ public class MainActivity extends AppCompatActivity {
         exportDbDialog.show();
     }
 
-    private void exportDatabase(String autoExportMessage) {
-        /*if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
-        } else {*/
-            AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
+    private void openExportDatabaseDialog(String autoExportMessage) {
+        AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
-            exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
-            exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
-            exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
-                CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                if (cvsMan.exportDatabase(getCurrentProfile())) {
-                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    long currentTime = System.currentTimeMillis();
-                    SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
-                    if(mpSettingFrag.getContext() != null) {
-                        mpSettingFrag.updateLastBackupSummary(SP, currentTime);
-                    }
-                    KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                } else {
-                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+        exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
+        exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
+        exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
+            CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
+            if (cvsMan.exportDatabase(getCurrentProfile())) {
+                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                long currentTime = System.currentTimeMillis();
+                SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
+                if (mpSettingFrag.getContext() != null) {
+                    mpSettingFrag.updateLastBackupSummary(SP, currentTime);
                 }
-                dialog.dismiss();
-            });
+                KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            } else {
+                KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+            }
+            dialog.dismiss();
+        });
 
-            exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
-                dialog.dismiss();
-            });
+        exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
+            dialog.dismiss();
+        });
 
-            AlertDialog exportDbDialog = exportDbBuilder.create();
-            exportDbDialog.show();
-        //}
+        AlertDialog exportDbDialog = exportDbBuilder.create();
+        exportDbDialog.show();
+    }
+
+    private void exportDatabase(String autoExportMessage) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
+            } else {
+                openExportDatabaseDialog(autoExportMessage);
+            }
+        } else {
+            openExportDatabaseDialog(autoExportMessage);
+        }
     }
 
     private void importDatabase() {
@@ -693,7 +702,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 KToast.infoToast(this, getString(R.string.access_granted), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-                exportDatabase("");
+                openExportDatabaseDialog("");
             } else {
                 KToast.infoToast(this, getString(R.string.another_time_maybe), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
@@ -1043,6 +1052,11 @@ public class MainActivity extends AppCompatActivity {
                 uri = data.getData();
                 // Return for MusicController Choose file
                 musicController.OpenMusicFileIntentResult(uri);
+                final int takeFlags = data.getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                // Check for the freshest data.
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
             }
         }
     }
