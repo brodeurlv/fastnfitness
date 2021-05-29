@@ -67,5 +67,18 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/HistoryLabel"
+            android:layout_marginLeft="5dp"/>
+
+        <ListView
+            android:id="@+id/listProgramHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
+
     </LinearLayout>
 </ScrollView>

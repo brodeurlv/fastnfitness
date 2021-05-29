@@ -96,7 +96,6 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return mInflater.inflate(R.layout.exercise_list_row, parent, false);
-
     }
 
 }
