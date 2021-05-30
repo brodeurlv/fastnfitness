@@ -13,7 +13,9 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.20.1: TBD\n
+v0.20.1: May 21, 2021 \n
+        \t- Enhancement: Added exercise type filter to exercise lists #125 (Thanks @alextsakpinis)\n
+        \t- Enhancement: Added program history #173\n
         \t- Enhancement: Migration to scoped storage #203\n
         \t- Bug: Fix old record date display #202\n
         \t- Bug: Fix record group per date\n
