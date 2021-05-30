@@ -309,6 +309,11 @@
     <string name="database_migration">Database migratie</string>
     <string name="something_went_wrong">Arf, ging er iets mis!</string>
     <string name="database_migration_success">App-bestanden gemigreerd</string>
+    <string name="FilterTextViewType">Filter op type oefening</string>
+    <string name="filterExerciseTypeDialogLabel">Filter voor Trainingstypen</string>
+    <string name="selectExerciseTypeFirst">U moet selecteren van ten minste één type training</string>
+    <string name="add_new_exercise">Voeg nieuwe Oefening</string>
+    <string name="disclaimer_scoped_storage">Als gevolg van wijzigingen van Google, applicatie-bestanden moeten worden gemigreerd. Dit kan enige tijd duren als u veel foto\'s. Wees alstublieft geduldig.</string>
 
 </resources>
 

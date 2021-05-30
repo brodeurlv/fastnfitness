@@ -340,4 +340,9 @@
     <string name="database_migration">Migrazione di database</string>
     <string name="something_went_wrong">Arf, qualcosa è andato storto!</string>
     <string name="database_migration_success">File migrati con successo</string>
+    <string name="FilterTextViewType">Filtro per tipo di esercizio</string>
+    <string name="filterExerciseTypeDialogLabel">Filtro per i tipi di allenamento</string>
+    <string name="selectExerciseTypeFirst">È necessario selezionare almeno un tipo di esercizio</string>
+    <string name="add_new_exercise">Aggiungere un nuovo esercizio</string>
+    <string name="disclaimer_scoped_storage">A causa dei cambiamenti da parte di Google, file di applicazione deve essere migrato. Questo può richiedere un certo tempo se si dispone di un sacco di foto. Per favore sii paziente.</string>
 </resources>

@@ -329,5 +329,6 @@
     <string name="database_migration">Datenbank-Migration</string>
     <string name="something_went_wrong">Arf, etwas schief gelaufen ist!</string>
     <string name="database_migration_success">App-Dateien erfolgreich migriert</string>
+    <string name="disclaimer_scoped_storage">Aufgrund von Änderungen von Google muss Anwendungsdateien migriert werden. Dies kann einige Zeit in Anspruch nehmen, wenn Sie viele Bilder haben. Bitte haben Sie Geduld.</string>
 </resources>
 

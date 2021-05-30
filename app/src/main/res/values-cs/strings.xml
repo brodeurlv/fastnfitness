@@ -309,5 +309,10 @@
     <string name="database_migration">Migrace databáze</string>
     <string name="something_went_wrong">Něco se pokazilo!</string>
     <string name="database_migration_success">App soubory úspěšně migrovat</string>
+    <string name="FilterTextViewType">Filtrovat podle typu cvičení</string>
+    <string name="filterExerciseTypeDialogLabel">Filtr typů cvičení</string>
+    <string name="selectExerciseTypeFirst">Je nutné vybrat alespoň jeden typ cvičení</string>
+    <string name="add_new_exercise">Přidat nový Cvičení</string>
+    <string name="disclaimer_scoped_storage">Vzhledem ke změnám od Googlu, je třeba migrovat soubory aplikace. To může nějakou dobu trvat, pokud máte mnoho obrázků. Prosím, buďte trpěliví.</string>
 
 </resources>

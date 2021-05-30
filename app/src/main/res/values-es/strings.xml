@@ -315,5 +315,10 @@
     <string name="database_migration">Migración de base de datos</string>
     <string name="something_went_wrong">Arf, algo salió mal!</string>
     <string name="database_migration_success">Archivos de aplicaciones migrado correctamente</string>
+    <string name="FilterTextViewType">Filtrar por tipo de ejercicio</string>
+    <string name="filterExerciseTypeDialogLabel">Filtro para Tipos de ejercicios</string>
+    <string name="selectExerciseTypeFirst">Debe seleccionar al menos un tipo de ejercicio</string>
+    <string name="add_new_exercise">Añadir un nuevo ejercicio</string>
+    <string name="disclaimer_scoped_storage">Debido a los cambios de Google, archivos de aplicación debe ser migrado. Esto puede tomar algún tiempo si usted tiene una gran cantidad de imágenes. Por favor sea paciente.</string>
 
 </resources>

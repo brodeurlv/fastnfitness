@@ -261,4 +261,9 @@
     <string name="database_migration">База данных миграции</string>
     <string name="something_went_wrong">Арфа, что-то пошло не так!</string>
     <string name="database_migration_success">App файлы успешно перенесены</string>
+    <string name="FilterTextViewType">Фильтр по типу упражнений</string>
+    <string name="filterExerciseTypeDialogLabel">Фильтр для типов упражнений</string>
+    <string name="selectExerciseTypeFirst">Вы должны выбрать, по крайней мере, один тип упражнений</string>
+    <string name="add_new_exercise">Добавить упражнение</string>
+    <string name="disclaimer_scoped_storage">В связи с изменениями от Google, файлы приложения должны быть перенесены. Это может занять некоторое время, если у вас есть много фотографий. Пожалуйста, будьте терпеливы.</string>
 </resources>
