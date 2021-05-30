@@ -133,6 +133,12 @@ public class DAOProgramHistory extends DAOBase {
         return valueList;
     }
 
+    public Cursor getCursor(String pRequest) {
+        // Select All Query
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(pRequest, null);
+    }
+
     // Getting All
     public List<ProgramHistory> getAll() {
         // Select All Query
@@ -140,6 +146,15 @@ public class DAOProgramHistory extends DAOBase {
 
         // return value list
         return getList(selectQuery);
+    }
+
+    // Getting All filtered
+    public Cursor getFilteredHistoryCursor(long p_programKey, long p_profileKey) {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + PROGRAM_KEY + "=" + p_programKey + " AND " + PROFILE_KEY + "=" + p_profileKey + " ORDER BY " + START_DATE + " DESC";
+
+        // return value list
+        return getCursor(selectQuery);
     }
 
     // Getting All

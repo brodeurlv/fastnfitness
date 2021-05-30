@@ -195,7 +195,30 @@ public class ProgramRunnerFragment extends Fragment {
         mRunningProgramHistory.setEndDate(DateConverter.currentDate(getContext()));
         mRunningProgramHistory.setEndTime(DateConverter.currentTime(getContext()));
         mRunningProgramHistory.setStatus(ProgramStatus.CLOSED);
-        mDbWorkoutHistory.update(mRunningProgramHistory);
+
+        // Check is there is no record
+        Cursor c = mDbRecord.getProgramWorkoutRecords(mRunningProgramHistory.getId());
+        List<Record> recordList = mDbRecord.fromCursorToList(c);
+
+        int successCount = 0;
+        int failedCount = 0;
+        for (Record record:recordList) {
+            if(record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
+                successCount++;
+            } else if (record.getProgramRecordStatus() == ProgramRecordStatus.FAILED) {
+                failedCount++;
+            }
+        }
+
+        if (successCount == 0 &&  failedCount==0) {
+            mDbWorkoutHistory.delete(mRunningProgramHistory);
+            for (Record record:recordList) {
+                mDbRecord.deleteRecord(record.getId());
+            }
+        } else {
+            mDbWorkoutHistory.update(mRunningProgramHistory);
+        }
+
         mRunningProgram = null;
         mRunningProgramHistory = null;
         mProgramsSpinner.setEnabled(true);

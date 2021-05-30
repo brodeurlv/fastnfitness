@@ -228,21 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadPreferences();
 
-        /*if ( !mMigrationToScopedStoragedone) { //does the migration only once.
-            if (!migrateToScopedStorage()) {
-                // Display error box for information
-                AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(this);
-                errorDialogBuilder.setTitle(R.string.database_migration);
-                errorDialogBuilder.setMessage(R.string.something_went_wrong);
-                AlertDialog errorDialog = errorDialogBuilder.create();
-                errorDialog.show();
-            } else {
-                KToast.infoToast(this, getString(R.string.database_migration_success), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            }
-            mMigrationToScopedStoragedone = true;
-            savePreferences();
-        }*/
-
         top_toolbar = this.findViewById(R.id.actionToolbar);
         setSupportActionBar(top_toolbar);
         top_toolbar.setTitle(getResources().getText(R.string.app_name));
@@ -548,7 +533,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
         exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.database_migration));
-        exportDbBuilder.setMessage("Due to changes from Google, application files needs to be migrated. This can take some time if you have a lot of pictures. Please be patient.");
+        exportDbBuilder.setMessage(R.string.disclaimer_scoped_storage);
         exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
             if (!migrateToScopedStorage()) {
                 // Display error box for information

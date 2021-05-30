@@ -1,16 +1,21 @@
 package com.easyfitness.programs;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.easyfitness.AppViMo;
 import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.program.Program;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -19,13 +24,16 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 
 public class ProgramInfoFragment extends Fragment {
-    EditableInputView descriptionEdit = null;
-    EditableInputView nameEdit = null;
+    private EditableInputView descriptionEdit = null;
+    private EditableInputView nameEdit = null;
+    private ListView historyListView;
 
-    MainActivity mActivity = null;
-    private DAOProgram mDb = null;
+    private MainActivity mActivity = null;
+    private DAOProgram daoProgram = null;
+    private DAOProgramHistory daoProgramHistory = null;
     private Program mProgram;
     private final EditableInputView.OnTextChangedListener itemOnTextChange = this::requestForSave;
+    private AppViMo appViMo;
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -52,13 +60,17 @@ public class ProgramInfoFragment extends Fragment {
 
         nameEdit = view.findViewById(R.id.workout_name);
         descriptionEdit = view.findViewById(R.id.workout_description);
+        historyListView = view.findViewById(R.id.listProgramHistory);
 
         long workoutID = getArguments().getLong("templateId", -1);
 
-        mDb = new DAOProgram(getContext());
-        mProgram = mDb.get(workoutID);
+        daoProgram = new DAOProgram(getContext());
+        daoProgramHistory = new DAOProgramHistory(getContext());
+        mProgram = daoProgram.get(workoutID);
         nameEdit.setText(mProgram.getName());
         descriptionEdit.setText(mProgram.getDescription());
+
+        appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
 
         return view;
     }
@@ -66,10 +78,12 @@ public class ProgramInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        nameEdit.setOnTextChangeListener(itemOnTextChange);
+        descriptionEdit.setOnTextChangeListener(itemOnTextChange);
 
         this.getView().post(() -> {
-            nameEdit.setOnTextChangeListener(itemOnTextChange);
-            descriptionEdit.setOnTextChangeListener(itemOnTextChange);
+            Cursor cursor = daoProgramHistory.getFilteredHistoryCursor(mProgram.getId(), appViMo.getProfile().getValue().getId());
+            historyListView.setAdapter(new ProgramHistoryCursorAdapter(this.getContext(), cursor, 0, daoProgramHistory));
         });
     }
 
@@ -99,7 +113,7 @@ public class ProgramInfoFragment extends Fragment {
         }
 
         if (toUpdate) {
-            mDb.update(mProgram);
+            daoProgram.update(mProgram);
             KToast.infoToast(getActivity(), mProgram.getName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }
