@@ -53,7 +53,7 @@ android {
                 signingConfig signingConfigs.debug
             }
             buildConfigField "Boolean", "DEBUG_MODE", "true"
-            //applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             resValue "string", "app_name", "Fast N Fitness Debug"
         }
     }
