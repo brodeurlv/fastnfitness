@@ -836,18 +836,19 @@ public class FontesFragment extends Fragment {
 
         // Update exercise Image
         // Default image
-        switch (lMachine.getType()) {
-            case CARDIO:
-                machineImage.setImageResource(R.drawable.ic_training_50dp);
-                break;
-            case ISOMETRIC:
-                machineImage.setImageResource(R.drawable.ic_static_50dp);
-                break;
-            default:
-                machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+        if (!ImageUtil.setPic(machineImage, ImageUtil.getThumbPath(lMachine.getPicture()))) // Overwrite image is there is one
+        {
+            switch (lMachine.getType()) {
+                case CARDIO:
+                    machineImage.setImageResource(R.drawable.ic_training_50dp);
+                    break;
+                case ISOMETRIC:
+                    machineImage.setImageResource(R.drawable.ic_static_50dp);
+                    break;
+                default:
+                    machineImage.setImageResource(R.drawable.ic_gym_bench_50dp);
+            }
         }
-        ImageUtil imgUtil = new ImageUtil();
-        ImageUtil.setThumb(machineImage, imgUtil.getThumbPath(lMachine.getPicture())); // Overwrite image is there is one
 
         // Update Table
         updateRecordTable(lMachine.getName());

@@ -45,24 +45,12 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
         String lPath = cursor.getString(cursor.getColumnIndex(DAOMachine.PICTURE));
 
         ExerciseType lType = ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOMachine.TYPE)));
-
+        boolean success = false;
         if (lPath != null && !lPath.isEmpty()) {
-            try {
-                ImageUtil imgUtil = new ImageUtil();
-                String lThumbPath = imgUtil.getThumbPath(lPath);
-                ImageUtil.setThumb(i0, lThumbPath);
-            } catch (Exception e) {
-                if (lType == ExerciseType.STRENGTH) {
-                    i0.setImageResource(R.drawable.ic_gym_bench_50dp);
-                } else if (lType == ExerciseType.ISOMETRIC) {
-                    i0.setImageResource(R.drawable.ic_static_50dp);
-                } else {
-                    i0.setImageResource(R.drawable.ic_training_50dp);
-                    i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                }
-                e.printStackTrace();
-            }
-        } else {
+            String lThumbPath = ImageUtil.getThumbPath(lPath);
+            success = ImageUtil.setPic(i0, lThumbPath);
+        }
+        if (!success) {
             if (lType == ExerciseType.STRENGTH) {
                 i0.setImageResource(R.drawable.ic_gym_bench_50dp);
             } else if (lType == ExerciseType.ISOMETRIC) {

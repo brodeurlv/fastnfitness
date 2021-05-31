@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.R;
+import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.utils.ImageUtil;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
@@ -57,19 +58,20 @@ public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
 
         ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
         String lPath = machine.getPicture();
+        boolean success = false;
         if (lPath != null && !lPath.isEmpty()) {
-            try {
-                ImageUtil imgUtil = new ImageUtil();
-                String lThumbPath = imgUtil.getThumbPath(lPath);
-                ImageUtil.setThumb(i0, lThumbPath);
-            } catch (Exception e) {
+            String lThumbPath = ImageUtil.getThumbPath(lPath);
+            success = ImageUtil.setPic(i0, lThumbPath);
+        }
+        if (!success) {
+            if (machine.getType() == ExerciseType.STRENGTH) {
                 i0.setImageResource(R.drawable.ic_gym_bench_50dp);
+            } else if (machine.getType() == ExerciseType.ISOMETRIC) {
+                i0.setImageResource(R.drawable.ic_static_50dp);
+            } else {
+                i0.setImageResource(R.drawable.ic_training_50dp);
                 i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                e.printStackTrace();
             }
-        } else {
-            i0.setImageResource(R.drawable.ic_gym_bench_50dp);
-            i0.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);

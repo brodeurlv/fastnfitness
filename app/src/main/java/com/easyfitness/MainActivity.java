@@ -487,16 +487,24 @@ public class MainActivity extends AppCompatActivity {
             DAOProfile daoProfile = new DAOProfile(getBaseContext());
             List<Profile> profileList = daoProfile.getAllProfiles(daoProfile.getWritableDatabase());
             for (Profile profile:profileList) {
-                if(!profile.getPhoto().isEmpty()) {
+                if(profile.getPhoto()!=null && !profile.getPhoto().isEmpty()) {
                     File sourceFile = new File(profile.getPhoto());
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    try {
-                        File destFile = ImageUtil.moveFile(sourceFile, storageDir);
-                        profile.setPhoto(destFile.getAbsolutePath());
+                    if (sourceFile.exists()) {
+                        try {
+                            File destFile = ImageUtil.copyFile(sourceFile, storageDir);
+                            profile.setPhoto(destFile.getAbsolutePath());
+                            ImageUtil.saveThumb(destFile.getAbsolutePath());
+                            daoProfile.updateProfile(profile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            profile.setPhoto("");
+                            daoProfile.updateProfile(profile);
+                            success = false;
+                        }
+                    } else {
+                        profile.setPhoto("");
                         daoProfile.updateProfile(profile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        success = false;
                     }
                 }
             }
@@ -505,17 +513,22 @@ public class MainActivity extends AppCompatActivity {
             DAOMachine daoMachine = new DAOMachine(getBaseContext());
             List<Machine> machineList = daoMachine.getAllMachinesArray();
             for (Machine machine:machineList) {
-                if(!machine.getPicture().isEmpty()) {
+                if(machine.getPicture()!=null && !machine.getPicture().isEmpty()) {
                     File sourceFile = new File(machine.getPicture());
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    try {
-                        File destFile = ImageUtil.moveFile(sourceFile, storageDir);
-                        machine.setPicture(destFile.getAbsolutePath());
-                        daoMachine.updateMachine(machine);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        success = false;
+                    if (sourceFile.exists()) {
+                        machine.setPicture("");
+                        try {
+                            File destFile = ImageUtil.copyFile(sourceFile, storageDir);
+                            ImageUtil.saveThumb(destFile.getAbsolutePath());
+                            machine.setPicture(destFile.getAbsolutePath());
+                            daoMachine.updateMachine(machine);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            success = false;
+                        }
                     }
+                    daoMachine.updateMachine(machine);
                 }
             }
         }
@@ -871,14 +884,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if path is pointing to a thumb else create it and use it.
         String thumbPath = imgUtil.getThumbPath(path);
+        boolean success = false;
         if (thumbPath != null) {
-            ImageUtil.setPic(roundProfile, thumbPath);
+            success = ImageUtil.setPic(roundProfile, thumbPath);
             mDrawerAdapter.getItem(0).setImg(thumbPath);
-        } else {
+        }
+
+        if (!success) {
             roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource so it needs to be reset
             mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
         }
+
         mDrawerAdapter.notifyDataSetChanged();
         mDrawerLayout.invalidate();
     }

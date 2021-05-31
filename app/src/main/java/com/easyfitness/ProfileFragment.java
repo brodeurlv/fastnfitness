@@ -226,11 +226,14 @@ public class ProfileFragment extends Fragment {
             nameEdit.setText(name);
         });
         profileViMo.getPhoto().observe(getViewLifecycleOwner(), photo -> {
+            boolean success = false;
             if (photo != null) {
-                ImageUtil.setPic(roundProfile, photo);
+                success = ImageUtil.setPic(roundProfile, photo);
                 roundProfile.invalidate();
-            } else
+            }
+            if (!success){
                 roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
+            }
         });
         profileViMo.getGender().observe(getViewLifecycleOwner(), gender -> {
             switch (gender) {
