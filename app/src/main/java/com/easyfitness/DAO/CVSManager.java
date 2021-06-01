@@ -18,6 +18,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -33,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -56,7 +58,7 @@ public class CVSManager {
         mContext = pContext;
     }
 
-    public boolean exportDatabase(Profile pProfile) {
+    public boolean exportDatabase(Profile pProfile, String destFolder) {
          /**First of all we check if the external storage of the device is available for writing.
          * Remember that the external storage is not necessarily the sd card. Very often it is
          * the device storage.
@@ -66,10 +68,10 @@ public class CVSManager {
 
         PrintWriter printWriter = null;
             try {
-                ret &= exportBodyMeasures(pProfile);
-                ret &= exportRecords(pProfile);
-                ret &= exportExercise(pProfile);
-                ret &= exportBodyParts(pProfile);
+                ret &= exportBodyMeasures(pProfile, destFolder);
+                ret &= exportRecords(pProfile, destFolder);
+                ret &= exportExercise(pProfile, destFolder);
+                ret &= exportBodyParts(pProfile, destFolder);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -82,12 +84,8 @@ public class CVSManager {
             return ret;
     }
 
-    private OutputStream CreateNewFile(String name, Profile pProfile) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
-        Date date = new Date();
-
+    private OutputStream CreateNewFile(String name, String destFolder, Profile pProfile) {
         String fileName = "export_" + name + "_" + pProfile.getName();
-        String folderName = "/FastnFitness/export/" +  dateFormat.format(date);
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -95,18 +93,18 @@ public class CVSManager {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
-                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + folderName);
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
                 Uri collection = null;
                 collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
                 Uri file = resolver.insert(collection, contentValues);
                 return resolver.openOutputStream(file);
             } else {
-                File exportDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + folderName );
+                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder );
                 if (!exportDir.exists()) {
                     exportDir.mkdirs();
                 }
 
-                File exportFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + folderName + "/" + fileName);
+                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName);
                 return new FileOutputStream(exportFile);
             }
         } catch (FileNotFoundException e) {
@@ -115,9 +113,9 @@ public class CVSManager {
         }
     }
 
-    private boolean exportRecords(Profile pProfile) {
+    private boolean exportRecords(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("Records", pProfile);
+            OutputStream exportFile = CreateNewFile("Records", destFolder, pProfile);
 
             CsvWriter csvOutputFonte = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
@@ -190,9 +188,9 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyMeasures(Profile pProfile) {
+    private boolean exportBodyMeasures(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyMeasures", pProfile);
+            OutputStream exportFile = CreateNewFile("BodyMeasures", destFolder, pProfile);
 
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
@@ -234,9 +232,9 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportBodyParts(Profile pProfile) {
+    private boolean exportBodyParts(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyParts", pProfile);
+            OutputStream exportFile = CreateNewFile("BodyParts", destFolder, pProfile);
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
@@ -271,10 +269,10 @@ public class CVSManager {
         return true;
     }
 
-    private boolean exportExercise(Profile pProfile) {
+    private boolean exportExercise(Profile pProfile, String destFolder) {
         try {
             // FONTE
-            OutputStream exportFile = CreateNewFile("Exercises", pProfile);
+            OutputStream exportFile = CreateNewFile("Exercises", destFolder, pProfile);
             CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
             /**This is our database connector class that reads the data from the database.

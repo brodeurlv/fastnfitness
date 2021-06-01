@@ -573,14 +573,17 @@ public class MainActivity extends AppCompatActivity {
         exportDbBuilder.setMessage(autoExportMessage + " " + getActivity().getResources().getText(R.string.export_question) + " " + getCurrentProfile().getName() + "?");
         exportDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
             CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-            if (cvsMan.exportDatabase(getCurrentProfile())) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
+            Date date = new Date();
+            String folderName = Environment.DIRECTORY_DOWNLOADS + "/FastnFitness/export/" +  dateFormat.format(date);
+            if (cvsMan.exportDatabase(getCurrentProfile(),folderName)) {
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 long currentTime = System.currentTimeMillis();
                 SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
                 if (mpSettingFrag.getContext() != null) {
                     mpSettingFrag.updateLastBackupSummary(SP, currentTime);
                 }
-                KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success) + " - " + folderName, Gravity.BOTTOM, KToast.LENGTH_LONG);
             } else {
                 KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
             }
