@@ -15,6 +15,8 @@ import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.WorkoutValuesInputView;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
     private final boolean mShowRestTime;
@@ -68,25 +70,46 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        boolean betterThanExisting = false;
         if (v.getId() == R.id.btn_cancel) {
             mCancelled = true;
             cancel();
         } else if (v.getId() == R.id.btn_update || v.getId() == R.id.btn_failed ) {
             // update record
             DAORecord daoRecord = new DAORecord(mActivity.getBaseContext());
+            Record programTemplate = daoRecord.getRecord(mRecord.getTemplateRecordId());
             switch (mRecord.getExerciseType()) {
                 case CARDIO:
                     float distance = mWorkoutValuesInput.getDistanceValue();
                     if (mWorkoutValuesInput.getDistanceUnit() == DistanceUnit.MILES) {
                         distance = UnitConverter.MilesToKm(distance); // Always convert to KG
                     }
+
+                    if (programTemplate!=null) {
+                        if ((mWorkoutValuesInput.getDurationValue() > programTemplate.getDuration() ||
+                                distance > programTemplate.getDistance()) &&
+                                mWorkoutValuesInput.getDistanceUnit() == programTemplate.getDistanceUnit()) {
+                            betterThanExisting = true;
+                        }
+                    }
+
                     mRecord.setDuration(mWorkoutValuesInput.getDurationValue());
                     mRecord.setDistance(distance);
                     mRecord.setDistanceUnit(mWorkoutValuesInput.getDistanceUnit());
+
                     break;
                 case ISOMETRIC:
                     float tmpPoids = mWorkoutValuesInput.getWeightValue();
                     tmpPoids = UnitConverter.weightConverter(tmpPoids, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+
+                    if (programTemplate!=null) {
+                        if ((mWorkoutValuesInput.getSets() > programTemplate.getSets() ||
+                                tmpPoids > programTemplate.getWeight() ||
+                                mWorkoutValuesInput.getSeconds() > programTemplate.getSeconds()) &&
+                                mWorkoutValuesInput.getWeightUnit() == programTemplate.getWeightUnit()) {
+                            betterThanExisting = true;
+                        }
+                    }
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setSeconds(mWorkoutValuesInput.getSeconds());
@@ -96,6 +119,16 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                 case STRENGTH:
                     float tmpWeight = mWorkoutValuesInput.getWeightValue();
                     tmpPoids = UnitConverter.weightConverter(tmpWeight, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
+
+                    if (programTemplate!=null) {
+                        if ((mWorkoutValuesInput.getSets() > programTemplate.getSets() ||
+                                tmpPoids > programTemplate.getWeight() ||
+                                mWorkoutValuesInput.getReps() > programTemplate.getReps()) &&
+                                mWorkoutValuesInput.getWeightUnit() == programTemplate.getWeightUnit()) {
+                            betterThanExisting = true;
+                        }
+                    }
+
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setReps(mWorkoutValuesInput.getReps());
                     mRecord.setWeight(tmpPoids);
@@ -115,9 +148,34 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                 mRecord.setProgramRecordStatus(ProgramRecordStatus.FAILED);
             }
 
+            // If record is better than
+
             daoRecord.updateRecord(mRecord);
             mCancelled = false;
             dismiss();
+
+            if (betterThanExisting) {
+                final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Do you want to update program for next time?")
+                        .setConfirmText(getContext().getString(R.string.global_yes))
+                        .setCancelText(getContext().getString(R.string.global_no))
+                        .setHideKeyBoardOnDismiss(true)
+                        .setConfirmClickListener(sDialog -> {
+
+                            if (programTemplate != null) {
+                                programTemplate.setReps(mRecord.getReps());
+                                programTemplate.setSeconds(mRecord.getSeconds());
+                                programTemplate.setSets(mRecord.getSets());
+                                programTemplate.setDistance(mRecord.getDistance());
+                                programTemplate.setWeight(mRecord.getWeight());
+                                programTemplate.setDuration(mRecord.getDuration());
+                                daoRecord.updateRecord(programTemplate);
+                            }
+
+                            sDialog.dismiss();
+                        });
+                dialog.show();
+            }
         }
     }
 

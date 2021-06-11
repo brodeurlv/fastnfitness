@@ -393,10 +393,10 @@ public class RecordArrayAdapter extends ArrayAdapter {
         RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record, mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY);
         recordEditorDialogbox.setOnCancelListener(dialog -> {
             if (mDisplayType == DisplayType.PROGRAM_RUNNING_DISPLAY) {
-                record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
-                mDbRecord.updateRecord(record);
-                UpdateRecordTypeUI(record, viewHolder);
-                UpdateValues(record, position, viewHolder);
+                //record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                //mDbRecord.updateRecord(record);
+                //UpdateRecordTypeUI(record, viewHolder);
+                //UpdateValues(record, position, viewHolder);
                 notifyDataSetChanged();
             }
             Keyboard.hide(getContext(), viewHolder.CardView);
