@@ -9,6 +9,8 @@ import android.widget.Button;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.DistanceUnit;
+import com.easyfitness.enums.ProgramRecordStatus;
+import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.WorkoutValuesInputView;
@@ -43,14 +45,24 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         this.setCanceledOnTouchOutside(false);
 
         Button updateButton = findViewById(R.id.btn_update);
+        Button failedButton = findViewById(R.id.btn_failed);
         Button cancelButton = findViewById(R.id.btn_cancel);
         mWorkoutValuesInput = findViewById(R.id.EditorWorkoutValuesInput);
 
         mWorkoutValuesInput.setRecord(mRecord);
-
         mWorkoutValuesInput.setShowRestTime(mShowRestTime);
 
+        if (mRecord.getRecordType() == RecordType.PROGRAM_RECORD_TYPE) {
+            updateButton.setText(getContext().getString(R.string.success));
+            failedButton.setVisibility(View.VISIBLE);
+            failedButton.setText(getContext().getString(R.string.fail));
+        } else {
+            updateButton.setText(getContext().getString(R.string.update));
+            failedButton.setVisibility(View.GONE);
+        }
+
         updateButton.setOnClickListener(this);
+        failedButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
     }
 
@@ -59,7 +71,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         if (v.getId() == R.id.btn_cancel) {
             mCancelled = true;
             cancel();
-        } else if (v.getId() == R.id.btn_update) {
+        } else if (v.getId() == R.id.btn_update || v.getId() == R.id.btn_failed ) {
             // update record
             DAORecord daoRecord = new DAORecord(mActivity.getBaseContext());
             switch (mRecord.getExerciseType()) {
@@ -97,6 +109,12 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     mRecord.setRestTime(0);
                 }
             }
+            if(v.getId() == R.id.btn_update) {
+                mRecord.setProgramRecordStatus(ProgramRecordStatus.SUCCESS);
+            } else if (v.getId() == R.id.btn_failed) {
+                mRecord.setProgramRecordStatus(ProgramRecordStatus.FAILED);
+            }
+
             daoRecord.updateRecord(mRecord);
             mCancelled = false;
             dismiss();

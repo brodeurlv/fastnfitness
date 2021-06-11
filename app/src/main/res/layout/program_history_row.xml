@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         style="@style/record_param_title"
                         android:layout_gravity="bottom"
-                        android:text="Success" />
+                        android:text="@string/success" />
 
                     <TextView
                         android:id="@+id/SUCCESS_CELL"
@@ -207,7 +207,7 @@
                         android:layout_width="match_parent"
                         style="@style/record_param_title"
                         android:layout_gravity="bottom"
-                        android:text="Fail" />
+                        android:text="@string/fail" />
 
                     <TextView
                         android:id="@+id/FAIL_CELL"

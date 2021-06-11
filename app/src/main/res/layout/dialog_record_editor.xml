@@ -41,6 +41,14 @@
             android:text="@android:string/cancel" />
 
         <Button
+            android:id="@+id/btn_failed"
+            style="@style/Widget.AppCompat.Button.AddButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/fail" />
+
+        <Button
             android:id="@+id/btn_update"
             style="@style/Widget.AppCompat.Button.AddButton"
             android:layout_width="120dp"

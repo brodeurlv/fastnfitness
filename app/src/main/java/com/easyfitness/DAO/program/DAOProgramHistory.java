@@ -151,7 +151,7 @@ public class DAOProgramHistory extends DAOBase {
     // Getting All filtered
     public Cursor getFilteredHistoryCursor(long p_programKey, long p_profileKey) {
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + PROGRAM_KEY + "=" + p_programKey + " AND " + PROFILE_KEY + "=" + p_profileKey + " ORDER BY " + START_DATE + " DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + PROGRAM_KEY + "=" + p_programKey + " AND " + PROFILE_KEY + "=" + p_profileKey + " ORDER BY " + KEY + " DESC";
 
         // return value list
         return getCursor(selectQuery);
