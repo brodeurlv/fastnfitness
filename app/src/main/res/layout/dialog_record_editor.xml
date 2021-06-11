@@ -9,7 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/record_editor"
         android:textColor="@color/dialog_title_color"
@@ -19,41 +18,47 @@
         android:id="@+id/EditorWorkoutValuesInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         tool:selectedType="cardio"
         tool:showRestTime="false"
         tool:showTypeSelector="false" />
 
     <LinearLayout
+        android:id="@+id/buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="60"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_cancel"
             style="@style/Widget.AppCompat.Button.AddButton"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_weight="20"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:text="@android:string/cancel" />
 
         <Button
             android:id="@+id/btn_failed"
             style="@style/Widget.AppCompat.Button.AddButton"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_weight="20"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:text="@string/fail" />
 
         <Button
             android:id="@+id/btn_update"
             style="@style/Widget.AppCompat.Button.AddButton"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_weight="20"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
             android:text="@string/update" />
 
     </LinearLayout>

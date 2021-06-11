@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -49,6 +50,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         Button updateButton = findViewById(R.id.btn_update);
         Button failedButton = findViewById(R.id.btn_failed);
         Button cancelButton = findViewById(R.id.btn_cancel);
+        LinearLayout buttonsLayout = findViewById(R.id.buttons_layout);
         mWorkoutValuesInput = findViewById(R.id.EditorWorkoutValuesInput);
 
         mWorkoutValuesInput.setRecord(mRecord);
@@ -58,9 +60,11 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
             updateButton.setText(getContext().getString(R.string.success));
             failedButton.setVisibility(View.VISIBLE);
             failedButton.setText(getContext().getString(R.string.fail));
+            buttonsLayout.setWeightSum(60);
         } else {
             updateButton.setText(getContext().getString(R.string.update));
             failedButton.setVisibility(View.GONE);
+            buttonsLayout.setWeightSum(40);
         }
 
         updateButton.setOnClickListener(this);
