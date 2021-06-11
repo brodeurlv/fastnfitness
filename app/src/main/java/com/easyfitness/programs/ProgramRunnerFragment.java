@@ -158,7 +158,16 @@ public class ProgramRunnerFragment extends Fragment {
                 refreshData();
             }
         } else {
-            stopProgram();
+            final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText(getString(R.string.areyousure))
+                    .setConfirmText(getContext().getString(R.string.global_yes))
+                    .setCancelText(getContext().getString(R.string.global_no))
+                    .setHideKeyBoardOnDismiss(true)
+                    .setConfirmClickListener(sDialog -> {
+                        stopProgram();
+                        sDialog.dismiss();
+                    });
+            dialog.show();
         }
     };
     private final AdapterView.OnItemSelectedListener onProgramSelected = new AdapterView.OnItemSelectedListener() {
