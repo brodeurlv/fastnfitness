@@ -4,14 +4,10 @@
     <string name="global_warning">Attention</string>
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
-
     <string name="removedid">ID supprimé</string>
     <string name="failedtocreatefolder">Echec de création du repertoire</string>
-
-
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
-
     <string name="FunctionLabel">Affichage</string>
     <string name="HistoryLabel">Historique</string>
     <string name="GraphLabel">Graphiques</string>
@@ -19,7 +15,6 @@
     <string name="DeleteLabel">Supprimer</string>
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Editer</string>
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Séries</string>
@@ -27,18 +22,15 @@
     <string name="PoidsLabel">Poids</string>
     <string name="NotesLabel">Notes</string>
     <string name="TopTenLabel">Derniers enregistrements:</string>
-
     <!-- Share text -->
     <string name="ShareText">Partager</string>
     <string name="ShareTitle">Partage ta performance</string>
     <string name="ShareInstruction">Edite ton texte avant de l\'envoyer:</string>
     <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ Kg sur __MACHINE__ !</string>
-
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance</string>
     <string name="DurationLabel">Durée</string>
-
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Suivi de poids</string>
     <string name="weightLabel">Poids</string>
@@ -48,8 +40,6 @@
     <string name="userChanged">Profil changé</string>
     <string name="renameProfilTitle">Renommer le profil</string>
     <string name="renameProfilQuestion">Choisis un nouveau nom de profil ?</string>
-
-
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Paramètres</string>
     <string name="export_database">Exporter la base de données</string>
@@ -59,66 +49,48 @@
     <string name="import_database">Importer des données</string>
     <string name="ResetAppLabel">Remise à zero de l\'application</string>
     <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
-
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Exercices</string>
-
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
     <string name="pref_show_mp3_player_summary">Affiche ou Cache la barre du lecteur MP3</string>
-
     <string name="pref_ui_setting">Affichage</string>
-
     <string name="profil_create_new">Créer un nouveau profil</string>
-
     <string name="profil_change">Changer de profil</string>
     <string name="profil_select_profil">Selectionner un profil</string>
     <string name="profil_delete">Supprimer un profil</string>
     <string name="profil_select_profil_to_delete">Selectionner un profil à supprimer</string>
-
     <!-- About Fragment  -->
     <string name="AboutLabel">A propos</string>
-
     <!-- Navigation Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
-    <string name="maxRep1">Maximum (Reps >= 1)</string>
-    <string name="maxRep5d">Maximum (Reps >= 5)</string>
+    <string name="maxRep1">Maximum (Reps &gt;= 1)</string>
+    <string name="maxRep5d">Maximum (Reps &gt;= 5)</string>
     <string name="sum">Somme du poids</string>
-
     <string name="all">All</string>
-
     <!-- Muscles -->
     <string name="biceps">Biceps</string>
     <string name="triceps">Triceps</string>
     <string name="pectoraux">Pectoraux</string>
     <string name="deltoids">Deltoids</string>
-
     <string name="dorseaux">Dorseaux</string>
     <string name="abdominaux">Abdominaux</string>
-
     <string name="quadriceps">Quadriceps</string>
     <string name="ischio_jambiers">Ischio Jambiers</string>
     <string name="adducteurs">Adducteurs</string>
     <string name="mollets">Mollets</string>
-
     <string name="selectMuscles">Sélectionnez les muscles concernés</string>
-
-
     <string name="backDialog_confirm_text">Voulez-vous sauver avant de quitter ?</string>
     <string name="deleteMachine_confirm_text">Voulez-vous supprimer cette machine ? Tous les enregistrements associés seront supprimés</string>
     <string name="renameMachine_warning_text">ATTENTION: Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
-
     <!-- Photo -->
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
-
     <!-- DateGraph -->
     <string name="graph_all">Tout</string>
     <string name="graph_lastyear">Dernière année</string>
     <string name="graph_lastmonth">Dernier mois</string>
     <string name="graph_lastweek">Dernière semaine</string>
-
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
     <string name="CountdownLabel">Repos</string>
@@ -226,7 +198,6 @@
     <string name="imported_successfully">import réussit</string>
     <string name="maxWeightPerDuration">Poids max par durée</string>
     <string name="nbSeriesPerDate">Nb séries par date</string>
-    <string name="author_label">Auteur:</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="import_new_exercise_first">(Importez les nouveaux exercices en premier)</string>
     <string name="MachineHint">Nom de votre exercice</string>
@@ -295,7 +266,6 @@
     <string name="backup_warning_day">Un jour passé depuis votre dernière sauvegarde.</string>
     <string name="backup_warning_week">Une semaine passée depuis votre dernière sauvegarde.</string>
     <string name="backup_warning_month">Un mois a passé depuis votre dernière sauvegarde.</string>
-    <string name="license">Licence:</string>
     <string name="database_migration">Migration de la base de données</string>
     <string name="something_went_wrong">Arf, quelque chose a mal tourné!</string>
     <string name="database_migration_success">Fichiers migrés avec succès</string>

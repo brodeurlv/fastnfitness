@@ -5,10 +5,8 @@
     <string name="global_warning">Предупреждение</string>
     <string name="global_yes">Да</string>
     <string name="global_no">Нет</string>
-
     <string name="action_settings">Настройки</string>
     <string name="DateLabel">Дата</string>
-
     <string name="FunctionLabel">Дисплей</string>
     <string name="HistoryLabel">История</string>
     <string name="GraphLabel">Графики</string>
@@ -17,7 +15,6 @@
     <string name="ShareLabel">Поделиться</string>
     <string name="EditLabel">Редактировать</string>
     <string name="DeleteRecordDialog">Удалить эту запись?</string>
-    <string name="author_label">Автор:</string>
     <string name="FonteLabel">Бодибилдинг</string>
     <string name="SerieLabel">Сеты</string>
     <string name="RepetitionLabel_short">Повторения</string>
@@ -72,8 +69,8 @@
     <string name="AboutLabel">О приложении</string>
     <string name="drawer_open">Открыть боковое меню</string>
     <string name="drawer_close">Закрыть боковое меню</string>
-    <string name="maxRep1">Максимум (Повторений >=1)</string>
-    <string name="maxRep5d">Максимум (Повторений >=5)</string>
+    <string name="maxRep1">Максимум (Повторений &gt;=1)</string>
+    <string name="maxRep5d">Максимум (Повторений &gt;=5)</string>
     <string name="sum">Сумма</string>
     <string name="sumDistance">Дистанция</string>
     <string name="sumDuration">Продолжительность</string>
@@ -257,7 +254,6 @@
     <string name="backup_warning_day">Один день с момента последнего резервного копирования.</string>
     <string name="backup_warning_week">Одна неделя с момента последнего резервного копирования.</string>
     <string name="backup_warning_month">За один месяц с момента последнего резервного копирования.</string>
-    <string name="license">Лицензия:</string>
     <string name="database_migration">База данных миграции</string>
     <string name="something_went_wrong">Арфа, что-то пошло не так!</string>
     <string name="database_migration_success">App файлы успешно перенесены</string>
