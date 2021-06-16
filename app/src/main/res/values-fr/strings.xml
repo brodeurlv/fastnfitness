@@ -5,7 +5,7 @@
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
     <string name="removedid">ID supprimé</string>
-    <string name="failedtocreatefolder">Echec de création du repertoire</string>
+    <string name="failedtocreatefolder">Échec de création du repertoire</string>
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
     <string name="FunctionLabel">Affichage</string>
@@ -14,19 +14,19 @@
     <string name="AddLabel">Ajouter</string>
     <string name="DeleteLabel">Supprimer</string>
     <string name="ShareLabel">Partager</string>
-    <string name="EditLabel">Editer</string>
+    <string name="EditLabel">Modifier</string>
     <!-- Fonte Fragment -->
-    <string name="FonteLabel">Body Building</string>
+    <string name="FonteLabel">Culturisme</string>
     <string name="SerieLabel">Séries</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
     <string name="NotesLabel">Notes</string>
-    <string name="TopTenLabel">Derniers enregistrements:</string>
+    <string name="TopTenLabel">Derniers enregistrements :</string>
     <!-- Share text -->
     <string name="ShareText">Partager</string>
     <string name="ShareTitle">Partage ta performance</string>
-    <string name="ShareInstruction">Edite ton texte avant de l\'envoyer:</string>
-    <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ Kg sur __MACHINE__ !</string>
+    <string name="ShareInstruction">Modifie ton texte avant de l\'envoyer :</string>
+    <string name="ShareTextDefault">J\'ai soulevé __WEIGHT__ kg sur __MACHINE__ !</string>
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distance</string>
@@ -47,8 +47,8 @@
     <string name="export_success">Base de données exportée</string>
     <string name="export_failed">Erreur dans l\'export de la base de données</string>
     <string name="import_database">Importer des données</string>
-    <string name="ResetAppLabel">Remise à zero de l\'application</string>
-    <string name="deleteDB_warning">This action will reset the entire application. All data will be lost. Are you sure ? This will exit the application.</string>
+    <string name="ResetAppLabel">Réinitialiser l\'application</string>
+    <string name="deleteDB_warning">Cette action réinitialisera l\'ensemble de l\'application. Toutes les données seront perdues. Êtes-vous sûr·e \? Cette action permet de quitter l\'application.</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Exercices</string>
     <string name="pref_show_mp3_player">Affichage du lecteur MP3</string>
@@ -62,27 +62,27 @@
     <!-- About Fragment  -->
     <string name="AboutLabel">A propos</string>
     <!-- Navigation Drawer -->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">Ouvrir le volet de navigation</string>
+    <string name="drawer_close">Fermer le volet de navigation</string>
     <string name="maxRep1">Maximum (Reps &gt;= 1)</string>
     <string name="maxRep5d">Maximum (Reps &gt;= 5)</string>
     <string name="sum">Somme du poids</string>
-    <string name="all">All</string>
+    <string name="all">Tous</string>
     <!-- Muscles -->
     <string name="biceps">Biceps</string>
     <string name="triceps">Triceps</string>
     <string name="pectoraux">Pectoraux</string>
-    <string name="deltoids">Deltoids</string>
+    <string name="deltoids">Deltoïdes</string>
     <string name="dorseaux">Dorseaux</string>
     <string name="abdominaux">Abdominaux</string>
     <string name="quadriceps">Quadriceps</string>
-    <string name="ischio_jambiers">Ischio Jambiers</string>
+    <string name="ischio_jambiers">Ischio-jambiers</string>
     <string name="adducteurs">Adducteurs</string>
     <string name="mollets">Mollets</string>
     <string name="selectMuscles">Sélectionnez les muscles concernés</string>
     <string name="backDialog_confirm_text">Voulez-vous sauver avant de quitter ?</string>
-    <string name="deleteMachine_confirm_text">Voulez-vous supprimer cette machine ? Tous les enregistrements associés seront supprimés</string>
-    <string name="renameMachine_warning_text">ATTENTION: Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
+    <string name="deleteMachine_confirm_text">Voulez-vous supprimer cette machine \? Tous les enregistrements associés seront supprimés.</string>
+    <string name="renameMachine_warning_text">ATTENTION : Cette machine existe déjà. Les enregistrements vont être regroupés entre les deux machines.</string>
     <!-- Photo -->
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
@@ -94,9 +94,9 @@
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronomètre</string>
     <string name="CountdownLabel">Repos</string>
-    <string name="rest_time">Temps de repos (sec)</string>
+    <string name="rest_time">Temps de repos (s)</string>
     <string name="activate_rest_time">Activer le Compteur de repos</string>
-    <string name="sizeTableLabel">Historique</string>
+    <string name="sizeTableLabel">Historique des mesures :</string>
     <string name="neck">Cou</string>
     <string name="left_arm">Biceps gauche</string>
     <string name="left_calves">Mollet gauche</string>
@@ -107,7 +107,7 @@
     <string name="waist">Taille</string>
     <string name="behind">Hanches</string>
     <string name="bodytracking">Suivi corporel</string>
-    <string name="RepetitionLabel_short">Reps</string>
+    <string name="RepetitionLabel_short">Réps</string>
     <string name="DeleteRecordDialog">Supprimer cet enregistrement ?</string>
     <string name="lastRecordLabel">Dernière mesure</string>
     <string name="profileSelected">Profil selectionné</string>
@@ -117,7 +117,7 @@
     <string name="total_machine">Total sur la machine</string>
     <string name="total_session">Total sur la session</string>
     <string name="total_weight">Poids total</string>
-    <string name="pref_preferredUnitSummary">"Unité préférée : "</string>
+    <string name="pref_preferredUnitSummary">Unité préférée :</string>
     <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
     <string name="selectMachineDialogLabel">Sélectionne une machine existante</string>
     <string name="introSlide2Title">Facile et Rapide</string>
@@ -126,7 +126,7 @@
     <string name="birthday_optional">Date de naissance (optionel)</string>
     <string name="create">Créer</string>
     <string name="create_a_profile">Créer un profil</string>
-    <string name="fillNameField">Entrez au moins votre nom ou pseudo!</string>
+    <string name="fillNameField">Entrez au moins votre nom ou pseudo</string>
     <string name="introSlide1Title">Bonjour</string>
     <string name="name_or_pseudo">Nom ou Pseudo</string>
     <string name="name_is_required">Nom est obligatoire</string>
@@ -159,7 +159,7 @@
     <string name="sumDuration">Durée</string>
     <string name="sumDistance">Distance</string>
     <string name="menu_Workout">Entrainement</string>
-    <string name="renameMachine_error_text2">ERREUR: cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
+    <string name="renameMachine_error_text2">ERREUR : cet exercice existe déjà. Il n\'est pas possible de regrouper deux exercices avec le même nom et des types différents.</string>
     <string name="recordcopied">Enregistrement copié</string>
     <string name="fatLabel">Graisse</string>
     <string name="bonesLabel">Os</string>
@@ -180,22 +180,22 @@
     <string name="BMI_dialog_title">Indice de Masse Corporel (IMC)</string>
     <string name="BMI_formula">IMC = poids(kg) / taille(m)*taille(m)</string>
     <string name="RFM_dialog_title">Indice de Masse Graisseuse Relatif (MGR)</string>
-    <string name="RFM_female_formula">Femmes: RFM = 76 – (20 x (hauteur/circonférence de la taille))</string>
-    <string name="RFM_male_formula">Hommes: RFM = 64 – (20 x (hauteur/circonférence de la taille))</string>
+    <string name="RFM_female_formula">Femmes : RFM = 76 – (20 × (hauteur/circonférence de la taille))</string>
+    <string name="RFM_male_formula">Hommes : RFM = 64 – (20 × (hauteur/circonférence de la taille))</string>
     <string name="access_granted">Accès autorisé</string>
     <string name="another_time_maybe">Une autre fois peut-être :)</string>
     <string name="new_folder">Nouveau dossier</string>
     <string name="ffmiLabel">FFMI</string>
-    <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
+    <string name="FFMI_dialog_title">Indice de masse sans graisse (FFMI)</string>
     <string name="no_fat_available">graisse [%] non disponible</string>
     <string name="indexLabel">Index</string>
     <string name="SecondsLabel_short">Secs</string>
-    <string name="exercise_type">Type d\'exercice:</string>
+    <string name="exercise_type">Type d\'exercice :</string>
     <string name="staticExercise">Isometrique</string>
     <string name="what_type_of_exercise">Quel type d\'exercice ?</string>
-    <string name="global_confirm_question">Etes-vous sûr ?</string>
-    <string name="import_failed">import a échoué</string>
-    <string name="imported_successfully">import réussit</string>
+    <string name="global_confirm_question">Êtes-vous sûr·e \?</string>
+    <string name="import_failed">échec de l\'importation</string>
+    <string name="imported_successfully">importé avec succès</string>
     <string name="maxWeightPerDuration">Poids max par durée</string>
     <string name="nbSeriesPerDate">Nb séries par date</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
@@ -203,11 +203,11 @@
     <string name="MachineHint">Nom de votre exercice</string>
     <string name="obliques">Obliques</string>
     <string name="trapezius">Trapèzes</string>
-    <string name="shoulders">Epaules</string>
+    <string name="shoulders">Épaules</string>
     <string name="timeLabel">Heure</string>
     <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
     <string name="daynightmode_settingtitle">Thème graphique (redémarrage nécessaire)</string>
-    <string name="delete_bodypart_confirm">Voulez-vous supprimer cette partie du corps? Toutes les mesures associées seront supprimées.</string>
+    <string name="delete_bodypart_confirm">Voulez-vous supprimer cette partie du corps \? Toutes les mesures associées seront supprimées.</string>
     <string name="new_measure">Nouvelle mesure</string>
     <string name="enter_profile_name">Entrez le nom du profil</string>
     <string name="enter_size_cm">Entrez votre taille  (cm)</string>
@@ -215,28 +215,28 @@
     <string name="enter_bodypart_name">Entrez le nom de la partie du corps</string>
     <string name="strength_category">Force</string>
     <string name="add_to_template">Ajouter au programme</string>
-    <string name="automatic_date_time">"Date/heure automatique "</string>
+    <string name="automatic_date_time">Date/heure automatique</string>
     <string name="edit">Éditer</string>
     <string name="enter_workout_name">Entrez le nom du programme</string>
     <string name="filter_by_workout_name">Filtrer par nom du programme</string>
     <string name="finish_program">Terminer le programme</string>
     <string name="newStr">Nouveau</string>
     <string name="new_program">Nouveau programme</string>
-    <string name="program_running">Programme:</string>
-    <string name="program_preview">Aperçu du programme:</string>
-    <string name="programs">Programmes:</string>
+    <string name="program_running">Programme :</string>
+    <string name="program_preview">Aperçu du programme :</string>
+    <string name="programs">Programmes</string>
     <string name="start_program">Démarrer programme</string>
     <string name="update">Mettre à jour</string>
     <string name="workout_list_menu_item">Liste des programmes</string>
     <string name="record_editor">Editeur</string>
-    <string name="please_start_program_first">Lancer d\'abord un programme, merci.</string>
-    <string name="program_ongoing">Programme en cours:</string>
-    <string name="rest_time_row">Temps de repos:</string>
+    <string name="please_start_program_first">Veuillez d\'abord lancer le programme</string>
+    <string name="program_ongoing">Programme en cours :</string>
+    <string name="rest_time_row">Temps de repos :</string>
     <string name="program">Programme</string>
     <string name="free_workout">Séance libre</string>
     <string name="this_program_is_empty">Ce programme est vide</string>
     <string name="total_on">Total sur</string>
-    <string name="info">Infos</string>
+    <string name="info">Données</string>
     <string name="editor">Éditeur</string>
     <string name="dark_mode">Sombre</string>
     <string name="autoui_mode">Auto</string>
@@ -246,9 +246,9 @@
     <string name="light_mode">Clair</string>
     <string name="remove_image">Supprimer l\'image</string>
     <string name="pref_preferredSizeUnitTitle">Sélectionne ton unité de taille préférée</string>
-    <string name="program_completed">Vous avez terminé votre programme! Voulez-vous le fermer?</string>
+    <string name="program_completed">Vous avez terminé votre programme ! Voulez-vous le fermer \?</string>
     <string name="maxLengthPerDate">Durée maximum par date</string>
-    <string name="maxReps">Max Reps</string>
+    <string name="maxReps">Max. réps</string>
     <string name="sumReps">Somme Reps</string>
     <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
     <string name="pref_audio_setting">Réglages de la minuterie de repos</string>
@@ -259,19 +259,19 @@
     <string name="size">Taille</string>
     <string name="gender">Genre</string>
     <string name="pref_scheduled_backup_setting">Paramètres de sauvegarde automatique</string>
-    <string name="pref_lastBackupSettingSummary">Dernière sauvegarde:</string>
+    <string name="pref_lastBackupSettingSummary">Dernière sauvegarde :</string>
     <string name="pref_preferredBackupSettingTitle">Fréquence</string>
     <string name="backup_notStarted">Pas de sauvegarde</string>
-    <string name="backup_warning_never">Faites de votre première sauvegarde maintenant.</string>
-    <string name="backup_warning_day">Un jour passé depuis votre dernière sauvegarde.</string>
-    <string name="backup_warning_week">Une semaine passée depuis votre dernière sauvegarde.</string>
-    <string name="backup_warning_month">Un mois a passé depuis votre dernière sauvegarde.</string>
+    <string name="backup_warning_never">"Faites votre première sauvegarde maintenant. "</string>
+    <string name="backup_warning_day">"Un jour passé depuis votre dernière sauvegarde. "</string>
+    <string name="backup_warning_week">"Une semaine passée depuis votre dernière sauvegarde. "</string>
+    <string name="backup_warning_month">"Un mois a passé depuis votre dernière sauvegarde. "</string>
     <string name="database_migration">Migration de la base de données</string>
-    <string name="something_went_wrong">Arf, quelque chose a mal tourné!</string>
+    <string name="something_went_wrong">Mince, quelque chose a mal tourné !</string>
     <string name="database_migration_success">Fichiers migrés avec succès</string>
     <string name="FilterTextViewType">Filtrer par type d\'exercice</string>
     <string name="filterExerciseTypeDialogLabel">Filtre pour les types d\'exercice</string>
     <string name="selectExerciseTypeFirst">Vous devez sélectionner au moins un type d\'exercice</string>
     <string name="add_new_exercise">Ajouter un exercice</string>
-    <string name="disclaimer_scoped_storage">En raison des changements de Google, les fichiers d\'application doivent être migrés. Cela peut prendre un certain temps si vous avez beaucoup de photos. Merci d\'être patient.</string>
+    <string name="disclaimer_scoped_storage">En raison des changements de Google, les fichiers d\'application doivent être migrés. Ceci peut prendre un certain temps si vous avez beaucoup de photos. Merci de patienter.</string>
 </resources>
