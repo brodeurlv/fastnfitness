@@ -3,7 +3,7 @@
     <string name="global_confirm">Conferma</string>
     <string name="global_confirm_question">Sei sicuro/a?</string>
     <string name="global_warning">Attenzione</string>
-    <string name="global_yes">Si</string>
+    <string name="global_yes">Sì</string>
     <string name="global_no">No</string>
     <string name="action_settings">Impostazioni</string>
     <string name="DateLabel">Data</string>
@@ -16,7 +16,7 @@
     <string name="EditLabel">Modifica</string>
     <string name="DeleteRecordDialog">Rimuovere?</string>
     <!-- Fonte Fragment -->
-    <string name="FonteLabel">Bodybuilding</string>
+    <string name="FonteLabel">Culturismo</string>
     <string name="SerieLabel">Set</string>
     <string name="RepetitionLabel_short">Ripetizioni</string>
     <string name="MachineLabel">Esercizio</string>
@@ -25,7 +25,7 @@
     <string name="TopTenLabel">Ultimi 10:</string>
     <!-- Share text -->
     <string name="ShareText">Condividi</string>
-    <string name="ShareTitle">Condividi le tue prestazioni!</string>
+    <string name="ShareTitle">Condividi le tue prestazioni</string>
     <string name="ShareInstruction">Modifica il testo prima di condividere:</string>
     <string name="ShareTextDefault">Ho sollevato __WEIGHT__ kg facendo __MACHINE__ !</string>
     <!-- Cardio Fragment -->
@@ -35,7 +35,7 @@
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Andamento peso</string>
     <string name="weightLabel">Peso</string>
-    <string name="fatLabel">Massa Grassa</string>
+    <string name="fatLabel">Massa grassa</string>
     <string name="bonesLabel">Ossa</string>
     <string name="waterLabel">Acqua</string>
     <string name="musclesLabel">Muscoli</string>
@@ -43,7 +43,7 @@
     <string name="sizeTableLabel">Storico misurazioni:</string>
     <string name="createProfilTitle">Crea un nuovo profilo</string>
     <string name="profileSelected">Profilo selezionato</string>
-    <string name="createProfilQuestion">Scegli un nome profilo</string>
+    <string name="createProfilQuestion">Scegli un nome profilo\?</string>
     <string name="userChanged">Utente cambiato</string>
     <string name="renameProfilTitle">Cambia nome al profile</string>
     <string name="renameProfilQuestion">Rinominare questo profilo?</string>
@@ -63,7 +63,7 @@
         Sei sicuro/a?
         Questa azione uscirà dall\'app.
     </string>
-    <string name="ResetAppLabel">Resettare applicatione</string>
+    <string name="ResetAppLabel">Ripristina l\'applicazione</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Esercizi</string>
     <!-- Preferences -->
@@ -94,7 +94,7 @@
     <string name="maxLengthPerDate">Durata massima per data</string>
     <string name="nbSeriesPerDate">Numero di serie per adata</string>
     <string name="all">Tutti</string>
-    <string name="bodytracking">Body Track</string>
+    <string name="bodytracking">Tracciamento corporeo</string>
     <string name="selectMuscles">Seleziona muscoli</string>
     <!-- Muscles -->
     <string name="biceps">Bicipiti</string>
@@ -148,15 +148,15 @@
     <string name="exit">Esci</string>
     <string name="selectMachineDialogLabel">Seleziona un esercizio esistente</string>
     <!-- Intro slides -->
-    <string name="fillNameField">Inserisci il tuo nome</string>
-    <string name="introSlide1Title">Ciao!</string>
-    <string name="size_cm_optional">Altezza (cm)</string>
+    <string name="fillNameField">Inserisci il tuo nome, almeno</string>
+    <string name="introSlide1Title">Ciao</string>
+    <string name="size_cm_optional">Altezza (cm) (opzionale)</string>
     <string name="create">Crea</string>
     <string name="birthday_optional">Data di nascita</string>
     <string name="name_or_pseudo">Nome</string>
     <string name="name_is_required">Nome è obbligatorio</string>
     <string name="create_a_profile">Crea profilo</string>
-    <string name="introSlide1Text">Benvenuto su Fast N Fitness! Questa app è un modo pratico e veloce di memorizzare i tuoi allenamenti e monitorare i tuoi miglioramenti!</string>
+    <string name="introSlide1Text">Benvenuto su Fast N Fitness! Questa app è un modo pratico e veloce di memorizzare i tuoi allenamenti e monitorare i tuoi miglioramenti.</string>
     <string name="introSlide2Text">Scrivi il nome dell\'esercizio e i dettagli, sarà creato automaticamente. Puoi cercarlo facilmente sulla lista.</string>
     <string name="introSlide2Title">Facile e veloce</string>
     <string name="titleSlideEssential">Vedi le parti essenziale</string>
@@ -183,7 +183,7 @@
     <string name="profile_page">Pagina profilo</string>
     <string name="ProfileLabel">Profilo</string>
     <string name="edit_value">Modifica valore</string>
-    <string name="menu_Workout">Workout</string>
+    <string name="menu_Workout">Allenamento</string>
     <string name="renameMachine_error_text2">ERRORE: Questo esercizio esiste già. Non è possibile unire due esercizi con lo stesso nome e tipi diversi.</string>
     <string name="recordcopied">Valori copiati</string>
     <string name="imcLabel">IMC</string>
@@ -215,7 +215,7 @@
     <string name="exercise_type">Tipo di esercizio:</string>
     <string name="staticExercise">Isometrico</string>
     <string name="SecondsLabel_short">Secondi</string>
-    <string name="imported_successfully"> importato!</string>
+    <string name="imported_successfully">importato con successo</string>
     <string name="import_failed"> importo fallito</string>
     <string name="import_new_exercise_first">(Assicurati di importare prima i nuovi esercizi)</string>
     <string name="MachineHint">Nome esercizio</string>
@@ -236,7 +236,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string name="light_mode">Light</string>
+    <string name="light_mode">Chiaro</string>
     <string name="dark_mode">Scuro</string>
     <string name="autoui_mode">Automatico</string>
     <string name="daynightmode_settingtitle">Seleziona tema (riavvio richiesto)</string>
@@ -290,10 +290,10 @@
     <string name="pref_lastBackupSettingSummary">Ultimo backup:</string>
     <string name="pref_preferredBackupSettingTitle">Frequenza</string>
     <string name="backup_notStarted">No Backup avviato</string>
-    <string name="backup_warning_never">Fate il vostro primo backup ora.</string>
-    <string name="backup_warning_day">Un giorno passò dopo l\'ultimo backup.</string>
-    <string name="backup_warning_week">Una settimana passata dopo l\'ultimo backup.</string>
-    <string name="backup_warning_month">Un mese passò dopo l\'ultimo backup.</string>
+    <string name="backup_warning_never">"Fai il tuo primo backup ora. "</string>
+    <string name="backup_warning_day">"Un giorno passò dopo l\'ultimo backup. "</string>
+    <string name="backup_warning_week">"Una settimana passata dopo l\'ultimo backup. "</string>
+    <string name="backup_warning_month">"Un mese passò dopo l\'ultimo backup. "</string>
     <string name="database_migration">Migrazione di database</string>
     <string name="something_went_wrong">Arf, qualcosa è andato storto!</string>
     <string name="database_migration_success">File migrati con successo</string>
