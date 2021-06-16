@@ -28,7 +28,7 @@
     <string name="ShareText">Teilen</string>
     <string name="ShareTitle">Teile deinen Erfolg</string>
     <string name="ShareInstruction">Editiere deinen Text vor dem senden:</string>
-    <string name="ShareTextDefault">Ich habe __WEIGHT__ Kg an __MACHINE__ gehoben!</string>
+    <string name="ShareTextDefault">Ich habe __WEIGHT__ kg an __MACHINE__ gehoben!</string>
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Entfernung</string>
@@ -52,19 +52,19 @@
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
     <string name="import_database">Aufzeichnungen importieren</string>
     <string name="deleteDB_warning">Diese Aktion setzt deine App zurück. Alle Dateien gehen verloren. Bist du sicher? Dies beendet die App.</string>
-    <string name="ResetAppLabel">App zurücksetzen</string>
+    <string name="ResetAppLabel">Anwendung zurücksetzen</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Übungen</string>
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Einstellungen</string>
-    <string name="pref_show_mp3_player">Zeige MP3 Player</string>
+    <string name="pref_show_mp3_player">MP3-Player anzeigen</string>
     <string name="pref_show_mp3_player_summary">Zeige/Verstecke die MP3 Player Toolbar</string>
-    <string name="pref_audio_setting">Rest Timer-Einstellungen</string>
+    <string name="pref_audio_setting">Ruhezeitgebereinstellungen</string>
     <string name="pref_play_sound_after_rest_timer">Piep</string>
     <string name="pref_play_sound_after_rest_timer_summary">Piep am Ende des Ruhezeitgebers</string>
     <string name="pref_play_vibration_after_rest_timer">Vibration</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrieren am Ende des Ruhezeitgebers</string>
-    <string name="pref_scheduled_backup_setting">Automatische Backup Einstellungen</string>
+    <string name="pref_scheduled_backup_setting">Einstellungen für automatische Datensicherungen</string>
     <string-array name="backup_options">
         <item>Manuell</item>
         <item>Täglich</item>
@@ -77,13 +77,13 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    <string name="pref_lastBackupSettingSummary">Letztes Backup:</string>
+    <string name="pref_lastBackupSettingSummary">Letzte Sicherung:</string>
     <string name="pref_preferredBackupSettingTitle">Häufigkeit</string>
-    <string name="backup_notStarted">Kein Backup gestartet</string>
-    <string name="backup_warning_never">Mach jetzt dein erstes Backup.</string>
-    <string name="backup_warning_day">Ein Tag vergangen seit letztem Backup.</string>
-    <string name="backup_warning_week">Eine Woche vergangen seit letztem Backup.</string>
-    <string name="backup_warning_month">Ein Monat vergangen seit letztem Backup.</string>
+    <string name="backup_notStarted">Keine Sicherung gestartet</string>
+    <string name="backup_warning_never">"Mach jetzt dein erste Sicherung. "</string>
+    <string name="backup_warning_day">"Ein Tag vergangen seit letzter Sicherung. "</string>
+    <string name="backup_warning_week">"Eine Woche vergangen seit letzter Sicherung. "</string>
+    <string name="backup_warning_month">"Ein Monat vergangen seit letzter Sicherung. "</string>
     <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
     <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
     <string name="profil_create_new">Erstelle eine neues Profil</string>
@@ -100,17 +100,17 @@
     <string name="maxRep5d">Maximum (Wied. &gt;= 5)</string>
     <string name="sum">Gewicht Summe</string>
     <string name="all">Alle</string>
-    <string name="bodytracking">Body Track</string>
+    <string name="bodytracking">Körperbetreuung</string>
     <string name="selectMuscles">Wähle Muskeln</string>
     <!-- Muscles -->
-    <string name="biceps">Biceps</string>
-    <string name="triceps">Triceps</string>
+    <string name="biceps">Bizeps</string>
+    <string name="triceps">Trizeps</string>
     <string name="pectoraux">Brust</string>
     <string name="deltoids">Schulter</string>
     <string name="dorseaux">Rücken</string>
     <string name="abdominaux">Bauchmuskeln</string>
-    <string name="quadriceps">Quadriceps</string>
-    <string name="ischio_jambiers">Hamstrings</string>
+    <string name="quadriceps">Quadrizeps</string>
+    <string name="ischio_jambiers">Kniebeuger</string>
     <string name="adducteurs">Oberschenkel</string>
     <string name="mollets">Waden</string>
     <!-- Body Parts -->
@@ -124,7 +124,7 @@
     <string name="waist">Taille</string>
     <string name="behind">Hüfte</string>
     <string name="backDialog_confirm_text">Willst du vor dem Beenden speichern?</string>
-    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen? Alle dazugehörigen Aufzeichnungen werden gelöscht</string>
+    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen\? Alle dazugehörigen Aufzeichnungen werden gelöscht.</string>
     <string name="renameMachine_warning_text">WARNUNG: Dieser Übungsname existiert bereits. Die Aufzeichungen beider Übungen werden miteinander verknüpft.</string>
     <!-- Photo -->
     <string name="camera">Kamera</string>
@@ -150,7 +150,7 @@
     <string name="selectMachineDialogLabel">Wähle ein Gerät aus</string>
     <string name="filterExerciseTypeDialogLabel">Filter für Übungstypen</string>
     <!-- Intro slides -->
-    <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen an</string>
+    <string name="fillNameField">Bitte geben Sie Ihren Namen ein, mindestens</string>
     <string name="introSlide1Title">Hallo</string>
     <string name="size_cm_optional">Größe in cm (optional)</string>
     <string name="create">Erstellen</string>
@@ -218,10 +218,10 @@
     <string name="another_time_maybe">Vielleicht später :)</string>
     <string name="new_folder">Neuer Ordner</string>
     <string name="ffmiLabel">FFMI</string>
-    <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
+    <string name="FFMI_dialog_title">Fettfreier Massenindex (FFMI)</string>
     <string name="no_fat_available">Fett nicht verfügbar</string>
     <string name="indexLabel">Index</string>
-    <string name="SecondsLabel_short">Secs</string>
+    <string name="SecondsLabel_short">Sek.</string>
     <string name="staticExercise">"Isometrisch"</string>
     <string name="what_type_of_exercise">Welche Art von Training?</string>
     <string name="exercise_type">Art von Training:</string>
@@ -256,7 +256,7 @@
     <string name="new_program">Neues Programm</string>
     <string name="program_running">Programm:</string>
     <string name="program_preview">Programmvorschau:</string>
-    <string name="programs">Programme:</string>
+    <string name="programs">Programme</string>
     <string name="start_program">Programm starten</string>
     <string name="update">Aktualisieren</string>
     <string name="workout_list_menu_item">Programmliste</string>
