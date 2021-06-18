@@ -4,14 +4,10 @@
     <string name="global_warning">Warnung</string>
     <string name="global_yes">Ja</string>
     <string name="global_no">Nein</string>
-
     <string name="removedid">ID entfernen</string>
     <string name="failedtocreatefolder">Ordner erstellen fehlgeschlagen</string>
-
-
     <string name="action_settings">Einstellungen</string>
     <string name="DateLabel">Datum</string>
-
     <string name="FunctionLabel">Anzeigen</string>
     <string name="HistoryLabel">Verlauf</string>
     <string name="GraphLabel">Grafiken</string>
@@ -20,7 +16,6 @@
     <string name="ShareLabel">Teilen</string>
     <string name="EditLabel">Bearbeiten</string>
     <string name="DeleteRecordDialog">Aufzeichnung löschen?</string>
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Sätze</string>
@@ -29,18 +24,15 @@
     <string name="PoidsLabel">Gew.</string>
     <string name="NotesLabel">Notizen</string>
     <string name="TopTenLabel">Letzte Aufzeichnungen:</string>
-
     <!-- Share text -->
     <string name="ShareText">Teilen</string>
     <string name="ShareTitle">Teile deinen Erfolg</string>
     <string name="ShareInstruction">Editiere deinen Text vor dem senden:</string>
-    <string name="ShareTextDefault">Ich habe __WEIGHT__ Kg an __MACHINE__ gehoben!</string>
-
+    <string name="ShareTextDefault">Ich habe __WEIGHT__ kg an __MACHINE__ gehoben!</string>
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Entfernung</string>
     <string name="DurationLabel">Dauer</string>
-
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht</string>
     <string name="weightLabel">Gewicht</string>
@@ -52,8 +44,6 @@
     <string name="userChanged">Benutzer geändert</string>
     <string name="renameProfilTitle">Profil umbenennen</string>
     <string name="renameProfilQuestion">Wähle deinen neuen Profilnamen?</string>
-
-
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Einstellungen</string>
     <string name="export_database">Aufzeichnungen exportieren</string>
@@ -62,88 +52,67 @@
     <string name="export_failed">Datenbank export fehlgeschlagen</string>
     <string name="import_database">Aufzeichnungen importieren</string>
     <string name="deleteDB_warning">Diese Aktion setzt deine App zurück. Alle Dateien gehen verloren. Bist du sicher? Dies beendet die App.</string>
-    <string name="ResetAppLabel">App zurücksetzen</string>
-
+    <string name="ResetAppLabel">Anwendung zurücksetzen</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Übungen</string>
-
-
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Einstellungen</string>
-    <string name="pref_show_mp3_player">Zeige MP3 Player</string>
+    <string name="pref_show_mp3_player">MP3-Player anzeigen</string>
     <string name="pref_show_mp3_player_summary">Zeige/Verstecke die MP3 Player Toolbar</string>
-
-    <string name="pref_audio_setting">Rest Timer-Einstellungen</string>
+    <string name="pref_audio_setting">Ruhezeitgebereinstellungen</string>
     <string name="pref_play_sound_after_rest_timer">Piep</string>
     <string name="pref_play_sound_after_rest_timer_summary">Piep am Ende des Ruhezeitgebers</string>
     <string name="pref_play_vibration_after_rest_timer">Vibration</string>
     <string name="pref_play_vibration_after_rest_timer_summary">Vibrieren am Ende des Ruhezeitgebers</string>
-
-    <string name="pref_scheduled_backup_setting">Automatische Backup Einstellungen</string>
+    <string name="pref_scheduled_backup_setting">Einstellungen für automatische Datensicherungen</string>
     <string-array name="backup_options">
         <item>Manuell</item>
         <item>Täglich</item>
         <item>Wöchentlich</item>
         <item>Monatlich</item>
     </string-array>
-
     <string-array name="backup_settings_Enum" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
-
-    <string name="pref_lastBackupSettingSummary">Letztes Backup:</string>
+    <string name="pref_lastBackupSettingSummary">Letzte Sicherung:</string>
     <string name="pref_preferredBackupSettingTitle">Häufigkeit</string>
-    <string name="backup_notStarted">Kein Backup gestartet</string>
-    <string name="backup_warning_never">Mach jetzt dein erstes Backup.</string>
-    <string name="backup_warning_day">Ein Tag vergangen seit letztem Backup.</string>
-    <string name="backup_warning_week">Eine Woche vergangen seit letztem Backup.</string>
-    <string name="backup_warning_month">Ein Monat vergangen seit letztem Backup.</string>
-
-
+    <string name="backup_notStarted">Keine Sicherung gestartet</string>
+    <string name="backup_warning_never">"Mach jetzt dein erste Sicherung. "</string>
+    <string name="backup_warning_day">"Ein Tag vergangen seit letzter Sicherung. "</string>
+    <string name="backup_warning_week">"Eine Woche vergangen seit letzter Sicherung. "</string>
+    <string name="backup_warning_month">"Ein Monat vergangen seit letzter Sicherung. "</string>
     <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
     <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
-
-
     <string name="profil_create_new">Erstelle eine neues Profil</string>
-
     <string name="profil_change">Profil wechseln</string>
     <string name="profil_select_profil">Wähle ein Profil</string>
     <string name="profil_delete">Profil löschen</string>
     <string name="profil_select_profil_to_delete">Wählle ein Profil zum löschen</string>
-
     <!-- About Fragment  -->
     <string name="AboutLabel">Über</string>
-
     <!-- Navigation Drawer -->
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
-
-    <string name="maxRep1">Maximum (Wied. >= 1)</string>
-    <string name="maxRep5d">Maximum (Wied. >= 5)</string>
+    <string name="maxRep1">Maximum (Wied. &gt;= 1)</string>
+    <string name="maxRep5d">Maximum (Wied. &gt;= 5)</string>
     <string name="sum">Gewicht Summe</string>
-
     <string name="all">Alle</string>
-
-    <string name="bodytracking">Body Track</string>
+    <string name="bodytracking">Körperbetreuung</string>
     <string name="selectMuscles">Wähle Muskeln</string>
-
     <!-- Muscles -->
-    <string name="biceps">Biceps</string>
-    <string name="triceps">Triceps</string>
+    <string name="biceps">Bizeps</string>
+    <string name="triceps">Trizeps</string>
     <string name="pectoraux">Brust</string>
     <string name="deltoids">Schulter</string>
-
     <string name="dorseaux">Rücken</string>
     <string name="abdominaux">Bauchmuskeln</string>
-
-    <string name="quadriceps">Quadriceps</string>
-    <string name="ischio_jambiers">Hamstrings</string>
+    <string name="quadriceps">Quadrizeps</string>
+    <string name="ischio_jambiers">Kniebeuger</string>
     <string name="adducteurs">Oberschenkel</string>
     <string name="mollets">Waden</string>
-
     <!-- Body Parts -->
     <string name="left_arm">Linker Biceps</string>
     <string name="right_arm">Rechter Biceps</string>
@@ -154,24 +123,17 @@
     <string name="right_calves">Rechte Wade</string>
     <string name="waist">Taille</string>
     <string name="behind">Hüfte</string>
-
-
     <string name="backDialog_confirm_text">Willst du vor dem Beenden speichern?</string>
-    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen? Alle dazugehörigen Aufzeichnungen werden gelöscht</string>
+    <string name="deleteMachine_confirm_text">Willst du dieses Gerät löschen\? Alle dazugehörigen Aufzeichnungen werden gelöscht.</string>
     <string name="renameMachine_warning_text">WARNUNG: Dieser Übungsname existiert bereits. Die Aufzeichungen beider Übungen werden miteinander verknüpft.</string>
-
-
     <!-- Photo -->
     <string name="camera">Kamera</string>
     <string name="gallery">Galerie</string>
-
     <!-- DateGraph -->
     <string name="graph_all">Alle</string>
     <string name="graph_lastyear">Letztes Jahr</string>
     <string name="graph_lastmonth">Letzter Monat</string>
     <string name="graph_lastweek">Letzte Woche</string>
-
-
     <!-- Chronometer -->
     <string name="ChronometerLabel">Stoppuhr</string>
     <string name="CountdownLabel">Ruhezeit</string>
@@ -187,9 +149,8 @@
     <string name="exit">Beenden</string>
     <string name="selectMachineDialogLabel">Wähle ein Gerät aus</string>
     <string name="filterExerciseTypeDialogLabel">Filter für Übungstypen</string>
-
     <!-- Intro slides -->
-    <string name="fillNameField">Bitte geben Sie mindestens Ihren Namen oder Nicknamen an</string>
+    <string name="fillNameField">Bitte geben Sie Ihren Namen ein, mindestens</string>
     <string name="introSlide1Title">Hallo</string>
     <string name="size_cm_optional">Größe in cm (optional)</string>
     <string name="create">Erstellen</string>
@@ -257,10 +218,10 @@
     <string name="another_time_maybe">Vielleicht später :)</string>
     <string name="new_folder">Neuer Ordner</string>
     <string name="ffmiLabel">FFMI</string>
-    <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
+    <string name="FFMI_dialog_title">Fettfreier Massenindex (FFMI)</string>
     <string name="no_fat_available">Fett nicht verfügbar</string>
     <string name="indexLabel">Index</string>
-    <string name="SecondsLabel_short">Secs</string>
+    <string name="SecondsLabel_short">Sek.</string>
     <string name="staticExercise">"Isometrisch"</string>
     <string name="what_type_of_exercise">Welche Art von Training?</string>
     <string name="exercise_type">Art von Training:</string>
@@ -269,7 +230,6 @@
     <string name="import_failed">Import ist fehlgeschlagen</string>
     <string name="maxWeightPerDuration">Max. Gewicht pro Dauer</string>
     <string name="nbSeriesPerDate">Nb Serien nach Datum</string>
-    <string name="author_label">Author:</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="import_new_exercise_first">(Bitte importieren Sie zuerst neue Übungen)</string>
     <string name="MachineHint">Name Ihrer Übung</string>
@@ -296,7 +256,7 @@
     <string name="new_program">Neues Programm</string>
     <string name="program_running">Programm:</string>
     <string name="program_preview">Programmvorschau:</string>
-    <string name="programs">Programme:</string>
+    <string name="programs">Programme</string>
     <string name="start_program">Programm starten</string>
     <string name="update">Aktualisieren</string>
     <string name="workout_list_menu_item">Programmliste</string>
@@ -325,10 +285,8 @@
     <string name="oneRepMax">1RM (Wied. &lt;= 10)</string>
     <string name="size">Größe</string>
     <string name="gender">Geschlecht</string>
-    <string name="license">Lizenz:</string>
     <string name="database_migration">Datenbank-Migration</string>
     <string name="something_went_wrong">Arf, etwas schief gelaufen ist!</string>
     <string name="database_migration_success">App-Dateien erfolgreich migriert</string>
     <string name="disclaimer_scoped_storage">Aufgrund von Änderungen von Google muss Anwendungsdateien migriert werden. Dies kann einige Zeit in Anspruch nehmen, wenn Sie viele Bilder haben. Bitte haben Sie Geduld.</string>
 </resources>
-
