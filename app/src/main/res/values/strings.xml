@@ -54,7 +54,7 @@
     <string name="waterLabel">Water</string>
     <string name="musclesLabel">Muscles</string>
     <string name="measureLabel">Measure</string>
-    <string name="sizeTableLabel">Measures history:</string>
+    <string name="sizeTableLabel">Measurement history:</string>
     <string name="createProfilTitle">Create new profile</string>
     <string name="profileSelected">Profile selected</string>
     <string name="createProfilQuestion">Choose your profile name?</string>
@@ -65,29 +65,27 @@
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Settings</string>
     <string name="export_database">Export Records</string>
-    <string name="export_question">Do you want to export the database of </string>
+    <string name="export_question">Export the database of </string>
     <string name="export_success">Database exported</string>
-    <string name="export_failed">Database export failed</string>
+    <string name="export_failed">Could not export database</string>
     <string name="import_database">Import Records</string>
 
     <string name="removedid">ID removed</string>
-    <string name="failedtocreatefolder">Failed to create folder</string>
+    <string name="failedtocreatefolder">Could not create folder</string>
 
     <string name="deleteDB_warning">
-        This action will reset the entire application.
-        All data will be lost.
-        Are you sure?
-        This will exit the application.
+        Reset the entire app and exit?
+        (All data will be lost.)
     </string>
-    <string name="ResetAppLabel">Reset application</string>
+    <string name="ResetAppLabel">Reset app</string>
 
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Exercises</string>
 
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Settings</string>
-    <string name="pref_show_mp3_player">Show MP3 Player</string>
-    <string name="pref_show_mp3_player_summary">Show/hide the MP3 player toolbar</string>
+    <string name="pref_show_mp3_player">Show Audio Player</string>
+    <string name="pref_show_mp3_player_summary">Show/hide the audio player toolbar</string>
 
     <string name="pref_audio_setting">Rest Timer Settings</string>
     <string name="pref_play_sound_after_rest_timer">Beep</string>
@@ -112,11 +110,11 @@
 
     <string name="pref_lastBackupSettingSummary">Last Backup:</string>
     <string name="pref_preferredBackupSettingTitle">Frequency</string>
-    <string name="backup_notStarted">No Backup started</string>
-    <string name="backup_warning_never">"Do your first Backup now. "</string>
-    <string name="backup_warning_day">"One Day passed since your last Backup. "</string>
-    <string name="backup_warning_week">"One Week passed since your last Backup. "</string>
-    <string name="backup_warning_month">"One Month passed since your last Backup. "</string>
+    <string name="backup_notStarted">No backup started</string>
+    <string name="backup_warning_never">"Perform your first backup now. "</string>
+    <string name="backup_warning_day">"One day since your last backup. "</string>
+    <string name="backup_warning_week">"One week since your last backup. "</string>
+    <string name="backup_warning_month">"One month since your last backup. "</string>
 
     <string name="pref_preferredUnitSummary">Preferred unit:</string>
     <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
@@ -226,6 +224,9 @@
     <string name="adducteurs">Thighs</string>
     <string name="mollets">Calves</string>
 
+    <string name="trapezius">Trapezius</string>
+    <string name="obliques">Obliques</string>
+
     <!-- Body Parts -->
     <string name="left_arm">Left biceps</string>
     <string name="right_arm">Right biceps</string>
@@ -236,11 +237,12 @@
     <string name="right_calves">Right calves</string>
     <string name="waist">Waist</string>
     <string name="behind">Hips</string>
+    <string name="shoulders">Shoulders</string>
     <string name="size">Size</string>
 
-    <string name="backDialog_confirm_text">Do you want to save before exiting?</string>
-    <string name="deleteMachine_confirm_text">Do you want to delete this exercise? All associated records will be deleted.</string>
-    <string name="renameMachine_warning_text">WARNING: This exercise name already exists. Records will be merged with the other exercise.</string>
+    <string name="backDialog_confirm_text">Save before exiting?</string>
+    <string name="deleteMachine_confirm_text">Delete this exercise and all associated records?</string>
+    <string name="renameMachine_warning_text">This exercise name exists. Records will be merged with the other exercise.</string>
 
 
     <!-- Photo -->
@@ -264,7 +266,7 @@
     <string name="ChronometerLabel">Chronometer</string>
     <string name="CountdownLabel">Rest time</string>
     <string name="activate_rest_time">Activate rest countdown</string>
-    <string name="rest_time">Rest time (sec)</string>
+    <string name="rest_time">Rest time (sec.)</string>
     <string name="lastRecordLabel">Last record</string>
     <string name="FilterHint">Filter by exercise name</string>
     <string name="FilterTextViewType">Filter by exercise type</string>
@@ -282,23 +284,23 @@
     <string name="size_cm_optional">Height (cm) (optional)</string>
     <string name="create">Create</string>
     <string name="birthday_optional">Birthday (optional)</string>
-    <string name="name_or_pseudo">Name / pseudonym</string>
+    <string name="name_or_pseudo">Name/pseudonym</string>
     <string name="name_is_required">Name is required</string>
     <string name="create_a_profile">Create a profile</string>
-    <string name="introSlide1Text">Welcome to Fast N Fitness! This application is a quick and simple way to record your program and follow your progression and the evolution of your body.</string>
+    <string name="introSlide1Text">Welcome to Fast N Fitness. A quick and simple way to record your program and follow your body and exercise progression.</string>
     <string name="introSlide2Text">Write the name of the exercise and the details, and it will be created automatically. You can find it back easily in the list.</string>
     <string name="introSlide2Title">Quick and easy</string>
     <string name="titleSlideEssential">Go to the essential</string>
-    <string name="textSlideEssential">No exercises are pre-created. You create your own exercises simply depending on the name of the machine you have in your fitness place / location.</string>
-    <string name="pressBackAgain">Click BACK again to exit</string>
-    <string name="titleSlideOpenSource">It\'s open-source!</string>
+    <string name="textSlideEssential">No exercises are pre-created. You create your own exercises simply depending on the name of the machine you have in your fitness place/location.</string>
+    <string name="pressBackAgain">Click \"Back\" again to exit</string>
+    <string name="titleSlideOpenSource">It is libre software! Use, change, copy, and share at will.</string>
     <string name="textSlideOpenSource">Join the community and let\'s build the best fitness app together! Visit us at https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Profile created</string>
     <string name="missinginfo">Missing info</string>
-    <string name="createExerciseFirst">You must create an exercise first</string>
-    <string name="selectExerciseTypeFirst">You must select at least one exercise type</string>
+    <string name="createExerciseFirst">Create an exercise first</string>
+    <string name="selectExerciseTypeFirst">Select at least one exercise type</string>
     <string name="add_new_exercise">Add new Exercise</string>
-    <string name="impossibleToDeleteProfile">Impossible to delete current profile</string>
+    <string name="impossibleToDeleteProfile">Cannot delete current profile</string>
     <string name="profileDeleted">Profile deleted</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
@@ -343,17 +345,14 @@
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="no_fat_available">no fat available</string>
     <string name="indexLabel">Index</string>
-    <string name="what_type_of_exercise">What type of exercise ?</string>
+    <string name="what_type_of_exercise">Exercise type?</string>
     <string name="exercise_type">Exercise Type:</string>
     <string name="staticExercise">Isometric</string>
-    <string name="SecondsLabel_short">Secs</string>
-    <string name="imported_successfully"> imported successfully</string>
-    <string name="import_failed"> import failed</string>
-    <string name="import_new_exercise_first">(Make sure to import new exercises first)</string>
+    <string name="SecondsLabel_short">Sec.</string>
+    <string name="imported_successfully"> imported</string>
+    <string name="import_failed">could not import files</string>
+    <string name="import_new_exercise_first">(Ensure all new exercises are imported first)</string>
     <string name="MachineHint">Name of your exercise</string>
-    <string name="trapezius">Trapezius</string>
-    <string name="obliques">Obliques</string>
-    <string name="shoulders">Shoulders</string>
     <string name="timeLabel">Time</string>
 
     <string-array name="daynightauto">
@@ -375,15 +374,15 @@
     <string name="light_mode">Light</string>
     <string name="dark_mode">Dark</string>
     <string name="autoui_mode">Auto</string>
-    <string name="daynightmode_settingtitle">Select your theme (restart needed)</string>
+    <string name="daynightmode_settingtitle">Select theme (restart the app to use)</string>
 
 
-    <string name="delete_bodypart_confirm">Do you want to delete this bodypart ? All associated measures will be deleted.</string>
+    <string name="delete_bodypart_confirm">Delete this bodypart and all its associated measures?</string>
     <string name="new_measure">New measure</string>
     <string name="enter_profile_name">Enter profile name</string>
     <string name="enter_size_cm">Enter height (cm)</string>
     <string name="enter_birthday">Enter birthday</string>
-    <string name="enter_bodypart_name">Enter Bodypart name</string>
+    <string name="enter_bodypart_name">Enter bodypart name</string>
 
     <string name="strength_category">Strength</string>
 
@@ -403,10 +402,10 @@
     <string name="add_to_template">Add to program</string>
     <string name="update">Update</string>
     <string name="record_editor">Record Editor</string>
-    <string name="please_start_program_first">Please start program first</string>
-    <string name="program_ongoing">Program ongoing:</string>
+    <string name="please_start_program_first">Please start a program first</string>
+    <string name="program_ongoing">Ongoing program:</string>
     <string name="rest_time_row">Rest Time:</string>
-    <string name="sec" translatable="false">sec</string>
+    <string name="sec" translatable="false">sec.</string>
     <string name="free_workout">Free workout</string>
     <string name="this_program_is_empty">This program is empty</string>
     <string name="total_on">Total on</string>
@@ -416,8 +415,8 @@
     <string name="unit_settings_title">Units</string>
     <string name="no_chart_data_available">No data</string>
     <string name="remove_image">Remove Image</string>
-    <string name="program_completed">You have completed your program ! Do you want to close it ?</string>
-    <string name="database_migration">Database migration</string>
+    <string name="program_completed">Close completed program?</string>
+    <string name="database_migration">Move database</string>
     <string name="something_went_wrong">Arf, something went wrong!</string>
     <string name="database_migration_success">App files migrated successfully</string>
     <string name="disclaimer_scoped_storage">Due to changes from Google, application files needs to be migrated. This can take some time if you have a lot of pictures. Please be patient.</string>

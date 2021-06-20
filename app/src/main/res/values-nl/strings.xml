@@ -5,13 +5,10 @@
     <string name="global_warning">Waarschuwing</string>
     <string name="global_yes">Ja</string>
     <string name="global_no">Nee</string>
-
     <string name="removedid">Verwijderde id</string>
     <string name="failedtocreatefolder">Folder maken mislukt</string>
-
     <string name="action_settings">Instellingen</string>
     <string name="DateLabel">Datum</string>
-
     <string name="FunctionLabel">Scherm</string>
     <string name="HistoryLabel">Geschiedenis</string>
     <string name="GraphLabel">Grafieken</string>
@@ -20,7 +17,6 @@
     <string name="ShareLabel">Delen</string>
     <string name="EditLabel">Bewerken</string>
     <string name="DeleteRecordDialog">Dit record verwijderen?</string>
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Bodybuilding</string>
     <string name="SerieLabel">Sets</string>
@@ -29,18 +25,15 @@
     <string name="PoidsLabel">Gewicht</string>
     <string name="NotesLabel">Notities</string>
     <string name="TopTenLabel">Laatste records:</string>
-
     <!-- Share text -->
     <string name="ShareText">Delen</string>
     <string name="ShareTitle">Deel je perf</string>
     <string name="ShareInstruction">Bewerk je text voor het verzenden:</string>
     <string name="ShareTextDefault">Ik heb __GEWICHT__ kg getild op __Machine__!</string>
-
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Afstand</string>
     <string name="DurationLabel">Duur</string>
-
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Gewicht Track</string>
     <string name="weightLabel">Gewicht</string>
@@ -56,7 +49,6 @@
     <string name="userChanged">Gebruiker gewisseld</string>
     <string name="renameProfilTitle">Hernoem profiel</string>
     <string name="renameProfilQuestion">Dit profiel hernoemen?</string>
-
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Instellingen</string>
     <string name="export_database">Records exporteren</string>
@@ -64,7 +56,6 @@
     <string name="export_success">Database geexporteerd</string>
     <string name="export_failed">Database exporteren mislukt</string>
     <string name="import_database">Records importeren</string>
-
     <string name="deleteDB_warning">
         Deze actie zal de hele app resetten.
         Alle data gaat verloren.
@@ -72,62 +63,47 @@
         Dit al de app sluiten.
     </string>
     <string name="ResetAppLabel">Reset applicatie</string>
-
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Oefeningen</string>
-
     <!-- Preferences -->
     <string name="pref_ui_setting">UI Instellingen</string>
     <string name="pref_show_mp3_player">Mp3 speler weergeven</string>
     <string name="pref_show_mp3_player_summary">Toon/verberg mp3 speler</string>
-
     <string name="pref_preferredUnitSummary">Voorkeurs unit:</string>
     <string name="pref_preferredUnitTitle">Selecteer je gewenste gewicht unit</string>
     <string name="pref_preferredDistanceUnitTitle">Selecteer je gewenste afstand unit</string>
-
     <string name="profil_create_new">Nieuw profiel creeren</string>
     <string name="profil_change">Profiel wisselen</string>
     <string name="profil_select_profil">Selecteer een profiel</string>
     <string name="profil_delete">Verwijder een profiel</string>
     <string name="profil_select_profil_to_delete">Kies een profiel om te verwijderen</string>
-
     <!-- About Fragment  -->
     <string name="AboutLabel">Over</string>
-
     <!-- Navigation Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
-    <string name="maxRep1">Maximum (Reps >= 1)</string>
-    <string name="maxRep5d">Maximum (Reps >= 5)</string>
+    <string name="maxRep1">Maximum (Reps &gt;= 1)</string>
+    <string name="maxRep5d">Maximum (Reps &gt;= 5)</string>
     <string name="sum">Gewicht Sum</string>
-
     <string name="sumDistance">Distance</string>
     <string name="sumDuration">Duration</string>
     <string name="speed">Speed</string>
-
     <string name="maxWeightPerDuration">"Max Weight per Duration"</string>
     <string name="nbSeriesPerDate">Nb Sets per Date</string>
-
     <string name="all">Alle</string>
-
     <string name="bodytracking">Lichaam Track</string>
     <string name="selectMuscles">Kies Spieren</string>
-
     <!-- Muscles -->
     <string name="biceps">Biceps</string>
     <string name="triceps">Triceps</string>
     <string name="pectoraux">Borst</string>
     <string name="deltoids">Schouders</string>
-
     <string name="dorseaux">Rug</string>
     <string name="abdominaux">Buikspieren</string>
-
     <string name="quadriceps">Quadriceps</string>
     <string name="ischio_jambiers">Hamstrings</string>
     <string name="adducteurs">Dijen</string>
     <string name="mollets">Kuiten</string>
-
     <!-- Body Parts -->
     <string name="left_arm">Linker biceps</string>
     <string name="right_arm">Rechter biceps</string>
@@ -138,22 +114,17 @@
     <string name="right_calves">Rechter kuit</string>
     <string name="waist">Heup</string>
     <string name="behind">Heupen</string>
-
     <string name="backDialog_confirm_text">Wil je opslaan voor het afsluiten?</string>
     <string name="deleteMachine_confirm_text">Wil je deze oefening verwijderen? Alle gelinkte data wordt verwijderd.</string>
     <string name="renameMachine_warning_text">WAARSCHUWING:Deze naam bestaat al. Data wordt samengevoegd met andere oefening.</string>
-
-
     <!-- Photo -->
     <string name="camera">Camera</string>
     <string name="gallery">Galerij</string>
-
     <!-- DateGraph -->
     <string name="graph_all">Alle</string>
     <string name="graph_lastyear">Vorig jaar</string>
     <string name="graph_lastmonth">Vorige maand</string>
     <string name="graph_lastweek">Vorige week</string>
-
     <!-- Chronometer -->
     <string name="ChronometerLabel">Chronometer</string>
     <string name="CountdownLabel">Rust tijd</string>
@@ -167,7 +138,6 @@
     <string name="nb_serie">Nb Sets</string>
     <string name="exit">Afsluiten</string>
     <string name="selectMachineDialogLabel">Selecteer een bestaande oefening</string>
-
     <!-- Intro slides -->
     <string name="fillNameField">Vul in ieder geval je naam in</string>
     <string name="introSlide1Title">Hallo</string>
@@ -245,7 +215,6 @@
     <string name="profileCreated">Profiel gemaakt</string>
     <string name="introSlide2Text">Schrijf de naam van de oefening en de details en deze worden automatisch gemaakt. Je vindt het gemakkelijk terug in de lijst.</string>
     <string name="daynightmode_settingtitle">Selecteer uw thema (opnieuw opstarten vereist)</string>
-    <string name="author_label">Auteur:</string>
     <string name="delete_bodypart_confirm">Wilt u dit lichaamsdeel te schrappen? Alle bijbehorende maatregelen zullen worden verwijderd.</string>
     <string name="new_measure">Nieuwe maatregel</string>
     <string name="enter_profile_name">Voer profielnaam</string>
@@ -305,7 +274,6 @@
     <string name="backup_warning_day">One Day verstreken sinds de laatste back-up.</string>
     <string name="backup_warning_week">Een week verstreken sinds de laatste back-up.</string>
     <string name="backup_warning_month">Een maand verstreken sinds de laatste back-up.</string>
-    <string name="license">Licentie:</string>
     <string name="database_migration">Database migratie</string>
     <string name="something_went_wrong">Arf, ging er iets mis!</string>
     <string name="database_migration_success">App-bestanden gemigreerd</string>
@@ -314,6 +282,4 @@
     <string name="selectExerciseTypeFirst">U moet selecteren van ten minste één type training</string>
     <string name="add_new_exercise">Voeg nieuwe Oefening</string>
     <string name="disclaimer_scoped_storage">Als gevolg van wijzigingen van Google, applicatie-bestanden moeten worden gemigreerd. Dit kan enige tijd duren als u veel foto\'s. Wees alstublieft geduldig.</string>
-
 </resources>
-

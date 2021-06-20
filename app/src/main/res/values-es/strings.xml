@@ -5,13 +5,10 @@
     <string name="global_warning">Aviso</string>
     <string name="global_yes">Sí</string>
     <string name="global_no">No</string>
-
     <string name="removedid">ID removido</string>
     <string name="failedtocreatefolder">Error al crear la carpeta</string>
-
     <string name="action_settings">Ajustes</string>
     <string name="DateLabel">Fechas</string>
-
     <string name="FunctionLabel">Visualización</string>
     <string name="HistoryLabel">Historial</string>
     <string name="GraphLabel">Gráficas</string>
@@ -20,7 +17,6 @@
     <string name="ShareLabel">Compartir</string>
     <string name="EditLabel">Editar</string>
     <string name="DeleteRecordDialog">¿Quitar este registro?</string>
-
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Culturismo</string>
     <string name="SerieLabel">Series</string>
@@ -29,18 +25,15 @@
     <string name="PoidsLabel">Peso</string>
     <string name="NotesLabel">Notas</string>
     <string name="TopTenLabel">Registros recentes:</string>
-
     <!-- Share text -->
     <string name="ShareText">Compartir</string>
     <string name="ShareTitle">Comparte tu desempeño</string>
     <string name="ShareInstruction">Edita tu texto antes de enviar:</string>
     <string name="ShareTextDefault">He adelgazado __WEIGHT__ KG en __MACHINE__ !</string>
-
     <!-- Cardio Fragment -->
     <string name="CardioLabel">Cardio</string>
     <string name="DistanceLabel">Distancia</string>
     <string name="DurationLabel">Duración</string>
-
     <!-- Profile Fragment -->
     <string name="weightMenuLabel">Monitoreo de peso</string>
     <string name="weightLabel">Peso</string>
@@ -56,7 +49,6 @@
     <string name="userChanged">Usuario modificado</string>
     <string name="renameProfilTitle">Renombrar perfil</string>
     <string name="renameProfilQuestion">¿Renombrar este perfil?</string>
-
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Ajustes</string>
     <string name="export_database">Exportar registros</string>
@@ -64,7 +56,6 @@
     <string name="export_success">Base de dados exportada exitosamente</string>
     <string name="export_failed">Error al exportar la base de datos</string>
     <string name="import_database">Importar registros</string>
-
     <string name="deleteDB_warning">
         Esta acción reestablecerá toda la aplicación.
         Toda la información será borrada.
@@ -72,67 +63,51 @@
         La aplicación se cerrará al confirmar.
     </string>
     <string name="ResetAppLabel">Reestablecer aplicación</string>
-
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Ejercicios</string>
-
     <!-- Preferences -->
     <string name="pref_ui_setting">Ajustes de UI</string>
     <string name="pref_show_mp3_player">Mostrar reproductor MP3</string>
     <string name="pref_show_mp3_player_summary">Muestra/oculta la barra de herramientass del reproductor MP3</string>
-
     <string name="pref_preferredUnitSummary">Unidad de preferencia:</string>
     <string name="pref_preferredUnitTitle">Selecione su unidad de peso preferida</string>
-
     <string name="profil_create_new">Crear nuevo perfil</string>
     <string name="profil_change">Modificar perfil</string>
     <string name="profil_select_profil">Selecciona un perfil</string>
     <string name="profil_delete">Borrar perfil</string>
     <string name="profil_select_profil_to_delete">Seleciona un perfil para borrar</string>
-
     <!-- About Fragment  -->
     <string name="AboutLabel">Acerca de</string>
-
     <!-- Navigation Drawer -->
     <string name="drawer_open">Abrir menú de navegación</string>
     <string name="drawer_close">Cerrar menú de navegación</string>
-
-    <string name="maxRep1">Máximo (Reps >= 1)</string>
-    <string name="maxRep5d">Máximo (Reps >= 5)</string>
+    <string name="maxRep1">Máximo (Reps &gt;= 1)</string>
+    <string name="maxRep5d">Máximo (Reps &gt;= 5)</string>
     <string name="sum">Suma de peso</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
     </string-array>
-
     <string name="sumDistance">Distancia</string>
     <string name="sumDuration">Duración</string>
     <string name="speed">Velocidad</string>
-
-
     <string name="maxWeightPerDuration">"Peso máximo por duración"</string>
     <string name="nbSeriesPerDate">"Núm. de series por fecha"</string>
-
     <string name="all">Todo</string>
-
     <string name="bodytracking">Monitor corporal</string>
     <string name="selectMuscles">Selecionar músculos</string>
-
     <!-- Muscles -->
     <string name="biceps">Bíceps</string>
     <string name="triceps">Tríceps</string>
     <string name="pectoraux">Pectorales</string>
     <string name="deltoids">Deltoides</string>
-
     <string name="dorseaux">Espalda</string>
     <string name="abdominaux">Abdominales</string>
-
     <string name="quadriceps">Quadríceps</string>
     <string name="ischio_jambiers">Isquiotibiales</string>
     <string name="adducteurs">Muslos</string>
     <string name="mollets">Pantorrillas</string>
-
     <!-- Body Parts -->
     <string name="left_arm">Bícep izquierdo</string>
     <string name="right_arm">Bícep derecho</string>
@@ -143,22 +118,17 @@
     <string name="right_calves">Pantorrilla derecha</string>
     <string name="waist">Cintura</string>
     <string name="behind">Cadera</string>
-
     <string name="backDialog_confirm_text">¿Desea guardar antes de salir?</string>
     <string name="deleteMachine_confirm_text">¿Desea quitar este ejercicio? Todos los registros asociados serán borrados.</string>
     <string name="renameMachine_warning_text">AVISO: Este nombre de ejercicio ya existe. Los registros serán fusionados con el otro ejercicio.</string>
-
-
     <!-- Photo -->
     <string name="camera">Cámara</string>
     <string name="gallery">Galería</string>
-
     <!-- DateGraph -->
     <string name="graph_all">Todos</string>
     <string name="graph_lastyear">Último año</string>
     <string name="graph_lastmonth">Último mes</string>
     <string name="graph_lastweek">Última semana</string>
-
     <!-- Chronometer -->
     <string name="ChronometerLabel">Cronómetro</string>
     <string name="CountdownLabel">Tiempo de descanso</string>
@@ -172,7 +142,6 @@
     <string name="nb_serie">Núm. de serie</string>
     <string name="exit">Salir</string>
     <string name="selectMachineDialogLabel">Seleccionar un ejercicio existente</string>
-
     <!-- Intro slides -->
     <string name="fillNameField">Por favor, ingresa por lo menos tu nombre</string>
     <string name="introSlide1Title">Hola</string>
@@ -243,7 +212,6 @@
     <string name="SecondsLabel_short">Seg</string>
     <string name="imported_successfully"> importado con éxito</string>
     <string name="import_failed"> importación fallida</string>
-    <string name="author_label">Autor:</string>
     <string name="import_new_exercise_first">(importa nuevos ejercicios primero)</string>
     <string name="MachineHint">Nombre del ejercicio</string>
     <string name="trapezius">Trapecio</string>
@@ -311,7 +279,6 @@
     <string name="backup_warning_day">Pasó un día desde su última copia de seguridad.</string>
     <string name="backup_warning_week">Pasó una semana desde su última copia de seguridad.</string>
     <string name="backup_warning_month">Un mes transcurrido desde la última copia de seguridad.</string>
-    <string name="license">Licencia:</string>
     <string name="database_migration">Migración de base de datos</string>
     <string name="something_went_wrong">Arf, algo salió mal!</string>
     <string name="database_migration_success">Archivos de aplicaciones migrado correctamente</string>
@@ -320,5 +287,4 @@
     <string name="selectExerciseTypeFirst">Debe seleccionar al menos un tipo de ejercicio</string>
     <string name="add_new_exercise">Añadir un nuevo ejercicio</string>
     <string name="disclaimer_scoped_storage">Debido a los cambios de Google, archivos de aplicación debe ser migrado. Esto puede tomar algún tiempo si usted tiene una gran cantidad de imágenes. Por favor sea paciente.</string>
-
 </resources>
