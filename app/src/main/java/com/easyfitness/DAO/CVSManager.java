@@ -99,12 +99,12 @@ public class CVSManager {
                 Uri file = resolver.insert(collection, contentValues);
                 return resolver.openOutputStream(file);
             } else {
-                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder );
+                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder);
                 if (!exportDir.exists()) {
                     exportDir.mkdirs();
                 }
 
-                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName);
+                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName + ".csv");
                 return new FileOutputStream(exportFile);
             }
         } catch (FileNotFoundException e) {
