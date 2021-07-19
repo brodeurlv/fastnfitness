@@ -292,24 +292,31 @@ public class MusicController {
 
     public void Play() {
         // Play song
+
         if (currentIndexSongList < 0) {
             if (isExternalStoragePermissionDenied()) {
                 requestPermissionForReading();
             } else {
-                if (currentPath == null)
-                    chooseDirectory();
-                else {
-                    currentIndexSongList = 0;
-                    buildSongList(currentPath);
-                    if (songList.size()!=0) {
-                        currentFile = songList.get(currentIndexSongList);
-                        newSongSelected = true;
-                        Play();
-                    } else {
-                        currentPath = null;
-                        currentFile = null;
-                        currentIndexSongList = -1;
+                try {
+                    if (currentPath == null)
+                        chooseDirectory();
+                    else {
+                        currentIndexSongList = 0;
+                        buildSongList(currentPath);
+                        if (songList.size() != 0) {
+                            currentFile = songList.get(currentIndexSongList);
+                            newSongSelected = true;
+                            Play();
+                        } else {
+                            currentPath = null;
+                            currentFile = null;
+                            currentIndexSongList = -1;
+                        }
                     }
+                }catch(IllegalArgumentException exc) {
+                    currentPath = null;
+                    currentFile = null;
+                    currentIndexSongList = -1;
                 }
             }
         } else {
@@ -427,7 +434,6 @@ public class MusicController {
     }
 
     public void OpenMusicFileIntentResult(Uri folder) {
-        //
         currentPath = folder; //getParentDirPath(currentFile);
         buildSongList(currentPath);
         if (songList.size()!=0) {
@@ -497,7 +503,11 @@ public class MusicController {
     private void loadPreferences() {
         // Restore preferences
         SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-        currentPath = Uri.parse(settings.getString("currentPath", ""));
+        try {
+            currentPath = Uri.parse(settings.getString("currentPath", ""));
+        } catch(Exception e) {
+            currentPath = null;
+        }
     }
 
     private void savePreferences() {
