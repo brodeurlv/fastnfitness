@@ -423,4 +423,5 @@
     <string name="disclaimer_scoped_storage">Due to changes from Google, application files needs to be migrated. This can take some time if you have a lot of pictures. Please be patient.</string>
     <string name="success">Success</string>
     <string name="fail">Fail</string>
+    <string name="also_update_program">Also update program</string>
 </resources>

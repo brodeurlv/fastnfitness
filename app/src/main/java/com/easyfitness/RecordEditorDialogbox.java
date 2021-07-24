@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.easyfitness.DAO.record.DAORecord;
@@ -25,6 +26,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
     private final Record mRecord;
     public Dialog d;
     private WorkoutValuesInputView mWorkoutValuesInput;
+    private CheckBox mUpdateProgramCheckbox;
     private boolean mCancelled = false;
 
     public RecordEditorDialogbox(Activity a, Record record) {
@@ -50,6 +52,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         Button updateButton = findViewById(R.id.btn_update);
         Button failedButton = findViewById(R.id.btn_failed);
         Button cancelButton = findViewById(R.id.btn_cancel);
+        mUpdateProgramCheckbox = findViewById(R.id.updateProgramCheckbox);
         LinearLayout buttonsLayout = findViewById(R.id.buttons_layout);
         mWorkoutValuesInput = findViewById(R.id.EditorWorkoutValuesInput);
 
@@ -61,9 +64,12 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
             failedButton.setVisibility(View.VISIBLE);
             failedButton.setText(getContext().getString(R.string.fail));
             buttonsLayout.setWeightSum(60);
+            mUpdateProgramCheckbox.setVisibility(View.VISIBLE);
+            mUpdateProgramCheckbox.setChecked(false);
         } else {
             updateButton.setText(getContext().getString(R.string.update));
             failedButton.setVisibility(View.GONE);
+            mUpdateProgramCheckbox.setVisibility(View.GONE);
             buttonsLayout.setWeightSum(40);
         }
 
@@ -89,12 +95,10 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                         distance = UnitConverter.MilesToKm(distance); // Always convert to KG
                     }
 
-                    if (programTemplate!=null) {
-                        if ((mWorkoutValuesInput.getDurationValue() > programTemplate.getDuration() ||
-                                distance > programTemplate.getDistance()) &&
-                                mWorkoutValuesInput.getDistanceUnit() == programTemplate.getDistanceUnit()) {
-                            betterThanExisting = true;
-                        }
+                    if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
+                        programTemplate.setDuration(mWorkoutValuesInput.getDurationValue());
+                        programTemplate.setDistance(distance);
+                        programTemplate.setDistanceUnit(mWorkoutValuesInput.getDistanceUnit());
                     }
 
                     mRecord.setDuration(mWorkoutValuesInput.getDurationValue());
@@ -106,13 +110,11 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     float tmpPoids = mWorkoutValuesInput.getWeightValue();
                     tmpPoids = UnitConverter.weightConverter(tmpPoids, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
-                    if (programTemplate!=null) {
-                        if ((mWorkoutValuesInput.getSets() > programTemplate.getSets() ||
-                                tmpPoids > programTemplate.getWeight() ||
-                                mWorkoutValuesInput.getSeconds() > programTemplate.getSeconds()) &&
-                                mWorkoutValuesInput.getWeightUnit() == programTemplate.getWeightUnit()) {
-                            betterThanExisting = true;
-                        }
+                    if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
+                        programTemplate.setSets(mWorkoutValuesInput.getSets());
+                        programTemplate.setSeconds(mWorkoutValuesInput.getSeconds());
+                        programTemplate.setWeight(tmpPoids);
+                        programTemplate.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     }
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
@@ -124,13 +126,11 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     float tmpWeight = mWorkoutValuesInput.getWeightValue();
                     tmpPoids = UnitConverter.weightConverter(tmpWeight, mWorkoutValuesInput.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
-                    if (programTemplate!=null) {
-                        if ((mWorkoutValuesInput.getSets() > programTemplate.getSets() ||
-                                tmpPoids > programTemplate.getWeight() ||
-                                mWorkoutValuesInput.getReps() > programTemplate.getReps()) &&
-                                mWorkoutValuesInput.getWeightUnit() == programTemplate.getWeightUnit()) {
-                            betterThanExisting = true;
-                        }
+                    if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
+                        programTemplate.setSets(mWorkoutValuesInput.getSets());
+                        programTemplate.setReps(mWorkoutValuesInput.getReps());
+                        programTemplate.setWeight(tmpPoids);
+                        programTemplate.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     }
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
@@ -152,34 +152,12 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                 mRecord.setProgramRecordStatus(ProgramRecordStatus.FAILED);
             }
 
-            // If record is better than
-
             daoRecord.updateRecord(mRecord);
+            if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
+                daoRecord.updateRecord(programTemplate);
+            }
             mCancelled = false;
             dismiss();
-
-            if (betterThanExisting) {
-                final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Do you want to update program for next time?")
-                        .setConfirmText(getContext().getString(R.string.global_yes))
-                        .setCancelText(getContext().getString(R.string.global_no))
-                        .setHideKeyBoardOnDismiss(true)
-                        .setConfirmClickListener(sDialog -> {
-
-                            if (programTemplate != null) {
-                                programTemplate.setReps(mRecord.getReps());
-                                programTemplate.setSeconds(mRecord.getSeconds());
-                                programTemplate.setSets(mRecord.getSets());
-                                programTemplate.setDistance(mRecord.getDistance());
-                                programTemplate.setWeight(mRecord.getWeight());
-                                programTemplate.setDuration(mRecord.getDuration());
-                                daoRecord.updateRecord(programTemplate);
-                            }
-
-                            sDialog.dismiss();
-                        });
-                dialog.show();
-            }
         }
     }
 
