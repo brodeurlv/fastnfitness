@@ -40,7 +40,7 @@
     <string name="waterLabel">Acqua</string>
     <string name="musclesLabel">Muscoli</string>
     <string name="measureLabel">Misura</string>
-    <string name="sizeTableLabel">Storico misurazioni:</string>
+    <string name="sizeTableLabel">Cronologia delle misurazioni:</string>
     <string name="createProfilTitle">Crea un nuovo profilo</string>
     <string name="profileSelected">Profilo selezionato</string>
     <string name="createProfilQuestion">Scegli un nome profilo\?</string>
@@ -50,26 +50,20 @@
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Impostazioni</string>
     <string name="export_database">Esporta record</string>
-    <string name="export_question">Vuoi esportare il database di </string>
+    <string name="export_question">Esportare la banca dati di</string>
     <string name="export_success">Database esportato</string>
-    <string name="export_failed">Esportazione database fallita</string>
+    <string name="export_failed">Impossibile esportare la banca dati</string>
     <string name="import_database">Importa database</string>
     <string name="removedid">ID rimosso</string>
-    <string name="failedtocreatefolder">Creazione cartella fallita</string>
-    <string name="deleteDB_warning">
-        Attenzione:
-        Questa azione risetta l\'intera applicazione.
-        Tutti i dati saranno persi.
-        Sei sicuro/a?
-        Questa azione uscirà dall\'app.
-    </string>
+    <string name="failedtocreatefolder">Impossibile creare la cartella</string>
+    <string name="deleteDB_warning">Ripristinare l\'intera applicazione e uscire\? (Tutti i dati saranno persi.)</string>
     <string name="ResetAppLabel">Ripristina l\'applicazione</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Esercizi</string>
     <!-- Preferences -->
     <string name="pref_ui_setting">Impostazioni Interfaccia</string>
-    <string name="pref_show_mp3_player">Visualizza lettore MP3</string>
-    <string name="pref_show_mp3_player_summary">Mostra/Nascondi la barra per il lettore MP3</string>
+    <string name="pref_show_mp3_player">Mostra il lettore audio</string>
+    <string name="pref_show_mp3_player_summary">Mostra/nascondi la barra degli strumenti del lettore audio</string>
     <string name="pref_preferredUnitSummary">Unità di misura preferite:</string>
     <string name="pref_preferredUnitTitle">Selezione la tua unità di misura per il peso</string>
     <string name="pref_preferredDistanceUnitTitle">Selezione la tua unità di misura per la distanza</string>
@@ -117,9 +111,9 @@
     <string name="right_calves">Polpaccio destro</string>
     <string name="waist">Vita</string>
     <string name="behind">Fianchi</string>
-    <string name="backDialog_confirm_text">Salvare prima di uscire?</string>
-    <string name="deleteMachine_confirm_text">Vuoi cancellare questo esercizio? Tutti i dati associati saranno cancellati.</string>
-    <string name="renameMachine_warning_text">ATTENZIONE: Questo esercizio esiste già. I dati esistenti saranno uniti.</string>
+    <string name="backDialog_confirm_text">Salvare prima di uscire\?</string>
+    <string name="deleteMachine_confirm_text">Eliminare questo esercizio e tutti i dati associati\?</string>
+    <string name="renameMachine_warning_text">Questo nome di esercizio esiste. I dati saranno fusi con l\'altro esercizio.</string>
     <!-- Photo -->
     <string name="camera">Fotocamera</string>
     <string name="gallery">Galleria fotografica</string>
@@ -138,7 +132,7 @@
     <string name="ChronometerLabel">Cronometro</string>
     <string name="CountdownLabel">Tempo di recupero</string>
     <string name="activate_rest_time">Attiva cronometro per tempo di recupero</string>
-    <string name="rest_time">Tempo di riposo</string>
+    <string name="rest_time">Tempo di riposo (s)</string>
     <string name="lastRecordLabel">Ultimi dati inseriti</string>
     <string name="FilterHint">Filtra in base all\'esercizio</string>
     <string name="total_weight">Peso totale</string>
@@ -156,33 +150,33 @@
     <string name="name_or_pseudo">Nome</string>
     <string name="name_is_required">Nome è obbligatorio</string>
     <string name="create_a_profile">Crea profilo</string>
-    <string name="introSlide1Text">Benvenuto su Fast N Fitness! Questa app è un modo pratico e veloce di memorizzare i tuoi allenamenti e monitorare i tuoi miglioramenti.</string>
+    <string name="introSlide1Text">Benvenuto/a su Fast N Fitness. Un modo semplice e veloce per registrare il tuo programma e seguire la progressione del tuo corpo e degli esercizi.</string>
     <string name="introSlide2Text">Scrivi il nome dell\'esercizio e i dettagli, sarà creato automaticamente. Puoi cercarlo facilmente sulla lista.</string>
     <string name="introSlide2Title">Facile e veloce</string>
     <string name="titleSlideEssential">Vedi le parti essenziale</string>
     <string name="textSlideEssential">Nessun esercizio è pre-impostato. Puoi creare i tuoi esercizi semplicemente a seconda del nome che usano nella tua palestra.</string>
-    <string name="pressBackAgain">Premi indietro di nuovo per uscire</string>
-    <string name="titleSlideOpenSource">È un progetto open source!</string>
+    <string name="pressBackAgain">Premi «Indietro» di nuovo per uscire</string>
+    <string name="titleSlideOpenSource">È un software libero! Usalo, cambialo, copialo e condividilo a tuo piacimento.</string>
     <string name="textSlideOpenSource">Unisciti, e insieme possiamo costruire la migliore applicazione per il fitness insieme! Visita il progetto: https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Profilo creato</string>
     <string name="missinginfo">Manca qualche dato</string>
-    <string name="createExerciseFirst">Per prima cosa devi inserire qualche esercizio</string>
-    <string name="impossibleToDeleteProfile">Non è possibile cancellare il profilo corrente</string>
-    <string name="profileDeleted">Profilo cancellato</string>
+    <string name="createExerciseFirst">Creare prima un esercizio</string>
+    <string name="impossibleToDeleteProfile">Impossibile eliminare il profilo corrente</string>
+    <string name="profileDeleted">Profilo eliminato</string>
     <string name="min">Minimo</string>
     <string name="max">Massimo</string>
-    <string name="areyousure">Sei sicuro?</string>
+    <string name="areyousure">Sei sicuro/a\?</string>
     <string name="edit_soon_available">Modifica disponibile presto</string>
     <string name="name">Nome</string>
     <string name="description">Descrizione</string>
     <string name="muscles">Muscoli</string>
     <string name="start">Inizia</string>
-    <string name="reset">Resetta</string>
+    <string name="reset">Ripristina</string>
     <string name="profileEnterYourSize">Le tue misure</string>
     <string name="profileEnterYourBirthday">Il tuo compleanno</string>
     <string name="profile_page">Pagina profilo</string>
     <string name="ProfileLabel">Profilo</string>
-    <string name="edit_value">Modifica valore</string>
+    <string name="edit_value">Modifica il valore</string>
     <string name="menu_Workout">Allenamento</string>
     <string name="renameMachine_error_text2">ERRORE: Questo esercizio esiste già. Non è possibile unire due esercizi con lo stesso nome e tipi diversi.</string>
     <string name="recordcopied">Valori copiati</string>
@@ -211,13 +205,13 @@
     <string name="FFMI_formula">FFMI [kg/m2] = peso [kg] × (1 − (percentuale di massa grasssa [%] / 100)) / (altezza [m])²</string>
     <string name="no_fat_available">Grasso non disponibile</string>
     <string name="indexLabel">Indice</string>
-    <string name="what_type_of_exercise">Quale tipo di esercizio?</string>
+    <string name="what_type_of_exercise">Tipo di esercizio\?</string>
     <string name="exercise_type">Tipo di esercizio:</string>
     <string name="staticExercise">Isometrico</string>
-    <string name="SecondsLabel_short">Secondi</string>
-    <string name="imported_successfully">importato con successo</string>
-    <string name="import_failed"> importo fallito</string>
-    <string name="import_new_exercise_first">(Assicurati di importare prima i nuovi esercizi)</string>
+    <string name="SecondsLabel_short">s</string>
+    <string name="imported_successfully">importato</string>
+    <string name="import_failed">impossibile importare i file</string>
+    <string name="import_new_exercise_first">(Assicurati che tutti i nuovi esercizi siano importati prima)</string>
     <string name="MachineHint">Nome esercizio</string>
     <string name="trapezius">Trapezio</string>
     <string name="obliques">Obliqui</string>
@@ -239,8 +233,8 @@
     <string name="light_mode">Chiaro</string>
     <string name="dark_mode">Scuro</string>
     <string name="autoui_mode">Automatico</string>
-    <string name="daynightmode_settingtitle">Seleziona tema (riavvio richiesto)</string>
-    <string name="delete_bodypart_confirm">Vuoi cancellare questa parte? Tutte le misure associate saranno cancellate.</string>
+    <string name="daynightmode_settingtitle">Seleziona il tema (riavvia l\'app per usarlo)</string>
+    <string name="delete_bodypart_confirm">Eliminare questa parte del corpo e tutte le misure associate\?</string>
     <string name="new_measure">Nuova misura</string>
     <string name="enter_profile_name">Inserisci nome profilo</string>
     <string name="enter_size_cm">Inserisci altezza (cm)</string>
@@ -263,7 +257,7 @@
     <string name="add_to_template">Aggiungi al programma</string>
     <string name="update">Aggiorna</string>
     <string name="record_editor">Modifica</string>
-    <string name="please_start_program_first">Inizia il programma prima</string>
+    <string name="please_start_program_first">Si prega di avviare prima un programma</string>
     <string name="program_ongoing">Programma in corso:</string>
     <string name="rest_time_row">Tempo di recupero:</string>
     <string name="free_workout">Allenamento libero</string>
@@ -275,7 +269,7 @@
     <string name="unit_settings_title">Unità</string>
     <string name="no_chart_data_available">Nessun dato</string>
     <string name="remove_image">Rimuovi immagine</string>
-    <string name="program_completed">Hai completato il programma! Vuoi chiuderlo?</string>
+    <string name="program_completed">Chiudere il programma completato\?</string>
     <string name="maxReps">Mass. di Ripetizioni</string>
     <string name="sumReps">Totale di Ripetizioni</string>
     <string name="oneRepMax">1RM (Rip &lt;= 10)</string>
@@ -289,17 +283,17 @@
     <string name="pref_scheduled_backup_setting">Impostazioni di backup automatico</string>
     <string name="pref_lastBackupSettingSummary">Ultimo backup:</string>
     <string name="pref_preferredBackupSettingTitle">Frequenza</string>
-    <string name="backup_notStarted">No Backup avviato</string>
-    <string name="backup_warning_never">"Fai il tuo primo backup ora. "</string>
-    <string name="backup_warning_day">"Un giorno passò dopo l\'ultimo backup. "</string>
-    <string name="backup_warning_week">"Una settimana passata dopo l\'ultimo backup. "</string>
-    <string name="backup_warning_month">"Un mese passò dopo l\'ultimo backup. "</string>
-    <string name="database_migration">Migrazione di database</string>
+    <string name="backup_notStarted">Nessun backup avviato</string>
+    <string name="backup_warning_never">"Esegui ora il tuo primo backup. "</string>
+    <string name="backup_warning_day">"Un giorno dal tuo ultimo backup. "</string>
+    <string name="backup_warning_week">"Una settimana dal tuo ultimo backup. "</string>
+    <string name="backup_warning_month">"Un mese dall\'ultimo backup. "</string>
+    <string name="database_migration">Sposta la banca dati</string>
     <string name="something_went_wrong">Arf, qualcosa è andato storto!</string>
-    <string name="database_migration_success">File migrati con successo</string>
+    <string name="database_migration_success">File dell\'app spostati</string>
     <string name="FilterTextViewType">Filtro per tipo di esercizio</string>
     <string name="filterExerciseTypeDialogLabel">Filtro per i tipi di allenamento</string>
-    <string name="selectExerciseTypeFirst">È necessario selezionare almeno un tipo di esercizio</string>
-    <string name="add_new_exercise">Aggiungere un nuovo esercizio</string>
-    <string name="disclaimer_scoped_storage">A causa dei cambiamenti da parte di Google, file di applicazione deve essere migrato. Questo può richiedere un certo tempo se si dispone di un sacco di foto. Per favore sii paziente.</string>
+    <string name="selectExerciseTypeFirst">Seleziona almeno un tipo di esercizio</string>
+    <string name="add_new_exercise">Aggiungi un nuovo esercizio</string>
+    <string name="disclaimer_scoped_storage">Spostamento dei file dell\'app…</string>
 </resources>
