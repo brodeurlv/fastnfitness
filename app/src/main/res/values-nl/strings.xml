@@ -49,7 +49,7 @@
     <string name="userChanged">Gebruiker gewisseld</string>
     <string name="renameProfilTitle">Hernoem profiel</string>
     <string name="renameProfilQuestion">Dit profiel hernoemen?</string>
-    <!-- Pour le menu settings -->
+    <!-- Pour le menu Settings -->
     <string name="SettingLabel">Instellingen</string>
     <string name="export_database">Records exporteren</string>
     <string name="export_question">Wil je de database van … Exporteren</string>

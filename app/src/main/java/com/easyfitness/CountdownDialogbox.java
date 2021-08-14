@@ -38,16 +38,12 @@ public class CountdownDialogbox extends Dialog implements
     public Button exit;
     public Chronometer chrono;
     public OnDismissListener onDismissChrono = dialog -> unregisterAlarm(getContext(), 100101);
-    //public ProgressBar progressBar;
-    private DonutProgress progressCircle;
+     private DonutProgress progressCircle;
     private int lNbSerie = 0;
     private float lTotalSession = 0;
     private float lTotalMachine = 0;
     private int iRestTime = 60;
     private final OnChronometerTickListener onChronometerTick = new OnChronometerTickListener() {
-
-        final boolean bFirst = true;
-
         @Override
         public void onChronometerTick(Chronometer chronometer) {
             int secElapsed = (int) (chrono.getTimeElapsed() / 1000); //secElapsed is a negative value
@@ -102,7 +98,6 @@ public class CountdownDialogbox extends Dialog implements
         this.setCanceledOnTouchOutside(true); // make it not modal
 
         exit = findViewById(R.id.btn_exit);
-        //progressBar = (ProgressBar) findViewById(R.id.progressBarCountdown);
         chrono = findViewById(R.id.chronoValue);
         TextView nbSeries = findViewById(R.id.idNbSeries);
         TextView totalSession = findViewById(R.id.idTotalSession);
@@ -119,8 +114,8 @@ public class CountdownDialogbox extends Dialog implements
         if (mExerciseType != ExerciseType.CARDIO) {
             WeightUnit defaultUnit = SettingsFragment.getDefaultWeightUnit(activity);
             DecimalFormat numberFormat = new DecimalFormat("#.##");
-            totalMachine.setText(numberFormat.format(UnitConverter.weightConverter(lTotalMachine, Unit.KG, defaultUnit.toUnit())) + " " + defaultUnit.toString());
-            totalSession.setText(numberFormat.format(UnitConverter.weightConverter(lTotalSession, Unit.KG, defaultUnit.toUnit())) + " " + defaultUnit.toString());
+            totalMachine.setText(String.format("%s %s", numberFormat.format(UnitConverter.weightConverter(lTotalMachine, Unit.KG, defaultUnit.toUnit())), defaultUnit.toString()));
+            totalSession.setText(String.format("%s %s", numberFormat.format(UnitConverter.weightConverter(lTotalSession, Unit.KG, defaultUnit.toUnit())), defaultUnit.toString()));
             nbSeries.setText(Integer.toString(lNbSerie));
             String totalOnExerciseTitle = getContext().getString(R.string.total_on) + " " + mExercise.getName();
             totalOnExercise.setText(totalOnExerciseTitle);
@@ -136,7 +131,7 @@ public class CountdownDialogbox extends Dialog implements
 
         setOnDismissListener(onDismissChrono);
 
-        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime - 3) * 1000);
+        registerAlarm(getContext(), 100101, SystemClock.elapsedRealtime() + (iRestTime - 2) * 1000);
     }
 
     @Override

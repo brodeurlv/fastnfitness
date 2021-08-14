@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.20.1</string>
+    <string name="app_version" translatable="false">0.20.2</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
@@ -13,12 +13,8 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.20.1: May 21, 2021 \n
-        \t- Enhancement: Added exercise type filter to exercise lists #125 (Thanks @alextsakpinis)\n
-        \t- Enhancement: Added program history #173\n
-        \t- Enhancement: Migration to scoped storage #203\n
-        \t- Bug: Fix old record date display #202\n
-        \t- Bug: Fix record group per date\n
+v0.20.2: TBD \n
+        \t- Enhancement: Small enhancement in programs (#141) \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

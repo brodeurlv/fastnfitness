@@ -3,6 +3,9 @@ package com.easyfitness.fonte;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import com.devzone.fillprogresslayout.FillProgressLayout;
 import com.easyfitness.BtnClickListener;
 import com.easyfitness.CountdownDialogbox;
 import com.easyfitness.DAO.DAOMachine;
@@ -56,7 +60,6 @@ public class RecordArrayAdapter extends ArrayAdapter {
     private final DisplayType mDisplayType;
     private final DAORecord mDbRecord;
     List<Record> mRecordList;
-    private LayoutInflater mInflater;
     private BtnClickListener mAction2ClickListener = null;
     private OnCustomEventListener mProgramCompletedListener;
 
@@ -112,6 +115,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
             viewHolder.TemplateThirdColValue = view.findViewById(R.id.TEMPLATE_POIDS_CELL);
 
             viewHolder.RestTimeCardView = view.findViewById(R.id.restTimeCardView);
+            viewHolder.RestTimeProgressLayout = view.findViewById(R.id.restTimeProgressLayout);
             viewHolder.RestTimeTextView = view.findViewById(R.id.restTimeTextView);
 
             UpdateDisplayTypeUI(viewHolder);
@@ -127,12 +131,14 @@ public class RecordArrayAdapter extends ArrayAdapter {
         if (position % 2 == mFirstColorOdd) {
             viewHolder.CardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
             viewHolder.RestTimeCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_odd));
+            viewHolder.RestTimeProgressLayout.setBackgroundResource(R.color.record_background_odd);
         } else {
             viewHolder.CardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_even));
             viewHolder.RestTimeCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.record_background_even));
+            viewHolder.RestTimeProgressLayout.setBackgroundResource(R.color.record_background_even);
         }
 
-        /* Commun display */
+        // Common display
         UpdateRecordTypeUI(record, viewHolder);
         UpdateValues(record, position, viewHolder);
 
@@ -199,7 +205,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
             viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
 
             if (isSeparatorNeeded(position, record.getDate())) {
-                viewHolder.Separator.setText("- " + DateConverter.dateToLocalDateStr(record.getDate(), mContext) + " -");
+                viewHolder.Separator.setText(String.format("- %s -", DateConverter.dateToLocalDateStr(record.getDate(), mContext)));
                 viewHolder.Separator.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.Separator.setText("");
@@ -215,7 +221,6 @@ public class RecordArrayAdapter extends ArrayAdapter {
                         mAction2ClickListener.onBtnClick(v);
                 });
             }
-
         } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
             viewHolder.ExerciseName.setText(record.getExercise());
 
@@ -228,6 +233,8 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 viewHolder.RestTimeCardView.setVisibility(View.GONE);
                 viewHolder.RestTimeTextView.setText("No Rest");
             }
+            viewHolder.RestTimeProgressLayout.setProgress(0, false);
+
 
             viewHolder.BtActionMoveDown.setTag(record.getId());
             viewHolder.BtActionMoveDown.setOnClickListener(v -> {
@@ -244,6 +251,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 mDbRecord.updateRecord(record2);
                 notifyDataSetChanged();
             });
+
 
             viewHolder.BtActionMoveUp.setTag(record.getId());
             viewHolder.BtActionMoveUp.setOnClickListener(v -> {
@@ -275,31 +283,33 @@ public class RecordArrayAdapter extends ArrayAdapter {
             if (mDisplayType == DisplayType.PROGRAM_PREVIEW_DISPLAY) {
                 viewHolder.Date.setText("");
                 viewHolder.Time.setText("");
+                viewHolder.RestTimeProgressLayout.setProgress(0, false);
             } else {
                 if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS || record.getProgramRecordStatus() == ProgramRecordStatus.FAILED) {
                     viewHolder.Date.setText(DateConverter.dateToLocalDateStr(record.getDate(), mContext));
                     viewHolder.Time.setText(DateConverter.dateToLocalTimeStr(record.getDate(), mContext));
                 }
+
+                if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
+                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_active));
+                    viewHolder.BtActionSuccess.setBackgroundColor(Color.parseColor("#00AF80"));
+                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
+                    viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
+                    if (!chronoOnGoing) viewHolder.RestTimeProgressLayout.setProgress(100, false);
+                } else if (record.getProgramRecordStatus() == ProgramRecordStatus.FAILED) {
+                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                    viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
+                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_active));
+                    viewHolder.BtActionFailed.setBackgroundColor(Color.RED);
+                    if (!chronoOnGoing) viewHolder.RestTimeProgressLayout.setProgress(100, false);
+                } else { // PENDING and NONE
+                    viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
+                    viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
+                    viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
+                    viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
+                    viewHolder.RestTimeProgressLayout.setProgress(0, false);
+                }
             }
-
-            if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING) {
-                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
-                viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
-                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
-                viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
-            } else if (record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
-                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_active));
-                viewHolder.BtActionSuccess.setBackgroundColor(Color.parseColor("#00AF80"));
-                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_inactive));
-                viewHolder.BtActionFailed.setBackgroundColor(Color.TRANSPARENT);
-            } else {
-                viewHolder.BtActionSuccess.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_check_inactive));
-                viewHolder.BtActionSuccess.setBackgroundColor(Color.TRANSPARENT);
-                viewHolder.BtActionFailed.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_cross_active));
-                viewHolder.BtActionFailed.setBackgroundColor(Color.RED);
-            }
-
-
             long key = record.getId();
 
             Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
@@ -321,7 +331,8 @@ public class RecordArrayAdapter extends ArrayAdapter {
                         mDbRecord.updateRecord(record);
                         UpdateRecordTypeUI(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
-                        launchCountdown(record);
+                        resetCountdown(record, viewHolder);
+                        launchCountdown(record, viewHolder);
                         notifyDataSetChanged();
                         boolean programComplete = true;
                         for (Record rec : mRecordList) {
@@ -336,6 +347,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
                         }
                     } else {
                         record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                        resetCountdown(record, viewHolder);
                         mDbRecord.updateRecord(record);
                         UpdateRecordTypeUI(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
@@ -354,7 +366,8 @@ public class RecordArrayAdapter extends ArrayAdapter {
                         record.setDate(DateConverter.getNewDate());
                         record.setProgramRecordStatus(ProgramRecordStatus.FAILED);
                         mDbRecord.updateRecord(record);
-                        launchCountdown(record);
+                        resetCountdown(record, viewHolder);
+                        launchCountdown(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
                         showEditorDialog(record, position, viewHolder);
                         boolean programComplete = true;
@@ -370,6 +383,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
                         }
                     } else {
                         record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
+                        resetCountdown(record, viewHolder);
                         mDbRecord.updateRecord(record);
                         UpdateRecordTypeUI(record, viewHolder);
                         UpdateValues(record, position, viewHolder);
@@ -489,11 +503,70 @@ public class RecordArrayAdapter extends ArrayAdapter {
         }
     }
 
-    private void launchCountdown(Record record) {
+    private boolean chronoOnGoing = false;
+
+    private void resetCountdown(Record record, ViewHolder viewHolder) {
+        if (viewHolder.countDownTimer!=null) viewHolder.countDownTimer.cancel();
+        viewHolder.RestTimeProgressLayout.setProgress(0, false);
+    }
+
+    private void launchCountdown(Record record, ViewHolder viewHolder) {
         if (record.getRestTime() > 0) {
             DAOMachine mDbMachine = new DAOMachine(getContext());
             Machine lMachine = mDbMachine.getMachine(record.getExerciseId());
             if (lMachine == null) return;
+
+            viewHolder.RestTimeProgressLayout.setProgress(0, false);
+            viewHolder.RestTimeProgressLayout.setDuration(record.getRestTime() * 1000);
+
+            chronoOnGoing = true;
+            final int[] progress = {1};
+            /*
+            Handler timerHandler = new Handler();
+            Runnable timerRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (chronoReset) {
+                            progress[0]=0;
+                            chronoReset = false;
+                        }
+
+                        if (chronoOnGoing) {
+                            viewHolder.RestTimeProgressLayout.setProgress((progress[0] * 100 / record.getRestTime()), false);
+                            if (progress[0] < record.getRestTime()) {
+                                timerHandler.postDelayed(this, 1000);
+                            } else {
+                                chronoOnGoing = false;
+                            }
+                            progress[0]++;
+                        }
+                    }
+                };
+            */
+            if (viewHolder.countDownTimer!=null) {
+                viewHolder.countDownTimer.cancel();
+                viewHolder.countDownTimer = null;
+            }
+
+            viewHolder.countDownTimer = new CountDownTimer(record.getRestTime()*1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        viewHolder.RestTimeProgressLayout.setProgress((progress[0] * 100 / record.getRestTime()), false);
+                        progress[0]++;
+                    }
+
+                    public void onFinish() {
+                        chronoOnGoing = false;
+                    }
+                };
+
+            viewHolder.countDownTimer.start();
+
+            viewHolder.RestTimeProgressLayout.setOnClickListener(v -> {
+                viewHolder.RestTimeProgressLayout.setProgress(100, false);
+                progress[0] = record.getRestTime();
+                viewHolder.countDownTimer.cancel();
+                chronoOnGoing = false;
+            });
 
             CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getRestTime(), lMachine);
             // Launch Countdown
@@ -586,6 +659,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
     // View lookup cache
     private static class ViewHolder {
+        CountDownTimer countDownTimer;
 
         CardView CardView;
         TextView Separator;
@@ -614,6 +688,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
         ImageView BtActionSuccess;
 
         CardView RestTimeCardView;
+        FillProgressLayout RestTimeProgressLayout;
         TextView RestTimeTextView;
     }
 }
