@@ -20,7 +20,21 @@
         android:layout_height="match_parent"
         tool:selectedType="cardio"
         tool:showRestTime="false"
-        tool:showTypeSelector="false" />
+        tool:showTypeSelector="false" >
+
+    </com.easyfitness.views.WorkoutValuesInputView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <CheckBox
+            android:id="@+id/updateProgramCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/also_update_program" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons_layout"
