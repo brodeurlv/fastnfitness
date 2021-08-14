@@ -84,6 +84,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
 // Other
+    implementation 'com.github.JDevZone:FillProgressLayout:0.0.8'
     implementation 'com.kovachcode:timePickerWithSeconds:1.0.1'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

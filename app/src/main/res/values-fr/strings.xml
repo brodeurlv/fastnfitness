@@ -5,7 +5,9 @@
     <string name="global_yes">Oui</string>
     <string name="global_no">Non</string>
     <string name="removedid">ID supprimé</string>
-    <string name="failedtocreatefolder">Échec de création du repertoire</string>
+    <string name="failedtocreatefolder">Echec de création du repertoire</string>
+
+
     <string name="action_settings">Paramètres</string>
     <string name="DateLabel">Date</string>
     <string name="FunctionLabel">Affichage</string>
@@ -16,7 +18,7 @@
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Modifier</string>
     <!-- Fonte Fragment -->
-    <string name="FonteLabel">Culturisme</string>
+    <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Séries</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
