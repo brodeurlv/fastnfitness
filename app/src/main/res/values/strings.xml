@@ -223,7 +223,7 @@
     <string name="ischio_jambiers">Hamstrings</string>
     <string name="adducteurs">Thighs</string>
     <string name="mollets">Calves</string>
-    
+
     <string name="trapezius">Trapezius</string>
     <string name="obliques">Obliques</string>
 
@@ -418,6 +418,9 @@
     <string name="program_completed">Close completed program?</string>
     <string name="database_migration">Move database</string>
     <string name="something_went_wrong">Arf, something went wrong!</string>
-    <string name="database_migration_success">App files moved</string>
-    <string name="disclaimer_scoped_storage">Moving app files…</string>
+    <string name="database_migration_success">App files migrated successfully</string>
+    <string name="disclaimer_scoped_storage">Due to changes from Google, application files needs to be migrated. This can take some time if you have a lot of pictures. Please be patient.</string>
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+    <string name="also_update_program">Also update program</string>
 </resources>

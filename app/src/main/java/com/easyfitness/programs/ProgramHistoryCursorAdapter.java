@@ -77,6 +77,7 @@ public class ProgramHistoryCursorAdapter extends CursorAdapter implements Filter
 
         TextView success = view.findViewById(R.id.SUCCESS_CELL);
         TextView fail = view.findViewById(R.id.FAIL_CELL);
+        TextView notDone = view.findViewById(R.id.NOTDONE_CELL);
 
         ImageView successButton = view.findViewById(R.id.successButton);
 
@@ -86,6 +87,7 @@ public class ProgramHistoryCursorAdapter extends CursorAdapter implements Filter
 
         int successCount = 0;
         int failedCount = 0;
+        int notDoneCount = 0;
 
         for (Record record:recordList) {
             if(record.getProgramRecordStatus() == ProgramRecordStatus.SUCCESS) {
@@ -95,8 +97,11 @@ public class ProgramHistoryCursorAdapter extends CursorAdapter implements Filter
             }
         }
 
+        notDoneCount = recordList.size() - successCount - failedCount;
+
         success.setText(String.valueOf(successCount));
         fail.setText(String.valueOf(failedCount));
+        notDone.setText(String.valueOf(notDoneCount));
 
         successButton.setVisibility(View.GONE);
         if (successCount!=0 && successCount==recordList.size()) {

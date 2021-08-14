@@ -16,7 +16,7 @@
     <string name="ShareLabel">Partager</string>
     <string name="EditLabel">Modifier</string>
     <!-- Fonte Fragment -->
-    <string name="FonteLabel">Culturisme</string>
+    <string name="FonteLabel">Body Building</string>
     <string name="SerieLabel">Séries</string>
     <string name="MachineLabel">Exercice</string>
     <string name="PoidsLabel">Poids</string>
@@ -273,5 +273,5 @@
     <string name="filterExerciseTypeDialogLabel">Filtre pour les types d\'exercice</string>
     <string name="selectExerciseTypeFirst">Sélectionnez au moins un type d\'exercice</string>
     <string name="add_new_exercise">Ajouter un exercice</string>
-    <string name="disclaimer_scoped_storage">Déplacement des fichiers d\'appli…</string>
+    <string name="disclaimer_scoped_storage">En raison des changements de Google, les fichiers d\'application doivent être migrés. Ceci peut prendre un certain temps si vous avez beaucoup de photos. Merci de patienter.</string>
 </resources>
