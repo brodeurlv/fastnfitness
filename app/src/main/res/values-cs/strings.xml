@@ -282,4 +282,10 @@
     <string name="selectExerciseTypeFirst">Je nutné vybrat alespoň jeden typ cvičení</string>
     <string name="add_new_exercise">Přidat nový Cvičení</string>
     <string name="disclaimer_scoped_storage">Vzhledem ke změnám od Googlu, je třeba migrovat soubory aplikace. To může nějakou dobu trvat, pokud máte mnoho obrázků. Prosím, buďte trpěliví.</string>
+    <string name="success">Úspěch</string>
+    <string name="not_done">Nedodělaná</string>
+    <string name="fail">Selhat</string>
+    <string name="also_update_program">Aktualizujte program.</string>
+    <string name="author_label">Autor:</string>
+    <string name="license">Licence:</string>
 </resources>

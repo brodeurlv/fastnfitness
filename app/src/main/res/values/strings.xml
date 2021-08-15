@@ -73,10 +73,7 @@
     <string name="removedid">ID removed</string>
     <string name="failedtocreatefolder">Could not create folder</string>
 
-    <string name="deleteDB_warning">
-        Reset the entire app and exit?
-        (All data will be lost.)
-    </string>
+    <string name="deleteDB_warning">Reset the entire app and exit?\n(All data will be lost.)</string>
     <string name="ResetAppLabel">Reset app</string>
 
     <!-- Machine Fragment -->
@@ -423,4 +420,5 @@
     <string name="success">Success</string>
     <string name="fail">Fail</string>
     <string name="also_update_program">Also update program</string>
+    <string name="not_done">Not done</string>
 </resources>

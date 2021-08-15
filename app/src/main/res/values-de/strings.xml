@@ -289,4 +289,10 @@
     <string name="something_went_wrong">Arf, etwas ist schief gelaufen!</string>
     <string name="database_migration_success">Anwendungsdateien verschoben</string>
     <string name="disclaimer_scoped_storage">Anwendungsdateien werden verschieben …</string>
+    <string name="success">Erfolg</string>
+    <string name="not_done">Nicht durchgeführt</string>
+    <string name="fail">Scheitern</string>
+    <string name="also_update_program">Programm aktualisieren</string>
+    <string name="author_label">Autor:</string>
+    <string name="license">Lizenz:</string>
 </resources>

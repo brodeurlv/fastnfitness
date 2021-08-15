@@ -180,4 +180,92 @@
     <string name="global_warning">Advarsel</string>
     <string name="global_confirm_question">Er du sikker\?</string>
     <string name="global_confirm">Bekreft</string>
+    <string name="success">Suksess</string>
+    <string name="not_done">Ikke ferdig</string>
+    <string name="fail">Mislykkes</string>
+    <string name="also_update_program">Oppdater programmet</string>
+    <string name="author_label">Forfatter:</string>
+    <string name="access_granted">Tilgang godkjent</string>
+    <string name="activate_rest_time">Aktiver hvile nedtelling</string>
+    <string name="add_to_template">Legg til i programmet</string>
+    <string name="behind">Hofter</string>
+    <string name="birthday_optional">Bursdag (valgfritt)</string>
+    <string name="BMI_formula">Bmi = vekt (kg) / høyde (m) ²</string>
+    <string name="bodytracking">Kroppsspor</string>
+    <string name="ChronometerLabel">Kronometer</string>
+    <string name="deleteDB_warning">Tilbakestill hele appen og avslutt? (Alle data vil gå tapt.)</string>
+    <string name="deleteMachine_confirm_text">Slett denne øvelsen og alle tilknyttede poster?</string>
+    <string name="DeleteRecordDialog">Fjern denne posten?</string>
+    <string name="disclaimer_scoped_storage">På grunn av endringer fra Google må applikasjonsfilene migrert. Dette kan ta litt tid hvis du har mange bilder. Vær tålmodig.</string>
+    <string name="edit_soon_available">Rediger snart tilgjengelig</string>
+    <string name="editor">Redaktør</string>
+    <string name="export_database">Eksporter poster</string>
+    <string name="export_question">Eksporter databasen til</string>
+    <string name="FFMI_dialog_title">Fettfri masseindeks (FFMI)</string>
+    <string name="FFMI_formula">Ffmi [kg / m2] = vekt [kg] × (1 - (kroppsfett [%] / 100)) / (Høyde [m]) ²</string>
+    <string name="ffmiLabel">Ffmi.</string>
+    <string name="fillNameField">Vennligst skriv inn navnet ditt, i det minste</string>
+    <string name="filter_by_workout_name">Filtrer etter programnavn</string>
+    <string name="filterExerciseTypeDialogLabel">Filter for treningstyper</string>
+    <string name="FilterHint">Filtrer etter treningsnavn</string>
+    <string name="FilterTextViewType">Filtrer etter treningstype</string>
+    <string name="finish_program">Fullfør programmet</string>
+    <string name="free_workout">Gratis treningsøkt</string>
+    <string name="FunctionLabel">Vise</string>
+    <string name="graph_all">Alle</string>
+    <string name="GraphLabel">Grafer</string>
+    <string name="import_database">Importer poster</string>
+    <string name="import_new_exercise_first">(Sørg for at alle nye øvelser importeres først)</string>
+    <string name="indexLabel">Indeks</string>
+    <string name="introSlide1Text">Velkommen til Fast N Fitness. En rask og enkel måte å registrere programmet på og følge din kropp og treningsprogresjon.</string>
+    <string name="introSlide2Text">Skriv navnet på øvelsen og detaljene, og det vil bli opprettet automatisk. Du kan finne den tilbake lett i listen.</string>
+    <string name="lastRecordLabel">Siste opptak</string>
+    <string name="license">Tillatelse:</string>
+    <string name="MachineHint">Navn på treningen din</string>
+    <string name="maxRep1">Maks vekt (reps> = 1)</string>
+    <string name="maxRep5d">Maks vekt (reps> = 5)</string>
+    <string name="maxReps">Max reps.</string>
+    <string name="menu_Workout">Trene</string>
+    <string name="min">Mpl</string>
+    <string name="name_or_pseudo">Navn / pseudonym</string>
+    <string name="nb_serie">NB sett</string>
+    <string name="nbSeriesPerDate">NB SETT per dato</string>
+    <string name="new_program">Nytt program</string>
+    <string name="newStr">Ny</string>
+    <string name="no_fat_available">Ingen fett tilgjengelig</string>
+    <string name="no_weight_available">ingen vekt tilgjengelig</string>
+    <string name="obliques">Obliques.</string>
+    <string name="oneRepMax">1 Rep Max Estimate (Reps &lt;= 10)</string>
+    <string name="otherGender">Annen</string>
+    <string name="please_start_program_first">Vennligst start et program først</string>
+    <string name="program">Program</string>
+    <string name="program_ongoing">Løpende program:</string>
+    <string name="program_preview">Program forhåndsvisning:</string>
+    <string name="program_running">Program:</string>
+    <string name="programs">Programmer</string>
+    <string name="record_editor">Rekordredaktør</string>
+    <string name="recordcopied">Rekord kopiert</string>
+    <string name="renameMachine_error_text2">Feil: Dette treningsnavnet eksisterer allerede. Det er ikke mulig å slå sammen to øvelser med samme navn og forskjellige typer.</string>
+    <string name="renameMachine_warning_text">Dette treningsnavnet eksisterer. Records vil bli slått sammen med den andre øvelsen.</string>
+    <string name="ResetAppLabel">Tilbakestill app</string>
+    <string name="RFM_dialog_title">Relativ fett masseindeks (RFM)</string>
+    <string name="RFM_female_formula">Kvinner: RFM = 76 - (20 x (høyde / midje omkrets))</string>
+    <string name="RFM_male_formula">Menn: RFM = 64 - (20 x (høyde / midje omkrets))</string>
+    <string name="rfmLabel">RFM.</string>
+    <string name="SecondsLabel_short">Sek.</string>
+    <string name="size">Størrelse</string>
+    <string name="start_program">Start programmet</string>
+    <string name="staticExercise">Isometrisk</string>
+    <string name="sum">Vekt sum.</string>
+    <string name="sumReps">Reps Sum.</string>
+    <string name="textSlideEssential">Ingen øvelser er forhåndsdefinerte. Du lager dine egne øvelser, bare avhengig av navnet på maskinen du har på treningsstedet / stedet.</string>
+    <string name="this_program_is_empty">Dette programmet er tomt</string>
+    <string name="total_machine">Totalt på trening</string>
+    <string name="total_on">Totalt på det</string>
+    <string name="total_session">Totalt i løpet av økten</string>
+    <string name="total_weight">Total vekt</string>
+    <string name="update">Oppdater</string>
+    <string name="waist">Midje</string>
+    <string name="weightMenuLabel">Vekt spor</string>
+    <string name="workout_list_menu_item">Programliste</string>
 </resources>

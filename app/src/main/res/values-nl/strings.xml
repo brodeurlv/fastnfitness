@@ -282,4 +282,10 @@
     <string name="selectExerciseTypeFirst">U moet selecteren van ten minste één type training</string>
     <string name="add_new_exercise">Voeg nieuwe Oefening</string>
     <string name="disclaimer_scoped_storage">Als gevolg van wijzigingen van Google, applicatie-bestanden moeten worden gemigreerd. Dit kan enige tijd duren als u veel foto\'s. Wees alstublieft geduldig.</string>
+    <string name="success">Succes</string>
+    <string name="not_done">Niet klaar</string>
+    <string name="fail">Mislukking</string>
+    <string name="also_update_program">Werk het programma bij</string>
+    <string name="author_label">Auteur:</string>
+    <string name="license">Licentie:</string>
 </resources>

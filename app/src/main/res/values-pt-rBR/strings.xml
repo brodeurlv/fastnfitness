@@ -296,4 +296,10 @@
     <string name="selectExerciseTypeFirst">Você deve selecionar pelo menos um tipo de exercício</string>
     <string name="add_new_exercise">Adicionar novo exercício</string>
     <string name="disclaimer_scoped_storage">Devido a alterações do Google, arquivos de aplicativos precisam ser migrados. Isso pode levar algum tempo se você tem um monte de fotos. Por favor, seja paciente.</string>
+    <string name="success">Sucesso</string>
+    <string name="not_done">Não realizado</string>
+    <string name="fail">Falhar</string>
+    <string name="also_update_program">Atualize o programa</string>
+    <string name="author_label">Autor:</string>
+    <string name="license">Licença:</string>
 </resources>
