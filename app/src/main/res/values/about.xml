@@ -13,8 +13,15 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.20.2: TBD \n
-        \t- Enhancement: Small enhancement in programs (#141) \n
+v0.20.2: August 15, 2021 \n
+        \t- Enhancement: Added countdown in program view \n
+        \t- Enhancement: Added program update request(#141) \n
+        \t- Enhancement: Added "Not done" exercise in program history \n
+        \t- Enhancement: Added success and failed buttons in program record editor\n
+        \t- Enhancement: Added confirmation on program closing\n
+        \t- Enhancement: Updated Italian, German and French translation \n
+        \t- Bug: Fixed CSV export \n
+        \t- Enhancement: Added missing translations\n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

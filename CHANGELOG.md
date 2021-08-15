@@ -1,5 +1,15 @@
 ## Change Log
 
+### 0.20.2: August 15, 2021
+- Enhancement: Added countdown in program view
+- Enhancement: Added program update request(#141)
+- Enhancement: Added "Not done" exercise in program history
+- Enhancement: Added success and failed buttons in program record editor
+- Enhancement: Added confirmation on program closing
+- Enhancement: Updated Italian, German and French translation
+- Bug: Fixed CSV export
+- Enhancement: Added missing translations
+
 ### 0.19.7: May 02, 2021
 - Enhancement: Audible beeps at the end of rest timer #159 (Thank you @alextsakpinis)
 - Enhancement: Automatic exports for backup purpose #113 (Thank you @alextsakpinis)
