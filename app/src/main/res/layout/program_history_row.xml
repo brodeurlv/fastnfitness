@@ -17,7 +17,6 @@
         android:layout_marginRight="5dp"
         android:layout_weight="40"
         android:gravity="start"
-        android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="1"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
@@ -41,32 +40,36 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/record_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
                 android:layout_toStartOf="@id/button_layout"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
                     android:layout_marginTop="5dp"
+                    android:layout_toStartOf="@id/SUCCESS_LAYOUT"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/PROGRAM_CELL"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
-                        android:ellipsize="end"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="2000"
                         android:gravity="center_vertical"
                         android:singleLine="true"
                         android:textSize="16sp"
@@ -164,19 +167,22 @@
 
                 </LinearLayout>
 
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
+                    android:id="@+id/SUCCESS_LAYOUT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_toStartOf="@id/FAIL_LAYOUT"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/SUCCESS_LABEL"
-                        android:layout_width="match_parent"
                         style="@style/record_param_title"
+                        android:layout_width="match_parent"
                         android:layout_gravity="bottom"
                         android:text="@string/success" />
 
@@ -185,8 +191,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="2.5dp"
+                        android:layout_marginEnd="2.5dp"
                         android:gravity="center"
                         android:maxLines="1"
                         tool:text="1" />
@@ -194,10 +200,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
+                    android:id="@+id/FAIL_LAYOUT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/NOTDONE_LAYOUT"
+                    android:layout_centerVertical="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
@@ -214,8 +221,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="2.5dp"
+                        android:layout_marginEnd="2.5dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAlignment="center"
@@ -224,10 +231,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
+                    android:id="@+id/NOTDONE_LAYOUT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
@@ -237,15 +245,15 @@
                         android:layout_width="match_parent"
                         style="@style/record_param_title"
                         android:layout_gravity="bottom"
-                        android:text="Not done" />
+                        android:text="@string/not_done" />
 
                     <TextView
                         android:id="@+id/NOTDONE_CELL"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="2.5dp"
+                        android:layout_marginEnd="2.5dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAlignment="center"
@@ -253,7 +261,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <!-- BUTTONS -->
             <LinearLayout
