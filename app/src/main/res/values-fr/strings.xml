@@ -279,6 +279,5 @@
     <string name="not_done">Non fait</string>
     <string name="fail">Échouer</string>
     <string name="also_update_program">Mettre à jour le programme</string>
-    <string name="author_label">Auteur:</string>
     <string name="license">Licence:</string>
 </resources>

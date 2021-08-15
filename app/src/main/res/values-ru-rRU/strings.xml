@@ -267,6 +267,5 @@
     <string name="not_done">Не выполнено</string>
     <string name="fail">Провал</string>
     <string name="also_update_program">Обновите программу</string>
-    <string name="author_label">Автор:</string>
     <string name="license">Лицензия:</string>
 </resources>

@@ -291,7 +291,5 @@
     <string name="success">Éxito</string>
     <string name="not_done">No hecho</string>
     <string name="fail">Fallar</string>
-    <string name="author_label">Autor:</string>
     <string name="also_update_program">Actualizar el programa</string>
-    <string name="license">Licencia:</string>
 </resources>
