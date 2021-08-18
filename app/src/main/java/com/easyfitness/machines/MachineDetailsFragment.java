@@ -401,6 +401,7 @@ public class MachineDetailsFragment extends Fragment {
         _musclesArray.add(getActivity().getResources().getString(R.string.trapezius));
         _musclesArray.add(getActivity().getResources().getString(R.string.shoulders));
         _musclesArray.add(getActivity().getResources().getString(R.string.obliques));
+        _musclesArray.add(getActivity().getResources().getString(R.string.glutes));
 
         Collections.sort(_musclesArray);
 

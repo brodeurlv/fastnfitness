@@ -216,6 +216,7 @@
     <string name="trapezius">Trapezio</string>
     <string name="obliques">Obliqui</string>
     <string name="shoulders">Spalle</string>
+    <string name="glutes">Glutei</string>
     <string name="timeLabel">Tempo</string>
     <string-array name="daynightauto">
         <item>@string/light_mode</item>

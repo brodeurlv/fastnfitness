@@ -235,6 +235,7 @@
     <string name="waist">Waist</string>
     <string name="behind">Hips</string>
     <string name="shoulders">Shoulders</string>
+    <string name="glutes">Glutes</string>
     <string name="size">Size</string>
 
     <string name="backDialog_confirm_text">Save before exiting?</string>

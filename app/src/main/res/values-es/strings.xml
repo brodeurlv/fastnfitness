@@ -216,6 +216,7 @@
     <string name="MachineHint">Nombre del ejercicio</string>
     <string name="trapezius">Trapecio</string>
     <string name="shoulders">Espalda</string>
+    <string name="glutes">Glúteos</string>
     <string name="obliques">Oblicuos</string>
     <string name="pref_preferredDistanceUnitTitle">Selecciona la unidad de distancia preferida</string>
     <string name="daynightmode_settingtitle">Selecciona el tema (reinicio de app necesario)</string>
