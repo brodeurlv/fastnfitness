@@ -269,7 +269,7 @@
     <string name="backup_warning_month">"Un mois depuis votre dernière sauvegarde. "</string>
     <string name="database_migration">Déplacer la base de données</string>
     <string name="something_went_wrong">Mince, quelque chose a mal tourné !</string>
-    <string name="database_migration_success">Fichiers d\'appli déplacés</string>
+    <string name="database_migration_success">Fichiers d\'application migrés avec succès</string>
     <string name="FilterTextViewType">Filtrer par type d\'exercice</string>
     <string name="filterExerciseTypeDialogLabel">Filtre pour les types d\'exercice</string>
     <string name="selectExerciseTypeFirst">Sélectionnez au moins un type d\'exercice</string>
