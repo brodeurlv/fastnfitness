@@ -32,8 +32,8 @@ public class BodyPartExtensions {
     public static final int TRAPEZIUS = 24;
     public static final int OBLIQUES = 25;
     public static final int SHOULDERS = 26;
-    public static final int GLUTES = 27;
-    public static final int SIZE = 28;
+    public static final int SIZE = 27;
+    public static final int GLUTES = 28;
 
     public static final int TYPE_MUSCLE = 0;
     public static final int TYPE_WEIGHT = 1;
@@ -138,8 +138,6 @@ public class BodyPartExtensions {
                 return R.drawable.ic_hip_measure;
             case OBLIQUES:
                 return R.string.obliques;
-            case GLUTES:
-                return R.string.glutes;
         }
 
         return -1;
