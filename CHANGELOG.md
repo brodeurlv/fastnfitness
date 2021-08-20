@@ -1,8 +1,9 @@
 ## Change Log
 
-### 0.20.2: August 15, 2021
+### 0.20.2: August 20, 2021
 - Enhancement: Added countdown in program view
 - Enhancement: Added program update request(#141)
+- Enhancement: Added Glutes to muscles (#212, Thank you @MatthewRFennell)
 - Enhancement: Added "Not done" exercise in program history
 - Enhancement: Added success and failed buttons in program record editor
 - Enhancement: Added confirmation on program closing
