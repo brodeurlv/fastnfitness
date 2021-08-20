@@ -166,8 +166,8 @@
         <item>6</item>
     </string-array>
 
-    <string name="maxRep1">Max Weight (Reps >= 1)</string>
-    <string name="maxRep5d">Max Weight (Reps >= 5)</string>
+    <string name="maxRep1">Max Weight (Reps &gt;= 1)</string>
+    <string name="maxRep5d">Max Weight (Reps &gt;= 5)</string>
     <string name="sum">Weight Sum</string>
     <string name="sumReps">Reps Sum</string>
     <string name="maxReps">Max Reps</string>

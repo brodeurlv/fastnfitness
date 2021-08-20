@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 58
         versionName "0.20.1"
         vectorDrawables.useSupportLibrary true
