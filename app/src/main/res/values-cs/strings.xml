@@ -211,6 +211,7 @@
     <string name="FilterHint">Filtrujte podle názvu cvičení</string>
     <string name="obliques">Šikmé svaly</string>
     <string name="shoulders">Ramena</string>
+    <string name="glutes">Hýždě</string>
     <string name="trapezius">Trapezius</string>
     <string name="pref_preferredDistanceUnitTitle">Vyberte preferovanou jednotku vzdálenosti</string>
     <string name="daynightmode_settingtitle">Vyberte téma (je třeba restartovat)</string>
