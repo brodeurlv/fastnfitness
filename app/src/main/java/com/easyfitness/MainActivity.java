@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                     record.setExerciseType(ExerciseType.STRENGTH);
                     daoRecord.updateRecord(record); // Automatically update record Type
                 }
-                ArrayList<Machine> machineList = lDAOMachine.getAllMachinesArray();
+                List<Machine> machineList = lDAOMachine.getAllMachinesArray();
                 for (Machine record : machineList) {
                     lDAOMachine.updateMachine(record); // Reset all the fields on machines.
                 }

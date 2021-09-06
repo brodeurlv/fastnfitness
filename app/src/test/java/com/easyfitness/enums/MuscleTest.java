@@ -13,6 +13,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MuscleTest {
     private static final int ABDOMINALS_NEW_ID = 0;
@@ -23,6 +28,11 @@ public class MuscleTest {
     private static final int ENGLISH_TRICEP_DATABASE_ID = 12;
     private static final int ENGLISH_TRICEP_NEWER_DATABASE_ID = 13;
     private static final int FRENCH_BACK_DATABASE_ID = 4;
+    Set<Muscle> exampleMuscles = new HashSet<Muscle>() {{
+        add(Muscle.ABDOMINALS);
+        add(Muscle.BACK);
+        add(Muscle.TRICEPS);
+    }};
 
     @Mock
     Resources mockEnglishResources;
@@ -96,5 +106,36 @@ public class MuscleTest {
     @Test
     public void givenBackMuscleIdShouldReturnBack() {
         assertEquals(Muscle.BACK, Muscle.fromId(BACK_NEW_ID));
+    }
+
+    @Test
+    public void givenBodyPartStringReturnsSpecifiedSetOfMuscles() {
+        StringBuilder bodyPartsString = new StringBuilder();
+        List<Integer> bodyParts = new ArrayList<Integer>() {{
+            add(ENGLISH_ABDOMINALS_DATABASE_ID);
+            add(ENGLISH_BACK_DATABASE_ID);
+            add(ENGLISH_TRICEP_DATABASE_ID);
+        }};
+        for (Integer bodyPart : bodyParts) {
+            bodyPartsString.append(bodyPart.toString()).append(";");
+        }
+        bodyPartsString.setLength(bodyPartsString.length() - 1);
+
+        assertEquals(exampleMuscles, Muscle.setFromBodyParts(bodyPartsString.toString(), mockEnglishResources));
+    }
+
+    @Test
+    public void givenNoBodyPartsReturnsEmptySetOfMuscles() {
+        assertEquals(new HashSet<Muscle>(), Muscle.setFromBodyParts("", mockEnglishResources));
+    }
+
+    @Test
+    public void givenSetOfMusclesReturnsTheMigratedBodyPartString() {
+        assertEquals("0;1;13", Muscle.migratedBodyPartStringFor(exampleMuscles));
+    }
+
+    @Test
+    public void givenEmptySetOfMusclesReturnsEmptyBodyPartString() {
+        assertEquals("", Muscle.migratedBodyPartStringFor(new HashSet<>()));
     }
 }

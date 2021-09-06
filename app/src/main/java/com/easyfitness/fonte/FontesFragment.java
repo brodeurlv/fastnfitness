@@ -996,7 +996,7 @@ public class FontesFragment extends Fragment {
                 mDbRecord.setProfile(getProfile());
 
                 // Version avec table Machine
-                ArrayList<Machine> machineListArray = mDbMachine.getAllMachinesArray(selectedTypes);
+                List<Machine> machineListArray = mDbMachine.getAllMachinesArray(selectedTypes);
 
                 /* Init machines list*/
                 machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);

@@ -15,6 +15,7 @@ import com.easyfitness.utils.ImageUtil;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class MachineArrayFullAdapter extends ArrayAdapter<Machine> {
 
-    public MachineArrayFullAdapter(Context context, ArrayList<Machine> machines) {
+    public MachineArrayFullAdapter(Context context, List<Machine> machines) {
         super(context, 0, machines);
     }
 

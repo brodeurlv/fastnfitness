@@ -5,8 +5,10 @@ import android.content.res.Resources;
 import com.easyfitness.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -43,6 +45,55 @@ public enum Muscle implements Comparable<Muscle> {
             }
         }
         throw new IllegalArgumentException("No muscle with that id is present");
+    }
+
+    public static Set<Muscle> setFromBodyParts(String bodyParts, Resources resources) {
+        if (bodyParts.equals("")) {
+            return new HashSet<>();
+        }
+        Set<Integer> bodyPartIds = muscleDatabaseIdsFromBodyPartString(bodyParts);
+        return new HashSet<Muscle>() {{
+            for (int bodyPartId : bodyPartIds) {
+                add(fromDatabaseId(bodyPartId, resources));
+            }
+        }};
+    }
+
+    private static Set<Integer> muscleDatabaseIdsFromBodyPartString(String bodyPartString) {
+        Set<String> bodyParts = new HashSet<>(Arrays.asList(bodyPartString.split(";")));
+        return new HashSet<Integer>() {{
+            for (String bodyPartString : bodyParts) {
+                add(Integer.parseInt(bodyPartString));
+            }
+        }};
+    }
+
+    public static String migratedBodyPartStringFor(Set<Muscle> muscles) {
+        if (muscles.size() == 0) {
+            return "";
+        }
+        List<Integer> sortedMuscleIds = sortedListOfMuscleIdsFrom(muscles);
+        return bodyPartStringFor(sortedMuscleIds);
+    }
+
+    private static List<Integer> sortedListOfMuscleIdsFrom(Set<Muscle> muscles) {
+        Set<Integer> muscleIds = new HashSet<Integer>() {{
+            for (Muscle muscle : muscles) {
+                add(muscle.getNewId());
+            }
+        }};
+        List<Integer> sortedMuscleIds = new ArrayList<>(muscleIds);
+        Collections.sort(sortedMuscleIds);
+        return sortedMuscleIds;
+    }
+
+    private static String bodyPartStringFor(List<Integer> bodyPartIds) {
+        StringBuilder bodyPartString = new StringBuilder();
+        for (int bodyPartId : bodyPartIds) {
+            bodyPartString.append(bodyPartId).append(";");
+        }
+        bodyPartString.setLength(bodyPartString.length() - 1);
+        return bodyPartString.toString();
     }
 
     public int getNewId() {
