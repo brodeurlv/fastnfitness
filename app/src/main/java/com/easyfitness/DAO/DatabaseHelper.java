@@ -207,7 +207,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void updateMusclesToUseNewIds(SQLiteDatabase db) {
-        Log.d("mytest", "doign database upgrade!");
         List<Machine> machines = new DAOMachine(mContext).getAllMachinesUsingDb(db);
         for (Machine machine : machines) {
             updateMachineToUseNewId(machine, db);
