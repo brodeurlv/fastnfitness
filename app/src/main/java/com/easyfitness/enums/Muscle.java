@@ -9,10 +9,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public enum Muscle implements Comparable<Muscle> {
     ABDOMINALS(R.string.abdominaux, 0),
@@ -47,6 +50,10 @@ public enum Muscle implements Comparable<Muscle> {
         throw new IllegalArgumentException("No muscle with that id is present");
     }
 
+    public String nameFromResources(Resources resources) {
+        return resources.getString(this.resourceId);
+    }
+
     public static Set<Muscle> setFromBodyParts(String bodyParts, Resources resources) {
         if (bodyParts.equals("")) {
             return new HashSet<>();
@@ -74,6 +81,31 @@ public enum Muscle implements Comparable<Muscle> {
         }
         List<Integer> sortedMuscleIds = sortedListOfMuscleIdsFrom(muscles);
         return bodyPartStringFor(sortedMuscleIds);
+    }
+
+    public static Set<Muscle> setFromMigratedBodyPartString(String bodyPartString) {
+        if (bodyPartString.equals("")) {
+            return new HashSet<>();
+        }
+        String[] bodyParts = bodyPartString.split(";");
+        return new HashSet<Muscle>() {{
+            for (String bodyPart : bodyParts) {
+                add(Muscle.fromId(Integer.parseInt(bodyPart)));
+            }
+        }};
+    }
+
+    public static List<Muscle> sortedListOfMusclesUsing(Resources resources) {
+        SortedMap<String, Muscle> muscleNames = new TreeMap<String, Muscle>() {{
+            for (Muscle muscle : Muscle.values()) {
+                put(muscle.nameFromResources(resources), muscle);
+            }
+        }};
+        return new ArrayList<Muscle>() {{
+            for (String muscleName : muscleNames.keySet()) {
+                add(muscleNames.get(muscleName));
+            }
+        }};
     }
 
     private static List<Integer> sortedListOfMuscleIdsFrom(Set<Muscle> muscles) {

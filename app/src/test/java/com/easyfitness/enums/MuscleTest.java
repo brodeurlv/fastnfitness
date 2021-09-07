@@ -1,6 +1,8 @@
 package com.easyfitness.enums;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import android.content.res.Resources;
@@ -14,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -137,5 +140,30 @@ public class MuscleTest {
     @Test
     public void givenEmptySetOfMusclesReturnsEmptyBodyPartString() {
         assertEquals("", Muscle.migratedBodyPartStringFor(new HashSet<>()));
+    }
+
+    @Test
+    public void shouldAskResourcesForTheNameOfTheResource() {
+        String name = Muscle.BACK.nameFromResources(mockEnglishResources);
+        assertEquals("Back", Muscle.BACK.nameFromResources(mockEnglishResources));
+    }
+
+    @Test
+    public void shouldReturnASortedListOfMuscles() {
+        List<Muscle> muscles = Muscle.sortedListOfMusclesUsing(mockEnglishResources);
+        List<String> muscleNames = new ArrayList<String>() {{
+            for (Muscle muscle : muscles) {
+                add(muscle.nameFromResources(mockEnglishResources));
+            }
+        }};
+        List<String> sortedMuscleNames = new ArrayList<>(muscleNames);
+        Collections.sort(sortedMuscleNames);
+
+        assertEquals(sortedMuscleNames, muscleNames);
+    }
+
+    @Test
+    public void shouldReturnAnEmptySetWithNoMigratedBodyPartString() {
+        assertEquals(new HashSet<Muscle>(), Muscle.setFromMigratedBodyPartString(""));
     }
 }
