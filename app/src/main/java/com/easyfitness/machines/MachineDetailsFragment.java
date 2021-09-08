@@ -33,6 +33,7 @@ import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.R;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Muscle;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.Keyboard;
 import com.easyfitness.utils.RealPathUtil;
@@ -47,12 +48,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MachineDetailsFragment extends Fragment {
-    protected List<String> _musclesArray = new ArrayList<>();
-    protected boolean[] _selections;
+    private final Set<Muscle> selectedMuscles = new HashSet<>();
     TextView musclesList = null;
     EditableInputView machineName = null;
     EditableInputView machineDescription = null;
@@ -65,7 +67,6 @@ public class MachineDetailsFragment extends Fragment {
     long machineProfilIdArg = 0;
     boolean isImageFitToScreen = false;
     ExerciseDetailsPager pager = null;
-    ArrayList selectMuscleList = new ArrayList();
     DAOMachine mDbMachine = null;
     DAORecord mDbRecord = null;
     Machine mMachine;
@@ -138,8 +139,6 @@ public class MachineDetailsFragment extends Fragment {
 
         imgUtil = new ImageUtil(machinePhoto);
 
-        buildMusclesTable();
-
         Bundle args = this.getArguments();
 
         machineIdArg = args.getLong("machineID");
@@ -182,6 +181,7 @@ public class MachineDetailsFragment extends Fragment {
         machineAction.setOnClickListener(onClickMachinePhoto);
 
         mMachine = mDbMachine.getMachine(machineIdArg);
+        selectedMuscles.addAll(Muscle.setFromMigratedBodyPartString(mMachine.getBodyParts()));
         machineNameArg = mMachine.getName();
 
         if (machineNameArg.isEmpty()) {
@@ -191,7 +191,7 @@ public class MachineDetailsFragment extends Fragment {
         }
 
         machineDescription.setText(mMachine.getDescription());
-        musclesList.setText(this.getInputFromDBString(mMachine.getBodyParts()));
+        updateMuscleListText();
         mCurrentPhotoPath = mMachine.getPicture();
 
         if (mMachine.getType() == ExerciseType.CARDIO) {
@@ -252,6 +252,32 @@ public class MachineDetailsFragment extends Fragment {
         return view;
     }
 
+    private void updateMuscleListText() {
+        musclesList.setText(stringOfSelectedMuscles());
+    }
+
+    private String stringOfSelectedMuscles() {
+        if (selectedMuscles.isEmpty()) {
+            return "";
+        }
+        StringBuilder muscleString = new StringBuilder();
+        for (String muscleName : sortedSelectedMuscles()) {
+            muscleString.append(muscleName).append(";");
+        }
+        muscleString.setLength(muscleString.length() - 1);
+        return muscleString.toString();
+    }
+
+    private List<String> sortedSelectedMuscles() {
+        List<String> selectedMuscleNames = new ArrayList<String>() {{
+            for (Muscle muscle : selectedMuscles) {
+                add(muscle.nameFromResources(getResources()));
+            }
+        }};
+        Collections.sort(selectedMuscleNames);
+        return  selectedMuscleNames;
+    }
+
     private boolean CreateMuscleDialog() {
         if (isCreateMuscleDialogActive)
             return true; // Si la boite de dialog est deja active, alors n'en cree pas une deuxieme.
@@ -260,44 +286,57 @@ public class MachineDetailsFragment extends Fragment {
 
         Keyboard.hide(getContext(), musclesList);
 
-        AlertDialog.Builder newMuscleBuilder = new AlertDialog.Builder(this.getActivity());
-
-        newMuscleBuilder.setTitle(this.getResources().getString(R.string.selectMuscles));
-        newMuscleBuilder.setMultiChoiceItems(_musclesArray.toArray(new CharSequence[0]), _selections, (arg0, arg1, arg2) -> {
-            if (arg2) {
-                // If user select a item then add it in selected items
-                selectMuscleList.add(arg1);
-            } else if (selectMuscleList.contains(arg1)) {
-                // if the item is already selected then remove it
-                selectMuscleList.remove(Integer.valueOf(arg1));
-            }
-        });
-
-        // Set an EditText view to get user input
-        newMuscleBuilder.setPositiveButton(getResources().getString(android.R.string.ok), (dialog, whichButton) -> {
-            StringBuilder msg = new StringBuilder();
-            int i = 0;
-            boolean firstSelection = true;
-            // ( selectMuscleList.size() > 0 ) { // Si on a au moins selectionne un muscle
-            for (i = 0; i < _selections.length; i++) {
-                if (_selections[i] && firstSelection) {
-                    msg = new StringBuilder(_musclesArray.get(i));
-                    firstSelection = false;
-                } else if (_selections[i] && !firstSelection) {
-                    msg.append(";").append(_musclesArray.get(i));
-                }
-            }
-            //}
-            setMuscleText(msg.toString());
-            Keyboard.hide(getContext(), musclesList);
-
-            isCreateMuscleDialogActive = false;
-        });
-        newMuscleBuilder.setNegativeButton(getResources().getString(android.R.string.cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
-
-        newMuscleBuilder.show();
+        drawMuscleSelectionDialog();
 
         return true;
+    }
+
+    private void drawMuscleSelectionDialog() {
+        AlertDialog.Builder muscleSelectionDialog = new AlertDialog.Builder(this.getActivity());
+        muscleSelectionDialog.setTitle(this.getResources().getString(R.string.selectMuscles));
+
+        setMultiChoiceItemsFor(muscleSelectionDialog);
+        registerPositiveButtonFor(muscleSelectionDialog);
+        registerNegativeButtonFor(muscleSelectionDialog);
+
+        muscleSelectionDialog.show();
+    }
+
+    private void setMultiChoiceItemsFor(AlertDialog.Builder muscleSelectionDialog) {
+        List<Muscle> sortedMuscles = Muscle.sortedListOfMusclesUsing(getResources());
+        List<String> sortedMuscleStrings = new ArrayList<String>() {{
+            for (Muscle muscle : sortedMuscles) {
+                add(muscle.nameFromResources(getResources()));
+            }
+        }};
+        boolean[] selections = arrayOfSelectedMusclesUsingOrdering(sortedMuscles);
+        muscleSelectionDialog.setMultiChoiceItems(sortedMuscleStrings.toArray(new CharSequence[0]), selections, (arg0, selectionIndex, isSelected) -> {
+            Muscle modifiedMuscle = sortedMuscles.get(selectionIndex);
+            if (isSelected) selectedMuscles.add(modifiedMuscle);
+            else selectedMuscles.remove(modifiedMuscle);
+        });
+    }
+
+    private boolean[] arrayOfSelectedMusclesUsingOrdering(List<Muscle> musclesToCheck) {
+        boolean[] arrayOfSelectedMuscles = new boolean[musclesToCheck.size()];
+        for (int i = 0; i < musclesToCheck.size(); i++) {
+            if (selectedMuscles.contains(musclesToCheck.get(i))) {
+                arrayOfSelectedMuscles[i] = true;
+            }
+        }
+        return arrayOfSelectedMuscles;
+    }
+
+    private void registerPositiveButtonFor(AlertDialog.Builder muscleSelectionDialog) {
+        muscleSelectionDialog.setPositiveButton(getResources().getString(android.R.string.ok), (dialog, whichButton) -> {
+            updateMuscleListText();
+            Keyboard.hide(getContext(), musclesList);
+            isCreateMuscleDialogActive = false;
+        });
+    }
+
+    private void registerNegativeButtonFor(AlertDialog.Builder muscleSelectionDialog) {
+        muscleSelectionDialog.setNegativeButton(getResources().getString(android.R.string.cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
     }
 
     private boolean CreatePhotoSourceDialog() {
@@ -387,107 +426,12 @@ public class MachineDetailsFragment extends Fragment {
         saveMachine();
     }
 
-    public void buildMusclesTable() {
-        _musclesArray.add(getActivity().getResources().getString(R.string.biceps));
-        _musclesArray.add(getActivity().getResources().getString(R.string.triceps));
-        _musclesArray.add(getActivity().getResources().getString(R.string.pectoraux));
-        _musclesArray.add(getActivity().getResources().getString(R.string.dorseaux));
-        _musclesArray.add(getActivity().getResources().getString(R.string.abdominaux));
-        _musclesArray.add(getActivity().getResources().getString(R.string.quadriceps));
-        _musclesArray.add(getActivity().getResources().getString(R.string.ischio_jambiers));
-        _musclesArray.add(getActivity().getResources().getString(R.string.adducteurs));
-        _musclesArray.add(getActivity().getResources().getString(R.string.mollets));
-        _musclesArray.add(getActivity().getResources().getString(R.string.deltoids));
-        _musclesArray.add(getActivity().getResources().getString(R.string.trapezius));
-        _musclesArray.add(getActivity().getResources().getString(R.string.shoulders));
-        _musclesArray.add(getActivity().getResources().getString(R.string.obliques));
-        _musclesArray.add(getActivity().getResources().getString(R.string.glutes));
-
-        Collections.sort(_musclesArray);
-
-        _selections = new boolean[_musclesArray.size()];
-    }
-
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public String getMuscleNameFromId(int id) {
-        String ret = "";
-        try {
-            ret = _musclesArray.get(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
-
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public int getMuscleIdFromName(String pName) {
-        for (int i = 0; i < _musclesArray.size(); i++) {
-            if (_musclesArray.get(i).equals(pName)) return i;
-        }
-        return -1;
-    }
-
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public String getDBStringFromInput(String pInput) {
-        String[] data = pInput.split(";");
-        StringBuilder output = new StringBuilder();
-
-        if (pInput.isEmpty()) return "";
-
-        int i = 0;
-        if (data.length > 0) {
-            output = new StringBuilder(String.valueOf(getMuscleIdFromName(data[i])));
-            for (i = 1; i < data.length; i++) {
-                output.append(";").append(getMuscleIdFromName(data[i]));
-            }
-        }
-
-        return output.toString();
-    }
-
-    /*
-     * @return the name of the Muscle depending on the language
-     */
-    public String getInputFromDBString(String pDBString) {
-        String[] data = pDBString.split(";");
-        StringBuilder output = new StringBuilder();
-
-        int i = 0;
-
-        try {
-            if (data.length > 0) {
-                if (data[0].isEmpty()) return "";
-
-                if (!data[i].equals("-1")) {
-                    output = new StringBuilder(getMuscleNameFromId(Integer.parseInt(data[i])));
-                    _selections[Integer.parseInt(data[i])] = true;
-                    for (i = 1; i < data.length; i++) {
-                        if (!data[i].equals("-1")) {
-                            output.append(";").append(getMuscleNameFromId(Integer.parseInt(data[i])));
-                            _selections[Integer.parseInt(data[i])] = true;
-                        }
-                    }
-                }
-            }
-        } catch (NumberFormatException e) {
-            output = new StringBuilder();
-            e.printStackTrace();
-        }
-
-        return output.toString();
-    }
-
     public Machine getMachine() {
         Machine m = new Machine(machineName.getText(),
                 machineDescription.getText(),
                 selectedType,
-                getDBStringFromInput(musclesList.getText().toString()), mCurrentPhotoPath, mMachine.getFavorite());
+                Muscle.migratedBodyPartStringFor(selectedMuscles),
+                mCurrentPhotoPath, mMachine.getFavorite());
         m.setId(mMachine.getId());
         /*m.setName(machineName.getText());
         m.setDescription(machineDescription.getText());
