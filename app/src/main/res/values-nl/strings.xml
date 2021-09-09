@@ -202,7 +202,7 @@
     <string name="what_type_of_exercise">Welke oefening?</string>
     <string name="exercise_type">Oefening soort:</string>
     <string name="staticExercise">Isometric</string>
-    <string name="SecondsLabel_short">Secs</string>
+    <string name="SecondsLabel_short">Sec.</string>
     <string name="imported_successfully"> importeren succesvol</string>
     <string name="import_failed"> importeren mislukt</string>
     <string name="import_new_exercise_first">(Importeer eerst nieuwe oefeningen)</string>

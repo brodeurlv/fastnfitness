@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.20.2</string>
+    <string name="app_version" translatable="false">0.20.3</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="author_label">Author: </string>
     <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
@@ -13,16 +13,8 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History: </string>
     <string name="revision_history" translatable="false">\n
-v0.20.2: August 20, 2021 \n
-        \t- Enhancement: Added countdown in program view \n
-        \t- Enhancement: Added program update request(#141) \n
-        \t- Enhancement: Added Glutes to muscles (#212, Thank you @MatthewRFennell) \n
-        \t- Enhancement: Added "Not done" exercise in program history \n
-        \t- Enhancement: Added success and failed buttons in program record editor\n
-        \t- Enhancement: Added confirmation on program closing\n
-        \t- Enhancement: Updated Italian, German and French translation \n
-        \t- Enhancement: Finalized migration to API30 \n
-        \t- Bug: Fixed CSV export \n
+v0.20.3: September 09, 2021 \n
+        \t- Bug: Fixed bug introduced on 0.20.2 on muscles list (#220, Thank you @MatthewRFennell). Muscles created on 0.20.2 exclusively might need to be manually corrected by user. \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

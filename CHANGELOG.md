@@ -1,5 +1,10 @@
 ## Change Log
 
+### 0.20.3: September 09, 2021
+- Bug: Fixed bug introduced on 0.20.2 on muscles list (#220, Thank you @MatthewRFennell).
+  Muscles created on 0.20.2 exclusively might need to be manually corrected by user.
+
+
 ### 0.20.2: August 20, 2021
 - Enhancement: Added countdown in program view
 - Enhancement: Added program update request(#141)

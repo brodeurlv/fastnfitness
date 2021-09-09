@@ -189,7 +189,7 @@
     <string name="FFMI_dialog_title">Indice de masse sans graisse (FFMI)</string>
     <string name="no_fat_available">graisse [%] non disponible</string>
     <string name="indexLabel">Index</string>
-    <string name="SecondsLabel_short">s</string>
+    <string name="SecondsLabel_short">Sec.</string>
     <string name="exercise_type">Type d\'exercice :</string>
     <string name="staticExercise">Isometrique</string>
     <string name="what_type_of_exercise">Type d\'exercice \?</string>

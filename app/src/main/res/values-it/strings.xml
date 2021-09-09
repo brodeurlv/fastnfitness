@@ -208,7 +208,7 @@
     <string name="what_type_of_exercise">Tipo di esercizio\?</string>
     <string name="exercise_type">Tipo di esercizio:</string>
     <string name="staticExercise">Isometrico</string>
-    <string name="SecondsLabel_short">s</string>
+    <string name="SecondsLabel_short">Sec.</string>
     <string name="imported_successfully">importato</string>
     <string name="import_failed">impossibile importare i file</string>
     <string name="import_new_exercise_first">(Assicurati che tutti i nuovi esercizi siano importati prima)</string>
