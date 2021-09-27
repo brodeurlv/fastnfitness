@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
@@ -20,16 +21,18 @@ import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.Muscle;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 23;
+    public static final int DATABASE_VERSION = 24;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -196,9 +199,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, profile.getSize(), profile.getId(), defaultSizeUnit);
                     }
                     break;
+                case 24:
+                    updateMusclesToUseNewIds(db);
             }
             upgradeTo++;
         }
+    }
+
+    private void updateMusclesToUseNewIds(SQLiteDatabase db) {
+        List<Machine> machines = new DAOMachine(mContext).getAllMachinesUsingDb(db);
+        for (Machine machine : machines) {
+            updateMachineToUseNewId(machine, db);
+        }
+    }
+
+    private void updateMachineToUseNewId(Machine machine, SQLiteDatabase db) {
+        Set<Muscle> usedMuscles = Muscle.setFromBodyParts(machine.getBodyParts(), mContext.getResources());
+        machine.setBodyParts(Muscle.migratedBodyPartStringFor(usedMuscles));
+        new DAOMachine(mContext).updateMachineUsingDb(machine, db);
     }
 
     @Override

@@ -133,10 +133,8 @@ public class DAOMachine extends DAOBase {
         return mCursor.getCount() != 0;
     }
 
-    // Getting All Records
-    private ArrayList<Machine> getMachineList(String pRequest) {
+    private ArrayList<Machine> getMachineListUsingDb(String pRequest, SQLiteDatabase db) {
         ArrayList<Machine> valueList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
 
         mCursor = null;
@@ -160,6 +158,12 @@ public class DAOMachine extends DAOBase {
         }
         // return value list
         return valueList;
+
+    }
+
+    // Getting All Records
+    private List<Machine> getMachineList(String pRequest) {
+        return getMachineListUsingDb(pRequest, getReadableDatabase());
     }
 
     // Getting All Records
@@ -241,22 +245,26 @@ public class DAOMachine extends DAOBase {
         db.close();
     }
 
-    /**
-     * @return List of Machine object ordered by Favorite and Name
-     */
-    public ArrayList<Machine> getAllMachinesArray() {
+    public List<Machine> getAllMachinesUsingDb(SQLiteDatabase db) {
 // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineList(selectQuery);
+        return getMachineListUsingDb(selectQuery, db);
+    }
+
+    /**
+     * @return List of Machine object ordered by Favorite and Name
+     */
+    public List<Machine> getAllMachinesArray() {
+        return getAllMachinesUsingDb(getReadableDatabase());
     }
 
     /**
      * @return List of Machine object ordered by Favorite and Name given exercise types as input
      */
-    public ArrayList<Machine> getAllMachinesArray(ArrayList<ExerciseType> selectedTypes) {
+    public List<Machine> getAllMachinesArray(ArrayList<ExerciseType> selectedTypes) {
         // Select All Query
         String requiredTypes = getSelectedTypesAsString(selectedTypes);
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TYPE + " IN " + requiredTypes + " ORDER BY "
@@ -313,10 +321,7 @@ public class DAOMachine extends DAOBase {
         return valueList;
     }
 
-    // Updating single value
-    public int updateMachine(Machine m) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
+    public int updateMachineUsingDb(Machine m, SQLiteDatabase db) {
         ContentValues value = new ContentValues();
         value.put(DAOMachine.NAME, m.getName());
         value.put(DAOMachine.DESCRIPTION, m.getDescription());
@@ -329,6 +334,11 @@ public class DAOMachine extends DAOBase {
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
                 new String[]{String.valueOf(m.getId())});
+    }
+
+    // Updating single value
+    public int updateMachine(Machine m) {
+        return updateMachineUsingDb(m, getWritableDatabase());
     }
 
     // Deleting single Record
