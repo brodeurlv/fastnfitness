@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="titleSlideOpenSource">Açık kaynaklı yazılım! İstediğiniz zaman kullanın, düzenleyin, kopyalayın ve paylaşın.</string>
-    <string name="textSlideEssential">Önceden oluşturulmuş bir egzersiz yok. Spor yaptığın yerde bulunan makinelere bağlı olarak kendi egzersizlerini yaratırsın.</string>
+    <string name="titleSlideOpenSource">Özgür bir yazılım! Kaynak kodunu istediğin gibi kullanabilirsin.</string>
+    <string name="textSlideEssential">Önceden oluşturulmuş bir egzersiz programı yok. Spor yaptığın yerde bulunan makinelere göre kendi egzersiz programını oluşturabilirsin.</string>
     <string name="free_workout">Serbest antrenman</string>
     <string name="what_type_of_exercise">Ne tür bir egzersiz\?</string>
     <string name="textSlideOpenSource">Topluluğa katıl ve birlikte en iyi fitness uygulamasını oluşturalım! Bize Github üzerinden ulaşabilirsin: https://github.com/brodeurlv/fastnfitness</string>
@@ -76,8 +76,8 @@
     <string name="pressBackAgain">Çıkmak için tekrar \"Geri\" tuşuna bas</string>
     <string name="titleSlideEssential">Gereksiz içerik yok</string>
     <string name="introSlide2Title">Hızlı ve kolay</string>
-    <string name="introSlide1Text">Fast N Fitness\'a hoş geldin. Hızlı ve basit bir şekilde programını kaydet, vücut gelişimini ve egzersiz ilerlemeni takip et.</string>
-    <string name="introSlide2Text">Egzersizin adını ve ayrıntılarını girdiğinde egzersiz otomatik olarak oluşturulur. Onu listede kolayca tekrar bulabilirsin.</string>
+    <string name="introSlide1Text">Fast N Fitness\'a hoş geldin. Kolay bir şekilde egzersiz programının kaydını tut ve ilerlemeni takip et.</string>
+    <string name="introSlide2Text">Egzersizin adını ve ayrıntılarını girdiğinde egzersiz otomatik olarak oluşturulur. Egzersize listeden kolayca ulaşabilirsin.</string>
     <string name="create_a_profile">Profil oluştur</string>
     <string name="name_is_required">Ad gerekli</string>
     <string name="name_or_pseudo">Ad / Takma ad</string>
@@ -135,7 +135,7 @@
     <string name="database_migration">Veritabanını taşı</string>
     <string name="something_went_wrong">Bir şeyler ters gitti!</string>
     <string name="database_migration_success">Uygulama dosyaları başarıyla taşındı</string>
-    <string name="disclaimer_scoped_storage">Google kaynaklı değişiklikler nedeniyle uygulama dosyalarının taşınması gerekiyor. Çok fazla fotoğrafınız varsa bu biraz zaman alabilir. Lütfen sabırlı olun.</string>
+    <string name="disclaimer_scoped_storage">Google\'dan kaynaklanan değişiklikler nedeniyle uygulama dosyalarının taşınması gerekiyor. Çok fazla fotoğrafınız varsa bu biraz zaman alabilir. Lütfen bekleyin.</string>
     <string name="success">Başarılı</string>
     <string name="also_update_program">Programı güncelle</string>
     <string name="fail">Başarısız</string>
@@ -177,8 +177,8 @@
     <string name="bodytracking">Vücut Takibi</string>
     <string name="all">Hepsi</string>
     <string name="nbSeriesPerDate">Tarihe göre set sayısı</string>
-    <string name="maxLengthPerDate">Tarihe göre maks süre</string>
-    <string name="maxWeightPerDuration">Süre başına maks ağırlık</string>
+    <string name="maxLengthPerDate">Tarihe göre maksimum süre</string>
+    <string name="maxWeightPerDuration">Süre başına maksimum ağırlık</string>
     <string name="speed">Hız</string>
     <string name="sumDuration">Süre</string>
     <string name="sumDistance">Mesafe</string>
@@ -202,7 +202,7 @@
     <string name="backup_warning_month">"Son yedeklemenden bu yana bir ay geçti. "</string>
     <string name="backup_warning_week">"Son yedeklemenden bu yana bir hafta geçti. "</string>
     <string name="backup_warning_day">"Son yedeklemenden bu yana bir gün geçti. "</string>
-    <string name="backup_warning_never">"İlk yedeklemeni gerçekleştir. "</string>
+    <string name="backup_warning_never">"İlk yedeklemeni yap. "</string>
     <string name="backup_notStarted">Yedekleme başlatılmadı</string>
     <string name="pref_preferredBackupSettingTitle">Sıklık</string>
     <string name="pref_lastBackupSettingSummary">Son Yedekleme:</string>
