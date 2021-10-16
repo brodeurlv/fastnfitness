@@ -287,6 +287,4 @@
     <string name="not_done">Niet klaar</string>
     <string name="fail">Mislukking</string>
     <string name="also_update_program">Werk het programma bij</string>
-    <string name="author_label">Auteur:</string>
-    <string name="license">Licentie:</string>
 </resources>

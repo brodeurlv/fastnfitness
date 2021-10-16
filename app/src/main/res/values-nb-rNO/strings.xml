@@ -185,7 +185,6 @@
     <string name="not_done">Ikke ferdig</string>
     <string name="fail">Mislykkes</string>
     <string name="also_update_program">Oppdater programmet</string>
-    <string name="author_label">Forfatter:</string>
     <string name="access_granted">Tilgang godkjent</string>
     <string name="activate_rest_time">Aktiver hvile nedtelling</string>
     <string name="add_to_template">Legg til i programmet</string>
@@ -221,10 +220,11 @@
     <string name="introSlide1Text">Velkommen til Fast N Fitness. En rask og enkel måte å registrere programmet på og følge din kropp og treningsprogresjon.</string>
     <string name="introSlide2Text">Skriv navnet på øvelsen og detaljene, og det vil bli opprettet automatisk. Du kan finne den tilbake lett i listen.</string>
     <string name="lastRecordLabel">Siste opptak</string>
-    <string name="license">Tillatelse:</string>
     <string name="MachineHint">Navn på treningen din</string>
+
     <string name="maxRep1">Maks vekt (reps &gt;= 1)</string>
     <string name="maxRep5d">Maks vekt (reps &gt;= 5)</string>
+
     <string name="maxReps">Max reps.</string>
     <string name="menu_Workout">Trene</string>
     <string name="min">Mpl</string>
