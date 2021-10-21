@@ -8,6 +8,8 @@ import com.easyfitness.enums.Unit;
 public class Value {
     private final float mValue;
     private final Unit mUnit;
+    /** Original unit in case this value was converted */
+    private final Unit mOriginalUnit;
     /** Identifier for this value so we can later differentiate between values */
     private final String mId;
     private final int mLabel;
@@ -18,12 +20,14 @@ public class Value {
      * @param unit Unit of the value
      * @param id Custom identifier to differentiate between values
      * @param label String resource to label this value is described by
+     * @param originalUnit Original unit in case this value was converted
      */
-    public Value(float value, Unit unit, @Nullable String id, int label){
+    public Value(float value, Unit unit, @Nullable String id, int label, @Nullable Unit originalUnit){
         this.mValue = value;
         this.mUnit = unit;
         this.mId = id;
         this.mLabel = label;
+        this.mOriginalUnit = originalUnit;
     }
     /**
      * Create a value
@@ -32,7 +36,7 @@ public class Value {
      * @param id Custom identifier to differentiate between values
      */
     public Value(float value, Unit unit, @Nullable String id){
-        this(value, unit, id, ResourcesCompat.ID_NULL);
+        this(value, unit, id, ResourcesCompat.ID_NULL, null);
     }
     /**
      * Create a value
@@ -41,7 +45,7 @@ public class Value {
      * @param label String resource to label this value is described by
      */
     public Value(float value, Unit unit, int label){
-        this(value, unit, null, label);
+        this(value, unit, null, label, null);
     }
     /**
      * Create a value
@@ -49,7 +53,7 @@ public class Value {
      * @param unit Unit of the value
      */
     public Value(float value, Unit unit){
-        this(value, unit, null, ResourcesCompat.ID_NULL);
+        this(value, unit, null, ResourcesCompat.ID_NULL, null);
     }
 
     public float getValue(){
@@ -57,6 +61,9 @@ public class Value {
     }
     public Unit getUnit(){
         return this.mUnit;
+    }
+    @Nullable public Unit getOriginalUnit(){
+        return this.mOriginalUnit;
     }
     @Nullable public String getId(){
         return this.mId;

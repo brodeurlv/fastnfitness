@@ -95,7 +95,7 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
 
                             if (valueList.size() > 0) {
                                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure().getValue());
                                     yVals.add(value);
                                 }
 

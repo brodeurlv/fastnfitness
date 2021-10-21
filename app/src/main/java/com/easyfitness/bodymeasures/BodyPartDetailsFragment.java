@@ -80,7 +80,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
             final Value lastValue = lastBodyMeasure == null
                     ? new Value(0, getValidUnit(null))
-                    : new Value(lastBodyMeasure.getBodyMeasure(), getValidUnit(lastBodyMeasure));
+                    : getValueWithValidUnit(lastBodyMeasure);
             ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastValue});
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -88,7 +88,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                 if (!editorDialogbox.isCancelled()) {
                     Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
                     final Value newValue = editorDialogbox.getValues()[0];
-                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
+                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), newValue, getProfile().getId());
                     refreshData();
                 }
             });
@@ -272,22 +272,22 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float normalizedMeasure;
-            switch (valueList.get(i).getUnit().getUnitType()) {
+            switch (valueList.get(i).getBodyMeasure().getUnit().getUnitType()) {
                 case WEIGHT:
-                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
                     break;
                 case SIZE:
-                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
+                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
                     break;
                 default:
-                    normalizedMeasure = valueList.get(i).getBodyMeasure();
+                    normalizedMeasure = valueList.get(i).getBodyMeasure().getValue();
             }
 
             Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), normalizedMeasure);
             yVals.add(value);
-            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
-            else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
-                minBodyMeasure = valueList.get(i).getBodyMeasure();
+            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
+            else if (valueList.get(i).getBodyMeasure().getValue() < minBodyMeasure)
+                minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
         }
 
         mDateGraph.draw(yVals);
@@ -354,14 +354,19 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private void showEditDialog(final long idToEdit) {
         BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
 
-        final Value lastValue = new Value(bodyMeasure.getBodyMeasure(), getValidUnit(bodyMeasure));
+        final Value lastValue = bodyMeasure.getBodyMeasure();
 
         ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", new Value[]{lastValue});
         editorDialogbox.setOnDismissListener(dialog -> {
             if (!editorDialogbox.isCancelled()) {
                 Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
                 final Value newValue = editorDialogbox.getValues()[0];
-                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), newValue.getValue(), bodyMeasure.getProfileID(), newValue.getUnit());
+                BodyMeasure updatedBodyMeasure = new BodyMeasure(
+                        bodyMeasure.getId(),
+                        date,
+                        bodyMeasure.getBodyPartID(),
+                        newValue,
+                        bodyMeasure.getProfileID());
                 int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
                 refreshData();
             }
@@ -412,7 +417,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private Unit getValidUnit(BodyMeasure lastBodyMeasure) {
         UnitType unitType = BodyPartExtensions.getUnitType(mInitialBodyPart.getBodyPartResKey());
         if (lastBodyMeasure != null) {
-            if (unitType != lastBodyMeasure.getUnit().getUnitType()) {
+            if (unitType != lastBodyMeasure.getBodyMeasure().getUnit().getUnitType()) {
                 lastBodyMeasure = null;
             }
         }
@@ -431,8 +436,14 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     break;
             }
         } else {
-            unitDef = lastBodyMeasure.getUnit();
+            unitDef = lastBodyMeasure.getBodyMeasure().getUnit();
         }
         return unitDef;
+    }
+
+    private Value getValueWithValidUnit(BodyMeasure lastBodyMeasure) {
+        Unit unitDef = getValidUnit(lastBodyMeasure);
+        Value oldValue = lastBodyMeasure.getBodyMeasure();
+        return new Value(oldValue.getValue(), unitDef, oldValue.getId(), oldValue.getLabel(), oldValue.getOriginalUnit());
     }
 }

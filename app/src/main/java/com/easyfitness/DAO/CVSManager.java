@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -18,7 +17,6 @@ import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
-import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -27,6 +25,7 @@ import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Value;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,16 +33,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import static android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI;
 
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
@@ -206,6 +200,7 @@ public class CVSManager {
             cvsOutput.write(DAOBodyMeasure.DATE);
             cvsOutput.write("bodypart_label");
             cvsOutput.write(DAOBodyMeasure.MEASURE);
+            cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
             cvsOutput.endRecord();
 
@@ -216,7 +211,8 @@ public class CVSManager {
                 cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
                 BodyPart bp = daoBodyPart.getBodyPart(bodyMeasures.get(i).getBodyPartID());
                 cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart
-                cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure()));
+                cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure().getValue()));
+                cvsOutput.write(Integer.toString(bodyMeasures.get(i).getBodyMeasure().getUnit().ordinal()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
 
                 cvsOutput.endRecord();
@@ -382,12 +378,13 @@ public class CVSManager {
                         break;
                     }
                     case DAOProfileWeight.TABLE_NAME: {
+                        // This is the deprecated weight table
                         DAOBodyMeasure dbcWeight = new DAOBodyMeasure(mContext);
                         dbcWeight.open();
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
 
                         float poids = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
-                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, poids, pProfile.getId(), Unit.KG);
+                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, new Value(poids, Unit.KG), pProfile.getId());
 
                         break;
                     }
@@ -403,7 +400,7 @@ public class CVSManager {
                         for (BodyPart bp : bodyParts) {
                             if (bp.getName(mContext).equals(bodyPartName)) {
                                 float measure = Float.parseFloat(csvRecords.get(DAOBodyMeasure.MEASURE));
-                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), measure, pProfile.getId(), unit);
+                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), new Value(measure, unit), pProfile.getId());
                                 dbcBodyPart.close();
                                 break;
                             }

@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
             BodyMeasure lastSizeMeasure = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
             final Value lastSizeValue = lastSizeMeasure == null
                     ? new Value(0, SettingsFragment.getDefaultSizeUnit(getActivity()))
-                    : new Value(lastSizeMeasure.getBodyMeasure(), lastSizeMeasure.getUnit());
+                    : lastSizeMeasure.getBodyMeasure();
             final ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                 if (!editorDialogbox.isCancelled()) {
                     Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
                     final Value newValue = editorDialogbox.getValues()[0];
-                    daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), newValue.getValue(), appViMo.getProfile().getValue().getId(), newValue.getUnit());
+                    daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), newValue, appViMo.getProfile().getValue().getId());
                     profileViMo.setSize(newValue.getValue());
                     profileViMo.setSizeUnit(newValue.getUnit());
                     requestForSave();
@@ -279,8 +279,8 @@ public class ProfileFragment extends Fragment {
         profileViMo.setName(profile.getName());
         BodyMeasure sizeMeasure = daoBodyMeasure.getLastBodyMeasures(BodyPartExtensions.SIZE, profile);
         if (sizeMeasure != null) {
-            profileViMo.setSize(sizeMeasure.getBodyMeasure());
-            profileViMo.setSizeUnit(sizeMeasure.getUnit());
+            profileViMo.setSize(sizeMeasure.getBodyMeasure().getValue());
+            profileViMo.setSizeUnit(sizeMeasure.getBodyMeasure().getUnit());
         } else {
             profileViMo.setSize(0);
             profileViMo.setSizeUnit(Unit.CM);

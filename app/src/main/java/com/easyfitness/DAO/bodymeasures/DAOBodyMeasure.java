@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Value;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,9 +27,11 @@ public class DAOBodyMeasure extends DAOBase {
     public static final String MEASURE = "mesure";
     public static final String DATE = "date";
     public static final String UNIT = "unit";
+    /** Contains the original unit in case it was converted */
+    public static final String ORIGINAL_UNIT = "original_unit";
     public static final String PROFIL_KEY = "profil_id";
 
-    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER);";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER, " + ORIGINAL_UNIT + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     private final Profile mProfile = null;
@@ -39,22 +44,22 @@ public class DAOBodyMeasure extends DAOBase {
     /**
      * @param pDate       date of the weight measure
      * @param pBodyPartId id of the body part
-     * @param pMeasure    body measure
+     * @param pValue    body measure
      * @param pProfileId  profil associated with the measure
      */
-    public void addBodyMeasure(Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
+    public void addBodyMeasure(Date pDate, long pBodyPartId, Value pValue, long pProfileId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        addBodyMeasure(db, pDate, pBodyPartId, pMeasure, pProfileId, pUnit);
+        addBodyMeasure(db, pDate, pBodyPartId, pValue, pProfileId);
     }
 
     /**
      * @param db            database
      * @param pDate       date of the weight measure
      * @param pBodyPartId id of the body part
-     * @param pMeasure    body measure
+     * @param pValue    body measure
      * @param pProfileId  profil associated with the measure
      */
-    public void addBodyMeasure(SQLiteDatabase db, Date pDate, long pBodyPartId, float pMeasure, long pProfileId, Unit pUnit) {
+    public void addBodyMeasure(SQLiteDatabase db, Date pDate, long pBodyPartId, Value pValue, long pProfileId) {
         ContentValues value = new ContentValues();
 
         // Only one measure pr day, so if one already existing, updates it.
@@ -64,15 +69,15 @@ public class DAOBodyMeasure extends DAOBase {
             String dateString = DateConverter.dateToDBDateStr(pDate);
             value.put(DAOBodyMeasure.DATE, dateString);
             value.put(DAOBodyMeasure.BODYPART_ID, pBodyPartId);
-            value.put(DAOBodyMeasure.MEASURE, pMeasure);
+            value.put(DAOBodyMeasure.MEASURE, pValue.getValue());
             value.put(DAOBodyMeasure.PROFIL_KEY, pProfileId);
-            value.put(DAOBodyMeasure.UNIT, pUnit.ordinal());
+            value.put(DAOBodyMeasure.UNIT, pValue.getUnit().ordinal());
+            value.put(DAOBodyMeasure.ORIGINAL_UNIT, pValue.getOriginalUnit() != null ? pValue.getOriginalUnit().ordinal() : null);
 
             db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
 
         } else {
-            existingBodyMeasure.setBodyMeasure(pMeasure);
-            existingBodyMeasure.setUnit(pUnit);
+            existingBodyMeasure.setBodyMeasure(pValue);
 
             updateMeasure(db, existingBodyMeasure);
         }
@@ -86,7 +91,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT},
+                new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT, ORIGINAL_UNIT},
                 KEY + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
@@ -95,18 +100,24 @@ public class DAOBodyMeasure extends DAOBase {
 
         Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
-        BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                date,
-                mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+        int origUnitColumnIndex = mCursor.getColumnIndex(ORIGINAL_UNIT);
+        Value value = new Value(
                 mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-                mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
-                Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
+                Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
+                null,
+                ResourcesCompat.ID_NULL,
+                mCursor.isNull(origUnitColumnIndex) ? null : Unit.fromInteger(mCursor.getInt(origUnitColumnIndex))
         );
 
         //db.close();
 
         // return value
-        return value;
+        return new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+                date,
+                mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                value,
+                mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY))
+        );
     }
 
     // Getting All Measures
@@ -122,16 +133,24 @@ public class DAOBodyMeasure extends DAOBase {
             do {
                 Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
-                BodyMeasure value = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+                int origUnitColumnIndex = mCursor.getColumnIndex(ORIGINAL_UNIT);
+                Value value = new Value(
+                        mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
+                        Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
+                        null,
+                        ResourcesCompat.ID_NULL,
+                        mCursor.isNull(origUnitColumnIndex) ? null : Unit.fromInteger(mCursor.getInt(origUnitColumnIndex))
+                );
+
+                BodyMeasure measure = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
                         date,
                         mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
-                        mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-                        mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY)),
-                        Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT)))
+                        value,
+                        mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY))
                 );
 
                 // Adding value to list
-                valueList.add(value);
+                valueList.add(measure);
             } while (mCursor.moveToNext());
         }
 
@@ -194,15 +213,14 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     /**
-     * Getting All Measures associated to a Body part for a specific Profile
+     * Getting the latest measures associated to a Body part for a specific Profile
      *
      * @param pBodyPartID
      * @param pProfile
-     * @return List<BodyMeasure>
      */
     public BodyMeasure getLastBodyMeasures(long pBodyPartID, Profile pProfile) {
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
 
         List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
         if (array.size() <= 0) {
@@ -210,21 +228,20 @@ public class DAOBodyMeasure extends DAOBase {
         }
 
         // return value list
-        return getMeasuresList(getReadableDatabase(), selectQuery).get(0);
+        return array.get(0);
     }
 
     /**
-     * Getting All Measures associated to a Body part for a specific Profile
+     * Getting the measure associated to a Body part for a specific Profile on a specific date
      *
      * @param pBodyPartID
      * @param pProfileId
-     * @return List<BodyMeasure>
      */
     public BodyMeasure getBodyMeasuresFromDate(SQLiteDatabase db,  long pBodyPartID, Date pDate, long pProfileId) {
         String dateString = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
 
         List<BodyMeasure> array = getMeasuresList(db, selectQuery);
         if (array.size() <= 0) {
@@ -232,7 +249,7 @@ public class DAOBodyMeasure extends DAOBase {
         }
 
         // return value list
-        return getMeasuresList(getReadableDatabase(), selectQuery).get(0);
+        return array.get(0);
     }
 
     // Updating single value
@@ -246,9 +263,10 @@ public class DAOBodyMeasure extends DAOBase {
         String dateString = DateConverter.dateToDBDateStr(m.getDate());
         value.put(DAOBodyMeasure.DATE, dateString);
         value.put(DAOBodyMeasure.BODYPART_ID, m.getBodyPartID());
-        value.put(DAOBodyMeasure.MEASURE, m.getBodyMeasure());
+        value.put(DAOBodyMeasure.MEASURE, m.getBodyMeasure().getValue());
         value.put(DAOBodyMeasure.PROFIL_KEY, m.getProfileID());
-        value.put(DAOBodyMeasure.UNIT, m.getUnit().ordinal());
+        value.put(DAOBodyMeasure.UNIT, m.getBodyMeasure().getUnit().ordinal());
+        value.put(DAOBodyMeasure.ORIGINAL_UNIT, m.getBodyMeasure().getOriginalUnit() != null ? m.getBodyMeasure().getOriginalUnit().ordinal() : null);
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",

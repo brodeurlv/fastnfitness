@@ -74,6 +74,9 @@ public class ValuesEditorDialogbox extends Dialog implements View.OnClickListene
                 case PERCENTAGE:
                     valueEdit.setUnits(new CharSequence[]{Unit.PERCENTAGE.toString()});
                     break;
+                case WEIGHT_OR_PERCENTAGE:
+                    valueEdit.setUnits(new CharSequence[]{Unit.PERCENTAGE.toString(), Unit.KG.toString(), Unit.LBS.toString(), Unit.STONES.toString()});
+                    break;
                 case NONE:
                 default:
                     valueEdit.setUnits(new CharSequence[]{Unit.UNITLESS.toString()});
@@ -137,7 +140,8 @@ public class ValuesEditorDialogbox extends Dialog implements View.OnClickListene
                     Float.parseFloat(valueEdit.getValue().replaceAll(",", ".")),
                     Unit.fromString(valueEdit.getSelectedUnit()),
                     prevValue.getId(),
-                    prevValue.getLabel());
+                    prevValue.getLabel(),
+                    prevValue.getOriginalUnit());
         }
         return returnValues;
     }
