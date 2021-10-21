@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +27,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.UnitType;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.Gender;
@@ -33,6 +35,7 @@ import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.utils.Value;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -145,9 +148,7 @@ public class WeightFragment extends Fragment {
             switch (view.getId()) {
                 case R.id.weightInput:
                     BodyMeasure lastWeightMeasure = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
-                    Value lastWeighValue = lastWeightMeasure == null
-                            ? new Value(0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), R.string.weightLabel)
-                            : new Value(lastWeightMeasure.getBodyMeasure().getValue(), lastWeightMeasure.getBodyMeasure().getUnit(), R.string.weightLabel);
+                    Value lastWeighValue = getValueFromLastMeasure(lastWeightMeasure, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), null, R.string.weightLabel);
                     editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWeighValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -163,9 +164,7 @@ public class WeightFragment extends Fragment {
                     break;
                 case R.id.fatInput:
                     BodyMeasure lastFatMeasure = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
-                    final Value lastFatValue = lastFatMeasure == null
-                            ? new Value(0, Unit.PERCENTAGE, R.string.fatLabel)
-                            : new Value(lastFatMeasure.getBodyMeasure().getValue(), lastFatMeasure.getBodyMeasure().getUnit(), R.string.fatLabel);
+                    final Value lastFatValue = getValueFromLastMeasure(lastFatMeasure, Unit.PERCENTAGE, null, R.string.fatLabel);
                     editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastFatValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -182,9 +181,7 @@ public class WeightFragment extends Fragment {
                     break;
                 case R.id.musclesInput:
                     BodyMeasure lastMusclesMeasure = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
-                    Value lastMusclesValue = lastMusclesMeasure == null
-                            ? new Value(0, Unit.PERCENTAGE, R.string.musclesLabel)
-                            : new Value(lastMusclesMeasure.getBodyMeasure().getValue(), lastMusclesMeasure.getBodyMeasure().getUnit(), R.string.musclesLabel);
+                    Value lastMusclesValue = getValueFromLastMeasure(lastMusclesMeasure, Unit.PERCENTAGE, null, R.string.musclesLabel);
                     editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastMusclesValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -201,9 +198,7 @@ public class WeightFragment extends Fragment {
                     break;
                 case R.id.waterInput:
                     BodyMeasure lastWaterMeasure = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
-                    Value lastWaterValue = lastWaterMeasure == null
-                            ? new Value(0, Unit.PERCENTAGE, R.string.waterLabel)
-                            : new Value(lastWaterMeasure.getBodyMeasure().getValue(), lastWaterMeasure.getBodyMeasure().getUnit(), R.string.waterLabel);
+                    Value lastWaterValue = getValueFromLastMeasure(lastWaterMeasure, Unit.PERCENTAGE, null, R.string.waterLabel);
                     editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWaterValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -220,9 +215,7 @@ public class WeightFragment extends Fragment {
                     break;
                 case R.id.sizeInput:
                     BodyMeasure lastSizeMeasure = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
-                    Value lastSizeValue = lastSizeMeasure == null
-                            ? new Value(0, SettingsFragment.getDefaultSizeUnit(getActivity()), R.string.size)
-                            : new Value(lastSizeMeasure.getBodyMeasure().getValue(), lastSizeMeasure.getBodyMeasure().getUnit(), R.string.size);
+                    Value lastSizeValue = getValueFromLastMeasure(lastSizeMeasure, SettingsFragment.getDefaultSizeUnit(getActivity()), null, R.string.size);
                     editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
@@ -237,6 +230,75 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
             }
+        }
+    };
+
+    private final OnClickListener mOnAddAllEntriesClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            BodyMeasure lastWeightMeasure = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
+            BodyMeasure lastFatMeasure = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
+            BodyMeasure lastMusclesMeasure = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
+            BodyMeasure lastWaterMeasure = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
+
+            Value lastWeightValue = getValueFromLastMeasure(lastWeightMeasure, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), String.valueOf(weightBodyPart.getId()), R.string.weightLabel);
+            Value lastFatValue = getValueFromLastMeasure(lastFatMeasure, Unit.PERCENTAGE, String.valueOf(fatBodyPart.getId()), R.string.fatLabel);
+            Value lastMusclesValue = getValueFromLastMeasure(lastMusclesMeasure, Unit.PERCENTAGE, String.valueOf(musclesBodyPart.getId()), R.string.musclesLabel);
+            Value lastWaterValue = getValueFromLastMeasure(lastWaterMeasure, Unit.PERCENTAGE, String.valueOf(waterBodyPart.getId()), R.string.waterLabel);
+
+            // Add other unit options in addition to percentages
+            Unit fatUnit = lastFatValue.getUnit();
+            fatUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastFatValue.setUnit(fatUnit);
+
+            Unit musclesUnit = lastMusclesValue.getUnit();
+            musclesUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastMusclesValue.setUnit(musclesUnit);
+
+            Unit waterUnit = lastWaterValue.getUnit();
+            waterUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastWaterValue.setUnit(waterUnit);
+
+            ValuesEditorDialogbox editorDialog = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWeightValue, lastFatValue, lastMusclesValue, lastWaterValue});
+            editorDialog.setTitle(R.string.AddLabel);
+            editorDialog.setPositiveButton(R.string.AddLabel);
+            editorDialog.setOnDismissListener(dialog -> {
+                if (!editorDialog.isCancelled()) {
+                    Date date = DateConverter.localDateStrToDate(editorDialog.getDate(), getContext());
+                    long profileId = getProfile().getId();
+                    Value[] newValues = editorDialog.getValues();
+                    Value newWeightValue = null;
+                    // Find the weight value if we need it as the baseline
+                    for (Value newValue : newValues) {
+                        if(newValue.getId().equals(String.valueOf(weightBodyPart.getId()))){
+                            newWeightValue = newValue;
+                            break;
+                        }
+                    }
+                    // Fallback to generic weight in case it is not there, which should never happen
+                    if(newWeightValue == null){
+                        newWeightValue = new Value(75, Unit.KG);
+                    }
+                    for (Value newValue : newValues) {
+                        long bodyPartId = Long.parseLong(newValue.getId());
+                        // If the unit is not in percent and it is a percentage measurement convert it
+                        if(newValue.getUnit() != Unit.PERCENTAGE && (bodyPartId == fatBodyPart.getId() || bodyPartId == musclesBodyPart.getId() || bodyPartId == waterBodyPart.getId())){
+                            // Convert them to the same unit if necessary
+                            if(newValue.getUnit() != newWeightValue.getUnit()){
+                                newValue.setValue(UnitConverter.weightConverter(newValue.getValue(), newValue.getUnit(), newWeightValue.getUnit()));
+                                newValue.setUnit(newWeightValue.getUnit());
+                            }
+
+                            // Convert absolute value to percentage
+                            newValue.setValue((newValue.getValue() / newWeightValue.getValue())*100);
+                            newValue.setUnit(Unit.PERCENTAGE);
+                        }
+                        mDbBodyMeasure.addBodyMeasure(date, bodyPartId, newValue, profileId);
+                    }
+                    refreshData();
+                }
+            });
+            editorDialog.show();
         }
     };
 
@@ -285,12 +347,15 @@ public class WeightFragment extends Fragment {
         ImageButton imcHelpButton = view.findViewById(R.id.imcHelp);
         ImageButton rfmHelpButton = view.findViewById(R.id.rfmHelp);
 
+        FloatingActionButton addAllButton = view.findViewById(R.id.addAllWeightEntries);
+
         /* Initialisation des evenements */
         weightEdit.setOnClickListener(mOnClickListener);
         fatEdit.setOnClickListener(mOnClickListener);
         musclesEdit.setOnClickListener(mOnClickListener);
         waterEdit.setOnClickListener(mOnClickListener);
         sizeEdit.setOnClickListener(mOnClickListener);
+        addAllButton.setOnClickListener(mOnAddAllEntriesClickListener);
         imcHelpButton.setOnClickListener(showHelp);
         ffmiHelpButton.setOnClickListener(showHelp);
         rfmHelpButton.setOnClickListener(showHelp);
@@ -358,11 +423,11 @@ public class WeightFragment extends Fragment {
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
                     Entry value = new Entry(
-                        (float) DateConverter.nbDays(valueList.get(i).getDate()),
-                        UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(),
-                            valueList.get(i).getBodyMeasure().getUnit(),
-                            Unit.KG
-                        )
+                            (float) DateConverter.nbDays(valueList.get(i).getDate()),
+                            UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(),
+                                    valueList.get(i).getBodyMeasure().getUnit(),
+                                    Unit.KG
+                            )
                     );
                     yVals.add(value);
                 }
@@ -608,6 +673,23 @@ public class WeightFragment extends Fragment {
         }
     }
 
+    /**
+     * Get a Value object which uses the data from the last measure if available
+     *
+     * @param lastMeasure Last measure to use data from if available
+     * @param defaultUnit Default unit to use in case there is no last measure
+     * @param id          ID for the returned Value
+     * @param label       Label for the returned Value
+     */
+    private Value getValueFromLastMeasure(@Nullable BodyMeasure lastMeasure, Unit defaultUnit, @Nullable String id, int label) {
+        if (lastMeasure == null) {
+            return new Value(0, defaultUnit, id, label);
+        } else {
+            Value lastValue = lastMeasure.getBodyMeasure();
+            return new Value(lastValue.getValue(), lastValue.getUnit(), id, label);
+        }
+    }
+
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -630,7 +712,7 @@ public class WeightFragment extends Fragment {
                         ffmiRank.setText(R.string.no_size_available);
                     } else {
                         float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
-                                UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM) );
+                                UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM));
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
                         if (lastFatValue != null) {

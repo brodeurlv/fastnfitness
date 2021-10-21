@@ -33,7 +33,7 @@ import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 25;
+    public static final int DATABASE_VERSION = 24;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -201,9 +201,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 24:
                     updateMusclesToUseNewIds(db);
-                    break;
-                case 25:
-                    db.execSQL("ALTER TABLE " + DAOBodyMeasure.TABLE_NAME + " ADD COLUMN " + DAOBodyMeasure.ORIGINAL_UNIT + " INTEGER");
                     break;
             }
             upgradeTo++;

@@ -1,443 +1,469 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:name="tab_weight"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp"
-        android:paddingBottom="0dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:name="tab_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                app:cardCornerRadius="5dp">
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:minWidth="70dp"
+                    android:minHeight="70dp"
+                    app:cardCornerRadius="5dp">
 
-                    <TextView
-                        style="@style/CardViewTitle"
-                        android:text="@string/weightLabel" />
-
-                    <TextView
-                        android:id="@+id/weightInput"
-                        style="@style/PrimaryWeightMeasure"
-                        android:text=" - "
-                        android:title="@string/weightLabel"
-                        tools:text="70.5" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/weightGraph"
-                        style="@style/MiniLineChart"
-                        android:clickable="true"
-                        android:focusable="true" />
-
-                    <Button
-                        android:id="@+id/weightDetailsButton"
-                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:drawableStart="@drawable/ic_list_alt"
-                        android:text="@string/details" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/CardViewTitle"
-                        android:text="@string/fatLabel" />
-
-                    <TextView
-                        android:id="@+id/fatInput"
-                        style="@style/PrimaryWeightMeasure"
-                        android:title="@string/fatLabel"
-                        tools:text="50.9" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/fatGraph"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="0dp"
-                        android:minHeight="50dp" />
-
-                    <Button
-                        android:id="@+id/fatDetailsButton"
-                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:drawableStart="@drawable/ic_list_alt"
-                        android:text="@string/details" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/CardViewTitle"
-                        android:text="@string/musclesLabel" />
-
-                    <TextView
-                        android:id="@+id/musclesInput"
-                        style="@style/PrimaryWeightMeasure"
-                        android:title="@string/musclesLabel"
-                        tools:text="20.2" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/musclesGraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
-                        android:minHeight="50dp" />
-
-                    <Button
-                        android:id="@+id/musclesDetailsButton"
-                        android:drawableStart="@drawable/ic_list_alt"
-                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="@string/details" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/CardViewTitle"
-                        android:text="@string/waterLabel" />
-
-                    <TextView
-                        android:id="@+id/waterInput"
-                        style="@style/PrimaryWeightMeasure"
-                        android:title="@string/waterLabel"
-                        tools:text="20.5" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/waterGraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="0dp"
-                        android:minHeight="50dp" />
-
-                    <Button
-                        android:id="@+id/waterDetailsButton"
-                        android:drawableStart="@drawable/ic_list_alt"
-                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                        android:text="@string/details" />
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
-            android:orientation="horizontal"
-            android:padding="6dip">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="50"
-                    android:layout_marginTop="0dp"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    style="@style/CardViewTitle"
-                    android:text="@string/size" />
-
-                <TextView
-                    android:id="@+id/sizeInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="0dp"
-                    style="@style/PrimaryWeightMeasure"
-                    android:gravity="center"
-                    android:layout_weight="50"
-                    tools:text="50" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/sizeGraph"
-                    style="@style/MiniLineChart"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="50" />
-
-                <Button
-                    android:id="@+id/sizeDetailsButton"
-                    style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
-                    android:drawableTop="@drawable/ic_list_alt"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="0dp"
-                    android:text="@string/details"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_weight="50"
-                app:cardCornerRadius="5dp"
-                app:contentPadding="5dp">
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:shrinkColumns="3"
-                    android:stretchColumns="0,1,2">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <TextView
                             style="@style/CardViewTitle"
-                            android:layout_marginTop="0dp"
-                            android:layout_span="4"
-                            android:text="@string/indexLabel"
-                            android:textSize="24sp" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            android:text="@string/weightLabel" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/imcLabel"
-                            android:textSize="20sp" />
+                            android:id="@+id/weightInput"
+                            style="@style/PrimaryWeightMeasure"
+                            android:text=" - "
+                            android:title="@string/weightLabel"
+                            tools:text="70.5" />
 
-                        <TextView
-                            android:id="@+id/imcValue"
-                            style="@style/WeightIndexStyle"
-                            tools:text="20" />
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/weightGraph"
+                            style="@style/MiniLineChart"
+                            android:clickable="true"
+                            android:focusable="true" />
 
-                        <TextView
-                            android:id="@+id/imcViewText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ellipsize="start"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:textStyle="italic"
-                            tools:text="normal" />
+                        <Button
+                            android:id="@+id/weightDetailsButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                            android:drawableStart="@drawable/ic_list_alt"
+                            android:text="@string/details" />
 
-                        <ImageButton
-                            android:id="@+id/imcHelp"
-                            style="@style/InfoButton"
-                            app:srcCompat="@drawable/ic_help_outline" />
-                    </TableRow>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ffmiLabel"
-                            android:textSize="20sp" />
+                </androidx.cardview.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/ffmiValue"
-                            style="@style/WeightIndexStyle"
-                            tools:text="20" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:minWidth="70dp"
+                    android:minHeight="70dp"
+                    app:cardCornerRadius="5dp">
 
-                        <TextView
-                            android:id="@+id/ffmiViewText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:textStyle="italic"
-                            tools:text="normal" />
-
-                        <ImageButton
-                            android:id="@+id/ffmiHelp"
-                            style="@style/InfoButton"
-                            app:srcCompat="@drawable/ic_help_outline" />
-
-                    </TableRow>
-
-                    <TableRow
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
-                        tools:visibility="gone">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="@string/rfmLabel"
-                            android:textSize="18sp" />
+                            style="@style/CardViewTitle"
+                            android:text="@string/fatLabel" />
 
                         <TextView
-                            android:id="@+id/rfmValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:maxWidth="100dp"
-                            android:maxLines="1"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            tools:text="20" />
+                            android:id="@+id/fatInput"
+                            style="@style/PrimaryWeightMeasure"
+                            android:title="@string/fatLabel"
+                            tools:text="50.9" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fatGraph"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="0dp"
+                            android:minHeight="50dp" />
+
+                        <Button
+                            android:id="@+id/fatDetailsButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                            android:drawableStart="@drawable/ic_list_alt"
+                            android:text="@string/details" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:minWidth="70dp"
+                    android:minHeight="70dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/rfmViewText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="18sp"
-                            android:textStyle="italic"
-                            tools:text="normal" />
+                            style="@style/CardViewTitle"
+                            android:text="@string/musclesLabel" />
 
-                        <ImageButton
-                            android:id="@+id/rfmHelp"
-                            android:layout_width="25sp"
-                            android:layout_height="25sp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="false"
-                            android:background="@color/background"
-                            android:cropToPadding="false"
-                            app:srcCompat="@drawable/ic_help_outline" />
+                        <TextView
+                            android:id="@+id/musclesInput"
+                            style="@style/PrimaryWeightMeasure"
+                            android:title="@string/musclesLabel"
+                            tools:text="20.2" />
 
-                    </TableRow>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/musclesGraph"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginRight="5dp"
+                            android:minHeight="50dp" />
 
-                </TableLayout>
+                        <Button
+                            android:id="@+id/musclesDetailsButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                            android:drawableStart="@drawable/ic_list_alt"
+                            android:text="@string/details" />
+                    </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:minWidth="70dp"
+                    android:minHeight="70dp"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CardViewTitle"
+                            android:text="@string/waterLabel" />
+
+                        <TextView
+                            android:id="@+id/waterInput"
+                            style="@style/PrimaryWeightMeasure"
+                            android:title="@string/waterLabel"
+                            tools:text="20.5" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/waterGraph"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="0dp"
+                            android:minHeight="50dp" />
+
+                        <Button
+                            android:id="@+id/waterDetailsButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                            android:drawableStart="@drawable/ic_list_alt"
+                            android:text="@string/details" />
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_weight="50"
-                android:minWidth="70dp"
-                android:minHeight="70dp"
-                android:visibility="gone"
-                app:cardCornerRadius="5dp">
+                android:layout_margin="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_height="?android:attr/listPreferredItemHeight"
+                    android:orientation="horizontal"
+                    android:padding="6dip">
+
+                    <TextView
+                        style="@style/CardViewTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="50"
+                        android:gravity="center_vertical"
+                        android:text="@string/size" />
+
+                    <TextView
+                        android:id="@+id/sizeInput"
+                        style="@style/PrimaryWeightMeasure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="50"
+                        android:gravity="center"
+                        tools:text="50" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/sizeGraph"
+                        style="@style/MiniLineChart"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="50" />
+
+                    <Button
+                        android:id="@+id/sizeDetailsButton"
+                        style="@style/Widget.AppCompat.Button.Borderless.DetailsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="0dp"
+                        android:drawableTop="@drawable/ic_list_alt"
+                        android:text="@string/details" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    </LinearLayout>
-</ScrollView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    app:cardCornerRadius="5dp"
+                    app:contentPadding="5dp">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:shrinkColumns="3"
+                        android:stretchColumns="0,1,2">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                style="@style/CardViewTitle"
+                                android:layout_marginTop="0dp"
+                                android:layout_span="4"
+                                android:text="@string/indexLabel"
+                                android:textSize="24sp" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/imcLabel"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/imcValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20" />
+
+                            <TextView
+                                android:id="@+id/imcViewText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ellipsize="start"
+                                android:gravity="center"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/imcHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ffmiLabel"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/ffmiValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20" />
+
+                            <TextView
+                                android:id="@+id/ffmiViewText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/ffmiHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            tools:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="@string/rfmLabel"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/rfmValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:maxWidth="100dp"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                tools:text="20" />
+
+                            <TextView
+                                android:id="@+id/rfmViewText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="18sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/rfmHelp"
+                                android:layout_width="25sp"
+                                android:layout_height="25sp"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="false"
+                                android:background="@color/background"
+                                android:cropToPadding="false"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:minWidth="70dp"
+                    android:minHeight="70dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- clear space to scroll above the FAB (56dp + 2x 10dp margin) -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="76dp" />
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAllWeightEntries"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/AddLabel"
+        android:gravity="bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/toolbar_background"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        />
+
+
+</RelativeLayout>

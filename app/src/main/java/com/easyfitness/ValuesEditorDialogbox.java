@@ -140,8 +140,7 @@ public class ValuesEditorDialogbox extends Dialog implements View.OnClickListene
                     Float.parseFloat(valueEdit.getValue().replaceAll(",", ".")),
                     Unit.fromString(valueEdit.getSelectedUnit()),
                     prevValue.getId(),
-                    prevValue.getLabel(),
-                    prevValue.getOriginalUnit());
+                    prevValue.getLabel());
         }
         return returnValues;
     }

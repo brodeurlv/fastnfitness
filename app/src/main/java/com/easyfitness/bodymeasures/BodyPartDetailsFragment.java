@@ -444,6 +444,6 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private Value getValueWithValidUnit(BodyMeasure lastBodyMeasure) {
         Unit unitDef = getValidUnit(lastBodyMeasure);
         Value oldValue = lastBodyMeasure.getBodyMeasure();
-        return new Value(oldValue.getValue(), unitDef, oldValue.getId(), oldValue.getLabel(), oldValue.getOriginalUnit());
+        return new Value(oldValue.getValue(), unitDef, oldValue.getId(), oldValue.getLabel());
     }
 }

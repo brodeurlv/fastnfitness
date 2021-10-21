@@ -12,7 +12,7 @@ public enum Unit {
     UNITLESS("", UnitType.NONE);
 
     private final String mDisplayName;
-    private final UnitType mUnitType;
+    private UnitType mUnitType;
 
     //Constructeur
     Unit(String displayName, UnitType unitType) {
@@ -65,5 +65,8 @@ public enum Unit {
 
     public UnitType getUnitType() {
         return mUnitType;
+    }
+    public void setUnitType(UnitType unitType) {
+        mUnitType = unitType;
     }
 }

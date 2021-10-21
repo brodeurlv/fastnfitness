@@ -27,11 +27,9 @@ public class DAOBodyMeasure extends DAOBase {
     public static final String MEASURE = "mesure";
     public static final String DATE = "date";
     public static final String UNIT = "unit";
-    /** Contains the original unit in case it was converted */
-    public static final String ORIGINAL_UNIT = "original_unit";
     public static final String PROFIL_KEY = "profil_id";
 
-    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT + " INTEGER, " + ORIGINAL_UNIT + " INTEGER);";
+    public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " DATE, " + BODYPART_ID + " INTEGER, " + MEASURE + " REAL , " + PROFIL_KEY + " INTEGER, " + UNIT  + " INTEGER);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     private final Profile mProfile = null;
@@ -72,7 +70,6 @@ public class DAOBodyMeasure extends DAOBase {
             value.put(DAOBodyMeasure.MEASURE, pValue.getValue());
             value.put(DAOBodyMeasure.PROFIL_KEY, pProfileId);
             value.put(DAOBodyMeasure.UNIT, pValue.getUnit().ordinal());
-            value.put(DAOBodyMeasure.ORIGINAL_UNIT, pValue.getOriginalUnit() != null ? pValue.getOriginalUnit().ordinal() : null);
 
             db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
 
@@ -91,7 +88,7 @@ public class DAOBodyMeasure extends DAOBase {
 
         mCursor = null;
         mCursor = db.query(TABLE_NAME,
-                new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT, ORIGINAL_UNIT},
+                new String[]{KEY, DATE, BODYPART_ID, MEASURE, PROFIL_KEY, UNIT},
                 KEY + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
@@ -100,13 +97,11 @@ public class DAOBodyMeasure extends DAOBase {
 
         Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
-        int origUnitColumnIndex = mCursor.getColumnIndex(ORIGINAL_UNIT);
         Value value = new Value(
                 mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
                 Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
                 null,
-                ResourcesCompat.ID_NULL,
-                mCursor.isNull(origUnitColumnIndex) ? null : Unit.fromInteger(mCursor.getInt(origUnitColumnIndex))
+                ResourcesCompat.ID_NULL
         );
 
         //db.close();
@@ -133,13 +128,11 @@ public class DAOBodyMeasure extends DAOBase {
             do {
                 Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
 
-                int origUnitColumnIndex = mCursor.getColumnIndex(ORIGINAL_UNIT);
                 Value value = new Value(
                         mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
                         Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
                         null,
-                        ResourcesCompat.ID_NULL,
-                        mCursor.isNull(origUnitColumnIndex) ? null : Unit.fromInteger(mCursor.getInt(origUnitColumnIndex))
+                        ResourcesCompat.ID_NULL
                 );
 
                 BodyMeasure measure = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
@@ -266,7 +259,6 @@ public class DAOBodyMeasure extends DAOBase {
         value.put(DAOBodyMeasure.MEASURE, m.getBodyMeasure().getValue());
         value.put(DAOBodyMeasure.PROFIL_KEY, m.getProfileID());
         value.put(DAOBodyMeasure.UNIT, m.getBodyMeasure().getUnit().ordinal());
-        value.put(DAOBodyMeasure.ORIGINAL_UNIT, m.getBodyMeasure().getOriginalUnit() != null ? m.getBodyMeasure().getOriginalUnit().ordinal() : null);
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
