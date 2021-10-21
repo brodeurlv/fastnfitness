@@ -34,12 +34,13 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
-import com.easyfitness.ValueEditorDialogbox;
+import com.easyfitness.ValuesEditorDialogbox;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.UnitConverter;
+import com.easyfitness.utils.Value;
 import com.easyfitness.views.EditableInputView;
 import com.easyfitness.views.GraphView;
 import com.github.mikephil.charting.data.Entry;
@@ -77,23 +78,17 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         @Override
         public void onClick(View v) {
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
-            double lastValue;
-            if (lastBodyMeasure == null) {
-                lastValue = 0;
-            } else {
-                lastValue = lastBodyMeasure.getBodyMeasure();
-            }
-            Unit unitDef = getValidUnit(lastBodyMeasure);
-
-            ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
+            final Value lastValue = lastBodyMeasure == null
+                    ? new Value(0, getValidUnit(null))
+                    : new Value(lastBodyMeasure.getBodyMeasure(), getValidUnit(lastBodyMeasure));
+            ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastValue});
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
             editorDialogbox.setOnDismissListener(dialog -> {
                 if (!editorDialogbox.isCancelled()) {
                     Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                    float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                    Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), value, getProfile().getId(), unit);
+                    final Value newValue = editorDialogbox.getValues()[0];
+                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                     refreshData();
                 }
             });
@@ -359,14 +354,14 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private void showEditDialog(final long idToEdit) {
         BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
 
-        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), getValidUnit(bodyMeasure));
+        final Value lastValue = new Value(bodyMeasure.getBodyMeasure(), getValidUnit(bodyMeasure));
+
+        ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", new Value[]{lastValue});
         editorDialogbox.setOnDismissListener(dialog -> {
             if (!editorDialogbox.isCancelled()) {
                 Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                Unit unit = Unit.fromString(editorDialogbox.getUnit());
-
-                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
+                final Value newValue = editorDialogbox.getValues()[0];
+                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), newValue.getValue(), bodyMeasure.getProfileID(), newValue.getUnit());
                 int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
                 refreshData();
             }

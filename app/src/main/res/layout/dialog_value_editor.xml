@@ -50,17 +50,12 @@
             tool:visibility="visible" />
     </LinearLayout>
 
-    <com.easyfitness.views.SingleValueInputView
-        android:id="@+id/EditorValueInput"
+    <LinearLayout
+        android:id="@+id/EditorValuesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:showComment="false"
-        app:showUnit="true"
-        app:title="@string/edit_value"
-        app:value=""
-        tool:value="10"
-        tool:visibility="visible" />
+        android:orientation="vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"

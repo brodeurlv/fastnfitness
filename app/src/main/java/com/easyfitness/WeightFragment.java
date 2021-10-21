@@ -30,6 +30,7 @@ import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.Gender;
 import com.easyfitness.utils.UnitConverter;
+import com.easyfitness.utils.Value;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
@@ -140,42 +141,39 @@ public class WeightFragment extends Fragment {
     private final OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            ValueEditorDialogbox editorDialogbox;
+            ValuesEditorDialogbox editorDialogbox;
             switch (view.getId()) {
                 case R.id.weightInput:
-                    BodyMeasure lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
-                    if (lastWeightValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit());
-                    }
+                    BodyMeasure lastWeightMeasure = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
+                    Value lastWeighValue = lastWeightMeasure == null
+                            ? new Value(0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), R.string.weightLabel)
+                            : new Value(lastWeightMeasure.getBodyMeasure(), lastWeightMeasure.getUnit(), R.string.weightLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWeighValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                            mDbBodyMeasure.addBodyMeasure(date, weightBodyPart.getId(), value, getProfile().getId(), unit);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, weightBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                             refreshData();
                         }
                     });
                     editorDialogbox.show();
                     break;
                 case R.id.fatInput:
-                    BodyMeasure lastFatValue = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
-                    if (lastFatValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastFatValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastFatMeasure = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
+                    final Value lastFatValue = lastFatMeasure == null
+                            ? new Value(0, Unit.PERCENTAGE, R.string.fatLabel)
+                            : new Value(lastFatMeasure.getBodyMeasure(), lastFatMeasure.getUnit(), R.string.fatLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastFatValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, fatBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, fatBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                             refreshData();
                         }
                     });
@@ -183,19 +181,18 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.musclesInput:
-                    BodyMeasure lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
-                    if (lastMusclesValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastMusclesValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastMusclesMeasure = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
+                    Value lastMusclesValue = lastMusclesMeasure == null
+                            ? new Value(0, Unit.PERCENTAGE, R.string.musclesLabel)
+                            : new Value(lastMusclesMeasure.getBodyMeasure(), lastMusclesMeasure.getUnit(), R.string.musclesLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastMusclesValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, musclesBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, musclesBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                             refreshData();
                         }
                     });
@@ -203,19 +200,18 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.waterInput:
-                    BodyMeasure lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
-                    if (lastWaterValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWaterValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastWaterMeasure = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
+                    Value lastWaterValue = lastWaterMeasure == null
+                            ? new Value(0, Unit.PERCENTAGE, R.string.waterLabel)
+                            : new Value(lastWaterMeasure.getBodyMeasure(), lastWaterMeasure.getUnit(), R.string.waterLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWaterValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, waterBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, waterBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                             refreshData();
                         }
                     });
@@ -223,20 +219,18 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.sizeInput:
-                    BodyMeasure lastSizeValue = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
-                    if (lastSizeValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultSizeUnit(getActivity()));
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit());
-                    }
+                    BodyMeasure lastSizeMeasure = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
+                    Value lastSizeValue = lastSizeMeasure == null
+                            ? new Value(0, SettingsFragment.getDefaultSizeUnit(getActivity()), R.string.size)
+                            : new Value(lastSizeMeasure.getBodyMeasure(), lastSizeMeasure.getUnit(), R.string.size);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                            mDbBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), value, getProfile().getId(), unit);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), newValue.getValue(), getProfile().getId(), newValue.getUnit());
                             refreshData();
                         }
                     });
