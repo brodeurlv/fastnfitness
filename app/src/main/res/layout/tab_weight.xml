@@ -454,7 +454,7 @@
         android:id="@+id/addAllWeightEntries"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_add_multiple"
         android:contentDescription="@string/AddLabel"
         android:gravity="bottom"
         android:layout_alignParentEnd="true"
