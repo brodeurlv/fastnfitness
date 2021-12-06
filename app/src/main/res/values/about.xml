@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.20.3</string>
+    <string name="app_version" translatable="false">0.20.4</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
     <string name="bsd3" translatable="false">BSD 3</string>
@@ -11,8 +11,10 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.20.3: September 09, 2021 \n
-        \t- Bug: Fixed bug introduced on 0.20.2 on muscles list (#220, Thank you @MatthewRFennell). Muscles created on 0.20.2 exclusively might need to be manually corrected by user. \n
+0.20.4: December 06, 2021 \n
+        \t- Bug: Fixed crash on Body Measure import (#240)
+        \t- Bug: Fixed pending record time (#232, Thank you @hhpmmd)
+        \t- Bug: Fixed import files being unselectable (#224)
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
