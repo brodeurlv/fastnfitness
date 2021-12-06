@@ -207,6 +207,7 @@ public class CVSManager {
             cvsOutput.write("bodypart_label");
             cvsOutput.write(DAOBodyMeasure.MEASURE);
             cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
+            cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.endRecord();
 
             for (int i = 0; i < bodyMeasures.size(); i++) {
