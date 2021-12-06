@@ -218,6 +218,7 @@ public class CVSManager {
                 cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
+                cvsOutput.write(bodyMeasures.get(i).getUnit().toString());
 
                 cvsOutput.endRecord();
             }
@@ -395,7 +396,7 @@ public class CVSManager {
                         DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
                         dbcBodyMeasure.open();
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
-                        Unit unit = Unit.fromInteger(Integer.parseInt(csvRecords.get(DAOBodyMeasure.UNIT))); // Mandatory. Cannot not know the Unit.
+                        Unit unit = Unit.fromString(csvRecords.get(DAOBodyMeasure.UNIT)); // Mandatory. Cannot not know the Unit.
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();

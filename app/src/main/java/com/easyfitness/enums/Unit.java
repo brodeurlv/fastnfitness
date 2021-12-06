@@ -1,5 +1,7 @@
 package com.easyfitness.enums;
 
+import java.util.Locale;
+
 public enum Unit {
     KG("kg", UnitType.WEIGHT),
     LBS("lb", UnitType.WEIGHT),
@@ -45,17 +47,17 @@ public enum Unit {
     }
 
     public static Unit fromString(String x) {
-        if (x.equals(KG.mDisplayName)) return KG;
-        if (x.equals(LBS.mDisplayName)) return LBS;
-        if (x.equals(STONES.mDisplayName)) return STONES;
+        if (x.toLowerCase(Locale.ROOT).equals(KG.mDisplayName)) return KG;
+        if (x.toLowerCase(Locale.ROOT).equals(LBS.mDisplayName)) return LBS;
+        if (x.toLowerCase(Locale.ROOT).equals(STONES.mDisplayName)) return STONES;
 
-        if (x.equals(KM.mDisplayName)) return KM;
-        if (x.equals(MILES.mDisplayName)) return MILES;
+        if (x.toLowerCase(Locale.ROOT).equals(KM.mDisplayName)) return KM;
+        if (x.toLowerCase(Locale.ROOT).equals(MILES.mDisplayName)) return MILES;
 
-        if (x.equals(CM.mDisplayName)) return CM;
-        if (x.equals(INCH.mDisplayName)) return INCH;
-        if (x.equals(PERCENTAGE.mDisplayName)) return PERCENTAGE;
-        if (x.equals(UNITLESS.mDisplayName)) return UNITLESS;
+        if (x.toLowerCase(Locale.ROOT).equals(CM.mDisplayName)) return CM;
+        if (x.toLowerCase(Locale.ROOT).equals(INCH.mDisplayName)) return INCH;
+        if (x.toLowerCase(Locale.ROOT).equals(PERCENTAGE.mDisplayName)) return PERCENTAGE;
+        if (x.toLowerCase(Locale.ROOT).equals(UNITLESS.mDisplayName)) return UNITLESS;
         return null;
     }
 
