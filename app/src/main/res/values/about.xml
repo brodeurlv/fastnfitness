@@ -2,18 +2,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_version" translatable="false">0.20.3</string>
     <string name="database_version_label" translatable="false">Database version: </string>
-    <string name="author_label">Author: </string>
     <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
-    <string name="license">"License: "</string>
     <string name="bsd3" translatable="false">BSD 3</string>
     <string name="author" translatable="false">Charles Combes</string>
     <string name="opensource_label" translatable="false">Open-source URL: </string>
     <string name="opensource_url" translatable="false">https://github.com/brodeurlv/fastnfitness</string>
-    <string name="email_label" translatable="false">Contact the developer: </string>
+    <string name="email_label" translatable="false">Contact the developer:</string>
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
-    <string name="revision_history_label" translatable="false">Revision History: </string>
+    <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-v0.20.3: September 09, 2021 \n
+0.20.3: September 09, 2021 \n
         \t- Bug: Fixed bug introduced on 0.20.2 on muscles list (#220, Thank you @MatthewRFennell). Muscles created on 0.20.2 exclusively might need to be manually corrected by user. \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>

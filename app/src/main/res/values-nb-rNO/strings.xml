@@ -220,6 +220,7 @@
     <string name="introSlide1Text">Velkommen til Fast N Fitness. En rask og enkel måte å registrere programmet på og følge din kropp og treningsprogresjon.</string>
     <string name="introSlide2Text">Skriv navnet på øvelsen og detaljene, og det vil bli opprettet automatisk. Du kan finne den tilbake lett i listen.</string>
     <string name="lastRecordLabel">Siste opptak</string>
+    <string name="license">Tillatelse:</string>
     <string name="MachineHint">Navn på treningen din</string>
 
     <string name="maxRep1">Maks vekt (reps &gt;= 1)</string>
