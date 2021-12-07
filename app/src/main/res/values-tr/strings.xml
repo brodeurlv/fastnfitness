@@ -269,4 +269,5 @@
     <string name="global_confirm_question">Emin misin\?</string>
     <string name="global_confirm">Onayla</string>
     <string name="license">Lisans:</string>
+    <string name="weightRequiredForMultipleInputs">Birden çok değer eklemek için bir ağırlık sağlamalısınız</string>
 </resources>
