@@ -268,4 +268,5 @@
     <string name="global_warning">Uyarı</string>
     <string name="global_confirm_question">Emin misin\?</string>
     <string name="global_confirm">Onayla</string>
+    <string name="license">Lisans:</string>
 </resources>
