@@ -2,6 +2,7 @@ package com.easyfitness;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,12 +28,16 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.enums.Unit;
+import com.easyfitness.enums.UnitType;
 import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.Gender;
 import com.easyfitness.utils.UnitConverter;
+import com.easyfitness.utils.Value;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,42 +146,35 @@ public class WeightFragment extends Fragment {
     private final OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            ValueEditorDialogbox editorDialogbox;
+            ValuesEditorDialogbox editorDialogbox;
             switch (view.getId()) {
                 case R.id.weightInput:
-                    BodyMeasure lastWeightValue = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
-                    if (lastWeightValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit());
-                    }
+                    BodyMeasure lastWeightMeasure = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
+                    Value lastWeighValue = getValueFromLastMeasure(lastWeightMeasure, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), null, R.string.weightLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWeighValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                            mDbBodyMeasure.addBodyMeasure(date, weightBodyPart.getId(), value, getProfile().getId(), unit);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, weightBodyPart.getId(), newValue, getProfile().getId());
                             refreshData();
                         }
                     });
                     editorDialogbox.show();
                     break;
                 case R.id.fatInput:
-                    BodyMeasure lastFatValue = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
-                    if (lastFatValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastFatValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastFatMeasure = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
+                    final Value lastFatValue = getValueFromLastMeasure(lastFatMeasure, Unit.PERCENTAGE, null, R.string.fatLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastFatValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, fatBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, fatBodyPart.getId(), newValue, getProfile().getId());
                             refreshData();
                         }
                     });
@@ -183,19 +182,16 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.musclesInput:
-                    BodyMeasure lastMusclesValue = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
-                    if (lastMusclesValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastMusclesValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastMusclesMeasure = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
+                    Value lastMusclesValue = getValueFromLastMeasure(lastMusclesMeasure, Unit.PERCENTAGE, null, R.string.musclesLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastMusclesValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, musclesBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, musclesBodyPart.getId(), newValue, getProfile().getId());
                             refreshData();
                         }
                     });
@@ -203,19 +199,16 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.waterInput:
-                    BodyMeasure lastWaterValue = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
-                    if (lastWaterValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, Unit.PERCENTAGE);
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastWaterValue.getBodyMeasure(), Unit.PERCENTAGE);
-                    }
+                    BodyMeasure lastWaterMeasure = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
+                    Value lastWaterValue = getValueFromLastMeasure(lastWaterMeasure, Unit.PERCENTAGE, null, R.string.waterLabel);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWaterValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            mDbBodyMeasure.addBodyMeasure(date, waterBodyPart.getId(), value, getProfile().getId(), Unit.PERCENTAGE);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, waterBodyPart.getId(), newValue, getProfile().getId());
                             refreshData();
                         }
                     });
@@ -223,26 +216,99 @@ public class WeightFragment extends Fragment {
                     editorDialogbox.show();
                     break;
                 case R.id.sizeInput:
-                    BodyMeasure lastSizeValue = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
-                    if (lastSizeValue == null) {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultSizeUnit(getActivity()));
-                    } else {
-                        editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit());
-                    }
+                    BodyMeasure lastSizeMeasure = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
+                    Value lastSizeValue = getValueFromLastMeasure(lastSizeMeasure, SettingsFragment.getDefaultSizeUnit(getActivity()), null, R.string.size);
+                    editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
                     editorDialogbox.setTitle(R.string.AddLabel);
                     editorDialogbox.setPositiveButton(R.string.AddLabel);
                     editorDialogbox.setOnDismissListener(dialog -> {
                         if (!editorDialogbox.isCancelled()) {
                             Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                            float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                            Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                            mDbBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), value, getProfile().getId(), unit);
+                            Value newValue = editorDialogbox.getValues()[0];
+                            mDbBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), newValue, getProfile().getId());
                             refreshData();
                         }
                     });
                     editorDialogbox.show();
                     break;
             }
+        }
+    };
+
+    private final OnClickListener mOnAddAllEntriesClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            BodyMeasure lastWeightMeasure = mDbBodyMeasure.getLastBodyMeasures(weightBodyPart.getId(), getProfile());
+            BodyMeasure lastFatMeasure = mDbBodyMeasure.getLastBodyMeasures(fatBodyPart.getId(), getProfile());
+            BodyMeasure lastMusclesMeasure = mDbBodyMeasure.getLastBodyMeasures(musclesBodyPart.getId(), getProfile());
+            BodyMeasure lastWaterMeasure = mDbBodyMeasure.getLastBodyMeasures(waterBodyPart.getId(), getProfile());
+
+            Value lastWeightValue = getValueFromLastMeasure(lastWeightMeasure, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit(), String.valueOf(weightBodyPart.getId()), R.string.weightLabel);
+            Value lastFatValue = getValueFromLastMeasure(lastFatMeasure, Unit.PERCENTAGE, String.valueOf(fatBodyPart.getId()), R.string.fatLabel);
+            Value lastMusclesValue = getValueFromLastMeasure(lastMusclesMeasure, Unit.PERCENTAGE, String.valueOf(musclesBodyPart.getId()), R.string.musclesLabel);
+            Value lastWaterValue = getValueFromLastMeasure(lastWaterMeasure, Unit.PERCENTAGE, String.valueOf(waterBodyPart.getId()), R.string.waterLabel);
+
+            // Add other unit options in addition to percentages
+            Unit fatUnit = lastFatValue.getUnit();
+            fatUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastFatValue.setUnit(fatUnit);
+
+            Unit musclesUnit = lastMusclesValue.getUnit();
+            musclesUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastMusclesValue.setUnit(musclesUnit);
+
+            Unit waterUnit = lastWaterValue.getUnit();
+            waterUnit.setUnitType(UnitType.WEIGHT_OR_PERCENTAGE);
+            lastWaterValue.setUnit(waterUnit);
+
+            ValuesEditorDialogbox editorDialog = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastWeightValue, lastFatValue, lastMusclesValue, lastWaterValue});
+            editorDialog.setTitle(R.string.AddLabel);
+            editorDialog.setPositiveButton(R.string.AddLabel);
+            editorDialog.setOnDismissListener(dialog -> {
+                if (editorDialog.isCancelled()) {
+                    return;
+                }
+                Date date = DateConverter.localDateStrToDate(editorDialog.getDate(), getContext());
+                long profileId = getProfile().getId();
+                Value[] newValues = editorDialog.getValues();
+                Value newWeightValue = null;
+                // Find the weight value if we need it as the baseline
+                for (Value newValue : newValues) {
+                    if(newValue.getId().equals(String.valueOf(weightBodyPart.getId()))){
+                        newWeightValue = newValue;
+                        break;
+                    }
+                }
+                // Keep the dialog open if the weight was not set
+                if (newWeightValue.getValue() == null) {
+                    editorDialog.show();
+                    KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.weightRequiredForMultipleInputs).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    return;
+                }
+                for (Value newValue : newValues) {
+                    long bodyPartId = Long.parseLong(newValue.getId());
+                    // Value was not entered
+                    if (newValue.getValue() == null) {
+                        continue;
+                    }
+                    // If the unit is not in percent and it is a percentage measurement convert it
+                    if (newValue.getUnit() != Unit.PERCENTAGE && (bodyPartId == fatBodyPart.getId() || bodyPartId == musclesBodyPart.getId() || bodyPartId == waterBodyPart.getId())) {
+                        // Convert them to the same unit if necessary
+                        if(newValue.getUnit() != newWeightValue.getUnit()){
+                            newValue.setValue(UnitConverter.weightConverter(newValue.getValue(), newValue.getUnit(), newWeightValue.getUnit()));
+                            newValue.setUnit(newWeightValue.getUnit());
+                        }
+
+                        // Convert absolute value to percentage
+                        newValue.setValue((newValue.getValue() / newWeightValue.getValue())*100);
+                        newValue.setUnit(Unit.PERCENTAGE);
+                    }
+                    mDbBodyMeasure.addBodyMeasure(date, bodyPartId, newValue, profileId);
+                }
+                refreshData();
+
+            });
+            editorDialog.show();
         }
     };
 
@@ -291,12 +357,15 @@ public class WeightFragment extends Fragment {
         ImageButton imcHelpButton = view.findViewById(R.id.imcHelp);
         ImageButton rfmHelpButton = view.findViewById(R.id.rfmHelp);
 
+        FloatingActionButton addAllButton = view.findViewById(R.id.addAllWeightEntries);
+
         /* Initialisation des evenements */
         weightEdit.setOnClickListener(mOnClickListener);
         fatEdit.setOnClickListener(mOnClickListener);
         musclesEdit.setOnClickListener(mOnClickListener);
         waterEdit.setOnClickListener(mOnClickListener);
         sizeEdit.setOnClickListener(mOnClickListener);
+        addAllButton.setOnClickListener(mOnAddAllEntriesClickListener);
         imcHelpButton.setOnClickListener(showHelp);
         ffmiHelpButton.setOnClickListener(showHelp);
         rfmHelpButton.setOnClickListener(showHelp);
@@ -363,7 +432,13 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), Unit.KG));
+                    Entry value = new Entry(
+                            (float) DateConverter.nbDays(valueList.get(i).getDate()),
+                            UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(),
+                                    valueList.get(i).getBodyMeasure().getUnit(),
+                                    Unit.KG
+                            )
+                    );
                     yVals.add(value);
                 }
 
@@ -387,7 +462,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure().getValue());
                     yVals.add(value);
                 }
 
@@ -408,7 +483,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure().getValue());
                     yVals.add(value);
                 }
 
@@ -430,7 +505,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure().getValue());
                     yVals.add(value);
                 }
 
@@ -452,7 +527,7 @@ public class WeightFragment extends Fragment {
 
             if (valueList.size() > 0) {
                 for (int i = valueList.size() - 1; i >= 0; i--) {
-                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure());
+                    Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), valueList.get(i).getBodyMeasure().getValue());
                     yVals.add(value);
                 }
 
@@ -608,6 +683,23 @@ public class WeightFragment extends Fragment {
         }
     }
 
+    /**
+     * Get a Value object which uses the data from the last measure if available
+     *
+     * @param lastMeasure Last measure to use data from if available
+     * @param defaultUnit Default unit to use in case there is no last measure
+     * @param id          ID for the returned Value
+     * @param label       Label for the returned Value
+     */
+    private Value getValueFromLastMeasure(@Nullable BodyMeasure lastMeasure, Unit defaultUnit, @Nullable String id, int label) {
+        if (lastMeasure == null) {
+            return new Value(0f, defaultUnit, id, label);
+        } else {
+            Value lastValue = lastMeasure.getBodyMeasure();
+            return new Value(lastValue.getValue(), lastValue.getUnit(), id, label);
+        }
+    }
+
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
@@ -619,24 +711,24 @@ public class WeightFragment extends Fragment {
                 BodyMeasure lastSizeValue = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
 
                 if (lastWeightValue != null) {
-                    String editText = String.format("%.1f", lastWeightValue.getBodyMeasure()) + lastWeightValue.getUnit().toString();
+                    String editText = String.format("%.1f", lastWeightValue.getBodyMeasure().getValue()) + lastWeightValue.getBodyMeasure().getUnit().toString();
 
                     weightEdit.setText(editText);
                     // update IMC
-                    if (lastSizeValue == null || lastSizeValue.getBodyMeasure() == 0) {
+                    if (lastSizeValue == null || lastSizeValue.getBodyMeasure().getValue() == 0) {
                         imcText.setText("-");
                         imcRank.setText(R.string.no_size_available);
                         ffmiText.setText("-");
                         ffmiRank.setText(R.string.no_size_available);
                     } else {
-                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG),
-                                UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit(), Unit.CM) );
+                        float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM));
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
                         if (lastFatValue != null) {
-                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure(), lastWeightValue.getUnit(), Unit.KG),
-                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit(), Unit.CM),
-                                    lastFatValue.getBodyMeasure());
+                            double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM),
+                                    lastFatValue.getBodyMeasure().getValue());
                             ffmiText.setText(String.format("%.1f", ffmiValue));
                             if (getProfile().getGender() == Gender.FEMALE)
                                 ffmiRank.setText(getFfmiTextForWomen(ffmiValue));
@@ -661,25 +753,25 @@ public class WeightFragment extends Fragment {
                 }
 
                 if (lastWaterValue != null) {
-                    String editText = String.format("%.1f", lastWaterValue.getBodyMeasure()) + lastWaterValue.getUnit().toString();
+                    String editText = String.format("%.1f", lastWaterValue.getBodyMeasure().getValue()) + lastWaterValue.getBodyMeasure().getUnit().toString();
                     waterEdit.setText(editText);
                 } else
                     waterEdit.setText("-");
 
                 if (lastFatValue != null) {
-                    String editText = String.format("%.1f", lastFatValue.getBodyMeasure()) + lastFatValue.getUnit().toString();
+                    String editText = String.format("%.1f", lastFatValue.getBodyMeasure().getValue()) + lastFatValue.getBodyMeasure().getUnit().toString();
                     fatEdit.setText(editText);
                 } else
                     fatEdit.setText("-");
 
                 if (lastMusclesValue != null) {
-                    String editText = String.format("%.1f", lastMusclesValue.getBodyMeasure()) + lastMusclesValue.getUnit().toString();
+                    String editText = String.format("%.1f", lastMusclesValue.getBodyMeasure().getValue()) + lastMusclesValue.getBodyMeasure().getUnit().toString();
                     musclesEdit.setText(editText);
                 } else
                     musclesEdit.setText("-");
 
                 if (lastSizeValue != null) {
-                    String editText = String.format("%.1f", lastSizeValue.getBodyMeasure()) + lastSizeValue.getUnit().toString();
+                    String editText = String.format("%.1f", lastSizeValue.getBodyMeasure().getValue()) + lastSizeValue.getBodyMeasure().getUnit().toString();
                     sizeEdit.setText(editText);
                     mSizeLineChart.setVisibility(View.VISIBLE);
                 } else {

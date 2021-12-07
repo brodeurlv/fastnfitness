@@ -177,9 +177,10 @@ public class SingleValueInputView extends LinearLayout {
     }
 
     public void setSelectedUnit(String selectedUnit) {
-        ArrayAdapter arrayAdapter = (ArrayAdapter) unitSpinner.getAdapter();
-        if (arrayAdapter != null)
+        ArrayAdapter<String> arrayAdapter = (ArrayAdapter) unitSpinner.getAdapter();
+        if (arrayAdapter != null) {
             unitSpinner.setSelection(arrayAdapter.getPosition(selectedUnit));
+        }
     }
 
     public void setSelectedUnit(int selectedUnit) {

@@ -34,12 +34,13 @@ import com.easyfitness.MainActivity;
 import com.easyfitness.AppViMo;
 import com.easyfitness.R;
 import com.easyfitness.SettingsFragment;
-import com.easyfitness.ValueEditorDialogbox;
+import com.easyfitness.ValuesEditorDialogbox;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.UnitConverter;
+import com.easyfitness.utils.Value;
 import com.easyfitness.views.EditableInputView;
 import com.easyfitness.views.GraphView;
 import com.github.mikephil.charting.data.Entry;
@@ -77,23 +78,17 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         @Override
         public void onClick(View v) {
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
-            double lastValue;
-            if (lastBodyMeasure == null) {
-                lastValue = 0;
-            } else {
-                lastValue = lastBodyMeasure.getBodyMeasure();
-            }
-            Unit unitDef = getValidUnit(lastBodyMeasure);
-
-            ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastValue, unitDef);
+            final Value lastValue = lastBodyMeasure == null
+                    ? new Value(0f, getValidUnit(null))
+                    : getValueWithValidUnit(lastBodyMeasure);
+            ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastValue});
             editorDialogbox.setTitle(R.string.AddLabel);
             editorDialogbox.setPositiveButton(R.string.AddLabel);
             editorDialogbox.setOnDismissListener(dialog -> {
                 if (!editorDialogbox.isCancelled()) {
                     Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                    float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                    Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), value, getProfile().getId(), unit);
+                    final Value newValue = editorDialogbox.getValues()[0];
+                    mBodyMeasureDb.addBodyMeasure(date, mInitialBodyPart.getId(), newValue, getProfile().getId());
                     refreshData();
                 }
             });
@@ -277,22 +272,22 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float normalizedMeasure;
-            switch (valueList.get(i).getUnit().getUnitType()) {
+            switch (valueList.get(i).getBodyMeasure().getUnit().getUnitType()) {
                 case WEIGHT:
-                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
                     break;
                 case SIZE:
-                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure(), valueList.get(i).getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
+                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
                     break;
                 default:
-                    normalizedMeasure = valueList.get(i).getBodyMeasure();
+                    normalizedMeasure = valueList.get(i).getBodyMeasure().getValue();
             }
 
             Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), normalizedMeasure);
             yVals.add(value);
-            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure();
-            else if (valueList.get(i).getBodyMeasure() < minBodyMeasure)
-                minBodyMeasure = valueList.get(i).getBodyMeasure();
+            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
+            else if (valueList.get(i).getBodyMeasure().getValue() < minBodyMeasure)
+                minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
         }
 
         mDateGraph.draw(yVals);
@@ -359,14 +354,19 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private void showEditDialog(final long idToEdit) {
         BodyMeasure bodyMeasure = mBodyMeasureDb.getMeasure(idToEdit);
 
-        ValueEditorDialogbox editorDialogbox = new ValueEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", bodyMeasure.getBodyMeasure(), getValidUnit(bodyMeasure));
+        final Value lastValue = bodyMeasure.getBodyMeasure();
+
+        ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), bodyMeasure.getDate(), "", new Value[]{lastValue});
         editorDialogbox.setOnDismissListener(dialog -> {
             if (!editorDialogbox.isCancelled()) {
                 Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                Unit unit = Unit.fromString(editorDialogbox.getUnit());
-
-                BodyMeasure updatedBodyMeasure = new BodyMeasure(bodyMeasure.getId(), date, bodyMeasure.getBodyPartID(), value, bodyMeasure.getProfileID(), unit);
+                final Value newValue = editorDialogbox.getValues()[0];
+                BodyMeasure updatedBodyMeasure = new BodyMeasure(
+                        bodyMeasure.getId(),
+                        date,
+                        bodyMeasure.getBodyPartID(),
+                        newValue,
+                        bodyMeasure.getProfileID());
                 int i = mBodyMeasureDb.updateMeasure(updatedBodyMeasure);
                 refreshData();
             }
@@ -417,7 +417,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private Unit getValidUnit(BodyMeasure lastBodyMeasure) {
         UnitType unitType = BodyPartExtensions.getUnitType(mInitialBodyPart.getBodyPartResKey());
         if (lastBodyMeasure != null) {
-            if (unitType != lastBodyMeasure.getUnit().getUnitType()) {
+            if (unitType != lastBodyMeasure.getBodyMeasure().getUnit().getUnitType()) {
                 lastBodyMeasure = null;
             }
         }
@@ -436,8 +436,14 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
                     break;
             }
         } else {
-            unitDef = lastBodyMeasure.getUnit();
+            unitDef = lastBodyMeasure.getBodyMeasure().getUnit();
         }
         return unitDef;
+    }
+
+    private Value getValueWithValidUnit(BodyMeasure lastBodyMeasure) {
+        Unit unitDef = getValidUnit(lastBodyMeasure);
+        Value oldValue = lastBodyMeasure.getBodyMeasure();
+        return new Value(oldValue.getValue(), unitDef, oldValue.getId(), oldValue.getLabel());
     }
 }

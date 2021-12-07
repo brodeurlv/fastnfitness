@@ -24,6 +24,7 @@ import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Muscle;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Value;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -145,7 +146,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.EXERCISE_TYPE + " INTEGER DEFAULT " + ExerciseType.STRENGTH.ordinal());
                     break;
                 case 16:
-                    // Merge of Cardio DB and Fonte DB
                     db.execSQL("ALTER TABLE " + DAOBodyMeasure.TABLE_NAME + " ADD COLUMN " + DAOBodyMeasure.UNIT + " INTEGER");
                     migrateWeightTable(db);
                     break;
@@ -196,11 +196,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                     List<Profile> profileList = daoProfile.getAllProfiles(db);
                     for (Profile profile:profileList) {
-                        daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, profile.getSize(), profile.getId(), defaultSizeUnit);
+                        daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, new Value((float) profile.getSize(), defaultSizeUnit), profile.getId());
                     }
                     break;
                 case 24:
                     updateMusclesToUseNewIds(db);
+                    break;
             }
             upgradeTo++;
         }
@@ -293,6 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOProfileWeight.DATE)));
                 value.put(DAOBodyMeasure.BODYPART_ID, BodyPartExtensions.WEIGHT);
                 value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOProfileWeight.POIDS)));
+                value.put(DAOBodyMeasure.UNIT, Unit.KG.ordinal());
                 value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOProfileWeight.PROFIL_KEY)));
 
                 db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
@@ -308,6 +310,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<BodyMeasure> valueList = daoBodyMeasure.getMeasuresList(db, selectQuery);
 
         for (BodyMeasure bodyMeasure : valueList) {
+            Value oldValue = bodyMeasure.getBodyMeasure();
+            Value newValue = oldValue;
             switch (bodyMeasure.getBodyPartID()) {
                 case BodyPartExtensions.LEFTBICEPS:
                 case BodyPartExtensions.RIGHTBICEPS:
@@ -318,17 +322,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 case BodyPartExtensions.RIGHTTHIGH:
                 case BodyPartExtensions.LEFTCALVES:
                 case BodyPartExtensions.RIGHTCALVES:
-                    bodyMeasure.setUnit(Unit.CM);
+                    newValue = new Value(oldValue.getValue(), Unit.CM);
                     break;
                 case BodyPartExtensions.WEIGHT:
-                    bodyMeasure.setUnit(Unit.KG);
+                    newValue = new Value(oldValue.getValue(), Unit.KG);
                     break;
                 case BodyPartExtensions.MUSCLES:
                 case BodyPartExtensions.WATER:
                 case BodyPartExtensions.FAT:
-                    bodyMeasure.setUnit(Unit.PERCENTAGE);
+                    newValue = new Value(oldValue.getValue(), Unit.PERCENTAGE);
                     break;
             }
+            bodyMeasure.setBodyMeasure(newValue);
             daoBodyMeasure.updateMeasure(db, bodyMeasure);
         }
     }

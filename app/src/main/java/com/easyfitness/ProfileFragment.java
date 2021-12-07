@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,16 +30,13 @@ import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.enums.Gender;
 import com.easyfitness.utils.ImageUtil;
-import com.easyfitness.utils.RealPathUtil;
+import com.easyfitness.utils.Value;
 import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -64,29 +60,26 @@ public class ProfileFragment extends Fragment {
     private AppViMo appViMo;
     private ProfileViMo profileViMo;
     private final OnClickListener mOnClickListener = view -> {
-        ValueEditorDialogbox editorDialogbox;
         if (view.getId() == R.id.size) {
-                BodyPart sizeBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
-                BodyMeasure lastSizeValue = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
-                if (lastSizeValue == null) {
-                    editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", 0, SettingsFragment.getDefaultSizeUnit(getActivity()));
-                } else {
-                    editorDialogbox = new ValueEditorDialogbox(getActivity(), new Date(), "", lastSizeValue.getBodyMeasure(), lastSizeValue.getUnit());
+            BodyPart sizeBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
+            BodyMeasure lastSizeMeasure = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
+            final Value lastSizeValue = lastSizeMeasure == null
+                    ? new Value(0f, SettingsFragment.getDefaultSizeUnit(getActivity()))
+                    : lastSizeMeasure.getBodyMeasure();
+            final ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
+            editorDialogbox.setTitle(R.string.AddLabel);
+            editorDialogbox.setPositiveButton(R.string.AddLabel);
+            editorDialogbox.setOnDismissListener(dialog -> {
+                if (!editorDialogbox.isCancelled()) {
+                    Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
+                    final Value newValue = editorDialogbox.getValues()[0];
+                    daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), newValue, appViMo.getProfile().getValue().getId());
+                    profileViMo.setSize(newValue.getValue());
+                    profileViMo.setSizeUnit(newValue.getUnit());
+                    requestForSave();
                 }
-                editorDialogbox.setTitle(R.string.AddLabel);
-                editorDialogbox.setPositiveButton(R.string.AddLabel);
-                editorDialogbox.setOnDismissListener(dialog -> {
-                    if (!editorDialogbox.isCancelled()) {
-                        Date date = DateConverter.localDateStrToDate(editorDialogbox.getDate(), getContext());
-                        float value = Float.parseFloat(editorDialogbox.getValue().replaceAll(",", "."));
-                        Unit unit = Unit.fromString(editorDialogbox.getUnit());
-                        daoBodyMeasure.addBodyMeasure(date, sizeBodyPart.getId(), value, appViMo.getProfile().getValue().getId(), unit);
-                        profileViMo.setSize(value);
-                        profileViMo.setSizeUnit(unit);
-                        requestForSave();
-                    }
-                });
-                editorDialogbox.show();
+            });
+            editorDialogbox.show();
         }
     };
     private boolean isSaving;
@@ -221,7 +214,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 sizeEdit.setText(String.valueOf(profileViMo.getSize().getValue().toString()) + sizeUnit);
             }
-            });
+        });
         profileViMo.getName().observe(getViewLifecycleOwner(), name -> {
             nameEdit.setText(name);
         });
@@ -231,7 +224,7 @@ public class ProfileFragment extends Fragment {
                 success = ImageUtil.setPic(roundProfile, photo);
                 roundProfile.invalidate();
             }
-            if (!success){
+            if (!success) {
                 roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
             }
         });
@@ -263,7 +256,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -286,9 +278,9 @@ public class ProfileFragment extends Fragment {
         profileViMo.setPhoto(profile.getPhoto());
         profileViMo.setName(profile.getName());
         BodyMeasure sizeMeasure = daoBodyMeasure.getLastBodyMeasures(BodyPartExtensions.SIZE, profile);
-        if (sizeMeasure!=null) {
-            profileViMo.setSize(sizeMeasure.getBodyMeasure());
-            profileViMo.setSizeUnit(sizeMeasure.getUnit());
+        if (sizeMeasure != null) {
+            profileViMo.setSize(sizeMeasure.getBodyMeasure().getValue());
+            profileViMo.setSizeUnit(sizeMeasure.getBodyMeasure().getUnit());
         } else {
             profileViMo.setSize(0);
             profileViMo.setSizeUnit(Unit.CM);
@@ -347,7 +339,7 @@ public class ProfileFragment extends Fragment {
                         imgUtil.saveThumb(newFile.getAbsolutePath());
                         profileViMo.setPhoto(newFile.getAbsolutePath());
                         requestForSave();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

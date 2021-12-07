@@ -5,5 +5,6 @@ public enum UnitType {
     DISTANCE,
     SIZE,
     PERCENTAGE,
+    WEIGHT_OR_PERCENTAGE,
     NONE
 }
