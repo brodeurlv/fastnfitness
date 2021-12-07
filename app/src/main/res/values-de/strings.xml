@@ -51,7 +51,8 @@
     <string name="export_success">Datenbank exportiert</string>
     <string name="export_failed">Datenbank konnte nicht exportiert werden</string>
     <string name="import_database">Aufzeichnungen importieren</string>
-    <string name="deleteDB_warning">Die gesamte Anwendung zurücksetzen und beenden\? (Alle Daten gehen dabei verloren.)</string>
+    <string name="deleteDB_warning">Die gesamte Anwendung zurücksetzen und beenden\?
+\n(Alle Daten gehen dabei verloren.)</string>
     <string name="ResetAppLabel">Anwendung zurücksetzen</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Übungen</string>
@@ -289,10 +290,11 @@
     <string name="gender">Geschlecht</string>
     <string name="database_migration">Datenbank verschieben</string>
     <string name="something_went_wrong">Arf, etwas ist schief gelaufen!</string>
-    <string name="database_migration_success">Anwendungsdateien verschoben</string>
-    <string name="disclaimer_scoped_storage">Anwendungsdateien werden verschieben …</string>
+    <string name="database_migration_success">Anwendungsdateien erfolgreich migriert</string>
+    <string name="disclaimer_scoped_storage">Aufgrund der Änderungen von Google müssen die Anwendungsdateien migriert werden. Dies kann einige Zeit in Anspruch nehmen, wenn Sie viele Bilder haben. Bitte haben Sie Geduld.</string>
     <string name="success">Erfolg</string>
     <string name="not_done">Nicht durchgeführt</string>
     <string name="fail">Scheitern</string>
     <string name="also_update_program">Programm aktualisieren</string>
+    <string name="license">Lizenz:</string>
 </resources>

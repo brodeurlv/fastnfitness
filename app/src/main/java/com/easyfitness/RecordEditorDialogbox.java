@@ -14,6 +14,7 @@ import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ProgramRecordStatus;
 import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
+import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.WorkoutValuesInputView;
 
@@ -146,6 +147,14 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     mRecord.setRestTime(0);
                 }
             }
+
+            // if the record has status pending, set the completion time to the current time
+            // since the user clicked on either the SUCCESS or FAIL button
+            if (mRecord.getProgramRecordStatus() == ProgramRecordStatus.PENDING) {
+                mRecord.setDate(DateConverter.getNewDate());
+            }
+
+            // update the status
             if(v.getId() == R.id.btn_update) {
                 mRecord.setProgramRecordStatus(ProgramRecordStatus.SUCCESS);
             } else if (v.getId() == R.id.btn_failed) {

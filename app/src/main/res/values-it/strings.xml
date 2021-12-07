@@ -51,12 +51,13 @@
     <string name="SettingLabel">Impostazioni</string>
     <string name="export_database">Esporta record</string>
     <string name="export_question">Esportare la banca dati di</string>
-    <string name="export_success">Database esportato</string>
+    <string name="export_success">Banca dati esportata</string>
     <string name="export_failed">Impossibile esportare la banca dati</string>
-    <string name="import_database">Importa database</string>
+    <string name="import_database">Importa la banca dati</string>
     <string name="removedid">ID rimosso</string>
     <string name="failedtocreatefolder">Impossibile creare la cartella</string>
-    <string name="deleteDB_warning">Ripristinare l\'intera applicazione e uscire\? (Tutti i dati saranno persi.)</string>
+    <string name="deleteDB_warning">Ripristinare l\'intera applicazione e uscire\?
+\n(Tutti i dati saranno persi.)</string>
     <string name="ResetAppLabel">Ripristina l\'applicazione</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Esercizi</string>
@@ -291,14 +292,15 @@
     <string name="backup_warning_month">"Un mese dall\'ultimo backup. "</string>
     <string name="database_migration">Sposta la banca dati</string>
     <string name="something_went_wrong">Arf, qualcosa è andato storto!</string>
-    <string name="database_migration_success">File dell\'app spostati</string>
+    <string name="database_migration_success">I file dell\'applicazione sono stati migrati con successo</string>
     <string name="FilterTextViewType">Filtro per tipo di esercizio</string>
     <string name="filterExerciseTypeDialogLabel">Filtro per i tipi di allenamento</string>
     <string name="selectExerciseTypeFirst">Seleziona almeno un tipo di esercizio</string>
     <string name="add_new_exercise">Aggiungi un nuovo esercizio</string>
-    <string name="disclaimer_scoped_storage">Spostamento dei file dell\'app…</string>
+    <string name="disclaimer_scoped_storage">A causa dei cambiamenti di Google, i file delle applicazioni devono essere migrati. Questo può richiedere del tempo se hai molte foto. Per favore sii paziente.</string>
     <string name="success">Successo</string>
     <string name="not_done">Non fatto</string>
     <string name="fail">Fallire</string>
     <string name="also_update_program">Aggiorna il programma</string>
+    <string name="license">Licenza:</string>
 </resources>

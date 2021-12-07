@@ -202,6 +202,7 @@ public class CVSManager {
             cvsOutput.write(DAOBodyMeasure.MEASURE);
             cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
+            cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.endRecord();
 
             for (int i = 0; i < bodyMeasures.size(); i++) {
@@ -214,6 +215,7 @@ public class CVSManager {
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure().getValue()));
                 cvsOutput.write(Integer.toString(bodyMeasures.get(i).getBodyMeasure().getUnit().ordinal()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
+                cvsOutput.write(bodyMeasures.get(i).getUnit().toString());
 
                 cvsOutput.endRecord();
             }
@@ -392,7 +394,7 @@ public class CVSManager {
                         DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
                         dbcBodyMeasure.open();
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
-                        Unit unit = Unit.fromInteger(Integer.parseInt(csvRecords.get(DAOBodyMeasure.UNIT))); // Mandatory. Cannot not know the Unit.
+                        Unit unit = Unit.fromString(csvRecords.get(DAOBodyMeasure.UNIT)); // Mandatory. Cannot not know the Unit.
                         String bodyPartName = csvRecords.get("bodypart_label");
                         DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
                         dbcBodyPart.open();
