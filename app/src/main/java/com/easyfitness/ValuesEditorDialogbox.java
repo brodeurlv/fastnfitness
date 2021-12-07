@@ -131,13 +131,20 @@ public class ValuesEditorDialogbox extends Dialog implements View.OnClickListene
         return timeEdit.getValue();
     }
 
+    /**
+     * @return All of the currently set values. Empty values will be omitted, so this array could have less values than the input array
+     */
     public Value[] getValues() {
         final Value[] returnValues = new Value[this.valueEdits.length];
         for(int i = 0; i < this.mValues.length; i++){
             final Value prevValue = this.mValues[i];
             final SingleValueInputView valueEdit = this.valueEdits[i];
+            Float value = null;
+            try {
+                value = Float.parseFloat(valueEdit.getValue().replaceAll(",", "."));
+            } catch(Exception ignored) {}
             returnValues[i] = new Value(
-                    Float.parseFloat(valueEdit.getValue().replaceAll(",", ".")),
+                    value,
                     Unit.fromString(valueEdit.getSelectedUnit()),
                     prevValue.getId(),
                     prevValue.getLabel());

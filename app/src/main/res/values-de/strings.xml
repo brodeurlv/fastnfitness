@@ -193,6 +193,7 @@
     <string name="menu_Workout">Training</string>
     <string name="renameMachine_error_text2">FEHLER: Dieser Übungsname existiert bereits. Es ist nicht möglich Übungen von unterschiedlichem Typ aber gleichem Name zu verknüpfen.</string>
     <string name="recordcopied">Aufzeichnung kopiert</string>
+    <string name="weightRequiredForMultipleInputs">Du musst ein Gewicht angeben um mehrere Werte hinzuzufügen</string>
     <string name="fatLabel">Fett</string>
     <string name="bonesLabel">Knochen</string>
     <string name="waterLabel">Wasser</string>

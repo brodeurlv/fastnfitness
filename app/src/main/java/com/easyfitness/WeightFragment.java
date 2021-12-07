@@ -2,6 +2,7 @@ package com.easyfitness;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ import com.easyfitness.utils.Value;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -263,40 +265,48 @@ public class WeightFragment extends Fragment {
             editorDialog.setTitle(R.string.AddLabel);
             editorDialog.setPositiveButton(R.string.AddLabel);
             editorDialog.setOnDismissListener(dialog -> {
-                if (!editorDialog.isCancelled()) {
-                    Date date = DateConverter.localDateStrToDate(editorDialog.getDate(), getContext());
-                    long profileId = getProfile().getId();
-                    Value[] newValues = editorDialog.getValues();
-                    Value newWeightValue = null;
-                    // Find the weight value if we need it as the baseline
-                    for (Value newValue : newValues) {
-                        if(newValue.getId().equals(String.valueOf(weightBodyPart.getId()))){
-                            newWeightValue = newValue;
-                            break;
-                        }
-                    }
-                    // Fallback to generic weight in case it is not there, which should never happen
-                    if(newWeightValue == null){
-                        newWeightValue = new Value(75, Unit.KG);
-                    }
-                    for (Value newValue : newValues) {
-                        long bodyPartId = Long.parseLong(newValue.getId());
-                        // If the unit is not in percent and it is a percentage measurement convert it
-                        if(newValue.getUnit() != Unit.PERCENTAGE && (bodyPartId == fatBodyPart.getId() || bodyPartId == musclesBodyPart.getId() || bodyPartId == waterBodyPart.getId())){
-                            // Convert them to the same unit if necessary
-                            if(newValue.getUnit() != newWeightValue.getUnit()){
-                                newValue.setValue(UnitConverter.weightConverter(newValue.getValue(), newValue.getUnit(), newWeightValue.getUnit()));
-                                newValue.setUnit(newWeightValue.getUnit());
-                            }
-
-                            // Convert absolute value to percentage
-                            newValue.setValue((newValue.getValue() / newWeightValue.getValue())*100);
-                            newValue.setUnit(Unit.PERCENTAGE);
-                        }
-                        mDbBodyMeasure.addBodyMeasure(date, bodyPartId, newValue, profileId);
-                    }
-                    refreshData();
+                if (editorDialog.isCancelled()) {
+                    return;
                 }
+                Date date = DateConverter.localDateStrToDate(editorDialog.getDate(), getContext());
+                long profileId = getProfile().getId();
+                Value[] newValues = editorDialog.getValues();
+                Value newWeightValue = null;
+                // Find the weight value if we need it as the baseline
+                for (Value newValue : newValues) {
+                    if(newValue.getId().equals(String.valueOf(weightBodyPart.getId()))){
+                        newWeightValue = newValue;
+                        break;
+                    }
+                }
+                // Keep the dialog open if the weight was not set
+                if (newWeightValue.getValue() == null) {
+                    editorDialog.show();
+                    KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.weightRequiredForMultipleInputs).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    return;
+                }
+                for (Value newValue : newValues) {
+                    long bodyPartId = Long.parseLong(newValue.getId());
+                    // Value was not entered
+                    if (newValue.getValue() == null) {
+                        continue;
+                    }
+                    // If the unit is not in percent and it is a percentage measurement convert it
+                    if (newValue.getUnit() != Unit.PERCENTAGE && (bodyPartId == fatBodyPart.getId() || bodyPartId == musclesBodyPart.getId() || bodyPartId == waterBodyPart.getId())) {
+                        // Convert them to the same unit if necessary
+                        if(newValue.getUnit() != newWeightValue.getUnit()){
+                            newValue.setValue(UnitConverter.weightConverter(newValue.getValue(), newValue.getUnit(), newWeightValue.getUnit()));
+                            newValue.setUnit(newWeightValue.getUnit());
+                        }
+
+                        // Convert absolute value to percentage
+                        newValue.setValue((newValue.getValue() / newWeightValue.getValue())*100);
+                        newValue.setUnit(Unit.PERCENTAGE);
+                    }
+                    mDbBodyMeasure.addBodyMeasure(date, bodyPartId, newValue, profileId);
+                }
+                refreshData();
+
             });
             editorDialog.show();
         }
@@ -683,7 +693,7 @@ public class WeightFragment extends Fragment {
      */
     private Value getValueFromLastMeasure(@Nullable BodyMeasure lastMeasure, Unit defaultUnit, @Nullable String id, int label) {
         if (lastMeasure == null) {
-            return new Value(0, defaultUnit, id, label);
+            return new Value(0f, defaultUnit, id, label);
         } else {
             Value lastValue = lastMeasure.getBodyMeasure();
             return new Value(lastValue.getValue(), lastValue.getUnit(), id, label);

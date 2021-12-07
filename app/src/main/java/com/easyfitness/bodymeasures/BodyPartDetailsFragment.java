@@ -79,7 +79,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         public void onClick(View v) {
             BodyMeasure lastBodyMeasure = mBodyMeasureDb.getLastBodyMeasures(mInitialBodyPart.getId(), getProfile());
             final Value lastValue = lastBodyMeasure == null
-                    ? new Value(0, getValidUnit(null))
+                    ? new Value(0f, getValidUnit(null))
                     : getValueWithValidUnit(lastBodyMeasure);
             ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastValue});
             editorDialogbox.setTitle(R.string.AddLabel);

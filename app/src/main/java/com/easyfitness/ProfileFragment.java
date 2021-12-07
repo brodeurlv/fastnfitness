@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
             BodyPart sizeBodyPart = daoBodyPart.getBodyPartfromBodyPartKey(BodyPartExtensions.SIZE);
             BodyMeasure lastSizeMeasure = daoBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), appViMo.getProfile().getValue());
             final Value lastSizeValue = lastSizeMeasure == null
-                    ? new Value(0, SettingsFragment.getDefaultSizeUnit(getActivity()))
+                    ? new Value(0f, SettingsFragment.getDefaultSizeUnit(getActivity()))
                     : lastSizeMeasure.getBodyMeasure();
             final ValuesEditorDialogbox editorDialogbox = new ValuesEditorDialogbox(getActivity(), new Date(), "", new Value[]{lastSizeValue});
             editorDialogbox.setTitle(R.string.AddLabel);

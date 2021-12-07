@@ -196,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                     List<Profile> profileList = daoProfile.getAllProfiles(db);
                     for (Profile profile:profileList) {
-                        daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, new Value(profile.getSize(), defaultSizeUnit), profile.getId());
+                        daoBodyMeasure.addBodyMeasure(db, DateConverter.getNewDate(), sizeBodyPartId, new Value((float) profile.getSize(), defaultSizeUnit), profile.getId());
                     }
                     break;
                 case 24:
