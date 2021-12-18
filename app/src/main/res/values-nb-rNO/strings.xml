@@ -270,4 +270,5 @@
     <string name="waist">Midje</string>
     <string name="weightMenuLabel">Vekt spor</string>
     <string name="workout_list_menu_item">Programliste</string>
+    <string name="weightRequiredForMultipleInputs">Du må gi vekt for å legge til flere verdier</string>
 </resources>

@@ -288,4 +288,5 @@
     <string name="fail">Mislukking</string>
     <string name="also_update_program">Werk het programma bij</string>
     <string name="license">Licentie:</string>
+    <string name="weightRequiredForMultipleInputs">Je moet een gewicht geven om meerdere waarden toe te voegen</string>
 </resources>

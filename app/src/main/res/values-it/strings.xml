@@ -303,4 +303,5 @@
     <string name="fail">Fallire</string>
     <string name="also_update_program">Aggiorna il programma</string>
     <string name="license">Licenza:</string>
+    <string name="weightRequiredForMultipleInputs">Devi fornire un peso per aggiungere più valori</string>
 </resources>

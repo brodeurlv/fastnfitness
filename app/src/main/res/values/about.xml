@@ -11,10 +11,12 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.20.4: December 06, 2021 \n
-        \t- Bug: Fixed crash on Body Measure import (#240)
-        \t- Bug: Fixed pending record time (#232, Thank you @hhpmmd)
-        \t- Bug: Fixed import files being unselectable (#224)
+0.20.4: December 07, 2021 \n
+        \t- Enhancement: Weight all in one insertion (#230, Thank you @chaptergy) \n
+        \t- Enhancement: Added turkish translation (Thank you
+        \t- Bug: Fixed crash on Body Measure import (#240) \n
+        \t- Bug: Fixed pending record time (#232, Thank you @hhpmmd) \n
+        \t- Bug: Fixed import files being unselectable (#224) \n
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
