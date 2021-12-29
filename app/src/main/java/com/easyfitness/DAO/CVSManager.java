@@ -200,7 +200,6 @@ public class CVSManager {
             cvsOutput.write(DAOBodyMeasure.DATE);
             cvsOutput.write("bodypart_label");
             cvsOutput.write(DAOBodyMeasure.MEASURE);
-            cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
             cvsOutput.write(DAOBodyMeasure.UNIT);
             cvsOutput.endRecord();
@@ -213,9 +212,8 @@ public class CVSManager {
                 BodyPart bp = daoBodyPart.getBodyPart(bodyMeasures.get(i).getBodyPartID());
                 cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure().getValue()));
-                cvsOutput.write(Integer.toString(bodyMeasures.get(i).getBodyMeasure().getUnit().ordinal()));
                 cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
-                cvsOutput.write(bodyMeasures.get(i).getUnit().toString());
+                cvsOutput.write(bodyMeasures.get(i).getBodyMeasure().getUnit().toString());
 
                 cvsOutput.endRecord();
             }

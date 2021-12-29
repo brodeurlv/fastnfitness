@@ -69,7 +69,7 @@ public class BodyPartListAdapter extends ArrayAdapter<BodyPart> implements View.
         viewHolder.txtName.setText(dataModel.getName(getContext()));
 
         if (dataModel.getLastMeasure() != null)
-            viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure()));
+            viewHolder.txtLastMeasure.setText(String.valueOf(dataModel.getLastMeasure().getBodyMeasure().getValue()));
         else
             viewHolder.txtLastMeasure.setText("-");
         if (!dataModel.getCustomPicture().isEmpty()) {

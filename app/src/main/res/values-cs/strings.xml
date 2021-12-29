@@ -288,4 +288,5 @@
     <string name="fail">Selhat</string>
     <string name="also_update_program">Aktualizujte program.</string>
     <string name="license">Licence:</string>
+    <string name="weightRequiredForMultipleInputs">Musíte poskytnout váhu, abyste přidali více hodnot</string>
 </resources>

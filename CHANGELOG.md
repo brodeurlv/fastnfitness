@@ -1,5 +1,12 @@
 ## Change Log
 
+### 0.20.4: December 07, 2021
+- Enhancement: Weight all in one insertion (#230, Thank you @chaptergy)
+- Enhancement: Added turkish translation (Thank you @Gokhungoktas)
+- Bug: Fixed crash on Body Measure import (#240)
+- Bug: Fixed pending record time (#232, Thank you @hhpmmd)
+- Bug: Fixed import files being unselectable (#224)
+
 ### 0.20.3: September 09, 2021
 - Bug: Fixed bug introduced on 0.20.2 on muscles list (#220, Thank you @MatthewRFennell).
   Muscles created on 0.20.2 exclusively might need to be manually corrected by user.
