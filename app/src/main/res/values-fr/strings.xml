@@ -280,6 +280,6 @@
     <string name="not_done">Non fait</string>
     <string name="fail">Échouer</string>
     <string name="also_update_program">Mettre à jour le programme</string>
-    <string name="license">Licence:</string>
-    <string name="weightRequiredForMultipleInputs">Vous devez fournir un poids pour ajouter plusieurs valeurs</string>
+    <string name="license">Licence :</string>
+    <string name="weightRequiredForMultipleInputs">Vous devez fournir un poids pour ajouter des valeurs multiples</string>
 </resources>
