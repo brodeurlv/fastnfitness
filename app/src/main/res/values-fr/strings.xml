@@ -278,7 +278,7 @@
     <string name="disclaimer_scoped_storage">En raison des changements de Google, les fichiers d\'application doivent être migrés. Ceci peut prendre un certain temps si vous avez beaucoup de photos. Merci de patienter.</string>
     <string name="success">Succès</string>
     <string name="not_done">Non fait</string>
-    <string name="fail">Échouer</string>
+    <string name="fail">Échec</string>
     <string name="also_update_program">Mettre à jour le programme</string>
     <string name="license">Licence:</string>
     <string name="weightRequiredForMultipleInputs">Vous devez fournir un poids pour ajouter plusieurs valeurs</string>
