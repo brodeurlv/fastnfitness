@@ -42,11 +42,39 @@ public class Record {
     private int mTemplateOrder;
     private ProgramRecordStatus mProgramRecordStatus;
 
+    private int mTemplateSets;
+    private int mTemplateReps;
+    private float mTemplateWeight;
+    private WeightUnit mTemplateWeightUnit;
+
+    private int mTemplateSecond;
+
+    private float mTemplateDistance;
+    private DistanceUnit mTemplateDistanceUnit;
+    private long mTemplateDuration;
+
     public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long recordTemplateId) {
-        this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.SUCCESS, RecordType.FREE_RECORD_TYPE);
+        this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.NONE, RecordType.FREE_RECORD, 0, 0, 0, WeightUnit.KG, 0, 0, DistanceUnit.KM, 0);
     }
 
-    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType) {
+    public Record(Date date, String exercise, long exerciseId, long profileId,
+                  int sets,
+                  int reps,
+                  float weight,
+                  WeightUnit weightUnit,
+                  int second,
+                  float distance,
+                  DistanceUnit distanceUnit,
+                  long duration,
+                  String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType,
+                  int templateSets,
+                  int templateReps,
+                  float templateWeight,
+                  WeightUnit templateWeightUnit,
+                  int templateSecond,
+                  float templateDistance,
+                  DistanceUnit templateDistanceUnit,
+                  long templateDuration) {
         mDate = date;
         mExercise = exercise;
         mExerciseId = exerciseId;
@@ -68,6 +96,17 @@ public class Record {
         mTemplateSessionId = templateSessionId;
         mTemplateOrder = templateOrder;
         mProgramRecordStatus = programRecordStatus;
+
+        mTemplateSets = templateSets;
+        mTemplateReps = templateReps;
+        mTemplateWeight = templateWeight;
+        mTemplateWeightUnit = templateWeightUnit;
+
+        mTemplateSecond = templateSecond;
+
+        mTemplateDistance = templateDistance;
+        mTemplateDistanceUnit = templateDistanceUnit;
+        mTemplateDuration = templateDuration;
     }
 
     public long getId() {
@@ -110,10 +149,7 @@ public class Record {
         mProfileId = profileId;
     }
 
-    public int getSets() {
-        return mSets;
-    }
-
+    public int getSets() { return mSets; }
     public void setSets(int sets) {
         mSets = sets;
     }
@@ -121,24 +157,13 @@ public class Record {
     public int getReps() {
         return mReps;
     }
-
     public void setReps(int reps) {
         mReps = reps;
     }
 
-    /*public void setWeight(Weight weight) {
-        mWeight = weight.getStoredWeight();
-        mWeightUnit = weight.getStoredUnit();
-    }
-
-    public Weight getWeight() {
-        return mWeight;
-    }*/
-
     public float getWeight() {
         return mWeight;
     }
-
     public void setWeight(float weight) {
         mWeight = weight;
     }
@@ -146,7 +171,6 @@ public class Record {
     public WeightUnit getWeightUnit() {
         return mWeightUnit;
     }
-
     public void setWeightUnit(WeightUnit weightUnit) {
         mWeightUnit = weightUnit;
     }
@@ -154,7 +178,6 @@ public class Record {
     public int getSeconds() {
         return mSecond;
     }
-
     public void setSeconds(int second) {
         mSecond = second;
     }
@@ -162,7 +185,6 @@ public class Record {
     public float getDistance() {
         return mDistance;
     }
-
     public void setDistance(float distance) {
         mDistance = distance;
     }
@@ -170,7 +192,6 @@ public class Record {
     public DistanceUnit getDistanceUnit() {
         return mDistanceUnit;
     }
-
     public void setDistanceUnit(DistanceUnit distanceUnit) {
         mDistanceUnit = distanceUnit;
     }
@@ -178,7 +199,6 @@ public class Record {
     public long getDuration() {
         return mDuration;
     }
-
     public void setDuration(long duration) {
         mDuration = duration;
     }
@@ -253,5 +273,59 @@ public class Record {
 
     public void setTemplateRecordId(long id) {
         mTemplateRecordId = id;
+    }
+
+    public int getTemplateSets() { return mTemplateSets; }
+    public void setTemplateSets(int sets) {
+        mTemplateSets = sets;
+    }
+
+    public int getTemplateReps() {
+        return mTemplateReps;
+    }
+    public void setTemplateReps(int reps) {
+        mTemplateReps = reps;
+    }
+
+    public float getTemplateWeight() {
+        return mTemplateWeight;
+    }
+    public void setTemplateWeight(float weight) {
+        mTemplateWeight = weight;
+    }
+
+    public WeightUnit getTemplateWeightUnit() {
+        return mTemplateWeightUnit;
+    }
+    public void setTemplateWeightUnit(WeightUnit weightUnit) {
+        mTemplateWeightUnit = weightUnit;
+    }
+
+    public int getTemplateSeconds() {
+        return mTemplateSecond;
+    }
+    public void setTemplateSeconds(int second) {
+        mTemplateSecond = second;
+    }
+
+    public float getTemplateDistance() {
+        return mTemplateDistance;
+    }
+    public void setTemplateDistance(float distance) {
+        mTemplateDistance = distance;
+    }
+
+    public DistanceUnit getTemplateDistanceUnit() {
+        return mTemplateDistanceUnit;
+    }
+    public void setTemplateDistanceUnit(DistanceUnit distanceUnit) {
+        mTemplateDistanceUnit = distanceUnit;
+    }
+
+    public long getTemplateDuration() {
+        return mTemplateDuration;
+    }
+    public void setTemplateDuration(long duration) {
+        mTemplateDuration = duration;
     }
 }

@@ -1,4 +1,4 @@
-package com.easyfitness.DAO;
+package com.easyfitness.DAO.export;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -11,12 +11,19 @@ import android.provider.MediaStore;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
+import com.easyfitness.DAO.DAOMachine;
+import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.DAOProfileWeight;
+import com.easyfitness.DAO.Machine;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
+import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -66,6 +73,7 @@ public class CVSManager {
                 ret &= exportRecords(pProfile, destFolder);
                 ret &= exportExercise(pProfile, destFolder);
                 ret &= exportBodyParts(pProfile, destFolder);
+                ret &= exportPrograms(pProfile, destFolder);
             } catch (Exception e) {
                 //if there are any exceptions, return false
                 e.printStackTrace();
@@ -77,6 +85,8 @@ public class CVSManager {
             //If there are no errors, return true.
             return ret;
     }
+
+
 
     private OutputStream CreateNewFile(String name, String destFolder, Profile pProfile) {
         String fileName = "export_" + name + "_" + pProfile.getName();
@@ -156,7 +166,7 @@ public class CVSManager {
                 csvOutputFonte.write(DateConverter.dateTimeToDBDateStr(dateRecord));
                 csvOutputFonte.write(DateConverter.dateTimeToDBTimeStr(dateRecord));
                 csvOutputFonte.write(records.get(i).getExercise());
-                csvOutputFonte.write(Integer.toString(ExerciseType.STRENGTH.ordinal()));
+                csvOutputFonte.write(Integer.toString(records.get(i).getExerciseType().ordinal()));
                 csvOutputFonte.write(Long.toString(records.get(i).getProfileId()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getSets()));
                 csvOutputFonte.write(Integer.toString(records.get(i).getReps()));
@@ -317,6 +327,51 @@ public class CVSManager {
         return true;
     }
 
+    private boolean exportPrograms(Profile pProfile, String destFolder) {
+        try {
+        // FONTE
+        OutputStream exportFile = CreateNewFile("Programs", destFolder, pProfile);
+        CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
+
+        /**This is our database connector class that reads the data from the database.
+         * The code of this class is omitted for brevity.
+         */
+        DAOProgram dbcProgram = new DAOProgram(mContext);
+        dbcProgram.open();
+
+        /**Let's read the first table of the database.
+         * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
+         * containing all records of the table (all fields).
+         * The code of this class is omitted for brevity.
+         */
+        List<Program> records = dbcProgram.getAll();
+
+        //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
+        csvOutput.write(TABLE_HEAD);
+        csvOutput.write(ID_HEAD);
+        csvOutput.write(DAOProgram.NAME);
+        csvOutput.write(DAOProgram.DESCRIPTION);
+        csvOutput.endRecord();
+
+        for (int i = 0; i < records.size(); i++) {
+            csvOutput.write(DAOMachine.TABLE_NAME);
+            csvOutput.write(Long.toString(records.get(i).getId()));
+            csvOutput.write(records.get(i).getName());
+            csvOutput.write(records.get(i).getDescription());
+            //write the record in the .csv file
+            csvOutput.endRecord();
+        }
+        csvOutput.close();
+        dbcProgram.close();
+    } catch (Exception e) {
+        //if there are any exceptions, return false
+        e.printStackTrace();
+        return false;
+    }
+    //If there are no errors, return true.
+        return true;
+}
+
     public boolean importDatabase(InputStream file, Profile pProfile) {
 
         boolean ret = true;
@@ -372,7 +427,7 @@ public class CVSManager {
                         String exercice = csvRecords.get(DAOOldCardio.EXERCICE);
                         float distance = Float.parseFloat(csvRecords.get(DAOOldCardio.DISTANCE));
                         int duration = Integer.parseInt(csvRecords.get(DAOOldCardio.DURATION));
-                        dbcCardio.addCardioRecord(date, exercice, distance, duration, pProfile.getId(), DistanceUnit.KM, -1);
+                        dbcCardio.addCardioRecordToFreeWorkout(date, exercice, distance, duration, pProfile.getId(), DistanceUnit.KM);
                         dbcCardio.close();
 
                         break;

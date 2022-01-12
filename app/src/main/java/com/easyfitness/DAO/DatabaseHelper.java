@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
@@ -20,6 +19,7 @@ import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Muscle;
 import com.easyfitness.enums.Unit;
@@ -33,7 +33,7 @@ import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 24;
+    public static final int DATABASE_VERSION = 25;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -103,7 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL("ALTER TABLE " + DAOFonte.TABLE_NAME + " ADD COLUMN " + DAOFonte.EXERCISE_KEY + " INTEGER");
                     break;
                 case 6: // Easyfitness 0.8
-                    if (!isFieldExist(db, DAOMachine.TABLE_NAME, DAOMachine.BODYPARTS)) // Easyfitness 0.9 : Probleme d'upgrade
+                    if (!FieldExists(db, DAOMachine.TABLE_NAME, DAOMachine.BODYPARTS)) // Easyfitness 0.9 : Probleme d'upgrade
                         db.execSQL("ALTER TABLE " + DAOMachine.TABLE_NAME + " ADD COLUMN " + DAOMachine.BODYPARTS + " TEXT");
                     break;
                 case 7: // Easyfitness 0.10
@@ -167,9 +167,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     db.execSQL(DAOProgramHistory.TABLE_CREATE);
 
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.RECORD_TYPE + " INTEGER DEFAULT 0");
-                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_KEY + " INTEGER DEFAULT -1");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.PROGRAM_KEY + " INTEGER DEFAULT -1");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_RECORD_KEY + " INTEGER DEFAULT -1");
-                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_SESSION_KEY + " INTEGER DEFAULT -1");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.PROGRAM_SESSION_KEY + " INTEGER DEFAULT -1");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_REST_TIME + " INTEGER DEFAULT 0");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_ORDER + " INTEGER DEFAULT 0");
                     db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_RECORD_STATUS + " INTEGER DEFAULT 3");
@@ -201,6 +201,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 24:
                     updateMusclesToUseNewIds(db);
+                    break;
+                case 25:
+                    // Add all new template fields
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_SETS + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_REPS + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_WEIGHT + " REAL DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_WEIGHT_UNIT + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_DISTANCE + " REAL DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_DISTANCE_UNIT + " INTEGER DEFAULT 0");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_DURATION + " TEXT");
+                    db.execSQL("ALTER TABLE " + DAORecord.TABLE_NAME + " ADD COLUMN " + DAORecord.TEMPLATE_SECONDS + " INTEGER DEFAULT 0");
+                    // Copy current value from current templates
+                    copyTemplateValues(db);
                     break;
             }
             upgradeTo++;
@@ -251,22 +264,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // This method will return if your table exist a field or not
-    public boolean isFieldExist(SQLiteDatabase db, String tableName, String fieldName) {
-        boolean isExist = true;
+    // This method will return true if a field exists in your table
+    public boolean FieldExists(SQLiteDatabase db, String tableName, String fieldName) {
+        boolean exists = true;
         Cursor res;
 
         try {
             res = db.rawQuery("SELECT " + fieldName + " FROM " + tableName, null);
             res.close();
         } catch (SQLiteException e) {
-            isExist = false;
+            exists = false;
         }
 
-        return isExist;
+        return exists;
     }
 
-    public boolean tableExists(SQLiteDatabase db, String tableName) {
+    public boolean TableExists(SQLiteDatabase db, String tableName) {
         boolean isExist = true;
         Cursor res;
 
@@ -369,4 +382,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return db.insert(DAOBodyPart.TABLE_NAME, null, value);
     }
+
+    /*
+     Copy template values into record values.
+     */
+    public void copyTemplateValues(SQLiteDatabase db) {
+        // for all records if there is a template ID
+        // then copy template values to template fields
+
+        DAORecord daoRecord = new DAORecord(mContext);
+
+        List<Record> recordList = daoRecord.getAllRecords(db);
+
+        for (Record record:recordList) {
+            if (record.getTemplateId() != -1) {
+                Record templateRecord = daoRecord.getRecord(record.getTemplateId());
+                record.setTemplateSets(templateRecord.getSets());
+                record.setTemplateReps(templateRecord.getReps());
+                record.setTemplateWeight(templateRecord.getWeight());
+                record.setTemplateWeightUnit(templateRecord.getWeightUnit());
+                record.setTemplateSeconds(templateRecord.getSeconds());
+                record.setTemplateDistance(templateRecord.getDistance());
+                record.setTemplateDistanceUnit(templateRecord.getDistanceUnit());
+                record.setTemplateDuration(templateRecord.getDuration());
+                daoRecord.updateRecord(record);
+            }
+        }
+    }
+
 }

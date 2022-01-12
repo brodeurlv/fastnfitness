@@ -149,9 +149,17 @@ public class ProgramRunnerFragment extends Fragment {
                 for (Record record : recordList) {
                     record.setTemplateRecordId(record.getId());
                     record.setTemplateSessionId(workoutHistoryId);
-                    record.setRecordType(RecordType.PROGRAM_RECORD_TYPE);
+                    record.setRecordType(RecordType.PROGRAM_RECORD);
                     record.setProgramRecordStatus(ProgramRecordStatus.PENDING);
                     record.setProfileId(getProfile().getId());
+                    record.setTemplateSets(record.getSets());
+                    record.setTemplateReps(record.getReps());
+                    record.setTemplateWeight(record.getWeight());
+                    record.setTemplateWeightUnit(record.getWeightUnit());
+                    record.setTemplateSeconds(record.getSeconds());
+                    record.setTemplateDistance(record.getDistance());
+                    record.setTemplateDistanceUnit(record.getDistanceUnit());
+                    record.setTemplateDuration(record.getDuration());
                     mDbRecord.addRecord(record);
                 }
                 // refresh table

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,7 +107,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
             viewHolder.BtActionCopy = view.findViewById(R.id.copyButton);
 
             viewHolder.SecondColumn = view.findViewById(R.id.second_column);
-            viewHolder.TemplateName = view.findViewById(R.id.TEMPLATE_NAME_CELL);
+            viewHolder.ProgramName = view.findViewById(R.id.TEMPLATE_NAME_CELL);
             viewHolder.TemplateFirstColLabel = view.findViewById(R.id.TEMPLATE_SERIE_CELL);
             viewHolder.TemplateSecondColLabel = view.findViewById(R.id.TEMPLATE_REPETITION_CELL);
             viewHolder.TemplateThirdColValue = view.findViewById(R.id.TEMPLATE_POIDS_CELL);
@@ -176,24 +174,24 @@ public class RecordArrayAdapter extends ArrayAdapter {
         if (record.getTemplateRecordId() != -1) {
             // get program name
             Program program = mDbWorkout.get(record.getTemplateId());
-            Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
+            //Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
             if (program != null) {
                 showTemplateRow(View.VISIBLE, viewHolder);
-                viewHolder.TemplateName.setText(program.getName());
-                if (templateRecord != null) {
+                viewHolder.ProgramName.setText(program.getName());
+                //if (templateRecord != null) {
                     if (exerciseType == ExerciseType.STRENGTH) {
-                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(templateRecord.getSets()));
-                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(templateRecord.getReps()));
-                        viewHolder.TemplateThirdColValue.setText(weigthToString(templateRecord.getWeight(), templateRecord.getWeightUnit()));
+                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(record.getTemplateSets()));
+                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(record.getTemplateReps()));
+                        viewHolder.TemplateThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
                     } else if (exerciseType == ExerciseType.ISOMETRIC) {
-                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(templateRecord.getSets()));
-                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(templateRecord.getSeconds()));
-                        viewHolder.TemplateThirdColValue.setText(weigthToString(templateRecord.getWeight(), templateRecord.getWeightUnit()));
+                        viewHolder.TemplateFirstColLabel.setText(String.valueOf(record.getTemplateSets()));
+                        viewHolder.TemplateSecondColLabel.setText(String.valueOf(record.getTemplateSeconds()));
+                        viewHolder.TemplateThirdColValue.setText(weigthToString(record.getTemplateWeight(), record.getTemplateWeightUnit()));
                     } else if (exerciseType == ExerciseType.CARDIO) {
-                        viewHolder.TemplateFirstColLabel.setText(distanceToString(templateRecord.getDistance(), templateRecord.getDistanceUnit()));
-                        viewHolder.TemplateThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(templateRecord.getDuration()));
+                        viewHolder.TemplateFirstColLabel.setText(distanceToString(record.getTemplateDistance(), record.getTemplateDistanceUnit()));
+                        viewHolder.TemplateThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getTemplateDuration()));
                     }
-                }
+                //}
             }
         } else {
             showTemplateRow(View.GONE, viewHolder);
@@ -397,7 +395,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
     }
 
     private void showTemplateRow(int visibility, ViewHolder viewHolder) {
-        viewHolder.TemplateName.setVisibility(visibility);
+        viewHolder.ProgramName.setVisibility(visibility);
         viewHolder.TemplateFirstColLabel.setVisibility(visibility);
         viewHolder.TemplateSecondColLabel.setVisibility(visibility);
         viewHolder.TemplateThirdColValue.setVisibility(visibility);
@@ -521,28 +519,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
             chronoOnGoing = true;
             final int[] progress = {1};
-            /*
-            Handler timerHandler = new Handler();
-            Runnable timerRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (chronoReset) {
-                            progress[0]=0;
-                            chronoReset = false;
-                        }
 
-                        if (chronoOnGoing) {
-                            viewHolder.RestTimeProgressLayout.setProgress((progress[0] * 100 / record.getRestTime()), false);
-                            if (progress[0] < record.getRestTime()) {
-                                timerHandler.postDelayed(this, 1000);
-                            } else {
-                                chronoOnGoing = false;
-                            }
-                            progress[0]++;
-                        }
-                    }
-                };
-            */
             if (viewHolder.countDownTimer!=null) {
                 viewHolder.countDownTimer.cancel();
                 viewHolder.countDownTimer = null;
@@ -574,16 +551,16 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 DAOFonte mDbBodyBuilding = new DAOFonte(getContext());
                 float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(record.getDate(), getProfile());
                 float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(record.getDate(), record.getExercise(), getProfile());
-                int iNbSeries = mDbBodyBuilding.getNbSeries(record.getDate(), record.getExercise(), getProfile());
-                cdd.setNbSeries(iNbSeries);
+                int iNbSeries = mDbBodyBuilding.getSets(record.getDate(), record.getExercise(), getProfile());
+                cdd.setNbSets(iNbSeries);
                 cdd.setTotalWeightMachine(iTotalWeight);
                 cdd.setTotalWeightSession(iTotalWeightSession);
             } else if (record.getExerciseType() == ExerciseType.ISOMETRIC) {
                 DAOStatic mDbIsometric = new DAOStatic(getContext());
                 float iTotalWeightSession = mDbIsometric.getTotalWeightSession(record.getDate(), getProfile());
                 float iTotalWeight = mDbIsometric.getTotalWeightMachine(record.getDate(), record.getExercise(), getProfile());
-                int iNbSeries = mDbIsometric.getNbSeries(record.getDate(), record.getExercise(), getProfile());
-                cdd.setNbSeries(iNbSeries);
+                int iNbSeries = mDbIsometric.getSets(record.getDate(), record.getExercise(), getProfile());
+                cdd.setNbSets(iNbSeries);
                 cdd.setTotalWeightMachine(iTotalWeight);
                 cdd.setTotalWeightSession(iTotalWeightSession);
             }
@@ -674,7 +651,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
         TextView ThirdColValue;
         TextView ThirdColLabel;
 
-        TextView TemplateName;
+        TextView ProgramName;
         TextView TemplateFirstColLabel;
         TextView TemplateSecondColLabel;
         TextView TemplateThirdColValue;

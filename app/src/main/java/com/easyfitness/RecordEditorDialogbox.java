@@ -18,8 +18,6 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.WorkoutValuesInputView;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
     private final boolean mShowRestTime;
@@ -60,7 +58,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         mWorkoutValuesInput.setRecord(mRecord);
         mWorkoutValuesInput.setShowRestTime(mShowRestTime);
 
-        if (mRecord.getRecordType() == RecordType.PROGRAM_RECORD_TYPE) {
+        if (mRecord.getRecordType() == RecordType.PROGRAM_RECORD) {
             updateButton.setText(getContext().getString(R.string.success));
             failedButton.setVisibility(View.VISIBLE);
             failedButton.setText(getContext().getString(R.string.fail));
@@ -81,7 +79,6 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        boolean betterThanExisting = false;
         if (v.getId() == R.id.btn_cancel) {
             mCancelled = true;
             cancel();

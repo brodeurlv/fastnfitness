@@ -43,15 +43,14 @@ public class DAOCardio extends DAORecord {
      * @param pProfileId
      * @return
      */
-    public long addCardioRecord(Date pDate, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit, long pTemplateRecordId) {
-        return addRecord(pDate, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addCardioRecordToFreeWorkout(Date pDate, String pMachine, float pDistance, long pDuration, long pProfileId, DistanceUnit pDistanceUnit) {
+        return addRecordToFreeWorkout(pDate, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId);
     }
 
-    public long addCardioRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
-        return addRecord(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
-                WeightUnit.KG, "", pDistance, pDistanceUnit, pDuration, 0, -1,
-                RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
-                restTime, ProgramRecordStatus.NONE);
+    public long addCardioTemplateToProgram(long pProgramId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
+        return addTemplateToProgram(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
+                WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "",
+                pProgramId, restTime);
     }
 
     // Getting Function records
@@ -71,7 +70,7 @@ public class DAOCardio extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.DURATION_FCT) {
@@ -80,7 +79,7 @@ public class DAOCardio extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.SPEED_FCT) {
@@ -89,7 +88,7 @@ public class DAOCardio extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
@@ -98,7 +97,7 @@ public class DAOCardio extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         }

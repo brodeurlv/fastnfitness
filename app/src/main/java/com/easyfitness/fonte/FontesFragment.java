@@ -83,7 +83,7 @@ public class FontesFragment extends Fragment {
 
     private int lTableColor = 1;
     private DisplayType mDisplayType = DisplayType.FREE_WORKOUT_DISPLAY;
-    private long mTemplateId;
+    private long mProgramId;
     private MainActivity mActivity = null;
     private AutoCompleteTextView machineEdit = null;
     private MachineArrayFullAdapter machineEditAdapter = null;
@@ -281,18 +281,18 @@ public class FontesFragment extends Fragment {
             tmpPoids = UnitConverter.weightConverter(tmpPoids, workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-                mDbBodyBuilding.addBodyBuildingRecord(date,
+                mDbBodyBuilding.addStrengthRecordToFreeWorkout(date,
                         machineEdit.getText().toString(),
                         workoutValuesInputView.getSets(),
                         workoutValuesInputView.getReps(),
                         tmpPoids, // Always save in KG
                         workoutValuesInputView.getWeightUnit(), // Store Unit for future display
                         "", //Notes
-                        getProfile().getId(), -1);
+                        getProfile().getId());
 
                 float iTotalWeightSession = mDbBodyBuilding.getTotalWeightSession(date, getProfile());
                 float iTotalWeight = mDbBodyBuilding.getTotalWeightMachine(date, machineEdit.getText().toString(), getProfile());
-                int iNbSeries = mDbBodyBuilding.getNbSeries(date, machineEdit.getText().toString(), getProfile());
+                int iNbSeries = mDbBodyBuilding.getSets(date, machineEdit.getText().toString(), getProfile());
 
                 //--Launch Rest Dialog
                 boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
@@ -301,14 +301,14 @@ public class FontesFragment extends Fragment {
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
                     CountdownDialogbox cdd = new CountdownDialogbox(getActivity(), restTime, lMachine);
-                    cdd.setNbSeries(iNbSeries);
+                    cdd.setNbSets(iNbSeries);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i < workoutValuesInputView.getSets(); i++) {
-                    mDbBodyBuilding.addWeightRecordToProgramTemplate(mTemplateId, -1, date,
+                    mDbBodyBuilding.addStrengthTemplateToProgram(mProgramId, date,
                             machineEdit.getText().toString(),
                             1,
                             workoutValuesInputView.getReps(),
@@ -330,20 +330,19 @@ public class FontesFragment extends Fragment {
             tmpPoids = UnitConverter.weightConverter(tmpPoids, workoutValuesInputView.getWeightUnit(), WeightUnit.KG); // Always convert to KG
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-                mDbStatic.addStaticRecord(date,
+                mDbStatic.addStaticRecordToFreeWorkout(date,
                         machineEdit.getText().toString(),
                         workoutValuesInputView.getSets(),
                         workoutValuesInputView.getSeconds(),
                         tmpPoids, // Always save in KG
                         getProfile().getId(),
                         workoutValuesInputView.getWeightUnit(), // Store Unit for future display
-                        "", //Notes
-                        -1
+                        "" //Notes
                 );
 
                 float iTotalWeightSession = mDbStatic.getTotalWeightSession(date, getProfile());
                 float iTotalWeight = mDbStatic.getTotalWeightMachine(date, machineEdit.getText().toString(), getProfile());
-                int iNbSeries = mDbStatic.getNbSeries(date, machineEdit.getText().toString(), getProfile());
+                int iNbSets = mDbStatic.getSets(date, machineEdit.getText().toString(), getProfile());
 
                 //--Launch Rest Dialog
                 boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
@@ -352,14 +351,14 @@ public class FontesFragment extends Fragment {
                 // Launch Countdown
                 if (bLaunchRest && DateConverter.dateToLocalDateStr(date, getContext()).equals(DateConverter.dateToLocalDateStr(new Date(), getContext()))) { // Only launch Countdown if date is today.
                     CountdownDialogbox cdd = new CountdownDialogbox(getActivity(), restTime, lMachine);
-                    cdd.setNbSeries(iNbSeries);
+                    cdd.setNbSets(iNbSets);
                     cdd.setTotalWeightMachine(iTotalWeight);
                     cdd.setTotalWeightSession(iTotalWeightSession);
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
                 for (int i = 0; i < workoutValuesInputView.getSets(); i++) {
-                    mDbStatic.addStaticRecordToProgramTemplate(mTemplateId, -1, date,
+                    mDbStatic.addStaticTemplateToProgram(mProgramId, date,
                             machineEdit.getText().toString(),
                             1,
                             workoutValuesInputView.getSeconds(),
@@ -384,12 +383,12 @@ public class FontesFragment extends Fragment {
             }
 
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-                mDbCardio.addCardioRecord(date,
+                mDbCardio.addCardioRecordToFreeWorkout(date,
                         machineEdit.getText().toString(),
                         distance,
                         duration,
                         getProfile().getId(),
-                        workoutValuesInputView.getDistanceUnit(), -1);
+                        workoutValuesInputView.getDistanceUnit());
 
                 //--Launch Rest Dialog
                 boolean bLaunchRest = workoutValuesInputView.isRestTimeActivated();
@@ -401,7 +400,7 @@ public class FontesFragment extends Fragment {
                     cdd.show();
                 }
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                mDbCardio.addCardioRecordToProgramTemplate(mTemplateId, -1,
+                mDbCardio.addCardioTemplateToProgram(mProgramId,
                         date,
                         machineEdit.getText().toString(),
                         distance,
@@ -561,7 +560,7 @@ public class FontesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_fontes, container, false);
 
-        mTemplateId = getArguments().getLong("templateId", -1);
+        mProgramId = getArguments().getLong("templateId", -1);
         mDisplayType = DisplayType.fromInteger(getArguments().getInt("displayType", DisplayType.FREE_WORKOUT_DISPLAY.ordinal()));
 
         machineEdit = view.findViewById(R.id.editMachine);
@@ -936,7 +935,7 @@ public class FontesFragment extends Fragment {
             if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
                 c = mDbRecord.getTop3DatesRecords(getProfile());
             } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-                c = mDbRecord.getProgramTemplateRecords(mTemplateId);
+                c = mDbRecord.getProgramTemplateRecords(mProgramId);
             }
 
             List<Record> records = mDbRecord.fromCursorToList(c);
