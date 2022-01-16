@@ -11,8 +11,11 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.20.5: December 07, 2021 \n
+0.20.5BETA: TBD\n
         \t- Bug: Moved program template value to record value to avoid discrepencies in case of program update\n
+        \t- Enhancement: Added program and program templates to csv export.
+        \t- Enhancement: Made csv import more flexible.
+        \t- Enhancement: Changes csv column names. Please refer to github wiki documentation for details.
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

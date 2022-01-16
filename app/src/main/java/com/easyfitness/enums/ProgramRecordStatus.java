@@ -1,10 +1,16 @@
 package com.easyfitness.enums;
 
 public enum ProgramRecordStatus {
-    SUCCESS,
-    FAILED,
-    PENDING,
-    NONE;
+    SUCCESS("success"),
+    FAILED("failed"),
+    PENDING("pending"),
+    NONE("none");
+
+    private String mDisplayName = "";
+
+    ProgramRecordStatus(String displayName) {
+        this.mDisplayName = displayName;
+    }
 
     public static ProgramRecordStatus fromInteger(int x) {
         switch (x) {
@@ -18,5 +24,18 @@ public enum ProgramRecordStatus {
                 return NONE;
         }
         return null;
+    }
+
+    public String toString() {
+        return mDisplayName;
+    }
+
+    public static ProgramRecordStatus fromString(String x) throws Exception{
+        if (x.equals(SUCCESS.mDisplayName)) return SUCCESS;
+        else if (x.equals(FAILED.mDisplayName)) return FAILED;
+        else if (x.equals(PENDING.mDisplayName)) return PENDING;
+        else if (x.equals(NONE.mDisplayName) || x.isEmpty())return NONE;
+
+        throw new Exception("Illegal record type string");
     }
 }

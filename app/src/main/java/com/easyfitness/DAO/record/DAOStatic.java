@@ -41,9 +41,9 @@ public class DAOStatic extends DAORecord {
         return addRecordToFreeWorkout(pDate, pMachine, ExerciseType.ISOMETRIC, pSerie, 0, pPoids, pUnit, pSeconds, 0, DistanceUnit.KM, 0, pNote, pProfileId);
     }
 
-    public long addStaticTemplateToProgram(long pTemplateId, Date pDate, String pExerciseName, int pSets, int pSeconds, float pWeight, WeightUnit pWeightUnit, int restTime) {
+    public long addStaticTemplateToProgram(long pTemplateId, Date pDate, String pExerciseName, int pSets, int pSeconds, float pWeight, WeightUnit pWeightUnit, int restTime, int templateOrder) {
         return addTemplateToProgram(pDate, pExerciseName, ExerciseType.ISOMETRIC, pSets, 0, pWeight,
-                pWeightUnit, pSeconds, 0, DistanceUnit.KM, 0, "", pTemplateId, restTime);
+                pWeightUnit, pSeconds, 0, DistanceUnit.KM, 0, "", pTemplateId, restTime, templateOrder);
     }
 
     // Getting Function records

@@ -45,10 +45,10 @@ public class DAOFonte extends DAORecord {
         return addRecordToFreeWorkout(pDate, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId);
     }
 
-    public long addStrengthTemplateToProgram(long pProgramId, Date pDate, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime) {
+    public long addStrengthTemplateToProgram(long pProgramId, Date pDate, String pExerciseName, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, int restTime, int templateOrder) {
         return addTemplateToProgram(pDate, pExerciseName, ExerciseType.STRENGTH, pSets, pReps, pWeight,
                 pWeightUnit, 0 , 0, DistanceUnit.KM, 0, "", pProgramId,
-                restTime);
+                restTime, templateOrder);
     }
 
     /**

@@ -49,10 +49,7 @@ import java.util.List;
 public class FonteGraphFragment extends Fragment {
     MainActivity mActivity = null;
     ArrayAdapter<String> mAdapterMachine = null;
-    //Profile mProfile = null;
     List<String> mMachinesArray = null;
-    private String name;
-    private int id;
     private Spinner functionList = null;
     private Spinner machineList = null;
     private ZoomType currentZoom = ZoomType.ZOOM_ALL;
@@ -317,7 +314,7 @@ public class FonteGraphFragment extends Fragment {
             }
 
             for (int i = 0; i < valueList.size(); i++) {
-                Entry value = null;
+                Entry value;
                 if (lDAOFunction == DAOCardio.DURATION_FCT) {
                     value = new Entry((float) valueList.get(i).getX(), (float) DateConverter.nbMinutes(valueList.get(i).getY()));
                 } else if (lDAOFunction == DAOCardio.SPEED_FCT) { // Km/h
@@ -433,18 +430,6 @@ public class FonteGraphFragment extends Fragment {
                 }
             }
         }
-    }
-
-    private ArrayAdapter<String> getAdapterMachine() {
-        ArrayAdapter<String> a;
-        mMachinesArray = new ArrayList<>(0); //Data are refreshed on show //mDbFonte.getAllMachinesStrList(getProfil());
-        // lMachinesArray = prepend(lMachinesArray, "All");
-        mAdapterMachine = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item,
-                mMachinesArray);
-        mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        machineList.setAdapter(mAdapterMachine);
-        return mAdapterMachine;
     }
 
     private Profile getProfile() {

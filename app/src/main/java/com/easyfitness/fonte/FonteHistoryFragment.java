@@ -71,7 +71,6 @@ public class FonteHistoryFragment extends Fragment {
             if (parent.getId() == R.id.filterMachine) {
                 //  Update currentSelectedMachine
                 DAOMachine lDbMachine = new DAOMachine(getContext());
-                Machine machine = null;
                 if (!exerciseList.getSelectedItem().toString().equals(getView().getResources().getText(R.string.all).toString())) {
                     mSelectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
                 } else {
@@ -192,7 +191,6 @@ public class FonteHistoryFragment extends Fragment {
 
     /*  */
     private void FillRecordTable(String pMachine, String pDate) {
-        Cursor oldCursor = null;
 
         // Retransform date filter value in SQLLite date format
         if (!pDate.equals(getContext().getResources().getText(R.string.all).toString())) {

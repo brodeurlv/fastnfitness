@@ -47,10 +47,10 @@ public class DAOCardio extends DAORecord {
         return addRecordToFreeWorkout(pDate, pMachine, ExerciseType.CARDIO, 0, 0, 0, WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "", pProfileId);
     }
 
-    public long addCardioTemplateToProgram(long pProgramId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime) {
+    public long addCardioTemplateToProgram(long pProgramId, Date pDate, String pExerciseName, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int restTime, int templateOrder) {
         return addTemplateToProgram(pDate, pExerciseName, ExerciseType.CARDIO, 0, 0, 0,
                 WeightUnit.KG, 0, pDistance, pDistanceUnit, pDuration, "",
-                pProgramId, restTime);
+                pProgramId, restTime, templateOrder);
     }
 
     // Getting Function records

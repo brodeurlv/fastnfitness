@@ -256,7 +256,11 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public DistanceUnit getDistanceUnit() {
-        return DistanceUnit.fromString(distanceInputView.getSelectedUnit());
+        try {
+            return DistanceUnit.fromString(distanceInputView.getSelectedUnit());
+        } catch (Exception e) {
+            return DistanceUnit.KM;
+        }
     }
 
     public void setWeight(float weight, WeightUnit unit) {
@@ -329,24 +333,24 @@ public class WorkoutValuesInputView extends LinearLayout {
 
     public void setRecord(Record record) {
         setSelectedType(record.getExerciseType());
-        activatedRestTime(record.getRestTime() != 0);
-        setRestTime(record.getRestTime());
+        activatedRestTime(record.getTemplateRestTime() != 0);
+        setRestTime(record.getTemplateRestTime());
         switch (record.getExerciseType()) {
             case STRENGTH:
                 setSets(record.getSets());
                 setReps(record.getReps());
-                setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
+                setWeight(UnitConverter.weightConverter(record.getWeightInKg(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
                 break;
             case ISOMETRIC:
                 setSets(record.getSets());
                 setSeconds(record.getSeconds());
-                setWeight(UnitConverter.weightConverter(record.getWeight(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
+                setWeight(UnitConverter.weightConverter(record.getWeightInKg(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
             case CARDIO:
                 setDuration(record.getDuration());
                 if (record.getDistanceUnit() == DistanceUnit.MILES)
-                    setDistance(UnitConverter.KmToMiles(record.getDistance()), DistanceUnit.MILES);
+                    setDistance(UnitConverter.KmToMiles(record.getDistanceInKm()), DistanceUnit.MILES);
                 else
-                    setDistance(record.getDistance(), DistanceUnit.KM);
+                    setDistance(record.getDistanceInKm(), DistanceUnit.KM);
         }
     }
 }

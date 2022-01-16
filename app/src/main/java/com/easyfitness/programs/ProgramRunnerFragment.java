@@ -154,10 +154,10 @@ public class ProgramRunnerFragment extends Fragment {
                     record.setProfileId(getProfile().getId());
                     record.setTemplateSets(record.getSets());
                     record.setTemplateReps(record.getReps());
-                    record.setTemplateWeight(record.getWeight());
+                    record.setTemplateWeight(record.getWeightInKg());
                     record.setTemplateWeightUnit(record.getWeightUnit());
                     record.setTemplateSeconds(record.getSeconds());
-                    record.setTemplateDistance(record.getDistance());
+                    record.setTemplateDistance(record.getDistanceInKm());
                     record.setTemplateDistanceUnit(record.getDistanceUnit());
                     record.setTemplateDuration(record.getDuration());
                     mDbRecord.addRecord(record);

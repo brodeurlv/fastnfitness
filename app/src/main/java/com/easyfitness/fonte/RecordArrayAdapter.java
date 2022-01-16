@@ -160,20 +160,20 @@ public class RecordArrayAdapter extends ArrayAdapter {
             if (exerciseType == ExerciseType.STRENGTH) {
                 viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
                 viewHolder.SecondColValue.setText(String.valueOf(record.getReps()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
+                viewHolder.ThirdColValue.setText(weigthToString(record.getWeightInKg(), record.getWeightUnit()));
             } else if (exerciseType == ExerciseType.ISOMETRIC) {
                 viewHolder.FirstColValue.setText(String.valueOf(record.getSets()));
                 viewHolder.SecondColValue.setText(String.valueOf(record.getSeconds()));
-                viewHolder.ThirdColValue.setText(weigthToString(record.getWeight(), record.getWeightUnit()));
+                viewHolder.ThirdColValue.setText(weigthToString(record.getWeightInKg(), record.getWeightUnit()));
             } else if (exerciseType == ExerciseType.CARDIO) {
-                viewHolder.FirstColValue.setText(distanceToString(record.getDistance(), record.getDistanceUnit()));
+                viewHolder.FirstColValue.setText(distanceToString(record.getDistanceInKm(), record.getDistanceUnit()));
                 viewHolder.ThirdColValue.setText(DateConverter.durationToHoursMinutesSecondsStr(record.getDuration()));
             }
         }
 
         if (record.getTemplateRecordId() != -1) {
             // get program name
-            Program program = mDbWorkout.get(record.getTemplateId());
+            Program program = mDbWorkout.get(record.getProgramId());
             //Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());
             if (program != null) {
                 showTemplateRow(View.VISIBLE, viewHolder);
@@ -224,9 +224,9 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
             viewHolder.Separator.setVisibility(View.GONE);
 
-            if (record.getRestTime() != 0) {
+            if (record.getTemplateRestTime() != 0) {
                 viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
-                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getRestTime() + getContext().getString(R.string.sec));
+                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getTemplateRestTime() + getContext().getString(R.string.sec));
             } else {
                 viewHolder.RestTimeCardView.setVisibility(View.GONE);
                 viewHolder.RestTimeTextView.setText("No Rest");
@@ -270,9 +270,9 @@ public class RecordArrayAdapter extends ArrayAdapter {
             viewHolder.ExerciseName.setText(record.getExercise());
             viewHolder.Separator.setVisibility(View.GONE);
 
-            if (record.getRestTime() != 0) {
+            if (record.getTemplateRestTime() != 0) {
                 viewHolder.RestTimeCardView.setVisibility(View.VISIBLE);
-                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getRestTime() + getContext().getString(R.string.sec));
+                viewHolder.RestTimeTextView.setText(getContext().getString(R.string.rest_time_row) + record.getTemplateRestTime() + getContext().getString(R.string.sec));
             } else {
                 viewHolder.RestTimeCardView.setVisibility(View.GONE);
                 viewHolder.RestTimeTextView.setText("No Rest");
@@ -318,10 +318,10 @@ public class RecordArrayAdapter extends ArrayAdapter {
                     if (record.getProgramRecordStatus() != ProgramRecordStatus.SUCCESS) {
                         record.setSets(templateRecord.getSets());
                         record.setReps(templateRecord.getReps());
-                        record.setWeight(templateRecord.getWeight());
+                        record.setWeightInKg(templateRecord.getWeightInKg());
                         record.setWeightUnit(templateRecord.getWeightUnit());
                         record.setSeconds(templateRecord.getSeconds());
-                        record.setDistance(templateRecord.getDistance());
+                        record.setDistanceInKm(templateRecord.getDistanceInKm());
                         record.setDistanceUnit(templateRecord.getDistanceUnit());
                         record.setDuration(templateRecord.getDuration());
                         record.setProgramRecordStatus(ProgramRecordStatus.SUCCESS);
@@ -509,13 +509,13 @@ public class RecordArrayAdapter extends ArrayAdapter {
     }
 
     private void launchCountdown(Record record, ViewHolder viewHolder) {
-        if (record.getRestTime() > 0) {
+        if (record.getTemplateRestTime() > 0) {
             DAOMachine mDbMachine = new DAOMachine(getContext());
             Machine lMachine = mDbMachine.getMachine(record.getExerciseId());
             if (lMachine == null) return;
 
             viewHolder.RestTimeProgressLayout.setProgress(0, false);
-            viewHolder.RestTimeProgressLayout.setDuration(record.getRestTime() * 1000);
+            viewHolder.RestTimeProgressLayout.setDuration(record.getTemplateRestTime() * 1000);
 
             chronoOnGoing = true;
             final int[] progress = {1};
@@ -525,9 +525,9 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 viewHolder.countDownTimer = null;
             }
 
-            viewHolder.countDownTimer = new CountDownTimer(record.getRestTime()*1000, 1000) {
+            viewHolder.countDownTimer = new CountDownTimer(record.getTemplateRestTime()*1000, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        viewHolder.RestTimeProgressLayout.setProgress((progress[0] * 100 / record.getRestTime()), false);
+                        viewHolder.RestTimeProgressLayout.setProgress((progress[0] * 100 / record.getTemplateRestTime()), false);
                         progress[0]++;
                     }
 
@@ -540,12 +540,12 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
             viewHolder.RestTimeProgressLayout.setOnClickListener(v -> {
                 viewHolder.RestTimeProgressLayout.setProgress(100, false);
-                progress[0] = record.getRestTime();
+                progress[0] = record.getTemplateRestTime();
                 viewHolder.countDownTimer.cancel();
                 chronoOnGoing = false;
             });
 
-            CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getRestTime(), lMachine);
+            CountdownDialogbox cdd = new CountdownDialogbox(mActivity, record.getTemplateRestTime(), lMachine);
             // Launch Countdown
             if (record.getExerciseType() == ExerciseType.STRENGTH) {
                 DAOFonte mDbBodyBuilding = new DAOFonte(getContext());

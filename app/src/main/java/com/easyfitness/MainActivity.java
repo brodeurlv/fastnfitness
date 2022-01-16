@@ -21,20 +21,20 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.easyfitness.DAO.export.CVSManager;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DatabaseHelper;
@@ -42,6 +42,7 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
+import com.easyfitness.DAO.export.CVSManager;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAOFonte;
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
 
-    private static final int EXPORT_DATABASE = 1;
+
     private static final int IMPORT_DATABASE = 2;
     public static final int OPEN_MUSIC_FILE = 3;
 
@@ -116,14 +117,11 @@ public class MainActivity extends AppCompatActivity {
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
-    private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
     private CircularImageView roundProfile = null;
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
@@ -291,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
+            showFragment(FONTESPAGER); // Create fragment, do not add to backstack
             currentFragmentName = FONTESPAGER;
         }
 
@@ -332,8 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
         musicController.initView();
 
-        // Lance l'intro
-        // Tester si l'intro a déjà été lancé
+        // Test if intro has been launched already
         if (!mIntro014Launched) {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
@@ -416,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
@@ -452,8 +449,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final MenuItem alertMenuItem = menu.findItem(R.id.action_profil);
-
         roundProfile.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(getActivity(), v);
             MenuInflater inflater = popup.getMenuInflater();
@@ -578,9 +573,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
         });
 
-        exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
-            dialog.dismiss();
-        });
+        exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> dialog.dismiss());
 
         AlertDialog exportDbDialog = exportDbBuilder.create();
         exportDbDialog.show();
@@ -685,7 +678,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
         if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT) {
             if (grantResults.length > 0
@@ -811,16 +804,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void showFragment(String pFragmentName) {
-        showFragment(pFragmentName, true);
-    }
-
-    private void showFragment(String pFragmentName, boolean addToBackStack) {
 
         if (currentFragmentName.equals(pFragmentName))
             return; // If this is already the current fragment, do no replace.
@@ -861,9 +850,9 @@ public class MainActivity extends AppCompatActivity {
         return appViMo.getProfile().getValue();
     }
 
-    public void setCurrentProfile(String newProfilName) {
-        Profile newProfil = this.mDbProfils.getProfile(newProfilName);
-        setCurrentProfile(newProfil);
+    public void setCurrentProfile(String newProfileName) {
+        Profile newProfile = this.mDbProfils.getProfile(newProfileName);
+        setCurrentProfile(newProfile);
     }
 
     public void setCurrentProfile(Profile newProfil) {
@@ -882,7 +871,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!success) {
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            roundProfile.setImageDrawable(AppCompatResources.getDrawable(getActivity(), R.drawable.ic_person));
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource so it needs to be reset
             mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
         }
@@ -994,10 +983,6 @@ public class MainActivity extends AppCompatActivity {
         return top_toolbar;
     }
 
-    public void restoreToolbar() {
-        if (top_toolbar != null) setSupportActionBar(top_toolbar);
-    }
-
     public void showMP3Toolbar(boolean show) {
         Toolbar mp3toolbar = this.findViewById(R.id.musicToolbar);
         if (!show) {
@@ -1021,11 +1006,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         } else if (resultCode == RESULT_OK && requestCode == IMPORT_DATABASE) {
-            Uri file = null;
+            Uri file;
             if (data != null) {
                 file = data.getData();
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                InputStream inputStream = null;
+                InputStream inputStream;
                 try {
                     inputStream = getContentResolver().openInputStream(file);
                 } catch (FileNotFoundException e) {
@@ -1040,13 +1025,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else if (resultCode == RESULT_OK && requestCode == OPEN_MUSIC_FILE) {
-            Uri uri = null;
+            Uri uri;
             if (data != null) {
                 uri = data.getData();
                 // Return for MusicController Choose file
                 musicController.OpenMusicFileIntentResult(uri);
-                final int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                int takeFlags = data.getFlags();
+                takeFlags &= (Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 // Check for the freshest data.
                 getContentResolver().takePersistableUriPermission(uri, takeFlags);
@@ -1058,9 +1043,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         int index = getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1;
         if (index >= 0) { // Si on est dans une sous activité
-            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-            String tag = backEntry.getName();
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
             super.onBackPressed();
             getActivity().getSupportActionBar().show();
         } else { // Si on est la racine, avec il faut cliquer deux fois

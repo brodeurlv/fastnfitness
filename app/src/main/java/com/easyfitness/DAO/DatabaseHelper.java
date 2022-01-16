@@ -395,14 +395,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Record> recordList = daoRecord.getAllRecords(db);
 
         for (Record record:recordList) {
-            if (record.getTemplateId() != -1) {
-                Record templateRecord = daoRecord.getRecord(record.getTemplateId());
+            if (record.getProgramId() != -1) {
+                Record templateRecord = daoRecord.getRecord(record.getProgramId());
                 record.setTemplateSets(templateRecord.getSets());
                 record.setTemplateReps(templateRecord.getReps());
-                record.setTemplateWeight(templateRecord.getWeight());
+                record.setTemplateWeight(templateRecord.getWeightInKg());
                 record.setTemplateWeightUnit(templateRecord.getWeightUnit());
                 record.setTemplateSeconds(templateRecord.getSeconds());
-                record.setTemplateDistance(templateRecord.getDistance());
+                record.setTemplateDistance(templateRecord.getDistanceInKm());
                 record.setTemplateDistanceUnit(templateRecord.getDistanceUnit());
                 record.setTemplateDuration(templateRecord.getDuration());
                 daoRecord.updateRecord(record);

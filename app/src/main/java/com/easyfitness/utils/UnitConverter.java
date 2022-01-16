@@ -1,5 +1,6 @@
 package com.easyfitness.utils;
 
+import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 
@@ -79,6 +80,28 @@ public class UnitConverter {
     static public float MilesToKm(float pMiles) {
         return pMiles / 1.609344f;
     }
+
+    static public float distanceConverter(float pDistance, DistanceUnit pUnitIn, DistanceUnit pUnitOut) {
+        return weightConverter(pDistance, pUnitIn.toUnit(), pUnitOut.toUnit());
+    }
+
+    static public float distanceConverter(float pDistance, Unit pUnitIn, Unit pUnitOut) {
+        switch (pUnitIn) {
+            case KM:
+                if (pUnitOut == Unit.MILES) {
+                    return KmToMiles(pDistance);
+                }
+                return pDistance;
+            case MILES:
+                if (pUnitOut == Unit.KM) {
+                    return MilesToKm(pDistance);
+                }
+                return pDistance;
+            default:
+                return pDistance;
+        }
+    }
+
 
     static public float sizeConverter(float pSize, Unit pUnitIn, Unit pUnitOut) {
         switch (pUnitIn) {

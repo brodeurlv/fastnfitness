@@ -29,9 +29,12 @@ import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
+import com.easyfitness.enums.ProgramRecordStatus;
+import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.utils.Value;
 
 import java.io.File;
@@ -40,7 +43,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,46 +52,85 @@ import java.util.List;
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
 public class CVSManager {
 
-    static private final String TABLE_HEAD = "table";
-    static private final String ID_HEAD = "id";
+    static private final String TABLE_HEAD = "TABLE";
+    static private final String PROGRAM_LABEL = "PROGRAM_NAME";
+    static private final String BODYPART_LABEL = "BODYPART_NAME";
+    static private final String MEASURE = "MEASURE";
 
-    private Context mContext = null;
+    static private final String DATE = "DATE";
+    static private final String TIME = "TIME";
+    static private final String EXERCISE = "EXERCISE";
+    static private final String EXERCISE_TYPE = "EXERCISE_TYPE";
+    static private final String NOTES = "NOTES";
+    static private final String SETS = "SETS";
+    static private  final String REPS = "REPS";
+    static private final String WEIGHT = "WEIGHT";
+    static private  final String WEIGHT_UNIT = "WEIGHT_UNIT";
+    static private final String DISTANCE = "DISTANCE";
+    static private final String DURATION = "DURATION";
+    static private final String DISTANCE_UNIT = "DISTANCE_UNIT"; // 0:km 1:mi
+    static private final String SECONDS = "SECONDS";
+    static private final String RECORD_TYPE = "RECORD_TYPE";
+    static private final String TEMPLATE_ORDER = "TEMPLATE_ORDER"; // order of the exercise in the program
+    static private final String TEMPLATE_SECONDS = "TEMPLATE_SECONDS";
+    static private final String TEMPLATE_REST_TIME = "TEMPLATE_REST_TIME";
+    static private final String TEMPLATE_RECORD_STATUS = "TEMPLATE_RECORD_STATUS"; // SUCCESS, FAILED or PENDING
+    static private final String TEMPLATE_SETS = "TEMPLATE_SETS";
+    static private final String TEMPLATE_REPS = "TEMPLATE_REPS";
+    static private final String TEMPLATE_WEIGHT = "TEMPLATE_WEIGHT";
+    static private final String TEMPLATE_WEIGHT_UNIT = "TEMPLATE_WEIGHT_UNIT"; // 0:kg 1:lbs
+    static private final String TEMPLATE_DISTANCE = "TEMPLATE_DISTANCE";
+    static private final String TEMPLATE_DURATION = "TEMPLATE_DURATION";
+    static private final String TEMPLATE_DISTANCE_UNIT = "TEMPLATE_DISTANCE_UNIT"; // 0:km 1:mi
+
+    static private final String UNIT = "UNIT";
+
+    static private final String CUSTOM_PICTURE = "CUSTOM_PICTURE";
+    static private final String CUSTOM_NAME = "CUSTOM_NAME";
+
+    static private final String NAME = "NAME";
+    static private final String DESCRIPTION = "DESCRIPTION";
+    static private final String TYPE = "TYPE";
+    static private final String BODYPARTS = "BODYPARTS";
+    static private final String FAVORITE = "FAVORITE";
+
+    static private final String TABLE_RECORD = "RECORD";
+    static private final String TABLE_BODYMEASURE= "BODYMEASURE";
+    static private final String TABLE_BODYPART = "BODYPART";
+    static private final String TABLE_PROGRAM = "PROGRAM";
+    static private final String TABLE_PROGRAM_TEMPLATE = "TEMPLATE";
+    static private final String TABLE_EXERCISE = "EXERCISE";
+
+    private Context mContext;
 
     public CVSManager(Context pContext) {
         mContext = pContext;
     }
 
     public boolean exportDatabase(Profile pProfile, String destFolder) {
-         /**First of all we check if the external storage of the device is available for writing.
-         * Remember that the external storage is not necessarily the sd card. Very often it is
-         * the device storage.
-         */
+        boolean ret = true;
 
-         boolean ret = true;
+        try {
+            ret &= exportBodyMeasures(pProfile, destFolder);
+            ret &= exportRecords(pProfile, destFolder, false);
+            ret &= exportExercise(pProfile, destFolder);
+            ret &= exportBodyParts(pProfile, destFolder);
+            ret &= exportPrograms(pProfile, destFolder);
+            ret &= exportRecords(pProfile, destFolder, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        PrintWriter printWriter = null;
-            try {
-                ret &= exportBodyMeasures(pProfile, destFolder);
-                ret &= exportRecords(pProfile, destFolder);
-                ret &= exportExercise(pProfile, destFolder);
-                ret &= exportBodyParts(pProfile, destFolder);
-                ret &= exportPrograms(pProfile, destFolder);
-            } catch (Exception e) {
-                //if there are any exceptions, return false
-                e.printStackTrace();
-                return false;
-            } finally {
-                if (printWriter != null) printWriter.close();
-            }
-
-            //If there are no errors, return true.
-            return ret;
+        //If there are no errors, return true.
+        return ret;
     }
 
-
-
     private OutputStream CreateNewFile(String name, String destFolder, Profile pProfile) {
-        String fileName = "export_" + name + "_" + pProfile.getName();
+        String fileName = "export_" + name;
+        if (pProfile!=null) {
+            fileName = fileName + "_" + pProfile.getName();
+        }
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -98,8 +139,7 @@ public class CVSManager {
                 contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
-                Uri collection = null;
-                collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+                Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
                 Uri file = resolver.insert(collection, contentValues);
                 return resolver.openOutputStream(file);
             } else {
@@ -117,69 +157,106 @@ public class CVSManager {
         }
     }
 
-    private boolean exportRecords(Profile pProfile, String destFolder) {
+    private boolean exportRecords(Profile pProfile, String destFolder, boolean templatesOnly) {
         try {
-            OutputStream exportFile = CreateNewFile("Records", destFolder, pProfile);
+            OutputStream exportFile = CreateNewFile(templatesOnly ? "ProgramTemplates" : "Records", destFolder, templatesOnly ? null : pProfile);
 
             CsvWriter csvOutputFonte = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
-            /**This is our database connector class that reads the data from the database.
-             * The code of this class is omitted for brevity.
-             */
             DAORecord dbc = new DAORecord(mContext);
             dbc.open();
+            DAOProgram daoProgram = new DAOProgram(mContext);
+            daoProgram.open();
 
-            /**Let's read the first table of the database.
-             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-             * containing all records of the table (all fields).
-             * The code of this class is omitted for brevity.
-             */
-            Cursor cursor = dbc.getAllRecordsByProfile(pProfile);
-            List<Record> records = dbc.fromCursorToList(cursor);
+            List<Record> records;
+
+            if (templatesOnly) {
+                records = dbc.getAllRecords();
+            }else{
+                Cursor cursor;
+                cursor = dbc.getAllRecordsByProfile(pProfile);
+                records = dbc.fromCursorToList(cursor);
+            }
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutputFonte.write(TABLE_HEAD);
-            csvOutputFonte.write(ID_HEAD);
-            csvOutputFonte.write(DAORecord.DATE);
-            csvOutputFonte.write(DAORecord.TIME);
-            csvOutputFonte.write(DAORecord.EXERCISE);
-            csvOutputFonte.write(DAORecord.EXERCISE_TYPE);
-            csvOutputFonte.write(DAORecord.PROFILE_KEY);
-            csvOutputFonte.write(DAORecord.SETS);
-            csvOutputFonte.write(DAORecord.REPS);
-            csvOutputFonte.write(DAORecord.WEIGHT);
-            csvOutputFonte.write(DAORecord.WEIGHT_UNIT);
-            csvOutputFonte.write(DAORecord.SECONDS);
-            csvOutputFonte.write(DAORecord.DISTANCE);
-            csvOutputFonte.write(DAORecord.DISTANCE_UNIT);
-            csvOutputFonte.write(DAORecord.DURATION);
-            csvOutputFonte.write(DAORecord.NOTES);
-            csvOutputFonte.write(DAORecord.RECORD_TYPE);
+            csvOutputFonte.write(DATE);
+            csvOutputFonte.write(TIME);
+            csvOutputFonte.write(EXERCISE);
+            csvOutputFonte.write(EXERCISE_TYPE);
+            csvOutputFonte.write(SETS);
+            csvOutputFonte.write(REPS);
+            csvOutputFonte.write(WEIGHT);
+            csvOutputFonte.write(WEIGHT_UNIT);
+            csvOutputFonte.write(SECONDS);
+            csvOutputFonte.write(DISTANCE);
+            csvOutputFonte.write(DISTANCE_UNIT);
+            csvOutputFonte.write(DURATION);
+            csvOutputFonte.write(NOTES);
+            csvOutputFonte.write(RECORD_TYPE);
+            csvOutputFonte.write(PROGRAM_LABEL);
+            csvOutputFonte.write(TEMPLATE_SETS);
+            csvOutputFonte.write(TEMPLATE_REPS);
+            csvOutputFonte.write(TEMPLATE_WEIGHT);
+            csvOutputFonte.write(TEMPLATE_WEIGHT_UNIT);
+            csvOutputFonte.write(TEMPLATE_SECONDS);
+            csvOutputFonte.write(TEMPLATE_DISTANCE);
+            csvOutputFonte.write(TEMPLATE_DISTANCE_UNIT);
+            csvOutputFonte.write(TEMPLATE_DURATION);
+            csvOutputFonte.write(TEMPLATE_REST_TIME);
+            csvOutputFonte.write(TEMPLATE_ORDER);
+            csvOutputFonte.write(TEMPLATE_RECORD_STATUS);
             csvOutputFonte.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
-                csvOutputFonte.write(DAORecord.TABLE_NAME);
-                csvOutputFonte.write(Long.toString(records.get(i).getId()));
+                if ((templatesOnly && records.get(i).getRecordType() == RecordType.PROGRAM_TEMPLATE) ||
+                        (!templatesOnly && records.get(i).getRecordType() != RecordType.PROGRAM_TEMPLATE && records.get(i).getProgramRecordStatus()!=ProgramRecordStatus.PENDING)) {
 
-                Date dateRecord = records.get(i).getDate();
+                    csvOutputFonte.write(templatesOnly ? TABLE_PROGRAM_TEMPLATE : TABLE_RECORD);
 
-                csvOutputFonte.write(DateConverter.dateTimeToDBDateStr(dateRecord));
-                csvOutputFonte.write(DateConverter.dateTimeToDBTimeStr(dateRecord));
-                csvOutputFonte.write(records.get(i).getExercise());
-                csvOutputFonte.write(Integer.toString(records.get(i).getExerciseType().ordinal()));
-                csvOutputFonte.write(Long.toString(records.get(i).getProfileId()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getSets()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getReps()));
-                csvOutputFonte.write(Float.toString(records.get(i).getWeight()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getWeightUnit().ordinal()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getSeconds()));
-                csvOutputFonte.write(Float.toString(records.get(i).getDistance()));
-                csvOutputFonte.write(Integer.toString(records.get(i).getDistanceUnit().ordinal()));
-                csvOutputFonte.write(Long.toString(records.get(i).getDuration()));
-                if (records.get(i).getNote() == null) csvOutputFonte.write("");
-                else csvOutputFonte.write(records.get(i).getNote());
-                csvOutputFonte.write(Integer.toString(records.get(i).getRecordType().ordinal()));
-                csvOutputFonte.endRecord();
+                    Date dateRecord = records.get(i).getDate();
+
+                    csvOutputFonte.write(DateConverter.dateTimeToDBDateStr(dateRecord));
+                    csvOutputFonte.write(DateConverter.dateTimeToDBTimeStr(dateRecord));
+                    csvOutputFonte.write(records.get(i).getExercise());
+                    csvOutputFonte.write(records.get(i).getExerciseType().toString());
+                    csvOutputFonte.write(Integer.toString(records.get(i).getSets()));
+                    csvOutputFonte.write(Integer.toString(records.get(i).getReps()));
+                    Float weight = UnitConverter.weightConverter(records.get(i).getWeightInKg(), WeightUnit.KG, records.get(i).getWeightUnit());
+                    csvOutputFonte.write(Float.toString(weight));
+                    csvOutputFonte.write(records.get(i).getWeightUnit().toString());
+                    csvOutputFonte.write(Integer.toString(records.get(i).getSeconds()));
+                    Float distance = UnitConverter.distanceConverter(records.get(i).getDistanceInKm(), DistanceUnit.KM, records.get(i).getDistanceUnit());
+                    csvOutputFonte.write(Float.toString(distance));
+                    csvOutputFonte.write(records.get(i).getDistanceUnit().toString());
+                    csvOutputFonte.write(Long.toString(records.get(i).getDuration()));
+                    if (records.get(i).getNote() == null) csvOutputFonte.write("");
+                    else csvOutputFonte.write(records.get(i).getNote());
+                    csvOutputFonte.write(records.get(i).getRecordType().toString());
+
+                    Program program = daoProgram.get(records.get(i).getProgramId());
+                    if (program != null) {
+                        csvOutputFonte.write(program.getName());
+                    } else {
+                        csvOutputFonte.write("");
+                    }
+
+                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSets()));
+                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateReps()));
+                    Float template_weight = UnitConverter.weightConverter(records.get(i).getTemplateWeight(), WeightUnit.KG, records.get(i).getTemplateWeightUnit());
+                    csvOutputFonte.write(Float.toString(template_weight));
+                    csvOutputFonte.write(records.get(i).getTemplateWeightUnit().toString());
+                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSeconds()));
+                    Float template_distance = UnitConverter.distanceConverter(records.get(i).getTemplateDistance(), DistanceUnit.KM, records.get(i).getTemplateDistanceUnit());
+                    csvOutputFonte.write(Float.toString(template_distance));
+                    csvOutputFonte.write(records.get(i).getTemplateDistanceUnit().toString());
+                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateDuration()));
+                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateRestTime()));
+                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateOrder()));
+                    csvOutputFonte.write(records.get(i).getProgramRecordStatus().toString());
+
+                    csvOutputFonte.endRecord();
+                }
             }
             csvOutputFonte.close();
             dbc.closeAll();
@@ -206,23 +283,19 @@ public class CVSManager {
             List<BodyMeasure> bodyMeasures = daoBodyMeasure.getBodyMeasuresList(pProfile);
 
             cvsOutput.write(TABLE_HEAD);
-            cvsOutput.write(ID_HEAD);
-            cvsOutput.write(DAOBodyMeasure.DATE);
-            cvsOutput.write("bodypart_label");
-            cvsOutput.write(DAOBodyMeasure.MEASURE);
-            cvsOutput.write(DAOBodyMeasure.PROFIL_KEY);
-            cvsOutput.write(DAOBodyMeasure.UNIT);
+            cvsOutput.write(DATE);
+            cvsOutput.write(BODYPART_LABEL);
+            cvsOutput.write(MEASURE);
+            cvsOutput.write(UNIT);
             cvsOutput.endRecord();
 
             for (int i = 0; i < bodyMeasures.size(); i++) {
-                cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
-                cvsOutput.write(Long.toString(bodyMeasures.get(i).getId()));
+                cvsOutput.write(TABLE_BODYMEASURE);
                 Date dateRecord = bodyMeasures.get(i).getDate();
                 cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
                 BodyPart bp = daoBodyPart.getBodyPart(bodyMeasures.get(i).getBodyPartID());
-                cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart
+                cvsOutput.write(bp.getName(mContext)); // Write the full name of the BodyPart because the ID is not enough
                 cvsOutput.write(Float.toString(bodyMeasures.get(i).getBodyMeasure().getValue()));
-                cvsOutput.write(Long.toString(bodyMeasures.get(i).getProfileID()));
                 cvsOutput.write(bodyMeasures.get(i).getBodyMeasure().getUnit().toString());
 
                 cvsOutput.endRecord();
@@ -240,7 +313,7 @@ public class CVSManager {
 
     private boolean exportBodyParts(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyParts", destFolder, pProfile);
+            OutputStream exportFile = CreateNewFile("BodyParts", destFolder, null);
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
@@ -250,15 +323,13 @@ public class CVSManager {
             List<BodyPart> bodyParts = daoBodyPart.getList();
 
             cvsOutput.write(TABLE_HEAD);
-            cvsOutput.write(DAOBodyPart.KEY);
-            cvsOutput.write(DAOBodyPart.CUSTOM_NAME);
-            cvsOutput.write(DAOBodyPart.CUSTOM_PICTURE);
+            cvsOutput.write(CUSTOM_NAME);
+            cvsOutput.write(CUSTOM_PICTURE);
             cvsOutput.endRecord();
 
             for (BodyPart bp : bodyParts) {
                 if (bp.getBodyPartResKey() == -1) { // Only custom BodyPart are exported
-                    cvsOutput.write(DAOBodyMeasure.TABLE_NAME);
-                    cvsOutput.write(Long.toString(bp.getId()));
+                    cvsOutput.write(TABLE_BODYPART);
                     cvsOutput.write(bp.getName(mContext));
                     cvsOutput.write(bp.getCustomPicture());
                     cvsOutput.endRecord();
@@ -277,40 +348,29 @@ public class CVSManager {
 
     private boolean exportExercise(Profile pProfile, String destFolder) {
         try {
-            // FONTE
-            OutputStream exportFile = CreateNewFile("Exercises", destFolder, pProfile);
+            OutputStream exportFile = CreateNewFile("Exercises", destFolder, null);
             CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
-            /**This is our database connector class that reads the data from the database.
-             * The code of this class is omitted for brevity.
-             */
             DAOMachine dbcMachine = new DAOMachine(mContext);
             dbcMachine.open();
 
-            /**Let's read the first table of the database.
-             * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-             * containing all records of the table (all fields).
-             * The code of this class is omitted for brevity.
-             */
             List<Machine> records = dbcMachine.getAllMachinesArray();
 
             //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
             csvOutput.write(TABLE_HEAD);
-            csvOutput.write(ID_HEAD);
-            csvOutput.write(DAOMachine.NAME);
-            csvOutput.write(DAOMachine.DESCRIPTION);
-            csvOutput.write(DAOMachine.TYPE);
-            csvOutput.write(DAOMachine.BODYPARTS);
-            csvOutput.write(DAOMachine.FAVORITES);
+            csvOutput.write(NAME);
+            csvOutput.write(DESCRIPTION);
+            csvOutput.write(TYPE);
+            csvOutput.write(BODYPARTS);
+            csvOutput.write(FAVORITE);
             //csvOutput.write(DAOMachine.PICTURE_RES);
             csvOutput.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
-                csvOutput.write(DAOMachine.TABLE_NAME);
-                csvOutput.write(Long.toString(records.get(i).getId()));
+                csvOutput.write(TABLE_EXERCISE);
                 csvOutput.write(records.get(i).getName());
                 csvOutput.write(records.get(i).getDescription());
-                csvOutput.write(Integer.toString(records.get(i).getType().ordinal()));
+                csvOutput.write(records.get(i).getType().toString());
                 csvOutput.write(records.get(i).getBodyParts());
                 csvOutput.write(Boolean.toString(records.get(i).getFavorite()));
                 //write the record in the .csv file
@@ -329,36 +389,24 @@ public class CVSManager {
 
     private boolean exportPrograms(Profile pProfile, String destFolder) {
         try {
-        // FONTE
-        OutputStream exportFile = CreateNewFile("Programs", destFolder, pProfile);
+        OutputStream exportFile = CreateNewFile("Programs", destFolder, null);
         CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
-        /**This is our database connector class that reads the data from the database.
-         * The code of this class is omitted for brevity.
-         */
         DAOProgram dbcProgram = new DAOProgram(mContext);
         dbcProgram.open();
 
-        /**Let's read the first table of the database.
-         * getFirstTable() is a method in our DBCOurDatabaseConnector class which retrieves a Cursor
-         * containing all records of the table (all fields).
-         * The code of this class is omitted for brevity.
-         */
         List<Program> records = dbcProgram.getAll();
 
         //Write the name of the table and the name of the columns (comma separated values) in the .csv file.
         csvOutput.write(TABLE_HEAD);
-        csvOutput.write(ID_HEAD);
-        csvOutput.write(DAOProgram.NAME);
-        csvOutput.write(DAOProgram.DESCRIPTION);
+        csvOutput.write(NAME);
+        csvOutput.write(DESCRIPTION);
         csvOutput.endRecord();
 
         for (int i = 0; i < records.size(); i++) {
-            csvOutput.write(DAOMachine.TABLE_NAME);
-            csvOutput.write(Long.toString(records.get(i).getId()));
+            csvOutput.write(TABLE_PROGRAM);
             csvOutput.write(records.get(i).getName());
             csvOutput.write(records.get(i).getDescription());
-            //write the record in the .csv file
             csvOutput.endRecord();
         }
         csvOutput.close();
@@ -375,6 +423,7 @@ public class CVSManager {
     public boolean importDatabase(InputStream file, Profile pProfile) {
 
         boolean ret = true;
+        int importedRow = 0;
 
         try {
             CsvReader csvRecords = new CsvReader(file, ',', StandardCharsets.UTF_8);
@@ -387,38 +436,73 @@ public class CVSManager {
 
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
+                    case TABLE_PROGRAM_TEMPLATE:
+                    case TABLE_RECORD:
                     case DAORecord.TABLE_NAME: {
-                        Date date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DAORecord.DATE), csvRecords.get(DAORecord.TIME));
-                        String exercise = csvRecords.get(DAORecord.EXERCISE);
-                        if (dbcMachine.getMachine(exercise) != null) {
-                            long exerciseId = dbcMachine.getMachine(exercise).getId();
-                            ExerciseType exerciseType = dbcMachine.getMachine(exercise).getType();
+                        try {
+                            Date date = DateConverter.DBDateTimeStrToDate(csvRecords.get(DATE), csvRecords.get(TIME));
+                            String exerciseName = csvRecords.get(EXERCISE);
+                            ExerciseType exerciseType = ExerciseType.fromString(csvRecords.get(EXERCISE_TYPE));
 
-                            float poids = TryGetFloat(csvRecords.get(DAORecord.WEIGHT), 0);
-                            int repetition = TryGetInteger(csvRecords.get(DAORecord.REPS), 0);
-                            int serie = TryGetInteger(csvRecords.get(DAORecord.SETS), 0);
-                            WeightUnit unit = WeightUnit.KG;
-                            if (!csvRecords.get(DAORecord.WEIGHT_UNIT).isEmpty()) {
-                                unit = WeightUnit.fromInteger(TryGetInteger(csvRecords.get(DAORecord.WEIGHT_UNIT), WeightUnit.KG.ordinal()));
-                            }
-                            int second = TryGetInteger(csvRecords.get(DAORecord.SECONDS), 0);
-                            float distance = TryGetFloat(csvRecords.get(DAORecord.DISTANCE), 0);
-                            int duration = TryGetInteger(csvRecords.get(DAORecord.DURATION), 0);
-                            DistanceUnit distance_unit = DistanceUnit.KM;
-                            if (!csvRecords.get(DAORecord.DISTANCE_UNIT).isEmpty()) {
-                                distance_unit = DistanceUnit.fromInteger(TryGetInteger(csvRecords.get(DAORecord.DISTANCE_UNIT), DistanceUnit.KM.ordinal()));
-                            }
-                            String notes = csvRecords.get(DAORecord.NOTES);
+                            Machine machine = FindOrCreateMachine(exerciseName, exerciseType);
 
-                            Record record = new Record(date, exercise, exerciseId, pProfile.getId(), serie, repetition, poids, unit, second, distance, distance_unit, duration, notes, exerciseType, -1);
+
+                            WeightUnit unit = WeightUnit.fromString(TryGetString(csvRecords, WEIGHT_UNIT, WeightUnit.KG.toString()));
+                            float weight = TryGetFloat(csvRecords, WEIGHT, 0);
+                            weight = UnitConverter.weightConverter(weight, unit, WeightUnit.KG);
+                            int repetitions = TryGetInteger(csvRecords, REPS, 0);
+                            int sets = TryGetInteger(csvRecords, SETS, 0);
+                            int second = TryGetInteger(csvRecords, SECONDS, 0);
+
+                            int duration = TryGetInteger(csvRecords, DURATION, 0);
+                            DistanceUnit distance_unit = DistanceUnit.fromString(TryGetString(csvRecords, DISTANCE_UNIT, DistanceUnit.KM.toString()));
+                            float distance = TryGetFloat(csvRecords, DISTANCE, 0);
+                            distance = UnitConverter.distanceConverter(distance, distance_unit, DistanceUnit.KM);
+
+                            String notes = TryGetString(csvRecords, NOTES, "");
+
+                            RecordType record_type = RecordType.fromString(csvRecords.get(RECORD_TYPE));
+
+                            long programId;
+                            String programName = TryGetString(csvRecords, PROGRAM_LABEL, "");
+                            Program program = FindOrCreateProgram(programName);
+                            if (program !=null) {
+                                programId = program.getId();
+                            } else {
+                                programId = -1;
+                            }
+
+                            int template_order = TryGetInteger(csvRecords, TEMPLATE_ORDER, 0);
+
+                            WeightUnit template_unit = WeightUnit.fromString(TryGetString(csvRecords, TEMPLATE_WEIGHT_UNIT, WeightUnit.KG.toString()));
+                            float template_weight = TryGetFloat(csvRecords, TEMPLATE_WEIGHT, 0);
+                            template_weight = UnitConverter.weightConverter(template_weight, template_unit, WeightUnit.KG);
+
+                            int template_repetitions = TryGetInteger(csvRecords, TEMPLATE_REPS, 0);
+                            int template_sets = TryGetInteger(csvRecords, TEMPLATE_SETS, 0);
+                            int template_second = TryGetInteger(csvRecords, TEMPLATE_SECONDS, 0);
+
+                            int template_duration = TryGetInteger(csvRecords, TEMPLATE_DURATION, 0);
+                            DistanceUnit template_distance_unit = DistanceUnit.fromString(TryGetString(csvRecords, TEMPLATE_DISTANCE_UNIT, DistanceUnit.KM.toString()));
+                            float template_distance = TryGetFloat(csvRecords, TEMPLATE_DISTANCE, 0);
+                            template_distance = UnitConverter.distanceConverter(template_distance, template_distance_unit, DistanceUnit.KM);
+                            int template_rest_time = TryGetInteger(csvRecords, TEMPLATE_REST_TIME, 0);
+
+                            ProgramRecordStatus template_record_status = ProgramRecordStatus.fromString(TryGetString(csvRecords, TEMPLATE_RECORD_STATUS, ProgramRecordStatus.NONE.toString()));
+
+                            Record record = new Record(date, machine.getName(), machine.getId(), pProfile.getId(), sets, repetitions, weight, unit, second, distance, distance_unit, duration, notes, exerciseType,
+                                    programId, -1, -1,
+                                    template_rest_time, template_order, template_record_status, record_type, template_sets, template_repetitions, template_weight, template_unit, template_second, template_distance, template_distance_unit, template_duration);
                             recordsList.add(record);
-                        } else {
-                            return false;
+                            importedRow++;
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                         break;
                     }
                     case DAOOldCardio.TABLE_NAME: {
+                        // This is the deprecated weight table
                         DAOCardio dbcCardio = new DAOCardio(mContext);
                         dbcCardio.open();
 
@@ -438,68 +522,92 @@ public class CVSManager {
                         dbcWeight.open();
                         Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOProfileWeight.DATE));
 
-                        float poids = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
-                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, new Value(poids, Unit.KG), pProfile.getId());
+                        float weight = Float.parseFloat(csvRecords.get(DAOProfileWeight.POIDS));
+                        dbcWeight.addBodyMeasure(date, BodyPartExtensions.WEIGHT, new Value(weight, Unit.KG), pProfile.getId());
 
                         break;
                     }
+                    case TABLE_BODYMEASURE:
                     case DAOBodyMeasure.TABLE_NAME: {
-                        DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
-                        dbcBodyMeasure.open();
-                        Date date = DateConverter.DBDateStrToDate(csvRecords.get(DAOBodyMeasure.DATE));
-                        Unit unit = Unit.fromString(csvRecords.get(DAOBodyMeasure.UNIT)); // Mandatory. Cannot not know the Unit.
-                        String bodyPartName = csvRecords.get("bodypart_label");
-                        DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
-                        dbcBodyPart.open();
-                        List<BodyPart> bodyParts = dbcBodyPart.getList();
-                        for (BodyPart bp : bodyParts) {
-                            if (bp.getName(mContext).equals(bodyPartName)) {
-                                float measure = Float.parseFloat(csvRecords.get(DAOBodyMeasure.MEASURE));
-                                dbcBodyMeasure.addBodyMeasure(date, bp.getId(), new Value(measure, unit), pProfile.getId());
-                                dbcBodyPart.close();
-                                break;
-                            }
+                        try {
+                            DAOBodyMeasure dbcBodyMeasure = new DAOBodyMeasure(mContext);
+                            dbcBodyMeasure.open();
+                            Date date = DateConverter.DBDateStrToDate(csvRecords.get(DATE));
+                            Unit unit = Unit.fromString(csvRecords.get(UNIT));
+                            String bodyPartName = csvRecords.get(BODYPART_LABEL);
+                            BodyPart bodyPart = FindOrCreateBodyPart(bodyPartName);
+                            float measure = Float.parseFloat(csvRecords.get(MEASURE));
+                            dbcBodyMeasure.addBodyMeasure(date, bodyPart.getId(), new Value(measure, unit), pProfile.getId());
+                            importedRow++;
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         break;
                     }
+                    case TABLE_BODYPART:
                     case DAOBodyPart.TABLE_NAME:
-                        DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
-                        dbcBodyPart.open();
-                        int bodyPartId = -1;
-                        String customName = csvRecords.get(DAOBodyPart.CUSTOM_NAME);
-                        String customPicture = csvRecords.get(DAOBodyPart.CUSTOM_PICTURE);
-                        dbcBodyPart.add(bodyPartId, customName, customPicture, 0, BodyPartExtensions.TYPE_MUSCLE);
+                        try {
+                            DAOBodyPart dbcBodyPart = new DAOBodyPart(mContext);
+                            dbcBodyPart.open();
+                            String customName = csvRecords.get(CUSTOM_NAME);
+                            String customPicture = TryGetString(csvRecords, CUSTOM_PICTURE, "");
+                            BodyPart bodyPart = FindOrCreateBodyPart(customName);
+                            bodyPart.setCustomPicture(customPicture);
+                            dbcBodyPart.update(bodyPart);
+                            importedRow++;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case DAOProfile.TABLE_NAME:
                         // TODO : import profiles
                         break;
+                    case TABLE_EXERCISE:
                     case DAOMachine.TABLE_NAME:
-                        DAOMachine dbc = new DAOMachine(mContext);
-                        String name = csvRecords.get(DAOMachine.NAME);
-                        String description = csvRecords.get(DAOMachine.DESCRIPTION);
-                        ExerciseType type = ExerciseType.fromInteger(Integer.parseInt(csvRecords.get(DAOMachine.TYPE)));
-                        boolean favorite = TryGetBoolean(csvRecords.get(DAOMachine.FAVORITES), false);
-                        String bodyParts = csvRecords.get(DAOMachine.BODYPARTS);
+                        try {
+                            DAOMachine dbc = new DAOMachine(mContext);
+                            String name = csvRecords.get(NAME);
+                            String description = TryGetString(csvRecords, DESCRIPTION, "");
+                            ExerciseType type = ExerciseType.fromString(csvRecords.get(TYPE));
+                            boolean favorite = TryGetBoolean(csvRecords, FAVORITE, false);
+                            String bodyParts = TryGetString(csvRecords, BODYPARTS, "");
 
-                        // Check if this machine doesn't exist
-                        if (dbc.getMachine(name) == null) {
-                            dbc.addMachine(name, description, type, "", favorite, bodyParts);
-                        } else {
-                            Machine m = dbc.getMachine(name);
+                            Machine m = FindOrCreateMachine(name, type);
                             m.setDescription(description);
                             m.setFavorite(favorite);
                             m.setBodyParts(bodyParts);
                             dbc.updateMachine(m);
+                            importedRow++;
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         break;
+                    case TABLE_PROGRAM:
+                    case DAOProgram.TABLE_NAME:
+                        try {
+                            DAOProgram daoProgram = new DAOProgram(mContext);
+                            daoProgram.open();
+                            String programName = csvRecords.get(NAME);
+                            String programDescription = TryGetString(csvRecords, DESCRIPTION, "");
+
+                            Program program = FindOrCreateProgram(programName);
+                            program.setDescription(programDescription);
+                            daoProgram.update(program);
+                            importedRow++;
+                            break;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                 }
             }
 
             csvRecords.close();
 
             // In case of success
-            DAORecord daoRecord = new DAORecord(mContext);
-            daoRecord.addList(recordsList);
+            if (!recordsList.isEmpty()) {
+                DAORecord daoRecord = new DAORecord(mContext);
+                daoRecord.addList(recordsList);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -509,36 +617,91 @@ public class CVSManager {
         return ret;
     }
 
-    private int TryGetInteger(String value, int defaultValue) {
+    private int TryGetInteger(CsvReader csvReader, String value, int defaultValue) {
         try {
-            return Integer.parseInt(value);
+            return Integer.parseInt(csvReader.get(value));
         } catch (Exception e) {
             return defaultValue;
         }
     }
 
-    private float TryGetFloat(String value, float defaultValue) {
+    private float TryGetFloat(CsvReader csvReader, String value, float defaultValue) {
         try {
-            return Float.parseFloat(value);
+            return Float.parseFloat(csvReader.get(value));
         } catch (Exception e) {
             return defaultValue;
         }
     }
 
-    private boolean TryGetBoolean(String value, boolean defaultValue) {
+    private boolean TryGetBoolean(CsvReader csvReader, String value, boolean defaultValue) {
         try {
-            return Boolean.parseBoolean(value);
+            return Boolean.parseBoolean(csvReader.get(value));
         } catch (Exception e) {
             return defaultValue;
         }
     }
 
-    private Unit TryGetUnit(String value, Unit defaultValue) {
-        Unit unit = Unit.fromString(value);
-        if (unit != null) {
-            return unit;
+    private String TryGetString(CsvReader csvReader, String value, String defaultValue) {
+        try {
+            return csvReader.get(value);
+        } catch (Exception e) {
+            return defaultValue;
         }
-        return defaultValue;
+    }
+
+    private BodyPart FindOrCreateBodyPart(String bodyPartName) {
+        BodyPart bodyPart = null;
+        DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
+        daoBodyPart.open();
+        List<BodyPart> bodyParts = daoBodyPart.getList();
+        for (BodyPart bp : bodyParts) {
+            if (bp.getName(mContext).equals(bodyPartName)) {
+                bodyPart = bp;
+                break;
+            }
+        }
+        if (bodyPart==null) {
+            long newItemId = daoBodyPart.add(-1, bodyPartName, "", daoBodyPart.getCount(), BodyPartExtensions.TYPE_MUSCLE);
+            bodyPart = daoBodyPart.getBodyPart(newItemId);
+        }
+        return bodyPart;
+    }
+
+    private Program FindOrCreateProgram(String programName) {
+        Program program = null;
+        DAOProgram daoProgram= new DAOProgram(mContext);
+        daoProgram.open();
+        List<Program> programs = daoProgram.getAll();
+        for (Program prg : programs) {
+            if (prg.getName().equals(programName)) {
+                program = prg;
+                break;
+            }
+        }
+        if (program==null && !programName.isEmpty()) {
+            program = new Program(-1, programName, "");
+            long newItemId = daoProgram.add(program);
+            program.setId(newItemId);
+        }
+        return program;
+    }
+
+    private Machine FindOrCreateMachine(String machineName, ExerciseType exerciseType) {
+        Machine machine = null;
+        DAOMachine daoMachine = new DAOMachine(mContext);
+        daoMachine.open();
+        List<Machine> machines = daoMachine.getAll();
+        for (Machine lMachine : machines) {
+            if (lMachine.getName().equals(machineName) && lMachine.getType()==exerciseType) {
+                machine = lMachine;
+                break;
+            }
+        }
+        if (machine==null) {
+            long newItemId = daoMachine.addMachine(machineName,"", exerciseType, "", false, "");
+            machine = daoMachine.getMachine(newItemId);
+        }
+        return machine;
     }
 
 }

@@ -33,9 +33,9 @@ public class Record {
     private ExerciseType mExerciseType;
     private RecordType mRecordType;
 
-    private int mRestTime;
+    private int mTemplateRestTime;
 
-    private long mTemplateId; // Id of the Program Template
+    private long mProgramId; // Id of the Program Template
     private long mTemplateSessionId; // Id of the Workout Session
     private long mTemplateRecordId; // Id of the Template Record of the Program
 
@@ -53,8 +53,8 @@ public class Record {
     private DistanceUnit mTemplateDistanceUnit;
     private long mTemplateDuration;
 
-    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long recordTemplateId) {
-        this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, recordTemplateId, -1, 0, 0, ProgramRecordStatus.NONE, RecordType.FREE_RECORD, 0, 0, 0, WeightUnit.KG, 0, 0, DistanceUnit.KM, 0);
+    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType) {
+        this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, -1, -1, 0, 0, ProgramRecordStatus.NONE, RecordType.FREE_RECORD, 0, 0, 0, WeightUnit.KG, 0, 0, DistanceUnit.KM, 0);
     }
 
     public Record(Date date, String exercise, long exerciseId, long profileId,
@@ -66,7 +66,7 @@ public class Record {
                   float distance,
                   DistanceUnit distanceUnit,
                   long duration,
-                  String note, ExerciseType exerciseType, long templateId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType,
+                  String note, ExerciseType exerciseType, long programId, long templateRecordId, long templateSessionId, int restTime, int templateOrder, ProgramRecordStatus programRecordStatus, RecordType recordType,
                   int templateSets,
                   int templateReps,
                   float templateWeight,
@@ -90,8 +90,8 @@ public class Record {
         mNote = note;
         mExerciseType = exerciseType;
         mRecordType = recordType;
-        mRestTime = restTime;
-        mTemplateId = templateId;
+        mTemplateRestTime = restTime;
+        mProgramId = programId;
         mTemplateRecordId = templateRecordId;
         mTemplateSessionId = templateSessionId;
         mTemplateOrder = templateOrder;
@@ -161,10 +161,10 @@ public class Record {
         mReps = reps;
     }
 
-    public float getWeight() {
+    public float getWeightInKg() {
         return mWeight;
     }
-    public void setWeight(float weight) {
+    public void setWeightInKg(float weight) {
         mWeight = weight;
     }
 
@@ -182,10 +182,10 @@ public class Record {
         mSecond = second;
     }
 
-    public float getDistance() {
+    public float getDistanceInKm() {
         return mDistance;
     }
-    public void setDistance(float distance) {
+    public void setDistanceInKm(float distance) {
         mDistance = distance;
     }
 
@@ -227,6 +227,12 @@ public class Record {
         mRecordType = recordType;
     }
 
+    public long getProgramId() { return mProgramId;   }
+
+    public void setProgramId(long programId) {
+        mProgramId = programId;
+    }
+
     public int getTemplateOrder() {
         return mTemplateOrder;
     }
@@ -235,20 +241,12 @@ public class Record {
         mTemplateOrder = templateOrder;
     }
 
-    public long getTemplateId() {
-        return mTemplateId;
-    }
-
-    public void setTemplateId(long templateId) {
-        mTemplateId = templateId;
-    }
-
-    public int getRestTime() {
-        return mRestTime;
+    public int getTemplateRestTime() {
+        return mTemplateRestTime;
     }
 
     public void setRestTime(int restTime) {
-        mRestTime = restTime;
+        mTemplateRestTime = restTime;
     }
 
     public long getTemplateSessionId() {
