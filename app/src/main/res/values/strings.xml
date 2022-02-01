@@ -113,10 +113,10 @@
     <string name="backup_warning_week">"One week since your last backup. "</string>
     <string name="backup_warning_month">"One month since your last backup. "</string>
 
-    <string name="pref_preferredUnitSummary">Preferred unit:</string>
-    <string name="pref_preferredUnitTitle">Select your preferred weight unit</string>
-    <string name="pref_preferredDistanceUnitTitle">Select your preferred distance unit</string>
-    <string name="pref_preferredSizeUnitTitle">Select your preferred size unit</string>
+    <string name="pref_preferredUnitSummary">"Preferred unit: "</string>
+    <string name="pref_preferredUnitTitle">Weight</string>
+    <string name="pref_preferredDistanceUnitTitle">Distance</string>
+    <string name="pref_preferredSizeUnitTitle">Body measurement</string>
 
     <string name="profil_create_new">Create new profile</string>
     <string name="profil_change">Change profile</string>
@@ -411,7 +411,7 @@
     <string name="editor">Editor</string>
     <string name="info">Data</string>
     <string name="details">Details</string>
-    <string name="unit_settings_title">Units</string>
+    <string name="unit_settings_title">Unit System</string>
     <string name="no_chart_data_available">No data</string>
     <string name="remove_image">Remove Image</string>
     <string name="program_completed">Close completed program?</string>
