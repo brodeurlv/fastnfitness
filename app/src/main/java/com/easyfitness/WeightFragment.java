@@ -447,8 +447,8 @@ public class WeightFragment extends Fragment {
 
         //Implementation for activity level spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
-                R.array.activity_level, R.layout.spinner_selected);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                R.array.activity_level, R.layout.calorie_spinner_selected);
+        adapter.setDropDownViewResource(R.layout.calorie_spinner_dropdown);
         spinner.setAdapter(adapter);
 
         //Setup shared preferences to save spinner selection

@@ -361,9 +361,9 @@
     <string name="sedentary">sedentary</string>
     <string name="moderate">moderate</string>
     <string name="active">active</string>
-    <string name="daily_exercise">daily Exercise</string>
+    <string name="daily_exercise">daily exercise</string>
     <string name="intense">intense</string>
-    <string name="very_intense">very Intense</string>
+    <string name="very_intense">very intense</string>
     <string-array name="activity_level">
         <item>@string/sedentary</item>
         <item>@string/moderate</item>

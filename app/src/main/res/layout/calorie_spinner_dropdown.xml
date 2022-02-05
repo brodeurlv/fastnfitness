@@ -3,10 +3,11 @@
     style="@style/WeightIndexStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:textSize="15dp"
     android:gravity="center"
-    android:textColor="@color/dark_icon_background"
+    android:textColor="@color/daily_calorie_spinner_dropdown"
     />
 
 
