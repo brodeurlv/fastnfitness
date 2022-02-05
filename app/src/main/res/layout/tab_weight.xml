@@ -319,7 +319,8 @@
                             <TextView
                                 android:id="@+id/imcValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <TextView
                                 android:id="@+id/imcViewText"
@@ -350,7 +351,8 @@
                             <TextView
                                 android:id="@+id/ffmiValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <TextView
                                 android:id="@+id/ffmiViewText"
@@ -381,7 +383,8 @@
                             <TextView
                                 android:id="@+id/bmrValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <TextView
                                 android:id="@+id/bmrViewText"
@@ -412,7 +415,8 @@
                             <TextView
                                 android:id="@+id/dailyCalorieValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <Spinner
                                 android:id="@+id/activityLevelSpinner"
