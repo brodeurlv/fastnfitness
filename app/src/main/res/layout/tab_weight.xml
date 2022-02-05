@@ -418,11 +418,7 @@
                                 android:id="@+id/activityLevelSpinner"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingLeft="25pt"
-                                android:textSize="20sp"
-                                android:textStyle="italic"
-                                tools:text="normal" />
+                                android:layout_marginLeft="19pt" />
 
                             <ImageButton
                                 android:id="@+id/dailyCalorieHelp"
