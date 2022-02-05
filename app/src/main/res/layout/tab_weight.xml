@@ -370,6 +370,69 @@
 
                         <TableRow
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/bmrLabel"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/bmrValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20" />
+
+                            <TextView
+                                android:id="@+id/bmrViewText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/bmrHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/daily_calorie_label"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/dailyCalorieValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20" />
+
+                            <Spinner
+                                android:id="@+id/activityLevelSpinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingLeft="25pt"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/dailyCalorieHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:visibility="gone"
                             tools:visibility="gone">
@@ -450,20 +513,20 @@
                 android:layout_height="76dp" />
         </LinearLayout>
     </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addAllWeightEntries"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_add_multiple"
-        android:contentDescription="@string/AddLabel"
-        android:gravity="bottom"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:backgroundTint="@color/toolbar_background"
-        app:fabSize="normal"
+        android:contentDescription="@string/AddLabel"
+        android:gravity="bottom"
+        android:src="@drawable/ic_add_multiple"
         app:borderWidth="0dp"
-        />
+        app:fabSize="normal" />
 
 
 </RelativeLayout>
