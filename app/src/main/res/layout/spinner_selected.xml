@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textStyle="italic"
-    android:textColor="#3c40c6"
+    android:textColor="@color/dark_icon_background"
     />
