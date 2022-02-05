@@ -418,7 +418,8 @@
                                 android:id="@+id/activityLevelSpinner"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="19pt" />
+                                android:paddingLeft="19pt"
+                                 />
 
                             <ImageButton
                                 android:id="@+id/dailyCalorieHelp"
