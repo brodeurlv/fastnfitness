@@ -151,7 +151,7 @@ public class CountdownDialogbox extends Dialog implements
         lTotalMachine = pTotalWeight;
     }
 
-    public void setNbSeries(int pNbSeries) {
+    public void setNbSets(int pNbSeries) {
         lNbSerie = pNbSeries;
     }
 

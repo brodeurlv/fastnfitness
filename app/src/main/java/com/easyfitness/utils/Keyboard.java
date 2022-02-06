@@ -19,8 +19,6 @@ public class Keyboard {
                 InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
             }, 300);
-            /*InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);*/
         }
     }
 

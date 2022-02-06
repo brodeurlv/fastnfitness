@@ -31,12 +31,15 @@ public class DAOBodyPart extends DAOBase {
         super(context);
     }
 
-    public long add(int pBodyPartId, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
+    /**
+     * @param pBodyPartResourceId Put -1 for Custom BodyPart
+     */
+    public long add(int pBodyPartResourceId, String pCustomName, String pCustomPicture, int pDisplay, int pType) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues value = new ContentValues();
 
-        value.put(DAOBodyPart.BODYPART_RESID, pBodyPartId);
+        value.put(DAOBodyPart.BODYPART_RESID, pBodyPartResourceId);
         value.put(DAOBodyPart.CUSTOM_NAME, pCustomName);
         value.put(DAOBodyPart.CUSTOM_PICTURE, pCustomPicture);
         value.put(DAOBodyPart.DISPLAY_ORDER, pDisplay);

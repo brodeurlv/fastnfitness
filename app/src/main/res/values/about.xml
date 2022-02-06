@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.20.4</string>
+    <string name="app_version" translatable="false">0.21.0_BETA</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
     <string name="bsd3" translatable="false">BSD 3</string>
@@ -11,12 +11,11 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.20.4: December 07, 2021 \n
-        \t- Enhancement: Weight all in one insertion (#230, Thank you @chaptergy) \n
-        \t- Enhancement: Added turkish translation (Thank you @Gokhungoktas) \n
-        \t- Bug: Fixed crash on Body Measure import (#240) \n
-        \t- Bug: Fixed pending record time (#232, Thank you @hhpmmd) \n
-        \t- Bug: Fixed import files being unselectable (#224) \n
+0.20.5BETA: TBD\n
+        \t- Bug: Moved program template value to record value to avoid discrepencies in case of program update\n
+        \t- Enhancement: Added program and program templates to csv export.
+        \t- Enhancement: Made csv import more flexible.
+        \t- Enhancement: Changes csv column names. Please refer to github wiki documentation for details.
 	</string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>

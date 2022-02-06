@@ -18,8 +18,6 @@ import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.views.WorkoutValuesInputView;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class RecordEditorDialogbox extends Dialog implements View.OnClickListener {
 
     private final boolean mShowRestTime;
@@ -60,7 +58,7 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
         mWorkoutValuesInput.setRecord(mRecord);
         mWorkoutValuesInput.setShowRestTime(mShowRestTime);
 
-        if (mRecord.getRecordType() == RecordType.PROGRAM_RECORD_TYPE) {
+        if (mRecord.getRecordType() == RecordType.PROGRAM_RECORD) {
             updateButton.setText(getContext().getString(R.string.success));
             failedButton.setVisibility(View.VISIBLE);
             failedButton.setText(getContext().getString(R.string.fail));
@@ -81,7 +79,6 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        boolean betterThanExisting = false;
         if (v.getId() == R.id.btn_cancel) {
             mCancelled = true;
             cancel();
@@ -98,12 +95,12 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
 
                     if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
                         programTemplate.setDuration(mWorkoutValuesInput.getDurationValue());
-                        programTemplate.setDistance(distance);
+                        programTemplate.setDistanceInKm(distance);
                         programTemplate.setDistanceUnit(mWorkoutValuesInput.getDistanceUnit());
                     }
 
                     mRecord.setDuration(mWorkoutValuesInput.getDurationValue());
-                    mRecord.setDistance(distance);
+                    mRecord.setDistanceInKm(distance);
                     mRecord.setDistanceUnit(mWorkoutValuesInput.getDistanceUnit());
 
                     break;
@@ -114,13 +111,13 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
                         programTemplate.setSets(mWorkoutValuesInput.getSets());
                         programTemplate.setSeconds(mWorkoutValuesInput.getSeconds());
-                        programTemplate.setWeight(tmpPoids);
+                        programTemplate.setWeightInKg(tmpPoids);
                         programTemplate.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     }
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setSeconds(mWorkoutValuesInput.getSeconds());
-                    mRecord.setWeight(tmpPoids);
+                    mRecord.setWeightInKg(tmpPoids);
                     mRecord.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     break;
                 case STRENGTH:
@@ -130,13 +127,13 @@ public class RecordEditorDialogbox extends Dialog implements View.OnClickListene
                     if (programTemplate != null && mUpdateProgramCheckbox.isChecked()) {
                         programTemplate.setSets(mWorkoutValuesInput.getSets());
                         programTemplate.setReps(mWorkoutValuesInput.getReps());
-                        programTemplate.setWeight(tmpPoids);
+                        programTemplate.setWeightInKg(tmpPoids);
                         programTemplate.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     }
 
                     mRecord.setSets(mWorkoutValuesInput.getSets());
                     mRecord.setReps(mWorkoutValuesInput.getReps());
-                    mRecord.setWeight(tmpPoids);
+                    mRecord.setWeightInKg(tmpPoids);
                     mRecord.setWeightUnit(mWorkoutValuesInput.getWeightUnit());
                     break;
             }

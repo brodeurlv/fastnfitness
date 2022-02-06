@@ -1,6 +1,5 @@
 package com.easyfitness.DAO.bodymeasures;
 
-import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.Value;
 
 import java.util.Date;
@@ -9,19 +8,17 @@ import java.util.Date;
 public class BodyMeasure {
     private final Date mDate;
     private final int mBodypart_id;
-    private final long mProfil_id;
-    // Notez que l'identifiant est un long
+    private final long mProfile_id;
     private long mId;
     private Value mMeasure;
-    private String mTime;
 
-    public BodyMeasure(long id, Date pDate, int pBodypart_id, Value pMeasure, long pProfil_id) {
+    public BodyMeasure(long id, Date pDate, int pBodypart_id,  Value pMeasure, long pProfile_id) {
         super();
         mId = id;
         mDate = pDate;
         mBodypart_id = pBodypart_id;
         mMeasure = pMeasure;
-        mProfil_id = pProfil_id;
+        mProfile_id = pProfile_id;
     }
 
     public long getId() {
@@ -34,10 +31,6 @@ public class BodyMeasure {
 
     public Date getDate() {
         return mDate;
-    }
-
-    public String getTime() {
-        return mTime;
     }
 
     public int getBodyPartID() {
@@ -53,7 +46,7 @@ public class BodyMeasure {
     }
 
     public long getProfileID() {
-        return mProfil_id;
+        return mProfile_id;
     }
 
 }

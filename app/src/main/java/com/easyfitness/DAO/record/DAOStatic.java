@@ -37,15 +37,13 @@ public class DAOStatic extends DAORecord {
      * @param pMachine   Machine name
      * @param pProfileId Profile ID
      */
-    public long addStaticRecord(Date pDate, String pMachine, int pSerie, int pSeconds, float pPoids, long pProfileId, WeightUnit pUnit, String pNote, long pTemplateRecordId) {
-        return addRecord(pDate, pMachine, ExerciseType.ISOMETRIC, pSerie, 0, pPoids, pUnit, pSeconds, 0, DistanceUnit.KM, 0, pNote, pProfileId, pTemplateRecordId, RecordType.FREE_RECORD_TYPE);
+    public long addStaticRecordToFreeWorkout(Date pDate, String pMachine, int pSerie, int pSeconds, float pPoids, long pProfileId, WeightUnit pUnit, String pNote) {
+        return addRecordToFreeWorkout(pDate, pMachine, ExerciseType.ISOMETRIC, pSerie, 0, pPoids, pUnit, pSeconds, 0, DistanceUnit.KM, 0, pNote, pProfileId);
     }
 
-    public long addStaticRecordToProgramTemplate(long pTemplateId, long pTemplateSessionId, Date pDate, String pExerciseName, int pSets, int pSeconds, float pWeight, WeightUnit pWeightUnit, int restTime) {
-        return addRecord(pDate, pExerciseName, ExerciseType.ISOMETRIC, pSets, 0, pWeight,
-                pWeightUnit, "", 0, DistanceUnit.KM, 0, pSeconds, -1,
-                RecordType.TEMPLATE_TYPE, -1, pTemplateId, pTemplateSessionId,
-                restTime, ProgramRecordStatus.NONE);
+    public long addStaticTemplateToProgram(long pTemplateId, Date pDate, String pExerciseName, int pSets, int pSeconds, float pWeight, WeightUnit pWeightUnit, int restTime, int templateOrder) {
+        return addTemplateToProgram(pDate, pExerciseName, ExerciseType.ISOMETRIC, pSets, 0, pWeight,
+                pWeightUnit, pSeconds, 0, DistanceUnit.KM, 0, "", pTemplateId, restTime, templateOrder);
     }
 
     // Getting Function records
@@ -61,7 +59,7 @@ public class DAOStatic extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + SECONDS
                     + " ORDER BY " + SECONDS + " ASC";
         } else if (pFunction == DAOStatic.MAX_LENGTH) {
@@ -70,7 +68,7 @@ public class DAOStatic extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
@@ -79,7 +77,7 @@ public class DAOStatic extends DAORecord {
                     + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal()
+                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
         } else {
@@ -124,7 +122,7 @@ public class DAOStatic extends DAORecord {
     /**
      * @return the number of series for this machine for this day
      */
-    public int getNbSeries(Date pDate, String pMachine, Profile pProfile) {
+    public int getSets(Date pDate, String pMachine, Profile pProfile) {
         int lReturn = 0;
 
         //Test is Machine exists. If not create it.
@@ -141,7 +139,7 @@ public class DAOStatic extends DAORecord {
                 + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
+                + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -179,7 +177,7 @@ public class DAOStatic extends DAORecord {
                 + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
+                + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -214,7 +212,7 @@ public class DAOStatic extends DAORecord {
                 + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
+                + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -245,7 +243,7 @@ public class DAOStatic extends DAORecord {
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
+                + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -273,7 +271,7 @@ public class DAOStatic extends DAORecord {
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                + " AND " + RECORD_TYPE + "!=" + RecordType.TEMPLATE_TYPE.ordinal();
+                + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list

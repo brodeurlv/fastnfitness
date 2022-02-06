@@ -21,10 +21,11 @@ public enum DistanceUnit {
         return null;
     }
 
-    public static DistanceUnit fromString(String x) {
+    public static DistanceUnit fromString(String x) throws Exception{
         if (x.equals(KM.mDisplayName)) return KM;
         else if (x.equals(MILES.mDisplayName)) return MILES;
-        return null;
+
+        throw new Exception("Illegal record type string");
     }
 
     public String toString() {

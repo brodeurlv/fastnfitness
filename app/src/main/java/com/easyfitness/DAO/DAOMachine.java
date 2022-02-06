@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.ExerciseType;
 
 import java.util.ArrayList;
@@ -41,16 +42,12 @@ public class DAOMachine extends DAOBase {
         super(context);
     }
 
-/*
-    public void setProfile(Profile pProfile) {
-        mProfile = pProfile;
-    }
-*/
-
     /**
-     * @param pName        le Record a ajouter a la base
+     * @param pName
      * @param pDescription
-     * @param pType
+     * @param pType CARDIO, STRENGH or ISOMETRIC
+     * @param pFav Is favorite exercise
+     * @param pBodyParts Body parts used to perform this exercise
      */
     public long addMachine(String pName, String pDescription, ExerciseType pType, String pPicture, boolean pFav, String pBodyParts) {
 
@@ -161,12 +158,12 @@ public class DAOMachine extends DAOBase {
 
     }
 
-    // Getting All Records
+    // Getting All Machines
     private List<Machine> getMachineList(String pRequest) {
         return getMachineListUsingDb(pRequest, getReadableDatabase());
     }
 
-    // Getting All Records
+    // Getting All Machines
     private Cursor getMachineListCursor(String pRequest) {
         ArrayList<Machine> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -181,6 +178,18 @@ public class DAOMachine extends DAOBase {
 
     public void closeCursor() {
         mCursor.close();
+    }
+
+    /**
+     * @return List of Machine object ordered by Favorite and Name
+     */
+    public List<Machine> getAll() {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
+                + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
+
+        // return value list
+        return getMachineList(selectQuery);
     }
 
     /**
@@ -233,6 +242,7 @@ public class DAOMachine extends DAOBase {
         // return value list
         return getMachineListCursor(selectQuery);
     }
+
 
 
     /**

@@ -2,9 +2,7 @@ package com.easyfitness;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -24,21 +22,19 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.easyfitness.DAO.CVSManager;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DatabaseHelper;
@@ -46,7 +42,9 @@ import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
+import com.easyfitness.DAO.export.CVSManager;
 import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
@@ -60,9 +58,7 @@ import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.programs.ProgramListFragment;
-import com.easyfitness.utils.CustomExceptionHandler;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.FileChooserDialog;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
 import com.easyfitness.utils.UnitConverter;
@@ -71,16 +67,12 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -106,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
 
-    private static final int EXPORT_DATABASE = 1;
+
     private static final int IMPORT_DATABASE = 2;
     public static final int OPEN_MUSIC_FILE = 3;
 
@@ -126,14 +118,11 @@ public class MainActivity extends AppCompatActivity {
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
-    private String m_importCVSchosenDir = "";
     private Toolbar top_toolbar = null;
     /* Navigation Drawer */
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
     private CircularImageView roundProfile = null;
     private String mCurrentMachine = "";
     private boolean mIntro014Launched = false;
@@ -279,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    mDbCardio.addCardioRecord(record.getDate(), exerciseName, record.getDistance(), record.getDuration(), record.getProfil().getId(), DistanceUnit.KM, -1);
+                    mDbCardio.addCardioRecordToFreeWorkout(record.getDate(), exerciseName, record.getDistance(), record.getDuration(), record.getProfil().getId(), DistanceUnit.KM);
                 }
                 mDbOldCardio.dropTable();
 
@@ -301,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            showFragment(FONTESPAGER, false); // Create fragment, do not add to backstack
+            showFragment(FONTESPAGER); // Create fragment, do not add to backstack
             currentFragmentName = FONTESPAGER;
         }
 
@@ -342,8 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
         musicController.initView();
 
-        // Lance l'intro
-        // Tester si l'intro a déjà été lancé
+        // Test if intro has been launched already
         if (!mIntro014Launched) {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
@@ -400,18 +388,18 @@ public class MainActivity extends AppCompatActivity {
             // do something for a debug build
             DAOFonte lDbFonte = new DAOFonte(this);
             if (lDbFonte.getCount() == 0) {
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId(), -1);
-                lDbFonte.addBodyBuildingRecord(DateConverter.dateToDate(2019, 6, 30, 12, 34, 56), "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId(), -1);
+                lDbFonte.addStrengthRecordToFreeWorkout(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Example 1", 1, 10, 40, WeightUnit.KG, "", this.getCurrentProfile().getId());
+                lDbFonte.addStrengthRecordToFreeWorkout(DateConverter.dateToDate(2019, 6, 30, 12, 34, 56), "Example 2", 1, 10, UnitConverter.LbstoKg(60), WeightUnit.LBS, "", this.getCurrentProfile().getId());
             }
             DAOCardio lDbCardio = new DAOCardio(this);
             if (lDbCardio.getCount() == 0) {
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 7, 1), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM, -1);
-                lDbCardio.addCardioRecord(DateConverter.dateToDate(2019, 7, 31), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES, -1);
+                lDbCardio.addCardioRecordToFreeWorkout(DateConverter.dateToDate(2019, 7, 1), "Running Example", 1, 10000, this.getCurrentProfile().getId(), DistanceUnit.KM);
+                lDbCardio.addCardioRecordToFreeWorkout(DateConverter.dateToDate(2019, 7, 31), "Cardio Example", UnitConverter.MilesToKm(2), 20000, this.getCurrentProfile().getId(), DistanceUnit.MILES);
             }
             DAOStatic lDbStatic = new DAOStatic(this);
             if (lDbStatic.getCount() == 0) {
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "", -1);
-                lDbStatic.addStaticRecord(DateConverter.dateToDate(2019, 7, 31, 12, 34, 56), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "", -1);
+                lDbStatic.addStaticRecordToFreeWorkout(DateConverter.dateToDate(2019, 7, 1, 12, 34, 56), "Exercise ISO 1", 1, 50, 40, this.getCurrentProfile().getId(), WeightUnit.KG, "");
+                lDbStatic.addStaticRecordToFreeWorkout(DateConverter.dateToDate(2019, 7, 31, 12, 34, 56), "Exercise ISO 2", 1, 60, UnitConverter.LbstoKg(40), this.getCurrentProfile().getId(), WeightUnit.LBS, "");
             }
             DAOProgram lDbWorkout = new DAOProgram(this);
             if (lDbWorkout.getCount() == 0) {
@@ -426,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
@@ -462,8 +450,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final MenuItem alertMenuItem = menu.findItem(R.id.action_profil);
-
         roundProfile.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(getActivity(), v);
             MenuInflater inflater = popup.getMenuInflater();
@@ -588,9 +574,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
         });
 
-        exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
-            dialog.dismiss();
-        });
+        exportDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> dialog.dismiss());
 
         AlertDialog exportDbDialog = exportDbBuilder.create();
         exportDbDialog.show();
@@ -644,27 +628,37 @@ public class MainActivity extends AppCompatActivity {
 
                 // Si oui, supprimer la base de donnee et refaire un Start.
                 deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
-                    // recupere le premier ID de la liste.
                     List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
                     for (int i = 0; i < lList.size(); i++) {
                         Profile mTempProfile = lList.get(i);
                         mDbProfils.deleteProfile(mTempProfile.getId());
                     }
+
                     DAOMachine mDbMachines = new DAOMachine(getActivity());
-                    // recupere le premier ID de la liste.
                     List<Machine> lList2 = mDbMachines.getAllMachinesArray();
                     for (int i = 0; i < lList2.size(); i++) {
                         Machine mTemp = lList2.get(i);
                         mDbMachines.delete(mTemp.getId());
                     }
 
-                    // redisplay the intro
-                    mIntro014Launched = false;
+                    DAOProgram mDbPrograms = new DAOProgram(getActivity());
+                    List<Program> programList = mDbPrograms.getAll();
+                    for (int i = 0; i < programList.size(); i++) {
+                        Program mTemp = programList.get(i);
+                        mDbPrograms.delete(mTemp.getId());
 
-                    // Do nothing but close the dialog
-                    dialog.dismiss();
+                        DAORecord mDbRecords = new DAORecord(getActivity());
+                        List<Record> recordList = mDbRecords.getAllTemplateRecordByProgramArray(mTemp.getId());
+                        for (int j = 0; j < recordList.size(); j++) {
+                            Record mTempRecord = recordList.get(j);
+                            mDbRecords.deleteRecord(mTempRecord.getId());
+                        }
+                    }
 
-                    finish();
+                    mIntro014Launched = false; // redisplay the intro
+
+                    dialog.dismiss(); // Close the dialog
+                    finish(); // Close app
                 });
 
                 deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
@@ -695,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
         if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT) {
             if (grantResults.length > 0
@@ -821,16 +815,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void showFragment(String pFragmentName) {
-        showFragment(pFragmentName, true);
-    }
-
-    private void showFragment(String pFragmentName, boolean addToBackStack) {
 
         if (currentFragmentName.equals(pFragmentName))
             return; // If this is already the current fragment, do no replace.
@@ -871,9 +861,9 @@ public class MainActivity extends AppCompatActivity {
         return appViMo.getProfile().getValue();
     }
 
-    public void setCurrentProfile(String newProfilName) {
-        Profile newProfil = this.mDbProfils.getProfile(newProfilName);
-        setCurrentProfile(newProfil);
+    public void setCurrentProfile(String newProfileName) {
+        Profile newProfile = this.mDbProfils.getProfile(newProfileName);
+        setCurrentProfile(newProfile);
     }
 
     public void setCurrentProfile(Profile newProfil) {
@@ -892,7 +882,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!success) {
-            roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            roundProfile.setImageDrawable(AppCompatResources.getDrawable(getActivity(), R.drawable.ic_person));
             mDrawerAdapter.getItem(0).setImg(null); // Img has priority over Resource so it needs to be reset
             mDrawerAdapter.getItem(0).setImgResID(R.drawable.ic_person);
         }
@@ -1004,10 +994,6 @@ public class MainActivity extends AppCompatActivity {
         return top_toolbar;
     }
 
-    public void restoreToolbar() {
-        if (top_toolbar != null) setSupportActionBar(top_toolbar);
-    }
-
     public void showMP3Toolbar(boolean show) {
         Toolbar mp3toolbar = this.findViewById(R.id.musicToolbar);
         if (!show) {
@@ -1031,11 +1017,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         } else if (resultCode == RESULT_OK && requestCode == IMPORT_DATABASE) {
-            Uri file = null;
+            Uri file;
             if (data != null) {
                 file = data.getData();
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                InputStream inputStream = null;
+                InputStream inputStream;
                 try {
                     inputStream = getContentResolver().openInputStream(file);
                 } catch (FileNotFoundException e) {
@@ -1050,13 +1036,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else if (resultCode == RESULT_OK && requestCode == OPEN_MUSIC_FILE) {
-            Uri uri = null;
+            Uri uri;
             if (data != null) {
                 uri = data.getData();
                 // Return for MusicController Choose file
                 musicController.OpenMusicFileIntentResult(uri);
-                final int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                int takeFlags = data.getFlags();
+                takeFlags &= (Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 // Check for the freshest data.
                 getContentResolver().takePersistableUriPermission(uri, takeFlags);
@@ -1068,9 +1054,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         int index = getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1;
         if (index >= 0) { // Si on est dans une sous activité
-            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-            String tag = backEntry.getName();
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
             super.onBackPressed();
             getActivity().getSupportActionBar().show();
         } else { // Si on est la racine, avec il faut cliquer deux fois

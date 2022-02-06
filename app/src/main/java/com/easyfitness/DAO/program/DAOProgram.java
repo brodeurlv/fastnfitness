@@ -25,15 +25,12 @@ public class DAOProgram extends DAOBase {
 
     private Cursor mCursor = null;
 
-    //DAOFonte mDAOFonte = null;
-
-
     public DAOProgram(Context context) {
         super(context);
     }
 
     /**
-     * @param m DBOProfil Profile a ajouter a la base
+     * @param m Program to add to the database
      */
     public long add(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -50,7 +47,7 @@ public class DAOProgram extends DAOBase {
     }
 
     /**
-     * @param id long id of the Profile
+     * @param id long id of the Program
      */
     public Program get(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -80,7 +77,7 @@ public class DAOProgram extends DAOBase {
         }
     }
 
-    // Getting All Profils
+    // Getting All Programs
     public List<Program> getList(String pRequest) {
         List<Program> valueList = new ArrayList<>();
         // Select All Query
@@ -116,7 +113,7 @@ public class DAOProgram extends DAOBase {
         return getList(selectQuery);
     }
 
-    // Updating single value
+    // Updating single program
     public int update(Program m) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -129,12 +126,16 @@ public class DAOProgram extends DAOBase {
                 new String[]{String.valueOf(m.getId())});
     }
 
-    // Deleting single Profile
+    /**
+     * @param m Program to delete
+     */
     public void delete(Program m) {
         delete(m.getId());
     }
 
-    // Deleting single Profile
+    /**
+     * @param id id of Program to delete
+     */
     public void delete(long id) {
         open();
 
@@ -149,7 +150,7 @@ public class DAOProgram extends DAOBase {
     }
 
 
-    // Getting Profils Count
+    // Getting Programs Count
     public int getCount() {
         String countQuery = "SELECT  * FROM " + TABLE_NAME;
         open();
@@ -173,7 +174,7 @@ public class DAOProgram extends DAOBase {
     }
 
     /**
-     * @return List of Machine object ordered by Favorite and Name
+     * Delete all empty workouts
      */
     public void deleteAllEmptyWorkout() {
         SQLiteDatabase db = this.getWritableDatabase();
