@@ -1,6 +1,7 @@
 package com.easyfitness;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOProfileWeight;
@@ -39,7 +43,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -101,6 +107,22 @@ public class WeightFragment extends Fragment {
                         .showCancelButton(true)
                         .show();
                 break;
+            case R.id.bmrHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(R.string.bmrLabel)
+                        .setContentText(getString(R.string.bmr_dialog_title))
+                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                        .showCancelButton(true)
+                        .show();
+                break;
+            case R.id.dailyCalorieHelp:
+                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(R.string.daily_calorie_alert)
+                        .setContentText(getString(R.string.daily_calorie_alert_body))
+                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                        .showCancelButton(true)
+                        .show();
+                break;
             case R.id.rfmHelp:
                 new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText(R.string.RFM_dialog_title)
@@ -112,6 +134,7 @@ public class WeightFragment extends Fragment {
                 break;
         }
     };
+    double calorieMultiplier; //Daily calorie multiplier
     MainActivity mActivity = null;
     private TextView weightEdit = null;
     private TextView fatEdit = null;
@@ -122,6 +145,9 @@ public class WeightFragment extends Fragment {
     private TextView imcRank = null;
     private TextView ffmiText = null;
     private TextView ffmiRank = null;
+    private TextView bmrCals = null;
+    private TextView bmrText = null;
+    private TextView dailyCalorieValue = null;
     private TextView rfmText = null;
     private TextView rfmRank = null;
     private LineChart mWeightLineChart;
@@ -274,7 +300,7 @@ public class WeightFragment extends Fragment {
                 Value newWeightValue = null;
                 // Find the weight value if we need it as the baseline
                 for (Value newValue : newValues) {
-                    if(newValue.getId().equals(String.valueOf(weightBodyPart.getId()))){
+                    if (newValue.getId().equals(String.valueOf(weightBodyPart.getId()))) {
                         newWeightValue = newValue;
                         break;
                     }
@@ -294,13 +320,13 @@ public class WeightFragment extends Fragment {
                     // If the unit is not in percent and it is a percentage measurement convert it
                     if (newValue.getUnit() != Unit.PERCENTAGE && (bodyPartId == fatBodyPart.getId() || bodyPartId == musclesBodyPart.getId() || bodyPartId == waterBodyPart.getId())) {
                         // Convert them to the same unit if necessary
-                        if(newValue.getUnit() != newWeightValue.getUnit()){
+                        if (newValue.getUnit() != newWeightValue.getUnit()) {
                             newValue.setValue(UnitConverter.weightConverter(newValue.getValue(), newValue.getUnit(), newWeightValue.getUnit()));
                             newValue.setUnit(newWeightValue.getUnit());
                         }
 
                         // Convert absolute value to percentage
-                        newValue.setValue((newValue.getValue() / newWeightValue.getValue())*100);
+                        newValue.setValue((newValue.getValue() / newWeightValue.getValue()) * 100);
                         newValue.setUnit(Unit.PERCENTAGE);
                     }
                     mDbBodyMeasure.addBodyMeasure(date, bodyPartId, newValue, profileId);
@@ -350,11 +376,17 @@ public class WeightFragment extends Fragment {
         imcRank = view.findViewById(R.id.imcViewText);
         ffmiText = view.findViewById(R.id.ffmiValue);
         ffmiRank = view.findViewById(R.id.ffmiViewText);
+        bmrCals = view.findViewById(R.id.bmrValue);
+        bmrText = view.findViewById(R.id.bmrViewText);
+        dailyCalorieValue = view.findViewById(R.id.dailyCalorieValue);
         rfmText = view.findViewById(R.id.rfmValue);
         rfmRank = view.findViewById(R.id.rfmViewText);
+        Spinner spinner = view.findViewById(R.id.activityLevelSpinner);
 
         ImageButton ffmiHelpButton = view.findViewById(R.id.ffmiHelp);
         ImageButton imcHelpButton = view.findViewById(R.id.imcHelp);
+        ImageButton bmrHelpButton = view.findViewById(R.id.bmrHelp);
+        ImageButton dailyCalorieHelpButton = view.findViewById(R.id.dailyCalorieHelp);
         ImageButton rfmHelpButton = view.findViewById(R.id.rfmHelp);
 
         FloatingActionButton addAllButton = view.findViewById(R.id.addAllWeightEntries);
@@ -368,6 +400,8 @@ public class WeightFragment extends Fragment {
         addAllButton.setOnClickListener(mOnAddAllEntriesClickListener);
         imcHelpButton.setOnClickListener(showHelp);
         ffmiHelpButton.setOnClickListener(showHelp);
+        bmrHelpButton.setOnClickListener(showHelp);
+        dailyCalorieHelpButton.setOnClickListener(showHelp);
         rfmHelpButton.setOnClickListener(showHelp);
         weightDetailsButton.setOnClickListener(showDetailsFragment);
         fatDetailsButton.setOnClickListener(showDetailsFragment);
@@ -409,6 +443,65 @@ public class WeightFragment extends Fragment {
         appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
+        });
+
+        //Implementation for activity level spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
+                R.array.activity_level, R.layout.calorie_spinner_selected);
+        adapter.setDropDownViewResource(R.layout.calorie_spinner_dropdown);
+        spinner.setAdapter(adapter);
+
+        //Setup shared preferences to save spinner selection
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        int spinnerValue = SP.getInt("userSpinner", -1);
+        if (spinnerValue != -1) {
+            spinner.setSelection(spinnerValue);
+        }
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                // On selecting a spinner item
+                String item = parent.getItemAtPosition(position).toString();
+                if (item.equals(getResources().getString(R.string.sedentary))) {
+                    calorieMultiplier = 1.2;
+                    refreshData();
+                } else if (item.equals(getResources().getString(R.string.moderate))) {
+                    calorieMultiplier = 1.375;
+                    refreshData();
+                } else if (item.equals(getResources().getString(R.string.active))) {
+                    calorieMultiplier = 1.465;
+                    refreshData();
+                } else if (item.equals(getResources().getString(R.string.daily_exercise))) {
+                    calorieMultiplier = 1.55;
+                    refreshData();
+                } else if (item.equals(getResources().getString(R.string.intense))) {
+                    calorieMultiplier = 1.725;
+                    refreshData();
+                } else if (item.equals(getResources().getString(R.string.very_intense))) {
+                    calorieMultiplier = 1.9;
+                    refreshData();
+                } else {
+                    calorieMultiplier = 1.2;
+                    refreshData();
+                }
+
+                //Saving selected activity level to shared preferences
+                int userChoice = spinner.getSelectedItemPosition();
+                SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+                SharedPreferences.Editor prefEditor = SP.edit();
+                prefEditor.putInt("userSpinner", userChoice);
+                prefEditor.commit();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
 
         return view;
@@ -683,6 +776,37 @@ public class WeightFragment extends Fragment {
         }
     }
 
+    private double calculateBmrMenMifflin(float weight, float size) {
+        /**
+         *Mifflin-St Jeor Equation
+         * For men: BMR = 10W + 6.25H - 5A + 5
+         **/
+
+        int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
+
+        return (10 * weight) + (6.25 * size) - (5 * age) + 5;
+    }
+
+    private double calculateBmrWomenMifflin(float weight, float size) {
+        /**
+         *Mifflin-St Jeor Equation
+         * For women: BMR = 10W + 6.25H - 5A - 161
+         **/
+        int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
+
+        return (10 * weight) + (6.25 * size) - (5 * age) - 161;
+    }
+
+    private double calculateBmrKatch(float bodyFat, float weight) {
+        /**
+         * Katch-McArdle Formula: BMR = 370 + 21.6(1 - F)W
+         **/
+
+        return Math.round(370 + (21.6 * (1 - (bodyFat / 100)) * weight));
+    }
+
     /**
      * Get a Value object which uses the data from the last measure if available
      *
@@ -725,6 +849,7 @@ public class WeightFragment extends Fragment {
                                 UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM));
                         imcText.setText(String.format("%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
+
                         if (lastFatValue != null) {
                             double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM),
@@ -737,19 +862,53 @@ public class WeightFragment extends Fragment {
                             else if (getProfile().getGender() == Gender.OTHER)
                                 ffmiRank.setText(getFfmiTextForMen(ffmiValue));
                             else
-                                ffmiRank.setText("no gender defined");
+                                ffmiRank.setText(R.string.no_gender_defined);
                         } else {
                             ffmiText.setText("-");
                             ffmiRank.setText(R.string.no_fat_available);
                         }
 
                     }
+
+                    //update BMR
+                    if (lastFatValue != null && 0 <= lastFatValue.getBodyMeasure().getValue() && lastFatValue.getBodyMeasure().getValue() <= 15) {
+                        bmrCals.setText((String.format("%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)))));
+                        bmrText.setText(R.string.bmrCalories);
+                        dailyCalorieValue.setText((String.format("%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)) * calorieMultiplier)));
+                    } else if (lastSizeValue != null) {
+                        if (getProfile().getGender() == Gender.MALE) {
+                            bmrCals.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
+                            bmrText.setText(R.string.bmrCalories);
+                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
+                        } else if (getProfile().getGender() == Gender.FEMALE) {
+                            bmrCals.setText(String.format("%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
+                            bmrText.setText(R.string.bmrCalories);
+                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
+                        } else {
+                            bmrCals.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
+                            bmrText.setText(R.string.bmrCalories);
+                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                                    UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
+                        }
+                    } else {
+                        bmrText.setText(R.string.no_size_available);
+                        dailyCalorieValue.setText("-");
+                    }
+
                 } else {
                     weightEdit.setText("-");
                     imcText.setText("-");
                     imcRank.setText(R.string.no_weight_available);
                     ffmiText.setText("-");
                     ffmiRank.setText(R.string.no_weight_available);
+                    bmrCals.setText("-");
+                    bmrText.setText(R.string.no_weight_available);
+                    dailyCalorieValue.setText("-");
                 }
 
                 if (lastWaterValue != null) {
@@ -783,6 +942,7 @@ public class WeightFragment extends Fragment {
             }
         }
     }
+
 
     private Profile getProfile() {
         return appViMo.getProfile().getValue();

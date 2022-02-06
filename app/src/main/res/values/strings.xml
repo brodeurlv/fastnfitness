@@ -329,7 +329,7 @@
     <string name="otherGender">Other</string>
     <string name="enter_gender_here">Enter gender</string>
     <string name="gender">Gender</string>
-    <string name="no_size_available">no size available</string>
+    <string name="no_size_available">no height available</string>
     <string name="no_weight_available">no weight available</string>
     <string name="BMI_dialog_title">Body Mass Index (BMI)</string>
     <string name="BMI_formula">BMI = weight(kg) / height(m)²</string>
@@ -342,7 +342,40 @@
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">
+        Calculated using the Mifflin-St Jeor equation. For individuals at 15% bodyfat and under, the Katch-McArdle formula
+        is used which tends to be more accurate for individuals who are leaner, and know their body fat percentage. For greater
+        accuracy in calculating your BMR, it is recommended to enter your birthday, height, weight, and body fat percentage.
+        This will help the app determine which formula to use when performing this calculation.
+    </string>
+    <string name="bmrCalories">calories/day</string>
+    <string name="daily_calorie_label">Daily Cals</string>
+    <string name="daily_calorie_alert">Daily Calorie Needs</string>
+    <string name="daily_calorie_alert_body">
+        An estimate of the calories required daily to maintain your current weight. This calculation uses your BMR, and
+        activity level to produce a recommendation. Remember that this value is an estimate, and that
+        individual calorie needs will vary. Sedentary: little or no exercise. Moderate: Exercise 1-3 times/week. Active:
+        exercise 4-5 times/week. Daily: daily exercise or intense exercise 3-4 times/week. Intense: exercise 6-7 times/week.
+        Very intense: exercise daily, or physical job.
+    </string>
+    <string name="sedentary">sedentary</string>
+    <string name="moderate">moderate</string>
+    <string name="active">active</string>
+    <string name="daily_exercise">daily</string>
+    <string name="intense">intense</string>
+    <string name="very_intense">very intense</string>
+    <string-array name="activity_level">
+        <item>@string/sedentary</item>
+        <item>@string/moderate</item>
+        <item>@string/active</item>
+        <item>@string/daily_exercise</item>
+        <item>@string/intense</item>
+        <item>@string/very_intense</item>
+    </string-array>
     <string name="no_fat_available">no fat available</string>
+    <string name="no_gender_defined">no gender defined</string>
+    <string name="insufficient_data">insufficient data</string>
     <string name="indexLabel">Index</string>
     <string name="what_type_of_exercise">Exercise type?</string>
     <string name="exercise_type">Exercise Type:</string>

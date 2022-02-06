@@ -319,7 +319,8 @@
                             <TextView
                                 android:id="@+id/imcValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <TextView
                                 android:id="@+id/imcViewText"
@@ -350,7 +351,8 @@
                             <TextView
                                 android:id="@+id/ffmiValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20" />
+                                tools:text="20"
+                                android:gravity="right"/>
 
                             <TextView
                                 android:id="@+id/ffmiViewText"
@@ -363,6 +365,68 @@
 
                             <ImageButton
                                 android:id="@+id/ffmiHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/bmrLabel"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/bmrValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20"
+                                android:gravity="right"/>
+
+                            <TextView
+                                android:id="@+id/bmrViewText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="20sp"
+                                android:textStyle="italic"
+                                tools:text="normal" />
+
+                            <ImageButton
+                                android:id="@+id/bmrHelp"
+                                style="@style/InfoButton"
+                                app:srcCompat="@drawable/ic_help_outline" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/daily_calorie_label"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/dailyCalorieValue"
+                                style="@style/WeightIndexStyle"
+                                tools:text="20"
+                                android:gravity="right"/>
+
+                            <Spinner
+                                android:id="@+id/activityLevelSpinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20pt"
+                                 />
+
+                            <ImageButton
+                                android:id="@+id/dailyCalorieHelp"
                                 style="@style/InfoButton"
                                 app:srcCompat="@drawable/ic_help_outline" />
 
@@ -450,20 +514,20 @@
                 android:layout_height="76dp" />
         </LinearLayout>
     </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addAllWeightEntries"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_add_multiple"
-        android:contentDescription="@string/AddLabel"
-        android:gravity="bottom"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:backgroundTint="@color/toolbar_background"
-        app:fabSize="normal"
+        android:contentDescription="@string/AddLabel"
+        android:gravity="bottom"
+        android:src="@drawable/ic_add_multiple"
         app:borderWidth="0dp"
-        />
+        app:fabSize="normal" />
 
 
 </RelativeLayout>
