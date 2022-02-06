@@ -35,6 +35,7 @@ import com.easyfitness.enums.DisplayType;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.ProgramRecordStatus;
+import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Keyboard;
@@ -171,7 +172,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
             }
         }
 
-        if (record.getTemplateRecordId() != -1) {
+        if (record.getProgramId() != -1 && record.getRecordType()== RecordType.PROGRAM_RECORD) {
             // get program name
             Program program = mDbWorkout.get(record.getProgramId());
             //Record templateRecord = mDbRecord.getRecord(record.getTemplateRecordId());

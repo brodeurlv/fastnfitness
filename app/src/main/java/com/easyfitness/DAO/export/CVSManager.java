@@ -195,17 +195,20 @@ public class CVSManager {
             csvOutputFonte.write(NOTES);
             csvOutputFonte.write(RECORD_TYPE);
             csvOutputFonte.write(PROGRAM_LABEL);
-            csvOutputFonte.write(TEMPLATE_SETS);
-            csvOutputFonte.write(TEMPLATE_REPS);
-            csvOutputFonte.write(TEMPLATE_WEIGHT);
-            csvOutputFonte.write(TEMPLATE_WEIGHT_UNIT);
-            csvOutputFonte.write(TEMPLATE_SECONDS);
-            csvOutputFonte.write(TEMPLATE_DISTANCE);
-            csvOutputFonte.write(TEMPLATE_DISTANCE_UNIT);
-            csvOutputFonte.write(TEMPLATE_DURATION);
             csvOutputFonte.write(TEMPLATE_REST_TIME);
             csvOutputFonte.write(TEMPLATE_ORDER);
-            csvOutputFonte.write(TEMPLATE_RECORD_STATUS);
+            if (!templatesOnly) {
+                csvOutputFonte.write(TEMPLATE_SETS);
+                csvOutputFonte.write(TEMPLATE_REPS);
+                csvOutputFonte.write(TEMPLATE_WEIGHT);
+                csvOutputFonte.write(TEMPLATE_WEIGHT_UNIT);
+                csvOutputFonte.write(TEMPLATE_SECONDS);
+                csvOutputFonte.write(TEMPLATE_DISTANCE);
+                csvOutputFonte.write(TEMPLATE_DISTANCE_UNIT);
+                csvOutputFonte.write(TEMPLATE_DURATION);
+                csvOutputFonte.write(TEMPLATE_RECORD_STATUS);
+            }
+
             csvOutputFonte.endRecord();
 
             for (int i = 0; i < records.size(); i++) {
@@ -234,26 +237,31 @@ public class CVSManager {
                     else csvOutputFonte.write(records.get(i).getNote());
                     csvOutputFonte.write(records.get(i).getRecordType().toString());
 
-                    Program program = daoProgram.get(records.get(i).getProgramId());
-                    if (program != null) {
-                        csvOutputFonte.write(program.getName());
-                    } else {
-                        csvOutputFonte.write("");
-                    }
+                    if (records.get(i).getRecordType() != RecordType.FREE_RECORD) {
+                        Program program = daoProgram.get(records.get(i).getProgramId());
+                        if (program != null) {
+                            csvOutputFonte.write(program.getName());
+                        } else {
+                            csvOutputFonte.write("");
+                        }
 
-                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSets()));
-                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateReps()));
-                    Float template_weight = UnitConverter.weightConverter(records.get(i).getTemplateWeight(), WeightUnit.KG, records.get(i).getTemplateWeightUnit());
-                    csvOutputFonte.write(Float.toString(template_weight));
-                    csvOutputFonte.write(records.get(i).getTemplateWeightUnit().toString());
-                    csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSeconds()));
-                    Float template_distance = UnitConverter.distanceConverter(records.get(i).getTemplateDistance(), DistanceUnit.KM, records.get(i).getTemplateDistanceUnit());
-                    csvOutputFonte.write(Float.toString(template_distance));
-                    csvOutputFonte.write(records.get(i).getTemplateDistanceUnit().toString());
-                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateDuration()));
-                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateRestTime()));
-                    csvOutputFonte.write(Long.toString(records.get(i).getTemplateOrder()));
-                    csvOutputFonte.write(records.get(i).getProgramRecordStatus().toString());
+                        csvOutputFonte.write(Long.toString(records.get(i).getTemplateRestTime()));
+                        csvOutputFonte.write(Long.toString(records.get(i).getTemplateOrder()));
+
+                        if (!templatesOnly) {
+                            csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSets()));
+                            csvOutputFonte.write(Integer.toString(records.get(i).getTemplateReps()));
+                            Float template_weight = UnitConverter.weightConverter(records.get(i).getTemplateWeight(), WeightUnit.KG, records.get(i).getTemplateWeightUnit());
+                            csvOutputFonte.write(Float.toString(template_weight));
+                            csvOutputFonte.write(records.get(i).getTemplateWeightUnit().toString());
+                            csvOutputFonte.write(Integer.toString(records.get(i).getTemplateSeconds()));
+                            Float template_distance = UnitConverter.distanceConverter(records.get(i).getTemplateDistance(), DistanceUnit.KM, records.get(i).getTemplateDistanceUnit());
+                            csvOutputFonte.write(Float.toString(template_distance));
+                            csvOutputFonte.write(records.get(i).getTemplateDistanceUnit().toString());
+                            csvOutputFonte.write(Long.toString(records.get(i).getTemplateDuration()));
+                            csvOutputFonte.write(records.get(i).getProgramRecordStatus().toString());
+                        }
+                    }
 
                     csvOutputFonte.endRecord();
                 }
@@ -424,6 +432,7 @@ public class CVSManager {
 
         boolean ret = true;
         int importedRow = 0;
+        int failedImportRow = 0;
 
         try {
             CsvReader csvRecords = new CsvReader(file, ',', StandardCharsets.UTF_8);
@@ -446,7 +455,6 @@ public class CVSManager {
 
                             Machine machine = FindOrCreateMachine(exerciseName, exerciseType);
 
-
                             WeightUnit unit = WeightUnit.fromString(TryGetString(csvRecords, WEIGHT_UNIT, WeightUnit.KG.toString()));
                             float weight = TryGetFloat(csvRecords, WEIGHT, 0);
                             weight = UnitConverter.weightConverter(weight, unit, WeightUnit.KG);
@@ -463,40 +471,65 @@ public class CVSManager {
 
                             RecordType record_type = RecordType.fromString(csvRecords.get(RECORD_TYPE));
 
-                            long programId;
-                            String programName = TryGetString(csvRecords, PROGRAM_LABEL, "");
-                            Program program = FindOrCreateProgram(programName);
-                            if (program !=null) {
-                                programId = program.getId();
+                            if (record_type==RecordType.PROGRAM_RECORD) {
+                                long programId;
+                                String programName = TryGetString(csvRecords, PROGRAM_LABEL, "");
+                                Program program = FindOrCreateProgram(programName);
+                                if (program != null) {
+                                    programId = program.getId();
+                                } else {
+                                    programId = -1;
+                                }
+
+                                int template_order = TryGetInteger(csvRecords, TEMPLATE_ORDER, 0);
+
+                                WeightUnit template_unit = WeightUnit.fromString(TryGetString(csvRecords, TEMPLATE_WEIGHT_UNIT, WeightUnit.KG.toString()));
+                                float template_weight = TryGetFloat(csvRecords, TEMPLATE_WEIGHT, 0);
+                                template_weight = UnitConverter.weightConverter(template_weight, template_unit, WeightUnit.KG);
+
+                                int template_repetitions = TryGetInteger(csvRecords, TEMPLATE_REPS, 0);
+                                int template_sets = TryGetInteger(csvRecords, TEMPLATE_SETS, 0);
+                                int template_second = TryGetInteger(csvRecords, TEMPLATE_SECONDS, 0);
+
+                                int template_duration = TryGetInteger(csvRecords, TEMPLATE_DURATION, 0);
+                                DistanceUnit template_distance_unit = DistanceUnit.fromString(TryGetString(csvRecords, TEMPLATE_DISTANCE_UNIT, DistanceUnit.KM.toString()));
+                                float template_distance = TryGetFloat(csvRecords, TEMPLATE_DISTANCE, 0);
+                                template_distance = UnitConverter.distanceConverter(template_distance, template_distance_unit, DistanceUnit.KM);
+                                int template_rest_time = TryGetInteger(csvRecords, TEMPLATE_REST_TIME, 0);
+
+                                ProgramRecordStatus template_record_status = ProgramRecordStatus.fromString(TryGetString(csvRecords, TEMPLATE_RECORD_STATUS, ProgramRecordStatus.NONE.toString()));
+                                Record record = new Record(date, machine.getName(), machine.getId(), pProfile.getId(), sets, repetitions, weight, unit, second, distance, distance_unit, duration, notes, exerciseType,
+                                        programId, -1, -1,
+                                        template_rest_time, template_order, template_record_status, record_type, template_sets, template_repetitions, template_weight, template_unit, template_second, template_distance, template_distance_unit, template_duration);
+                                recordsList.add(record);
+                            } else if (record_type==RecordType.FREE_RECORD){
+                                Record record = new Record(date, machine.getName(), machine.getId(), pProfile.getId(), sets, repetitions, weight, unit, second, distance, distance_unit, duration, notes, exerciseType);
+                                recordsList.add(record);
                             } else {
-                                programId = -1;
+                                long programId;
+                                String programName = TryGetString(csvRecords, PROGRAM_LABEL, "");
+                                Program program = FindOrCreateProgram(programName);
+                                if (program != null) {
+                                    programId = program.getId();
+                                } else {
+                                    programId = -1;
+                                }
+
+                                int template_order = TryGetInteger(csvRecords, TEMPLATE_ORDER, 0);
+
+
+                                int template_rest_time = TryGetInteger(csvRecords, TEMPLATE_REST_TIME, 0);
+
+                                Record record = new Record(date, machine.getName(), machine.getId(), pProfile.getId(), sets, repetitions, weight, unit, second, distance, distance_unit, duration, notes, exerciseType,
+                                        programId, template_rest_time, template_order);
+                                recordsList.add(record);
                             }
 
-                            int template_order = TryGetInteger(csvRecords, TEMPLATE_ORDER, 0);
-
-                            WeightUnit template_unit = WeightUnit.fromString(TryGetString(csvRecords, TEMPLATE_WEIGHT_UNIT, WeightUnit.KG.toString()));
-                            float template_weight = TryGetFloat(csvRecords, TEMPLATE_WEIGHT, 0);
-                            template_weight = UnitConverter.weightConverter(template_weight, template_unit, WeightUnit.KG);
-
-                            int template_repetitions = TryGetInteger(csvRecords, TEMPLATE_REPS, 0);
-                            int template_sets = TryGetInteger(csvRecords, TEMPLATE_SETS, 0);
-                            int template_second = TryGetInteger(csvRecords, TEMPLATE_SECONDS, 0);
-
-                            int template_duration = TryGetInteger(csvRecords, TEMPLATE_DURATION, 0);
-                            DistanceUnit template_distance_unit = DistanceUnit.fromString(TryGetString(csvRecords, TEMPLATE_DISTANCE_UNIT, DistanceUnit.KM.toString()));
-                            float template_distance = TryGetFloat(csvRecords, TEMPLATE_DISTANCE, 0);
-                            template_distance = UnitConverter.distanceConverter(template_distance, template_distance_unit, DistanceUnit.KM);
-                            int template_rest_time = TryGetInteger(csvRecords, TEMPLATE_REST_TIME, 0);
-
-                            ProgramRecordStatus template_record_status = ProgramRecordStatus.fromString(TryGetString(csvRecords, TEMPLATE_RECORD_STATUS, ProgramRecordStatus.NONE.toString()));
-
-                            Record record = new Record(date, machine.getName(), machine.getId(), pProfile.getId(), sets, repetitions, weight, unit, second, distance, distance_unit, duration, notes, exerciseType,
-                                    programId, -1, -1,
-                                    template_rest_time, template_order, template_record_status, record_type, template_sets, template_repetitions, template_weight, template_unit, template_second, template_distance, template_distance_unit, template_duration);
-                            recordsList.add(record);
                             importedRow++;
                         } catch (Exception e) {
                             e.printStackTrace();
+                            failedImportRow++;
+                            //TODO build a log file to list all errors
                         }
 
                         break;
@@ -541,6 +574,7 @@ public class CVSManager {
                             importedRow++;
                         } catch (Exception e) {
                             e.printStackTrace();
+                            failedImportRow++;
                         }
                         break;
                     }
@@ -557,6 +591,7 @@ public class CVSManager {
                             importedRow++;
                         } catch (Exception e) {
                             e.printStackTrace();
+                            failedImportRow++;
                         }
                         break;
                     case DAOProfile.TABLE_NAME:
@@ -580,6 +615,7 @@ public class CVSManager {
                             importedRow++;
                         } catch (Exception e) {
                             e.printStackTrace();
+                            failedImportRow++;
                         }
                         break;
                     case TABLE_PROGRAM:
@@ -594,10 +630,12 @@ public class CVSManager {
                             program.setDescription(programDescription);
                             daoProgram.update(program);
                             importedRow++;
-                            break;
+
                         } catch (Exception e) {
                             e.printStackTrace();
+                            failedImportRow++;
                         }
+                        break;
                 }
             }
 
@@ -703,5 +741,4 @@ public class CVSManager {
         }
         return machine;
     }
-
 }

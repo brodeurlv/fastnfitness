@@ -53,10 +53,16 @@ public class Record {
     private DistanceUnit mTemplateDistanceUnit;
     private long mTemplateDuration;
 
+    /**
+     * Record from Free Workout
+     */
     public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType) {
         this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, -1, -1, -1, 0, 0, ProgramRecordStatus.NONE, RecordType.FREE_RECORD, 0, 0, 0, WeightUnit.KG, 0, 0, DistanceUnit.KM, 0);
     }
 
+    /**
+     * Record from Program
+     */
     public Record(Date date, String exercise, long exerciseId, long profileId,
                   int sets,
                   int reps,
@@ -108,6 +114,15 @@ public class Record {
         mTemplateDistanceUnit = templateDistanceUnit;
         mTemplateDuration = templateDuration;
     }
+
+    /**
+     * Template for program
+     */
+    public Record(Date date, String exercise, long exerciseId, long profileId, int sets, int reps, float weight, WeightUnit weightUnit, int second, float distance, DistanceUnit distanceUnit, long duration, String note, ExerciseType exerciseType, long programId, int restTime, int templateOrder) {
+        this(date, exercise, exerciseId, profileId, sets, reps, weight, weightUnit, second, distance, distanceUnit, duration, note, exerciseType, programId, -1, -1, restTime, templateOrder, ProgramRecordStatus.NONE, RecordType.PROGRAM_TEMPLATE, 0, 0, 0, WeightUnit.KG, 0, 0, DistanceUnit.KM, 0);
+    }
+
+
 
     public long getId() {
         return mId;
