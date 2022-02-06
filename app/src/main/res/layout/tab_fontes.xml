@@ -140,9 +140,16 @@
                             android:layout_weight="1"
                             android:checked="true"
                             android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
@@ -153,8 +160,10 @@
                         <TextView
                             android:id="@+id/editDate"
                             style="@style/editableTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_width="match_parent"
                             android:ems="8"
+                            android:layout_weight="50"
                             android:enabled="false"
                             tools:text="10/05/20" />
 
@@ -163,22 +172,24 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="100">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
-                            android:layout_weight="100"
+                            android:layout_weight="50"
                             android:gravity="end"
                             android:text="@string/timeLabel" />
 
                         <TextView
                             android:id="@+id/editTime"
                             style="@style/editableTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:ems="8"
+                            android:layout_weight="50"
                             android:enabled="false"
                             tools:text="18:26:10" />
 
