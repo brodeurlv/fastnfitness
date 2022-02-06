@@ -118,8 +118,8 @@
     <string name="total_machine">Total sur la machine</string>
     <string name="total_session">Total sur la session</string>
     <string name="total_weight">Poids total</string>
-    <string name="pref_preferredUnitSummary">Unité préférée :</string>
-    <string name="pref_preferredUnitTitle">Sélectionne ton unité de poids</string>
+    <string name="pref_preferredUnitSummary">"Unité préférée : "</string>
+    <string name="pref_preferredUnitTitle">Poids</string>
     <string name="selectMachineDialogLabel">Sélectionne une machine existante</string>
     <string name="introSlide2Title">Facile et Rapide</string>
     <string name="introSlide2Text">Ecris le nom de ton exercice et les details de ta série et la machine s\'enregistre automatiquement quand tu cliques sur \"ajouter\". Retrouve la ensuite facilement dans la liste déroulante.</string>
@@ -207,7 +207,7 @@
     <string name="shoulders">Épaules</string>
     <string name="glutes">Fessiers</string>
     <string name="timeLabel">Heure</string>
-    <string name="pref_preferredDistanceUnitTitle">Sélectionne ton unité de distance</string>
+    <string name="pref_preferredDistanceUnitTitle">Distance</string>
     <string name="daynightmode_settingtitle">Sélectionnez le thème (redémarrer l\'appli pour l\'utiliser)</string>
     <string name="delete_bodypart_confirm">Supprimer cette partie du corps et toutes les mesures qui lui sont associées \?</string>
     <string name="new_measure">Nouvelle mesure</string>
@@ -243,11 +243,11 @@
     <string name="dark_mode">Sombre</string>
     <string name="autoui_mode">Auto</string>
     <string name="details">Détails</string>
-    <string name="unit_settings_title">Unités</string>
+    <string name="unit_settings_title">Système d\'unités</string>
     <string name="no_chart_data_available">Aucun donnée</string>
     <string name="light_mode">Clair</string>
     <string name="remove_image">Supprimer l\'image</string>
-    <string name="pref_preferredSizeUnitTitle">Sélectionne ton unité de taille préférée</string>
+    <string name="pref_preferredSizeUnitTitle">Mesure corporelle</string>
     <string name="program_completed">Fermer le programme terminé \?</string>
     <string name="maxLengthPerDate">Durée maximum par date</string>
     <string name="maxReps">Max. réps</string>

@@ -125,7 +125,7 @@
     <string name="daynightmode_settingtitle">Tema seçin (yeniden başlatma gerekli)</string>
     <string name="autoui_mode">Otomatik</string>
     <string name="new_program">Yeni program</string>
-    <string name="unit_settings_title">Birimler</string>
+    <string name="unit_settings_title">Birim Sistemi</string>
     <string name="details">Detaylar</string>
     <string name="info">Veri</string>
     <string name="editor">Editör</string>
@@ -195,10 +195,10 @@
     <string name="profil_select_profil">Profil seç</string>
     <string name="profil_change">Profil değiştir</string>
     <string name="profil_create_new">Yeni profil oluştur</string>
-    <string name="pref_preferredSizeUnitTitle">Tercih edilen ölçü birimini seçin</string>
-    <string name="pref_preferredDistanceUnitTitle">Tercih edilen mesafe birimini seçin</string>
-    <string name="pref_preferredUnitTitle">Tercih edilen ağırlık birimini seçin</string>
-    <string name="pref_preferredUnitSummary">Tercih edilen birim:</string>
+    <string name="pref_preferredSizeUnitTitle">Vücut ölçümü</string>
+    <string name="pref_preferredDistanceUnitTitle">Mesafe</string>
+    <string name="pref_preferredUnitTitle">Ağırlık</string>
+    <string name="pref_preferredUnitSummary">"Tercih edilen birim: "</string>
     <string name="backup_warning_month">"Son yedeklemenden bu yana bir ay geçti. "</string>
     <string name="backup_warning_week">"Son yedeklemenden bu yana bir hafta geçti. "</string>
     <string name="backup_warning_day">"Son yedeklemenden bu yana bir gün geçti. "</string>
@@ -271,4 +271,3 @@
     <string name="license">Lisans:</string>
     <string name="weightRequiredForMultipleInputs">Birden çok değer eklemek için bir ağırlık sağlamalısınız</string>
 </resources>
-
