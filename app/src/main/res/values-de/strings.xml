@@ -85,8 +85,8 @@
     <string name="backup_warning_day">"Ein Tag seit deiner letzten Sicherung. "</string>
     <string name="backup_warning_week">"Eine Woche seit deiner letzten Sicherung. "</string>
     <string name="backup_warning_month">"Ein Monat seit deiner letzten Sicherung. "</string>
-    <string name="pref_preferredUnitSummary">Gewünschte Einheit:</string>
-    <string name="pref_preferredUnitTitle">Wähle deine gewünschte Gewichtseinheit</string>
+    <string name="pref_preferredUnitSummary">"Gewünschte Einheit: "</string>
+    <string name="pref_preferredUnitTitle">Gewicht</string>
     <string name="profil_create_new">Erstelle eine neues Profil</string>
     <string name="profil_change">Profil wechseln</string>
     <string name="profil_select_profil">Wähle ein Profil</string>
@@ -240,7 +240,7 @@
     <string name="shoulders">Schultern</string>
     <string name="glutes">Gesäß</string>
     <string name="timeLabel">Zeit</string>
-    <string name="pref_preferredDistanceUnitTitle">Wähle deine gewünschte Entfernungseinheit</string>
+    <string name="pref_preferredDistanceUnitTitle">Strecke</string>
     <string name="daynightmode_settingtitle">Wähle einen Anzeigemodus (Anwendung neu starten, um es zu verwenden)</string>
     <string name="delete_bodypart_confirm">Dieses Körperteil und alle zugehörigen Maße löschen\?</string>
     <string name="new_measure">Neue Messung</string>
@@ -276,11 +276,11 @@
     <string name="dark_mode">Dunkel</string>
     <string name="autoui_mode">Auto</string>
     <string name="details">Einzelheiten</string>
-    <string name="unit_settings_title">Einheiten</string>
+    <string name="unit_settings_title">Einheitssystem</string>
     <string name="no_chart_data_available">Keine Daten</string>
     <string name="light_mode">Hell</string>
     <string name="remove_image">Bild löschen</string>
-    <string name="pref_preferredSizeUnitTitle">Wähle deine gewünschte Größe Einheit</string>
+    <string name="pref_preferredSizeUnitTitle">Körpermaße</string>
     <string name="program_completed">Abgeschlossenes Programm beenden\?</string>
     <string name="maxLengthPerDate">Max Dauer pro Datum</string>
     <string name="maxReps">Max. Wiederholung</string>
