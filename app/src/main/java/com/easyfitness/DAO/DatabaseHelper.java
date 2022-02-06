@@ -22,6 +22,7 @@ import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Muscle;
+import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Value;
@@ -383,8 +384,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(DAOBodyPart.TABLE_NAME, null, value);
     }
 
-    /*
-     Copy template values into record values.
+    /**
+     * Copy template values into record values because now, template value are stored inside program records and not as independent record.
      */
     public void copyTemplateValues(SQLiteDatabase db) {
         // for all records if there is a template ID
@@ -395,8 +396,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Record> recordList = daoRecord.getAllRecords(db);
 
         for (Record record:recordList) {
-            if (record.getProgramId() != -1) {
-                Record templateRecord = daoRecord.getRecord(record.getProgramId());
+            if (record.getProgramId() != -1 && record.getRecordType()== RecordType.PROGRAM_RECORD) {
+                Record templateRecord = daoRecord.getRecord(db, record.getProgramId());
                 record.setTemplateSets(templateRecord.getSets());
                 record.setTemplateReps(templateRecord.getReps());
                 record.setTemplateWeight(templateRecord.getWeightInKg());
@@ -405,7 +406,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 record.setTemplateDistance(templateRecord.getDistanceInKm());
                 record.setTemplateDistanceUnit(templateRecord.getDistanceUnit());
                 record.setTemplateDuration(templateRecord.getDuration());
-                daoRecord.updateRecord(record);
+                daoRecord.updateRecord(db, record);
             }
         }
     }

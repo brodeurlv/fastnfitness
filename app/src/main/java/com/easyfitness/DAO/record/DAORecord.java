@@ -273,16 +273,20 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting single value
-    public Record getRecord(long id) {
+    public Record getRecord(SQLiteDatabase db, long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
-        mCursor = getRecordsListCursor(selectQuery);
+        mCursor = getRecordsListCursor(db, selectQuery);
         if (mCursor.moveToFirst()) {
             //Get Date
             return fromCursor(mCursor);
         } else {
             return null;
         }
+    }
+
+    public Record getRecord(long id) {
+       return getRecord(this.getReadableDatabase(), id);
     }
 
     private Record fromCursor(Cursor cursor) {
@@ -411,9 +415,12 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting All Records
-    private Cursor getRecordsListCursor(String pRequest) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    private Cursor getRecordsListCursor(SQLiteDatabase db, String pRequest) {
         return db.rawQuery(pRequest, null);
+    }
+
+    private Cursor getRecordsListCursor(String pRequest) {
+        return getRecordsListCursor(this.getReadableDatabase(), pRequest);
     }
 
     // Getting All Machines
@@ -716,8 +723,10 @@ public class DAORecord extends DAOBase {
 
     // Updating single value
     public int updateRecord(Record record) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        return updateRecord(this.getWritableDatabase(), record);
+    }
 
+    public int updateRecord(SQLiteDatabase db, Record record) {
         ContentValues value = new ContentValues();
 
         value.put(DAORecord.KEY, record.getId());
@@ -743,6 +752,16 @@ public class DAORecord extends DAOBase {
         value.put(DAORecord.TEMPLATE_ORDER, record.getTemplateOrder());
         value.put(DAORecord.TEMPLATE_RECORD_STATUS, record.getProgramRecordStatus().ordinal());
         value.put(DAORecord.RECORD_TYPE, record.getRecordType().ordinal());
+
+        value.put(DAORecord.TEMPLATE_SETS, record.getTemplateSets());
+        value.put(DAORecord.TEMPLATE_REPS, record.getTemplateReps());
+        value.put(DAORecord.TEMPLATE_WEIGHT, record.getTemplateWeight());
+        value.put(DAORecord.TEMPLATE_WEIGHT_UNIT,record.getTemplateWeightUnit().ordinal());
+        value.put(DAORecord.TEMPLATE_DISTANCE, record.getTemplateDistance());
+        value.put(DAORecord.TEMPLATE_DISTANCE_UNIT, record.getTemplateDistanceUnit().ordinal());
+        value.put(DAORecord.TEMPLATE_DURATION, record.getTemplateDuration());
+        value.put(DAORecord.TEMPLATE_SECONDS, record.getTemplateSeconds());
+
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
