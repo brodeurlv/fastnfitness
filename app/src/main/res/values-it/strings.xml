@@ -65,10 +65,10 @@
     <string name="pref_ui_setting">Impostazioni Interfaccia</string>
     <string name="pref_show_mp3_player">Mostra il lettore audio</string>
     <string name="pref_show_mp3_player_summary">Mostra/nascondi la barra degli strumenti del lettore audio</string>
-    <string name="pref_preferredUnitSummary">Unità di misura preferite:</string>
-    <string name="pref_preferredUnitTitle">Selezione la tua unità di misura per il peso</string>
-    <string name="pref_preferredDistanceUnitTitle">Selezione la tua unità di misura per la distanza</string>
-    <string name="pref_preferredSizeUnitTitle">Selezione la tua unità di misura per l\'altezza</string>
+    <string name="pref_preferredUnitSummary">"Unità di misura preferite: "</string>
+    <string name="pref_preferredUnitTitle">Peso</string>
+    <string name="pref_preferredDistanceUnitTitle">Distanza</string>
+    <string name="pref_preferredSizeUnitTitle">Misura del corpo</string>
     <string name="profil_create_new">Crea un nuovo profilo</string>
     <string name="profil_change">Cambia profilo</string>
     <string name="profil_select_profil">Seleziona profilo</string>
@@ -268,7 +268,7 @@
     <string name="editor">Editore</string>
     <string name="info">Informazioni</string>
     <string name="details">Dettagli</string>
-    <string name="unit_settings_title">Unità</string>
+    <string name="unit_settings_title">Sistema di unità</string>
     <string name="no_chart_data_available">Nessun dato</string>
     <string name="remove_image">Rimuovi immagine</string>
     <string name="program_completed">Chiudere il programma completato\?</string>
@@ -305,4 +305,3 @@
     <string name="license">Licenza:</string>
     <string name="weightRequiredForMultipleInputs">Devi fornire un peso per aggiungere più valori</string>
 </resources>
-
