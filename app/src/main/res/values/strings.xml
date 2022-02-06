@@ -361,7 +361,7 @@
     </string>
     <string name="sedentary">sedentary</string>
     <string name="moderate">moderate</string>
-    <string name="active">normal</string>
+    <string name="active">active</string>
     <string name="daily_exercise">daily</string>
     <string name="intense">intense</string>
     <string name="very_intense">very intense</string>
