@@ -44,6 +44,7 @@ import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.cardio.OldCardio;
 import com.easyfitness.DAO.export.CVSManager;
 import com.easyfitness.DAO.program.DAOProgram;
+import com.easyfitness.DAO.program.Program;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
@@ -627,27 +628,37 @@ public class MainActivity extends AppCompatActivity {
 
                 // Si oui, supprimer la base de donnee et refaire un Start.
                 deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
-                    // recupere le premier ID de la liste.
                     List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
                     for (int i = 0; i < lList.size(); i++) {
                         Profile mTempProfile = lList.get(i);
                         mDbProfils.deleteProfile(mTempProfile.getId());
                     }
+
                     DAOMachine mDbMachines = new DAOMachine(getActivity());
-                    // recupere le premier ID de la liste.
                     List<Machine> lList2 = mDbMachines.getAllMachinesArray();
                     for (int i = 0; i < lList2.size(); i++) {
                         Machine mTemp = lList2.get(i);
                         mDbMachines.delete(mTemp.getId());
                     }
 
-                    // redisplay the intro
-                    mIntro014Launched = false;
+                    DAOProgram mDbPrograms = new DAOProgram(getActivity());
+                    List<Program> programList = mDbPrograms.getAll();
+                    for (int i = 0; i < programList.size(); i++) {
+                        Program mTemp = programList.get(i);
+                        mDbPrograms.delete(mTemp.getId());
 
-                    // Do nothing but close the dialog
-                    dialog.dismiss();
+                        DAORecord mDbRecords = new DAORecord(getActivity());
+                        List<Record> recordList = mDbRecords.getAllTemplateRecordByProgramArray(mTemp.getId());
+                        for (int j = 0; j < recordList.size(); j++) {
+                            Record mTempRecord = recordList.get(j);
+                            mDbRecords.deleteRecord(mTempRecord.getId());
+                        }
+                    }
 
-                    finish();
+                    mIntro014Launched = false; // redisplay the intro
+
+                    dialog.dismiss(); // Close the dialog
+                    finish(); // Close app
                 });
 
                 deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {

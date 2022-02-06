@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
+import com.easyfitness.DAO.record.DAORecord;
+import com.easyfitness.DAO.record.Record;
 import com.easyfitness.utils.DateConverter;
 
 import java.util.ArrayList;
@@ -284,6 +286,12 @@ public class DAOProfile extends DAOBase {
         List<BodyMeasure> bodyMeasuresList = mBodyDb.getBodyMeasuresList(getProfile(id));
         for (int i = 0; i < bodyMeasuresList.size(); i++) {
             mBodyDb.deleteMeasure(bodyMeasuresList.get(i).getId());
+        }
+
+        DAORecord mDbRecords = new DAORecord(null);
+        List<Record> recordList = mDbRecords.getAllRecordsByProfileList(getProfile(id));
+        for (int i = 0; i < recordList.size(); i++) {
+            mDbRecords.deleteRecord(recordList.get(i).getId());
         }
 
         // Supprime le profile
