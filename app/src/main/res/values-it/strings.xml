@@ -191,7 +191,7 @@
     <string name="femaleGender">Donna</string>
     <string name="otherGender">Altro</string>
     <string name="enter_gender_here">Inserici sesso</string>
-    <string name="no_size_available">Misure non disponibili</string>
+    <string name="no_size_available">nessuna altezza disponibile</string>
     <string name="no_weight_available">Peso non disponibile</string>
     <string name="BMI_dialog_title">Indice di massa corporea (IMC)</string>
     <string name="BMI_formula">IMC = peso(kg) / altezza(m)²</string>
@@ -204,7 +204,7 @@
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Indice di massa senza grasso (FFMI)</string>
     <string name="FFMI_formula">FFMI [kg/m2] = peso [kg] × (1 − (percentuale di massa grasssa [%] / 100)) / (altezza [m])²</string>
-    <string name="no_fat_available">Grasso non disponibile</string>
+    <string name="no_fat_available">nessun grasso disponibile</string>
     <string name="indexLabel">Indice</string>
     <string name="what_type_of_exercise">Tipo di esercizio\?</string>
     <string name="exercise_type">Tipo di esercizio:</string>
@@ -304,4 +304,18 @@
     <string name="also_update_program">Aggiorna il programma</string>
     <string name="license">Licenza:</string>
     <string name="weightRequiredForMultipleInputs">Devi fornire un peso per aggiungere più valori</string>
+    <string name="bmrLabel">MB</string>
+    <string name="bmrCalories">calorie/giorno</string>
+    <string name="daily_calorie_alert">Fabbisogno calorico giornaliero</string>
+    <string name="sedentary">sedentario</string>
+    <string name="moderate">moderato</string>
+    <string name="active">attivo</string>
+    <string name="daily_exercise">quotidiano</string>
+    <string name="intense">intensivo</string>
+    <string name="very_intense">molto intensivo</string>
+    <string name="no_gender_defined">nessun sesso definito</string>
+    <string name="insufficient_data">dati insufficienti</string>
+    <string name="daily_calorie_label">Cal giornaliere</string>
+    <string name="bmr_dialog_title">Calcolato usando l\'equazione Mifflin-St Jeor. Per gli individui con 15% di grasso corporeo o meno, si usa la formula di Katch-McArdle che tende ad essere più accurata per gli individui che sono più magri e conoscono la loro percentuale di grasso corporeo. Per una maggiore precisione nel calcolo del tuo metabolismo basale (MB), si raccomanda di inserire la tua data di nascita, l\'altezza, il peso e la percentuale di grasso corporeo. Questo aiuterà l\'applicazione a determinare quale formula utilizzare quando si esegue questo calcolo.</string>
+    <string name="daily_calorie_alert_body">Una stima delle calorie necessarie al giorno per mantenere il tuo peso attuale. Questo calcolo utilizza il tuo metabolismo basale (MB) e il tuo livello di attività per produrre una raccomandazione. Ricorda che questo valore è una stima e che il fabbisogno calorico individuale varia. Sedentario: poco o nessun esercizio. Moderato: Esercizio 1-3 volte a settimana. Attivo: esercizio 4-5 volte/settimana. Quotidiano: esercizio quotidiano o intenso 3-4 volte/settimana. Intenso: esercizio 6-7 volte/settimana. Molto intenso: esercizio quotidiano o lavoro fisico.</string>
 </resources>
