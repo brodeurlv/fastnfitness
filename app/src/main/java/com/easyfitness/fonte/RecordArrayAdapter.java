@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
@@ -106,6 +108,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
             viewHolder.BtActionFailed = view.findViewById(R.id.failedButton);
             viewHolder.BtActionEdit = view.findViewById(R.id.editButton);
             viewHolder.BtActionCopy = view.findViewById(R.id.copyButton);
+            viewHolder.BtMenu = view.findViewById(R.id.menuOptions);
 
             viewHolder.SecondColumn = view.findViewById(R.id.second_column);
             viewHolder.ProgramName = view.findViewById(R.id.TEMPLATE_NAME_CELL);
@@ -152,6 +155,36 @@ public class RecordArrayAdapter extends ArrayAdapter {
 
         viewHolder.BtActionEdit.setTag(record.getId());
         viewHolder.BtActionEdit.setOnClickListener(v -> showEditorDialog(record, position, viewHolder));
+
+        viewHolder.BtMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(mContext, viewHolder.BtMenu);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.row_fonte_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_delete:
+                                showDeleteDialog(record);
+                                return true;
+                            case R.id.action_edit:
+                                showEditorDialog(record, position, viewHolder);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                //displaying the popup
+                popup.show();
+
+            }
+        });
 
         if (record.getProgramRecordStatus() == ProgramRecordStatus.PENDING) {
             viewHolder.FirstColValue.setText("-");
@@ -664,6 +697,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
         ImageView BtActionMoveDown;
         ImageView BtActionFailed;
         ImageView BtActionSuccess;
+        TextView BtMenu;
 
         CardView RestTimeCardView;
         FillProgressLayout RestTimeProgressLayout;

@@ -59,6 +59,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_toStartOf="@id/SERIE_LAYOUT"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
@@ -131,16 +132,16 @@
                     android:id="@+id/SERIE_LAYOUT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/second_column"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_toStartOf="@id/second_column"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/SERIE_LABEL"
-                        android:layout_width="match_parent"
                         style="@style/record_param_title"
+                        android:layout_width="match_parent"
                         android:layout_gravity="bottom"
                         android:text="@string/SerieLabel" />
 
@@ -324,6 +325,7 @@
                     android:layout_marginEnd="2dp"
                     android:clickable="true"
                     android:focusable="true"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_edit"
                     tool:ignore="ContentDescription" />
 
@@ -332,14 +334,26 @@
                     android:layout_width="24dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
                     android:adjustViewBounds="false"
                     android:clickable="true"
                     android:cropToPadding="false"
                     android:focusable="true"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_delete"
                     tool:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/menuOptions"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="&#8942;"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/enabled_color"
+                    android:textStyle="bold"
+                    tool:ignore="HardcodedText" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -351,11 +365,11 @@
                         android:id="@+id/successButton"
                         android:layout_width="45dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:scaleType="centerInside"
+                        android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
+                        android:scaleType="centerInside"
                         app:srcCompat="@drawable/ic_check_inactive"
                         tool:ignore="ContentDescription"
                         tool:visibility="gone" />
@@ -364,11 +378,11 @@
                         android:id="@+id/failedButton"
                         android:layout_width="45dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:scaleType="centerInside"
+                        android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
+                        android:scaleType="centerInside"
                         app:srcCompat="@drawable/ic_cross_inactive"
                         tool:ignore="ContentDescription"
                         tool:visibility="gone" />
