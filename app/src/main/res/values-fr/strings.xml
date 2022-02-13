@@ -176,7 +176,7 @@
     <string name="overweight">surpoids</string>
     <string name="obese">obèse</string>
     <string name="enter_gender_here">Choisis ton genre</string>
-    <string name="no_size_available">taille non disponible</string>
+    <string name="no_size_available">aucune taille disponible</string>
     <string name="no_weight_available">poids non disponible</string>
     <string name="BMI_dialog_title">Indice de Masse Corporel (IMC)</string>
     <string name="BMI_formula">IMC = poids(kg) / taille(m)*taille(m)</string>
@@ -282,4 +282,18 @@
     <string name="also_update_program">Mettre à jour le programme</string>
     <string name="license">Licence :</string>
     <string name="weightRequiredForMultipleInputs">Vous devez fournir un poids pour ajouter des valeurs multiples</string>
+    <string name="bmrLabel">MB</string>
+    <string name="bmrCalories">calories/jour</string>
+    <string name="daily_calorie_label">Cal. quoti.</string>
+    <string name="daily_calorie_alert">Besoins quotidiens en calories</string>
+    <string name="sedentary">sédentaire</string>
+    <string name="moderate">modéré</string>
+    <string name="insufficient_data">données insuffisantes</string>
+    <string name="no_gender_defined">aucun sexe défini</string>
+    <string name="very_intense">très intensif</string>
+    <string name="bmr_dialog_title">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
+    <string name="daily_calorie_alert_body">Une estimation des calories nécessaires quotidiennement pour maintenir votre poids actuel. Ce calcul utilise votre métabolisme de base (MB), et votre niveau d\'activité pour produire une recommandation. N\'oubliez pas que cette valeur est une estimation et que les besoins en calories varient d\'une personne à l\'autre. Sédentaire : peu ou pas d\'exercice. Modéré : Exercice 1 à 3 fois/semaine. Actif : exercice 4-5 fois/semaine. Quotidien : exercice quotidien ou exercice intense 3-4 fois/semaine. Intense : exercice 6-7 fois/semaine. Très intense : exercice quotidien, ou travail physique.</string>
+    <string name="active">actif</string>
+    <string name="daily_exercise">quotidien</string>
+    <string name="intense">intensif</string>
 </resources>
