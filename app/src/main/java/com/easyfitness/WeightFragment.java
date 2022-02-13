@@ -47,6 +47,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -781,9 +782,9 @@ public class WeightFragment extends Fragment {
          *Mifflin-St Jeor Equation
          * For men: BMR = 10W + 6.25H - 5A + 5
          **/
-
-        //int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
-        int birthYear = getProfile().getBirthday().getYear();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(getProfile().getBirthday());
+        int birthYear = calendar.get(Calendar.YEAR);
 
         int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
 
@@ -795,8 +796,10 @@ public class WeightFragment extends Fragment {
          *Mifflin-St Jeor Equation
          * For women: BMR = 10W + 6.25H - 5A - 161
          **/
-        //int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
-        int birthYear = getProfile().getBirthday().getYear();
+         Calendar calendar = new GregorianCalendar();
+        calendar.setTime(getProfile().getBirthday());
+        int birthYear = calendar.get(Calendar.YEAR);
+
         int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
 
         return (10 * weight) + (6.25 * size) - (5 * age) - 161;
