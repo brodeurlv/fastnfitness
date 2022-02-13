@@ -109,8 +109,8 @@ public class WeightFragment extends Fragment {
                 break;
             case R.id.bmrHelp:
                 new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.bmrLabel)
-                        .setContentText(getString(R.string.bmr_dialog_title))
+                        .setTitleText(R.string.bmr_dialog_title)
+                        .setContentText(getString(R.string.bmr_formula))
                         .setConfirmText(getResources().getText(android.R.string.ok).toString())
                         .showCancelButton(true)
                         .show();

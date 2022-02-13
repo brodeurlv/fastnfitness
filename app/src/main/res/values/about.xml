@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.21.0_BETA</string>
+    <string name="app_version" translatable="false">0.20.5</string>
     <string name="database_version_label" translatable="false">Database version: </string>
-    <string name="copyright" translatable="false">Copyright(c) 2021 - Charles Combes - All rights reserved.</string>
+    <string name="copyright" translatable="false">Copyright(c) 2022 - Charles Combes - All rights reserved.</string>
     <string name="bsd3" translatable="false">BSD 3</string>
     <string name="author" translatable="false">Charles Combes</string>
     <string name="opensource_label" translatable="false">Open-source URL: </string>
@@ -11,12 +11,14 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.20.5BETA: TBD\n
-        \t- Bug: Moved program template value to record value to avoid discrepencies in case of program update\n
-        \t- Enhancement: Added program and program templates to csv export.
-        \t- Enhancement: Made csv import more flexible.
-        \t- Enhancement: Changes csv column names. Please refer to github wiki documentation for details.
-	</string>
+0.20.5: February 6, 2022\n
+        \t- Enhancement: Changes csv column names. Please refer to github WIKI documentation for details (#49, #209)\n
+        \t- Enhancement: Added program and program templates to csv export (#228) \n
+        \t- Enhancement: Made csv import more flexible \n
+        \t- Enhancement: Added feature to calculate BMR and daily calories based on activity level (#248, Thank you @a124557) \n
+        \t- Bug: Moved program template value to record value to avoid discrepancies in case of program update \n
+        \t- Bug: Fixed small UI issues (#244)\n
+    </string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
     <string name="javaCSV_content" translatable="false">JavaCSV (LGPL)</string>

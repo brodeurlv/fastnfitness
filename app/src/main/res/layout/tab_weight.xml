@@ -319,18 +319,18 @@
                             <TextView
                                 android:id="@+id/imcValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20"
-                                android:gravity="right"/>
+                                android:gravity="right"
+                                tools:text="20" />
 
                             <TextView
                                 android:id="@+id/imcViewText"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:ellipsize="start"
+                                android:ellipsize="end"
                                 android:gravity="center"
                                 android:textSize="20sp"
                                 android:textStyle="italic"
-                                tools:text="normal" />
+                                tools:text="@string/no_size_available" />
 
                             <ImageButton
                                 android:id="@+id/imcHelp"
@@ -351,14 +351,15 @@
                             <TextView
                                 android:id="@+id/ffmiValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20"
-                                android:gravity="right"/>
+                                android:gravity="right"
+                                tools:text="20" />
 
                             <TextView
                                 android:id="@+id/ffmiViewText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:ellipsize="end"
                                 android:textSize="20sp"
                                 android:textStyle="italic"
                                 tools:text="normal" />
@@ -383,14 +384,15 @@
                             <TextView
                                 android:id="@+id/bmrValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20"
-                                android:gravity="right"/>
+                                android:gravity="right"
+                                tools:text="20" />
 
                             <TextView
                                 android:id="@+id/bmrViewText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:ellipsize="end"
                                 android:textSize="20sp"
                                 android:textStyle="italic"
                                 tools:text="normal" />
@@ -415,15 +417,16 @@
                             <TextView
                                 android:id="@+id/dailyCalorieValue"
                                 style="@style/WeightIndexStyle"
-                                tools:text="20"
-                                android:gravity="right"/>
+                                android:gravity="right"
+                                tools:text="20" />
 
                             <Spinner
                                 android:id="@+id/activityLevelSpinner"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20pt"
-                                 />
+                                android:gravity="center_horizontal"
+                                android:ellipsize="end"
+                                />
 
                             <ImageButton
                                 android:id="@+id/dailyCalorieHelp"

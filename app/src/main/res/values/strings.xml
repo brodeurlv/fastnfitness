@@ -343,7 +343,8 @@
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
     <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
     <string name="bmrLabel">BMR</string>
-    <string name="bmr_dialog_title">
+    <string name="bmr_dialog_title">Basal Metabolic Rate (BMR)</string>
+    <string name="bmr_formula">
         Calculated using the Mifflin-St Jeor equation. For individuals at 15% bodyfat and under, the Katch-McArdle formula
         is used which tends to be more accurate for individuals who are leaner, and know their body fat percentage. For greater
         accuracy in calculating your BMR, it is recommended to enter your birthday, height, weight, and body fat percentage.
