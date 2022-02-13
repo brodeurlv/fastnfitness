@@ -782,7 +782,9 @@ public class WeightFragment extends Fragment {
          * For men: BMR = 10W + 6.25H - 5A + 5
          **/
 
-        int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        //int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        int birthYear = getProfile().getBirthday().getYear();
+
         int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
 
         return (10 * weight) + (6.25 * size) - (5 * age) + 5;
@@ -793,7 +795,8 @@ public class WeightFragment extends Fragment {
          *Mifflin-St Jeor Equation
          * For women: BMR = 10W + 6.25H - 5A - 161
          **/
-        int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        //int birthYear = getProfile().getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        int birthYear = getProfile().getBirthday().getYear();
         int age = Calendar.getInstance().get(Calendar.YEAR) - birthYear;
 
         return (10 * weight) + (6.25 * size) - (5 * age) - 161;
