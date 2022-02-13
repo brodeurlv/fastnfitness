@@ -176,7 +176,7 @@
     <string name="overweight">surpoids</string>
     <string name="obese">obèse</string>
     <string name="enter_gender_here">Choisis ton genre</string>
-    <string name="no_size_available">aucune taille disponible</string>
+    <string name="no_size_available">taille non disponible</string>
     <string name="no_weight_available">poids non disponible</string>
     <string name="BMI_dialog_title">Indice de Masse Corporel (IMC)</string>
     <string name="BMI_formula">IMC = poids(kg) / taille(m)*taille(m)</string>
@@ -188,7 +188,7 @@
     <string name="new_folder">Nouveau dossier</string>
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Indice de masse sans graisse (FFMI)</string>
-    <string name="no_fat_available">graisse [%] non disponible</string>
+    <string name="no_fat_available">graisse non disponible</string>
     <string name="indexLabel">Index</string>
     <string name="SecondsLabel_short">Sec.</string>
     <string name="exercise_type">Type d\'exercice :</string>

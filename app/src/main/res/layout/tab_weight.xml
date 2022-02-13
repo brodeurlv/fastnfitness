@@ -290,8 +290,8 @@
                     <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:shrinkColumns="3"
-                        android:stretchColumns="0,1,2">
+                        android:shrinkColumns="2"
+                        android:stretchColumns="0,1,3">
 
                         <TableRow
                             android:layout_width="match_parent"
@@ -319,7 +319,7 @@
                             <TextView
                                 android:id="@+id/imcValue"
                                 style="@style/WeightIndexStyle"
-                                android:gravity="right"
+                                android:gravity="center"
                                 tools:text="20" />
 
                             <TextView
@@ -329,6 +329,7 @@
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:textSize="20sp"
+                                android:singleLine="true"
                                 android:textStyle="italic"
                                 tools:text="@string/no_size_available" />
 
@@ -351,18 +352,19 @@
                             <TextView
                                 android:id="@+id/ffmiValue"
                                 style="@style/WeightIndexStyle"
-                                android:gravity="right"
+                                android:gravity="center"
                                 tools:text="20" />
 
                             <TextView
                                 android:id="@+id/ffmiViewText"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:gravity="center"
                                 android:ellipsize="end"
+                                android:singleLine="true"
+                                android:gravity="center"
                                 android:textSize="20sp"
                                 android:textStyle="italic"
-                                tools:text="normal" />
+                                tools:text="@string/no_fat_available" />
 
                             <ImageButton
                                 android:id="@+id/ffmiHelp"
@@ -384,17 +386,18 @@
                             <TextView
                                 android:id="@+id/bmrValue"
                                 style="@style/WeightIndexStyle"
-                                android:gravity="right"
-                                tools:text="20" />
+                                android:gravity="center"
+                                tools:text="1864" />
 
                             <TextView
                                 android:id="@+id/bmrViewText"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:gravity="center"
                                 android:ellipsize="end"
+                                android:gravity="center"
                                 android:textSize="20sp"
                                 android:textStyle="italic"
+                                android:singleLine="true"
                                 tools:text="normal" />
 
                             <ImageButton
@@ -417,16 +420,16 @@
                             <TextView
                                 android:id="@+id/dailyCalorieValue"
                                 style="@style/WeightIndexStyle"
-                                android:gravity="right"
-                                tools:text="20" />
+                                android:gravity="center"
+                                tools:text="2731" />
 
                             <Spinner
                                 android:id="@+id/activityLevelSpinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:ellipsize="end"
-                                />
+                                android:singleLine="true"
+                                android:gravity="center_horizontal" />
 
                             <ImageButton
                                 android:id="@+id/dailyCalorieHelp"

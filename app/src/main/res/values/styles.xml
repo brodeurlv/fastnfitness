@@ -71,9 +71,9 @@
     </style>
 
     <style name="InfoButton">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">25sp</item>
         <item name="android:layout_height">25sp</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_gravity">right</item>
         <item name="android:adjustViewBounds">false</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:cropToPadding">false</item>
