@@ -211,7 +211,7 @@
     <string name="imcLabel">KMI</string>
     <string name="RFM_female_formula">Frauen: RFM = 76 – (20 x (Körpergröße/Bauchumfang))</string>
     <string name="RFM_male_formula">Männer: RFM = 64 – (20 x (Körpergröße/Bauchumfang))</string>
-    <string name="no_size_available">Größe nicht verfügbar</string>
+    <string name="no_size_available">keine Größe verfügbar</string>
     <string name="no_weight_available">Gewicht nicht verfügbar</string>
     <string name="BMI_dialog_title">Body-Mass-Index (BMI)</string>
     <string name="BMI_formula">BMI = Gewicht(kg) / Größe(m)*Größe(m)</string>
@@ -297,4 +297,18 @@
     <string name="fail">Scheitern</string>
     <string name="also_update_program">Programm aktualisieren</string>
     <string name="license">Lizenz:</string>
+    <string name="bmrLabel">GU</string>
+    <string name="bmrCalories">Kalorien/Tag</string>
+    <string name="sedentary">sesshaft</string>
+    <string name="moderate">mäßig</string>
+    <string name="daily_calorie_label">Tägliche Kalorien</string>
+    <string name="daily_calorie_alert">Täglicher Kalorienbedarf</string>
+    <string name="active">aktiv</string>
+    <string name="no_gender_defined">kein Geschlecht definiert</string>
+    <string name="insufficient_data">unzureichende Daten</string>
+    <string name="very_intense">sehr intensiv</string>
+    <string name="daily_calorie_alert_body">Eine Schätzung der Kalorienmenge, die Sie täglich benötigen, um Ihr aktuelles Gewicht zu halten. Bei dieser Berechnung werden Ihr Grundumsatz und Ihr Aktivitätsniveau herangezogen, um eine Empfehlung abzugeben. Denken Sie daran, dass es sich bei diesem Wert um eine Schätzung handelt und dass der individuelle Kalorienbedarf variiert. Sesshaft: wenig oder keine Bewegung. Mäßig: 1-3 Mal/Woche Sport treiben. Aktiv: 4-5 Mal pro Woche Sport treiben. Täglich: Tägliche Bewegung oder intensive Bewegung 3-4 Mal/Woche. Intensiv: 6-7 Mal pro Woche Sport treiben. Sehr intensiv: tägliche Bewegung oder körperliche Arbeit.</string>
+    <string name="bmr_dialog_title">Berechnet nach der Mifflin-St. Jeor-Gleichung. Für Personen mit einem Körperfettanteil von 15 % und darunter wird die Katch-McArdle-Formel verwendet, die für Personen, die schlanker sind und ihren Körperfettanteil kennen, in der Regel genauer ist. Für eine genauere Berechnung Ihres Grundumsatzes empfiehlt es sich, Ihr Geburtsdatum, Ihre Größe, Ihr Gewicht und Ihren Körperfettanteil einzugeben. Auf diese Weise kann die App feststellen, welche Formel bei der Berechnung zu verwenden ist.</string>
+    <string name="daily_exercise">täglich</string>
+    <string name="intense">intensiv</string>
 </resources>
