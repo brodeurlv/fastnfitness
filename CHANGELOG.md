@@ -1,5 +1,13 @@
 ## Change Log
 
+### 0.20.5: February 13, 2022
+- Enhancement: Changes csv column names. Please refer to github WIKI documentation for details (#49, #209)
+- Enhancement: Added program and program templates to csv export (#228)
+- Enhancement: Made csv import more flexible
+- Enhancement: Added feature to calculate BMR and daily calories based on activity level (#248, Thank you @a124557)
+- Bug: Moved program template value to record value to avoid discrepancies in case of program update
+- Bug: Fixed small UI issues (#244)
+
 ### 0.20.4: December 07, 2021
 - Enhancement: Weight all in one insertion (#230, Thank you @chaptergy)
 - Enhancement: Added turkish translation (Thank you @Gokhungoktas)
