@@ -291,9 +291,10 @@
     <string name="insufficient_data">données insuffisantes</string>
     <string name="no_gender_defined">aucun sexe défini</string>
     <string name="very_intense">très intensif</string>
-    <string name="bmr_dialog_title">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
     <string name="daily_calorie_alert_body">Une estimation des calories nécessaires quotidiennement pour maintenir votre poids actuel. Ce calcul utilise votre métabolisme de base (MB), et votre niveau d\'activité pour produire une recommandation. N\'oubliez pas que cette valeur est une estimation et que les besoins en calories varient d\'une personne à l\'autre. Sédentaire : peu ou pas d\'exercice. Modéré : Exercice 1 à 3 fois/semaine. Actif : exercice 4-5 fois/semaine. Quotidien : exercice quotidien ou exercice intense 3-4 fois/semaine. Intense : exercice 6-7 fois/semaine. Très intense : exercice quotidien, ou travail physique.</string>
     <string name="active">actif</string>
     <string name="daily_exercise">quotidien</string>
     <string name="intense">intensif</string>
+    <string name="bmr_formula">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
+    <string name="bmr_dialog_title">Taux métabolique basal (BMR)</string>
 </resources>

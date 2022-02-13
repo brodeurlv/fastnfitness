@@ -294,4 +294,19 @@
     <string name="also_update_program">Actualizar el programa</string>
     <string name="license">Licencia:</string>
     <string name="weightRequiredForMultipleInputs">Tienes que proporcionar un peso para agregar múltiples valores.</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Tasa metabólica basal (BMR)</string>
+    <string name="bmr_formula">Calculado utilizando la ecuación de Mifflin-St Jeor. Para los individuos en un 15% de grasa corporal y bajo, se usa la fórmula KATTH-MCARDLE, que tiende a ser más precisa para las personas que sean más delgadas y conozca su porcentaje de grasa corporal. Para mayor precisión al calcular su BMR, se recomienda ingresar a su porcentaje de cumpleaños, altura, peso y grasa corporal. Esto ayudará a la aplicación a determinar qué fórmula usar al realizar este cálculo.</string>
+    <string name="bmrCalories">Calorías / día</string>
+    <string name="daily_calorie_label">Cals diarios</string>
+    <string name="daily_calorie_alert">Necesidades diarias de calorías</string>
+    <string name="daily_calorie_alert_body">Una estimación de las calorías requeridas diariamente para mantener su peso actual. Este cálculo utiliza su BMR, y el nivel de actividad para producir una recomendación. Recuerde que este valor es una estimación, y que las necesidades de calorías individuales variarán. Sedentario: poco o ningún ejercicio. Moderado: Ejercicio 1-3 veces / semana. Activo: Ejercicio 4-5 veces / semana. Diario: ejercicio diario o ejercicio intenso 3-4 veces / semana. Intenso: Ejercicio 6-7 veces / semana. Muy intenso: ejercicio diario, o trabajo físico.</string>
+    <string name="sedentary">sedentario</string>
+    <string name="moderate">moderar</string>
+    <string name="active">activo</string>
+    <string name="daily_exercise">a diario</string>
+    <string name="intense">intenso</string>
+    <string name="very_intense">muy intenso</string>
+    <string name="no_gender_defined">No se definen el género</string>
+    <string name="insufficient_data">Datos insuficientes</string>
 </resources>

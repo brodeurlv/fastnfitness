@@ -289,4 +289,19 @@
     <string name="also_update_program">Aktualizujte program.</string>
     <string name="license">Licence:</string>
     <string name="weightRequiredForMultipleInputs">Musíte poskytnout váhu, abyste přidali více hodnot</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Bazální metabolismus (BMR)</string>
+    <string name="bmr_formula">Vypočteno pomocí miflin-St Jeorova rovnice. Pro jednotlivce při 15% tělesnéku a pod, vzorec Katch-mcardle se používá, který má tendenci být přesnější pro jednotlivce, kteří jsou štíhlejší, a znát jejich procento tělesného tuku. Pro větší přesnost při výpočtu BMR se doporučuje vstoupit na vaše narozeniny, výšku, hmotnost a procento tělesného tuku. To pomůže aplikaci určit, který vzorec k použití při provádění tohoto výpočtu.</string>
+    <string name="bmrCalories">kalorií / den</string>
+    <string name="daily_calorie_label">Denní Cals.</string>
+    <string name="daily_calorie_alert">Denní potřeby kalorií</string>
+    <string name="daily_calorie_alert_body">Odhad kalorií požadovaných denně pro udržení vaší současné hmotnosti. Tento výpočet používá vaši úroveň BMR a aktivity pro výrobu doporučení. Nezapomeňte, že tato hodnota je odhad, a že jednotlivé kalorické potřeby se bude lišit. Sedavý: Malý nebo žádný výkon. Střední: cvičení 1-3 krát / týden. Aktivní: cvičení 4-5 krát / týden. Denně: Denní cvičení nebo intenzivní cvičení 3-4 krát / týden. Intenzivní: cvičení 6-7 krát / týden. Velmi intenzivní: cvičení denně nebo fyzickou práci.</string>
+    <string name="sedentary">sedavý</string>
+    <string name="moderate">mírný</string>
+    <string name="active">aktivní</string>
+    <string name="daily_exercise">denně</string>
+    <string name="intense">intenzivní</string>
+    <string name="very_intense">velmi intenzivní</string>
+    <string name="no_gender_defined">Definováno žádné pohlaví</string>
+    <string name="insufficient_data">Nedostatečná data</string>
 </resources>

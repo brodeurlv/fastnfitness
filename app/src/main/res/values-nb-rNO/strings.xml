@@ -271,4 +271,19 @@
     <string name="weightMenuLabel">Vekt spor</string>
     <string name="workout_list_menu_item">Programliste</string>
     <string name="weightRequiredForMultipleInputs">Du må gi vekt for å legge til flere verdier</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Basal metabolsk hastighet (BMR)</string>
+    <string name="bmr_formula">Beregnet ved hjelp av Mifflin-St Jeor-ligningen. For enkeltpersoner på 15% kroppsfett og under, brukes katch-mcardle formelen som har en tendens til å være mer nøyaktig for personer som er slankere, og kjenner deres kroppsfettprosent. For større nøyaktighet ved beregning av BMR, anbefales det å gå inn i bursdag, høyde, vekt og kroppsfettprosent. Dette vil hjelpe appen å bestemme hvilken formel som skal brukes når du utfører denne beregningen.</string>
+    <string name="bmrCalories">Kalorier / dag</string>
+    <string name="daily_calorie_label">Daglige Cals.</string>
+    <string name="daily_calorie_alert">Daglig kalori behov</string>
+    <string name="daily_calorie_alert_body">Et estimat av kaloriene som kreves daglig for å opprettholde din nåværende vekt. Denne beregningen bruker BMR og aktivitetsnivå for å gi en anbefaling. Husk at denne verdien er et estimat, og at de enkelte kaloribehovene vil variere. Stillesittende: liten eller ingen trening. Moderat: Øvelse 1-3 ganger / uke. Aktiv: Øvelse 4-5 ganger / uke. Daglig: Daglig trening eller intens trening 3-4 ganger / uke. Intense: Øvelse 6-7 ganger / uke. Veldig intens: Øvelse daglig, eller fysisk jobb.</string>
+    <string name="sedentary">stillesittende</string>
+    <string name="moderate">moderat</string>
+    <string name="active">aktiv</string>
+    <string name="daily_exercise">daglig</string>
+    <string name="intense">intens</string>
+    <string name="very_intense">Veldig intens</string>
+    <string name="no_gender_defined">Ingen kjønn definert</string>
+    <string name="insufficient_data">utilstrekkelig data</string>
 </resources>

@@ -289,4 +289,19 @@
     <string name="also_update_program">Werk het programma bij</string>
     <string name="license">Licentie:</string>
     <string name="weightRequiredForMultipleInputs">Je moet een gewicht geven om meerdere waarden toe te voegen</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Basale metabolische tarief (BMR)</string>
+    <string name="bmr_formula">Berekend met behulp van de MIFFLIN-ST JEOR-vergelijking. Voor particulieren bij 15% bodyfat en onder, wordt de Katch-Mcardle-formule gebruikt die de neiging heeft om nauwkeuriger te zijn voor individuen die magerder zijn en hun lichaamsvetpercentage kennen. Voor meer nauwkeurigheid bij het berekenen van uw BMR, wordt het aanbevolen om uw verjaardag, lengte, gewicht en lichaamsvetpercentage in te voeren. Dit zal de app helpen bepalen welke formule te gebruiken bij het uitvoeren van deze berekening.</string>
+    <string name="bmrCalories">Calorieën / dag</string>
+    <string name="daily_calorie_label">Dagelijkse CALS</string>
+    <string name="daily_calorie_alert">Dagelijkse calorie-behoeften</string>
+    <string name="daily_calorie_alert_body">Een schatting van de calorieën die dagelijks nodig zijn om uw huidige gewicht te behouden. Deze berekening gebruikt uw BMR- en activiteitenniveau om een ​​aanbeveling te produceren. Vergeet niet dat deze waarde een schatting is, en dat de individuele calorie-behoeften zal variëren. Sedentair: weinig of geen oefening. Matig: oefen 1-3 keer / week. Actief: Oefening 4-5 keer / week. Dagelijks: dagelijkse oefening of intense oefening 3-4 keer / week. Intens: Oefening 6-7 keer / week. Zeer intens: oefen dagelijks of fysiek werk.</string>
+    <string name="sedentary">gevestigd</string>
+    <string name="moderate">gematigd</string>
+    <string name="active">actief</string>
+    <string name="daily_exercise">dagelijks</string>
+    <string name="intense">intens</string>
+    <string name="very_intense">zeer intens</string>
+    <string name="no_gender_defined">Geen geslacht gedefinieerd</string>
+    <string name="insufficient_data">niet genoeg data</string>
 </resources>

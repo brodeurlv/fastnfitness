@@ -269,4 +269,19 @@
     <string name="also_update_program">Обновите программу</string>
     <string name="license">Лицензия:</string>
     <string name="weightRequiredForMultipleInputs">Вы должны предоставить вес, чтобы добавить несколько значений</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Базальный уровень метаболизма (BMR)</string>
+    <string name="bmr_formula">Рассчитывается с использованием уравнения МИФФЛИН-СТ. Для частных лиц при 15% Bodyfat и под ним используется формула Katch-Mcardle, которая имеет тенденцию быть более точным для людей, которые являются более стройными и знают их процент жира в организме. Для большей точности при расчете вашего BMR рекомендуется ввести свой день рождения, высота, веса и жира тела. Это поможет приложению определить, какую формулу использовать при выполнении этого расчета.</string>
+    <string name="bmrCalories">Калории / день</string>
+    <string name="daily_calorie_label">Ежедневные Cals.</string>
+    <string name="daily_calorie_alert">Ежедневные потребности калорийности</string>
+    <string name="daily_calorie_alert_body">Оценка калорий требуется ежедневно для поддержания вашего текущего веса. Этот расчет использует ваш BMR и уровень активности для получения рекомендации. Помните, что это значение является оценкой, и что отдельные потребности калорий будут варьироваться. Сидячий: мало или нет упражнений. Умеренная: упражнение 1-3 раза / неделя. Активный: упражнение 4-5 раз / неделя. Ежедневно: ежедневные упражнения или интенсивное упражнение 3-4 раза / неделя. Интенсивное: упражнение 6-7 раз / неделя. Очень напряженное: упражнение ежедневно или физическая работа.</string>
+    <string name="sedentary">сидячий</string>
+    <string name="moderate">умеренный</string>
+    <string name="active">активный</string>
+    <string name="daily_exercise">ежедневно</string>
+    <string name="intense">интенсивный</string>
+    <string name="very_intense">очень интенсивно</string>
+    <string name="no_gender_defined">Пол не определено</string>
+    <string name="insufficient_data">недостаточные данные</string>
 </resources>

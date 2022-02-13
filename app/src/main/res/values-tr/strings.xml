@@ -270,4 +270,19 @@
     <string name="global_confirm">Onayla</string>
     <string name="license">Lisans:</string>
     <string name="weightRequiredForMultipleInputs">Birden çok değer eklemek için bir ağırlık sağlamalısınız</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Bazal Metabolik Hızı (BMR)</string>
+    <string name="bmr_formula">MIFFLIN-ST JEOR denklemi kullanılarak hesaplanır. % 15 bodyfat ve altında bireyler için, KATCI-MCARDLE formülü, daha zayıf olan bireyler için daha doğru olma eğiliminde olan ve vücut yağ yüzdelerini bilir. BMR\'inizi hesaplamada daha fazla doğruluk için, doğum günü, boy, ağırlık ve vücut yağ yüzdesine girmeniz önerilir. Bu, uygulamanın bu hesaplamayı gerçekleştirirken hangi formülün kullanılacağını belirlemesine yardımcı olacaktır.</string>
+    <string name="bmrCalories">Kalori / gün</string>
+    <string name="daily_calorie_label">Günlük cals</string>
+    <string name="daily_calorie_alert">Günlük kalori ihtiyaçları</string>
+    <string name="daily_calorie_alert_body">Mevcut ağırlığınızı korumak için günlük kalorilerin bir tahmini. Bu hesaplama, BMR\'nizi ve bir öneri üretmek için etkinlik seviyenizi kullanır. Bu değerin bir tahmin olduğunu ve bireysel kalorinin ihtiyaçlarının değişeceğini unutmayın. Sedanter: az ya da hiç egzersiz yapmamak. Orta: Haftada 1-3 kez egzersiz yapın. Aktif: Haftada 4-5 kez egzersiz yapın. Günlük: Günlük egzersiz veya yoğun egzersiz 3-4 kez / hafta. Yoğun: haftada 6-7 kez egzersiz yapın. Çok yoğun: günlük egzersiz veya fiziksel iş.</string>
+    <string name="sedentary">hareketsiz</string>
+    <string name="moderate">ılıman</string>
+    <string name="active">aktif</string>
+    <string name="daily_exercise">günlük</string>
+    <string name="intense">yoğun</string>
+    <string name="very_intense">çok yoğun</string>
+    <string name="no_gender_defined">Cinsiyet tanımlanmadı</string>
+    <string name="insufficient_data">yetersiz veri</string>
 </resources>

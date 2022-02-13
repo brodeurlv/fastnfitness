@@ -303,4 +303,19 @@
     <string name="also_update_program">Atualize o programa</string>
     <string name="license">Licença:</string>
     <string name="weightRequiredForMultipleInputs">Você tem que fornecer um peso para adicionar vários valores</string>
+    <string name="bmrLabel">BMR</string>
+    <string name="bmr_dialog_title">Taxa Metabólica Basal (BMR)</string>
+    <string name="bmr_formula">Calculado usando a equação do Mifflin-St Jeor. Para indivíduos a 15% de bodyfat e sob, a fórmula Katch-Mcardle é usada que tende a ser mais precisa para indivíduos que são mais enxutos e conhecem sua porcentagem de gordura corporal. Para maior precisão no cálculo do seu BMR, recomenda-se inserir seu aniversário, altura, peso e porcentagem de gordura corporal. Isso ajudará o aplicativo a determinar qual fórmula usar ao executar esse cálculo.</string>
+    <string name="bmrCalories">Calorias / dia</string>
+    <string name="daily_calorie_label">Cals diários</string>
+    <string name="daily_calorie_alert">Necessidades diárias de calorias</string>
+    <string name="daily_calorie_alert_body">Uma estimativa das calorias exigidas diariamente para manter seu peso atual. Este cálculo usa seu BMR e nível de atividade para produzir uma recomendação. Lembre-se de que este valor é uma estimativa, e que as necessidades individuais de calorias variam. Sedentário: pouco ou nenhum exercício. Moderado: Exercício 1-3 vezes / semana. Ativo: Exercício 4-5 vezes / semana. Diariamente: exercício diário ou exercício intenso 3-4 vezes / semana. Intenso: Exercite 6-7 vezes / semana. Muito intenso: exercitar diariamente ou trabalho físico.</string>
+    <string name="sedentary">sedentário</string>
+    <string name="moderate">moderado</string>
+    <string name="active">ativo</string>
+    <string name="daily_exercise">Diário</string>
+    <string name="intense">intenso</string>
+    <string name="very_intense">muito intenso</string>
+    <string name="no_gender_defined">Nenhum gênero definido</string>
+    <string name="insufficient_data">dados insuficientes</string>
 </resources>
