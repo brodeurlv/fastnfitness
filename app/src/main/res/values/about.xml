@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_version" translatable="false">0.20.5</string>
+    <string name="app_version" translatable="false">0.20.5.1</string>
     <string name="database_version_label" translatable="false">Database version: </string>
     <string name="copyright" translatable="false">Copyright(c) 2022 - Charles Combes - All rights reserved.</string>
     <string name="bsd3" translatable="false">BSD 3</string>
@@ -11,6 +11,8 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
+0.20.5.1: February 22, 2022\n
+        \t- Bug: Fixed start issue (#252)\n
 0.20.5: February 6, 2022\n
         \t- Enhancement: Changes csv column names. Please refer to github WIKI documentation for details (#49, #209)\n
         \t- Enhancement: Added program and program templates to csv export (#228) \n
