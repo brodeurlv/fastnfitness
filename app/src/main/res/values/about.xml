@@ -13,6 +13,7 @@
     <string name="revision_history" translatable="false">\n
 0.20.5.1: February 22, 2022\n
         \t- Bug: Fixed start issue (#252)\n
+        \t- Bug: Fixed Dutch translation\n
 0.20.5: February 6, 2022\n
         \t- Enhancement: Changes csv column names. Please refer to github WIKI documentation for details (#49, #209)\n
         \t- Enhancement: Added program and program templates to csv export (#228) \n
