@@ -6,7 +6,7 @@
     <string name="global_yes">Sí</string>
     <string name="global_no">No</string>
     <string name="removedid">ID removido</string>
-    <string name="failedtocreatefolder">Error al crear la carpeta</string>
+    <string name="failedtocreatefolder">No se pudo crear la carpeta</string>
     <string name="action_settings">Ajustes</string>
     <string name="DateLabel">Fechas</string>
     <string name="FunctionLabel">Visualización</string>
@@ -20,7 +20,7 @@
     <!-- Fonte Fragment -->
     <string name="FonteLabel">Culturismo</string>
     <string name="SerieLabel">Series</string>
-    <string name="RepetitionLabel_short">Reps</string>
+    <string name="RepetitionLabel_short">Repeticiones</string>
     <string name="MachineLabel">Ejercicio</string>
     <string name="PoidsLabel">Peso</string>
     <string name="NotesLabel">Notas</string>
@@ -42,7 +42,7 @@
     <string name="waterLabel">Água</string>
     <string name="musclesLabel">Músculos</string>
     <string name="measureLabel">Medida</string>
-    <string name="sizeTableLabel">Historial de altura:</string>
+    <string name="sizeTableLabel">Historial de mediciones:</string>
     <string name="createProfilTitle">Crear nuevo perfil</string>
     <string name="profileSelected">Perfil seleccionado</string>
     <string name="createProfilQuestion">¿Deseas dar nombre a tu perfil?</string>
@@ -52,25 +52,21 @@
     <!-- Pour le menu settings -->
     <string name="SettingLabel">Ajustes</string>
     <string name="export_database">Exportar registros</string>
-    <string name="export_question">¿Deseas exportar la base de datos de </string>
+    <string name="export_question">Exportar la base de datos de</string>
     <string name="export_success">Base de dados exportada exitosamente</string>
-    <string name="export_failed">Error al exportar la base de datos</string>
+    <string name="export_failed">No se ha podido exportar la base de datos</string>
     <string name="import_database">Importar registros</string>
-    <string name="deleteDB_warning">
-        Esta acción reestablecerá toda la aplicación.
-        Toda la información será borrada.
-        ¿Estás seguro?
-        La aplicación se cerrará al confirmar.
-    </string>
-    <string name="ResetAppLabel">Reestablecer aplicación</string>
+    <string name="deleteDB_warning">¿Reiniciar toda la aplicación y salir\?
+\n(Se perderán todos los datos.)</string>
+    <string name="ResetAppLabel">Reiniciar la aplicación</string>
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Ejercicios</string>
     <!-- Preferences -->
     <string name="pref_ui_setting">Ajustes de UI</string>
-    <string name="pref_show_mp3_player">Mostrar reproductor MP3</string>
-    <string name="pref_show_mp3_player_summary">Muestra/oculta la barra de herramientass del reproductor MP3</string>
-    <string name="pref_preferredUnitSummary">Unidad de preferencia:</string>
-    <string name="pref_preferredUnitTitle">Selecione su unidad de peso preferida</string>
+    <string name="pref_show_mp3_player">Ver el reproductor del audio</string>
+    <string name="pref_show_mp3_player_summary">Mostrar/ocultar la barra de herramientas del reproductor de audio</string>
+    <string name="pref_preferredUnitSummary">"Unidad preferida: "</string>
+    <string name="pref_preferredUnitTitle">Peso</string>
     <string name="profil_create_new">Crear nuevo perfil</string>
     <string name="profil_change">Modificar perfil</string>
     <string name="profil_select_profil">Selecciona un perfil</string>
@@ -118,9 +114,9 @@
     <string name="right_calves">Pantorrilla derecha</string>
     <string name="waist">Cintura</string>
     <string name="behind">Cadera</string>
-    <string name="backDialog_confirm_text">¿Desea guardar antes de salir?</string>
-    <string name="deleteMachine_confirm_text">¿Desea quitar este ejercicio? Todos los registros asociados serán borrados.</string>
-    <string name="renameMachine_warning_text">AVISO: Este nombre de ejercicio ya existe. Los registros serán fusionados con el otro ejercicio.</string>
+    <string name="backDialog_confirm_text">¿Guardar antes de salir\?</string>
+    <string name="deleteMachine_confirm_text">¿Borrar este ejercicio y todos los registros asociados\?</string>
+    <string name="renameMachine_warning_text">Este nombre de ejercicio existe. Los registros se fusionarán con el otro ejercicio.</string>
     <!-- Photo -->
     <string name="camera">Cámara</string>
     <string name="gallery">Galería</string>
@@ -133,7 +129,7 @@
     <string name="ChronometerLabel">Cronómetro</string>
     <string name="CountdownLabel">Tiempo de descanso</string>
     <string name="activate_rest_time">Activar cuenta regresiva restante</string>
-    <string name="rest_time">Tiempo de descanso (seg)</string>
+    <string name="rest_time">Tiempo de reposo (seg.)</string>
     <string name="lastRecordLabel">Último registro</string>
     <string name="FilterHint">Filtrar por nombre de ejercicio</string>
     <string name="total_weight">Peso total</string>
@@ -148,21 +144,21 @@
     <string name="size_cm_optional">Tu altura en cm (opcional)</string>
     <string name="create">Crear</string>
     <string name="birthday_optional">Fecha de nacimento (opcional)</string>
-    <string name="name_or_pseudo">Nombre / apodo</string>
+    <string name="name_or_pseudo">Nombre/seudónimo</string>
     <string name="name_is_required">El nombre es necesario</string>
     <string name="create_a_profile">Crear un perfil</string>
-    <string name="introSlide1Text">¡Bienvenido a Fast N Fitness! Esta aplicación es un forma simple y rápida de registrar tu entrenamiento y monitorear tu progreso y evolución corporal.</string>
+    <string name="introSlide1Text">Bienvenido a Fast N Fitness. Una forma rápida y sencilla de registrar tu programa y seguir la progresión de tu cuerpo y tus ejercicios.</string>
     <string name="introSlide2Text">Escribe el nombre del ejercicio y sus detalles; este será creado automáticamente y será añadido a la lista de tus ejercicios.</string>
     <string name="introSlide2Title">Rápido y fácil</string>
     <string name="titleSlideEssential">Vamos a lo escencial</string>
-    <string name="textSlideEssential">No hay ejercicio preestablecido. Tú creas tus propios ejercicios, usando las máquinas que tengas en tu gimnasio / lugar de entrenamiento.</string>
-    <string name="pressBackAgain">Vuelve atrás de nuevo para salir</string>
-    <string name="titleSlideOpenSource">¡Es de código abierto!</string>
+    <string name="textSlideEssential">No hay ejercicios pre-creados. Usted crea sus propios ejercicios simplemente en función del nombre de la máquina que tiene en tú lugar/ubicación de fitness.</string>
+    <string name="pressBackAgain">Vuelve a pulsar \"Atrás\" para salir</string>
+    <string name="titleSlideOpenSource">¡Es un software libre! Utilízalo, cámbialo, cópialo y compártelo como quieras.</string>
     <string name="textSlideOpenSource">¡Únete a la comunidad y juntos construyamos una aplicación de fitness mejorada! Visítanos en https://github.com/brodeurlv/fastnfitness</string>
     <string name="profileCreated">Perfil creado</string>
     <string name="missinginfo">Falta información</string>
-    <string name="createExerciseFirst">Primero debes crear un ejercicio</string>
-    <string name="impossibleToDeleteProfile">No es posible borrar el perfil actual</string>
+    <string name="createExerciseFirst">Primero crea un ejercicio</string>
+    <string name="impossibleToDeleteProfile">El perfil actual no se puede eliminar</string>
     <string name="profileDeleted">Perfil borrado</string>
     <string name="min">Mín</string>
     <string name="max">Máx</string>
@@ -190,8 +186,8 @@
     <string name="maleGender">Masculino</string>
     <string name="femaleGender">Feminino</string>
     <string name="otherGender">Otro</string>
-    <string name="enter_gender_here">¿Cuál es tu género?</string>
-    <string name="no_size_available">Sin altura disponible</string>
+    <string name="enter_gender_here">Introduce el sexo</string>
+    <string name="no_size_available">altura no disponible</string>
     <string name="no_weight_available">Sin peso disponible</string>
     <string name="BMI_dialog_title">Índice de masa corporal (IMC)</string>
     <string name="BMI_formula">IMC = peso(kg) / altura(m)²</string>
@@ -206,27 +202,27 @@
     <string name="FFMI_formula">IMLG[kg/m2] = peso[kg] × (1 − (grasa corporal[%] / 100)) / (altura[m])²</string>
     <string name="no_fat_available">sin grasa disponible</string>
     <string name="indexLabel">Índice</string>
-    <string name="what_type_of_exercise">¿Qué tipo de ejercicio?</string>
+    <string name="what_type_of_exercise">¿Tipo de ejercicio\?</string>
     <string name="exercise_type">Tipo de ejercicio:</string>
     <string name="staticExercise">Isométrico</string>
-    <string name="SecondsLabel_short">Seg</string>
-    <string name="imported_successfully"> importado con éxito</string>
-    <string name="import_failed"> importación fallida</string>
-    <string name="import_new_exercise_first">(importa nuevos ejercicios primero)</string>
+    <string name="SecondsLabel_short">Seg.</string>
+    <string name="imported_successfully">importado</string>
+    <string name="import_failed">no se pueden importar los archivos</string>
+    <string name="import_new_exercise_first">(Asegúrate de que todos los ejercicios nuevos se importan primero)</string>
     <string name="MachineHint">Nombre del ejercicio</string>
     <string name="trapezius">Trapecio</string>
     <string name="shoulders">Espalda</string>
     <string name="glutes">Glúteos</string>
     <string name="obliques">Oblicuos</string>
-    <string name="pref_preferredDistanceUnitTitle">Selecciona la unidad de distancia preferida</string>
-    <string name="daynightmode_settingtitle">Selecciona el tema (reinicio de app necesario)</string>
+    <string name="pref_preferredDistanceUnitTitle">Distancia</string>
+    <string name="daynightmode_settingtitle">Selecciona el tema (reinice la aplicación para utilizarlo)</string>
     <string name="timeLabel">Hora</string>
     <string name="new_measure">Nuevo registro</string>
-    <string name="delete_bodypart_confirm">¿Quieres eliminar esta parte del cuerpo? Se eliminarán todas las medidas asociadas.</string>
+    <string name="delete_bodypart_confirm">¿Borrar esta parte del cuerpo y todas sus medidas asociadas\?</string>
     <string name="enter_profile_name">Introduce el nombre del perfil</string>
     <string name="enter_size_cm">Introduce el tamaño (cm)</string>
     <string name="enter_birthday">Introduce la fecha de nacimiento</string>
-    <string name="enter_bodypart_name">Nueva parte del cuerpo</string>
+    <string name="enter_bodypart_name">Escribe el nombre de la parte cuerpo</string>
     <string name="strength_category">Fuerza</string>
     <string name="add_to_template">Añadir a programas</string>
     <string name="automatic_date_time">fecha y hora automática</string>
@@ -238,12 +234,12 @@
     <string name="new_program">Nuevo programa</string>
     <string name="program_running">Programa actual:</string>
     <string name="program_preview">Progreso actual:</string>
-    <string name="programs">Programas:</string>
+    <string name="programs">Programas</string>
     <string name="start_program">Comenzar programa</string>
     <string name="update">Actualizar</string>
     <string name="workout_list_menu_item">Lista de programas</string>
     <string name="record_editor">Editor</string>
-    <string name="please_start_program_first">Por favor, comienza antes el programa</string>
+    <string name="please_start_program_first">Por favor, inicia un programa primero</string>
     <string name="program_ongoing">Programa en curso:</string>
     <string name="rest_time_row">Tiempo de reposo:</string>
     <string name="program">Programa</string>
@@ -255,12 +251,12 @@
     <string name="dark_mode">Oscuro</string>
     <string name="autoui_mode">Por defecto del sistema</string>
     <string name="details">Detalles</string>
-    <string name="unit_settings_title">Unidades</string>
+    <string name="unit_settings_title">Unidad del sistema</string>
     <string name="no_chart_data_available">Sin datos</string>
     <string name="light_mode">Claro</string>
     <string name="remove_image">Eliminar imagen</string>
-    <string name="pref_preferredSizeUnitTitle">Selecciona tu unidad de tamaño preferida</string>
-    <string name="program_completed">Ha completado su programa! ¿Quieres cerrarla?</string>
+    <string name="pref_preferredSizeUnitTitle">Medidas corporales</string>
+    <string name="program_completed">¿Cerrar el programa completo\?</string>
     <string name="maxLengthPerDate">Duración máxima por Fecha</string>
     <string name="maxReps">Máx de Reps</string>
     <string name="sumReps">Suma de Reps</string>
@@ -275,25 +271,25 @@
     <string name="pref_scheduled_backup_setting">Configuración de copia de seguridad automática</string>
     <string name="pref_lastBackupSettingSummary">Última copia de seguridad:</string>
     <string name="pref_preferredBackupSettingTitle">Frecuencia</string>
-    <string name="backup_notStarted">No se copia de seguridad comenzó</string>
-    <string name="backup_warning_never">Haga su primera copia de seguridad ahora.</string>
-    <string name="backup_warning_day">Pasó un día desde su última copia de seguridad.</string>
-    <string name="backup_warning_week">Pasó una semana desde su última copia de seguridad.</string>
-    <string name="backup_warning_month">Un mes transcurrido desde la última copia de seguridad.</string>
-    <string name="database_migration">Migración de base de datos</string>
+    <string name="backup_notStarted">No se ha iniciado la copia de seguridad</string>
+    <string name="backup_warning_never">"Realiza ahora tú primera copia de seguridad. "</string>
+    <string name="backup_warning_day">"Un día desde tú última copia de seguridad. "</string>
+    <string name="backup_warning_week">"Una semana desde tu última copia de seguridad. "</string>
+    <string name="backup_warning_month">"Un mes desde tú última copia de seguridad. "</string>
+    <string name="database_migration">Mover la base de datos</string>
     <string name="something_went_wrong">Arf, algo salió mal!</string>
-    <string name="database_migration_success">Archivos de aplicaciones migrado correctamente</string>
+    <string name="database_migration_success">Los archivos de la aplicación se han migrado correctamente</string>
     <string name="FilterTextViewType">Filtrar por tipo de ejercicio</string>
     <string name="filterExerciseTypeDialogLabel">Filtro para Tipos de ejercicios</string>
-    <string name="selectExerciseTypeFirst">Debe seleccionar al menos un tipo de ejercicio</string>
+    <string name="selectExerciseTypeFirst">Selecciona al menos un tipo de ejercicio</string>
     <string name="add_new_exercise">Añadir un nuevo ejercicio</string>
-    <string name="disclaimer_scoped_storage">Debido a los cambios de Google, archivos de aplicación debe ser migrado. Esto puede tomar algún tiempo si usted tiene una gran cantidad de imágenes. Por favor sea paciente.</string>
+    <string name="disclaimer_scoped_storage">Debido a los cambios de Google, es necesario migrar los archivos de la aplicación. Esto puede llevar algún tiempo si tienes muchas fotos. Por favor, ten paciencia.</string>
     <string name="success">Éxito</string>
     <string name="not_done">No hecho</string>
     <string name="fail">Fallar</string>
     <string name="also_update_program">Actualizar el programa</string>
     <string name="license">Licencia:</string>
-    <string name="weightRequiredForMultipleInputs">Tienes que proporcionar un peso para agregar múltiples valores.</string>
+    <string name="weightRequiredForMultipleInputs">Tienes que proporcionar un peso para agregar múltiples valores</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Tasa metabólica basal (BMR)</string>
     <string name="bmr_formula">Calculado utilizando la ecuación de Mifflin-St Jeor. Para los individuos en un 15% de grasa corporal y bajo, se usa la fórmula KATTH-MCARDLE, que tiende a ser más precisa para las personas que sean más delgadas y conozca su porcentaje de grasa corporal. Para mayor precisión al calcular su BMR, se recomienda ingresar a su porcentaje de cumpleaños, altura, peso y grasa corporal. Esto ayudará a la aplicación a determinar qué fórmula usar al realizar este cálculo.</string>
