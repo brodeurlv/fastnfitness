@@ -17,6 +17,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
+import com.easyfitness.DAO.progressimages.DAOProgressImage;
 import com.easyfitness.DAO.record.DAOFonte;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -34,7 +35,7 @@ import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 25;
+    public static final int DATABASE_VERSION = 26;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private static DatabaseHelper sInstance;
@@ -74,6 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOBodyPart.TABLE_CREATE);
         db.execSQL(DAOProgram.TABLE_CREATE);
         db.execSQL(DAOProgramHistory.TABLE_CREATE);
+        db.execSQL(DAOProgressImage.TABLE_CREATE);
         initBodyPartTable(db);
     }
 
@@ -216,6 +218,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Copy current value from current templates
                     copyTemplateValues(db);
                     break;
+                case 26:
+                    db.execSQL(DAOProgressImage.TABLE_CREATE);
+                    break;
             }
             upgradeTo++;
         }
@@ -260,6 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Delete WORKOUT TABLE
                     db.delete(DAOProgram.TABLE_NAME, null, null);
                     break;
+                    // TODO delete image table
             }
             upgradeTo--;
         }

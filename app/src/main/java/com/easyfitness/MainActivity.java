@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
+
+    public static String PROGRESSIMAGES = "ProgressImages";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
     public static String SETTINGS = "Settings";
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
+    private ProgressImagesFragment mpProgressImageFrag = null;
     private SettingsFragment mpSettingFrag = null;
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
@@ -306,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem("Programs List", R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_photo_camera, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
 
@@ -845,6 +849,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getBodyPartFragment(), BODYTRACKING);
         } else if (pFragmentName.equals(PROFILE)) {
             ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
+        } else if (pFragmentName.equals(PROGRESSIMAGES)) {
+            ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
         }
         currentFragmentName = pFragmentName;
         ft.commit();
@@ -938,6 +944,15 @@ public class MainActivity extends AppCompatActivity {
         if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
 
         return mpWeightFrag;
+    }
+
+
+    private ProgressImagesFragment getProgressImagesFragment() {
+        if (mpProgressImageFrag == null)
+            mpProgressImageFrag = (ProgressImagesFragment) getSupportFragmentManager().findFragmentByTag(PROGRESSIMAGES);
+        if (mpProgressImageFrag == null) mpProgressImageFrag = ProgressImagesFragment.newInstance(PROGRESSIMAGES, 12);
+
+        return mpProgressImageFrag;
     }
 
     private ProfileFragment getProfileFragment() {
@@ -1120,10 +1135,14 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
+                    showFragment(PROGRESSIMAGES);
+                    setTitle(getResources().getText(R.string.progress_images));
+                    break;
+                case 7:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 7:
+                case 8:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;
