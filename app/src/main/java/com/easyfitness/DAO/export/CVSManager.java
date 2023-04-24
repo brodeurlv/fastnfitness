@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
@@ -16,6 +17,7 @@ import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOProfileWeight;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.ProgressImage;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
@@ -24,6 +26,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
+import com.easyfitness.DAO.progressimages.DAOProgressImage;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -34,6 +37,7 @@ import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.utils.Value;
 
@@ -101,6 +105,14 @@ public class CVSManager {
     static private final String TABLE_PROGRAM_TEMPLATE = "TEMPLATE";
     static private final String TABLE_EXERCISE = "EXERCISE";
 
+    static private final String TABLE_PROGRESS_IMAGE = "PROGRESS_IMAGE";
+
+    static private final String IMAGE_PATH = "IMAGE_PATH";
+
+    static private final String PROGRESS_IMAGE_FOLDER_NAME = "progressImages";
+    static private final String PROGRESS_IMAGE_FILE_NAME = "ProgressImage";
+
+
     private Context mContext;
 
     public CVSManager(Context pContext) {
@@ -117,6 +129,7 @@ public class CVSManager {
             ret &= exportBodyParts(pProfile, destFolder);
             ret &= exportPrograms(pProfile, destFolder);
             ret &= exportRecords(pProfile, destFolder, true);
+            ret &= exportProgressImages(pProfile, destFolder);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -126,7 +139,7 @@ public class CVSManager {
         return ret;
     }
 
-    private OutputStream CreateNewFile(String name, String destFolder, Profile pProfile) {
+    private OutputStream createNewCSVFile(String name, String destFolder, Profile pProfile) {
         String fileName = "export_" + name;
         if (pProfile!=null) {
             fileName = fileName + "_" + pProfile.getName();
@@ -159,7 +172,7 @@ public class CVSManager {
 
     private boolean exportRecords(Profile pProfile, String destFolder, boolean templatesOnly) {
         try {
-            OutputStream exportFile = CreateNewFile(templatesOnly ? "ProgramTemplates" : "Records", destFolder, templatesOnly ? null : pProfile);
+            OutputStream exportFile = createNewCSVFile(templatesOnly ? "ProgramTemplates" : "Records", destFolder, templatesOnly ? null : pProfile);
 
             CsvWriter csvOutputFonte = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
@@ -279,7 +292,7 @@ public class CVSManager {
 
     private boolean exportBodyMeasures(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyMeasures", destFolder, pProfile);
+            OutputStream exportFile = createNewCSVFile("BodyMeasures", destFolder, pProfile);
 
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
@@ -319,9 +332,55 @@ public class CVSManager {
         return true;
     }
 
+    private boolean exportProgressImages(Profile pProfile, String destFolder) {
+        try {
+            OutputStream exportFile = createNewCSVFile(PROGRESS_IMAGE_FILE_NAME, destFolder, pProfile);
+            File exportFolder = Environment.getExternalStoragePublicDirectory(destFolder + File.separator + PROGRESS_IMAGE_FOLDER_NAME );
+
+            if (!exportFolder.mkdir()) {
+                Log.e(getClass().getName(), "Failed to create export folder for progress images " + exportFolder.getAbsolutePath());
+                return false;
+            }
+
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
+
+            DAOProgressImage daoProgressImage = new DAOProgressImage(mContext);
+
+            cvsOutput.write(TABLE_HEAD);
+            cvsOutput.write(DATE);
+            cvsOutput.write(IMAGE_PATH);
+            cvsOutput.endRecord();
+
+            final int imageCount = daoProgressImage.count(pProfile.getId());
+
+            for (int i = 0; i < imageCount; i++) {
+                ProgressImage record = daoProgressImage.getImage(pProfile.getId(), i);
+
+                cvsOutput.write(TABLE_PROGRESS_IMAGE);
+                Date dateRecord = record.getCreated();
+                cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
+                File internalFile = new File(record.getFile());
+                String exportedFileName = internalFile.getName();
+                cvsOutput.write(PROGRESS_IMAGE_FOLDER_NAME + File.separator + exportedFileName);
+
+                ImageUtil.copyFile(internalFile, exportFolder);
+                cvsOutput.endRecord();
+            }
+            cvsOutput.close();
+            daoProgressImage.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
     private boolean exportBodyParts(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyParts", destFolder, null);
+            OutputStream exportFile = createNewCSVFile("BodyParts", destFolder, null);
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
@@ -356,7 +415,7 @@ public class CVSManager {
 
     private boolean exportExercise(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("Exercises", destFolder, null);
+            OutputStream exportFile = createNewCSVFile("Exercises", destFolder, null);
             CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
@@ -397,7 +456,7 @@ public class CVSManager {
 
     private boolean exportPrograms(Profile pProfile, String destFolder) {
         try {
-        OutputStream exportFile = CreateNewFile("Programs", destFolder, null);
+        OutputStream exportFile = createNewCSVFile("Programs", destFolder, null);
         CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
         DAOProgram dbcProgram = new DAOProgram(mContext);
