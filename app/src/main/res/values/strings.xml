@@ -421,7 +421,7 @@
 
     <string name="automatic_date_time">Automatic date/time</string>
     <string name="enter_workout_name">Enter program name</string>
-    <string name="workout_list_menu_item">Program list</string>
+    <string name="workout_list_menu_item">Program List</string>
     <string name="finish_program">Finish program</string>
     <string name="start_program">Start program</string>
     <string name="new_program">New program</string>
@@ -458,4 +458,5 @@
     <string name="also_update_program">Also update program</string>
     <string name="not_done">Not done</string>
     <string name="license">License:</string>
+    <string name="ProgramListLabel">Program List</string>
 </resources>
