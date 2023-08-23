@@ -237,7 +237,7 @@
     <string name="programs">Programas</string>
     <string name="start_program">Comenzar programa</string>
     <string name="update">Actualizar</string>
-    <string name="workout_list_menu_item">Lista de programas</string>
+    <string name="workout_list_menu_item">Lista de los programas</string>
     <string name="record_editor">Editor</string>
     <string name="please_start_program_first">Por favor, inicia un programa primero</string>
     <string name="program_ongoing">Programa en curso:</string>
@@ -305,4 +305,5 @@
     <string name="very_intense">muy intenso</string>
     <string name="no_gender_defined">No se definen el género</string>
     <string name="insufficient_data">Datos insuficientes</string>
+    <string name="ProgramListLabel">Lista de los programas</string>
 </resources>
