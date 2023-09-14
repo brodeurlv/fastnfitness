@@ -461,4 +461,5 @@
     <string name="progress_images">Progess Images</string>
     <string name="newer_image">newer</string>
     <string name="older_image">older</string>
+    <string name="import_unknow_file_extensions">Unknown file extension can\'t import</string>
 </resources>

@@ -37,6 +37,7 @@ import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.FileNameUtil;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.utils.Value;
@@ -50,7 +51,10 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
@@ -487,7 +491,31 @@ public class CVSManager {
         return true;
 }
 
+    public boolean importDatabase(ZipFile file, Profile pProfile) {
+        Enumeration<? extends ZipEntry> entries = file.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+
+            final String extention = FileNameUtil.getExtension(entry.getName());
+            if (FileNameUtil.FILE_ENDING_CSV.equalsIgnoreCase(extention)) {
+                try (InputStream inputStream = file.getInputStream(entry)) {
+                    if (!importDatabase(inputStream, pProfile, file)) {
+                        return false;
+                    }
+                } catch (IOException e) {
+                    Log.e(getClass().getName(), "Failed to read zip file", e);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean importDatabase(InputStream file, Profile pProfile) {
+        return importDatabase(file, pProfile, null);
+    }
+
+    private boolean importDatabase(InputStream file, Profile pProfile, ZipFile parentZip) {
 
         boolean ret = true;
         int importedRow = 0;
@@ -501,9 +529,31 @@ public class CVSManager {
             ArrayList<Record> recordsList = new ArrayList<>();
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
+            DAOProgressImage daoProgressImage = new DAOProgressImage(mContext);
 
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
+                    case TABLE_PROGRESS_IMAGE:
+                        Date imageDate = DateConverter.DBDateStrToDate(csvRecords.get(DATE));
+                        String relativeImagePath = csvRecords.get(IMAGE_PATH);
+
+                        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                        ZipEntry imageZipEntry = parentZip.getEntry(relativeImagePath);
+                        try (InputStream imageStream = parentZip.getInputStream(imageZipEntry)) {
+                            File newFile = ImageUtil.copyFileFromStream(
+                                    mContext,
+                                    imageStream,
+                                    storageDir,
+                                    new File(relativeImagePath).getName()
+                            );
+
+                            daoProgressImage.addProgressImage(
+                                    imageDate,
+                                    newFile,
+                                    pProfile.getId()
+                            );
+                        }
+                        break;
                     case TABLE_PROGRAM_TEMPLATE:
                     case TABLE_RECORD:
                     case DAORecord.TABLE_NAME: {

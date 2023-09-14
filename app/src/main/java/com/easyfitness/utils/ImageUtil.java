@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -347,10 +348,35 @@ public class ImageUtil {
         return newFile;
     }
 
+    static public File copyFileFromStream(Context context, InputStream inputStream, File destFolder, String newFileName) {
+        FileOutputStream outputStream = null;
+        File newFile = null;
+
+        try
+        {
+            // create directory if it doesn't exists
+            destFolder.mkdirs();
+
+            newFile = new File(destFolder, newFileName);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Files.copy(inputStream, newFile.toPath());
+            } else {
+                byte[] buffer = new byte[1000];
+                while ( inputStream.read( buffer, 0, buffer.length ) >= 0 ) {
+                    outputStream.write( buffer, 0, buffer.length );
+                }
+            }
+
+        } catch ( Exception e ){
+            Log.e( "TAG", "Exception occurred " + e.getMessage());
+        }
+        return newFile;
+    }
+
     static public File copyFileFromUri(Context context, Uri fileUri, File destFolder, String newFileName)
     {
         FileInputStream inputStream = null;
-        FileOutputStream outputStream = null;
         File newFile = null;
 
         try
@@ -358,27 +384,7 @@ public class ImageUtil {
             ContentResolver content = context.getContentResolver();
             inputStream =  (FileInputStream) content.openInputStream(fileUri);
 
-            // create directory if it doesn't exists
-            destFolder.mkdirs();
-
-            newFile = new File(destFolder, newFileName);
-
-            outputStream = new FileOutputStream(newFile);
-            if(outputStream != null){
-                Log.e( "TAG", "Output Stream Opened successfully");
-            }
-
-            FileChannel inputChannel = inputStream.getChannel();
-            FileChannel outputChannel = outputStream.getChannel();
-            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-            inputChannel.close();
-
-            /*byte[] buffer = new byte[1000];
-            int bytesRead = 0;
-            while ( ( bytesRead = inputStream.read( buffer, 0, buffer.length ) ) >= 0 )
-            {
-                outputStream.write( buffer, 0, buffer.length );
-            }*/
+            newFile = copyFileFromStream(context, inputStream, destFolder, newFileName);
         } catch ( Exception e ){
             Log.e( "TAG", "Exception occurred " + e.getMessage());
         } finally{

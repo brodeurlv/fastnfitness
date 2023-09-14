@@ -315,4 +315,5 @@
     <string name="progress_images">Fortschrittsbilder</string>
     <string name="newer_image">neuer</string>
     <string name="older_image">älter</string>
+    <string name="import_unknow_file_extensions">Unbekannte Dateiendung kann nicht importiert werden</string>
 </resources>
