@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -1042,9 +1043,8 @@ public class MainActivity extends AppCompatActivity {
                 file = data.getData();
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
 
-                final String path = file.getPath();
-                final String extension = FileNameUtil.getExtension(path);
-                if (FileNameUtil.FILE_ENDING_CSV.equalsIgnoreCase(extension)) {
+                final String extension = getContentResolver().getType(file);
+                if (FileNameUtil.MINE_TYPE_CSV.equalsIgnoreCase(extension)) {
                     InputStream inputStream;
                     try {
                         inputStream = getContentResolver().openInputStream(file);
@@ -1058,7 +1058,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
                     }
-                } else if (FileNameUtil.FILE_ENDING_ZIP.equalsIgnoreCase(extension)) {
+                } else if (FileNameUtil.MINE_TYPE_ZIP.equalsIgnoreCase(extension)) {
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
                     File zipFile = ImageUtil.copyFileFromUri(getActivity().getBaseContext(), file, storageDir, "zipImportTemp");
                     ZipFile importZipFile;
