@@ -421,7 +421,7 @@
 
     <string name="automatic_date_time">Automatic date/time</string>
     <string name="enter_workout_name">Enter program name</string>
-    <string name="workout_list_menu_item">Program list</string>
+    <string name="workout_list_menu_item">Program List</string>
     <string name="finish_program">Finish program</string>
     <string name="start_program">Start program</string>
     <string name="new_program">New program</string>
@@ -462,4 +462,5 @@
     <string name="newer_image">newer</string>
     <string name="older_image">older</string>
     <string name="import_unknow_file_extensions">Unknown file extension can\'t import</string>
+    <string name="ProgramListLabel">Program List</string>
 </resources>
