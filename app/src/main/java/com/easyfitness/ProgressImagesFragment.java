@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -140,6 +141,10 @@ public class ProgressImagesFragment extends Fragment {
                 appViMo.getProfile().getValue().getId(), imageOffset);
         if (image != null) {
             ImageUtil.setPic(currentProgressImage, image.getFile());
+        } else {
+            currentProgressImage.setImageDrawable(
+                    ContextCompat.getDrawable(getContext(), R.drawable.ic_gym_bench_50dp)
+            );
         }
     }
 
