@@ -1,0 +1,51 @@
+name: AutoBuild
+
+#
+# Constructed with help from:
+# - https://blog.logrocket.com/android-ci-cd-using-github-actions/
+# - https://www.droidcon.com/2022/01/05/getting-started-ci-cd-for-android-project-part-3-github-actions/
+# - https://stackoverflow.com/questions/61335109/
+# - https://github.com/actions/setup-java
+# - https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+#
+
+on:
+  release:
+    types: [created]
+  pull_request:
+    types: [opened, edited, reopened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - run: echo "Building Debug APK."  
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Package
+          path: build/libs
