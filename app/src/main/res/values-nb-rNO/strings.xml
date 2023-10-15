@@ -222,10 +222,8 @@
     <string name="lastRecordLabel">Siste opptak</string>
     <string name="license">Tillatelse:</string>
     <string name="MachineHint">Navn på treningen din</string>
-
     <string name="maxRep1">Maks vekt (reps &gt;= 1)</string>
     <string name="maxRep5d">Maks vekt (reps &gt;= 5)</string>
-
     <string name="maxReps">Max reps.</string>
     <string name="menu_Workout">Trene</string>
     <string name="min">Mpl</string>
@@ -286,4 +284,5 @@
     <string name="very_intense">Veldig intens</string>
     <string name="no_gender_defined">Ingen kjønn definert</string>
     <string name="insufficient_data">utilstrekkelig data</string>
+    <string name="ProgramListLabel">Programliste</string>
 </resources>
