@@ -54,7 +54,7 @@
     <string name="MachinesLabel">Exercices</string>
     <string name="pref_show_mp3_player">Afficher le lecteur audio</string>
     <string name="pref_show_mp3_player_summary">Afficher/masquer la barre d\'outils du lecteur audio</string>
-    <string name="pref_ui_setting">Affichage</string>
+    <string name="pref_ui_setting">Paramètres de l\'interface</string>
     <string name="profil_create_new">Créer un nouveau profil</string>
     <string name="profil_change">Changer de profil</string>
     <string name="profil_select_profil">Selectionner un profil</string>
@@ -297,4 +297,5 @@
     <string name="intense">intensif</string>
     <string name="bmr_formula">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
     <string name="bmr_dialog_title">Taux métabolique basal (BMR)</string>
+    <string name="ProgramListLabel">Liste des programmes</string>
 </resources>
