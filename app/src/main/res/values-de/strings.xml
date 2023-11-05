@@ -57,7 +57,7 @@
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Übungen</string>
     <!-- Preferences -->
-    <string name="pref_ui_setting">UI Einstellungen</string>
+    <string name="pref_ui_setting">Schnittstelle-Einstellungen</string>
     <string name="pref_show_mp3_player">Audioplayer anzeigen</string>
     <string name="pref_show_mp3_player_summary">Symbolleiste des Audioplayers ein-/ausblenden</string>
     <string name="pref_audio_setting">Ruhezeitgebereinstellungen</string>
