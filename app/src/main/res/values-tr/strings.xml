@@ -112,7 +112,7 @@
     <string name="filter_by_workout_name">Program adına göre filtrele</string>
     <string name="start_program">Programı başlat</string>
     <string name="finish_program">Programı bitir</string>
-    <string name="workout_list_menu_item">Program listesi</string>
+    <string name="workout_list_menu_item">Program Listesi</string>
     <string name="enter_workout_name">Program adı gir</string>
     <string name="automatic_date_time">Otomatik tarih/saat</string>
     <string name="strength_category">Güç</string>
@@ -285,4 +285,5 @@
     <string name="very_intense">çok yoğun</string>
     <string name="no_gender_defined">Cinsiyet tanımlanmadı</string>
     <string name="insufficient_data">yetersiz veri</string>
+    <string name="ProgramListLabel">Program Listesi</string>
 </resources>

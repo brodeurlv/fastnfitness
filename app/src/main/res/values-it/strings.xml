@@ -62,7 +62,7 @@
     <!-- Machine Fragment -->
     <string name="MachinesLabel">Esercizi</string>
     <!-- Preferences -->
-    <string name="pref_ui_setting">Impostazioni Interfaccia</string>
+    <string name="pref_ui_setting">Impostazioni interfaccia</string>
     <string name="pref_show_mp3_player">Mostra il lettore audio</string>
     <string name="pref_show_mp3_player_summary">Mostra/nascondi la barra degli strumenti del lettore audio</string>
     <string name="pref_preferredUnitSummary">"Unità di misura preferite: "</string>
