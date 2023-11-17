@@ -31,14 +31,17 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.zip.ZipOutputStream;
 
 public class ImageUtil {
 
@@ -135,6 +138,16 @@ public class ImageUtil {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void copyFileToStream(File internalFile, OutputStream zipFile) {
+        try (InputStream inputStream =  new FileInputStream(internalFile)) {
+            copyStream(inputStream, zipFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -347,10 +360,38 @@ public class ImageUtil {
         return newFile;
     }
 
+    static public File copyFileFromStream(InputStream inputStream, File destFolder, String newFileName) {
+        File newFile = null;
+
+        try
+        {
+            // create directory if it doesn't exists
+            destFolder.mkdirs();
+
+            newFile = new File(destFolder, newFileName);
+
+            try (OutputStream outputStream = new FileOutputStream(newFile)) {
+                copyStream(inputStream, outputStream);
+            }
+
+        } catch ( Exception e ){
+            Log.e( "TAG", "Exception occurred " + e.getMessage());
+        }
+        return newFile;
+    }
+
+    private static void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len = in.read(buffer);
+        while (len != -1) {
+            out.write(buffer, 0, len);
+            len = in.read(buffer);
+        }
+    }
+
     static public File copyFileFromUri(Context context, Uri fileUri, File destFolder, String newFileName)
     {
         FileInputStream inputStream = null;
-        FileOutputStream outputStream = null;
         File newFile = null;
 
         try
@@ -358,27 +399,7 @@ public class ImageUtil {
             ContentResolver content = context.getContentResolver();
             inputStream =  (FileInputStream) content.openInputStream(fileUri);
 
-            // create directory if it doesn't exists
-            destFolder.mkdirs();
-
-            newFile = new File(destFolder, newFileName);
-
-            outputStream = new FileOutputStream(newFile);
-            if(outputStream != null){
-                Log.e( "TAG", "Output Stream Opened successfully");
-            }
-
-            FileChannel inputChannel = inputStream.getChannel();
-            FileChannel outputChannel = outputStream.getChannel();
-            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-            inputChannel.close();
-
-            /*byte[] buffer = new byte[1000];
-            int bytesRead = 0;
-            while ( ( bytesRead = inputStream.read( buffer, 0, buffer.length ) ) >= 0 )
-            {
-                outputStream.write( buffer, 0, buffer.length );
-            }*/
+            newFile = copyFileFromStream(inputStream, destFolder, newFileName);
         } catch ( Exception e ){
             Log.e( "TAG", "Exception occurred " + e.getMessage());
         } finally{

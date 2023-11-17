@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
@@ -16,6 +17,7 @@ import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOProfileWeight;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.ProgressImage;
 import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
@@ -24,6 +26,7 @@ import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.cardio.DAOOldCardio;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.Program;
+import com.easyfitness.DAO.progressimages.DAOProgressImage;
 import com.easyfitness.DAO.record.DAOCardio;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
@@ -34,6 +37,8 @@ import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.FileNameUtil;
+import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.UnitConverter;
 import com.easyfitness.utils.Value;
 
@@ -46,7 +51,11 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 
 // Uses http://javacsv.sourceforge.net/com/csvreader/CsvReader.html //
@@ -101,6 +110,14 @@ public class CVSManager {
     static private final String TABLE_PROGRAM_TEMPLATE = "TEMPLATE";
     static private final String TABLE_EXERCISE = "EXERCISE";
 
+    static private final String TABLE_PROGRESS_IMAGE = "PROGRESS_IMAGE";
+
+    static private final String IMAGE_PATH = "IMAGE_PATH";
+
+    static private final String PROGRESS_IMAGE_FOLDER_NAME = "progressImages";
+    static private final String PROGRESS_IMAGE_FILE_NAME = "ProgressImage";
+
+
     private Context mContext;
 
     public CVSManager(Context pContext) {
@@ -117,6 +134,7 @@ public class CVSManager {
             ret &= exportBodyParts(pProfile, destFolder);
             ret &= exportPrograms(pProfile, destFolder);
             ret &= exportRecords(pProfile, destFolder, true);
+            ret &= exportProgressImages(pProfile, destFolder);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -126,7 +144,37 @@ public class CVSManager {
         return ret;
     }
 
-    private OutputStream CreateNewFile(String name, String destFolder, Profile pProfile) {
+    private ZipOutputStream createNewCSVZipFile(String name, String destFolder, Profile pProfile) {
+        String fileName = "export_" + name;
+        if (pProfile!=null) {
+            fileName = fileName + "_" + pProfile.getName();
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContentResolver resolver = mContext.getContentResolver();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/zip");
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
+                Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+                Uri file = resolver.insert(collection, contentValues);
+                return new ZipOutputStream(resolver.openOutputStream(file));
+            } else {
+                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder);
+                if (!exportDir.exists()) {
+                    exportDir.mkdirs();
+                }
+
+                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName + ".zip");
+                return new ZipOutputStream(new FileOutputStream(exportFile));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private OutputStream createNewCSVFile(String name, String destFolder, Profile pProfile) {
         String fileName = "export_" + name;
         if (pProfile!=null) {
             fileName = fileName + "_" + pProfile.getName();
@@ -159,7 +207,7 @@ public class CVSManager {
 
     private boolean exportRecords(Profile pProfile, String destFolder, boolean templatesOnly) {
         try {
-            OutputStream exportFile = CreateNewFile(templatesOnly ? "ProgramTemplates" : "Records", destFolder, templatesOnly ? null : pProfile);
+            OutputStream exportFile = createNewCSVFile(templatesOnly ? "ProgramTemplates" : "Records", destFolder, templatesOnly ? null : pProfile);
 
             CsvWriter csvOutputFonte = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
@@ -279,7 +327,7 @@ public class CVSManager {
 
     private boolean exportBodyMeasures(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyMeasures", destFolder, pProfile);
+            OutputStream exportFile = createNewCSVFile("BodyMeasures", destFolder, pProfile);
 
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
@@ -319,9 +367,71 @@ public class CVSManager {
         return true;
     }
 
+    private boolean exportProgressImages(Profile pProfile, String destFolder) {
+        try {
+            ZipOutputStream zipFile = createNewCSVZipFile(PROGRESS_IMAGE_FILE_NAME, destFolder, pProfile);
+
+            String fileName = "export_" + PROGRESS_IMAGE_FILE_NAME;
+            if (pProfile!=null) {
+                fileName = fileName + "_" + pProfile.getName();
+            }
+            ZipEntry csvEntry = new ZipEntry(fileName + ".csv");
+            zipFile.putNextEntry(csvEntry);
+
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter cvsOutput = new CsvWriter(zipFile, ',', StandardCharsets.UTF_8);
+
+            DAOProgressImage daoProgressImage = new DAOProgressImage(mContext);
+
+            cvsOutput.write(TABLE_HEAD);
+            cvsOutput.write(DATE);
+            cvsOutput.write(IMAGE_PATH);
+            cvsOutput.endRecord();
+
+            final int imageCount = daoProgressImage.count(pProfile.getId());
+
+            for (int i = 0; i < imageCount; i++) {
+                ProgressImage record = daoProgressImage.getImage(pProfile.getId(), i);
+
+                cvsOutput.write(TABLE_PROGRESS_IMAGE);
+                Date dateRecord = record.getCreated();
+                cvsOutput.write(DateConverter.dateToDBDateStr(dateRecord));
+                File internalFile = new File(record.getFile());
+                String exportedFileName = internalFile.getName();
+                cvsOutput.write(PROGRESS_IMAGE_FOLDER_NAME + File.separator + exportedFileName);
+
+                cvsOutput.endRecord();
+            }
+            cvsOutput.flush();
+            zipFile.closeEntry();
+
+            for (int i = 0; i < imageCount; i++) {
+                ProgressImage record = daoProgressImage.getImage(pProfile.getId(), i);
+
+                File internalFile = new File(record.getFile());
+                String exportedFileName = internalFile.getName();
+                String exportRelativePath = PROGRESS_IMAGE_FOLDER_NAME + File.separator + exportedFileName;
+
+                ZipEntry exportImage = new ZipEntry(exportRelativePath);
+                zipFile.putNextEntry(exportImage);
+                ImageUtil.copyFileToStream(internalFile, zipFile);
+                zipFile.closeEntry();
+            }
+            zipFile.close();
+            cvsOutput.close();
+            daoProgressImage.close();
+        } catch (Exception e) {
+            //if there are any exceptions, return false
+            e.printStackTrace();
+            return false;
+        }
+        //If there are no errors, return true.
+        return true;
+    }
+
     private boolean exportBodyParts(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("BodyParts", destFolder, null);
+            OutputStream exportFile = createNewCSVFile("BodyParts", destFolder, null);
             // use FileWriter constructor that specifies open for appending
             CsvWriter cvsOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
             DAOBodyPart daoBodyPart = new DAOBodyPart(mContext);
@@ -356,7 +466,7 @@ public class CVSManager {
 
     private boolean exportExercise(Profile pProfile, String destFolder) {
         try {
-            OutputStream exportFile = CreateNewFile("Exercises", destFolder, null);
+            OutputStream exportFile = createNewCSVFile("Exercises", destFolder, null);
             CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
@@ -397,7 +507,7 @@ public class CVSManager {
 
     private boolean exportPrograms(Profile pProfile, String destFolder) {
         try {
-        OutputStream exportFile = CreateNewFile("Programs", destFolder, null);
+        OutputStream exportFile = createNewCSVFile("Programs", destFolder, null);
         CsvWriter csvOutput = new CsvWriter(exportFile, ',', StandardCharsets.UTF_8);
 
         DAOProgram dbcProgram = new DAOProgram(mContext);
@@ -428,7 +538,31 @@ public class CVSManager {
         return true;
 }
 
+    public boolean importDatabase(ZipFile file, Profile pProfile) {
+        Enumeration<? extends ZipEntry> entries = file.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+
+            final String extension = FileNameUtil.getExtension(entry.getName());
+            if (FileNameUtil.FILE_ENDING_CSV.equalsIgnoreCase(extension)) {
+                try (InputStream inputStream = file.getInputStream(entry)) {
+                    if (!importDatabase(inputStream, pProfile, file)) {
+                        return false;
+                    }
+                } catch (IOException e) {
+                    Log.e(getClass().getName(), "Failed to read zip file", e);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean importDatabase(InputStream file, Profile pProfile) {
+        return importDatabase(file, pProfile, null);
+    }
+
+    private boolean importDatabase(InputStream file, Profile pProfile, ZipFile parentZip) {
 
         boolean ret = true;
         int importedRow = 0;
@@ -442,9 +576,30 @@ public class CVSManager {
             ArrayList<Record> recordsList = new ArrayList<>();
 
             DAOMachine dbcMachine = new DAOMachine(mContext);
+            DAOProgressImage daoProgressImage = new DAOProgressImage(mContext);
 
             while (csvRecords.readRecord()) {
                 switch (csvRecords.get(TABLE_HEAD)) {
+                    case TABLE_PROGRESS_IMAGE:
+                        Date imageDate = DateConverter.DBDateStrToDate(csvRecords.get(DATE));
+                        String relativeImagePath = csvRecords.get(IMAGE_PATH);
+
+                        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                        ZipEntry imageZipEntry = parentZip.getEntry(relativeImagePath);
+                        try (InputStream imageStream = parentZip.getInputStream(imageZipEntry)) {
+                            File newFile = ImageUtil.copyFileFromStream(
+                                    imageStream,
+                                    storageDir,
+                                    new File(relativeImagePath).getName()
+                            );
+
+                            daoProgressImage.addProgressImage(
+                                    imageDate,
+                                    newFile,
+                                    pProfile.getId()
+                            );
+                        }
+                        break;
                     case TABLE_PROGRAM_TEMPLATE:
                     case TABLE_RECORD:
                     case DAORecord.TABLE_NAME: {

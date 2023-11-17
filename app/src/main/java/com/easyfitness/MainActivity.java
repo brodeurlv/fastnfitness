@@ -10,11 +10,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -59,6 +61,7 @@ import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.FileNameUtil;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
 import com.easyfitness.utils.UnitConverter;
@@ -74,6 +77,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.ZipFile;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -85,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
+
+    public static String PROGRESSIMAGES = "ProgressImages";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
     public static String SETTINGS = "Settings";
@@ -110,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
+    private ProgressImagesFragment mpProgressImageFrag = null;
     private SettingsFragment mpSettingFrag = null;
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
@@ -306,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.ProgramListLabel), R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_photo_camera, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
 
@@ -599,7 +607,9 @@ public class MainActivity extends AppCompatActivity {
     private void importDatabase() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/*");
+        intent.setType("*/*");
+        String[] mimetypes = {"text/*", "application/zip"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
         startActivityForResult(intent, IMPORT_DATABASE);
     }
 
@@ -845,6 +855,8 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getBodyPartFragment(), BODYTRACKING);
         } else if (pFragmentName.equals(PROFILE)) {
             ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
+        } else if (pFragmentName.equals(PROGRESSIMAGES)) {
+            ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
         }
         currentFragmentName = pFragmentName;
         ft.commit();
@@ -940,6 +952,15 @@ public class MainActivity extends AppCompatActivity {
         return mpWeightFrag;
     }
 
+
+    private ProgressImagesFragment getProgressImagesFragment() {
+        if (mpProgressImageFrag == null)
+            mpProgressImageFrag = (ProgressImagesFragment) getSupportFragmentManager().findFragmentByTag(PROGRESSIMAGES);
+        if (mpProgressImageFrag == null) mpProgressImageFrag = ProgressImagesFragment.newInstance(PROGRESSIMAGES, 12);
+
+        return mpProgressImageFrag;
+    }
+
     private ProfileFragment getProfileFragment() {
         if (mpProfileFrag == null)
             mpProfileFrag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(PROFILE);
@@ -1021,18 +1042,40 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 file = data.getData();
                 CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
-                InputStream inputStream;
-                try {
-                    inputStream = getContentResolver().openInputStream(file);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    inputStream = null;
-                }
 
-                if (cvsMan.importDatabase(inputStream, appViMo.getProfile().getValue())) {
-                    KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                final String extension = getContentResolver().getType(file);
+                if (FileNameUtil.MINE_TYPE_CSV.equalsIgnoreCase(extension)) {
+                    InputStream inputStream;
+                    try {
+                        inputStream = getContentResolver().openInputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        inputStream = null;
+                    }
+
+                    if (cvsMan.importDatabase(inputStream, appViMo.getProfile().getValue())) {
+                        KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    } else {
+                        KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    }
+                } else if (FileNameUtil.MINE_TYPE_ZIP.equalsIgnoreCase(extension)) {
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                    File zipFile = ImageUtil.copyFileFromUri(getActivity().getBaseContext(), file, storageDir, "zipImportTemp");
+                    ZipFile importZipFile;
+                    try {
+                        importZipFile = new ZipFile(zipFile);
+                    } catch (IOException e) {
+                        Log.e(getClass().getName(), "Can't read zip file", e);
+                        KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        return;
+                    }
+                    if (cvsMan.importDatabase(importZipFile, appViMo.getProfile().getValue())) {
+                        KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.imported_successfully), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    } else {
+                        KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    }
                 } else {
-                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_failed), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                    KToast.errorToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.import_unknow_file_extensions), Gravity.BOTTOM, KToast.LENGTH_LONG);
                 }
             }
         } else if (resultCode == RESULT_OK && requestCode == OPEN_MUSIC_FILE) {
@@ -1120,10 +1163,14 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
+                    showFragment(PROGRESSIMAGES);
+                    setTitle(getResources().getText(R.string.progress_images));
+                    break;
+                case 7:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 7:
+                case 8:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;

@@ -312,4 +312,8 @@
     <string name="intense">intensiv</string>
     <string name="bmr_formula">Berechnet nach der Mifflin-St. Jeor-Gleichung. Für Personen mit einem Körperfettanteil von 15 % und darunter wird die Katch-McArdle-Formel verwendet, die für Personen, die schlanker sind und ihren Körperfettanteil kennen, in der Regel genauer ist. Für eine genauere Berechnung Ihres Grundumsatzes empfiehlt es sich, Ihr Geburtsdatum, Ihre Größe, Ihr Gewicht und Ihren Körperfettanteil einzugeben. Auf diese Weise kann die App feststellen, welche Formel bei der Berechnung zu verwenden ist.</string>
     <string name="bmr_dialog_title">Basal-Stoffwechselrate (BMR)</string>
+    <string name="progress_images">Fortschrittsbilder</string>
+    <string name="newer_image">neuer</string>
+    <string name="older_image">älter</string>
+    <string name="import_unknow_file_extensions">Unbekannte Dateiendung kann nicht importiert werden</string>
 </resources>

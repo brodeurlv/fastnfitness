@@ -458,5 +458,9 @@
     <string name="also_update_program">Also update program</string>
     <string name="not_done">Not done</string>
     <string name="license">License:</string>
+    <string name="progress_images">Progess Images</string>
+    <string name="newer_image">newer</string>
+    <string name="older_image">older</string>
+    <string name="import_unknow_file_extensions">Unknown file extension can\'t import</string>
     <string name="ProgramListLabel">Program List</string>
 </resources>
