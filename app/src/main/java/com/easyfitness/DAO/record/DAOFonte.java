@@ -288,11 +288,8 @@ public class DAOFonte extends DAORecord {
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
-            do {
-                w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
-            } while (mCursor.moveToNext());
+            w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
         }
         close();
 
@@ -316,11 +313,8 @@ public class DAOFonte extends DAORecord {
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
-            do {
-                w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
-            } while (mCursor.moveToNext());
+           w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
         }
         close();
 
