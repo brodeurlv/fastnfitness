@@ -284,7 +284,8 @@ public class DAOFonte extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
+                + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
@@ -309,7 +310,8 @@ public class DAOFonte extends DAORecord {
         // Select All Machines
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
-                + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
+                + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
+                + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
         mCursor = db.rawQuery(selectQuery, null);
 
