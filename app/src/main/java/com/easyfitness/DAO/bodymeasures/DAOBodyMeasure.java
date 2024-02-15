@@ -61,6 +61,7 @@ public class DAOBodyMeasure extends DAOBase {
         ContentValues value = new ContentValues();
 
         // Only one measure pr day, so if one already existing, updates it.
+        // Also filters duplicates when using openScale import.
         BodyMeasure existingBodyMeasure = getBodyMeasuresFromDate(db, pBodyPartId, pDate, pProfileId);
         if (existingBodyMeasure == null) {
 

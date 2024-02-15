@@ -6,6 +6,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG" />
+    <uses-permission android:name="com.health.openscale.READ_WRITE_DATA" />
+    <uses-permission android:name="com.health.openscale.light.READ_WRITE_DATA" />
+    <uses-permission android:name="com.health.openscale.pro.READ_WRITE_DATA" />
+
+    <queries>
+        <package android:name="com.health.openscale" />
+    </queries>
 
     <uses-feature
         android:name="android.hardware.camera.any"
