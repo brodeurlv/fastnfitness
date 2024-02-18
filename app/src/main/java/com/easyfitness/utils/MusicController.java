@@ -1,6 +1,7 @@
 package com.easyfitness.utils;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -33,6 +34,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 
+import com.easyfitness.DAO.export.OpenScaleSync;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 
@@ -457,6 +459,7 @@ public class MusicController {
 
     private void requestPermissionForReading() {
         int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
+
         ActivityCompat.requestPermissions(mActivity,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);

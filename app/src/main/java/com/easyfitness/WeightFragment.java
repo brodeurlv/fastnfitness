@@ -1,7 +1,9 @@
 package com.easyfitness;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,10 +19,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.DAOProfileWeight;
@@ -30,6 +35,7 @@ import com.easyfitness.DAO.bodymeasures.BodyPart;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
+import com.easyfitness.DAO.export.OpenScaleSync;
 import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.enums.UnitType;
@@ -137,6 +143,8 @@ public class WeightFragment extends Fragment {
     };
     double calorieMultiplier; //Daily calorie multiplier
     MainActivity mActivity = null;
+
+    private SwipeRefreshLayout pullToRefresh = null;
     private TextView weightEdit = null;
     private TextView fatEdit = null;
     private TextView musclesEdit = null;
@@ -361,6 +369,45 @@ public class WeightFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_weight, container, false);
+
+        // Disable pullToRefresh on default
+        pullToRefresh = view.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setEnabled(false);
+        try{
+            // Check if openScale is installed
+            PackageManager pm  = mActivity.getPackageManager();
+            pm.getPackageInfo("com.health.openscale", 0);
+
+            // If openScale is installed enable pull to refresh
+            pullToRefresh.setEnabled(true);
+
+            // Set listener for updateing
+            pullToRefresh.setOnRefreshListener(() -> {
+
+                // Check access permission to openScale
+                int OPENSCALE_REQUEST_CODE = 2;
+                int openHealthPermission = ContextCompat.checkSelfPermission(mActivity,"com.health.openscale.READ_WRITE_DATA");
+                if (openHealthPermission != PackageManager.PERMISSION_GRANTED) {
+
+                    // Request access permisson
+                    ActivityCompat.requestPermissions((Activity) mActivity,
+                            new String[]{"com.health.openscale.READ_WRITE_DATA"},
+                            OPENSCALE_REQUEST_CODE);
+                    pullToRefresh.setRefreshing(false);
+                    return;
+                }
+
+                // Import openScale data
+                OpenScaleSync openScaleSync = new OpenScaleSync(mActivity.getBaseContext(), getActivity());
+                if (openScaleSync.importDatabase()) {
+                    // Refresh view after loading data
+                    refreshData();
+                }
+                pullToRefresh.setRefreshing(false);
+            });
+        } catch (Exception ignored){
+
+        }
 
         /* Views Initialisation */
         weightEdit = view.findViewById(R.id.weightInput);
