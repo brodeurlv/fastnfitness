@@ -44,7 +44,7 @@
             android:name=".intro.MainIntroActivity"
             android:theme="@style/Theme.Intro" />
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
         <meta-data

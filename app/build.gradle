@@ -100,6 +100,6 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation 'com.github.onurkagan:ktoast:1.0.3'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.vanniktech:android-image-cropper:4.5.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
 }

@@ -1,8 +1,5 @@
 package com.easyfitness;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -43,7 +40,7 @@ public class ProgressImagesFragment extends Fragment {
     private int imageCount = 0;
 
 
-    private final View.OnClickListener onClickAddProgressImage = v -> createPhotoSourceDialog();
+    private final View.OnClickListener onClickAddProgressImage = v -> imgUtil.createPhotoSourceDialog();
 
 
     /**
@@ -60,17 +57,6 @@ public class ProgressImagesFragment extends Fragment {
         f.setArguments(args);
 
         return f;
-    }
-
-    private boolean createPhotoSourceDialog() {
-        if (imgUtil == null) {
-            imgUtil = new ImageUtil();
-            imgUtil.setOnDeleteImageListener(u -> {
-                deleteCurrentImage();
-            });
-        }
-
-        return imgUtil.CreatePhotoSourceDialog(this);
     }
 
     @Nullable
@@ -91,6 +77,27 @@ public class ProgressImagesFragment extends Fragment {
         olderImageButton.setOnClickListener(v -> showOlderImage());
         photoButton.setOnClickListener(onClickAddProgressImage);
 
+        imgUtil = new ImageUtil(this);
+        imgUtil.setOnDeleteImageListener(u -> {
+            deleteCurrentImage();
+        });
+        imgUtil.setOnPicTakenListener(uriFilePath -> {
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File newFile = ImageUtil.moveFile(new File(uriFilePath), storageDir, generateFileName());
+                daoProgressImage.addProgressImage(
+                        new Date(System.currentTimeMillis()), // maybe user input
+                        newFile,
+                        appViMo.getProfile().getValue().getId()
+                );
+                imageOffset = 0;
+                showProgressImage();
+                updateImageNavigation();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         updateImageNavigation();
         return view;
     }
@@ -99,7 +106,7 @@ public class ProgressImagesFragment extends Fragment {
         daoProgressImage.deleteImage(image.getId());
         new File(image.getFile()).delete();
 
-        imageOffset = imageOffset >= (imageCount-1)? imageOffset-1 : imageOffset;
+        imageOffset = imageOffset >= (imageCount - 1) ? imageOffset - 1 : imageOffset;
         updateImageNavigation();
     }
 
@@ -116,7 +123,7 @@ public class ProgressImagesFragment extends Fragment {
     private void updateImageNavigation() {
         showProgressImage();
         imageCount = daoProgressImage.count(appViMo.getProfile().getValue().getId());
-        progressImageIndex.setText((imageOffset+1) + " / " + imageCount);
+        progressImageIndex.setText((imageOffset + 1) + " / " + imageCount);
         if (image != null) {
             progressImageDate.setText(
                     DateConverter.dateToLocalDateStr(image.getCreated(), getContext())
@@ -124,7 +131,7 @@ public class ProgressImagesFragment extends Fragment {
         } else {
             progressImageDate.setText(DateConverter.currentDate(getContext()));
         }
-        if ((imageOffset+1) >= imageCount) {
+        if ((imageOffset + 1) >= imageCount) {
             olderImageButton.setEnabled(false);
         } else {
             olderImageButton.setEnabled(true);
@@ -151,40 +158,5 @@ public class ProgressImagesFragment extends Fragment {
     private String generateFileName() {
         // TODO hard coded ending ?
         return String.format("%10d.jpg", System.currentTimeMillis() / 1000);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ImageUtil.REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    daoProgressImage.addProgressImage(
-                            new Date(System.currentTimeMillis()), // maybe user input
-                            new File(imgUtil.getFilePath()),
-                            appViMo.getProfile().getValue().getId()
-                    );
-                }
-                break;
-            case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    Uri selectedImageUri = data.getData();
-                    try {
-                        File newFile = imgUtil.copyFileFromUri(getContext(), selectedImageUri, storageDir, generateFileName());
-                        daoProgressImage.addProgressImage(
-                                new Date(System.currentTimeMillis()), // maybe user input
-                                newFile,
-                                appViMo.getProfile().getValue().getId()
-                        );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-        }
-        imageOffset = 0;
-        showProgressImage();
-        updateImageNavigation();
     }
 }

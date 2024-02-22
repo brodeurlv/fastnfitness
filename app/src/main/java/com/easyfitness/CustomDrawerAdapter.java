@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.easyfitness.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -107,9 +109,8 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
             //drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
 
-            ImageUtil imgUtil = new ImageUtil();
             // Check if path is pointing to a thumb else create it and use it.
-            String thumbPath = imgUtil.getThumbPath(dItem.getImg());
+            String thumbPath = ImageUtil.getThumbPath(dItem.getImg());
             if (thumbPath != null)
                 ImageUtil.setPic(drawerHolder.roundProfile, thumbPath);
             else

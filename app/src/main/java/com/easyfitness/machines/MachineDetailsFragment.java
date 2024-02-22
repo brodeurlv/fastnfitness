@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.canhub.cropper.CropImage;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Machine;
@@ -40,14 +38,10 @@ import com.easyfitness.utils.RealPathUtil;
 import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,8 +68,11 @@ public class MachineDetailsFragment extends Fragment {
     View fragmentView = null;
 
     ImageUtil imgUtil = null;
-    private final OnLongClickListener onLongClickMachinePhoto = v -> CreatePhotoSourceDialog();
-    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnLongClickListener onLongClickMachinePhoto = v -> {
+        imgUtil.createPhotoSourceDialog();
+        return true;
+    };
+    private final OnClickListener onClickMachinePhoto = v -> imgUtil.createPhotoSourceDialog();
     boolean isCreateMuscleDialogActive = false;
     private final OnClickListener onClickMusclesList = v -> CreateMuscleDialog();
     private final OnFocusChangeListener onFocusMachineList = (arg0, arg1) -> {
@@ -137,7 +134,7 @@ public class MachineDetailsFragment extends Fragment {
         machinePhotoLayout = view.findViewById(R.id.machine_photo_layout);
         machineAction = view.findViewById(R.id.actionCamera);
 
-        imgUtil = new ImageUtil(machinePhoto);
+        imgUtil = new ImageUtil(this, machinePhoto);
 
         Bundle args = this.getArguments();
 
@@ -245,6 +242,13 @@ public class MachineDetailsFragment extends Fragment {
             requestForSave();
         });
 
+        imgUtil.setOnPicTakenListener(uriFilePath -> {
+            ImageUtil.setPic(machinePhoto, uriFilePath);
+            ImageUtil.saveThumb(uriFilePath);
+            mCurrentPhotoPath = uriFilePath;
+            requestForSave();
+        });
+
         if (getParentFragment() instanceof ExerciseDetailsPager) {
             pager = (ExerciseDetailsPager) getParentFragment();
         }
@@ -275,7 +279,7 @@ public class MachineDetailsFragment extends Fragment {
             }
         }};
         Collections.sort(selectedMuscleNames);
-        return  selectedMuscleNames;
+        return selectedMuscleNames;
     }
 
     private boolean CreateMuscleDialog() {
@@ -339,87 +343,8 @@ public class MachineDetailsFragment extends Fragment {
         muscleSelectionDialog.setNegativeButton(getResources().getString(android.R.string.cancel), (dialog, whichButton) -> isCreateMuscleDialogActive = false);
     }
 
-    private boolean CreatePhotoSourceDialog() {
-        if (imgUtil == null)
-            imgUtil = new ImageUtil();
-
-        return imgUtil.CreatePhotoSourceDialog(this);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ImageUtil.REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    mCurrentPhotoPath = imgUtil.getFilePath();
-                    ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
-                    ImageUtil.saveThumb(mCurrentPhotoPath);
-                    imgUtil.galleryAddPic(this, mCurrentPhotoPath);
-                    requestForSave();
-                }
-                break;
-            case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    String realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
-
-                    ImageUtil.setPic(machinePhoto, realPath);
-                    ImageUtil.saveThumb(realPath);
-                    mCurrentPhotoPath = realPath;
-                    requestForSave();
-                }
-                break;
-            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    String realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
-
-                    // Le fichier est crée dans le cache.
-                    // Déplacer le fichier dans le repertoire de FastNFitness
-                    File SourceFile = new File(realPath);
-
-                    File storageDir = null;
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
-                    String state = Environment.getExternalStorageState();
-                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
-                        return;
-                    } else {
-                        //We use the FastNFitness directory for saving our .csv file.
-                        storageDir = Environment.getExternalStoragePublicDirectory("/FastnFitness/Camera/");
-                        if (!storageDir.exists()) {
-                            storageDir.mkdirs();
-                        }
-                    }
-                    File DestinationFile = null;
-
-                    try {
-                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
-                        Log.v("Moving", "Moving file successful.");
-                        realPath = DestinationFile.getPath();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e("Moving", "Moving file failed.");
-                    }
-
-                    ImageUtil.setPic(machinePhoto, realPath);
-                    ImageUtil.saveThumb(realPath);
-                    mCurrentPhotoPath = realPath;
-                    requestForSave();
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                }
-                break;
-        }
-    }
-
     public void setMuscleText(String t) {
         musclesList.setText(t);
-    }
-
-    public MachineDetailsFragment getThis() {
-        return this;
     }
 
     public void requestForSave() {
