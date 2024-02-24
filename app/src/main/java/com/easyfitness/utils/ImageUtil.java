@@ -15,19 +15,18 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.easyfitness.BuildConfig;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
 import com.easyfitness.R;
-import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,11 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.nio.channels.WritableByteChannel;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.zip.ZipOutputStream;
 
 public class ImageUtil {
 
@@ -50,14 +46,28 @@ public class ImageUtil {
     public static final int REQUEST_DELETE_IMAGE = 3;
     private String mFilePath = null;
     private ImageView imgView = null;
+    private Fragment fragment = null;
     private ImageUtil.OnDeleteImageListener mDeleteImageListener;
+    private OnPictureTakenListener mPicTakenListener;
 
     private static final String THUMB_PATH = "/thumb/";
+    private ActivityResultLauncher<CropImageContractOptions> cropImage;
 
-    public ImageUtil() {
+    public ImageUtil(Fragment fragment) {
+        this.fragment = fragment;
+        cropImage = fragment.registerForActivityResult(new CropImageContract(), (result -> {
+            if (result.isSuccessful()) {
+                if (mPicTakenListener != null) {
+                    mPicTakenListener.onPictureTaken(result.getUriFilePath(fragment.getContext(), true));
+                }
+            } else {
+                Log.e(getClass().getName(), "Failed to get an image", result.getError());
+            }
+        }));
     }
 
-    public ImageUtil(ImageView view) {
+    public ImageUtil(Fragment fragment, ImageView view) {
+        this(fragment);
         imgView = view;
     }
 
@@ -71,7 +81,7 @@ public class ImageUtil {
 
         // Determine how much to scale down the image
         float scaleFactor = 1;
-        if (photoH!=0) {
+        if (photoH != 0) {
             scaleFactor = photoW / photoH; //Math.min(photoW/targetW, photoH/targetH);
         }
 
@@ -123,7 +133,7 @@ public class ImageUtil {
 
             // Determine how much to scale down the image
             int scaleFactor = 1;
-            if (targetW!=0) {
+            if (targetW != 0) {
                 scaleFactor = photoW / targetW; //Math.min(photoW/targetW, photoH/targetH);
             }
 
@@ -142,7 +152,7 @@ public class ImageUtil {
     }
 
     public static void copyFileToStream(File internalFile, OutputStream zipFile) {
-        try (InputStream inputStream =  new FileInputStream(internalFile)) {
+        try (InputStream inputStream = new FileInputStream(internalFile)) {
             copyStream(inputStream, zipFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -190,7 +200,7 @@ public class ImageUtil {
                     return pathOfThumbImage;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -204,7 +214,11 @@ public class ImageUtil {
         mDeleteImageListener = listener;
     }
 
-    public boolean CreatePhotoSourceDialog(Fragment fragment) {
+    public void setOnPicTakenListener(OnPictureTakenListener mPicTakenListner) {
+        this.mPicTakenListener = mPicTakenListner;
+    }
+
+    public void createPhotoSourceDialog() {
         String[] optionListArray = new String[3];
         optionListArray[0] = fragment.getResources().getString(R.string.camera);
         optionListArray[1] = fragment.getResources().getString(R.string.gallery);
@@ -219,13 +233,19 @@ public class ImageUtil {
             switch (which) {
                 // Camera
                 case 0:
-
-                    dispatchTakePictureIntent(fragment);
+                    CropImageOptions cameraOptions = new CropImageOptions();
+                    cameraOptions.imageSourceIncludeGallery = false;
+                    cameraOptions.imageSourceIncludeCamera = true;
+                    CropImageContractOptions camOptions = new CropImageContractOptions(null, cameraOptions);
+                    cropImage.launch(camOptions);
                     break;
                 // Galery
                 case 1:
-                    getGaleryPict(fragment);
-
+                    CropImageOptions galeryOptions = new CropImageOptions();
+                    galeryOptions.imageSourceIncludeGallery = true;
+                    galeryOptions.imageSourceIncludeCamera = false;
+                    CropImageContractOptions galOptions = new CropImageContractOptions(null, galeryOptions);
+                    cropImage.launch(galOptions);
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
@@ -236,31 +256,6 @@ public class ImageUtil {
             }
         });
         itemActionBuilder.show();
-
-        return true;
-    }
-
-    private void dispatchTakePictureIntent(Fragment fragment) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(fragment.getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photo = null;
-            try {
-                photo = createImageFile(fragment);
-                mFilePath = photo.getAbsolutePath();
-            } catch (IOException ex) {
-                KToast.errorToast(fragment.getActivity(), "error", Gravity.BOTTOM, KToast.LENGTH_LONG);
-            }
-            // Continue only if the File was successfully created
-            if (photo != null) {
-                Uri photoURI = FileProvider.getUriForFile(fragment.getContext(),
-                        BuildConfig.APPLICATION_ID + ".fileprovider",
-                        photo);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                fragment.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
     }
 
     private File createImageFile(Fragment fragment) throws IOException {
@@ -275,6 +270,7 @@ public class ImageUtil {
         );
         return image;
     }
+
     private Uri createMediaStoreImage(Fragment fragment) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -363,8 +359,7 @@ public class ImageUtil {
     static public File copyFileFromStream(InputStream inputStream, File destFolder, String newFileName) {
         File newFile = null;
 
-        try
-        {
+        try {
             // create directory if it doesn't exists
             destFolder.mkdirs();
 
@@ -374,8 +369,8 @@ public class ImageUtil {
                 copyStream(inputStream, outputStream);
             }
 
-        } catch ( Exception e ){
-            Log.e( "TAG", "Exception occurred " + e.getMessage());
+        } catch (Exception e) {
+            Log.e("TAG", "Exception occurred " + e.getMessage());
         }
         return newFile;
     }
@@ -389,20 +384,18 @@ public class ImageUtil {
         }
     }
 
-    static public File copyFileFromUri(Context context, Uri fileUri, File destFolder, String newFileName)
-    {
+    static public File copyFileFromUri(Context context, Uri fileUri, File destFolder, String newFileName) {
         FileInputStream inputStream = null;
         File newFile = null;
 
-        try
-        {
+        try {
             ContentResolver content = context.getContentResolver();
-            inputStream =  (FileInputStream) content.openInputStream(fileUri);
+            inputStream = (FileInputStream) content.openInputStream(fileUri);
 
             newFile = copyFileFromStream(inputStream, destFolder, newFileName);
-        } catch ( Exception e ){
-            Log.e( "TAG", "Exception occurred " + e.getMessage());
-        } finally{
+        } catch (Exception e) {
+            Log.e("TAG", "Exception occurred " + e.getMessage());
+        } finally {
 
         }
         return newFile;
@@ -410,5 +403,9 @@ public class ImageUtil {
 
     public interface OnDeleteImageListener {
         void onDeleteImage(ImageUtil imgUtil);
+    }
+
+    public interface OnPictureTakenListener {
+        void onPictureTaken(String uriFilePath);
     }
 }

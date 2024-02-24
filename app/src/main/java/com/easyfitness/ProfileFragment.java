@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
     private DAOBodyMeasure daoBodyMeasure = null;
     private DAOBodyPart daoBodyPart = null;
     private ImageUtil imgUtil = null;
-    private final OnClickListener onClickMachinePhoto = v -> CreatePhotoSourceDialog();
+    private final OnClickListener onClickMachinePhoto = v -> imgUtil.createPhotoSourceDialog();
     private AppViMo appViMo;
     private ProfileViMo profileViMo;
     private final OnClickListener mOnClickListener = view -> {
@@ -123,10 +123,8 @@ public class ProfileFragment extends Fragment {
 
 
         /* Initialisation des valeurs */
-        imgUtil = new ImageUtil(roundProfile);
+        imgUtil = new ImageUtil(this, roundProfile);
         // ImageView must be set in OnStart. Not in OnCreateView
-
-        /* Initialisation des boutons */
 
         genderEdit.setCustomDialogBuilder(view1 -> {
             SweetAlertDialog dlg = new SweetAlertDialog(view1.getContext(), SweetAlertDialog.NORMAL_TYPE)
@@ -188,6 +186,18 @@ public class ProfileFragment extends Fragment {
             imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
             profileViMo.setPhoto("");
             requestForSave();
+        });
+
+        imgUtil.setOnPicTakenListener(uriFilePath -> {
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File newFile = ImageUtil.moveFile(new File(uriFilePath), storageDir, "newfile.jpg");
+                ImageUtil.saveThumb(newFile.getAbsolutePath());
+                profileViMo.setPhoto(newFile.getAbsolutePath());
+                requestForSave();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         profileViMo = new ViewModelProvider(this).get(ProfileViMo.class);
@@ -306,44 +316,5 @@ public class ProfileFragment extends Fragment {
         appViMo.setProfile(profile);
 
         isSaving = false;
-    }
-
-    public Fragment getFragment() {
-        return this;
-    }
-
-    private boolean CreatePhotoSourceDialog() {
-        if (imgUtil == null)
-            imgUtil = new ImageUtil();
-
-        return imgUtil.CreatePhotoSourceDialog(this);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ImageUtil.REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    profileViMo.setPhoto(imgUtil.getFilePath());
-                    requestForSave();
-                    imgUtil.saveThumb(imgUtil.getFilePath());
-                }
-                break;
-            case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    Uri selectedImageUri = data.getData();
-                    try {
-                        File newFile = imgUtil.copyFileFromUri(getContext(), selectedImageUri, storageDir, "newfile.jpg");
-                        imgUtil.saveThumb(newFile.getAbsolutePath());
-                        profileViMo.setPhoto(newFile.getAbsolutePath());
-                        requestForSave();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-        }
     }
 }

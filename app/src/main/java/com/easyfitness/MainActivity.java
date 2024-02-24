@@ -32,6 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -883,10 +884,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPhotoProfile(String path) {
-        ImageUtil imgUtil = new ImageUtil();
-
         // Check if path is pointing to a thumb else create it and use it.
-        String thumbPath = imgUtil.getThumbPath(path);
+        String thumbPath = ImageUtil.getThumbPath(path);
         boolean success = false;
         if (thumbPath != null) {
             success = ImageUtil.setPic(roundProfile, thumbPath);
