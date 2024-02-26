@@ -1,5 +1,6 @@
 package com.easyfitness;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.easyfitness.DAO.ProgressImage;
 import com.easyfitness.DAO.progressimages.DAOProgressImage;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.utils.Keyboard;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -38,9 +40,20 @@ public class ProgressImagesFragment extends Fragment {
     private int imageOffset;
     private ProgressImage image;
     private int imageCount = 0;
+    private DatePickerDialogFragment mDateFrag;
 
 
     private final View.OnClickListener onClickAddProgressImage = v -> imgUtil.createPhotoSourceDialog();
+    private final DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
+        progressImageDate.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+        Keyboard.hide(getContext(), progressImageDate);
+        if (image != null) {
+            image.setCreated(DateConverter.dateToDate(year, month, day));
+            daoProgressImage.updateImageDate(image);
+            updateImageNavigation();
+        }
+
+    };
 
 
     /**
@@ -77,6 +90,8 @@ public class ProgressImagesFragment extends Fragment {
         olderImageButton.setOnClickListener(v -> showOlderImage());
         photoButton.setOnClickListener(onClickAddProgressImage);
 
+        progressImageDate.setOnClickListener((e) -> showDatePickerFragment());
+
         imgUtil = new ImageUtil(this);
         imgUtil.setOnDeleteImageListener(u -> {
             deleteCurrentImage();
@@ -100,6 +115,17 @@ public class ProgressImagesFragment extends Fragment {
 
         updateImageNavigation();
         return view;
+    }
+
+
+    private void showDatePickerFragment() {
+        if (mDateFrag == null) {
+            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+            mDateFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog");
+        } else {
+            if (!mDateFrag.isVisible())
+                mDateFrag.show(getActivity().getSupportFragmentManager().beginTransaction(), "dialog");
+        }
     }
 
     private void deleteCurrentImage() {

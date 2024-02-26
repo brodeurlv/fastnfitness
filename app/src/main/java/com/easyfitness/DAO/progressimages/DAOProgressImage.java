@@ -95,4 +95,14 @@ public class DAOProgressImage extends DAOBase {
         SQLiteDatabase db = getWritableDatabase();
         deleteImage(db, imageId);
     }
+
+    public void updateImageDate(ProgressImage image) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues value = new ContentValues();
+
+        String dateString = DateConverter.dateToDBDateStr(image.getCreated());
+        value.put(DATE, dateString);
+
+        db.update(TABLE_NAME, value, KEY + " = ?", new String[]{Long.toString(image.getId())});
+    }
 }

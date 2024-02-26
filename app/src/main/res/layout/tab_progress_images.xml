@@ -60,7 +60,7 @@
 
                             <TextView
                                 android:id="@+id/progressImageDate"
-                                style="@style/CardViewTitle"
+                                style="@style/editableTextView"
                                 android:layout_marginTop="0dp"
                                 android:layout_span="1"
                                 android:text=""
