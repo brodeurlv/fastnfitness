@@ -1,5 +1,11 @@
 ## Change Log
 
+### 0.20.6: April 01, 2024
+- Enhancement: New tracking of body photos (#268)
+- Enhancement: Added OpenScale weight import (#272)
+- Bug: Fixed crop image (#273)
+- Bug: Fixed min/max for free records (#271)
+
 ### 0.20.5.1: February 22, 2022
 - Bug: Fixed start issue (#252)
 - Bug: Fixed Dutch translation
