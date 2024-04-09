@@ -76,16 +76,16 @@ public class CountdownDialogbox extends Dialog implements
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("playSoundAfterRestTimer", playSound);
         intent.putExtra("playVibrationAfterRestTimer", playVibration);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
+        if (alarmManager != null && alarmManager.canScheduleExactAlarms()) {
             alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAlarmAt, pendingIntent);
         }
     }
 
     public static void unregisterAlarm(Context context, int uniqueId) {
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, uniqueId, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
         pendingIntent.cancel();

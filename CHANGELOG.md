@@ -1,5 +1,8 @@
 ## Change Log
 
+### 0.20.6.1: April 09, 2024
+- Bug: Crash when activating countdown (#275)
+
 ### 0.20.6: April 01, 2024
 - Enhancement: New tracking of body photos (#268)
 - Enhancement: Added OpenScale weight import (#272)

@@ -11,6 +11,8 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
+0.20.6.1: April 09, 2024\n
+\t- Bug: Crash when activating countdown (#275)\n
 0.20.6: April 01, 2024\n
 \t- Enhancement: New tracking of body photos (#268)\n
 \t- Enhancement: Added OpenScale weight import (#272)\n
