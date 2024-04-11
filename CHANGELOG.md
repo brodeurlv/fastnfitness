@@ -1,5 +1,8 @@
 ## Change Log
 
+### 0.20.6.2: April 11, 2024
+- Enhancement: Updated libs to increase stability
+
 ### 0.20.6.1: April 09, 2024
 - Bug: Crash when activating countdown (#275)
 
