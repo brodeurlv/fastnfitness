@@ -75,22 +75,31 @@
                                 android:textSize="24sp" />
                         </TableRow>
 
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/laytbtns"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/LstPeriodOptions"
+                            android:layout_marginTop="10dp">
 
                             <Button
                                 android:id="@+id/newerProgressImage"
                                 style="@style/Widget.AppCompat.Button.AddButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
                                 android:text="@string/newer_image" />
 
                             <Button
                                 android:id="@+id/olderProgressImage"
                                 style="@style/Widget.AppCompat.Button.AddButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
                                 android:text="@string/older_image" />
-
-                        </TableRow>
+                        </LinearLayout>
 
                         <TableRow
                             android:layout_width="match_parent"
