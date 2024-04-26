@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.easyfitness.R;
 import com.easyfitness.graph.DateGraphMarkerView;
 import com.easyfitness.graph.ZoomType;
 import com.easyfitness.utils.DateConverter;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
@@ -41,9 +43,11 @@ import java.util.TimeZone;
 public class GraphView extends ConstraintLayout {
     private View rootView;
     private AppCompatSpinner mZoomSpinner;
+    private CheckBox mShowLabelsCheckBox;
 
     private int mType;
     private LineChart mChart;
+    private LineData data;
     private String mChartName;
     private String mName;
     private ZoomType mZoom = ZoomType.ZOOM_ALL;
@@ -78,7 +82,18 @@ public class GraphView extends ConstraintLayout {
     protected void init(Context context, AttributeSet attrs) {
         rootView = inflate(context, R.layout.graph_view, this);
         mZoomSpinner = rootView.findViewById(R.id.graphview_spinner);
+        mShowLabelsCheckBox = rootView.findViewById(R.id.graphview_chbx_show_data_labels);
         mChart = rootView.findViewById(R.id.graphview_linechart);
+
+        mShowLabelsCheckBox.setOnClickListener(
+                v -> {
+                    if (data != null) {
+                        data.setDrawValues(mShowLabelsCheckBox.isChecked());
+                        mChart.clear();
+                        mChart.setData(data);
+                    }
+                }
+        );
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -206,14 +221,14 @@ public class GraphView extends ConstraintLayout {
         set1.setCircleColor(getContext().getResources().getColor(R.color.toolbar_background));
 
         // Create a data object with the datasets
-        LineData data = new LineData(set1);
+        data = new LineData(set1);
         data.setValueTextColor(getContext().getResources().getColor(R.color.cardview_title_color));
         data.setValueTextSize(12f);
         data.setValueFormatter(new DefaultValueFormatter(2));
+        data.setDrawValues(mShowLabelsCheckBox.isChecked());
 
         // Set data
         mChart.setData(data);
-        //mChart.animateY(500, Easing.EasingOption.EaseInBack);    //refresh graph
         setZoom(mZoom); // Refresh zoom
     }
 
