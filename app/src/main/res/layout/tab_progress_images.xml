@@ -26,7 +26,7 @@
                 android:adjustViewBounds="true"
                 android:background="@color/record_background_even"
                 android:cropToPadding="false"
-                android:maxHeight="600dp"
+                android:maxHeight="580dp"
                 android:minHeight="60dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_gym_bench_50dp" />
@@ -54,7 +54,8 @@
                         android:shrinkColumns="2"
                         android:stretchColumns="0,1,3">
 
-                        <TableRow
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
@@ -73,7 +74,7 @@
                                 android:layout_span="2"
                                 android:text="0 / 0"
                                 android:textSize="24sp" />
-                        </TableRow>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/laytbtns"
@@ -100,78 +101,7 @@
                                 android:layout_weight="1"
                                 android:text="@string/older_image" />
                         </LinearLayout>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:visibility="gone"
-                            tools:visibility="gone">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="@string/rfmLabel"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/rfmValue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:maxWidth="100dp"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black"
-                                android:textSize="18sp"
-                                tools:text="20" />
-
-                            <TextView
-                                android:id="@+id/rfmViewText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:textSize="18sp"
-                                android:textStyle="italic"
-                                tools:text="normal" />
-
-                            <ImageButton
-                                android:id="@+id/rfmHelp"
-                                android:layout_width="25sp"
-                                android:layout_height="25sp"
-                                android:layout_gravity="center"
-                                android:adjustViewBounds="false"
-                                android:background="@color/background"
-                                android:cropToPadding="false"
-                                app:srcCompat="@drawable/ic_help_outline" />
-
-                        </TableRow>
-
                     </TableLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="5dp"
-                    android:layout_weight="50"
-                    android:minWidth="70dp"
-                    android:minHeight="70dp"
-                    android:visibility="gone"
-                    app:cardCornerRadius="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
