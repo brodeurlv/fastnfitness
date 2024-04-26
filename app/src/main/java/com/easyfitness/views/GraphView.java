@@ -18,7 +18,6 @@ import com.easyfitness.R;
 import com.easyfitness.graph.DateGraphMarkerView;
 import com.easyfitness.graph.ZoomType;
 import com.easyfitness.utils.DateConverter;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.IMarker;
