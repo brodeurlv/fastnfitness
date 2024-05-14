@@ -8,7 +8,7 @@
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.easyfitness)
 
-## Track your progress (strengh, cardio and isometric) quickly and easily
+## Track your progress (strength, cardio and isometric) quickly and easily
 
 Now you can track your progress easily and quickly!
 You can create as many machines as you want with the name you want!
