@@ -315,9 +315,6 @@
     <string name="progress_images">Fortschrittsbilder</string>
     <string name="newer_image">neuer</string>
     <string name="older_image">älter</string>
-    <string name="import_unknow_file_extensions">Unbekannte Dateierweiterung kann nicht importiert werden</string>
-    <string name="ProgramListLabel">Programmliste</string>
-    <string name="time_set">Uhrzeit einstellen</string>
-    <string name="cancel">Stornieren</string>
-    <string name="time">Zeit :</string>
+    <string name="import_unknow_file_extensions">Unbekannte Dateiendung kann nicht importiert werden</string>
+    <string name="show_labels">Werte anzeigen</string>
 </resources>
