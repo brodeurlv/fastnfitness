@@ -6,13 +6,7 @@
     -->
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="cardViewStyle">@style/CardViewStyle</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
-        <item name="floatingActionButtonStyle">@style/Widget.Design.FloatingActionButton</item>
-    </style>
+
 
     <style name="CardViewStyle" parent="CardView">
         <item name="android:layout_width">match_parent</item>
@@ -26,9 +20,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">top|center</item>
         <item name="android:layout_marginTop">10dp</item>
-        <!--<item name="android:autoSizeMaxTextSize">18sp</item>
-        <item name="android:autoSizeMinTextSize">14sp</item>
-        <item name="android:autoSizeStepGranularity">1dp</item>-->
         <item name="android:gravity">center_horizontal</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/cardview_title_color</item>
@@ -92,7 +83,7 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
 
-    <style name="Widget.AppCompat.Button.AddButton">
+    <style name="AddButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">8dp</item>

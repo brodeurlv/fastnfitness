@@ -285,4 +285,12 @@
     <string name="very_intense">çok yoğun</string>
     <string name="no_gender_defined">Cinsiyet tanımlanmadı</string>
     <string name="insufficient_data">yetersiz veri</string>
+    <string name="progress_images">İlerleme Resimleri</string>
+    <string name="newer_image">daha yeni</string>
+    <string name="older_image">daha yaşlı</string>
+    <string name="import_unknow_file_extensions">Bilinmeyen dosya uzantısı içe aktarılamıyor</string>
+    <string name="ProgramListLabel">Program Listesi</string>
+    <string name="time_set">Zamanı ayarla</string>
+    <string name="cancel">İptal etmek</string>
+    <string name="time">Zaman :</string>
 </resources>

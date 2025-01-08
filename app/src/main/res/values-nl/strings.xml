@@ -304,4 +304,12 @@
     <string name="very_intense">zeer intens</string>
     <string name="no_gender_defined">Geen geslacht gedefinieerd</string>
     <string name="insufficient_data">niet genoeg data</string>
+    <string name="progress_images">Voortgangsafbeeldingen</string>
+    <string name="newer_image">nieuwer</string>
+    <string name="older_image">ouder</string>
+    <string name="import_unknow_file_extensions">Onbekende bestandsextensie kan niet importeren</string>
+    <string name="ProgramListLabel">Programmalijst</string>
+    <string name="time_set">Tijd instellen</string>
+    <string name="cancel">Annuleren</string>
+    <string name="time">Tijd :</string>
 </resources>

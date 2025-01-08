@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="time_set">Set time</string>
+    <string name="cancel">Cancel</string>
+    <string name="time">Time : </string>
+</resources>

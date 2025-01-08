@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="cardViewStyle">@style/CardViewStyle</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Design.FloatingActionButton</item>
+        <item name="colorPrimary">@color/toolbar_background</item>
+        <item name="colorPrimaryVariant">@color/add_button_background</item>
+        <item name="colorOnPrimary">@color/daily_calorie_spinner_dropdown</item>
+    </style>
+</resources>

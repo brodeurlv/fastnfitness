@@ -97,7 +97,6 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
         }
 
         valueTextView.setOnClickListener(v -> editDialog(v.getContext()));
-
         editButton.setOnClickListener(v -> editDialog(v.getContext()));
     }
 
@@ -152,7 +151,6 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                     if (imm != null)
                         imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
                 });
-                //Keyboard.hide(context, editText);});
                 dialog.setOnShowListener(sDialog -> {
                     editText.requestFocus();
                     Keyboard.show(context, editText);

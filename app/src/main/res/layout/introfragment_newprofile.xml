@@ -1,29 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ MIT License
-  ~
-  ~ Copyright (c) 2017 Jan Heinrich Reimer
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in all
-  ~ copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ~ SOFTWARE.
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +13,7 @@
             android:fitsSystemWindows="false"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/mi_baseline">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -48,10 +25,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/name_or_pseudo"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:labelFor="@id/profileName" />
 
             <EditText
                 android:id="@+id/profileName"
@@ -59,34 +37,32 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/name_or_pseudo"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/birthday_optional"
                 android:text="@string/gender"
                 android:textSize="12sp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioButtonMale"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:minHeight="48dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:gravity="center_horizontal"
-                    android:padding="2dp"
+                    android:padding="12dp"
                     android:text="@string/maleGender"
                     android:textSize="20sp"
                     android:textColor="@android:color/black" />
@@ -95,13 +71,13 @@
                     android:id="@+id/radioButtonFemale"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:minHeight="48dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center_horizontal"
-                    android:padding="2dp"
+                    android:padding="12dp"
                     android:text="@string/femaleGender"
                     android:textSize="20sp"
                     android:textColor="@android:color/black" />
@@ -110,12 +86,12 @@
                     android:id="@+id/radioButtonOtherGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:minHeight="48dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/radio_button"
                     android:button="@null"
                     android:gravity="center_horizontal"
-                    android:padding="2dp"
+                    android:padding="12dp"
                     android:text="@string/otherGender"
                     android:textSize="20sp"
                     android:textColor="@android:color/black" />
@@ -125,33 +101,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/birthday_optional"
-                android:importantForAutofill="no"
-                android:singleLine="true"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/birthday_optional"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:labelFor="@id/profileBirthday" />
 
-            <TextView
+            <EditText
                 android:id="@+id/profileBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/editTextBackground"
                 android:hint="@string/birthday_optional"
-                android:importantForAutofill="no"
-                android:singleLine="true"
+                android:focusable="false"
+                android:clickable="true"
                 android:textSize="18sp" />
-
 
             <Button
                 android:id="@+id/create_newprofil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mi_baseline"
+                android:layout_marginTop="10dp"
+                android:minHeight="48dp"
                 android:background="@drawable/round_corner_button"
                 android:text="@string/create"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
 
         </LinearLayout>
     </ScrollView>

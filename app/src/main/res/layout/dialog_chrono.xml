@@ -25,22 +25,27 @@
 
         <Button
             android:id="@+id/btn_startstop"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:background="@android:color/white"
             android:clickable="true"
             android:focusable="true"
             android:singleLine="true"
             android:text="@string/start"
             android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="2dp"
+            />
 
         <Button
             android:id="@+id/btn_reset"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/white"
@@ -50,13 +55,16 @@
             android:singleLine="true"
             android:text="@string/reset"
             android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="2dp"/>
 
         <Button
             android:id="@+id/btn_exit"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:background="@android:color/white"
             android:clickable="true"
             android:ellipsize="end"
@@ -64,7 +72,10 @@
             android:singleLine="true"
             android:text="@string/exit"
             android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="2dp"
+            />
 
     </LinearLayout>
 

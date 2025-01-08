@@ -181,6 +181,10 @@ public class ProfileFragment extends Fragment {
 
         photoButton.setOnClickListener(onClickMachinePhoto);
         sizeEdit.setOnClickListener(mOnClickListener);
+        birthdayEdit.setOnTextChangeListener(l -> {
+            profileViMo.setBirthday(DateConverter.localDateStrToDate(l.getText(), getContext()));
+            requestForSave();
+        });
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
             imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));

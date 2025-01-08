@@ -286,4 +286,12 @@
     <string name="very_intense">Veldig intens</string>
     <string name="no_gender_defined">Ingen kjønn definert</string>
     <string name="insufficient_data">utilstrekkelig data</string>
+    <string name="progress_images">Progess bilder</string>
+    <string name="newer_image">nyere</string>
+    <string name="older_image">eldre</string>
+    <string name="import_unknow_file_extensions">Ukjent filtype kan ikke importeres</string>
+    <string name="ProgramListLabel">Programliste</string>
+    <string name="time_set">Still inn tid</string>
+    <string name="cancel">Kansellere</string>
+    <string name="time">Tid:</string>
 </resources>

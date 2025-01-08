@@ -1,13 +1,11 @@
 package com.easyfitness;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,10 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -140,51 +134,51 @@ public class MainActivity extends AppCompatActivity {
     private AppViMo appViMo;
 
     private final PopupMenu.OnMenuItemClickListener onMenuItemClick = item -> {
-        switch (item.getItemId()) {
-            case R.id.create_newprofil:
-                getActivity().CreateNewProfile();
-                return true;
-            case R.id.change_profil:
-                String[] profilListArray = getActivity().mDbProfils.getAllProfile();
+        int id = item.getItemId();
+        if (id == R.id.create_newprofil) {
+            getActivity().CreateNewProfile();
+            return true;
+        } else if (id == R.id.change_profil) {
+            String[] profilListArray = getActivity().mDbProfils.getAllProfile();
 
-                AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
-                changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
-                        .setItems(profilListArray, (dialog, which) -> {
-                            ListView lv = ((AlertDialog) dialog).getListView();
-                            Object checkedItem = lv.getAdapter().getItem(which);
-                            setCurrentProfile(checkedItem.toString());
-                            KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                            //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
-                        });
-                changeProfilbuilder.show();
-                return true;
-            case R.id.delete_profil:
-                String[] profildeleteListArray = getActivity().mDbProfils.getAllProfile();
+            AlertDialog.Builder changeProfilbuilder = new AlertDialog.Builder(getActivity());
+            changeProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil))
+                    .setItems(profilListArray, (dialog, which) -> {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        Object checkedItem = lv.getAdapter().getItem(which);
+                        setCurrentProfile(checkedItem.toString());
+                        KToast.infoToast(getActivity(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        //Toast.makeText(getApplicationContext(), getActivity().getResources().getText(R.string.profileSelected) + " : " + checkedItem.toString(), Toast.LENGTH_LONG).show();
+                    });
+            changeProfilbuilder.show();
+            return true;
+        } else if (id == R.id.delete_profil) {
+            String[] profildeleteListArray = getActivity().mDbProfils.getAllProfile();
 
-                AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
-                deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
-                        .setItems(profildeleteListArray, (dialog, which) -> {
-                            ListView lv = ((AlertDialog) dialog).getListView();
-                            Object checkedItem = lv.getAdapter().getItem(which);
-                            if (getCurrentProfile().getName().equals(checkedItem.toString())) {
-                                KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                            } else {
-                                Profile profileToDelete = mDbProfils.getProfile(checkedItem.toString());
-                                mDbProfils.deleteProfile(profileToDelete);
-                                KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
-                            }
-                        });
-                deleteProfilbuilder.show();
+            AlertDialog.Builder deleteProfilbuilder = new AlertDialog.Builder(getActivity());
+            deleteProfilbuilder.setTitle(getActivity().getResources().getText(R.string.profil_select_profil_to_delete))
+                    .setItems(profildeleteListArray, (dialog, which) -> {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        Object checkedItem = lv.getAdapter().getItem(which);
+                        if (getCurrentProfile().getName().equals(checkedItem.toString())) {
+                            KToast.errorToast(getActivity(), getActivity().getResources().getText(R.string.impossibleToDeleteProfile).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        } else {
+                            Profile profileToDelete = mDbProfils.getProfile(checkedItem.toString());
+                            mDbProfils.deleteProfile(profileToDelete);
+                            KToast.infoToast(getActivity(), getString(R.string.profileDeleted) + ":" + checkedItem.toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
+                        }
+                    });
+            deleteProfilbuilder.show();
+            return true;
+        } else if (id == R.id.rename_profil) {
+                getActivity().renameProfile();
                 return true;
-            case R.id.rename_profil:
-                getActivity().renameProfil();
-                return true;
-            case R.id.param_profil:
+        } else if (id == R.id.param_profil) {
                 showFragment(PROFILE);
                 return true;
-            default:
-                return false;
         }
+
+        return false;
     };
 
     @Override
@@ -314,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.ProgramListLabel), R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_photo_camera, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_drawer_photo_camera, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
 
@@ -345,8 +339,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainIntroActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INTRO);
         }
-
-
     }
 
     @Override
@@ -358,9 +350,9 @@ public class MainActivity extends AppCompatActivity {
             initDEBUGdata();
         }
 
-        if ( !mMigrationToScopedStoragedone) { //do the migration only once.
-            migrateDatabase();
-        }
+        //if ( !mMigrationToScopedStoragedone) { //do the migration only once.
+        //    migrateDatabase();
+        //}
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean bShowMP3 = SP.getBoolean("prefShowMP3", false);
@@ -417,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -470,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @SuppressWarnings("deprecation")
     private boolean migrateToScopedStorage() {
         boolean success = true;
         File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
@@ -490,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
                             ImageUtil.saveThumb(destFile.getAbsolutePath());
                             daoProfile.updateProfile(profile);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.e("FastNFitness", "Error", e);
                             profile.setPhoto("");
                             daoProfile.updateProfile(profile);
                             success = false;
@@ -517,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
                             machine.setPicture(destFile.getAbsolutePath());
                             daoMachine.updateMachine(machine);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Log.e("FastNFitness", "Error", e);
                             success = false;
                         }
                     }
@@ -528,7 +519,6 @@ public class MainActivity extends AppCompatActivity {
         return success;
     }
 
-    @SuppressWarnings("deprecation")
     private void migrateDatabase() {
         File folder = new File(Environment.getExternalStorageDirectory() + "/FastnFitness");
         if (!folder.exists()) {
@@ -590,19 +580,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void exportDatabase(String autoExportMessage) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT);
-            } else {
-                openExportDatabaseDialog(autoExportMessage);
-            }
-        } else {
-            openExportDatabaseDialog(autoExportMessage);
-        }
+        openExportDatabaseDialog(autoExportMessage);
     }
 
     private void importDatabase() {
@@ -615,7 +593,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -701,6 +679,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         // If request is cancelled, the result arrays are empty.
         if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT) {
             if (grantResults.length > 0
@@ -763,7 +743,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean renameProfil() {
+    public void renameProfile() {
         AlertDialog.Builder newBuilder = new AlertDialog.Builder(this);
 
         newBuilder.setTitle(getActivity().getResources().getText(R.string.renameProfilTitle));
@@ -794,7 +774,6 @@ public class MainActivity extends AppCompatActivity {
 
         newBuilder.show();
 
-        return true;
     }
 
     private void setDrawerTitle(String pProfilName) {
@@ -1048,7 +1027,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         inputStream = getContentResolver().openInputStream(file);
                     } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        Log.e("FastNFitness", "Error", e);
                         inputStream = null;
                     }
 

@@ -2,6 +2,7 @@ package com.easyfitness;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.easyfitness.DAO.ProgressImage;
 import com.easyfitness.DAO.progressimages.DAOProgressImage;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ImageUtil;
+import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -31,16 +33,17 @@ public class ProgressImagesFragment extends Fragment {
     private Button newerImageButton;
     private Button olderImageButton;
     private TextView progressImageIndex;
-    private TextView progressImageDate;
+    private EditableInputView progressImageDate;
     private ImageUtil imgUtil = null;
     private DAOProgressImage daoProgressImage;
     private AppViMo appViMo;
     private int imageOffset;
-    private ProgressImage image;
+    private ProgressImage progressImage;
     private int imageCount = 0;
 
 
     private final View.OnClickListener onClickAddProgressImage = v -> imgUtil.createPhotoSourceDialog();
+
 
 
     /**
@@ -85,6 +88,7 @@ public class ProgressImagesFragment extends Fragment {
             File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
                 File newFile = ImageUtil.moveFile(new File(uriFilePath), storageDir, generateFileName());
+
                 daoProgressImage.addProgressImage(
                         new Date(System.currentTimeMillis()), // maybe user input
                         newFile,
@@ -98,13 +102,20 @@ public class ProgressImagesFragment extends Fragment {
             }
         });
 
+        progressImageDate.setOnTextChangeListener(l->{
+            if (progressImage!=null) {
+                progressImage.setCreated(DateConverter.localDateStrToDate(l.getText(), getContext()));
+                daoProgressImage.updateProgressImage(progressImage);
+            }
+        });
+
         updateImageNavigation();
         return view;
     }
 
     private void deleteCurrentImage() {
-        daoProgressImage.deleteImage(image.getId());
-        new File(image.getFile()).delete();
+        daoProgressImage.deleteImage(progressImage.getId());
+        new File(progressImage.getFile()).delete();
 
         imageOffset = imageOffset >= (imageCount - 1) ? imageOffset - 1 : imageOffset;
         updateImageNavigation();
@@ -124,9 +135,9 @@ public class ProgressImagesFragment extends Fragment {
         showProgressImage();
         imageCount = daoProgressImage.count(appViMo.getProfile().getValue().getId());
         progressImageIndex.setText((imageOffset + 1) + " / " + imageCount);
-        if (image != null) {
+        if (progressImage != null) {
             progressImageDate.setText(
-                    DateConverter.dateToLocalDateStr(image.getCreated(), getContext())
+                    DateConverter.dateToLocalDateStr(progressImage.getCreated(), getContext())
             );
         } else {
             progressImageDate.setText(DateConverter.currentDate(getContext()));
@@ -144,10 +155,10 @@ public class ProgressImagesFragment extends Fragment {
     }
 
     private void showProgressImage() {
-        image = daoProgressImage.getImage(
+        progressImage = daoProgressImage.getImage(
                 appViMo.getProfile().getValue().getId(), imageOffset);
-        if (image != null) {
-            ImageUtil.setPic(currentProgressImage, image.getFile());
+        if (progressImage != null) {
+            ImageUtil.setPic(currentProgressImage, progressImage.getFile());
         } else {
             currentProgressImage.setImageDrawable(
                     ContextCompat.getDrawable(getContext(), R.drawable.ic_gym_bench_50dp)

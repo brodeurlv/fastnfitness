@@ -17,7 +17,7 @@
 
         <Button
             android:id="@+id/addBodyPart"
-            style="@style/Widget.AppCompat.Button.AddButton"
+            style="@style/AddButton"
             android:text="@string/AddLabel" />
 
         <ListView

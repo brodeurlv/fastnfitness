@@ -47,32 +47,35 @@
 
         <Button
             android:id="@+id/btn_cancel"
-            style="@style/Widget.AppCompat.Button.AddButton"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_weight="20"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="@android:string/cancel" />
 
         <Button
             android:id="@+id/btn_failed"
-            style="@style/Widget.AppCompat.Button.AddButton"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_weight="20"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/fail" />
 
         <Button
             android:id="@+id/btn_update"
-            style="@style/Widget.AppCompat.Button.AddButton"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_weight="20"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/update" />
 
     </LinearLayout>

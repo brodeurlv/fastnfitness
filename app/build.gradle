@@ -1,16 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 33
-    buildToolsVersion "30.0.3"
+    compileSdk 34
+    android.buildFeatures.buildConfig true
 
     defaultConfig {
         applicationId "com.easyfitness"
         minSdkVersion 31
-        targetSdkVersion 33
-        versionCode 67
-        versionName "0.20.6.2"
+        targetSdkVersion 34
+        versionCode 68
+        versionName '0.20.7'
         vectorDrawables.useSupportLibrary true
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     signingConfigs {
@@ -58,31 +62,28 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding true
-    }
-
     compileOptions {
         encoding "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
+    namespace 'com.easyfitness'
+    lint {
         disable 'GoogleAppIndexingWarning'
     }
-    namespace 'com.easyfitness'
 }
 
 dependencies {
     // Support
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.exifinterface:exifinterface:1.3.7'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
@@ -90,16 +91,17 @@ dependencies {
 
     // Other
     implementation 'com.github.JDevZone:FillProgressLayout:0.0.8'
-    implementation 'com.kovachcode:timePickerWithSeconds:1.0.1'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-    implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
-    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    //implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
+    implementation 'com.mikhaellopez:circularimageview:4.3.1'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation 'com.github.onurkagan:ktoast:1.0.3'
     implementation 'com.vanniktech:android-image-cropper:4.5.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
+    implementation 'com.github.AppIntro:AppIntro:6.0.0'
 }
+

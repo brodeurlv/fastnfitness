@@ -304,4 +304,12 @@
     <string name="very_intense">velmi intenzivní</string>
     <string name="no_gender_defined">Definováno žádné pohlaví</string>
     <string name="insufficient_data">Nedostatečná data</string>
+    <string name="progress_images">Progess Images</string>
+    <string name="newer_image">novější</string>
+    <string name="older_image">starší</string>
+    <string name="import_unknow_file_extensions">Neznámou příponu souboru nelze importovat</string>
+    <string name="ProgramListLabel">Seznam programů</string>
+    <string name="time_set">Nastavte čas</string>
+    <string name="cancel">Zrušit</string>
+    <string name="time">čas:</string>
 </resources>

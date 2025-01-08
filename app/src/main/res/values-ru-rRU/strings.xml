@@ -284,4 +284,12 @@
     <string name="very_intense">очень интенсивно</string>
     <string name="no_gender_defined">Пол не определено</string>
     <string name="insufficient_data">недостаточные данные</string>
+    <string name="progress_images">Изображения Прогресса</string>
+    <string name="newer_image">новее</string>
+    <string name="older_image">старше</string>
+    <string name="import_unknow_file_extensions">Неизвестное расширение файла не может быть импортировано</string>
+    <string name="ProgramListLabel">Список программ</string>
+    <string name="time_set">Установить время</string>
+    <string name="cancel">Отмена</string>
+    <string name="time">Время :</string>
 </resources>

@@ -7,10 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.ProgressImage;
-import com.easyfitness.DAO.bodymeasures.BodyMeasure;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.utils.DateConverter;
-import com.easyfitness.utils.Value;
 
 import java.io.File;
 import java.util.Date;
@@ -30,12 +27,12 @@ public class DAOProgressImage extends DAOBase {
         super(context);
     }
 
-    public void addProgressImage(Date pDate, File image, long pProfileId) {
+    public ProgressImage addProgressImage(Date pDate, File image, long pProfileId) {
         SQLiteDatabase db = getWritableDatabase();
-        addProgressImage(db, pDate, image, pProfileId);
+        return addProgressImage(db, pDate, image, pProfileId);
     }
 
-    public void addProgressImage(SQLiteDatabase db, Date pDate, File image, long pProfileId) {
+    public ProgressImage addProgressImage(SQLiteDatabase db, Date pDate, File image, long pProfileId) {
         ContentValues value = new ContentValues();
 
         String dateString = DateConverter.dateToDBDateStr(pDate);
@@ -43,7 +40,22 @@ public class DAOProgressImage extends DAOBase {
         value.put(IMAGE_FILE, image.getAbsolutePath());
         value.put(PROFIL_KEY, pProfileId);
 
-        db.insert(TABLE_NAME, null, value);
+        long id = db.insert(TABLE_NAME, null, value);
+
+        return new ProgressImage(id, image.getAbsolutePath(), pDate, pProfileId);
+    }
+
+    public void updateProgressImage(ProgressImage progressImage) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues value = new ContentValues();
+
+        String dateString = DateConverter.dateToDBDateStr(progressImage.getCreated());
+        value.put(DATE, dateString );
+        value.put(IMAGE_FILE, progressImage.getFile());
+        value.put(PROFIL_KEY, progressImage.getProfileId());
+
+        db.update(TABLE_NAME, value, KEY + " = ?",
+                new String[]{String.valueOf(progressImage.getId())});
     }
 
     public ProgressImage getImage(long profileId, int offset) {
@@ -66,7 +78,8 @@ public class DAOProgressImage extends DAOBase {
         ProgressImage re = new ProgressImage(
                 cursor.getLong(0),
                 cursor.getString(1),
-                DateConverter.DBDateStrToDate(cursor.getString(2))
+                DateConverter.DBDateStrToDate(cursor.getString(2)),
+                profileId
         );
         cursor.close();
         return re;

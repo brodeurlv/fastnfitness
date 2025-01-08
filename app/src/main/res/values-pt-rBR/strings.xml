@@ -318,4 +318,12 @@
     <string name="very_intense">muito intenso</string>
     <string name="no_gender_defined">Nenhum gênero definido</string>
     <string name="insufficient_data">dados insuficientes</string>
+    <string name="progress_images">Imagens de progresso</string>
+    <string name="newer_image">mais recente</string>
+    <string name="older_image">mais velho</string>
+    <string name="import_unknow_file_extensions">Extensão de arquivo desconhecida não pode ser importada</string>
+    <string name="ProgramListLabel">Lista de Programas</string>
+    <string name="time_set">Definir hora</string>
+    <string name="cancel">Cancelar</string>
+    <string name="time">Tempo :</string>
 </resources>

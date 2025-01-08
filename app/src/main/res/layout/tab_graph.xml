@@ -63,7 +63,6 @@
 
         <LinearLayout
             android:id="@+id/graphZoomSelector"
-            style="?android:attr/buttonBarStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
@@ -71,7 +70,6 @@
 
             <Button
                 android:id="@+id/allbutton"
-                style="@style/Widget.AppCompat.Button.AddButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
@@ -84,20 +82,17 @@
 
             <Button
                 android:id="@+id/lastyearbutton"
-                style="@style/Widget.AppCompat.Button.AddButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="40"
                 android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"
-                android:layout_marginBottom="0dip"
-                android:layout_weight="40"
                 android:text="@string/graph_lastyear"
                 android:textSize="12sp" />
 
             <Button
                 android:id="@+id/lastmonthbutton"
-                style="@style/Widget.AppCompat.Button.AddButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
@@ -110,7 +105,6 @@
 
             <Button
                 android:id="@+id/lastweekbutton"
-                style="@style/Widget.AppCompat.Button.AddButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"

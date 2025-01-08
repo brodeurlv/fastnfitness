@@ -49,12 +49,11 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/profile"
                     android:textAlignment="center"
-                    app:civ_background_color="@color/gray"
                     app:civ_border_color="@color/gray"
                     app:civ_border_width="1dp"
                     app:civ_shadow="true"
                     app:civ_shadow_color="@color/gray"
-                    app:civ_shadow_radius="10" />
+                    app:civ_shadow_radius="10dp" />
 
             </RelativeLayout>
 

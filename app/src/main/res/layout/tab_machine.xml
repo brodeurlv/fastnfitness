@@ -12,7 +12,7 @@
 
     <Button
         android:id="@+id/addExercise"
-        style="@style/Widget.AppCompat.Button.AddButton"
+        style="@style/AddButton"
         android:text="@string/add_new_exercise" />
 
     <LinearLayout

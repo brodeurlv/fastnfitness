@@ -50,12 +50,16 @@
                     android:id="@+id/newProgram"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginEnd="2dp"
-                    android:background="@color/add_button_background"
+                    android:background="@color/toolbar_background"
                     android:minWidth="0dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="@string/newStr" />
+                    android:textSize="11sp"
+                    android:text="@string/newStr"
+                    android:layout_margin="2dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    />
 
                 <Button
                     android:id="@+id/editProgram"
@@ -63,11 +67,15 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:background="@color/add_button_background"
+                    android:background="@color/toolbar_background"
                     android:minWidth="0dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="@string/edit" />
+                    android:textSize="11sp"
+                    android:text="@string/edit"
+                    android:layout_margin="2dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"/>
 
             </LinearLayout>
 
@@ -80,7 +88,7 @@
 
             <Button
                 android:id="@+id/startStopProgram"
-                style="@style/Widget.AppCompat.Button.AddButton"
+                style="@style/AddButton"
                 android:text="@string/start_program" />
 
             <TextView

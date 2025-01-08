@@ -63,7 +63,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private BodyPart mInitialBodyPart;
     private final EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
     private AppViMo appViMo;
-    private final BtnClickListener itemClickDeleteRecord = view -> {
+    private final BtnClickListener itemClickRecordAction = view -> {
         switch (view.getId()) {
             case R.id.deleteButton:
                 showDeleteDialog((long) view.getTag());
@@ -303,7 +303,7 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         } else {
             // ...
             if (measureList.getAdapter() == null) {
-                BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter(getActivity(), mBodyMeasureDb.getCursor(), 0, itemClickDeleteRecord);
+                BodyMeasureCursorAdapter mTableAdapter = new BodyMeasureCursorAdapter(getActivity(), mBodyMeasureDb.getCursor(), 0, itemClickRecordAction);
                 measureList.setAdapter(mTableAdapter);
             } else {
                 oldCursor = ((BodyMeasureCursorAdapter) measureList.getAdapter()).swapCursor(mBodyMeasureDb.getCursor());
