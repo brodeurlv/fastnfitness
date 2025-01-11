@@ -72,6 +72,10 @@ android {
     lint {
         disable 'GoogleAppIndexingWarning'
     }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+    }
 }
 
 dependencies {
