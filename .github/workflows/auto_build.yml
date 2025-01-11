@@ -12,7 +12,7 @@ on:
   release:
     types: [created]
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened, synchronize]
   workflow_dispatch:
 jobs:
   build:
