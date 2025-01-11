@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -50,4 +50,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Package
-          path: build/outputs/apk/debug
+          path: app/build/outputs/apk/release/app-release-unsigned.apk
