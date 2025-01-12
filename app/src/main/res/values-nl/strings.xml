@@ -295,7 +295,7 @@
     <string name="bmrCalories">Calorieën / dag</string>
     <string name="daily_calorie_label">Dagelijkse CALS</string>
     <string name="daily_calorie_alert">Dagelijkse calorie-behoeften</string>
-    <string name="daily_calorie_alert_body">Een schatting van de calorieën die dagelijks nodig zijn om uw huidige gewicht te behouden. Deze berekening gebruikt uw BMR- en activiteitenniveau om een ​​aanbeveling te produceren. Vergeet niet dat deze waarde een schatting is, en dat de individuele calorie-behoeften zal variëren. Sedentair: weinig of geen oefening. Matig: oefen 1&#8211;3 keer / week. Actief: Oefening 4&#8211;5 keer / week. Dagelijks: dagelijkse oefening of intense oefening 3-4 keer / week. Intens: Oefening 6&#8211;7 keer / week. Zeer intens: oefen dagelijks of fysiek werk.</string>
+    <string name="daily_calorie_alert_body">Een schatting van de calorieën die dagelijks nodig zijn om uw huidige gewicht te behouden. Deze berekening gebruikt uw BMR- en activiteitenniveau om een ​​aanbeveling te produceren. Vergeet niet dat deze waarde een schatting is, en dat de individuele calorie-behoeften zal variëren. Sedentair: weinig of geen oefening. Matig: oefen 1&#8211;3 keer / week. Actief: Oefening 4&#8211;5 keer / week. Dagelijks: dagelijkse oefening of intense oefening 3&#8211;4 keer / week. Intens: Oefening 6&#8211;7 keer / week. Zeer intens: oefen dagelijks of fysiek werk.</string>
     <string name="sedentary">gevestigd</string>
     <string name="moderate">gematigd</string>
     <string name="active">actief</string>

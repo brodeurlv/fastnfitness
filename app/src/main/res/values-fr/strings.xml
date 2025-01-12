@@ -291,7 +291,7 @@
     <string name="insufficient_data">données insuffisantes</string>
     <string name="no_gender_defined">aucun sexe défini</string>
     <string name="very_intense">très intensif</string>
-    <string name="daily_calorie_alert_body">Une estimation des calories nécessaires quotidiennement pour maintenir votre poids actuel. Ce calcul utilise votre métabolisme de base (MB), et votre niveau d\'activité pour produire une recommandation. N\'oubliez pas que cette valeur est une estimation et que les besoins en calories varient d\'une personne à l\'autre. Sédentaire : peu ou pas d\'exercice. Modéré : Exercice 1 à 3 fois/semaine. Actif : exercice 4&#8211;5 fois/semaine. Quotidien : exercice quotidien ou exercice intense 3-4 fois/semaine. Intense : exercice 6&#8211;7 fois/semaine. Très intense : exercice quotidien, ou travail physique.</string>
+    <string name="daily_calorie_alert_body">Une estimation des calories nécessaires quotidiennement pour maintenir votre poids actuel. Ce calcul utilise votre métabolisme de base (MB), et votre niveau d\'activité pour produire une recommandation. N\'oubliez pas que cette valeur est une estimation et que les besoins en calories varient d\'une personne à l\'autre. Sédentaire : peu ou pas d\'exercice. Modéré : Exercice 1 à 3 fois/semaine. Actif : exercice 4&#8211;5 fois/semaine. Quotidien : exercice quotidien ou exercice intense 3&#8211;4 fois/semaine. Intense : exercice 6&#8211;7 fois/semaine. Très intense : exercice quotidien, ou travail physique.</string>
     <string name="active">actif</string>
     <string name="daily_exercise">quotidien</string>
     <string name="intense">intensif</string>

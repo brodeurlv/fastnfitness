@@ -276,7 +276,7 @@
     <string name="bmrCalories">Kalori / gün</string>
     <string name="daily_calorie_label">Günlük cals</string>
     <string name="daily_calorie_alert">Günlük kalori ihtiyaçları</string>
-    <string name="daily_calorie_alert_body">Mevcut ağırlığınızı korumak için günlük kalorilerin bir tahmini. Bu hesaplama, BMR\'nizi ve bir öneri üretmek için etkinlik seviyenizi kullanır. Bu değerin bir tahmin olduğunu ve bireysel kalorinin ihtiyaçlarının değişeceğini unutmayın. Sedanter: az ya da hiç egzersiz yapmamak. Orta: Haftada 1&#8211;3 kez egzersiz yapın. Aktif: Haftada 4&#8211;5 kez egzersiz yapın. Günlük: Günlük egzersiz veya yoğun egzersiz 3-4 kez / hafta. Yoğun: haftada 6&#8211;7 kez egzersiz yapın. Çok yoğun: günlük egzersiz veya fiziksel iş.</string>
+    <string name="daily_calorie_alert_body">Mevcut ağırlığınızı korumak için günlük kalorilerin bir tahmini. Bu hesaplama, BMR\'nizi ve bir öneri üretmek için etkinlik seviyenizi kullanır. Bu değerin bir tahmin olduğunu ve bireysel kalorinin ihtiyaçlarının değişeceğini unutmayın. Sedanter: az ya da hiç egzersiz yapmamak. Orta: Haftada 1&#8211;3 kez egzersiz yapın. Aktif: Haftada 4&#8211;5 kez egzersiz yapın. Günlük: Günlük egzersiz veya yoğun egzersiz 3&#8211;4 kez / hafta. Yoğun: haftada 6&#8211;7 kez egzersiz yapın. Çok yoğun: günlük egzersiz veya fiziksel iş.</string>
     <string name="sedentary">hareketsiz</string>
     <string name="moderate">ılıman</string>
     <string name="active">aktif</string>

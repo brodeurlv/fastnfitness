@@ -303,7 +303,7 @@
     <string name="bmrCalories">Calorías / día</string>
     <string name="daily_calorie_label">Cals diarios</string>
     <string name="daily_calorie_alert">Necesidades diarias de calorías</string>
-    <string name="daily_calorie_alert_body">Una estimación de las calorías requeridas diariamente para mantener su peso actual. Este cálculo utiliza su BMR, y el nivel de actividad para producir una recomendación. Recuerde que este valor es una estimación, y que las necesidades de calorías individuales variarán. Sedentario: poco o ningún ejercicio. Moderado: Ejercicio 1&#8211;3 veces / semana. Activo: Ejercicio 4&#8211;5 veces / semana. Diario: ejercicio diario o ejercicio intenso 3-4 veces / semana. Intenso: Ejercicio 6&#8211;7 veces / semana. Muy intenso: ejercicio diario, o trabajo físico.</string>
+    <string name="daily_calorie_alert_body">Una estimación de las calorías requeridas diariamente para mantener su peso actual. Este cálculo utiliza su BMR, y el nivel de actividad para producir una recomendación. Recuerde que este valor es una estimación, y que las necesidades de calorías individuales variarán. Sedentario: poco o ningún ejercicio. Moderado: Ejercicio 1&#8211;3 veces / semana. Activo: Ejercicio 4&#8211;5 veces / semana. Diario: ejercicio diario o ejercicio intenso 3&#8211;4 veces / semana. Intenso: Ejercicio 6&#8211;7 veces / semana. Muy intenso: ejercicio diario, o trabajo físico.</string>
     <string name="sedentary">sedentario</string>
     <string name="moderate">moderar</string>
     <string name="active">activo</string>
