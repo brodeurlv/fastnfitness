@@ -43,7 +43,7 @@ public class WeightCursorAdapter extends CursorAdapter {
         TextView t1 = view.findViewById(R.id.DATE_CELL);
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+            SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(cursor.getString(1));
 

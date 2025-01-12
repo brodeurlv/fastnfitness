@@ -90,13 +90,13 @@ public class DateConverter {
     }
 
     static public String dateTimeToDBDateStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
+        SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat.format(date);
     }
 
     static public String dateToDBDateStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
+        SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
         // No time is given, use local time
         return dateFormat.format(date);
     }
@@ -104,7 +104,7 @@ public class DateConverter {
     static public Date DBDateStrToDate(String dateStr) {
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
+            SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
             // No time is given, use local time
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
@@ -120,7 +120,7 @@ public class DateConverter {
             if (timeStr.isEmpty()) { // For old record where there was no Time
                 date = DBDateStrToDate(dateStr);
             } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT, Locale.US);
+                SimpleDateFormat dateFormat = DAOUtils.getDateTimeFormat();
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 date = dateFormat.parse(dateStr + "T" + timeStr);
             }
@@ -136,10 +136,10 @@ public class DateConverter {
         return dateFormat3.format(date);
     }
 
-    static public String dateTimeToDBTimeStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.TIME_FORMAT, Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return dateFormat.format(date);
+    static public String dateTimeToDBTimeStr(Date time) {
+        SimpleDateFormat timeFormat = DAOUtils.getTimeFormat();
+        timeFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return timeFormat.format(time);
     }
 
     static public String currentTime(Context pContext) {

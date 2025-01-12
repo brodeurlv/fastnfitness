@@ -67,7 +67,7 @@ public class DAOOldCardio extends DAOBase {
                 //Get Date
                 Date date;
                 try {
-                    date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOOldCardio.DATE)));
+                    date = DAOUtils.getDateFormat().parse(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOOldCardio.DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();

@@ -207,7 +207,7 @@ public class ProgramHistoryFragment extends Fragment {
                 date = new Date();
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+            SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             pDate = dateFormat.format(date);
         }

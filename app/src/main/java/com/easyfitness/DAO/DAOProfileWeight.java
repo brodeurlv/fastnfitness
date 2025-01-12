@@ -48,7 +48,7 @@ public class DAOProfileWeight extends DAOBase {
 
         ContentValues value = new ContentValues();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         value.put(DAOProfileWeight.DATE, dateFormat.format(pDate));
@@ -102,7 +102,7 @@ public class DAOProfileWeight extends DAOBase {
 
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+            SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             date = dateFormat.parse(mCursor.getString(1));
         } catch (ParseException e) {
@@ -136,7 +136,7 @@ public class DAOProfileWeight extends DAOBase {
             do {
                 Date date;
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+                    SimpleDateFormat dateFormat = DAOUtils.getDateFormat();
                     dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                     date = dateFormat.parse(mCursor.getString(1));
                 } catch (ParseException e) {
