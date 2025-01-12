@@ -295,7 +295,7 @@
     <string name="bmrCalories">kalorií / den</string>
     <string name="daily_calorie_label">Denní Cals.</string>
     <string name="daily_calorie_alert">Denní potřeby kalorií</string>
-    <string name="daily_calorie_alert_body">Odhad kalorií požadovaných denně pro udržení vaší současné hmotnosti. Tento výpočet používá vaši úroveň BMR a aktivity pro výrobu doporučení. Nezapomeňte, že tato hodnota je odhad, a že jednotlivé kalorické potřeby se bude lišit. Sedavý: Malý nebo žádný výkon. Střední: cvičení 1-3 krát / týden. Aktivní: cvičení 4-5 krát / týden. Denně: Denní cvičení nebo intenzivní cvičení 3-4 krát / týden. Intenzivní: cvičení 6-7 krát / týden. Velmi intenzivní: cvičení denně nebo fyzickou práci.</string>
+    <string name="daily_calorie_alert_body">Odhad kalorií požadovaných denně pro udržení vaší současné hmotnosti. Tento výpočet používá vaši úroveň BMR a aktivity pro výrobu doporučení. Nezapomeňte, že tato hodnota je odhad, a že jednotlivé kalorické potřeby se bude lišit. Sedavý: Malý nebo žádný výkon. Střední: cvičení 1&#8211;3 krát / týden. Aktivní: cvičení 4&#8211;5 krát / týden. Denně: Denní cvičení nebo intenzivní cvičení 3-4 krát / týden. Intenzivní: cvičení 6&#8211;7 krát / týden. Velmi intenzivní: cvičení denně nebo fyzickou práci.</string>
     <string name="sedentary">sedavý</string>
     <string name="moderate">mírný</string>
     <string name="active">aktivní</string>

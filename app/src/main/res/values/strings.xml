@@ -356,8 +356,8 @@
     <string name="daily_calorie_alert_body">
         An estimate of the calories required daily to maintain your current weight. This calculation uses your BMR, and
         activity level to produce a recommendation. Remember that this value is an estimate, and that
-        individual calorie needs will vary. Sedentary: little or no exercise. Moderate: Exercise 1-3 times/week. Active:
-        exercise 4-5 times/week. Daily: daily exercise or intense exercise 3-4 times/week. Intense: exercise 6-7 times/week.
+        individual calorie needs will vary. Sedentary: little or no exercise. Moderate: Exercise 1&#8211;3 times/week. Active:
+        exercise 4&#8211;5 times/week. Daily: daily exercise or intense exercise 3&#8211;4 times/week. Intense: exercise 6&#8211;7 times/week.
         Very intense: exercise daily, or physical job.
     </string>
     <string name="sedentary">sedentary</string>
