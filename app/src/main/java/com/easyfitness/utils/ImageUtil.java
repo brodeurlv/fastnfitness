@@ -283,11 +283,7 @@ public class ImageUtil {
         contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/FastNFitness/Profile");
 
         Uri collection;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
-        } else {
-            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        }
+        collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
 
         Uri file = resolver.insert(collection, contentValues);
         return file;

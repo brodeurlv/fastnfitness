@@ -483,9 +483,7 @@ public class MusicController {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            songList.sort((m1, m2) -> m1.getPath().compareTo(m2.getPath()));
-        }
+        songList.sort((m1, m2) -> m1.getPath().compareTo(m2.getPath()));
     }
 
     /**

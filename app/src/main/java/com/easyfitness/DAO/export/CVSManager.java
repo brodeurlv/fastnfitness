@@ -151,24 +151,14 @@ public class CVSManager {
         }
 
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ContentResolver resolver = mContext.getContentResolver();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/zip");
-                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
-                Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
-                Uri file = resolver.insert(collection, contentValues);
-                return new ZipOutputStream(resolver.openOutputStream(file));
-            } else {
-                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder);
-                if (!exportDir.exists()) {
-                    exportDir.mkdirs();
-                }
-
-                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName + ".zip");
-                return new ZipOutputStream(new FileOutputStream(exportFile));
-            }
+            ContentResolver resolver = mContext.getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/zip");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
+            Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+            Uri file = resolver.insert(collection, contentValues);
+            return new ZipOutputStream(resolver.openOutputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -181,24 +171,14 @@ public class CVSManager {
         }
 
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ContentResolver resolver = mContext.getContentResolver();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
-                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
-                Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
-                Uri file = resolver.insert(collection, contentValues);
-                return resolver.openOutputStream(file);
-            } else {
-                File exportDir = Environment.getExternalStoragePublicDirectory(destFolder);
-                if (!exportDir.exists()) {
-                    exportDir.mkdirs();
-                }
-
-                File exportFile = Environment.getExternalStoragePublicDirectory(destFolder + "/" + fileName + ".csv");
-                return new FileOutputStream(exportFile);
-            }
+            ContentResolver resolver = mContext.getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "text/csv");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destFolder);
+            Uri collection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+            Uri file = resolver.insert(collection, contentValues);
+            return resolver.openOutputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
