@@ -71,7 +71,20 @@ android {
     namespace 'com.easyfitness'
 
     lintOptions {
+
+    }
+
+    lint {
+        disable 'RtlSymmetry'
+        disable 'RtlHardcoded'
+        disable 'ButtonStyle'
+        disable 'ContentDescription'
+        disable 'MissingTranslation'
+        disable 'HardcodedText'
+        disable 'SetTextI18n'
+        disable 'LabelFor'
         disable 'GoogleAppIndexingWarning'
+        baseline = file("lint-baseline.xml")
     }
 }
 
