@@ -31,6 +31,7 @@ public class NewProfileFragment extends Fragment {
     private MainIntroActivity mMainIntroActivity;
     private EditText mName;
     private TextView mBirthday;
+    private Date mBirthdayDate;
     private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
@@ -59,6 +60,8 @@ public class NewProfileFragment extends Fragment {
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
+        mBirthdayDate = new Date();
+
         mBirthday.setOnClickListener(v -> showDatePickerFragment());
 
         mBtCreate.setOnClickListener(v -> createProfile());
@@ -74,6 +77,7 @@ public class NewProfileFragment extends Fragment {
         datePicker.addOnPositiveButtonClickListener(selection -> {
             // Convert selection (a Long timestamp) into a formatted date string
             String formattedDate = DateFormat.getDateInstance().format(new Date(selection));
+            mBirthdayDate = new Date(selection);
             mBirthday.setText(formattedDate);
         });
 
@@ -95,7 +99,7 @@ public class NewProfileFragment extends Fragment {
                 gender = Gender.OTHER;
             }
 
-            Profile p = new Profile(mName.getText().toString(), 0, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getActivity()), gender);
+            Profile p = new Profile(mName.getText().toString(), 0, mBirthdayDate, gender);
             mDbProfiles.addProfile(p);
 
             new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
