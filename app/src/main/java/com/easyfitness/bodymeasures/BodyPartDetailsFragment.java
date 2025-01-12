@@ -64,14 +64,12 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
     private final EditableInputView.OnTextChangedListener onTextChangeListener = this::requestForSave;
     private AppViMo appViMo;
     private final BtnClickListener itemClickRecordAction = view -> {
-        switch (view.getId()) {
-            case R.id.deleteButton:
-                showDeleteDialog((long) view.getTag());
-                break;
-            case R.id.editButton:
-                showEditDialog((long) view.getTag());
-                break;
-
+        int id = view.getId();
+        if (id == R.id.deleteButton) {
+            showDeleteDialog((long) view.getTag());
+        }
+        else if (id == R.id.editButton) {
+            showEditDialog((long) view.getTag());
         }
     };
     private final OnClickListener onClickAddMeasure = new OnClickListener() {
@@ -272,22 +270,25 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
         for (int i = valueList.size() - 1; i >= 0; i--) {
             float normalizedMeasure;
-            switch (valueList.get(i).getBodyMeasure().getUnit().getUnitType()) {
-                case WEIGHT:
-                    normalizedMeasure = UnitConverter.weightConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
-                    break;
-                case SIZE:
-                    normalizedMeasure = UnitConverter.sizeConverter(valueList.get(i).getBodyMeasure().getValue(), valueList.get(i).getBodyMeasure().getUnit(), SettingsFragment.getDefaultSizeUnit(getActivity()));
-                    break;
-                default:
-                    normalizedMeasure = valueList.get(i).getBodyMeasure().getValue();
+            Float boxedFloat = valueList.get(i).getBodyMeasure().getValue();
+            if (boxedFloat == null) {
+                continue;
             }
+            float v = boxedFloat;
+            Unit unit = valueList.get(i).getBodyMeasure().getUnit();
+            normalizedMeasure = switch (unit.getUnitType()) {
+                case WEIGHT ->
+                        UnitConverter.weightConverter(v, unit, SettingsFragment.getDefaultWeightUnit(getActivity()).toUnit());
+                case SIZE ->
+                        UnitConverter.sizeConverter(v, unit, SettingsFragment.getDefaultSizeUnit(getActivity()));
+                default -> v;
+            };
 
             Entry value = new Entry((float) DateConverter.nbDays(valueList.get(i).getDate()), normalizedMeasure);
             yVals.add(value);
-            if (minBodyMeasure == -1) minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
-            else if (valueList.get(i).getBodyMeasure().getValue() < minBodyMeasure)
-                minBodyMeasure = valueList.get(i).getBodyMeasure().getValue();
+            if (minBodyMeasure == -1) minBodyMeasure = v;
+            else if (v < minBodyMeasure)
+                minBodyMeasure = v;
         }
 
         mDateGraph.draw(yVals);
@@ -387,18 +388,16 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
 
     private void requestForSave(View view) {
         boolean toUpdate = false;
-
+        int id = view.getId();
         // Save all the fields in the Profile
-        switch (view.getId()) {
-            case R.id.BODYPART_NAME:
-                mInitialBodyPart.setCustomName(nameEdit.getText());
-                toUpdate = true;
-                break;
-            case R.id.BODYPART_LOGO:
-                // TODO if it has been deleted, remove the CustomPicture
-                mInitialBodyPart.setCustomPicture(mCurrentPhotoPath);
-                toUpdate = true;
-                break;
+        if (id == R.id.BODYPART_NAME) {
+            mInitialBodyPart.setCustomName(nameEdit.getText());
+            toUpdate = true;
+        }
+        else if (id == R.id.BODYPART_LOGO) {
+            // TODO if it has been deleted, remove the CustomPicture
+            mInitialBodyPart.setCustomPicture(mCurrentPhotoPath);
+            toUpdate = true;
         }
 
         if (toUpdate) {
