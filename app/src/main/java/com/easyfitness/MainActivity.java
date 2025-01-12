@@ -601,78 +601,79 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.export_database:
-                exportDatabase("");
-                return true;
-            case R.id.import_database:
-                importDatabase();
-                return true;
-            case R.id.action_deleteDB:
-                // Afficher une boite de dialogue pour confirmer
-                AlertDialog.Builder deleteDbBuilder = new AlertDialog.Builder(this);
+        int id = item.getItemId();
+        if (id == R.id.export_database) {
+            exportDatabase("");
+            return true;
+        }
+        else if (id == R.id.import_database) {
+            importDatabase();
+            return true;
+        }
+        else if (id ==  R.id.action_deleteDB) {
+            // Afficher une boite de dialogue pour confirmer
+            AlertDialog.Builder deleteDbBuilder = new AlertDialog.Builder(this);
 
-                deleteDbBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
-                deleteDbBuilder.setMessage(getActivity().getResources().getText(R.string.deleteDB_warning));
+            deleteDbBuilder.setTitle(getActivity().getResources().getText(R.string.global_confirm));
+            deleteDbBuilder.setMessage(getActivity().getResources().getText(R.string.deleteDB_warning));
 
-                // Si oui, supprimer la base de donnee et refaire un Start.
-                deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
-                    List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
-                    for (int i = 0; i < lList.size(); i++) {
-                        Profile mTempProfile = lList.get(i);
-                        mDbProfils.deleteProfile(mTempProfile.getId());
+            // Si oui, supprimer la base de donnee et refaire un Start.
+            deleteDbBuilder.setPositiveButton(getActivity().getResources().getText(R.string.global_yes), (dialog, which) -> {
+                List<Profile> lList = mDbProfils.getAllProfiles(mDbProfils.getReadableDatabase());
+                for (int i = 0; i < lList.size(); i++) {
+                    Profile mTempProfile = lList.get(i);
+                    mDbProfils.deleteProfile(mTempProfile.getId());
+                }
+
+                DAOMachine mDbMachines = new DAOMachine(getActivity());
+                List<Machine> lList2 = mDbMachines.getAllMachinesArray();
+                for (int i = 0; i < lList2.size(); i++) {
+                    Machine mTemp = lList2.get(i);
+                    mDbMachines.delete(mTemp.getId());
+                }
+
+                DAOProgram mDbPrograms = new DAOProgram(getActivity());
+                List<Program> programList = mDbPrograms.getAll();
+                for (int i = 0; i < programList.size(); i++) {
+                    Program mTemp = programList.get(i);
+                    mDbPrograms.delete(mTemp.getId());
+
+                    DAORecord mDbRecords = new DAORecord(getActivity());
+                    List<Record> recordList = mDbRecords.getAllTemplateRecordByProgramArray(mTemp.getId());
+                    for (int j = 0; j < recordList.size(); j++) {
+                        Record mTempRecord = recordList.get(j);
+                        mDbRecords.deleteRecord(mTempRecord.getId());
                     }
+                }
 
-                    DAOMachine mDbMachines = new DAOMachine(getActivity());
-                    List<Machine> lList2 = mDbMachines.getAllMachinesArray();
-                    for (int i = 0; i < lList2.size(); i++) {
-                        Machine mTemp = lList2.get(i);
-                        mDbMachines.delete(mTemp.getId());
-                    }
+                mIntro014Launched = false; // redisplay the intro
 
-                    DAOProgram mDbPrograms = new DAOProgram(getActivity());
-                    List<Program> programList = mDbPrograms.getAll();
-                    for (int i = 0; i < programList.size(); i++) {
-                        Program mTemp = programList.get(i);
-                        mDbPrograms.delete(mTemp.getId());
+                dialog.dismiss(); // Close the dialog
+                finish(); // Close app
+            });
 
-                        DAORecord mDbRecords = new DAORecord(getActivity());
-                        List<Record> recordList = mDbRecords.getAllTemplateRecordByProgramArray(mTemp.getId());
-                        for (int j = 0; j < recordList.size(); j++) {
-                            Record mTempRecord = recordList.get(j);
-                            mDbRecords.deleteRecord(mTempRecord.getId());
-                        }
-                    }
+            deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
+                // Do nothing
+                dialog.dismiss();
+            });
 
-                    mIntro014Launched = false; // redisplay the intro
+            AlertDialog deleteDbDialog = deleteDbBuilder.create();
+            deleteDbDialog.show();
 
-                    dialog.dismiss(); // Close the dialog
-                    finish(); // Close app
-                });
-
-                deleteDbBuilder.setNegativeButton(getActivity().getResources().getText(R.string.global_no), (dialog, which) -> {
-                    // Do nothing
-                    dialog.dismiss();
-                });
-
-                AlertDialog deleteDbDialog = deleteDbBuilder.create();
-                deleteDbDialog.show();
-
-                return true;
-            case R.id.action_apropos:
-                // Display the fragment as the main content.
-                showFragment(ABOUT);
-                //getAboutFragment().setHasOptionsMenu(true);
-                return true;
-            //case android.R.id.home:
-            //onBackPressed();
-            //	return true;
-            case R.id.action_chrono:
-                ChronoDialogbox cdd = new ChronoDialogbox(MainActivity.this);
-                cdd.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            return true;
+        }
+            else if (id ==  R.id.action_apropos) {
+            // Display the fragment as the main content.
+            showFragment(ABOUT);
+            return true;
+        }
+            else if (id ==  R.id.action_chrono) {
+            ChronoDialogbox cdd = new ChronoDialogbox(MainActivity.this);
+            cdd.show();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
