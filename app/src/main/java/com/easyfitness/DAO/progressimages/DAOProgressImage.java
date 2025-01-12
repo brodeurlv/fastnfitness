@@ -93,9 +93,12 @@ public class DAOProgressImage extends DAOBase {
         Cursor cursor = db.rawQuery("SELECT COUNT(" + KEY + ") FROM " + TABLE_NAME +
                 " WHERE " + PROFIL_KEY + " = ?", new String[]{Long.toString(profileId)});
         if (!cursor.moveToFirst()) {
+            cursor.close();
             return 0;
         }
-        return cursor.getInt(0);
+        int i = cursor.getInt(0);
+        cursor.close();
+        return i;
     }
 
     public void deleteImage(SQLiteDatabase db, long imageId) {
