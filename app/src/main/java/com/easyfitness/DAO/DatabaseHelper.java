@@ -38,7 +38,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 26;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
-    private static DatabaseHelper sInstance;
     private Context mContext = null;
 
     public DatabaseHelper(Context context) {
@@ -48,13 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static DatabaseHelper getInstance(Context context) {
 
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
-        if (sInstance == null) {
-            sInstance = new DatabaseHelper(context.getApplicationContext());
-        }
-        return sInstance;
+        return new DatabaseHelper(context.getApplicationContext());
     }
 
     public static void renameOldDatabase(Activity activity) {
