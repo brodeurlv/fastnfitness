@@ -55,19 +55,18 @@ public class FonteGraphFragment extends Fragment {
     private ZoomType currentZoom = ZoomType.ZOOM_ALL;
     private DateGraph mDateGraph = null;
     private final OnClickListener onZoomClick = v -> {
-        switch (v.getId()) {
-            case R.id.allbutton:
-                currentZoom = ZoomType.ZOOM_ALL;
-                break;
-            case R.id.lastweekbutton:
-                currentZoom = ZoomType.ZOOM_WEEK;
-                break;
-            case R.id.lastmonthbutton:
-                currentZoom = ZoomType.ZOOM_MONTH;
-                break;
-            case R.id.lastyearbutton:
-                currentZoom = ZoomType.ZOOM_YEAR;
-                break;
+        int id = v.getId();
+        if (id == R.id.allbutton) {
+            currentZoom = ZoomType.ZOOM_ALL;
+        }
+        else if (id == R.id.lastweekbutton) {
+            currentZoom = ZoomType.ZOOM_WEEK;
+        }
+        else if (id == R.id.lastmonthbutton) {
+            currentZoom = ZoomType.ZOOM_MONTH;
+        }
+        else if (id == R.id.lastyearbutton) {
+            currentZoom = ZoomType.ZOOM_YEAR;
         }
         mDateGraph.setZoom(currentZoom);
     };
