@@ -71,9 +71,7 @@ android {
     namespace 'com.easyfitness'
 
     lintOptions {
-        abortOnError false
         disable 'GoogleAppIndexingWarning'
-        baseline file("lint-baseline.xml")
     }
 }
 
