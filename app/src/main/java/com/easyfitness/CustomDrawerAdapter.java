@@ -15,7 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.easyfitness.utils.ImageUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -107,21 +108,21 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             drawerHolder.title.setText(dItem.getTitle());
             //drawerHolder.icon = view.findViewById(R.id.header_icon);
 
-            //drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+            //drawerHolder.icon.setImageDrawable(ResourcesCompat.getDrawable(dItem.getImgResID()));
 
             // Check if path is pointing to a thumb else create it and use it.
             String thumbPath = ImageUtil.getThumbPath(dItem.getImg());
             if (thumbPath != null)
                 ImageUtil.setPic(drawerHolder.roundProfile, thumbPath);
             else
-                drawerHolder.roundProfile.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+                drawerHolder.roundProfile.setImageDrawable(ResourcesCompat.getDrawable(view.getResources(), dItem.getImgResID(), null));
         } else {
 
             drawerHolder.headerLayout.setVisibility(LinearLayout.GONE);
             drawerHolder.spinnerLayout.setVisibility(LinearLayout.GONE);
             drawerHolder.itemLayout.setVisibility(LinearLayout.VISIBLE);
 
-            drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
+            drawerHolder.icon.setImageDrawable(ResourcesCompat.getDrawable(view.getResources(), dItem.getImgResID(), null));
 
             if (!dItem.isActive()) {
                 drawerHolder.ItemName.setAlpha(0.5f);

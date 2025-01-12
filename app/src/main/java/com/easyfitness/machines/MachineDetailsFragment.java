@@ -1,8 +1,6 @@
 package com.easyfitness.machines;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,9 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import com.canhub.cropper.CropImage;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOProfile;
 import com.easyfitness.DAO.Machine;
@@ -34,7 +32,6 @@ import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.Muscle;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.Keyboard;
-import com.easyfitness.utils.RealPathUtil;
 import com.easyfitness.views.EditableInputView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.onurkaganaldemir.ktoastlib.KToast;
@@ -213,11 +210,11 @@ public class MachineDetailsFragment extends Fragment {
                     ImageUtil.setPic(machinePhoto, mCurrentPhotoPath);
                 } else {
                     if (mMachine.getType() == ExerciseType.STRENGTH) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+                        imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(view.getResources(), R.drawable.ic_gym_bench_50dp, null));
                     } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
+                        imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(view.getResources(), R.drawable.ic_static_50dp, null));
                     } else {
-                        imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
+                        imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(view.getResources(), R.drawable.ic_training_50dp, null));
                     }
                     machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
@@ -231,11 +228,11 @@ public class MachineDetailsFragment extends Fragment {
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
             if (mMachine.getType() == ExerciseType.STRENGTH) {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_gym_bench_50dp));
+                imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_gym_bench_50dp, null));
             } else if (mMachine.getType() == ExerciseType.ISOMETRIC) {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_static_50dp));
+                imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_static_50dp, null));
             } else {
-                imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_training_50dp));
+                imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_training_50dp, null));
             }
             machinePhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             mCurrentPhotoPath = null;

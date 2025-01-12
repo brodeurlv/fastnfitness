@@ -1,9 +1,6 @@
 package com.easyfitness;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -187,7 +185,7 @@ public class ProfileFragment extends Fragment {
         });
 
         imgUtil.setOnDeleteImageListener(imgUtil -> {
-            imgUtil.getView().setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_person));
+            imgUtil.getView().setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.ic_person, null));
             profileViMo.setPhoto("");
             requestForSave();
         });
@@ -239,7 +237,7 @@ public class ProfileFragment extends Fragment {
                 roundProfile.invalidate();
             }
             if (!success) {
-                roundProfile.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.profile));
+                roundProfile.setImageDrawable(ResourcesCompat.getDrawable(this.getResources(), R.drawable.profile, null));
             }
         });
         profileViMo.getGender().observe(getViewLifecycleOwner(), gender -> {
