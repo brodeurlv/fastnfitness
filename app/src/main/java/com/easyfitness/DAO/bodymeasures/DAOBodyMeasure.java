@@ -96,11 +96,11 @@ public class DAOBodyMeasure extends DAOBase {
         if (mCursor != null)
             mCursor.moveToFirst();
 
-        Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
+        Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DATE)));
 
         Value value = new Value(
-                mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-                Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
+                mCursor.getFloat(mCursor.getColumnIndexOrThrow(MEASURE)),
+                Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(UNIT))),
                 null,
                 ResourcesCompat.ID_NULL
         );
@@ -108,11 +108,11 @@ public class DAOBodyMeasure extends DAOBase {
         //db.close();
 
         // return value
-        return new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+        return new BodyMeasure(mCursor.getLong(mCursor.getColumnIndexOrThrow(KEY)),
                 date,
-                mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                mCursor.getInt(mCursor.getColumnIndexOrThrow(BODYPART_ID)),
                 value,
-                mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY))
+                mCursor.getLong(mCursor.getColumnIndexOrThrow(PROFIL_KEY))
         );
     }
 
@@ -127,20 +127,20 @@ public class DAOBodyMeasure extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DATE)));
+                Date date = DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DATE)));
 
                 Value value = new Value(
-                        mCursor.getFloat(mCursor.getColumnIndex(MEASURE)),
-                        Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndex(UNIT))),
+                        mCursor.getFloat(mCursor.getColumnIndexOrThrow(MEASURE)),
+                        Unit.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(UNIT))),
                         null,
                         ResourcesCompat.ID_NULL
                 );
 
-                BodyMeasure measure = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndex(KEY)),
+                BodyMeasure measure = new BodyMeasure(mCursor.getLong(mCursor.getColumnIndexOrThrow(KEY)),
                         date,
-                        mCursor.getInt(mCursor.getColumnIndex(BODYPART_ID)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(BODYPART_ID)),
                         value,
-                        mCursor.getLong(mCursor.getColumnIndex(PROFIL_KEY))
+                        mCursor.getLong(mCursor.getColumnIndexOrThrow(PROFIL_KEY))
                 );
 
                 // Adding value to list

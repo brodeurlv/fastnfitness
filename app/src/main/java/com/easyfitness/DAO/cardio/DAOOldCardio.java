@@ -67,7 +67,7 @@ public class DAOOldCardio extends DAOBase {
                 //Get Date
                 Date date;
                 try {
-                    date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.DATE)));
+                    date = new SimpleDateFormat(DAOUtils.DATE_FORMAT).parse(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOOldCardio.DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     date = new Date();
@@ -75,15 +75,15 @@ public class DAOOldCardio extends DAOBase {
 
                 // Get Profile
                 DAOProfile lDAOProfile = new DAOProfile(mContext);
-                Profile lProfile = lDAOProfile.getProfile(mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.PROFIL_KEY)));
+                Profile lProfile = lDAOProfile.getProfile(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOOldCardio.PROFIL_KEY)));
 
                 OldCardio value = new OldCardio(date,
-                        mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.EXERCICE)),
-                        mCursor.getFloat(mCursor.getColumnIndex(DAOOldCardio.DISTANCE)),
-                        mCursor.getLong(mCursor.getColumnIndex(DAOOldCardio.DURATION)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOOldCardio.EXERCICE)),
+                        mCursor.getFloat(mCursor.getColumnIndexOrThrow(DAOOldCardio.DISTANCE)),
+                        mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOOldCardio.DURATION)),
                         lProfile);
 
-                value.setId(Long.parseLong(mCursor.getString(mCursor.getColumnIndex(DAOOldCardio.KEY))));
+                value.setId(Long.parseLong(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOOldCardio.KEY))));
 
                 // Adding value to list
                 valueList.add(value);

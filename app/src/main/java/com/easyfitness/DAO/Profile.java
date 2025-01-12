@@ -61,6 +61,7 @@ public class Profile {
      * @return size in centimeter
      * @deprecated
      */
+    @Deprecated
     public int getSize() {
         return mSize;
     } /*OBSOLETE, Only used for migration*/

@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ import java.util.Calendar;
 public class SingleValueInputView extends LinearLayout {
     private View rootView;
     private TextView titleTextView;
-    private AppCompatEditText valueEditText;
+    private EditText valueEditText;
     private AppCompatSpinner unitSpinner;
     private LinearLayout commentLayout;
     private TextView commentTextView;

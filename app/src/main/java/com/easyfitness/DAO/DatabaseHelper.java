@@ -311,11 +311,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 ContentValues value = new ContentValues();
 
-                value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndex(DAOProfileWeight.DATE)));
+                value.put(DAOBodyMeasure.DATE, mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfileWeight.DATE)));
                 value.put(DAOBodyMeasure.BODYPART_ID, BodyPartExtensions.WEIGHT);
-                value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndex(DAOProfileWeight.POIDS)));
+                value.put(DAOBodyMeasure.MEASURE, mCursor.getFloat(mCursor.getColumnIndexOrThrow(DAOProfileWeight.POIDS)));
                 value.put(DAOBodyMeasure.UNIT, Unit.KG.ordinal());
-                value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndex(DAOProfileWeight.PROFIL_KEY)));
+                value.put(DAOBodyMeasure.PROFIL_KEY, mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProfileWeight.PROFIL_KEY)));
 
                 db.insert(DAOBodyMeasure.TABLE_NAME, null, value);
             } while (mCursor.moveToNext());

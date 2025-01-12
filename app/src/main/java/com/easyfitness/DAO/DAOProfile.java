@@ -100,13 +100,13 @@ public class DAOProfile extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndex(DAOProfile.KEY)),
-                    DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.CREATIONDATE))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.NAME)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProfile.SIZE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY))) : new Date(0),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.PHOTO)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProfile.GENDER))
+            Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProfile.KEY)),
+                    DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.CREATIONDATE))),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.NAME)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.SIZE)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY))) : new Date(0),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.PHOTO)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.GENDER))
             );
             mCursor.close();
             close();
@@ -136,13 +136,13 @@ public class DAOProfile extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndex(DAOProfile.KEY)),
-                    DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.CREATIONDATE))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.NAME)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProfile.SIZE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY))) : new Date(0),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProfile.PHOTO)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProfile.GENDER))
+            Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProfile.KEY)),
+                    DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.CREATIONDATE))),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.NAME)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.SIZE)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY))) : new Date(0),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.PHOTO)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.GENDER))
             );
 
             mCursor.close();
@@ -168,13 +168,13 @@ public class DAOProfile extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndex(DAOProfile.KEY)),
-                        DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.CREATIONDATE))),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProfile.NAME)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOProfile.SIZE)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndex(DAOProfile.BIRTHDAY))) : new Date(0),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProfile.PHOTO)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOProfile.GENDER))
+                Profile value = new Profile(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProfile.KEY)),
+                        DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.CREATIONDATE))),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.NAME)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.SIZE)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY)) != null ? DateConverter.DBDateStrToDate(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.BIRTHDAY))) : new Date(0),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProfile.PHOTO)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProfile.GENDER))
                 );
 
                 // Adding value to list

@@ -291,51 +291,51 @@ public class DAORecord extends DAOBase {
 
     private Record fromCursor(Cursor cursor) {
         Date date = DateConverter.DBDateTimeStrToDate(
-                cursor.getString(cursor.getColumnIndex(DAOFonte.DATE)),
-                cursor.getString(cursor.getColumnIndex(DAOFonte.TIME))
+                cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.TIME))
         );
 
         long machine_key;
 
         //Test if Machine exists. If not create it.
         DAOMachine lDAOMachine = new DAOMachine(mContext);
-        if (cursor.getString(cursor.getColumnIndex(DAOFonte.EXERCISE_KEY)) == null) {
-            machine_key = lDAOMachine.addMachine(cursor.getString(cursor.getColumnIndex(DAOFonte.EXERCISE)), "", ExerciseType.STRENGTH, "", false, "");
+        if (cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE_KEY)) == null) {
+            machine_key = lDAOMachine.addMachine(cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE)), "", ExerciseType.STRENGTH, "", false, "");
         } else {
-            machine_key = cursor.getLong(cursor.getColumnIndex(DAOFonte.EXERCISE_KEY));
+            machine_key = cursor.getLong(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE_KEY));
         }
 
         Record value = new Record(date,
-                cursor.getString(cursor.getColumnIndex(DAORecord.EXERCISE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(DAORecord.EXERCISE)),
                 machine_key,
-                cursor.getLong(cursor.getColumnIndex(DAORecord.PROFILE_KEY)),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.SETS)),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.REPS)),
-                cursor.getFloat(cursor.getColumnIndex(DAORecord.WEIGHT)),
-                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.WEIGHT_UNIT))),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.SECONDS)),
-                cursor.getFloat(cursor.getColumnIndex(DAORecord.DISTANCE)),
-                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.DISTANCE_UNIT))),
-                cursor.getLong(cursor.getColumnIndex(DAORecord.DURATION)),
-                cursor.getString(cursor.getColumnIndex(DAORecord.NOTES)),
-                ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.EXERCISE_TYPE))),
-                cursor.getLong(cursor.getColumnIndex(DAORecord.PROGRAM_KEY)),
-                cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_KEY)),
-                cursor.getLong(cursor.getColumnIndex(DAORecord.PROGRAM_SESSION_KEY)),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_REST_TIME)),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_ORDER)),
-                ProgramRecordStatus.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_RECORD_STATUS))),
-                RecordType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.RECORD_TYPE))),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_SETS)),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_REPS)),
-                cursor.getFloat(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT)),
-                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_WEIGHT_UNIT))),
-                cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_SECONDS)),
-                cursor.getFloat(cursor.getColumnIndex(DAORecord.TEMPLATE_DISTANCE)),
-                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAORecord.TEMPLATE_DISTANCE_UNIT))),
-                cursor.getLong(cursor.getColumnIndex(DAORecord.TEMPLATE_DURATION)));
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.PROFILE_KEY)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.SETS)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.REPS)),
+                cursor.getFloat(cursor.getColumnIndexOrThrow(DAORecord.WEIGHT)),
+                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.WEIGHT_UNIT))),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.SECONDS)),
+                cursor.getFloat(cursor.getColumnIndexOrThrow(DAORecord.DISTANCE)),
+                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.DISTANCE_UNIT))),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.DURATION)),
+                cursor.getString(cursor.getColumnIndexOrThrow(DAORecord.NOTES)),
+                ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.EXERCISE_TYPE))),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.PROGRAM_KEY)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_RECORD_KEY)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.PROGRAM_SESSION_KEY)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_REST_TIME)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_ORDER)),
+                ProgramRecordStatus.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_RECORD_STATUS))),
+                RecordType.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.RECORD_TYPE))),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_SETS)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_REPS)),
+                cursor.getFloat(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_WEIGHT)),
+                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_WEIGHT_UNIT))),
+                cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_SECONDS)),
+                cursor.getFloat(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_DISTANCE)),
+                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_DISTANCE_UNIT))),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.TEMPLATE_DURATION)));
 
-        value.setId(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
+        value.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DAORecord.KEY)));
         return value;
     }
 
@@ -711,7 +711,7 @@ public class DAORecord extends DAOBase {
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
             do {
                 Record value = fromCursor(mCursor);
-                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
+                value.setId(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAORecord.KEY)));
 
                 // Adding value to list
                 valueList.add(value);

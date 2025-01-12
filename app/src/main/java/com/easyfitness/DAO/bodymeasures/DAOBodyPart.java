@@ -64,12 +64,12 @@ public class DAOBodyPart extends DAOBase {
         if (mCursor != null && mCursor.getCount() != 0) {
             mCursor.moveToFirst();
 
-            value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
-                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
-                    mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
-                    mCursor.getInt(mCursor.getColumnIndex(TYPE))
+            value = new BodyPart(mCursor.getLong(mCursor.getColumnIndexOrThrow(KEY)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(BODYPART_RESID)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_NAME)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_PICTURE)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DISPLAY_ORDER)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(TYPE))
             );
         }
 
@@ -92,12 +92,12 @@ public class DAOBodyPart extends DAOBase {
         if (mCursor != null && mCursor.getCount() != 0) {
             mCursor.moveToFirst();
 
-            value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
-                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
-                    mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
-                    mCursor.getInt(mCursor.getColumnIndex(TYPE))
+            value = new BodyPart(mCursor.getLong(mCursor.getColumnIndexOrThrow(KEY)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(BODYPART_RESID)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_NAME)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_PICTURE)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DISPLAY_ORDER)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(TYPE))
             );
         }
 
@@ -129,12 +129,12 @@ public class DAOBodyPart extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndex(KEY)),
-                        mCursor.getInt(mCursor.getColumnIndex(BODYPART_RESID)),
-                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_NAME)),
-                        mCursor.getString(mCursor.getColumnIndex(CUSTOM_PICTURE)),
-                        mCursor.getInt(mCursor.getColumnIndex(DISPLAY_ORDER)),
-                        mCursor.getInt(mCursor.getColumnIndex(TYPE))
+                BodyPart value = new BodyPart(mCursor.getLong(mCursor.getColumnIndexOrThrow(KEY)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(BODYPART_RESID)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_NAME)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(CUSTOM_PICTURE)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DISPLAY_ORDER)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(TYPE))
                 );
 
                 // Adding value to list

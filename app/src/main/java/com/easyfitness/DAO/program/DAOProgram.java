@@ -61,9 +61,9 @@ public class DAOProgram extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
+            Program value = new Program(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProgram.KEY)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgram.NAME)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgram.DESCRIPTION))
             );
             mCursor.close();
             close();
@@ -89,9 +89,9 @@ public class DAOProgram extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Program value = new Program(mCursor.getLong(mCursor.getColumnIndex(DAOProgram.KEY)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.NAME)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgram.DESCRIPTION))
+                Program value = new Program(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProgram.KEY)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgram.NAME)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgram.DESCRIPTION))
                 );
 
                 // Adding value to list

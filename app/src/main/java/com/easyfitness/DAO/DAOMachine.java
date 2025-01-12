@@ -79,14 +79,14 @@ public class DAOMachine extends DAOBase {
         if (mCursor.getCount() == 0)
             return null;
 
-        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.NAME)),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.DESCRIPTION)),
+                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.TYPE))),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.BODYPARTS)),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.PICTURE)),
+                mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.FAVORITES)) == 1);
 
-        value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
+        value.setId(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOMachine.KEY)));
         // return value
         mCursor.close();
         close();
@@ -105,14 +105,14 @@ public class DAOMachine extends DAOBase {
         if (mCursor.getCount() == 0)
             return null;
 
-        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-                mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-                mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+        Machine value = new Machine(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.NAME)),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.DESCRIPTION)),
+                ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.TYPE))),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.BODYPARTS)),
+                mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.PICTURE)),
+                mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.FAVORITES)) == 1);
 
-        value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
+        value.setId(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOMachine.KEY)));
         // return value
         mCursor.close();
         close();
@@ -140,14 +140,14 @@ public class DAOMachine extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                Machine value = new Machine(mCursor.getString(mCursor.getColumnIndex(DAOMachine.NAME)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.DESCRIPTION)),
-                        ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOMachine.TYPE))),
-                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.BODYPARTS)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOMachine.PICTURE)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOMachine.FAVORITES)) == 1);
+                Machine value = new Machine(mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.NAME)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.DESCRIPTION)),
+                        ExerciseType.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.TYPE))),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.BODYPARTS)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOMachine.PICTURE)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOMachine.FAVORITES)) == 1);
 
-                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAOMachine.KEY)));
+                value.setId(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOMachine.KEY)));
 
                 // Adding value to list
                 valueList.add(value);

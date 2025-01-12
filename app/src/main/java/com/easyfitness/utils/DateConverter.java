@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import static android.text.format.DateFormat.getDateFormat;
@@ -48,7 +49,7 @@ public class DateConverter {
             } else {
                 String dateFormat = ((SimpleDateFormat) getDateFormat(pContext.getApplicationContext())).toLocalizedPattern();
                 String timeFormat = ((SimpleDateFormat) getTimeFormat(pContext.getApplicationContext())).toLocalizedPattern();
-                SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat);
+                SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat + "'T'" + timeFormat, Locale.getDefault());
                 date = dateTimeFormat.parse(dateText + "T" + timeText);
             }
         } catch (ParseException e) {
@@ -89,13 +90,13 @@ public class DateConverter {
     }
 
     static public String dateTimeToDBDateStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat.format(date);
     }
 
     static public String dateToDBDateStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
         // No time is given, use local time
         return dateFormat.format(date);
     }
@@ -103,7 +104,7 @@ public class DateConverter {
     static public Date DBDateStrToDate(String dateStr) {
         Date date;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT, Locale.US);
             // No time is given, use local time
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
@@ -119,7 +120,7 @@ public class DateConverter {
             if (timeStr.isEmpty()) { // For old record where there was no Time
                 date = DBDateStrToDate(dateStr);
             } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT);
+                SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.DATE_FORMAT + "'T'" + DAOUtils.TIME_FORMAT, Locale.US);
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 date = dateFormat.parse(dateStr + "T" + timeStr);
             }
@@ -136,7 +137,7 @@ public class DateConverter {
     }
 
     static public String dateTimeToDBTimeStr(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.TIME_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAOUtils.TIME_FORMAT, Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormat.format(date);
     }
@@ -204,7 +205,7 @@ public class DateConverter {
         //remainder = remainder - mins * 60;
         //int secs = remainder;
 
-        return String.format("%02d:%02d", hours, mins);
+        return String.format(Locale.US, "%02d:%02d", hours, mins);
     }
 
     /**
@@ -219,6 +220,6 @@ public class DateConverter {
         remainder = remainder - mins * 60;
         int secs = remainder;
 
-        return String.format("%02d:%02d:%02d", hours, mins, secs);
+        return String.format(Locale.US, "%02d:%02d:%02d", hours, mins, secs);
     }
 }

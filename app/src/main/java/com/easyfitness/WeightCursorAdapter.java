@@ -57,16 +57,16 @@ public class WeightCursorAdapter extends CursorAdapter {
 
 
         TextView t2 = view.findViewById(R.id.MACHINE_CELL);
-        t2.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
+        t2.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(2))));
 
         TextView t3 = view.findViewById(R.id.SERIE_CELL);
-        t3.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(3))));
+        t3.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(3))));
 
         TextView t4 = view.findViewById(R.id.REPETITION_CELL);
-        t4.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
+        t4.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(4))));
 
         TextView t5 = view.findViewById(R.id.POIDS_CELL);
-        t5.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(5))));
+        t5.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(5))));
 
     }
 

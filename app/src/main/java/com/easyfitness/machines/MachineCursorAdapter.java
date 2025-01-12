@@ -33,18 +33,18 @@ public class MachineCursorAdapter extends CursorAdapter implements Filterable {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView t0 = view.findViewById(R.id.LIST_MACHINE_ID);
-        t0.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.KEY)));
+        t0.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOMachine.KEY)));
 
         TextView t1 = view.findViewById(R.id.LIST_MACHINE_NAME);
-        t1.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.NAME)));
+        t1.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOMachine.NAME)));
 
         TextView t2 = view.findViewById(R.id.LIST_MACHINE_SHORT_DESCRIPTION);
-        t2.setText(cursor.getString(cursor.getColumnIndex(DAOMachine.DESCRIPTION)));
+        t2.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOMachine.DESCRIPTION)));
 
         ImageView i0 = view.findViewById(R.id.LIST_MACHINE_PHOTO);
-        String lPath = cursor.getString(cursor.getColumnIndex(DAOMachine.PICTURE));
+        String lPath = cursor.getString(cursor.getColumnIndexOrThrow(DAOMachine.PICTURE));
 
-        ExerciseType lType = ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOMachine.TYPE)));
+        ExerciseType lType = ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOMachine.TYPE)));
         boolean success = false;
         if (lPath != null && !lPath.isEmpty()) {
             String lThumbPath = ImageUtil.getThumbPath(lPath);

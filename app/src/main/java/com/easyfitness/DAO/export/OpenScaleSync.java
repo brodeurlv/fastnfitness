@@ -107,8 +107,8 @@ public class OpenScaleSync {
 
 //            try {
 //                while (cursor.moveToNext()) {
-//                    Integer apiVersion = Integer.valueOf(cursor.getInt(cursor.getColumnIndex("apiVersion")));
-//                    Integer versionCode = Integer.valueOf(cursor.getInt(cursor.getColumnIndex("versionCode")));
+//                    Integer apiVersion = Integer.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow("apiVersion")));
+//                    Integer versionCode = Integer.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow("versionCode")));
 //                }
 //            } finally {
 //                cursor.close();
@@ -119,13 +119,13 @@ public class OpenScaleSync {
 
             try {
                 while (cursor.moveToNext()) {
-                    Integer id = cursor.getInt(cursor.getColumnIndex("_ID"));
-                    String username = cursor.getString(cursor.getColumnIndex("username"));
-//                    Date birthday = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex("birthday")));
-//                    Integer gender = cursor.getInt(cursor.getColumnIndex("gender"));
-//                    Integer activityLevel = cursor.getInt(cursor.getColumnIndex("activityLevel"));
-//                    Double bodyHeight = cursor.getDouble(cursor.getColumnIndex("bodyHeight"));
-//                    Double measureUnit = cursor.getDouble(cursor.getColumnIndex("measureUnit"));
+                    Integer id = cursor.getInt(cursor.getColumnIndexOrThrow("_ID"));
+                    String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+//                    Date birthday = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndexOrThrow("birthday")));
+//                    Integer gender = cursor.getInt(cursor.getColumnIndexOrThrow("gender"));
+//                    Integer activityLevel = cursor.getInt(cursor.getColumnIndexOrThrow("activityLevel"));
+//                    Double bodyHeight = cursor.getDouble(cursor.getColumnIndexOrThrow("bodyHeight"));
+//                    Double measureUnit = cursor.getDouble(cursor.getColumnIndexOrThrow("measureUnit"));
                     Unit defaultWeightUnit = SettingsFragment.getDefaultWeightUnit(mActivity).toUnit();
 //                    Unit defaultDiestanceUnit = SettingsFragment.getDefaultDistanceUnit(mActivity).toUnit();
 //                    Unit defaulSizeUnit = SettingsFragment.getDefaultSizeUnit(mActivity);
@@ -145,12 +145,12 @@ public class OpenScaleSync {
                             DAOBodyMeasure dbcWeight = new DAOBodyMeasure(mContext);
                             dbcWeight.open();
 
-                            // Integer measurement_id = m.getInt(m.getColumnIndex("_ID"));
-                            Date datetime = new Date(m.getLong(m.getColumnIndex("datetime")));
-                            Float weight = m.getFloat(m.getColumnIndex("weight"));
-                            Float fat = m.getFloat(m.getColumnIndex("fat"));
-                            Float water = m.getFloat(m.getColumnIndex("water"));
-                            Float muscle = m.getFloat(m.getColumnIndex("muscle"));
+                            // Integer measurement_id = m.getInt(m.getColumnIndexOrThrow("_ID"));
+                            Date datetime = new Date(m.getLong(m.getColumnIndexOrThrow("datetime")));
+                            Float weight = m.getFloat(m.getColumnIndexOrThrow("weight"));
+                            Float fat = m.getFloat(m.getColumnIndexOrThrow("fat"));
+                            Float water = m.getFloat(m.getColumnIndexOrThrow("water"));
+                            Float muscle = m.getFloat(m.getColumnIndexOrThrow("muscle"));
 
                             dbcWeight.addBodyMeasure(datetime, BodyPartExtensions.WEIGHT, new Value(weight, defaultWeightUnit), userId);
                             dbcWeight.addBodyMeasure(datetime, BodyPartExtensions.FAT, new Value(fat, Unit.PERCENTAGE),userId);

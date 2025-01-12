@@ -48,32 +48,32 @@ public class ProgramHistoryCursorAdapter extends CursorAdapter implements Filter
     public void bindView(View view, Context context, Cursor cursor) {
 
         // Get Program Name
-        long historyKey = cursor.getLong(cursor.getColumnIndex(DAOProgramHistory.KEY));
+        long historyKey = cursor.getLong(cursor.getColumnIndexOrThrow(DAOProgramHistory.KEY));
 
-        long programKey = cursor.getLong(cursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY));
+        long programKey = cursor.getLong(cursor.getColumnIndexOrThrow(DAOProgramHistory.PROGRAM_KEY));
         Program program = daoProgram.get(programKey);
 
         // Get program Status
-        int programStatus = cursor.getInt(cursor.getColumnIndex(DAOProgramHistory.STATUS));
+        int programStatus = cursor.getInt(cursor.getColumnIndexOrThrow(DAOProgramHistory.STATUS));
 
         TextView programName = view.findViewById(R.id.PROGRAM_CELL);
         programName.setText(program.getName());
 
         TextView startDate = view.findViewById(R.id.START_DATE_CELL);
-        startDate.setText(cursor.getString(cursor.getColumnIndex(DAOProgramHistory.START_DATE)));
+        startDate.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOProgramHistory.START_DATE)));
 
         TextView startTime = view.findViewById(R.id.START_TIME_CELL);
-        startTime.setText(cursor.getString(cursor.getColumnIndex(DAOProgramHistory.START_TIME)));
+        startTime.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOProgramHistory.START_TIME)));
 
         TextView endDate = view.findViewById(R.id.END_DATE_CELL);
         if (ProgramStatus.fromInteger(programStatus) == ProgramStatus.RUNNING){
             endDate.setText("Ongoing");
         } else {
-            endDate.setText(cursor.getString(cursor.getColumnIndex(DAOProgramHistory.END_DATE)));
+            endDate.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOProgramHistory.END_DATE)));
         }
 
         TextView endTime = view.findViewById(R.id.END_TIME_CELL);
-        endTime.setText(cursor.getString(cursor.getColumnIndex(DAOProgramHistory.END_TIME)));
+        endTime.setText(cursor.getString(cursor.getColumnIndexOrThrow(DAOProgramHistory.END_TIME)));
 
         TextView success = view.findViewById(R.id.SUCCESS_CELL);
         TextView fail = view.findViewById(R.id.FAIL_CELL);

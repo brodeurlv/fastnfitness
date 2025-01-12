@@ -80,14 +80,14 @@ public class DAOProgramHistory extends DAOBase {
         if (mCursor != null && mCursor.getCount() > 0) {
             mCursor.moveToFirst();
 
-            ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
-                    mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
-                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
-                    mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
+            ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProgramHistory.KEY)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.PROGRAM_KEY)),
+                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.PROFILE_KEY)),
+                    ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.STATUS))),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.START_DATE)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.START_TIME)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.END_DATE)),
+                    mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.END_TIME))
             );
             mCursor.close();
             close();
@@ -113,14 +113,14 @@ public class DAOProgramHistory extends DAOBase {
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
-                ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndex(DAOProgramHistory.KEY)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROGRAM_KEY)),
-                        mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.PROFILE_KEY)),
-                        ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndex(DAOProgramHistory.STATUS))),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_DATE)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.START_TIME)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_DATE)),
-                        mCursor.getString(mCursor.getColumnIndex(DAOProgramHistory.END_TIME))
+                ProgramHistory value = new ProgramHistory(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOProgramHistory.KEY)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.PROGRAM_KEY)),
+                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.PROFILE_KEY)),
+                        ProgramStatus.fromInteger(mCursor.getInt(mCursor.getColumnIndexOrThrow(DAOProgramHistory.STATUS))),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.START_DATE)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.START_TIME)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.END_DATE)),
+                        mCursor.getString(mCursor.getColumnIndexOrThrow(DAOProgramHistory.END_TIME))
                 );
 
                 // Adding value to list

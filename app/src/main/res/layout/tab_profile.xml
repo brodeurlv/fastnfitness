@@ -100,7 +100,7 @@
                     android:title="@string/enter_birthday"
                     tools:text="XX/XX/XX" />
 
-                <TextView
+                <EditText
                     android:id="@+id/size"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

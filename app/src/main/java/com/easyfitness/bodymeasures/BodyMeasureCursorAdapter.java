@@ -38,12 +38,12 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
         t0.setText(cursor.getString(0));
 
         TextView t1 = view.findViewById(R.id.LIST_BODYMEASURE_DATE);
-        Date date = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndex(DAOBodyMeasure.DATE)));
+        Date date = DateConverter.DBDateStrToDate(cursor.getString(cursor.getColumnIndexOrThrow(DAOBodyMeasure.DATE)));
         String dateStr = DateConverter.dateToLocalDateStr(date, mContext);
         t1.setText(dateStr);
 
-        float measure = cursor.getFloat(cursor.getColumnIndex(DAOBodyMeasure.MEASURE));
-        Unit unit = Unit.fromInteger(cursor.getInt(cursor.getColumnIndex(DAOBodyMeasure.UNIT)));
+        float measure = cursor.getFloat(cursor.getColumnIndexOrThrow(DAOBodyMeasure.MEASURE));
+        Unit unit = Unit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOBodyMeasure.UNIT)));
 
         String t2Str = String.format("%.1f", measure) + unit.toString();
 
@@ -60,14 +60,14 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
         }
 
         ImageView editImg = view.findViewById(R.id.editButton);
-        editImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOBodyMeasure.KEY)));
+        editImg.setTag(cursor.getLong(cursor.getColumnIndexOrThrow(DAOBodyMeasure.KEY)));
         editImg.setOnClickListener(v -> {
             if (mClickListener != null)
                 mClickListener.onBtnClick(v);
         });
 
         ImageView deletImg = view.findViewById(R.id.deleteButton);
-        deletImg.setTag(cursor.getLong(cursor.getColumnIndex(DAOBodyMeasure.KEY)));
+        deletImg.setTag(cursor.getLong(cursor.getColumnIndexOrThrow(DAOBodyMeasure.KEY)));
         deletImg.setOnClickListener(v -> {
             if (mClickListener != null)
                 mClickListener.onBtnClick(v);
