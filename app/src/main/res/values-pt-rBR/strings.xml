@@ -109,6 +109,7 @@
     <string name="nbSeriesPerDate">"Núm. séries por data"</string>
     <string-array name="graph_static_functions">
         <item>@string/maxWeightPerDuration</item>
+        <item>@string/maxLengthPerDate</item>
         <item>@string/nbSeriesPerDate</item>
     </string-array>
     <string name="all">Tudo</string>
