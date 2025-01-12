@@ -17,6 +17,7 @@ import com.easyfitness.utils.Keyboard;
 import com.easyfitness.views.SingleValueInputView;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class ValuesEditorDialogbox extends Dialog implements View.OnClickListener {
 
@@ -84,7 +85,7 @@ public class ValuesEditorDialogbox extends Dialog implements View.OnClickListene
             }
             valueEdit.setTitle(label);
             valueEdit.showUnit(true);
-            valueEdit.setValue(String.format("%.1f", value.getValue()));
+            valueEdit.setValue(String.format(Locale.getDefault(),"%.1f", value.getValue()));
             valueEdit.setSelectedUnit(unit.toString());
 
             valueEdits[i] = valueEdit;
