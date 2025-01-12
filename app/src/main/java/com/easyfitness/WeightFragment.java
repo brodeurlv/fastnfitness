@@ -55,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -877,7 +878,7 @@ public class WeightFragment extends Fragment {
                 BodyMeasure lastSizeValue = mDbBodyMeasure.getLastBodyMeasures(sizeBodyPart.getId(), getProfile());
 
                 if (lastWeightValue != null) {
-                    String editText = String.format("%.1f", lastWeightValue.getBodyMeasure().getValue()) + lastWeightValue.getBodyMeasure().getUnit().toString();
+                    String editText = String.format(Locale.getDefault(), "%.1f", lastWeightValue.getBodyMeasure().getValue()) + lastWeightValue.getBodyMeasure().getUnit().toString();
 
                     weightEdit.setText(editText);
                     // update IMC
@@ -889,14 +890,14 @@ public class WeightFragment extends Fragment {
                     } else {
                         float imcValue = calculateImc(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                 UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM));
-                        imcText.setText(String.format("%.1f", imcValue));
+                        imcText.setText(String.format(Locale.getDefault(), "%.1f", imcValue));
                         imcRank.setText(getImcText(imcValue));
 
                         if (lastFatValue != null) {
                             double ffmiValue = calculateFfmi(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM),
                                     lastFatValue.getBodyMeasure().getValue());
-                            ffmiText.setText(String.format("%.1f", ffmiValue));
+                            ffmiText.setText(String.format(Locale.getDefault(), "%.1f", ffmiValue));
                             if (getProfile().getGender() == Gender.FEMALE)
                                 ffmiRank.setText(getFfmiTextForWomen(ffmiValue));
                             else if (getProfile().getGender() == Gender.MALE)
@@ -914,27 +915,27 @@ public class WeightFragment extends Fragment {
 
                     //update BMR
                     if (lastFatValue != null && 0 <= lastFatValue.getBodyMeasure().getValue() && lastFatValue.getBodyMeasure().getValue() <= 15) {
-                        bmrCals.setText((String.format("%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)))));
+                        bmrCals.setText((String.format(Locale.getDefault(), "%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)))));
                         bmrText.setText(R.string.bmrCalories);
-                        dailyCalorieValue.setText((String.format("%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)) * calorieMultiplier)));
+                        dailyCalorieValue.setText((String.format(Locale.getDefault(), "%.0f", calculateBmrKatch(lastFatValue.getBodyMeasure().getValue(), UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG)) * calorieMultiplier)));
                     } else if (lastSizeValue != null) {
                         if (getProfile().getGender() == Gender.MALE) {
-                            bmrCals.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            bmrCals.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
                             bmrText.setText(R.string.bmrCalories);
-                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            dailyCalorieValue.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
                         } else if (getProfile().getGender() == Gender.FEMALE) {
-                            bmrCals.setText(String.format("%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            bmrCals.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
                             bmrText.setText(R.string.bmrCalories);
-                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            dailyCalorieValue.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrWomenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
                         } else {
-                            bmrCals.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            bmrCals.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM))));
                             bmrText.setText(R.string.bmrCalories);
-                            dailyCalorieValue.setText(String.format("%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
+                            dailyCalorieValue.setText(String.format(Locale.getDefault(), "%.0f", calculateBmrMenMifflin(UnitConverter.weightConverter(lastWeightValue.getBodyMeasure().getValue(), lastWeightValue.getBodyMeasure().getUnit(), Unit.KG),
                                     UnitConverter.sizeConverter(lastSizeValue.getBodyMeasure().getValue(), lastSizeValue.getBodyMeasure().getUnit(), Unit.CM)) * calorieMultiplier));
                         }
                     } else {
@@ -954,25 +955,25 @@ public class WeightFragment extends Fragment {
                 }
 
                 if (lastWaterValue != null) {
-                    String editText = String.format("%.1f", lastWaterValue.getBodyMeasure().getValue()) + lastWaterValue.getBodyMeasure().getUnit().toString();
+                    String editText = String.format(Locale.getDefault(), "%.1f", lastWaterValue.getBodyMeasure().getValue()) + lastWaterValue.getBodyMeasure().getUnit().toString();
                     waterEdit.setText(editText);
                 } else
                     waterEdit.setText("-");
 
                 if (lastFatValue != null) {
-                    String editText = String.format("%.1f", lastFatValue.getBodyMeasure().getValue()) + lastFatValue.getBodyMeasure().getUnit().toString();
+                    String editText = String.format(Locale.getDefault(), "%.1f", lastFatValue.getBodyMeasure().getValue()) + lastFatValue.getBodyMeasure().getUnit().toString();
                     fatEdit.setText(editText);
                 } else
                     fatEdit.setText("-");
 
                 if (lastMusclesValue != null) {
-                    String editText = String.format("%.1f", lastMusclesValue.getBodyMeasure().getValue()) + lastMusclesValue.getBodyMeasure().getUnit().toString();
+                    String editText = String.format(Locale.getDefault(), "%.1f", lastMusclesValue.getBodyMeasure().getValue()) + lastMusclesValue.getBodyMeasure().getUnit().toString();
                     musclesEdit.setText(editText);
                 } else
                     musclesEdit.setText("-");
 
                 if (lastSizeValue != null) {
-                    String editText = String.format("%.1f", lastSizeValue.getBodyMeasure().getValue()) + lastSizeValue.getBodyMeasure().getUnit().toString();
+                    String editText = String.format(Locale.getDefault(), "%.1f", lastSizeValue.getBodyMeasure().getValue()) + lastSizeValue.getBodyMeasure().getUnit().toString();
                     sizeEdit.setText(editText);
                     mSizeLineChart.setVisibility(View.VISIBLE);
                 } else {
