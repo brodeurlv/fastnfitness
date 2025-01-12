@@ -532,9 +532,7 @@ public class WeightFragment extends Fragment {
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
                 SharedPreferences.Editor prefEditor = SP.edit();
                 prefEditor.putInt("userSpinner", userChoice);
-                prefEditor.commit();
-
-
+                prefEditor.apply();
             }
 
             @Override
