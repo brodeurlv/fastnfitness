@@ -18,6 +18,7 @@ import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class BodyMeasureCursorAdapter extends CursorAdapter {
 
@@ -45,7 +46,7 @@ public class BodyMeasureCursorAdapter extends CursorAdapter {
         float measure = cursor.getFloat(cursor.getColumnIndexOrThrow(DAOBodyMeasure.MEASURE));
         Unit unit = Unit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOBodyMeasure.UNIT)));
 
-        String t2Str = String.format("%.1f", measure) + unit.toString();
+        String t2Str = String.format(Locale.getDefault(),"%.1f", measure) + unit.toString();
 
         TextView t2 = view.findViewById(R.id.LIST_BODYMEASURE_WEIGHT);
         t2.setText(t2Str);
