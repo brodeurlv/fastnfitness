@@ -89,7 +89,7 @@
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="0dp"
                             android:maxLines="1"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             tool:ignore="SmallSp"
                             tool:text="12/34/2016" />
 
@@ -102,7 +102,7 @@
                             android:layout_marginTop="1dp"
                             android:layout_marginBottom="0dp"
                             android:maxLines="1"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             tool:ignore="SmallSp"
                             tool:text="00:00:00" />
 
