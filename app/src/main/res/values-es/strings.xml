@@ -84,10 +84,16 @@
     <string name="maxRep1">Máximo (Reps &gt;= 1)</string>
     <string name="maxRep5d">Máximo (Reps &gt;= 5)</string>
     <string name="sum">Suma de peso</string>
+    <string name="maxReps">Máx de Reps</string>
+    <string name="sumReps">Suma de Reps</string>
+    <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
     <string-array name="graph_functions">
         <item>@string/maxRep1</item>
         <item>@string/maxRep5d</item>
         <item>@string/sum</item>
+        <item>@string/sumReps</item>
+        <item>@string/maxReps</item>
+        <item>@string/oneRepMax</item>
     </string-array>
     <string name="sumDistance">Distancia</string>
     <string name="sumDuration">Duración</string>
@@ -262,9 +268,6 @@
     <string name="pref_preferredSizeUnitTitle">Selecciona tu unidad de tamaño preferida</string>
     <string name="program_completed">Ha completado su programa! ¿Quieres cerrarla?</string>
     <string name="maxLengthPerDate">Duración máxima por Fecha</string>
-    <string name="maxReps">Máx de Reps</string>
-    <string name="sumReps">Suma de Reps</string>
-    <string name="oneRepMax">1RM (Reps &lt;= 10)</string>
     <string name="pref_audio_setting">Ajustes del temporizador de descanso</string>
     <string name="pref_play_sound_after_rest_timer">Bip</string>
     <string name="pref_play_sound_after_rest_timer_summary">Pitido al final del temporizador de reposo</string>
