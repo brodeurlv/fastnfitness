@@ -115,6 +115,8 @@
                 android:hint="@string/birthday_optional"
                 android:focusable="false"
                 android:clickable="true"
+                android:inputType="date"
+                android:autofillHints="birthDateFull"
                 android:textSize="18sp" />
 
             <Button

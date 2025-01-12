@@ -34,6 +34,7 @@
                 android:inputType="numberDecimal|numberSigned"
                 android:minEms="3"
                 android:selectAllOnFocus="true"
+                android:importantForAutofill="no"
                 tools:text="10" />
 
             <androidx.appcompat.widget.AppCompatSpinner

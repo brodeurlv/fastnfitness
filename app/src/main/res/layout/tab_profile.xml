@@ -110,6 +110,7 @@
                     android:inputType="number|numberSigned"
                     android:textSize="18sp"
                     android:title="@string/enter_size_cm"
+                    android:importantForAutofill="no"
                     tools:text="180 cm" />
 
             </LinearLayout>
