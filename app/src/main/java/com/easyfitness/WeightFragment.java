@@ -63,27 +63,17 @@ public class WeightFragment extends Fragment {
     private final DAOProfile mDb = null;
     private final AdapterView.OnClickListener showDetailsFragment = v -> {
         int bodyPartID = BodyPartExtensions.WEIGHT;
-        switch (v.getId()) {
-            case R.id.weightGraph:
-            case R.id.weightDetailsButton:
-                bodyPartID = BodyPartExtensions.WEIGHT;
-                break;
-            case R.id.fatGraph:
-            case R.id.fatDetailsButton:
-                bodyPartID = BodyPartExtensions.FAT;
-                break;
-            case R.id.musclesGraph:
-            case R.id.musclesDetailsButton:
-                bodyPartID = BodyPartExtensions.MUSCLES;
-                break;
-            case R.id.waterGraph:
-            case R.id.waterDetailsButton:
-                bodyPartID = BodyPartExtensions.WATER;
-                break;
-            case R.id.sizeGraph:
-            case R.id.sizeDetailsButton:
-                bodyPartID = BodyPartExtensions.SIZE;
-                break;
+        int id = v.getId();
+        if (id == R.id.weightGraph || id == R.id.weightDetailsButton) {
+            bodyPartID = BodyPartExtensions.WEIGHT;
+        } else if (id == R.id.fatGraph || id == R.id.fatDetailsButton) {
+            bodyPartID = BodyPartExtensions.FAT;
+        } else if (id == R.id.musclesGraph || id == R.id.musclesDetailsButton) {
+            bodyPartID = BodyPartExtensions.MUSCLES;
+        } else if (id == R.id.waterGraph || id == R.id.waterDetailsButton) {
+            bodyPartID = BodyPartExtensions.WATER;
+        } else if (id == R.id.sizeGraph || id == R.id.sizeDetailsButton) {
+            bodyPartID = BodyPartExtensions.SIZE;
         }
 
         BodyPartDetailsFragment fragment = BodyPartDetailsFragment.newInstance(bodyPartID, false);
@@ -97,48 +87,49 @@ public class WeightFragment extends Fragment {
         transaction.commit();
     };
     private final OnClickListener showHelp = v -> {
-        switch (v.getId()) {
-            case R.id.imcHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.BMI_dialog_title)
-                        .setContentText(getString(R.string.BMI_formula))
-                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                break;
-            case R.id.ffmiHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.FFMI_dialog_title)
-                        .setContentText(getString(R.string.FFMI_formula))
-                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                break;
-            case R.id.bmrHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.bmr_dialog_title)
-                        .setContentText(getString(R.string.bmr_formula))
-                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                break;
-            case R.id.dailyCalorieHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.daily_calorie_alert)
-                        .setContentText(getString(R.string.daily_calorie_alert_body))
-                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                break;
-            case R.id.rfmHelp:
-                new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(R.string.RFM_dialog_title)
-                        .setContentText(getString(R.string.RFM_female_formula) +
-                                getString(R.string.RFM_male_formula))
-                        .setConfirmText(getResources().getText(android.R.string.ok).toString())
-                        .showCancelButton(true)
-                        .show();
-                break;
+        int id = v.getId();
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
+        if (id == R.id.imcHelp) {
+            new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.BMI_dialog_title)
+                    .setContentText(getString(R.string.BMI_formula))
+                    .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                    .showCancelButton(true)
+                    .show();
+        } else if (id == R.id.ffmiHelp) {
+            new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.FFMI_dialog_title)
+                    .setContentText(getString(R.string.FFMI_formula))
+                    .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                    .showCancelButton(true)
+                    .show();
+        } else if (id == R.id.bmrHelp) {
+            new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.bmr_dialog_title)
+                    .setContentText(getString(R.string.bmr_formula))
+                    .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                    .showCancelButton(true)
+                    .show();
+        } else if (id == R.id.dailyCalorieHelp) {
+            new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.daily_calorie_alert)
+                    .setContentText(getString(R.string.daily_calorie_alert_body))
+                    .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                    .showCancelButton(true)
+                    .show();
+        } else if (id == R.id.rfmHelp) {
+            new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(R.string.RFM_dialog_title)
+                    .setContentText(getString(R.string.RFM_female_formula) +
+                            getString(R.string.RFM_male_formula))
+                    .setConfirmText(getResources().getText(android.R.string.ok).toString())
+                    .showCancelButton(true)
+                    .show();
+
         }
     };
     double calorieMultiplier; //Daily calorie multiplier
@@ -373,9 +364,9 @@ public class WeightFragment extends Fragment {
         // Disable pullToRefresh on default
         pullToRefresh = view.findViewById(R.id.pullToRefresh);
         pullToRefresh.setEnabled(false);
-        try{
+        try {
             // Check if openScale is installed
-            PackageManager pm  = mActivity.getPackageManager();
+            PackageManager pm = mActivity.getPackageManager();
             pm.getPackageInfo("com.health.openscale", 0);
 
             // If openScale is installed enable pull to refresh
@@ -386,7 +377,7 @@ public class WeightFragment extends Fragment {
 
                 // Check access permission to openScale
                 int OPENSCALE_REQUEST_CODE = 2;
-                int openHealthPermission = ContextCompat.checkSelfPermission(mActivity,"com.health.openscale.READ_WRITE_DATA");
+                int openHealthPermission = ContextCompat.checkSelfPermission(mActivity, "com.health.openscale.READ_WRITE_DATA");
                 if (openHealthPermission != PackageManager.PERMISSION_GRANTED) {
 
                     // Request access permisson
@@ -405,7 +396,7 @@ public class WeightFragment extends Fragment {
                 }
                 pullToRefresh.setRefreshing(false);
             });
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -843,7 +834,7 @@ public class WeightFragment extends Fragment {
          *Mifflin-St Jeor Equation
          * For women: BMR = 10W + 6.25H - 5A - 161
          **/
-         Calendar calendar = new GregorianCalendar();
+        Calendar calendar = new GregorianCalendar();
         calendar.setTime(getProfile().getBirthday());
         int birthYear = calendar.get(Calendar.YEAR);
 

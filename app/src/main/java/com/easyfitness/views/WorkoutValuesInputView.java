@@ -48,17 +48,15 @@ public class WorkoutValuesInputView extends LinearLayout {
     private SingleValueInputView distanceInputView;
     private SingleValueInputView durationInputView;
     private final OnClickListener clickExerciseTypeSelector = v -> {
-        switch (v.getId()) {
-            case R.id.IsometricSelector:
-                setSelectedType(ExerciseType.ISOMETRIC);
-                break;
-            case R.id.CardioSelector:
-                setSelectedType(ExerciseType.CARDIO);
-                break;
-            case R.id.StrenghSelector:
-            default:
-                setSelectedType(ExerciseType.STRENGTH);
-                break;
+        int id = v.getId();
+        if (id == R.id.IsometricSelector) {
+            setSelectedType(ExerciseType.ISOMETRIC);
+        }
+        else if (id == R.id.CardioSelector) {
+            setSelectedType(ExerciseType.CARDIO);
+        }
+        else {
+            setSelectedType(ExerciseType.STRENGTH);
         }
     };
     private CardView restTimeCardView = null;
