@@ -19,6 +19,7 @@ package com.ikovac.timepickerwithseconds;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -67,7 +68,7 @@ public class TimePicker extends FrameLayout {
 			@Override
 			public String format(int value) {
 			// TODO Auto-generated method stub
-			return String.format("%02d", value);
+			return String.format(Locale.getDefault(),"%02d", value);
 		}
 	};
 

@@ -25,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Locale;
 
 public class ProgressImagesFragment extends Fragment {
 
@@ -168,6 +169,6 @@ public class ProgressImagesFragment extends Fragment {
 
     private String generateFileName() {
         // TODO hard coded ending ?
-        return String.format("%10d.jpg", System.currentTimeMillis() / 1000);
+        return String.format(Locale.US, "%10d.jpg", System.currentTimeMillis() / 1000);
     }
 }

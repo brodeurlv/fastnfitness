@@ -17,6 +17,7 @@
 package com.ikovac.timepickerwithseconds;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -142,9 +143,9 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
     }
 
     private void updateTitle(int hour, int minute, int seconds) {
-        String sHour = String.format("%02d", hour);
-        String sMin = String.format("%02d", minute);
-        String sSec = String.format("%02d", seconds);
+        String sHour = String.format(Locale.getDefault(),"%02d", hour);
+        String sMin = String.format(Locale.getDefault(),"%02d", minute);
+        String sSec = String.format(Locale.getDefault(),"%02d", seconds);
         setTitle(sHour + ":" + sMin + ":" + sSec);
     }
 
