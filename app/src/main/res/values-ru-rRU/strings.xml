@@ -181,7 +181,7 @@
     <string name="new_folder">Новая папка</string>
     <string name="FFMI_dialog_title">Индекс безжировой массы (FFMI)</string>
     <string name="ffmiLabel">FFMI</string>
-    <string name="FFMI_formula">FFMI [кг / м2] = вес [кг] × (1 - (телесный жир [%] / 100)) / (рост [м]) ²</string>
+    <string name="FFMI_formula">FFMI [кг / м2] = вес [кг] × (1 - (телесный жир [%%] / 100)) / (рост [м]) ²</string>
     <string name="no_fat_available">нет жира</string>
     <string name="indexLabel">Индекс</string>
     <string name="what_type_of_exercise">Какие упражнения?</string>
@@ -271,7 +271,7 @@
     <string name="weightRequiredForMultipleInputs">Вы должны предоставить вес, чтобы добавить несколько значений</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Базальный уровень метаболизма (BMR)</string>
-    <string name="bmr_formula">Рассчитывается с использованием уравнения МИФФЛИН-СТ. Для частных лиц при 15% Bodyfat и под ним используется формула Katch-Mcardle, которая имеет тенденцию быть более точным для людей, которые являются более стройными и знают их процент жира в организме. Для большей точности при расчете вашего BMR рекомендуется ввести свой день рождения, высота, веса и жира тела. Это поможет приложению определить, какую формулу использовать при выполнении этого расчета.</string>
+    <string name="bmr_formula">Рассчитывается с использованием уравнения МИФФЛИН-СТ. Для частных лиц при 15%% Bodyfat и под ним используется формула Katch-Mcardle, которая имеет тенденцию быть более точным для людей, которые являются более стройными и знают их процент жира в организме. Для большей точности при расчете вашего BMR рекомендуется ввести свой день рождения, высота, веса и жира тела. Это поможет приложению определить, какую формулу использовать при выполнении этого расчета.</string>
     <string name="bmrCalories">Калории / день</string>
     <string name="daily_calorie_label">Ежедневные Cals.</string>
     <string name="daily_calorie_alert">Ежедневные потребности калорийности</string>

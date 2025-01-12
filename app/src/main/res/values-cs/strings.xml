@@ -198,7 +198,7 @@
     <string name="new_folder">Nnová složka</string>
     <string name="ffmiLabel">FFMI</string>
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
-    <string name="FFMI_formula">FFMI [kg/m2] = hmotnost [kg] × (1 − (tělesný tuk [%] / 100)) / (výška [m])²</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = hmotnost [kg] × (1 − (tělesný tuk [%%] / 100)) / (výška [m])²</string>
     <string name="no_fat_available">tuk není dostupný</string>
     <string name="indexLabel">Index</string>
     <string name="what_type_of_exercise">Jaký druh cvičení?</string>
@@ -291,7 +291,7 @@
     <string name="weightRequiredForMultipleInputs">Musíte poskytnout váhu, abyste přidali více hodnot</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Bazální metabolismus (BMR)</string>
-    <string name="bmr_formula">Vypočteno pomocí miflin-St Jeorova rovnice. Pro jednotlivce při 15% tělesnéku a pod, vzorec Katch-mcardle se používá, který má tendenci být přesnější pro jednotlivce, kteří jsou štíhlejší, a znát jejich procento tělesného tuku. Pro větší přesnost při výpočtu BMR se doporučuje vstoupit na vaše narozeniny, výšku, hmotnost a procento tělesného tuku. To pomůže aplikaci určit, který vzorec k použití při provádění tohoto výpočtu.</string>
+    <string name="bmr_formula">Vypočteno pomocí miflin-St Jeorova rovnice. Pro jednotlivce při 15%% tělesnéku a pod, vzorec Katch-mcardle se používá, který má tendenci být přesnější pro jednotlivce, kteří jsou štíhlejší, a znát jejich procento tělesného tuku. Pro větší přesnost při výpočtu BMR se doporučuje vstoupit na vaše narozeniny, výšku, hmotnost a procento tělesného tuku. To pomůže aplikaci určit, který vzorec k použití při provádění tohoto výpočtu.</string>
     <string name="bmrCalories">kalorií / den</string>
     <string name="daily_calorie_label">Denní Cals.</string>
     <string name="daily_calorie_alert">Denní potřeby kalorií</string>

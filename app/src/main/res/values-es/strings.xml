@@ -209,7 +209,7 @@
     <string name="new_folder">Nueva carpeta</string>
     <string name="ffmiLabel">IMLG</string>
     <string name="FFMI_dialog_title">Índice de masa libre de grasa (IMLG)</string>
-    <string name="FFMI_formula">IMLG[kg/m2] = peso[kg] × (1 − (grasa corporal[%] / 100)) / (altura[m])²</string>
+    <string name="FFMI_formula">IMLG[kg/m2] = peso[kg] × (1 − (grasa corporal[%%] / 100)) / (altura[m])²</string>
     <string name="no_fat_available">sin grasa disponible</string>
     <string name="indexLabel">Índice</string>
     <string name="what_type_of_exercise">¿Qué tipo de ejercicio?</string>
@@ -299,7 +299,7 @@
     <string name="weightRequiredForMultipleInputs">Tienes que proporcionar un peso para agregar múltiples valores.</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Tasa metabólica basal (BMR)</string>
-    <string name="bmr_formula">Calculado utilizando la ecuación de Mifflin-St Jeor. Para los individuos en un 15% de grasa corporal y bajo, se usa la fórmula KATTH-MCARDLE, que tiende a ser más precisa para las personas que sean más delgadas y conozca su porcentaje de grasa corporal. Para mayor precisión al calcular su BMR, se recomienda ingresar a su porcentaje de cumpleaños, altura, peso y grasa corporal. Esto ayudará a la aplicación a determinar qué fórmula usar al realizar este cálculo.</string>
+    <string name="bmr_formula">Calculado utilizando la ecuación de Mifflin-St Jeor. Para los individuos en un 15%% de grasa corporal y bajo, se usa la fórmula KATTH-MCARDLE, que tiende a ser más precisa para las personas que sean más delgadas y conozca su porcentaje de grasa corporal. Para mayor precisión al calcular su BMR, se recomienda ingresar a su porcentaje de cumpleaños, altura, peso y grasa corporal. Esto ayudará a la aplicación a determinar qué fórmula usar al realizar este cálculo.</string>
     <string name="bmrCalories">Calorías / día</string>
     <string name="daily_calorie_label">Cals diarios</string>
     <string name="daily_calorie_alert">Necesidades diarias de calorías</string>

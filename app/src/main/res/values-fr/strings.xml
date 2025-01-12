@@ -199,7 +199,7 @@
     <string name="imported_successfully">importé</string>
     <string name="maxWeightPerDuration">Poids max par durée</string>
     <string name="nbSeriesPerDate">Nb séries par date</string>
-    <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%] / 100)) / (height [m])²</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = weight [kg] × (1 − (body fat [%%] / 100)) / (height [m])²</string>
     <string name="import_new_exercise_first">(Assurez-vous que tous les nouveaux exercices sont d\'abord importés)</string>
     <string name="MachineHint">Nom de votre exercice</string>
     <string name="obliques">Obliques</string>
@@ -295,7 +295,7 @@
     <string name="active">actif</string>
     <string name="daily_exercise">quotidien</string>
     <string name="intense">intensif</string>
-    <string name="bmr_formula">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
+    <string name="bmr_formula">Calculé à l\'aide de l\'équation Mifflin-St Jeor. Pour les personnes dont le taux de graisse corporelle est inférieur ou égal à 15 %%, on utilise la formule de Katch-McArdle, qui tend à être plus précise pour les personnes plus maigres et qui connaissent leur pourcentage de graisse corporelle. Pour un calcul plus précis de votre métabolisme de base (MB), il est recommandé de saisir votre date de naissance, votre taille, votre poids et votre taux de graisse corporelle. Ceci aidera l\'application à déterminer la formule à utiliser pour effectuer ce calcul.</string>
     <string name="bmr_dialog_title">Taux métabolique basal (BMR)</string>
     <string name="progress_images">Images de progrès</string>
     <string name="newer_image">plus récent</string>

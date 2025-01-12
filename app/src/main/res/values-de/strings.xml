@@ -232,7 +232,7 @@
     <string name="import_failed">Dateien konnten nicht importiert werden</string>
     <string name="maxWeightPerDuration">Max. Gewicht pro Dauer</string>
     <string name="nbSeriesPerDate">Nb Serien nach Datum</string>
-    <string name="FFMI_formula">FFMI [kg/m2] = Gewicht [kg] × (1 − (Körperfett [%] / 100)) / (Größe [m])²</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = Gewicht [kg] × (1 − (Körperfett [%%] / 100)) / (Größe [m])²</string>
     <string name="import_new_exercise_first">(Stelle sicher, dass alle neuen Übungen zuerst importiert werden)</string>
     <string name="MachineHint">Name deiner Übung</string>
     <string name="obliques">Schräge</string>
@@ -310,7 +310,7 @@
     <string name="daily_calorie_alert_body">Eine Schätzung der Kalorienmenge, die Sie täglich benötigen, um Ihr aktuelles Gewicht zu halten. Bei dieser Berechnung werden Ihr Grundumsatz und Ihr Aktivitätsniveau herangezogen, um eine Empfehlung abzugeben. Denken Sie daran, dass es sich bei diesem Wert um eine Schätzung handelt und dass der individuelle Kalorienbedarf variiert. Sesshaft: wenig oder keine Bewegung. Mäßig: 1-3 Mal/Woche Sport treiben. Aktiv: 4-5 Mal pro Woche Sport treiben. Täglich: Tägliche Bewegung oder intensive Bewegung 3-4 Mal/Woche. Intensiv: 6-7 Mal pro Woche Sport treiben. Sehr intensiv: tägliche Bewegung oder körperliche Arbeit.</string>
     <string name="daily_exercise">täglich</string>
     <string name="intense">intensiv</string>
-    <string name="bmr_formula">Berechnet nach der Mifflin-St. Jeor-Gleichung. Für Personen mit einem Körperfettanteil von 15 % und darunter wird die Katch-McArdle-Formel verwendet, die für Personen, die schlanker sind und ihren Körperfettanteil kennen, in der Regel genauer ist. Für eine genauere Berechnung Ihres Grundumsatzes empfiehlt es sich, Ihr Geburtsdatum, Ihre Größe, Ihr Gewicht und Ihren Körperfettanteil einzugeben. Auf diese Weise kann die App feststellen, welche Formel bei der Berechnung zu verwenden ist.</string>
+    <string name="bmr_formula">Berechnet nach der Mifflin-St. Jeor-Gleichung. Für Personen mit einem Körperfettanteil von 15 %% und darunter wird die Katch-McArdle-Formel verwendet, die für Personen, die schlanker sind und ihren Körperfettanteil kennen, in der Regel genauer ist. Für eine genauere Berechnung Ihres Grundumsatzes empfiehlt es sich, Ihr Geburtsdatum, Ihre Größe, Ihr Gewicht und Ihren Körperfettanteil einzugeben. Auf diese Weise kann die App feststellen, welche Formel bei der Berechnung zu verwenden ist.</string>
     <string name="bmr_dialog_title">Basal-Stoffwechselrate (BMR)</string>
     <string name="progress_images">Fortschrittsbilder</string>
     <string name="newer_image">neuer</string>

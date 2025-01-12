@@ -220,7 +220,7 @@
     <string name="new_folder">Nova pasta</string>
     <string name="ffmiLabel">IMLG</string>
     <string name="FFMI_dialog_title">Índice de massa livre de gordura (IMLG)</string>
-    <string name="FFMI_formula">IMLG [kg/m2] = peso [kg] × (1 − (gordura corporal [%] / 100)) / (altura [m])²</string>
+    <string name="FFMI_formula">IMLG [kg/m2] = peso [kg] × (1 − (gordura corporal [%%] / 100)) / (altura [m])²</string>
     <string name="no_fat_available">nenhuma gordura disponível</string>
     <string name="indexLabel">Índice</string>
     <string name="what_type_of_exercise">Que tipo de exercício ?</string>
@@ -308,7 +308,7 @@
     <string name="weightRequiredForMultipleInputs">Você tem que fornecer um peso para adicionar vários valores</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Taxa Metabólica Basal (BMR)</string>
-    <string name="bmr_formula">Calculado usando a equação do Mifflin-St Jeor. Para indivíduos a 15% de bodyfat e sob, a fórmula Katch-Mcardle é usada que tende a ser mais precisa para indivíduos que são mais enxutos e conhecem sua porcentagem de gordura corporal. Para maior precisão no cálculo do seu BMR, recomenda-se inserir seu aniversário, altura, peso e porcentagem de gordura corporal. Isso ajudará o aplicativo a determinar qual fórmula usar ao executar esse cálculo.</string>
+    <string name="bmr_formula">Calculado usando a equação do Mifflin-St Jeor. Para indivíduos a 15%% de bodyfat e sob, a fórmula Katch-Mcardle é usada que tende a ser mais precisa para indivíduos que são mais enxutos e conhecem sua porcentagem de gordura corporal. Para maior precisão no cálculo do seu BMR, recomenda-se inserir seu aniversário, altura, peso e porcentagem de gordura corporal. Isso ajudará o aplicativo a determinar qual fórmula usar ao executar esse cálculo.</string>
     <string name="bmrCalories">Calorias / dia</string>
     <string name="daily_calorie_label">Cals diários</string>
     <string name="daily_calorie_alert">Necessidades diárias de calorias</string>

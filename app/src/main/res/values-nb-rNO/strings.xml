@@ -202,7 +202,7 @@
     <string name="export_database">Eksporter poster</string>
     <string name="export_question">Eksporter databasen til</string>
     <string name="FFMI_dialog_title">Fettfri masseindeks (FFMI)</string>
-    <string name="FFMI_formula">Ffmi [kg / m2] = vekt [kg] × (1 - (kroppsfett [%] / 100)) / (Høyde [m]) ²</string>
+    <string name="FFMI_formula">Ffmi [kg / m2] = vekt [kg] × (1 - (kroppsfett [%%] / 100)) / (Høyde [m]) ²</string>
     <string name="ffmiLabel">Ffmi.</string>
     <string name="fillNameField">Vennligst skriv inn navnet ditt, i det minste</string>
     <string name="filter_by_workout_name">Filtrer etter programnavn</string>
@@ -273,7 +273,7 @@
     <string name="weightRequiredForMultipleInputs">Du må gi vekt for å legge til flere verdier</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Basal metabolsk hastighet (BMR)</string>
-    <string name="bmr_formula">Beregnet ved hjelp av Mifflin-St Jeor-ligningen. For enkeltpersoner på 15% kroppsfett og under, brukes katch-mcardle formelen som har en tendens til å være mer nøyaktig for personer som er slankere, og kjenner deres kroppsfettprosent. For større nøyaktighet ved beregning av BMR, anbefales det å gå inn i bursdag, høyde, vekt og kroppsfettprosent. Dette vil hjelpe appen å bestemme hvilken formel som skal brukes når du utfører denne beregningen.</string>
+    <string name="bmr_formula">Beregnet ved hjelp av Mifflin-St Jeor-ligningen. For enkeltpersoner på 15%% kroppsfett og under, brukes katch-mcardle formelen som har en tendens til å være mer nøyaktig for personer som er slankere, og kjenner deres kroppsfettprosent. For større nøyaktighet ved beregning av BMR, anbefales det å gå inn i bursdag, høyde, vekt og kroppsfettprosent. Dette vil hjelpe appen å bestemme hvilken formel som skal brukes når du utfører denne beregningen.</string>
     <string name="bmrCalories">Kalorier / dag</string>
     <string name="daily_calorie_label">Daglige Cals.</string>
     <string name="daily_calorie_alert">Daglig kalori behov</string>

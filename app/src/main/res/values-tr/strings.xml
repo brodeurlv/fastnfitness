@@ -25,7 +25,7 @@
     <string name="exercise_type">Egzersiz Türü:</string>
     <string name="indexLabel">İndeks</string>
     <string name="no_fat_available">Yağ mevcut değil</string>
-    <string name="FFMI_formula">YVK [kg/m2] = ağırlık [kg] × (1 − (vücut yağı [%] / 100)) / (boy [m])²</string>
+    <string name="FFMI_formula">YVK [kg/m2] = ağırlık [kg] × (1 − (vücut yağı [%%] / 100)) / (boy [m])²</string>
     <string name="FFMI_dialog_title">Yağsız Vücut Kütlesi (YVK)</string>
     <string name="ffmiLabel">YVK</string>
     <string name="new_folder">Yeni klasör</string>
@@ -272,7 +272,7 @@
     <string name="weightRequiredForMultipleInputs">Birden çok değer eklemek için bir ağırlık sağlamalısınız</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Bazal Metabolik Hızı (BMR)</string>
-    <string name="bmr_formula">MIFFLIN-ST JEOR denklemi kullanılarak hesaplanır. % 15 bodyfat ve altında bireyler için, KATCI-MCARDLE formülü, daha zayıf olan bireyler için daha doğru olma eğiliminde olan ve vücut yağ yüzdelerini bilir. BMR\'inizi hesaplamada daha fazla doğruluk için, doğum günü, boy, ağırlık ve vücut yağ yüzdesine girmeniz önerilir. Bu, uygulamanın bu hesaplamayı gerçekleştirirken hangi formülün kullanılacağını belirlemesine yardımcı olacaktır.</string>
+    <string name="bmr_formula">MIFFLIN-ST JEOR denklemi kullanılarak hesaplanır. %% 15 bodyfat ve altında bireyler için, KATCI-MCARDLE formülü, daha zayıf olan bireyler için daha doğru olma eğiliminde olan ve vücut yağ yüzdelerini bilir. BMR\'inizi hesaplamada daha fazla doğruluk için, doğum günü, boy, ağırlık ve vücut yağ yüzdesine girmeniz önerilir. Bu, uygulamanın bu hesaplamayı gerçekleştirirken hangi formülün kullanılacağını belirlemesine yardımcı olacaktır.</string>
     <string name="bmrCalories">Kalori / gün</string>
     <string name="daily_calorie_label">Günlük cals</string>
     <string name="daily_calorie_alert">Günlük kalori ihtiyaçları</string>

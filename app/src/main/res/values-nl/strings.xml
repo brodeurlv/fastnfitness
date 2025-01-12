@@ -196,7 +196,7 @@
     <string name="new_folder">Nieuwe map</string>
     <string name="ffmiLabel">VVMI</string>
     <string name="FFMI_dialog_title">Vet-vrije massa Index(VVMI)</string>
-    <string name="FFMI_formula">FFMI [kg/m2] = gewicht [kg] Ã— (1 âˆ’ (lichaamsvet[%] / 100)) / (lengte [m])Â²</string>
+    <string name="FFMI_formula">FFMI [kg/m2] = gewicht [kg] Ã— (1 âˆ’ (lichaamsvet[%%] / 100)) / (lengte [m])Â²</string>
     <string name="no_fat_available">geen vet beschikbaar</string>
     <string name="indexLabel">Index</string>
     <string name="what_type_of_exercise">Welke oefening?</string>
@@ -291,7 +291,7 @@
     <string name="weightRequiredForMultipleInputs">Je moet een gewicht geven om meerdere waarden toe te voegen</string>
     <string name="bmrLabel">BMR</string>
     <string name="bmr_dialog_title">Basale metabolische tarief (BMR)</string>
-    <string name="bmr_formula">Berekend met behulp van de MIFFLIN-ST JEOR-vergelijking. Voor particulieren bij 15% bodyfat en onder, wordt de Katch-Mcardle-formule gebruikt die de neiging heeft om nauwkeuriger te zijn voor individuen die magerder zijn en hun lichaamsvetpercentage kennen. Voor meer nauwkeurigheid bij het berekenen van uw BMR, wordt het aanbevolen om uw verjaardag, lengte, gewicht en lichaamsvetpercentage in te voeren. Dit zal de app helpen bepalen welke formule te gebruiken bij het uitvoeren van deze berekening.</string>
+    <string name="bmr_formula">Berekend met behulp van de MIFFLIN-ST JEOR-vergelijking. Voor particulieren bij 15%% bodyfat en onder, wordt de Katch-Mcardle-formule gebruikt die de neiging heeft om nauwkeuriger te zijn voor individuen die magerder zijn en hun lichaamsvetpercentage kennen. Voor meer nauwkeurigheid bij het berekenen van uw BMR, wordt het aanbevolen om uw verjaardag, lengte, gewicht en lichaamsvetpercentage in te voeren. Dit zal de app helpen bepalen welke formule te gebruiken bij het uitvoeren van deze berekening.</string>
     <string name="bmrCalories">Calorieën / dag</string>
     <string name="daily_calorie_label">Dagelijkse CALS</string>
     <string name="daily_calorie_alert">Dagelijkse calorie-behoeften</string>
