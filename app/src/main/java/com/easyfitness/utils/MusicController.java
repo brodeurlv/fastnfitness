@@ -189,58 +189,56 @@ public class MusicController {
                 loadPreferences();
             }
 
-            switch (v.getId()) {
-                case R.id.playerPlay:
-                    if (mediaPlayer.isPlaying()) {
-                        Pause();
-                    } else {
-                        Play();
-                    }
-                    break;
-                case R.id.playerStop:
-                    Stop();
-                    break;
-                case R.id.playerNext:
-                    if (isRandomOn) {
-                        NextRandom();
-                    } else {
-                        Next();
-                    }
-                    break;
-                case R.id.playerPrevious:
-                    if (isRandomOn) {
-                        NextRandom();
-                    } else {
-                        Previous();
-                    }
-                    break;
-                case R.id.playerList:
-                    if (isExternalStoragePermissionDenied()) {
-                        requestPermissionForReading();
-                    } else {
-                        chooseDirectory();
-                    }
-                    break;
-                case R.id.playerLoop:
-                    if (isReplayOn) {
-                        isReplayOn = false;
-                        musicReplay.setImageResource(R.drawable.ic_replay_white);
-                    } else {
-                        isReplayOn = true;
-                        musicReplay.setImageResource(R.drawable.ic_replay_green);
-                    }
+            int id = v.getId();
 
-                    break;
-                case R.id.playerRandom:
-                    if (isRandomOn) {
-                        isRandomOn = false;
-                        musicRandom.setImageResource(R.drawable.ic_random_white);
-                    } else {
-                        isRandomOn = true;
-                        musicRandom.setImageResource(R.drawable.ic_random_green);
-                    }
-
-                    break;
+            if (id == R.id.playerPlay) {
+                if (mediaPlayer.isPlaying()) {
+                    Pause();
+                } else {
+                    Play();
+                }
+            }
+            else if (id == R.id.playerStop) {
+                Stop();
+            }
+            else if (id == R.id.playerNext) {
+                if (isRandomOn) {
+                    NextRandom();
+                } else {
+                    Next();
+                }
+            }
+            else if (id == R.id.playerPrevious) {
+                if (isRandomOn) {
+                    NextRandom();
+                } else {
+                    Previous();
+                }
+            }
+            else if (id == R.id.playerList) {
+                if (isExternalStoragePermissionDenied()) {
+                    requestPermissionForReading();
+                } else {
+                    chooseDirectory();
+                }
+            }
+            else if (id == R.id.playerLoop) {
+                if (isReplayOn) {
+                    isReplayOn = false;
+                    musicReplay.setImageResource(R.drawable.ic_replay_white);
+                } else {
+                    isReplayOn = true;
+                    musicReplay.setImageResource(R.drawable.ic_replay_green);
+                }
+            }
+            else if (id == R.id.playerRandom) {
+                if (isRandomOn) {
+                    isRandomOn = false;
+                    musicRandom.setImageResource(R.drawable.ic_random_white);
+                } else {
+                    isRandomOn = true;
+                    musicRandom.setImageResource(R.drawable.ic_random_green);
+                }
             }
         }
     };

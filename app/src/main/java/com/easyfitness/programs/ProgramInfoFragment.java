@@ -101,15 +101,14 @@ public class ProgramInfoFragment extends Fragment {
         boolean toUpdate = false;
 
         // Save all the fields in the Profile
-        switch (view.getId()) {
-            case R.id.workout_name:
-                mProgram.setName(nameEdit.getText());
-                toUpdate = true;
-                break;
-            case R.id.workout_description:
-                mProgram.setDescription(descriptionEdit.getText());
-                toUpdate = true;
-                break;
+        int id = view.getId();
+        if (id == R.id.workout_name) {
+            mProgram.setName(nameEdit.getText());
+            toUpdate = true;
+        }
+        else if (id == R.id.workout_description) {
+            mProgram.setDescription(descriptionEdit.getText());
+            toUpdate = true;
         }
 
         if (toUpdate) {
