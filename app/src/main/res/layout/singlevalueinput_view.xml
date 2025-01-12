@@ -36,7 +36,7 @@
                 android:selectAllOnFocus="true"
                 tools:text="10" />
 
-            <Spinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/singlevalueinput_unitSpinner"
                 style="@style/Platform.Widget.AppCompat.Spinner"
                 android:layout_width="wrap_content"
