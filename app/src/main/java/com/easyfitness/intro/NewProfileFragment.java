@@ -104,10 +104,10 @@ public class NewProfileFragment extends Fragment {
 
             new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText(p.getName())
-                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+                    .setContentText(this.getResources().getText(R.string.profileCreated).toString())
                     .setConfirmClickListener(sDialog -> {
                         // Profile created, enable the next button and proceed
-                        mMainIntroActivity.onNextPressed(this);  // Transition to the next slide
+                        mMainIntroActivity.onDonePressed(this);
                     })
                     .show();
 
