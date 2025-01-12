@@ -123,13 +123,12 @@ public class FontesFragment extends Fragment {
     private DatePickerDialogFragment mDateFrag = null;
     private TimePickerDialogFragment mTimeFrag = null;
     private final OnClickListener clickDateEdit = v -> {
-        switch (v.getId()) {
-            case R.id.editDate:
-                showDatePickerFragment();
-                break;
-            case R.id.editTime:
-                showTimePicker(timeEdit);
-                break;
+        int id = v.getId();
+        if (id == R.id.editDate) {
+            showDatePickerFragment();
+        }
+        else if (id == R.id.editTime) {
+            showTimePicker(timeEdit);
         }
     };
 
