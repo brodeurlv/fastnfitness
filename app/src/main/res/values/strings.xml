@@ -302,7 +302,8 @@
     <string name="profileDeleted">Profile deleted</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
-    <string name="areyousure">Are you sure?</string>
+    <string name="areyousure" >Are you sure?</string>
+    <string name="macros_track" >Macros Track</string>
     <string name="edit_soon_available">Edit soon available</string>
     <string name="name">Name</string>
     <string name="description">Description</string>

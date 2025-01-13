@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.ProgramListLabel), R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.macros_track), R.drawable.ic_ruler, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_drawer_photo_camera, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
@@ -1142,14 +1143,19 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
+                    // TODO: Add macro tracker fragment
+                    //showFragment(WEIGHT);
+                    setTitle(getResources().getText(R.string.macros_track));
+                    break;
+                case 7:
                     showFragment(PROGRESSIMAGES);
                     setTitle(getResources().getText(R.string.progress_images));
                     break;
-                case 7:
+                case 8:
                     showFragment(SETTINGS);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
-                case 8:
+                case 9:
                     showFragment(ABOUT);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;
