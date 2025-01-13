@@ -1,19 +1,18 @@
 package com.easyfitness.enums;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import android.content.res.Resources;
 
 import com.easyfitness.R;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MuscleTest {
     private static final int ABDOMINALS_NEW_ID = 0;
     private static final int BACK_NEW_ID = 1;
@@ -31,7 +31,7 @@ public class MuscleTest {
     private static final int ENGLISH_TRICEP_DATABASE_ID = 12;
     private static final int ENGLISH_TRICEP_NEWER_DATABASE_ID = 13;
     private static final int FRENCH_BACK_DATABASE_ID = 4;
-    Set<Muscle> exampleMuscles = new HashSet<Muscle>() {{
+    Set<Muscle> exampleMuscles = new HashSet<>() {{
         add(Muscle.ABDOMINALS);
         add(Muscle.BACK);
         add(Muscle.TRICEPS);
@@ -43,8 +43,8 @@ public class MuscleTest {
     @Mock
     Resources mockFrenchResources;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeAll
+    public void init() {
         when(mockEnglishResources.getString(R.string.abdominaux)).thenReturn("Abdominals");
         when(mockEnglishResources.getString(R.string.dorseaux)).thenReturn("Back");
         when(mockEnglishResources.getString(R.string.biceps)).thenReturn("Biceps");
@@ -114,7 +114,7 @@ public class MuscleTest {
     @Test
     public void givenBodyPartStringReturnsSpecifiedSetOfMuscles() {
         StringBuilder bodyPartsString = new StringBuilder();
-        List<Integer> bodyParts = new ArrayList<Integer>() {{
+        List<Integer> bodyParts = new ArrayList<>() {{
             add(ENGLISH_ABDOMINALS_DATABASE_ID);
             add(ENGLISH_BACK_DATABASE_ID);
             add(ENGLISH_TRICEP_DATABASE_ID);
@@ -151,7 +151,7 @@ public class MuscleTest {
     @Test
     public void shouldReturnASortedListOfMuscles() {
         List<Muscle> muscles = Muscle.sortedListOfMusclesUsing(mockEnglishResources);
-        List<String> muscleNames = new ArrayList<String>() {{
+        List<String> muscleNames = new ArrayList<>() {{
             for (Muscle muscle : muscles) {
                 add(muscle.nameFromResources(mockEnglishResources));
             }
