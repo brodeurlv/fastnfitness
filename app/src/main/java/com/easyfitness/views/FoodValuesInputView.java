@@ -3,44 +3,39 @@ package com.easyfitness.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.easyfitness.DAO.record.Record;
+import com.easyfitness.DAO.macros.FoodRecord;
 import com.easyfitness.R;
 import com.easyfitness.enums.DistanceUnit;
 import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.WeightUnit;
-import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 
-public class FoodWorkoutValuesInputView extends LinearLayout {
+public class FoodValuesInputView extends LinearLayout {
 
-    private View rootView;
     // Selection part
-
     private SingleValueInputView quantityInputView;
     private SingleValueInputView caloriesInputView;
     private SingleValueInputView carbsInputView;
     private SingleValueInputView proteinInputView;
     private SingleValueInputView fatsInputView;
 
-    public FoodWorkoutValuesInputView(@NonNull Context context) {
+    public FoodValuesInputView(@NonNull Context context) {
         super(context);
         init(context, null);
     }
 
-    public FoodWorkoutValuesInputView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public FoodValuesInputView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public FoodWorkoutValuesInputView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public FoodValuesInputView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -158,7 +153,7 @@ public class FoodWorkoutValuesInputView extends LinearLayout {
         else restTimeCardView.setVisibility(GONE);
     }
 
-    public void setRecord(Record record) {
+    public void setRecord(FoodRecord record) {
         // TODO: Implement this
     }
 }
