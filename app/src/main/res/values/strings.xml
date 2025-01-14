@@ -398,23 +398,6 @@
         <item>@string/milli_liters</item>
         <item>@string/fluid_ounces</item>
     </string-array>
-    <string name="food_group_label" >Food Group</string>
-    <string name="carbs_group">Carbs</string>
-    <string name="protein_group">Protein</string>
-    <string name="dairy_group">Dairy</string>
-    <string name="fruits_group">Fruit</string>
-    <string name="vegetable_group">Vegetable</string>
-    <string name="sugar_group">Sugar</string>
-    <string name="other_group">Other</string>
-    <string-array name="food_groups">
-        <item>@string/carbs_group</item>
-        <item>@string/protein_group</item>
-        <item>@string/dairy_group</item>
-        <item>@string/fruits_group</item>
-        <item>@string/vegetable_group</item>
-        <item>@string/sugar_group</item>
-        <item>@string/other_group</item>
-    </string-array>
 
     <string name="no_fat_available">no fat available</string>
     <string name="no_gender_defined">no gender defined</string>

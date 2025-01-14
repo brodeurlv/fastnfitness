@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +18,6 @@ import com.easyfitness.utils.UnitConverter;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class FoodWorkoutValuesInputView extends LinearLayout {
 
@@ -163,25 +159,6 @@ public class FoodWorkoutValuesInputView extends LinearLayout {
     }
 
     public void setRecord(Record record) {
-        setSelectedType(record.getExerciseType());
-        activatedRestTime(record.getTemplateRestTime() != 0);
-        setRestTime(record.getTemplateRestTime());
-        switch (record.getExerciseType()) {
-            case STRENGTH:
-                setSets(record.getSets());
-                setReps(record.getReps());
-                setWeight(UnitConverter.weightConverter(record.getWeightInKg(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
-                break;
-            case ISOMETRIC:
-                setSets(record.getSets());
-                setSeconds(record.getSeconds());
-                setWeight(UnitConverter.weightConverter(record.getWeightInKg(), WeightUnit.KG, record.getWeightUnit()), record.getWeightUnit());
-            case CARDIO:
-                setDuration(record.getDuration());
-                if (record.getDistanceUnit() == DistanceUnit.MILES)
-                    setDistance(UnitConverter.KmToMiles(record.getDistanceInKm()), DistanceUnit.MILES);
-                else
-                    setDistance(record.getDistanceInKm(), DistanceUnit.KM);
-        }
+        // TODO: Implement this
     }
 }

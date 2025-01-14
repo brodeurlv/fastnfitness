@@ -41,19 +41,6 @@
             tools:value="100"
             tools:visibility="visible" />
 
-        <!-- Food Group -->
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/FoodGroupSpinner"
-            style="@style/Platform.Widget.AppCompat.Spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:entries="@array/food_groups"
-            android:gravity="center_horizontal"
-            android:minEms="2"
-            android:popupBackground="?android:attr/detailsElementBackground"
-            app:popupTheme="@style/ThemeOverlay.AppCompat" />
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
