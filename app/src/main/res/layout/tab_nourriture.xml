@@ -1,0 +1,263 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="tab_fontes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:animateLayoutChanges="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:scrollbars="vertical">
+
+        <androidx.cardview.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/imageMachine"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|center"
+                        android:src="@drawable/ic_exercises"
+                        app:civ_border_width="0dp"
+                        app:civ_shadow="false" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/editFood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@+id/buttonListMachine"
+                        android:layout_toEndOf="@+id/imageMachine"
+                        android:hint="Name of your food"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords|textAutoComplete"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true" />
+
+                    <ImageButton
+                        android:id="@+id/buttonListMachine"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:baselineAlignBottom="false"
+                        android:cropToPadding="false"
+                        android:src="@drawable/ic_list_alt" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.easyfitness.views.WorkoutValuesInputView
+            android:id="@+id/WorkoutValuesInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:selectedType="cardio"
+            app:showRestTime="true"
+            app:showTypeSelector="true" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/detailsCardView"
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/buttonExpandArrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:baselineAlignBottom="false"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_expand_more" />
+
+                <LinearLayout
+                    android:id="@+id/notesLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/automatic_date_time" />
+
+                        <CheckBox
+                            android:id="@+id/autoTimeCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="50"
+                            android:gravity="end"
+                            android:text="@string/DateLabel" />
+
+                        <TextView
+                            android:id="@+id/editDate"
+                            style="@style/editableTextView"
+                            android:layout_marginEnd="8dp"
+                            android:layout_width="match_parent"
+                            android:ems="8"
+                            android:layout_weight="50"
+                            android:enabled="false"
+                            tools:text="10/05/20" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="50"
+                            android:gravity="end"
+                            android:text="@string/timeLabel" />
+
+                        <TextView
+                            android:id="@+id/editTime"
+                            style="@style/editableTextView"
+                            android:layout_width="match_parent"
+                            android:ems="8"
+                            android:layout_weight="50"
+                            android:enabled="false"
+                            tools:text="18:26:10" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginStart="8dp"
+                            android:gravity="start"
+                            android:text="@string/NotesLabel" />
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:height="40dp"
+                            android:ems="10"
+                            android:hint="@string/NotesLabel"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
+                            android:maxLines="5"
+                            android:minHeight="40dp"
+                            android:minLines="2"
+                            tools:ignore="Autofill" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/addperff"
+                style="@style/AddButton"
+                android:text="@string/AddLabel" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="3dp"
+                android:text="@string/TopTenLabel" />
+
+        </LinearLayout>
+
+        <com.easyfitness.utils.ExpandedListView
+            android:id="@+id/listRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="false"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:fastScrollEnabled="false"
+            android:isScrollContainer="false"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+</ScrollView>

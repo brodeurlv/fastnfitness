@@ -375,6 +375,47 @@
         <item>@string/intense</item>
         <item>@string/very_intense</item>
     </string-array>
+
+    <string name="calories_label" >Calories (KCal)</string>
+    <string name="carbs_label" >Carbs (g)</string>
+    <string name="protein_label" >Protein (g)</string>
+    <string name="fat_label" >Fat (g)</string>
+    <string name="sugar_label" >Sugar (g)</string>
+    <string name="quantity_label" >Quantity</string>
+    <string name="servings">servings</string>
+    <string name="pieces">pieces</string>
+    <string name="grams">grams</string>
+    <string name="oz">ounces</string>
+    <string name="cups">Cups</string>
+    <string name="milli_liters">mL</string>
+    <string name="fluid_ounces">fl. oz.</string>
+    <string-array name="food_quantities">
+        <item>@string/servings</item>
+        <item>@string/pieces</item>
+        <item>@string/grams</item>
+        <item>@string/oz</item>
+        <item>@string/cups</item>
+        <item>@string/milli_liters</item>
+        <item>@string/fluid_ounces</item>
+    </string-array>
+    <string name="food_group_label" >Food Group</string>
+    <string name="carbs_group">Carbs</string>
+    <string name="protein_group">Protein</string>
+    <string name="dairy_group">Dairy</string>
+    <string name="fruits_group">Fruit</string>
+    <string name="vegetable_group">Vegetable</string>
+    <string name="sugar_group">Sugar</string>
+    <string name="other_group">Other</string>
+    <string-array name="food_groups">
+        <item>@string/carbs_group</item>
+        <item>@string/protein_group</item>
+        <item>@string/dairy_group</item>
+        <item>@string/fruits_group</item>
+        <item>@string/vegetable_group</item>
+        <item>@string/sugar_group</item>
+        <item>@string/other_group</item>
+    </string-array>
+
     <string name="no_fat_available">no fat available</string>
     <string name="no_gender_defined">no gender defined</string>
     <string name="insufficient_data">insufficient data</string>

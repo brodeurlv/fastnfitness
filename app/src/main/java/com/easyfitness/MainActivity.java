@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
 
+    public static String MACROTRACKING = "MacroTracking";
+
     public static String PROGRESSIMAGES = "ProgressImages";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
     public static String ABOUT = "About";
@@ -840,6 +842,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (pFragmentName.equals(PROGRESSIMAGES)) {
             ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
         }
+        else if (pFragmentName.equals(MACROTRACKING)) {
+            /// TODO: Add getMacroTrackingFragment()
+            //ft.replace(R.id.fragment_container, getMacroTrackingFragment(), MACROTRACKING);
+        }
         currentFragmentName = pFragmentName;
         ft.commit();
 
@@ -932,6 +938,14 @@ public class MainActivity extends AppCompatActivity {
         return mpWeightFrag;
     }
 
+    private WeightFragment getMacroTrackingFragment() {
+        // TODO: Actually implement this
+        if (mpWeightFrag == null)
+            mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
+        if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
+
+        return mpWeightFrag;
+    }
 
     private ProgressImagesFragment getProgressImagesFragment() {
         if (mpProgressImageFrag == null)
@@ -1144,7 +1158,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 6:
                     // TODO: Add macro tracker fragment
-                    //showFragment(WEIGHT);
+                    showFragment(MACROTRACKING);
                     setTitle(getResources().getText(R.string.macros_track));
                     break;
                 case 7:

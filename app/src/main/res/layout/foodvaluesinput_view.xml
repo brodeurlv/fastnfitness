@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <!-- Quantity -->
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/QuantityInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            android:imeOptions="actionNext"
+            app:showComment="true"
+            app:showUnit="true"
+            app:title="@string/quantity_label"
+            app:units="@array/food_quantities"
+            tools:value="1"
+            tools:visibility="visible" />
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/CaloriesInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:imeOptions="actionNext"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/calories_label"
+            app:value=""
+            tools:value="100"
+            tools:visibility="visible" />
+
+        <!-- Food Group -->
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/FoodGroupSpinner"
+            style="@style/Platform.Widget.AppCompat.Spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:entries="@array/food_groups"
+            android:gravity="center_horizontal"
+            android:minEms="2"
+            android:popupBackground="?android:attr/detailsElementBackground"
+            app:popupTheme="@style/ThemeOverlay.AppCompat" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/CarbsInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:imeOptions="actionNext"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/carbs_label"
+            tools:value="10"
+            tools:visibility="visible" />
+
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/ProteinInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:imeOptions="actionNext"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/protein_label"
+            app:value=""
+            tools:value="10"
+            tools:visibility="visible" />
+
+        <com.easyfitness.views.SingleValueInputView
+            android:id="@+id/FatInputView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:imeOptions="actionNext"
+            app:showComment="false"
+            app:showUnit="false"
+            app:title="@string/fat_label"
+            app:value=""
+            tools:value="10"
+            tools:visibility="visible" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>
