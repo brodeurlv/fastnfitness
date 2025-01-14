@@ -1,11 +1,6 @@
 package com.easyfitness.DAO.macros;
 
-import com.easyfitness.enums.DistanceUnit;
-import com.easyfitness.enums.ExerciseType;
 import com.easyfitness.enums.FoodQuantityUnit;
-import com.easyfitness.enums.ProgramRecordStatus;
-import com.easyfitness.enums.RecordType;
-import com.easyfitness.enums.WeightUnit;
 
 import java.util.Date;
 

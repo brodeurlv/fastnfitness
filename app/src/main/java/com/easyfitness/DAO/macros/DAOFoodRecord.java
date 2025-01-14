@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.NonNull;
+
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
-import com.easyfitness.enums.RecordType;
+import com.easyfitness.enums.FoodQuantityUnit;
 import com.easyfitness.utils.DateConverter;
 
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ public class DAOFoodRecord extends DAOBase {
     public static final String LOCAL_DATE = "DATE(date || 'T' || time, 'localtime')";
     public static final String TIME = "time";
     public static final String DATE_TIME = "DATETIME(date || 'T' || time)";
-    public static final String FOOD = "food";
-    public static final String PROFILE_KEY = "profil_id";
+    public static final String FOOD_NAME = "food_name";
+    public static final String PROFILE_KEY = "profile_id";
     public static final String FOOD_KEY = "food_id";
     public static final String NOTES = "notes";
     public static final String PROTEIN = "protein";
@@ -43,7 +45,7 @@ public class DAOFoodRecord extends DAOBase {
             + FOOD_KEY + " INTEGER,"
             + DATE + " DATE, "
             + TIME + " TEXT,"
-            + FOOD + " TEXT, "
+            + FOOD_NAME + " TEXT, "
             + CALORIES + " REAL, "
             + CARBS + " REAL, "
             + PROTEIN + " REAL, "
@@ -81,70 +83,31 @@ public class DAOFoodRecord extends DAOBase {
         return value;
     }
 
-    public long addRecord(FoodRecord record) {
-        return addRecord(record.getDate(),
-                record.getExercise(), record.getExerciseType(),
-                record.getSets(),
-                record.getReps(),
-                record.getWeightInKg(),
-                record.getWeightUnit(),
-                record.getNote(),
-                record.getDistanceInKm(),
-                record.getDistanceUnit(),
-                record.getDuration(),
-                record.getSeconds(),
-                record.getProfileId(), record.getRecordType(),
-                record.getTemplateRecordId(), record.getProgramId(), record.getTemplateSessionId(), record.getTemplateRestTime(), record.getProgramRecordStatus(),
-                record.getTemplateSets(),
-                record.getTemplateReps(),
-                record.getTemplateWeight(),
-                record.getTemplateWeightUnit(),
-                record.getTemplateDistance(),
-                record.getTemplateDistanceUnit(),
-                record.getTemplateDuration(),
-                record.getTemplateSeconds(),
-                record.getTemplateOrder());
+    public long addRecord(@NonNull FoodRecord record) {
+        return addRecord(record.getDate(),record.getFoodName(),record.getId(),record.getProfileId(),record.getQuantity(),record.getQuantityUnit(),
+                record.getCalories(), record.getCarbs(), record.getProtein(), record.getFats(), record.getNote());
     }
 
     /**
-     * @param pDate              Date
-     * @param pExercise          Machine name
-     * @param pExerciseType      Weight, Cardio or Isometric
-     * @param pWeightUnit        LBS or KG
-     * @param pProfileId         profile who created the record
-     * @param pTemplateRecordId  record of type PROGRAM_TEMPLATE
-     * @param pProgramSessionId Id of the Program session
-     * @param templateOrder
      * @return id of the added record, -1 if error
      */
-    public long addRecord(Date pDate, String pExercise, ExerciseType pExerciseType, int pSets, int pReps, float pWeight,
-                          WeightUnit pWeightUnit, String pNote, float pDistance, DistanceUnit pDistanceUnit, long pDuration, int pSeconds, long pProfileId,
-                          RecordType pRecordType, long pTemplateRecordId, long pProgramId, long pProgramSessionId,
-                          int pRestTime, ProgramRecordStatus pProgramRecordStatus, int templateSets, int templateReps, float templateWeight,
-                          WeightUnit templateWeightUnit, float templateDistance, DistanceUnit templateDistanceUnit, long templateDuration, int templateSeconds, int templateOrder) {
+    public long addRecord(Date date, String foodName, long foodId, long profileId, float quantity, FoodQuantityUnit quantityUnit,
+                          float calories, float carbs, float protein, float fats, String notes) {
 
         ContentValues value = new ContentValues();
-        long machine_key;
 
-        //Test if Machine exists. If not create it.
-        DAOMachine lDAOMachine = new DAOMachine(mContext);
-        if (!lDAOMachine.machineExists(pExercise)) {
-            machine_key = lDAOMachine.addMachine(pExercise, "", pExerciseType, "", false, "");
-        } else {
-            machine_key = lDAOMachine.getMachine(pExercise).getId();
-        }
-
-        /// TODO: Finish implementing the below block
-        value.put(DAOFoodRecord.DATE, DateConverter.dateTimeToDBDateStr(pDate));
-        value.put(DAOFoodRecord.TIME, DateConverter.dateTimeToDBTimeStr(pDate));
-        value.put(DAOFoodRecord.PROFILE_KEY, pProfileId);
-        value.put(DAOFoodRecord.QUANTITY, pExercise);
-        value.put(DAOFoodRecord.QUANTITY_UNIT, machine_key);
-        value.put(DAOFoodRecord.CALORIES, pExerciseType.ordinal());
-        value.put(DAOFoodRecord.PROTEIN, pSets);
-        value.put(DAOFoodRecord.CARBS, pReps);
-        value.put(DAOFoodRecord.FATS, pWeight);
-        value.put(DAOFoodRecord.NOTES, pNote);
+        value.put(DAOFoodRecord.KEY, foodId);
+        value.put(DAOFoodRecord.FOOD_NAME, foodName);
+        value.put(DAOFoodRecord.DATE, DateConverter.dateTimeToDBDateStr(date));
+        value.put(DAOFoodRecord.TIME, DateConverter.dateTimeToDBTimeStr(date));
+        value.put(DAOFoodRecord.PROFILE_KEY, profileId);
+        value.put(DAOFoodRecord.QUANTITY, quantity);
+        value.put(DAOFoodRecord.QUANTITY_UNIT, quantityUnit.toString());
+        value.put(DAOFoodRecord.CALORIES, calories);
+        value.put(DAOFoodRecord.PROTEIN, protein);
+        value.put(DAOFoodRecord.CARBS, carbs);
+        value.put(DAOFoodRecord.FATS, fats);
+        value.put(DAOFoodRecord.NOTES, notes);
 
         SQLiteDatabase db = open();
         long new_id = db.insert(DAOFoodRecord.TABLE_NAME, null, value);
@@ -186,49 +149,22 @@ public class DAOFoodRecord extends DAOBase {
 
     private FoodRecord fromCursor(Cursor cursor) {
         Date date = DateConverter.DBDateTimeStrToDate(
-                cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.DATE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.TIME))
+                cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.TIME))
         );
-
-        long machine_key;
-
-        //Test if Machine exists. If not create it.
-        DAOMachine lDAOMachine = new DAOMachine(mContext);
-        if (cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE_KEY)) == null) {
-            machine_key = lDAOMachine.addMachine(cursor.getString(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE)), "", ExerciseType.STRENGTH, "", false, "");
-        } else {
-            machine_key = cursor.getLong(cursor.getColumnIndexOrThrow(DAOFonte.EXERCISE_KEY));
-        }
-
+//        (Date date, String foodName, long foodId, long profileId, float quantity, FoodQuantityUnit quantityUnit,
+//        float calories, float carbs, float protein, float fats)
         FoodRecord value = new FoodRecord(date,
-                cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.EXERCISE)),
-                machine_key,
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROFILE_KEY)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.SETS)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.REPS)),
-                cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.WEIGHT)),
-                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.WEIGHT_UNIT))),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.SECONDS)),
-                cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.DISTANCE)),
-                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.DISTANCE_UNIT))),
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.DURATION)),
-                cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.NOTES)),
-                ExerciseType.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.EXERCISE_TYPE))),
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROGRAM_KEY)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_RECORD_KEY)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROGRAM_SESSION_KEY)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_REST_TIME)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_ORDER)),
-                ProgramRecordStatus.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_RECORD_STATUS))),
-                RecordType.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.RECORD_TYPE))),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_SETS)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_REPS)),
-                cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_WEIGHT)),
-                WeightUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_WEIGHT_UNIT))),
-                cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_SECONDS)),
-                cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_DISTANCE)),
-                DistanceUnit.fromInteger(cursor.getInt(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_DISTANCE_UNIT))),
-                cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.TEMPLATE_DURATION)));
+            cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.FOOD_NAME)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.KEY)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROFILE_KEY)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.QUANTITY)),
+            FoodQuantityUnit.fromString(cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.QUANTITY_UNIT))),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.CALORIES)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.CARBS)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROTEIN)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.FATS))
+        );
 
         value.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.KEY)));
         return value;
@@ -260,18 +196,18 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines) {
-        return getAllRecordByMachines(pProfile, pMachines, -1);
+    public Cursor getAllRecordByFoodName(Profile pProfile, String foodName) {
+        return getAllRecordByFoodName(pProfile, foodName, -1);
     }
 
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
+    public Cursor getAllRecordByFoodName(Profile pProfile, String foodName, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -319,21 +255,21 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Getting All Machines
-    public List<String> getAllMachinesStrList() {
-        return getAllMachinesStrList(null);
+    public List<String> getAllFoodsStrList() {
+        return getAllFoodsStrList(null);
     }
 
     // Getting All Machines
-    public List<String> getAllMachinesStrList(Profile pProfile) {
+    public List<String> getAllFoodsStrList(Profile pProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
         String selectQuery;
         if (pProfile == null) {
-            selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                    + TABLE_NAME + " ORDER BY " + EXERCISE + " ASC";
+            selectQuery = "SELECT DISTINCT " + FOOD_NAME + " FROM "
+                    + TABLE_NAME + " ORDER BY " + FOOD_NAME + " ASC";
         } else {
-            selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
-                    + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
+            selectQuery = "SELECT DISTINCT " + FOOD_NAME + " FROM "
+                    + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + FOOD_NAME + " ASC";
         }
         mCursor = db.rawQuery(selectQuery, null);
 
@@ -353,25 +289,23 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Getting All Dates
-    public List<String> getAllDatesList(Profile pProfile, Machine pMachine) {
+    public List<String> getAllDatesList(Profile pProfile, String foodName) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
 
-        // Select All Machines
+        // Select All foods
         String selectQuery = "SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME;
-        if (pMachine != null) {
-            selectQuery += " WHERE " + EXERCISE_KEY + "=" + pMachine.getId();
+        if (foodName != null) {
+            selectQuery += " WHERE " + FOOD_NAME + "=" + foodName;
             if (pProfile != null)
                 selectQuery += " AND " + PROFILE_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
         } else {
             if (pProfile != null)
                 selectQuery += " WHERE " + PROFILE_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
         }
-        selectQuery += " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
-                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
-                     + " ORDER BY " + DATE_TIME + " DESC";
+        selectQuery += " ORDER BY " + DATE_TIME + " DESC";
 
         mCursor = db.rawQuery(selectQuery, null);
         int size = mCursor.getCount();
@@ -392,62 +326,41 @@ public class DAOFoodRecord extends DAOBase {
         return valueList;
     }
 
-    public Cursor getTop3DatesFreeWorkoutRecords(Profile pProfile) {
-
-        if (pProfile == null)
-            return null;
-
-        String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
-                + " AND " + LOCAL_DATE + " IN (SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME + " WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " AND " + PROGRAM_KEY + "=-1" + " ORDER BY " + LOCAL_DATE + " DESC LIMIT 3)"
-                + " AND " + PROGRAM_KEY + "=-1"
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
-
-        return getRecordsListCursor(selectQuery);
-    }
 
     // Getting Filtered records
-    public Cursor getFilteredRecords(Profile pProfile, String pMachine, String pDate) {
+    public Cursor getFilteredRecords(Profile pProfile, String foodName, String pDate) {
 
-        boolean lfilterMachine = true;
+        boolean lfilterFoodName = true;
         boolean lfilterDate = true;
         String selectQuery;
 
-        if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString())) {
-            lfilterMachine = false;
+        if (foodName == null || foodName.isEmpty() || foodName.equals(mContext.getResources().getText(R.string.all).toString())) {
+            lfilterFoodName = false;
         }
 
         if (pDate == null || pDate.isEmpty() || pDate.equals(mContext.getResources().getText(R.string.all).toString())) {
             lfilterDate = false;
         }
 
-        if (lfilterMachine && lfilterDate) {
+        if (lfilterFoodName && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine
+                    + " WHERE " + FOOD_NAME + "=\"" + foodName
                     + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
-                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
-        } else if (!lfilterMachine && lfilterDate) {
+        } else if (!lfilterFoodName && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                     + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
-                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
-        } else if (lfilterMachine) {
+        } else if (lfilterFoodName) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
-                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                     + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
-                    + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
-                    + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         }
 
@@ -489,7 +402,7 @@ public class DAOFoodRecord extends DAOBase {
     /**
      * @return the last record for a profile p
      */
-    public FoodRecord getLastExerciseRecord(long machineID, Profile p) {
+    public FoodRecord getLastFoodRecord(long foodID, Profile p) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
@@ -498,10 +411,10 @@ public class DAOFoodRecord extends DAOBase {
         String selectQuery;
         if (p == null) {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE_KEY + "=" + machineID;
+                    + " WHERE " + KEY + "=" + foodID;
         } else {
             selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE_KEY + "=" + machineID +
+                    + " WHERE " + KEY + "=" + foodID +
                     " AND " + PROFILE_KEY + "=" + p.getId();
         }
         mCursor = db.rawQuery(selectQuery, null);
@@ -523,18 +436,18 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public List<FoodRecord> getAllRecordByMachineStrArray(Profile pProfile, String pMachines) {
-        return getAllRecordByMachineStrArray(pProfile, pMachines, -1);
+    public List<FoodRecord> getAllRecordByFoodNameStrArray(Profile pProfile, String pMachines) {
+        return getAllRecordByFoodNameStrArray(pProfile, pMachines, -1);
     }
 
-    public List<FoodRecord> getAllRecordByMachineStrArray(Profile pProfile, String pMachines, int pNbRecords) {
+    public List<FoodRecord> getAllRecordByFoodNameStrArray(Profile pProfile, String foodName, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -542,14 +455,14 @@ public class DAOFoodRecord extends DAOBase {
         return getRecordsList(selectQuery);
     }
 
-    public List<FoodRecord> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId, int pNbRecords) {
+    public List<FoodRecord> getAllRecordByFoodIdArray(Profile pProfile, long foodId, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=\"" + pMachineId + "\""
+                + " WHERE " + KEY + "=\"" + foodId + "\""
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -558,19 +471,8 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public List<FoodRecord> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId) {
-        return getAllRecordByMachineIdArray(pProfile, pMachineId, -1);
-    }
-
-
-    public List<FoodRecord> getAllTemplateRecordByProgramArray(long pTemplateId) {
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + PROGRAM_KEY + "=" + pTemplateId
-                + " AND " + RECORD_TYPE + "=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-
-        // return value list
-        return getRecordsList(selectQuery);
+    public List<FoodRecord> getAllRecordByFoodIdArray(Profile pProfile, long foodId) {
+        return getAllRecordByFoodIdArray(pProfile, foodId, -1);
     }
 
     private List<FoodRecord> getRecordsList(String pRequest) {
@@ -610,36 +512,18 @@ public class DAOFoodRecord extends DAOBase {
         value.put(DAOFoodRecord.KEY, record.getId());
         value.put(DAOFoodRecord.DATE, DateConverter.dateTimeToDBDateStr(record.getDate()));
         value.put(DAOFoodRecord.TIME, DateConverter.dateTimeToDBTimeStr(record.getDate()));
-        value.put(DAOFoodRecord.EXERCISE, record.getExercise());
-        value.put(DAOFoodRecord.EXERCISE_KEY, record.getExerciseId());
-        value.put(DAOFoodRecord.EXERCISE_TYPE, record.getExerciseType().ordinal());
-        value.put(DAOFoodRecord.PROFILE_KEY, record.getProfileId());
-        value.put(DAOFoodRecord.SETS, record.getSets());
-        value.put(DAOFoodRecord.REPS, record.getReps());
-        value.put(DAOFoodRecord.WEIGHT, record.getWeightInKg());
-        value.put(DAOFoodRecord.WEIGHT_UNIT, record.getWeightUnit().ordinal());
-        value.put(DAOFoodRecord.DISTANCE, record.getDistanceInKm());
-        value.put(DAOFoodRecord.DISTANCE_UNIT, record.getDistanceUnit().ordinal());
-        value.put(DAOFoodRecord.DURATION, record.getDuration());
-        value.put(DAOFoodRecord.SECONDS, record.getSeconds());
+        value.put(DAOFoodRecord.KEY, record.getId());
+        value.put(DAOFoodRecord.FOOD_NAME, record.getFoodName());
+        value.put(DAOFoodRecord.DATE, DateConverter.dateTimeToDBDateStr(record.getDate()));
+        value.put(DAOFoodRecord.TIME, DateConverter.dateTimeToDBTimeStr(record.getDate()));
+        value.put(DAOFoodRecord.PROFILE_KEY, record.getId());
+        value.put(DAOFoodRecord.QUANTITY, record.getQuantity());
+        value.put(DAOFoodRecord.QUANTITY_UNIT, record.getQuantityUnit().toString());
+        value.put(DAOFoodRecord.CALORIES, record.getCalories());
+        value.put(DAOFoodRecord.PROTEIN, record.getCalories());
+        value.put(DAOFoodRecord.CARBS, record.getProtein());
+        value.put(DAOFoodRecord.FATS, record.getFats());
         value.put(DAOFoodRecord.NOTES, record.getNote());
-        value.put(DAOFoodRecord.PROGRAM_KEY, record.getProgramId());
-        value.put(DAOFoodRecord.TEMPLATE_RECORD_KEY, record.getTemplateRecordId());
-        value.put(DAOFoodRecord.PROGRAM_SESSION_KEY, record.getTemplateSessionId());
-        value.put(DAOFoodRecord.TEMPLATE_REST_TIME, record.getTemplateRestTime());
-        value.put(DAOFoodRecord.TEMPLATE_ORDER, record.getTemplateOrder());
-        value.put(DAOFoodRecord.TEMPLATE_RECORD_STATUS, record.getProgramRecordStatus().ordinal());
-        value.put(DAOFoodRecord.RECORD_TYPE, record.getRecordType().ordinal());
-
-        value.put(DAOFoodRecord.TEMPLATE_SETS, record.getTemplateSets());
-        value.put(DAOFoodRecord.TEMPLATE_REPS, record.getTemplateReps());
-        value.put(DAOFoodRecord.TEMPLATE_WEIGHT, record.getTemplateWeight());
-        value.put(DAOFoodRecord.TEMPLATE_WEIGHT_UNIT,record.getTemplateWeightUnit().ordinal());
-        value.put(DAOFoodRecord.TEMPLATE_DISTANCE, record.getTemplateDistance());
-        value.put(DAOFoodRecord.TEMPLATE_DISTANCE_UNIT, record.getTemplateDistanceUnit().ordinal());
-        value.put(DAOFoodRecord.TEMPLATE_DURATION, record.getTemplateDuration());
-        value.put(DAOFoodRecord.TEMPLATE_SECONDS, record.getTemplateSeconds());
-
 
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
