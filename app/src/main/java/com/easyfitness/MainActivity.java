@@ -54,6 +54,7 @@ import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.fonte.FontesPagerFragment;
 import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
+import com.easyfitness.nourriture.NourriturePagerFragment;
 import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.FileNameUtil;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
 
     public static String FONTESPAGER = "FontePager";
+    public static String NOURRITUREPAGER = "NourriturePager";
     public static String WEIGHT = "Weight";
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     List<DrawerItem> dataList;
     /* Fragments */
     private FontesPagerFragment mpFontesPagerFrag = null;
+    private NourriturePagerFragment mpNourriturePagerFrag = null;
     private WeightFragment mpWeightFrag = null;
     private ProfileFragment mpProfileFrag = null;
     private MachineFragment mpMachineFrag = null;
@@ -226,6 +229,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (mpFontesPagerFrag == null)
                 mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+            if (mpNourriturePagerFrag == null)
+                mpNourriturePagerFrag = NourriturePagerFragment.newInstance(NOURRITUREPAGER, 12);
             if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
             if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
             if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
@@ -237,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
         } else {
             mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
+            mpNourriturePagerFrag = (NourriturePagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, NOURRITUREPAGER);
             mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
             mpProfileFrag = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, PROFILE);
             mpSettingFrag = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, SETTINGS);
@@ -842,9 +848,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (pFragmentName.equals(PROGRESSIMAGES)) {
             ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
         }
-        else if (pFragmentName.equals(MACROTRACKING)) {
-            /// TODO: Add getMacroTrackingFragment()
-            //ft.replace(R.id.fragment_container, getMacroTrackingFragment(), MACROTRACKING);
+        else if (pFragmentName.equals(NOURRITUREPAGER)) {
+            /// TODO: Add getNourriturePagerFragment()
+            ft.replace(R.id.fragment_container, getNourriturePagerFragment(), NOURRITUREPAGER);
         }
         currentFragmentName = pFragmentName;
         ft.commit();
@@ -928,6 +934,17 @@ public class MainActivity extends AppCompatActivity {
             mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
 
         return mpFontesPagerFrag;
+    }
+
+    /// TODO: Implement this
+    private getNourriturePagerFragment() {
+        if (mpFontesPagerFrag == null)
+            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
+        if (mpFontesPagerFrag == null)
+            mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+
+        return mpFontesPagerFrag;
+
     }
 
     private WeightFragment getWeightFragment() {

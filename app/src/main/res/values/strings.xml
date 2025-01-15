@@ -376,6 +376,7 @@
         <item>@string/very_intense</item>
     </string-array>
 
+    <string name="macros_entry" >Entry</string>
     <string name="calories_label" >Calories (KCal)</string>
     <string name="carbs_label" >Carbs (g)</string>
     <string name="protein_label" >Protein (g)</string>
