@@ -368,6 +368,36 @@ public class DAOFoodRecord extends DAOBase {
         return getRecordsListCursor(selectQuery);
     }
 
+    public FoodRecord getMostRecentFoodRecord(Profile pProfile, String foodName) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        mCursor = null;
+        FoodRecord lReturn = null;
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + FOOD_NAME + "=" + foodName;
+        if (pProfile != null) {
+            selectQuery += " AND " + PROFILE_KEY + "=" + pProfile.getId();
+        }
+        selectQuery += " ORDER BY " + DATE_TIME + " DESC LIMIT 1";
+        mCursor = db.rawQuery(selectQuery, null);
+
+        // looping through only the first rows.
+        if (mCursor.moveToFirst()) {
+            try {
+                long value = mCursor.getLong(0);
+                lReturn = this.getRecord(value);
+            } catch (NumberFormatException e) {
+                lReturn = null; // Return une valeur
+            }
+        }
+
+        close();
+
+        // return value list
+        return lReturn;
+    }
+
     /**
      * @return the last record for a profile p
      */

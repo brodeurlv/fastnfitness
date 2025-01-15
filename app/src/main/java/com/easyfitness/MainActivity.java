@@ -430,6 +430,8 @@ public class MainActivity extends AppCompatActivity {
         //Save the fragment's instance
         if (getFontesPagerFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, FONTESPAGER, mpFontesPagerFrag);
+        if (getNourriturePagerFragment().isAdded())
+            getSupportFragmentManager().putFragment(outState, NOURRITUREPAGER, mpNourriturePagerFrag);
         if (getWeightFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, WEIGHT, mpWeightFrag);
         if (getProfileFragment().isAdded())
@@ -936,14 +938,13 @@ public class MainActivity extends AppCompatActivity {
         return mpFontesPagerFrag;
     }
 
-    /// TODO: Implement this
-    private getNourriturePagerFragment() {
-        if (mpFontesPagerFrag == null)
-            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
-        if (mpFontesPagerFrag == null)
-            mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+    private NourriturePagerFragment getNourriturePagerFragment() {
+        if (mpNourriturePagerFrag == null)
+            mpNourriturePagerFrag = (NourriturePagerFragment) getSupportFragmentManager().findFragmentByTag(NOURRITUREPAGER);
+        if (mpNourriturePagerFrag == null)
+            mpNourriturePagerFrag = NourriturePagerFragment.newInstance(NOURRITUREPAGER, 12);
 
-        return mpFontesPagerFrag;
+        return mpNourriturePagerFrag;
 
     }
 
@@ -1175,7 +1176,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 6:
                     // TODO: Add macro tracker fragment
-                    showFragment(MACROTRACKING);
+                    showFragment(NOURRITUREPAGER);
                     setTitle(getResources().getText(R.string.macros_track));
                     break;
                 case 7:

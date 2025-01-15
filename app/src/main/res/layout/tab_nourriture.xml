@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="tab_fontes"
+    android:name="tab_nourriture"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
@@ -46,7 +46,7 @@
                     android:singleLine="true" />
 
                 <ImageButton
-                    android:id="@+id/buttonListMachine"
+                    android:id="@+id/buttonListFoods"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
