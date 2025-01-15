@@ -1,22 +1,21 @@
 package com.easyfitness.views;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.easyfitness.DAO.macros.FoodRecord;
 import com.easyfitness.R;
-import com.easyfitness.enums.DistanceUnit;
-import com.easyfitness.enums.ExerciseType;
-import com.easyfitness.enums.WeightUnit;
-
-import java.text.DecimalFormat;
+import com.easyfitness.enums.FoodQuantityUnit;
+import java.util.Locale;
 
 public class FoodValuesInputView extends LinearLayout {
+
+    private View rootView;
 
     // Selection part
     private SingleValueInputView quantityInputView;
@@ -50,107 +49,74 @@ public class FoodValuesInputView extends LinearLayout {
         fatsInputView = rootView.findViewById(R.id.FatInputView);
         quantityInputView = rootView.findViewById(R.id.QuantityInputView);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.WorkoutValuesInputView,
-                0, 0);
-
-        try {
-            mShowExerciseTypeSelector = a.getBoolean(R.styleable.WorkoutValuesInputView_showTypeSelector, false);
-            setShowExerciseTypeSelector(mShowExerciseTypeSelector);
-            mSelectedType = ExerciseType.fromInteger(a.getInteger(R.styleable.WorkoutValuesInputView_selectedType, 0));
-            setSelectedType(mSelectedType);
-            mShowRestTime = a.getBoolean(R.styleable.WorkoutValuesInputView_showRestTime, false);
-            setShowRestTime(mShowRestTime);
-        } finally {
-            a.recycle();
-        }
-
         // Events
         //strenghSelector.setOnClickListener(clickExerciseTypeSelector);
         //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
         //isometricSelector.setOnClickListener(clickExerciseTypeSelector);
+
+        //caloriesInputView.setOnKeyListener();
     }
 
-    public int getSets() {
-        return Integer.parseInt(setsInputView.getValue());
+    private float getFloatFromInputView(SingleValueInputView view) {
+        return Float.parseFloat(view.getValue().replaceAll(",", "."));
     }
 
-    public void setSets(int sets) {
-        setsInputView.setValue(String.valueOf(sets));
-        invalidate();
-        requestLayout();
+    private void setInputViewToFloat(SingleValueInputView view, float value) {
+        view.setValue(String.format(Locale.getDefault(), "%f", value));
     }
 
-    public int getReps() {
-        try {
-            return Integer.parseInt(repsInputView.getValue());
-        } catch (Exception e) {
-            return 0;
-        }
+    public void setQuantity(float quantity, FoodQuantityUnit unit) {
+        setInputViewToFloat(quantityInputView, quantity);
+        quantityInputView.setSelectedUnit(unit.toString());
     }
 
-    public void setReps(int reps) {
-        repsInputView.setValue(String.valueOf(reps));
-        invalidate();
-        requestLayout();
+    public float getQuantity() {
+        return getFloatFromInputView(quantityInputView);
     }
 
-    public int getSeconds() {
-        try {
-            return Integer.parseInt(secondsInputView.getValue());
-        } catch (Exception e) {
-            return 0;
-        }
+    public void setQuantityUnit(FoodQuantityUnit unit) {
+        quantityInputView.setSelectedUnit(unit.toString());
     }
 
-    public void setSeconds(int seconds) {
-        secondsInputView.setValue(String.valueOf(seconds));
-        invalidate();
-        requestLayout();
+    public FoodQuantityUnit getQuantityUnit() {
+        return FoodQuantityUnit.fromString(quantityInputView.getSelectedUnit());
     }
 
-    public float getWeightValue() {
-        try {
-            return Float.parseFloat(weightInputView.getValue().replaceAll(",", "."));
-        } catch (Exception e) {
-            return 0;
-        }
+    public void setCalories(float calories) {
+        setInputViewToFloat(caloriesInputView, calories);
     }
 
-    public WeightUnit getWeightUnit() {
-        return WeightUnit.fromString(weightInputView.getSelectedUnit());
+    public float getCalories() {
+        return getFloatFromInputView(caloriesInputView);
     }
 
-    public void setWeightUnit(WeightUnit unit) {
-        weightInputView.setSelectedUnit(unit.toString());
+    public void setCarbs(float carbs) {
+        setInputViewToFloat(carbsInputView, carbs);
     }
 
-
-    public void setWeight(float weight, WeightUnit unit) {
-        DecimalFormat numberFormat = new DecimalFormat("#.##");
-        weightInputView.setValue(numberFormat.format(weight));
-        weightInputView.setSelectedUnit(unit.toString());
-        invalidate();
-        requestLayout();
+    public float getCarbs() {
+        return getFloatFromInputView(carbsInputView);
+    }
+    public void setProtein(float protein) {
+        setInputViewToFloat(proteinInputView, protein);
     }
 
+    public float getProtein() {
+        return getFloatFromInputView(proteinInputView);
+    }
+    public void setFat(float fat) {
+        setInputViewToFloat(fatsInputView, fat);
+    }
+
+    public float getFat() {
+        return getFloatFromInputView(fatsInputView);
+    }
     public boolean isFilled() {
         return !(quantityInputView.isEmpty() ||
                 caloriesInputView.isEmpty() ||
                 carbsInputView.isEmpty() ||
                 fatsInputView.isEmpty() ||
                 proteinInputView.isEmpty());
-    }
-
-    public void setDurationUnit(DistanceUnit unit) {
-        distanceInputView.setSelectedUnit(unit.toString());
-    }
-
-    public void setShowRestTime(boolean isShown) {
-        mShowRestTime = isShown;
-        if (isShown) restTimeCardView.setVisibility(VISIBLE);
-        else restTimeCardView.setVisibility(GONE);
     }
 
     public void setRecord(FoodRecord record) {
