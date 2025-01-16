@@ -26,12 +26,11 @@ public class FoodRecord {
     /**
      * Record from Free Workout
      */
-    public FoodRecord(Date date, String foodName, long foodId, long profileId, float quantity, FoodQuantityUnit quantityUnit,
+    public FoodRecord(Date date, String foodName, long profileId, float quantity, FoodQuantityUnit quantityUnit,
                       float calories, float carbs, float protein, float fats) {
 
         mDate = date;
         mFoodName = foodName;
-        mId = foodId;
         mProfileId = profileId;
         mQuantity = quantity;
         mQuantityUnit = quantityUnit;

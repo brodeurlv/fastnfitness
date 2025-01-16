@@ -48,11 +48,13 @@ import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
+import com.easyfitness.views.FoodValuesInputView;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -62,6 +64,7 @@ public class NourritureFragment extends Fragment {
     private long mProgramId;
     private MainActivity mActivity = null;
     private AutoCompleteTextView foodNameEdit = null;
+    private FoodValuesInputView foodInputView = null;
     private MachineArrayFullAdapter foodEditAdapter = null;
     private ImageButton foodListButton = null;
     private ImageButton detailsExpandArrow = null;
@@ -69,14 +72,18 @@ public class NourritureFragment extends Fragment {
     private CardView detailsCardView = null;
     private CheckBox autoTimeCheckBox = null;
     private TextView dateEdit = null;
-
     private DAOFoodRecord mDbRecord = null;
     private AppViMo appViMo;
+    private TextView timeEdit = null;
+    private ExpandedListView recordList = null;
+    private AlertDialog foodListDialog;
+    private AlertDialog foodFilterDialog;
+    private DatePickerDialogFragment mDateFrag = null;
+    private TimePickerDialogFragment mTimeFrag = null;
     private final DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
         dateEdit.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
         Keyboard.hide(getContext(), dateEdit);
     };
-    private TextView timeEdit = null;
     private final MyTimePickerDialog.OnTimeSetListener timeSet = (view, hourOfDay, minute, second) -> {
         // Do something with the time chosen by the user
         Date date = DateConverter.timeToDate(hourOfDay, minute, second);
@@ -91,12 +98,6 @@ public class NourritureFragment extends Fragment {
             timeEdit.setText(DateConverter.currentTime(getContext()));
         }
     };
-    private Button addButton = null;
-    private ExpandedListView recordList = null;
-    private AlertDialog foodListDialog;
-    private AlertDialog foodFilterDialog;
-    private DatePickerDialogFragment mDateFrag = null;
-    private TimePickerDialogFragment mTimeFrag = null;
     private final OnClickListener clickDateEdit = v -> {
         int id = v.getId();
         if (id == R.id.editDate) {
@@ -149,6 +150,22 @@ public class NourritureFragment extends Fragment {
         } else {
             date = DateConverter.localDateTimeStrToDateTime(dateEdit.getText().toString(), timeEdit.getText().toString(), getContext());
         }
+
+        /*
+        (Date date, String foodName, long profileId, float quantity, FoodQuantityUnit quantityUnit,
+                          float calories, float carbs, float protein, float fats, String notes)
+         */
+        mDbRecord.addRecord(date,
+                getFoodName(),
+                getProfile().getId(),
+                foodInputView.getQuantity(),
+                foodInputView.getQuantityUnit(),
+                foodInputView.getCalories(),
+                foodInputView.getCarbs(),
+                foodInputView.getProtein(),
+                foodInputView.getFat(),
+                ""
+            );
 
         getActivity().findViewById(R.id.drawer_layout).requestFocus();
         Keyboard.hide(getContext(), v);
@@ -268,7 +285,8 @@ public class NourritureFragment extends Fragment {
         foodNameEdit = view.findViewById(R.id.editFood);
         recordList = view.findViewById(R.id.listRecord);
         foodListButton = view.findViewById(R.id.buttonListFoods);
-        addButton = view.findViewById(R.id.addperff);
+        foodInputView = view.findViewById(R.id.FoodValuesInput);
+        Button addButton = view.findViewById(R.id.addperff);
 
         detailsCardView = view.findViewById(R.id.detailsCardView);
         detailsLayout = view.findViewById(R.id.notesLayout);
@@ -281,6 +299,7 @@ public class NourritureFragment extends Fragment {
         /* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);
         foodListButton.setOnClickListener(onClickFoodListWithIcons);
+
 
         dateEdit.setOnClickListener(clickDateEdit);
         timeEdit.setOnClickListener(clickDateEdit);
@@ -465,7 +484,7 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
-            //foodNameEdit.setText(foodStr);
+            // This is a new food
             return;
         }
 
@@ -488,33 +507,27 @@ public class NourritureFragment extends Fragment {
         }
     }
 
-    private void updateRecordTable(String pMachine) {
+    private void updateRecordTable(String foodName) {
         // Informe l'activité de la machine courante
-        this.getMainActivity().setCurrentMachine(pMachine);
         if (getView() == null) return;
         getView().post(() -> {
 
-//            Cursor c = null;
-//            if (mDisplayType == DisplayType.FREE_WORKOUT_DISPLAY) {
-//                c = mDbRecord.getTop3DatesFreeWorkoutRecords(getProfile());
-//            } else if (mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY) {
-//                c = mDbRecord.getProgramTemplateRecords(mProgramId);
-//            }
-//
-//            List<Record> records = mDbRecord.fromCursorToList(c);
-//
-//            if (records.isEmpty()) {
-//                recordList.setAdapter(null);
-//            } else {
-//                if (recordList.getAdapter() == null) {
-//                    RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, mDisplayType, itemClickCopyRecord);
-//                    //RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.PROGRAM_EDIT_DISPLAY, itemClickCopyRecord);
-//                    recordList.setAdapter(mTableAdapter);
-//                } else {
-//                    ((RecordArrayAdapter) recordList.getAdapter()).setRecords(records);
-//                }
-//
-//            }
+            Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1);
+
+            List<FoodRecord> records = mDbRecord.fromCursorToList(c);
+
+            if (records.isEmpty()) {
+                recordList.setAdapter(null);
+            } else {
+                if (recordList.getAdapter() == null) {
+                    FoodRecordArrayAdapter mTableAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records, itemClickCopyRecord);
+
+                    recordList.setAdapter(mTableAdapter);
+                } else {
+                    ((FoodRecordArrayAdapter) recordList.getAdapter()).setRecords(records);
+                }
+
+            }
         });
     }
 
@@ -554,6 +567,7 @@ public class NourritureFragment extends Fragment {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
+                updateRecordTable("");
 //                mDbRecord.setProfile(getProfile());
 //
 //                // Version avec table Machine

@@ -42,7 +42,6 @@ public class DAOFoodRecord extends DAOBase {
     public static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
             + " (" + KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + PROFILE_KEY + " INTEGER, "
-            + FOOD_KEY + " INTEGER,"
             + DATE + " DATE, "
             + TIME + " TEXT,"
             + FOOD_NAME + " TEXT, "
@@ -84,19 +83,18 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     public long addRecord(@NonNull FoodRecord record) {
-        return addRecord(record.getDate(),record.getFoodName(),record.getId(),record.getProfileId(),record.getQuantity(),record.getQuantityUnit(),
+        return addRecord(record.getDate(),record.getFoodName(),record.getProfileId(),record.getQuantity(),record.getQuantityUnit(),
                 record.getCalories(), record.getCarbs(), record.getProtein(), record.getFats(), record.getNote());
     }
 
     /**
      * @return id of the added record, -1 if error
      */
-    public long addRecord(Date date, String foodName, long foodId, long profileId, float quantity, FoodQuantityUnit quantityUnit,
+    public long addRecord(Date date, String foodName, long profileId, float quantity, FoodQuantityUnit quantityUnit,
                           float calories, float carbs, float protein, float fats, String notes) {
 
         ContentValues value = new ContentValues();
 
-        value.put(DAOFoodRecord.KEY, foodId);
         value.put(DAOFoodRecord.FOOD_NAME, foodName);
         value.put(DAOFoodRecord.DATE, DateConverter.dateTimeToDBDateStr(date));
         value.put(DAOFoodRecord.TIME, DateConverter.dateTimeToDBTimeStr(date));
@@ -156,7 +154,6 @@ public class DAOFoodRecord extends DAOBase {
 //        float calories, float carbs, float protein, float fats)
         FoodRecord value = new FoodRecord(date,
             cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.FOOD_NAME)),
-            cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.KEY)),
             cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROFILE_KEY)),
             cursor.getFloat(cursor.getColumnIndexOrThrow(DAOFoodRecord.QUANTITY)),
             FoodQuantityUnit.fromString(cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.QUANTITY_UNIT))),
@@ -231,7 +228,7 @@ public class DAOFoodRecord extends DAOBase {
      * @param pNbRecords max number of records requested
      * @return pNbRecords number of records for a specified pProfile
      */
-    public Cursor getAllRecordsByProfile(Profile pProfile, int pNbRecords) {
+    public Cursor getAllRecordsByProfile(Profile pProfile, @NonNull int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;

@@ -58,7 +58,11 @@ public class FoodValuesInputView extends LinearLayout {
     }
 
     private float getFloatFromInputView(SingleValueInputView view) {
-        return Float.parseFloat(view.getValue().replaceAll(",", "."));
+        String s = view.getValue().replaceAll(",", ".");
+        if (s.isEmpty()) {
+            return 0.0f;
+        }
+        return Float.parseFloat(s);
     }
 
     private void setInputViewToFloat(SingleValueInputView view, float value) {
