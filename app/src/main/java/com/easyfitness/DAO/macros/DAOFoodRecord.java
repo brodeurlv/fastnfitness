@@ -52,8 +52,8 @@ public class DAOFoodRecord extends DAOBase {
             + FATS + " REAL, "
             + QUANTITY + " REAL, "
             + QUANTITY_UNIT + " TEXT, "
-            + NOTES + " TEXT, "
-            + " );";
+            + NOTES + " TEXT"
+            + ");";
 
     protected Profile mProfile = null;
     protected Cursor mCursor = null;
@@ -207,7 +207,7 @@ public class DAOFoodRecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
+                + " WHERE " + FOOD_NAME + "='" + foodName + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -298,7 +298,7 @@ public class DAOFoodRecord extends DAOBase {
         // Select All foods
         String selectQuery = "SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME;
         if (foodName != null) {
-            selectQuery += " WHERE " + FOOD_NAME + "=" + foodName;
+            selectQuery += " WHERE " + FOOD_NAME + "='" + foodName + "'";
             if (pProfile != null)
                 selectQuery += " AND " + PROFILE_KEY + "=" + pProfile.getId(); // pProfile should never be null but depending on how the activity is resuming it happen. to be fixed
         } else {
@@ -344,18 +344,18 @@ public class DAOFoodRecord extends DAOBase {
 
         if (lfilterFoodName && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + FOOD_NAME + "=\"" + foodName
-                    + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + FOOD_NAME + "='" + foodName + "'"
+                    + " AND " + LOCAL_DATE + "='" + pDate + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (!lfilterFoodName && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + LOCAL_DATE + "='" + pDate + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (lfilterFoodName) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
+                    + " WHERE " + FOOD_NAME + "='" + foodName + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else {
@@ -375,7 +375,7 @@ public class DAOFoodRecord extends DAOBase {
         FoodRecord lReturn = null;
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + FOOD_NAME + "=" + foodName;
+                + " WHERE " + FOOD_NAME + "='" + foodName + "'";
         if (pProfile != null) {
             selectQuery += " AND " + PROFILE_KEY + "=" + pProfile.getId();
         }
@@ -392,6 +392,7 @@ public class DAOFoodRecord extends DAOBase {
             }
         }
 
+        mCursor.close();
         close();
 
         // return value list
@@ -477,7 +478,7 @@ public class DAOFoodRecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + FOOD_NAME + "=\"" + foodName + "\""
+                + " WHERE " + FOOD_NAME + "='" + foodName + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -492,7 +493,7 @@ public class DAOFoodRecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + KEY + "=\"" + foodId + "\""
+                + " WHERE " + KEY + "='" + foodId + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 

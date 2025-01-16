@@ -15,6 +15,7 @@ import com.easyfitness.DAO.bodymeasures.BodyMeasure;
 import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
 import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
 import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
+import com.easyfitness.DAO.macros.DAOFoodRecord;
 import com.easyfitness.DAO.program.DAOProgram;
 import com.easyfitness.DAO.program.DAOProgramHistory;
 import com.easyfitness.DAO.progressimages.DAOProgressImage;
@@ -35,7 +36,7 @@ import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 26;
+    public static final int DATABASE_VERSION = 27;
     public static final String OLD09_DATABASE_NAME = "easyfitness";
     public static final String DATABASE_NAME = "easyfitness.db";
     private Context mContext = null;
@@ -69,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAOProgram.TABLE_CREATE);
         db.execSQL(DAOProgramHistory.TABLE_CREATE);
         db.execSQL(DAOProgressImage.TABLE_CREATE);
+        db.execSQL(DAOFoodRecord.TABLE_CREATE);
         initBodyPartTable(db);
     }
 
@@ -213,6 +215,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 26:
                     db.execSQL(DAOProgressImage.TABLE_CREATE);
+                    break;
+                case 27:
+                    db.execSQL(DAOFoodRecord.TABLE_CREATE);
                     break;
             }
             upgradeTo++;

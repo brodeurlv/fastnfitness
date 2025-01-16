@@ -39,6 +39,7 @@ import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.macros.DAOFoodRecord;
 import com.easyfitness.DAO.macros.FoodRecord;
+import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
@@ -124,7 +125,6 @@ public class NourritureFragment extends Fragment {
     private final TextWatcher foodNameTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
             String foodName = s.toString();
-            MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) foodNameEdit.getAdapter();
             setCurrentFoodName(foodName);
         }
 
@@ -290,6 +290,8 @@ public class NourritureFragment extends Fragment {
         foodNameEdit.setOnItemClickListener(onItemClickFilterList);
         recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
+
+        mDbRecord = new DAOFoodRecord(getContext());
 
         restoreSharedParams();
 
@@ -463,7 +465,7 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
-            foodNameEdit.setText("");
+            //foodNameEdit.setText(foodStr);
             return;
         }
 
