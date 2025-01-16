@@ -57,6 +57,14 @@ public class FoodValuesInputView extends LinearLayout {
         //caloriesInputView.setOnKeyListener();
     }
 
+    public void reset() {
+        setCalories(0);
+        setFat(0);
+        setCarbs(0);
+        setProtein(0);
+        setQuantity(0, FoodQuantityUnit.SERVINGS);
+    }
+
     private float getFloatFromInputView(SingleValueInputView view) {
         String s = view.getValue().replaceAll(",", ".");
         if (s.isEmpty()) {
@@ -66,7 +74,7 @@ public class FoodValuesInputView extends LinearLayout {
     }
 
     private void setInputViewToFloat(SingleValueInputView view, float value) {
-        view.setValue(String.format(Locale.getDefault(), "%f", value));
+        view.setValue(String.format(Locale.getDefault(), "%.1f", value));
     }
 
     public void setQuantity(float quantity, FoodQuantityUnit unit) {
@@ -124,6 +132,10 @@ public class FoodValuesInputView extends LinearLayout {
     }
 
     public void setRecord(FoodRecord record) {
-        // TODO: Implement this
+        setCalories(record.getCalories());
+        setFat(record.getFats());
+        setCarbs(record.getCarbs());
+        setProtein(record.getProtein());
+        setQuantity(record.getQuantity(), record.getQuantityUnit());
     }
 }

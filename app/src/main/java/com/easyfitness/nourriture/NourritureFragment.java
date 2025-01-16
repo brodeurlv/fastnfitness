@@ -300,7 +300,6 @@ public class NourritureFragment extends Fragment {
         addButton.setOnClickListener(clickAddButton);
         foodListButton.setOnClickListener(onClickFoodListWithIcons);
 
-
         dateEdit.setOnClickListener(clickDateEdit);
         timeEdit.setOnClickListener(clickDateEdit);
         autoTimeCheckBox.setOnCheckedChangeListener(checkedAutoTimeCheckBox);
@@ -320,6 +319,8 @@ public class NourritureFragment extends Fragment {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
+
+        foodInputView.reset();
 
         return view;
     }
