@@ -220,7 +220,9 @@ public class DAOFoodRecord extends DAOBase {
     // Getting All Records
     public List<FoodRecord> getAllRecordsByProfileList(Profile pProfile) {
         Cursor cursor = getAllRecordsByProfile(pProfile, -1);
-        return fromCursorToList(cursor);
+        List<FoodRecord> l = fromCursorToList(cursor);
+        cursor.close();
+        return l;
     }
 
     /**
@@ -525,6 +527,7 @@ public class DAOFoodRecord extends DAOBase {
                 valueList.add(value);
             } while (mCursor.moveToNext());
         }
+        mCursor.close();
         // return value list
         return valueList;
     }

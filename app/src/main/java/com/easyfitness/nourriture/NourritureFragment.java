@@ -65,7 +65,7 @@ public class NourritureFragment extends Fragment {
     private MainActivity mActivity = null;
     private AutoCompleteTextView foodNameEdit = null;
     private FoodValuesInputView foodInputView = null;
-    private MachineArrayFullAdapter foodEditAdapter = null;
+    private FoodArrayFullAdapter foodEditAdapter = null;
     private ImageButton foodListButton = null;
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
@@ -485,7 +485,7 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
-            // This is a new food
+            // This is a new food, or user is still typing
             return;
         }
 
@@ -516,6 +516,7 @@ public class NourritureFragment extends Fragment {
             Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1);
 
             List<FoodRecord> records = mDbRecord.fromCursorToList(c);
+            c.close();
 
             if (records.isEmpty()) {
                 recordList.setAdapter(null);
@@ -532,52 +533,16 @@ public class NourritureFragment extends Fragment {
         });
     }
 
-    private void refreshDialogData() {
-        Cursor oldCursor;
-
-        ListView machineList = new ListView(getContext());
-
-        // Version avec table Machine
-//        Cursor c = mDbMachine.getAllMachines(selectedTypes);
-//
-//        if (c == null || c.getCount() == 0) {
-//            if (selectedTypes.size() == 0) {
-//                KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-//            } else {
-//                //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-//                KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-//            }
-//            machineList.setAdapter(null);
-//        } else {
-//            if (machineList.getAdapter() == null) {
-//                MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
-//                //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
-//                machineList.setAdapter(mTableAdapter);
-//            } else {
-//                MachineCursorAdapter mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
-//                oldCursor = mTableAdapter.swapCursor(c);
-//                if (oldCursor != null) oldCursor.close();
-//            }
-//
-//            ListView listView = foodListDialog.findViewById(R.id.listMachine);
-//            listView.setAdapter(machineList.getAdapter());
-//        }
-    }
-
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
                 updateRecordTable("");
-//                mDbRecord.setProfile(getProfile());
-//
-//                // Version avec table Machine
-//                List<Machine> machineListArray = mDbMachine.getAllMachinesArray(selectedTypes);
-//
-//                /* Init machines list*/
-//                machineEditAdapter = new MachineArrayFullAdapter(getContext(), machineListArray);
-//                foodNameEdit.setAdapter(machineEditAdapter);
-//
+
+                List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile());
+                foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
+                foodNameEdit.setAdapter(foodEditAdapter);
+
 //                if (foodNameEdit.getText().toString().isEmpty()) {
 //                    Record lLastRecord = mDbRecord.getLastRecord(getProfile());
 //                    if (lLastRecord != null) {
@@ -625,8 +590,6 @@ public class NourritureFragment extends Fragment {
 
     public void restoreSharedParams() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        workoutValuesInputView.setRestTime(sharedPref.getInt("restTime2", 60));
-//        workoutValuesInputView.activatedRestTime(sharedPref.getBoolean("restCheck", true));
 
         if (sharedPref.getBoolean("showDetails", false)) {
             detailsLayout.setVisibility(View.VISIBLE);
