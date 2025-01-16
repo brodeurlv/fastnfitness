@@ -127,6 +127,9 @@ public class NourritureFragment extends Fragment {
         public void afterTextChanged(Editable s) {
             String foodName = s.toString();
             setCurrentFoodName(foodName);
+//            if (!foodNameEdit.isPopupShowing()) {
+//                foodNameEdit.showDropDown();
+//            }
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -151,10 +154,6 @@ public class NourritureFragment extends Fragment {
             date = DateConverter.localDateTimeStrToDateTime(dateEdit.getText().toString(), timeEdit.getText().toString(), getContext());
         }
 
-        /*
-        (Date date, String foodName, long profileId, float quantity, FoodQuantityUnit quantityUnit,
-                          float calories, float carbs, float protein, float fats, String notes)
-         */
         mDbRecord.addRecord(date,
                 getFoodName(),
                 getProfile().getId(),
@@ -247,7 +246,7 @@ public class NourritureFragment extends Fragment {
 //            }
         }
     };
-    private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentFoodName(foodNameEdit.getText().toString());
+    private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentFoodName(((FoodRecord) foodNameEdit.getAdapter().getItem(position)).getFoodName());
     private final OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
         if (hasFocus) {
 
@@ -267,12 +266,6 @@ public class NourritureFragment extends Fragment {
      */
     public static NourritureFragment newInstance(int displayType, long templateId) {
         NourritureFragment f = new NourritureFragment();
-
-        // Supply index input as an argument.
-        Bundle args = new Bundle();
-        args.putLong("templateId", templateId);
-        args.putInt("displayType", displayType);
-        f.setArguments(args);
 
         return f;
     }
@@ -332,11 +325,6 @@ public class NourritureFragment extends Fragment {
         dateEdit.setText(DateConverter.currentDate(getContext()));
         timeEdit.setText(DateConverter.currentTime(getContext()));
         refreshData();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
@@ -598,10 +586,4 @@ public class NourritureFragment extends Fragment {
         }
         detailsExpandArrow.setImageResource(sharedPref.getBoolean("showDetails", false) ? R.drawable.ic_expand_less : R.drawable.ic_expand_more);
     }
-
-    /*@Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden)
-            refreshData();
-    }*/
 }
