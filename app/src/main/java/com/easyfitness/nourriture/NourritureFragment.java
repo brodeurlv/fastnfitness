@@ -66,7 +66,6 @@ public class NourritureFragment extends Fragment {
     private AutoCompleteTextView foodNameEdit = null;
     private FoodValuesInputView foodInputView = null;
     private FoodArrayFullAdapter foodEditAdapter = null;
-    private ImageButton foodListButton = null;
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
     private CardView detailsCardView = null;
@@ -127,15 +126,15 @@ public class NourritureFragment extends Fragment {
         public void afterTextChanged(Editable s) {
             String foodName = s.toString();
             setCurrentFoodName(foodName);
-//            if (!foodNameEdit.isPopupShowing()) {
-//                foodNameEdit.showDropDown();
-//            }
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!foodNameEdit.isPopupShowing()) {
+                foodNameEdit.showDropDown();
+            }
         }
     };
 
@@ -277,7 +276,6 @@ public class NourritureFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_nourriture, container, false);
         foodNameEdit = view.findViewById(R.id.editFood);
         recordList = view.findViewById(R.id.listRecord);
-        foodListButton = view.findViewById(R.id.buttonListFoods);
         foodInputView = view.findViewById(R.id.FoodValuesInput);
         Button addButton = view.findViewById(R.id.addperff);
 
@@ -291,7 +289,6 @@ public class NourritureFragment extends Fragment {
 
         /* Initialisation des boutons */
         addButton.setOnClickListener(clickAddButton);
-        foodListButton.setOnClickListener(onClickFoodListWithIcons);
 
         dateEdit.setOnClickListener(clickDateEdit);
         timeEdit.setOnClickListener(clickDateEdit);
@@ -299,6 +296,7 @@ public class NourritureFragment extends Fragment {
 
         foodNameEdit.addTextChangedListener(foodNameTextWatcher);
         foodNameEdit.setOnItemClickListener(onItemClickFilterList);
+
         recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
 
@@ -478,8 +476,8 @@ public class NourritureFragment extends Fragment {
         }
 
         // Update EditView
-        if (!foodNameEdit.getText().toString().equals(lFood.getFoodName()))
-            foodNameEdit.setText(lFood.getFoodName());
+        //if (!foodNameEdit.getText().toString().equals(lFood.getFoodName()))
+        //    foodNameEdit.setText(lFood.getFoodName());
 
         // Update Table
         updateRecordTable(lFood.getFoodName());
@@ -523,49 +521,18 @@ public class NourritureFragment extends Fragment {
 
     private void refreshData() {
         View fragmentView = getView();
-        if (fragmentView != null) {
-            if (getProfile() != null) {
-                updateRecordTable("");
+        if (fragmentView == null || getProfile() == null) {
+            System.out.println("fragment or profile is null!");
+            return;
+        }
 
-                List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile());
-                foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
-                foodNameEdit.setAdapter(foodEditAdapter);
+        updateRecordTable("");
 
-//                if (foodNameEdit.getText().toString().isEmpty()) {
-//                    Record lLastRecord = mDbRecord.getLastRecord(getProfile());
-//                    if (lLastRecord != null) {
-//                        // Last recorded exercise
-//                        setCurrentMachine(lLastRecord.getExercise());
-//                    } else {
-//                        // Getting the prefered default units.
-//                        WeightUnit weightUnit = SettingsFragment.getDefaultWeightUnit(getActivity());
-//                        DistanceUnit distanceUnit = SettingsFragment.getDefaultDistanceUnit(getActivity());
-//
-//                        // Default Values
-//                        foodNameEdit.setText("");
-//                        // Default Values
-//                        workoutValuesInputView.setSets(1);
-//                        workoutValuesInputView.setReps(10);
-//                        workoutValuesInputView.setSeconds(60);
-//                        workoutValuesInputView.setWeight(50, weightUnit);
-//                        workoutValuesInputView.setDistance(10, distanceUnit);
-//                        workoutValuesInputView.setDuration(600000);
-//                        setCurrentMachine("");
-//                        changeExerciseTypeUI(ExerciseType.STRENGTH, true);
-//                    }
-//                } else { // Restore on fragment restore.
-//                    setCurrentMachine(foodNameEdit.getText().toString());
-//                }
-//
-//                // Set Initial text
-//                if (autoTimeCheckBox.isChecked()) {
-//                    dateEdit.setText(DateConverter.currentDate(getContext()));
-//                    timeEdit.setText(DateConverter.currentTime(getContext()));
-//                }
-//
-//                // Set Table
-//                updateRecordTable(foodNameEdit.getText().toString());
-            }
+        if (foodEditAdapter == null) {
+            List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile());
+            foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
+            foodNameEdit.setAdapter(foodEditAdapter);
+            foodEditAdapter.notifyDataSetChanged();
         }
     }
 

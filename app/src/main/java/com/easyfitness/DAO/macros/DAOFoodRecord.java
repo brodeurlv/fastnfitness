@@ -435,7 +435,6 @@ public class DAOFoodRecord extends DAOBase {
     public FoodRecord getLastFoodRecord(long foodID, Profile p) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         FoodRecord lReturn = null;
 
         String selectQuery;
@@ -447,19 +446,19 @@ public class DAOFoodRecord extends DAOBase {
                     + " WHERE " + KEY + "=" + foodID +
                     " AND " + PROFILE_KEY + "=" + p.getId();
         }
-        mCursor = db.rawQuery(selectQuery, null);
+        Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
+        if (c.moveToFirst()) {
             try {
-                long value = mCursor.getLong(0);
+                long value = c.getLong(0);
                 lReturn = this.getRecord(value);
             } catch (NumberFormatException e) {
                 lReturn = null; // Return une valeur
             }
         }
 
-        close();
+        c.close();
 
         // return value list
         return lReturn;
@@ -514,20 +513,20 @@ public class DAOFoodRecord extends DAOBase {
         List<FoodRecord> valueList = new ArrayList<>();
         // Select All Query
 
-        mCursor = null;
-        mCursor = db.rawQuery(pRequest, null);
+
+        Cursor c = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
-        if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
+        if (c.moveToFirst() && c.getCount() > 0) {
             do {
-                FoodRecord value = fromCursor(mCursor);
-                value.setId(mCursor.getLong(mCursor.getColumnIndexOrThrow(DAOFoodRecord.KEY)));
+                FoodRecord value = fromCursor(c);
+                value.setId(c.getLong(c.getColumnIndexOrThrow(DAOFoodRecord.KEY)));
 
                 // Adding value to list
                 valueList.add(value);
-            } while (mCursor.moveToNext());
+            } while (c.moveToNext());
         }
-        mCursor.close();
+        c.close();
         // return value list
         return valueList;
     }

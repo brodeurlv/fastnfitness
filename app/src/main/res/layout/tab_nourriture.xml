@@ -36,26 +36,18 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/editFood"
-                    android:layout_width="373dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:hint="Name of your food"
                     android:imeOptions="actionNext"
                     android:inputType="text|textCapWords|textAutoComplete"
                     android:selectAllOnFocus="true"
-                    android:singleLine="true" />
-
-                <ImageButton
-                    android:id="@+id/buttonListFoods"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="center_vertical"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:baselineAlignBottom="false"
-                    android:cropToPadding="false"
-                    android:src="@drawable/ic_list_alt" />
+                    android:completionThreshold="1"
+                    android:minLines="1"
+                    android:maxLines="1"
+                    />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

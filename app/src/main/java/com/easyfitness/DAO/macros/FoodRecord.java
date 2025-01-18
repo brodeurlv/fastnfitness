@@ -128,4 +128,9 @@ public class FoodRecord {
     public void setFoodName(String foodName) {
         this.mFoodName = foodName;
     }
+
+    @Override
+    public String toString() {
+        return this.mFoodName;
+    }
 }

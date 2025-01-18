@@ -14,32 +14,17 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.List;
 
-/**
- * Adapter pour les listes qui ne peuvent pas utiliser les curseurs a cause
- * de jonction de table
- */
-
-
 public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
 
     public FoodArrayFullAdapter(Context context, List<FoodRecord> foods) {
         super(context, 0, foods);
     }
 
-    public boolean containsFood(String foodName) {
-        for (int i = 0; i < this.getCount(); i++) {
-            if (this.getItem(i).getFoodName().equals(foodName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
+
         FoodRecord food = getItem(position);
-        if (food == null) return convertView;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
