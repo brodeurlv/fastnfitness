@@ -56,6 +56,10 @@ public class SingleValueInputView extends LinearLayout {
         init(context, attrs);
     }
 
+    public void setOnKeyListener(View.OnKeyListener l) {
+        this.valueEditText.setOnKeyListener(l);
+    }
+
     protected void init(Context context, AttributeSet attrs) {
 
         rootView = inflate(context, R.layout.singlevalueinput_view, this);

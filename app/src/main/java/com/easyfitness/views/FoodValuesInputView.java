@@ -24,6 +24,14 @@ public class FoodValuesInputView extends LinearLayout {
     private SingleValueInputView proteinInputView;
     private SingleValueInputView fatsInputView;
 
+    private float lockedQuantity;
+    private float lockedCalories;
+    private float lockedCarbs;
+    private float lockedProtein;
+    private float lockedFats;
+
+    private boolean lockRatio = false;
+
     public FoodValuesInputView(@NonNull Context context) {
         super(context);
         init(context, null);
@@ -49,12 +57,58 @@ public class FoodValuesInputView extends LinearLayout {
         fatsInputView = rootView.findViewById(R.id.FatInputView);
         quantityInputView = rootView.findViewById(R.id.QuantityInputView);
 
-        // Events
-        //strenghSelector.setOnClickListener(clickExerciseTypeSelector);
-        //cardioSelector.setOnClickListener(clickExerciseTypeSelector);
-        //isometricSelector.setOnClickListener(clickExerciseTypeSelector);
+        lockRatio = false;
+        lockedQuantity = 0.0f;
+        lockedCalories = 0.0f;
+        lockedCarbs = 0.0f;
+        lockedProtein = 0.0f;
+        lockedFats = 0.0f;
 
-        //caloriesInputView.setOnKeyListener();
+        // Events
+
+        // If the ratio lock is enabled, then whenever the user changes the quantity, change the other values.
+        quantityInputView.setOnKeyListener((v, keyCode, event) -> {
+            if (!lockRatio) {
+                return false;
+            }
+            float newQuantity = getQuantity();
+
+            float ratio = newQuantity /  lockedQuantity;
+            setFat(lockedFats * ratio);
+            setCarbs(lockedCarbs * ratio);
+            setProtein(lockedProtein * ratio);
+            setCalories(lockedCalories * ratio);
+
+            // Return false to signal that the event was
+            // not consumed, this allows the edit text to update it's value still
+            return false;
+        });
+
+        // If the ratio lock is on, but the user begins editing values other than quantity, cancel the ratio lock
+        for (SingleValueInputView v : new SingleValueInputView[]{carbsInputView, caloriesInputView, fatsInputView, proteinInputView}) {
+            v.setOnKeyListener((v1, keyCode, event) -> {
+                if (lockRatio) {
+                    lockRatio = false;
+                }
+                return false;
+            });
+        }
+
+    }
+
+    public boolean isRatioLocked() {
+        return lockRatio;
+    }
+
+    public void setRatioLock(boolean locked) {
+        if (!lockRatio && locked) {
+            lockedQuantity = getQuantity();
+            lockedFats = getFat();
+            lockedCalories = getCalories();
+            lockedCarbs = getCarbs();
+            lockedProtein = getProtein();
+        }
+        lockRatio = locked;
     }
 
     public void reset() {
@@ -62,6 +116,7 @@ public class FoodValuesInputView extends LinearLayout {
         setFat(0);
         setCarbs(0);
         setProtein(0);
+        lockRatio = false;
         setQuantity(0, FoodQuantityUnit.SERVINGS);
     }
 

@@ -15,6 +15,7 @@
         android:visibility="visible">
 
         <!-- Quantity -->
+
         <com.easyfitness.views.SingleValueInputView
             android:id="@+id/QuantityInputView"
             android:layout_width="0dp"
@@ -39,7 +40,9 @@
             app:title="@string/calories_label"
             app:value=""
             tools:value="100"
-            tools:visibility="visible" />
+            tools:visibility="visible" >
+
+        </com.easyfitness.views.SingleValueInputView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

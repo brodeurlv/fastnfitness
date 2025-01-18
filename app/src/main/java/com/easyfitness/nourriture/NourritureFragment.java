@@ -132,9 +132,6 @@ public class NourritureFragment extends Fragment {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!foodNameEdit.isPopupShowing()) {
-                foodNameEdit.showDropDown();
-            }
         }
     };
 
@@ -471,13 +468,14 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
+            foodInputView.setRatioLock(false);
             // This is a new food, or user is still typing
             return;
         }
 
-        // Update EditView
-        //if (!foodNameEdit.getText().toString().equals(lFood.getFoodName()))
-        //    foodNameEdit.setText(lFood.getFoodName());
+        // User entered an existing food item, pre-populate the input and lock macros ratio
+        foodInputView.setRecord(lFood);
+        foodInputView.setRatioLock(true);
 
         // Update Table
         updateRecordTable(lFood.getFoodName());
