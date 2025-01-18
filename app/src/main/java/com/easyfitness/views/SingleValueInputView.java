@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -58,6 +59,10 @@ public class SingleValueInputView extends LinearLayout {
 
     public void setOnKeyListener(View.OnKeyListener l) {
         this.valueEditText.setOnKeyListener(l);
+    }
+
+    public void setOnUnitSelectedListener(AdapterView.OnItemSelectedListener l) {
+        this.unitSpinner.setOnItemSelectedListener(l);
     }
 
     protected void init(Context context, AttributeSet attrs) {

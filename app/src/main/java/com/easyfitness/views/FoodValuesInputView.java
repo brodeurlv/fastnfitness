@@ -2,6 +2,7 @@ package com.easyfitness.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.view.View;
 
@@ -84,7 +85,7 @@ public class FoodValuesInputView extends LinearLayout {
             return false;
         });
 
-        // If the ratio lock is on, but the user begins editing values other than quantity, cancel the ratio lock
+        // If the ratio lock is on, but the user begins editing values other than quantity, then cancel the ratio lock
         for (SingleValueInputView v : new SingleValueInputView[]{carbsInputView, caloriesInputView, fatsInputView, proteinInputView}) {
             v.setOnKeyListener((v1, keyCode, event) -> {
                 if (lockRatio) {
@@ -93,6 +94,9 @@ public class FoodValuesInputView extends LinearLayout {
                 return false;
             });
         }
+
+        // If the ratio lock is on, but the user changes the units of the quantity, then cancel the lock
+        quantityInputView.setOnUnitSelectedListener(new UnitListener());
 
     }
 
@@ -192,5 +196,18 @@ public class FoodValuesInputView extends LinearLayout {
         setCarbs(record.getCarbs());
         setProtein(record.getProtein());
         setQuantity(record.getQuantity(), record.getQuantityUnit());
+    }
+
+    private class UnitListener implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view,
+        int pos, long id) {
+            if (lockRatio) {
+                lockRatio = false;
+            }
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            // Do nothing
+        }
     }
 }
