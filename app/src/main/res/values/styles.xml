@@ -61,6 +61,16 @@
         <item name="android:minHeight">50dp</item>
     </style>
 
+    <style name="MiniPieChart">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:minHeight">100dp</item>
+    </style>
+
     <style name="InfoButton">
         <item name="android:layout_width">25sp</item>
         <item name="android:layout_height">25sp</item>

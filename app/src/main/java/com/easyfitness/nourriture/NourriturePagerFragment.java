@@ -48,52 +48,46 @@ public class NourriturePagerFragment extends Fragment {
         // Locate the viewpager in activity_main.xml
         mViewPager = view.findViewById(R.id.nourriture_viewpager);
 
-        if (mViewPager.getAdapter() == null) {
-
-            // Supply index input as an argument.
-            Bundle freeWorkoutArgs = new Bundle();
-            freeWorkoutArgs.putInt("displayType", DisplayType.FREE_WORKOUT_DISPLAY.ordinal());
-            freeWorkoutArgs.putLong("templateId", -1);
-
-            Bundle guidedWorkoutArgs = new Bundle();
-            guidedWorkoutArgs.putInt("displayType", DisplayType.PROGRAM_RUNNING_DISPLAY.ordinal());
-            guidedWorkoutArgs.putLong("templateId", -1);
-
-            Bundle args = this.getArguments();
-            args.putLong("machineID", -1); // if -1, then display the graph and history fragment with machine selectors
-            args.putLong("machineProfile", -1);
-
-            pagerAdapter = new FragmentPagerItemAdapter(
-                    getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
-                    .add(R.string.macros_entry, NourritureFragment.class, freeWorkoutArgs)
-                    //.add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
-                    //.add(R.string.GraphLabel, FonteGraphFragment.class, args)
-                    //.add(R.string.HistoryLabel, FonteHistoryFragment.class, args)
-                    .create());
-
-            mViewPager.setAdapter(pagerAdapter);
-
-            SmartTabLayout viewPagerTab = view.findViewById(R.id.nourriture_pagertab);
-            viewPagerTab.setViewPager(mViewPager);
-
-            viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    Fragment frag1 = pagerAdapter.getPage(position);
-                    if (frag1 != null)
-                        frag1.onHiddenChanged(false); // Refresh data
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
+        if (mViewPager.getAdapter() != null) {
+            return view;
         }
+
+        Bundle args = this.getArguments();
+//            args.putLong("machineID", -1);
+//            args.putLong("machineProfile", -1);
+
+        pagerAdapter = new FragmentPagerItemAdapter(
+                getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
+                .add(R.string.macros_entry, NourritureFragment.class, args)
+                //.add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
+                //.add(R.string.GraphLabel, FonteGraphFragment.class, args)
+                //.add(R.string.HistoryLabel, NourritureHistoryFragment.class, args)
+                .add("Totals", NourritureTotalsFragment.class, args)
+                .create());
+
+        mViewPager.setAdapter(pagerAdapter);
+
+        SmartTabLayout viewPagerTab = view.findViewById(R.id.nourriture_pagertab);
+        viewPagerTab.setViewPager(mViewPager);
+
+        viewPagerTab.setOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Fragment frag1 = pagerAdapter.getPage(position);
+                if (frag1 != null)
+                    frag1.onHiddenChanged(false); // Refresh data
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return view;
