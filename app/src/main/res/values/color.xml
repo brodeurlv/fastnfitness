@@ -18,4 +18,6 @@
     <color name="dialog_title_color">#5DBCD2</color>
     <color name="daily_calorie_spinner_selected">#757575</color>
     <color name="daily_calorie_spinner_dropdown">#000000</color>
+    <color name="progress_chart_filled">#5DBCD2</color>
+    <color name="progress_chart_remaining">#FFFFFF</color>
 </resources>

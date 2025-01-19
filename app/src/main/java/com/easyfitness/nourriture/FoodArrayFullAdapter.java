@@ -40,10 +40,10 @@ public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
         t2.setText(food.getNote());
 
         ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
-        i0.setVisibility(View.GONE);
+        i0.setVisibility(View.VISIBLE);
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
-        iFav.setVisibility(View.GONE);
+        iFav.setVisibility(View.VISIBLE);
         return convertView;
     }
 
