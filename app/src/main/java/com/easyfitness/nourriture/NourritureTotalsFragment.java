@@ -3,77 +3,38 @@ package com.easyfitness.nourriture;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.easyfitness.AppViMo;
 import com.easyfitness.DAO.DAOProfile;
-import com.easyfitness.DAO.DAOProfileWeight;
-import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.bodymeasures.BodyMeasure;
-import com.easyfitness.DAO.bodymeasures.BodyPart;
-import com.easyfitness.DAO.bodymeasures.BodyPartExtensions;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
-import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
-import com.easyfitness.DAO.export.OpenScaleSync;
 import com.easyfitness.DAO.macros.DAOFoodRecord;
+import com.easyfitness.DAO.macros.FoodRecord;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
-import com.easyfitness.SettingsFragment;
-import com.easyfitness.ValuesEditorDialogbox;
-import com.easyfitness.bodymeasures.BodyPartDetailsFragment;
-import com.easyfitness.enums.Gender;
-import com.easyfitness.enums.Unit;
-import com.easyfitness.enums.UnitType;
-import com.easyfitness.graph.MiniDateGraph;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.Keyboard;
-import com.easyfitness.utils.UnitConverter;
-import com.easyfitness.utils.Value;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.onurkaganaldemir.ktoastlib.KToast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class NourritureTotalsFragment extends Fragment {
@@ -88,6 +49,11 @@ public class NourritureTotalsFragment extends Fragment {
     private PieChart proteinPieChart;
     private PieChart fatsPieChart;
     private TextView editDate;
+    private TextView totalCalories;
+    private TextView totalCarbs;
+    private TextView totalProtein;
+    private TextView totalFats;
+    private Date selectedDate;
     private AppViMo appViMo;
 
     /**
@@ -135,7 +101,9 @@ public class NourritureTotalsFragment extends Fragment {
 
     private final DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
         editDate.setText(DateConverter.dateToLocalDateStr(year, month, day, getContext()));
+        selectedDate = DateConverter.dateToDate(year, month, day);
         Keyboard.hide(getContext(), editDate);
+        refreshData();
     };
 
     @Override
@@ -154,8 +122,14 @@ public class NourritureTotalsFragment extends Fragment {
         proteinPieChart = view.findViewById(R.id.proteinGraph);
         fatsPieChart = view.findViewById(R.id.fatsGraph);
 
+        totalCalories = view.findViewById(R.id.caloriesAmount);
+        totalCarbs = view.findViewById(R.id.carbsAmount);
+        totalProtein = view.findViewById(R.id.proteinAmount);
+        totalFats = view.findViewById(R.id.fatsAmount);
+
         editDate = view.findViewById(R.id.editDate);
-        editDate.setText(DateConverter.currentDate(getContext()));
+        selectedDate = new Date();
+        editDate.setText(DateConverter.dateToLocalDateStr(selectedDate, getContext()));
 
         editDate.setOnClickListener(v -> {
             if (mDateFrag == null) {
@@ -208,16 +182,35 @@ public class NourritureTotalsFragment extends Fragment {
         if (fragmentView == null || getProfile() == null) {
             return;
         }
-        // TODO: Get totals for the current day, display
 
-        DAOFoodRecord dailyTotal = new DAOFoodRecord(getContext());
+        // Get the total macros for the currently selected day
+        DAOFoodRecord foodDAO = new DAOFoodRecord(getContext());
+        FoodRecord r = foodDAO.getMacroTotalsForDate(selectedDate,getProfile());
 
+        if (r == null) {
+            // No data for this day
+            setPieChartProgress(caloriePieChart, 0.0f);
+            setPieChartProgress(carbsPieChart, 0.0f);
+            setPieChartProgress(proteinPieChart, 0.0f);
+            setPieChartProgress(fatsPieChart, 0.0f);
 
+            totalCalories.setText("No Data");
+            totalCarbs.setText("No Data");
+            totalProtein.setText("No Data");
+            totalFats.setText("No Data");
+        }
+        else {
+            totalCalories.setText(String.format(Locale.getDefault(), "%.1f", r.getCalories()));
+            totalCarbs.setText(String.format(Locale.getDefault(), "%.1f", r.getCarbs()));
+            totalProtein.setText(String.format(Locale.getDefault(), "%.1f", r.getProtein()));
+            totalFats.setText(String.format(Locale.getDefault(), "%.1f", r.getFats()));
 
-        setPieChartProgress(caloriePieChart, 0.5f);
-        setPieChartProgress(carbsPieChart, 0.5f);
-        setPieChartProgress(proteinPieChart, 0.5f);
-        setPieChartProgress(fatsPieChart, 0.5f);
+            /// TODO: Calculate progress percentage
+            setPieChartProgress(caloriePieChart, 0.5f);
+            setPieChartProgress(carbsPieChart, 0.5f);
+            setPieChartProgress(proteinPieChart, 0.5f);
+            setPieChartProgress(fatsPieChart, 0.5f);
+        }
     }
 
 

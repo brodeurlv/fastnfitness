@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.Profile;
@@ -137,6 +138,40 @@ public class DAOFoodRecord extends DAOBase {
             //Get Date
             return fromCursor(mCursor);
         } else {
+            return null;
+        }
+    }
+
+    // Get macro totals for a given day
+    public @Nullable FoodRecord getMacroTotalsForDate(Date d, Profile p) {
+        String selectQuery = "SELECT ";
+        selectQuery += "SUM(" + CALORIES + "), ";
+        selectQuery += "SUM(" + CARBS + "), ";
+        selectQuery += "SUM(" + PROTEIN + "), ";
+        selectQuery += "SUM(" + FATS + ") ";
+
+        selectQuery += "FROM " + TABLE_NAME + " WHERE " + DATE + "='" + DateConverter.dateToDBDateStr(d) + "' ";
+        selectQuery += "AND " + PROFILE_KEY + "=" + p.getId();
+
+        Cursor c = getRecordsListCursor(selectQuery);
+        if (c.moveToFirst()) {
+            FoodRecord r = new FoodRecord(
+                d,
+       "Totals for " + DateConverter.dateToLocalDateStr(d, mContext),p.getId(),
+        0,
+                FoodQuantityUnit.GRAMS,
+        0.0f,
+          0.0f,
+         0.0f,
+        0.0f);
+            r.setCalories(c.getFloat(0));
+            r.setCarbs(c.getFloat(1));
+            r.setProtein(c.getFloat(2));
+            r.setFats(c.getFloat(3));
+            c.close();
+            return r;
+        } else {
+            c.close();
             return null;
         }
     }
