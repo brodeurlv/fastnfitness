@@ -80,6 +80,7 @@ public class NourritureTotalsFragment extends Fragment {
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
         chart.setClickable(false);
+        chart.setTouchEnabled(false);
     }
 
     private void setPieChartProgress(@NonNull PieChart chart, @NonNull float progress) {
