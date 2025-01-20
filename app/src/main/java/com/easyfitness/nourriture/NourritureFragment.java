@@ -357,7 +357,9 @@ public class NourritureFragment extends Fragment {
         Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1, false);
         List<FoodRecord> records = mDbRecord.fromCursorToList(c);
         c.close();
-
+        if (recordList.getAdapter() == null) {
+            recordAdapter = null;
+        }
         if (recordAdapter == null) {
             recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
             recordList.setAdapter(recordAdapter);
@@ -377,6 +379,10 @@ public class NourritureFragment extends Fragment {
             mDbRecord.setProfile(getProfile());
         }
         List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile(), true);
+        if (foodNameEdit.getAdapter() == null) {
+            foodEditAdapter = null;
+        }
+
         if (foodEditAdapter == null) {
             foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
             foodNameEdit.setAdapter(foodEditAdapter);
