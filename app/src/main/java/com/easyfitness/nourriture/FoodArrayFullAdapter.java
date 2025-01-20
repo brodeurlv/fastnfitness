@@ -1,6 +1,7 @@
 package com.easyfitness.nourriture;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import java.util.List;
 
 public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
 
+    private Drawable carrotIcon;
     public FoodArrayFullAdapter(Context context, List<FoodRecord> foods) {
         super(context, 0, foods);
+        carrotIcon = context.getResources().getDrawable(R.drawable.ic_carrot, context.getTheme());
     }
 
     @Override
@@ -41,7 +44,7 @@ public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
 
         ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
         i0.setVisibility(View.VISIBLE);
-        i0.setImageDrawable(convertView.getResources().getDrawable(R.drawable.ic_carrot, convertView.getContext().getTheme()));
+        i0.setImageDrawable(carrotIcon);
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
         iFav.setVisibility(View.VISIBLE);
