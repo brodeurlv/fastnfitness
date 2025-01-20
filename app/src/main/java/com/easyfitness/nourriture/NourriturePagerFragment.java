@@ -59,9 +59,7 @@ public class NourriturePagerFragment extends Fragment {
         pagerAdapter = new FragmentPagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(this.getContext())
                 .add(R.string.macros_entry, NourritureFragment.class, args)
-                //.add(R.string.program, ProgramRunnerFragment.class, guidedWorkoutArgs)
-                //.add(R.string.GraphLabel, FonteGraphFragment.class, args)
-                //.add(R.string.HistoryLabel, NourritureHistoryFragment.class, args)
+                .add(R.string.HistoryLabel, NourritureHistoryFragment.class, args)
                 .add("Totals", NourritureTotalsFragment.class, args)
                 .create());
 

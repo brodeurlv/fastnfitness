@@ -323,13 +323,13 @@ public class DAOFoodRecord extends DAOBase {
     }
 
     // Getting All Dates
-    public List<String> getAllDatesList(Profile pProfile, String foodName) {
+    public List<String> getAllDatesList(Profile pProfile, @Nullable String foodName) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
 
-        // Select All foods
+        // Select All dates of food entries
         String selectQuery = "SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME;
         if (foodName != null) {
             selectQuery += " WHERE " + FOOD_NAME + "='" + foodName + "'";
@@ -362,7 +362,7 @@ public class DAOFoodRecord extends DAOBase {
 
 
     // Getting Filtered records
-    public Cursor getFilteredRecords(Profile pProfile, String foodName, String pDate) {
+    public Cursor getFilteredRecords(Profile pProfile, @Nullable String foodName, @Nullable String pDate) {
 
         boolean lfilterFoodName = true;
         boolean lfilterDate = true;

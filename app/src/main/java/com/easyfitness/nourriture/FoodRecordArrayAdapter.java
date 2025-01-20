@@ -48,15 +48,13 @@ public class FoodRecordArrayAdapter extends ArrayAdapter {
     private final Context mContext;
     private final DAOFoodRecord mDbRecord;
     List<FoodRecord> mRecordList;
-    private BtnClickListener mAction2ClickListener = null;
     private OnCustomEventListener mProgramCompletedListener;
 
-    public FoodRecordArrayAdapter(Activity activity, Context context, List<FoodRecord> objects, BtnClickListener clickAction2) {
+    public FoodRecordArrayAdapter(Activity activity, Context context, List<FoodRecord> objects) {
         super(context, R.layout.row_nourriture, objects);
         mActivity = activity;
         mContext = context;
         mRecordList = objects;
-        mAction2ClickListener = clickAction2;
         mDbRecord = new DAOFoodRecord(context);
     }
 

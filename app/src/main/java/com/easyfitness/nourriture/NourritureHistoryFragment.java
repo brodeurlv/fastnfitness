@@ -21,6 +21,8 @@ import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
+import com.easyfitness.DAO.macros.DAOFoodRecord;
+import com.easyfitness.DAO.macros.FoodRecord;
 import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DAO.record.Record;
 import com.easyfitness.MainActivity;
@@ -39,26 +41,22 @@ import java.util.TimeZone;
 
 public class NourritureHistoryFragment extends Fragment {
     Spinner dateList = null;
-    Spinner exerciseList = null;
+    Spinner foodList = null;
 
     ListView filterList = null;
 
-    MainActivity mActivity = null;
-    List<String> mExerciseArray = null;
+    List<String> mFoodArray = null;
     List<String> mDateArray = null;
-    ArrayAdapter<String> mAdapterMachine = null;
+    ArrayAdapter<String> mAdapaterFood = null;
     ArrayAdapter<String> mAdapterDate = null;
-    long machineIdArg = -1;
-    long machineProfilIdArg = -1;
-    Machine mSelectedMachine = null;
+    FoodRecord mSelectedFood = null;
     private AppViMo appViMo;
-    private DAORecord mDbRecord = null;
+    private DAOFoodRecord mDbRecord = null;
     private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
 
         mDbRecord.deleteRecord(id);
 
-        FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                .getSelectedItem().toString());
+        FillRecordTable(null, dateList.getSelectedItem().toString());
 
         KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
@@ -69,25 +67,9 @@ public class NourritureHistoryFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
-            if (parent.getId() == R.id.filterMachine) {
-                //  Update currentSelectedMachine
-                DAOMachine lDbMachine = new DAOMachine(getContext());
-                if (!exerciseList.getSelectedItem().toString().equals(getView().getResources().getText(R.string.all).toString())) {
-                    mSelectedMachine = lDbMachine.getMachine(exerciseList.getSelectedItem().toString());
-                } else {
-                    mSelectedMachine = null;
-                }
-                // Update associated Dates
-                refreshDates(mSelectedMachine);
-                if (dateList.getCount() > 1) {
-                    dateList.setSelection(1); // Select latest date
-                } else {
-                    dateList.setSelection(0); // Or select "All"
-                }
-            }
-            if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
-                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                        .getSelectedItem().toString());
+
+            if (dateList.getCount() >= 1 && foodList.getCount() >= 1) {
+                FillRecordTable(null, dateList.getSelectedItem().toString());
             }
         }
 
@@ -102,13 +84,11 @@ public class NourritureHistoryFragment extends Fragment {
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
      */
-    public static NourritureHistoryFragment newInstance(long machineId, long machineProfile) {
+    public static NourritureHistoryFragment newInstance(long foodId, long foodProfile) {
         NourritureHistoryFragment f = new NourritureHistoryFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putLong("machineID", machineId);
-        args.putLong("machineProfile", machineProfile);
         f.setArguments(args);
 
         return f;
@@ -120,38 +100,23 @@ public class NourritureHistoryFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.tab_history, container, false);
-
-        Bundle args = this.getArguments();
-        machineIdArg = args.getLong("machineID");
-        machineProfilIdArg = args.getLong("machineProfile");
+        view.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE);
 
         dateList = view.findViewById(R.id.filterDate);
-        exerciseList = view.findViewById(R.id.filterMachine);
+        foodList = view.findViewById(R.id.filterMachine);
         filterList = view.findViewById(R.id.listFilterRecord);
 
         // Initialisation de l'historique
-        mDbRecord = new DAORecord(view.getContext());
+        mDbRecord = new DAOFoodRecord(view.getContext());
 
-        mExerciseArray = new ArrayList<>();
-        mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-        mAdapterMachine = new ArrayAdapter<>(
+        mFoodArray = new ArrayList<>();
+        mFoodArray.add(getContext().getResources().getText(R.string.all).toString());
+        mAdapaterFood = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item, //simple_spinner_dropdown_item
-                mExerciseArray);
-        mAdapterMachine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        exerciseList.setAdapter(mAdapterMachine);
+                mFoodArray);
+        mAdapaterFood.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        foodList.setAdapter(mAdapaterFood);
         mDbRecord.closeCursor();
-
-        if (machineIdArg != -1) {
-            // Hide the spinner
-            view.findViewById(R.id.tableRowFilterMachine).setVisibility(View.GONE);
-            DAOMachine lDbMachine = new DAOMachine(getContext());
-            mSelectedMachine = lDbMachine.getMachine(machineIdArg);
-            mExerciseArray.add(mSelectedMachine.getName());
-            mAdapterMachine.notifyDataSetChanged();
-            exerciseList.setSelection(mAdapterMachine.getPosition(mSelectedMachine.getName()));
-        } else {
-            exerciseList.setOnItemSelectedListener(onItemSelectedList);
-        }
 
         mDateArray = new ArrayList<>();
         mDateArray.add(getContext().getResources().getText(R.string.all).toString());
@@ -170,9 +135,8 @@ public class NourritureHistoryFragment extends Fragment {
         appViMo.getProfile().observe(getViewLifecycleOwner(), profile -> {
             // Update the UI, in this case, a TextView.
             refreshData();
-            if (dateList.getCount() >= 1 && exerciseList.getCount() >= 1) {
-                FillRecordTable(exerciseList.getSelectedItem().toString(), dateList
-                        .getSelectedItem().toString());
+            if (dateList.getCount() >= 1 && foodList.getCount() >= 1) {
+                FillRecordTable(null, dateList.getSelectedItem().toString());
             }
         });
 
@@ -182,7 +146,6 @@ public class NourritureHistoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        this.mActivity = (MainActivity) this.getActivity();
         refreshData();
     }
 
@@ -191,7 +154,7 @@ public class NourritureHistoryFragment extends Fragment {
     }
 
     /*  */
-    private void FillRecordTable(String pMachine, String pDate) {
+    private void FillRecordTable(String foodName, String pDate) {
 
         // Retransform date filter value in SQLLite date format
         if (!pDate.equals(getContext().getResources().getText(R.string.all).toString())) {
@@ -211,18 +174,18 @@ public class NourritureHistoryFragment extends Fragment {
         }
 
         // Get Values
-        Cursor c = mDbRecord.getFilteredRecords(getProfile(), pMachine, pDate);
+        Cursor c = mDbRecord.getFilteredRecords(getProfile(),  foodName, pDate);
 
-        List<Record> records = mDbRecord.fromCursorToList(c);
+        List<FoodRecord> records = mDbRecord.fromCursorToList(c);
 
         if (records.isEmpty()) {
             filterList.setAdapter(null);
         } else {
             if (filterList.getAdapter() == null) {
-                RecordArrayAdapter mTableAdapter = new RecordArrayAdapter(getActivity(), getContext(), records, DisplayType.HISTORY_DISPLAY, null);
+                FoodRecordArrayAdapter mTableAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
                 filterList.setAdapter(mTableAdapter);
             } else {
-                ((RecordArrayAdapter) filterList.getAdapter()).setRecords(records);
+                ((FoodRecordArrayAdapter) filterList.getAdapter()).setRecords(records);
             }
         }
     }
@@ -231,34 +194,23 @@ public class NourritureHistoryFragment extends Fragment {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
-                // If the fragment is used to display record of a specific machine
-                if (machineIdArg == -1) // Refresh the list
-                {
-                    // Initialisation des machines
-                    mExerciseArray.clear();
-                    mExerciseArray.add(getContext().getResources().getText(R.string.all).toString());
-                    mExerciseArray.addAll(mDbRecord.getAllMachinesStrList(getProfile()));
-                    mAdapterMachine.notifyDataSetChanged();
-                    mDbRecord.closeCursor();
-
-                    exerciseList.setSelection(0); // Default value is "all" when there is a list
-                }
-
-                refreshDates(mSelectedMachine);
+                refreshDates(mSelectedFood);
             }
         }
     }
 
-    /**
-     * @param m if m is null then, get the dates for all machines
-     */
-    private void refreshDates(Machine m) {
+    private void refreshDates(FoodRecord food) {
         View fragmentView = getView();
         if (fragmentView != null) {
             if (getProfile() != null) {
                 mDateArray.clear();
                 mDateArray.add(getView().getResources().getText(R.string.all).toString());
-                mDateArray.addAll(mDbRecord.getAllDatesList(getProfile(), m));
+                if (food != null) {
+                    mDateArray.addAll(mDbRecord.getAllDatesList(getProfile(), food.getFoodName()));
+                }
+                else {
+                    mDateArray.addAll(mDbRecord.getAllDatesList(getProfile(), null));
+                }
                 if (mDateArray.size() > 1) {
                     dateList.setSelection(1);
                 }

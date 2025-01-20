@@ -419,12 +419,11 @@ public class NourritureFragment extends Fragment {
                 recordList.setAdapter(null);
             } else {
                 if (recordAdapter == null) {
-                    recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records, itemClickCopyRecord);
+                    recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
 
                     recordList.setAdapter(recordAdapter);
                 } else {
-
-                    ((FoodRecordArrayAdapter) recordList.getAdapter()).setRecords(records);
+                    recordAdapter.setRecords(records);
                 }
 
             }
