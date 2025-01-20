@@ -30,7 +30,6 @@ public class DAOFoodRecord extends DAOBase {
     public static final String DATE_TIME = "DATETIME(date || 'T' || time)";
     public static final String FOOD_NAME = "food_name";
     public static final String PROFILE_KEY = "profile_id";
-    public static final String FOOD_KEY = "food_id";
     public static final String NOTES = "notes";
     public static final String PROTEIN = "protein";
     public static final String FATS = "fats";
@@ -115,12 +114,6 @@ public class DAOFoodRecord extends DAOBase {
         return new_id;
     }
 
-    public void addList(List<FoodRecord> list) {
-        for (FoodRecord record : list) {
-            addRecord(record);
-        }
-    }
-
     // Deleting single Record
     public int deleteRecord(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,11 +126,14 @@ public class DAOFoodRecord extends DAOBase {
     public FoodRecord getRecord(SQLiteDatabase db, long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
-        mCursor = getRecordsListCursor(db, selectQuery);
+        Cursor c = getRecordsListCursor(db, selectQuery);
         if (mCursor.moveToFirst()) {
             //Get Date
-            return fromCursor(mCursor);
+            FoodRecord r = fromCursor(mCursor);
+            c.close();
+            return r;
         } else {
+            c.close();
             return null;
         }
     }
@@ -185,8 +181,6 @@ public class DAOFoodRecord extends DAOBase {
                 cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.DATE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.TIME))
         );
-//        (Date date, String foodName, long foodId, long profileId, float quantity, FoodQuantityUnit quantityUnit,
-//        float calories, float carbs, float protein, float fats)
         FoodRecord value = new FoodRecord(date,
             cursor.getString(cursor.getColumnIndexOrThrow(DAOFoodRecord.FOOD_NAME)),
             cursor.getLong(cursor.getColumnIndexOrThrow(DAOFoodRecord.PROFILE_KEY)),
@@ -249,12 +243,13 @@ public class DAOFoodRecord extends DAOBase {
 
     // Getting All Records
     public Cursor getAllRecordsByProfile(Profile pProfile) {
-        return getAllRecordsByProfile(pProfile, -1);
+        return getAllRecordsByProfile(pProfile, -1, false);
     }
 
+
     // Getting All Records
-    public List<FoodRecord> getAllRecordsByProfileList(Profile pProfile) {
-        Cursor cursor = getAllRecordsByProfile(pProfile, -1);
+    public List<FoodRecord> getAllRecordsByProfileList(Profile pProfile, boolean unique) {
+        Cursor cursor = getAllRecordsByProfile(pProfile, -1, unique);
         List<FoodRecord> l = fromCursorToList(cursor);
         cursor.close();
         return l;
@@ -265,15 +260,22 @@ public class DAOFoodRecord extends DAOBase {
      * @param pNbRecords max number of records requested
      * @return pNbRecords number of records for a specified pProfile
      */
-    public Cursor getAllRecordsByProfile(Profile pProfile, @NonNull int pNbRecords) {
+    public Cursor getAllRecordsByProfile(Profile pProfile, @NonNull int pNbRecords, @NonNull boolean unique) {
         String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
+        if (pNbRecords == -1) {
+            mTop = "";
+        }
+        else {
+            mTop = " LIMIT " + pNbRecords;
+        }
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + PROFILE_KEY + "=" + pProfile.getId() +
-                " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
+                " WHERE " + PROFILE_KEY + "=" + pProfile.getId();
+        if (unique) {
+            selectQuery += " GROUP BY " + FOOD_NAME;
+        }
+        selectQuery += " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // Return value list
         return getRecordsListCursor(selectQuery);
@@ -286,40 +288,6 @@ public class DAOFoodRecord extends DAOBase {
 
     private Cursor getRecordsListCursor(String pRequest) {
         return getRecordsListCursor(this.getReadableDatabase(), pRequest);
-    }
-
-    // Getting All Machines
-    public List<String> getAllFoodsStrList() {
-        return getAllFoodsStrList(null);
-    }
-
-    // Getting All Machines
-    public List<String> getAllFoodsStrList(Profile pProfile) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-        String selectQuery;
-        if (pProfile == null) {
-            selectQuery = "SELECT DISTINCT " + FOOD_NAME + " FROM "
-                    + TABLE_NAME + " ORDER BY " + FOOD_NAME + " ASC";
-        } else {
-            selectQuery = "SELECT DISTINCT " + FOOD_NAME + " FROM "
-                    + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + FOOD_NAME + " ASC";
-        }
-        mCursor = db.rawQuery(selectQuery, null);
-
-        int size = mCursor.getCount();
-
-        List<String> valueList = new ArrayList<>(size);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                valueList.add(mCursor.getString(0));
-            } while (mCursor.moveToNext());
-        }
-        close();
-        // return value list
-        return valueList;
     }
 
     // Getting All Dates
@@ -433,92 +401,6 @@ public class DAOFoodRecord extends DAOBase {
         return lReturn;
     }
 
-    /**
-     * @return the last record for a profile p
-     */
-    public FoodRecord getLastRecord(Profile pProfile) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
-        FoodRecord lReturn = null;
-
-        // Select last record
-        String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                + " WHERE " + PROFILE_KEY + "=" + pProfile.getId();
-        mCursor = db.rawQuery(selectQuery, null);
-
-        // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
-            try {
-                long value = mCursor.getLong(0);
-                lReturn = getRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
-            }
-        }
-
-        close();
-
-        // return value list
-        return lReturn;
-    }
-
-
-    /**
-     * @return the last record for a profile p
-     */
-    public FoodRecord getLastFoodRecord(long foodID, Profile p) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        FoodRecord lReturn = null;
-
-        String selectQuery;
-        if (p == null) {
-            selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + KEY + "=" + foodID;
-        } else {
-            selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
-                    + " WHERE " + KEY + "=" + foodID +
-                    " AND " + PROFILE_KEY + "=" + p.getId();
-        }
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        // looping through only the first rows.
-        if (c.moveToFirst()) {
-            try {
-                long value = c.getLong(0);
-                lReturn = this.getRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
-            }
-        }
-
-        c.close();
-
-        // return value list
-        return lReturn;
-    }
-
-    // Get all record for one Machine
-    public List<FoodRecord> getAllRecordByFoodNameStrArray(Profile pProfile, String pMachines) {
-        return getAllRecordByFoodNameStrArray(pProfile, pMachines, -1);
-    }
-
-    public List<FoodRecord> getAllRecordByFoodNameStrArray(Profile pProfile, String foodName, int pNbRecords) {
-        String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
-
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + FOOD_NAME + "='" + foodName + "'"
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
-                + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
-
-        // return value list
-        return getRecordsList(selectQuery);
-    }
-
     public List<FoodRecord> getAllRecordByFoodIdArray(Profile pProfile, long foodId, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
@@ -532,11 +414,6 @@ public class DAOFoodRecord extends DAOBase {
 
         // return value list
         return getRecordsList(selectQuery);
-    }
-
-    // Get all record for one Machine
-    public List<FoodRecord> getAllRecordByFoodIdArray(Profile pProfile, long foodId) {
-        return getAllRecordByFoodIdArray(pProfile, foodId, -1);
     }
 
     private List<FoodRecord> getRecordsList(String pRequest) {
@@ -598,11 +475,4 @@ public class DAOFoodRecord extends DAOBase {
     public void closeCursor() {
         if (mCursor != null) mCursor.close();
     }
-
-    public void closeAll() {
-        if (mCursor != null) mCursor.close();
-        close();
-    }
-
-
 }

@@ -41,6 +41,7 @@ public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
 
         ImageView i0 = convertView.findViewById(R.id.LIST_MACHINE_PHOTO);
         i0.setVisibility(View.VISIBLE);
+        i0.setImageDrawable(convertView.getResources().getDrawable(R.drawable.ic_carrot, convertView.getContext().getTheme()));
 
         MaterialFavoriteButton iFav = convertView.findViewById(R.id.LIST_MACHINE_FAVORITE);
         iFav.setVisibility(View.VISIBLE);

@@ -44,11 +44,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class FoodRecordArrayAdapter extends ArrayAdapter {
 
     private final Activity mActivity;
-    private final int mFirstColorOdd = 0;
     private final Context mContext;
     private final DAOFoodRecord mDbRecord;
     List<FoodRecord> mRecordList;
-    private OnCustomEventListener mProgramCompletedListener;
 
     public FoodRecordArrayAdapter(Activity activity, Context context, List<FoodRecord> objects) {
         super(context, R.layout.row_nourriture, objects);
@@ -178,14 +176,6 @@ public class FoodRecordArrayAdapter extends ArrayAdapter {
                     sDialog.dismissWithAnimation();
                 })
                 .show();
-    }
-
-    public void setOnProgramCompletedListener(OnCustomEventListener eventListener) {
-        mProgramCompletedListener = eventListener;
-    }
-
-    private Profile getProfile() {
-        return ((MainActivity) mActivity).getCurrentProfile();
     }
 
     // View lookup cache

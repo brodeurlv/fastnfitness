@@ -177,6 +177,7 @@ public class NourritureHistoryFragment extends Fragment {
         Cursor c = mDbRecord.getFilteredRecords(getProfile(),  foodName, pDate);
 
         List<FoodRecord> records = mDbRecord.fromCursorToList(c);
+        c.close();
 
         if (records.isEmpty()) {
             filterList.setAdapter(null);

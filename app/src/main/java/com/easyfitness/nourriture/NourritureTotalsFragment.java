@@ -78,16 +78,6 @@ public class NourritureTotalsFragment extends Fragment {
     private TextView totalFats;
     private TextView goalsInstructions;
 
-    private ImageView caloriesEditButton;
-    private ImageView carbsEditButton;
-    private ImageView proteinEditButton;
-    private ImageView fatsEditButton;
-
-    private EditText caloriesGoalEdit;
-    private EditText carbsGoalEdit;
-    private EditText proteinGoalEdit;
-    private EditText fatsGoalEdit;
-
     private Date selectedDate;
     private AppViMo appViMo;
     private float caloriesGoal;
@@ -229,17 +219,17 @@ public class NourritureTotalsFragment extends Fragment {
         totalProtein = view.findViewById(R.id.proteinAmount);
         totalFats = view.findViewById(R.id.fatsAmount);
 
-        caloriesEditButton = view.findViewById(R.id.caloriesEditButton);
-        carbsEditButton = view.findViewById(R.id.carbsEditButton);
-        proteinEditButton = view.findViewById(R.id.proteinEditButton);
-        fatsEditButton = view.findViewById(R.id.fatsEditButton);
+        ImageView caloriesEditButton = view.findViewById(R.id.caloriesEditButton);
+        ImageView carbsEditButton = view.findViewById(R.id.carbsEditButton);
+        ImageView proteinEditButton = view.findViewById(R.id.proteinEditButton);
+        ImageView fatsEditButton = view.findViewById(R.id.fatsEditButton);
 
         goalsInstructions = view.findViewById(R.id.goals_instructions_message);
 
-        caloriesGoalEdit = new EditText(c);
-        carbsGoalEdit = new EditText(c);
-        proteinGoalEdit = new EditText(c);
-        fatsGoalEdit = new EditText(c);
+        EditText caloriesGoalEdit = new EditText(c);
+        EditText carbsGoalEdit = new EditText(c);
+        EditText proteinGoalEdit = new EditText(c);
+        EditText fatsGoalEdit = new EditText(c);
 
         sp = PreferenceManager.getDefaultSharedPreferences(c);
 
@@ -257,7 +247,7 @@ public class NourritureTotalsFragment extends Fragment {
         });
 
         setupGoalEditListeners(c,
-            caloriesEditButton,
+                caloriesEditButton,
             caloriesGoalEdit,
             "Daily Calories Goal",
             () -> caloriesGoal,

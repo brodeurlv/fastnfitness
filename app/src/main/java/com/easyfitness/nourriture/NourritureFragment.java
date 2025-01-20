@@ -210,7 +210,7 @@ public class NourritureFragment extends Fragment {
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
 
         mDbRecord = new DAOFoodRecord(getContext());
-
+        foodInputView.reset();
         restoreSharedParams();
 
         appViMo = new ViewModelProvider(requireActivity()).get(AppViMo.class);
@@ -219,8 +219,6 @@ public class NourritureFragment extends Fragment {
             // Update the UI, in this case, a TextView.
             refreshData();
         });
-
-        foodInputView.reset();
 
         return view;
     }
@@ -285,9 +283,7 @@ public class NourritureFragment extends Fragment {
                 .setConfirmClickListener(sDialog -> {
                     mDbRecord.deleteRecord(idToDelete);
 
-
-
-                    updateRecordTable(foodNameEdit.getText().toString());
+                    updateRecordTable();
 
                     // Info
                     KToast.infoToast(getActivity(), getResources().getText(R.string.removedid).toString(), Gravity.BOTTOM, KToast.LENGTH_LONG);
@@ -331,37 +327,6 @@ public class NourritureFragment extends Fragment {
         }
     }
 
-    // Share your performances with friends
-    public boolean shareRecord(String text) {
-        AlertDialog.Builder newProfilBuilder = new AlertDialog.Builder(getView().getContext());
-
-        newProfilBuilder.setTitle(getView().getContext().getResources().getText(R.string.ShareTitle));
-        newProfilBuilder.setMessage(getView().getContext().getResources().getText(R.string.ShareInstruction));
-
-        // Set an EditText view to get user input
-        final EditText input = new EditText(getView().getContext());
-        input.setText(text);
-        newProfilBuilder.setView(input);
-
-        newProfilBuilder.setPositiveButton(getView().getContext().getResources().getText(R.string.ShareText), (dialog, whichButton) -> {
-            String value = input.getText().toString();
-
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, value);
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
-        });
-
-        newProfilBuilder.setNegativeButton(getView().getContext().getResources().getText(android.R.string.cancel), (dialog, whichButton) -> {
-
-        });
-
-        newProfilBuilder.show();
-
-        return true;
-    }
-
     public NourritureFragment getFragment() {
         return this;
     }
@@ -376,6 +341,7 @@ public class NourritureFragment extends Fragment {
 
     private void setCurrentFoodName(String foodStr) {
         if (foodStr.isEmpty()) {
+            foodInputView.setRatioLock(false);
             return;
         }
 
@@ -389,62 +355,41 @@ public class NourritureFragment extends Fragment {
         // User entered an existing food item, pre-populate the input and lock macros ratio
         foodInputView.setRecord(lFood);
         foodInputView.setRatioLock(true);
-
-        // Update Table
-        updateRecordTable(lFood.getFoodName());
-        // Update last values
-        updateLastRecord(lFood);
     }
 
-    private void updateLastRecord(FoodRecord food) {
-        /// TODO: Implement this
-        if (food == null) {
-            // Set default values or nothing.
+    private void updateRecordTable() {
+
+        Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1, false);
+
+        List<FoodRecord> records = mDbRecord.fromCursorToList(c);
+        c.close();
+
+        if (records.isEmpty()) {
+            recordList.setAdapter(null);
         } else {
-            // Fill in the inputs to match `food`'s value
-        }
-    }
+            if (recordAdapter == null) {
+                recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
 
-    private void updateRecordTable(String foodName) {
-        // Informe l'activité de la machine courante
-        if (getView() == null) return;
-        getView().post(() -> {
-
-            Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1);
-
-            List<FoodRecord> records = mDbRecord.fromCursorToList(c);
-            c.close();
-
-            if (records.isEmpty()) {
-                recordList.setAdapter(null);
+                recordList.setAdapter(recordAdapter);
             } else {
-                if (recordAdapter == null) {
-                    recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
-
-                    recordList.setAdapter(recordAdapter);
-                } else {
-                    recordAdapter.setRecords(records);
-                }
-
+                recordAdapter.setRecords(records);
             }
-        });
+        }
     }
 
     private void refreshData() {
         View fragmentView = getView();
         if (fragmentView == null || getProfile() == null) {
-            System.out.println("fragment or profile is null!");
             return;
         }
 
-        updateRecordTable("");
-
         if (foodEditAdapter == null) {
-            List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile());
+            List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile(), true);
             foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
             foodNameEdit.setAdapter(foodEditAdapter);
             foodEditAdapter.notifyDataSetChanged();
         }
+        updateRecordTable();
     }
 
     public void saveSharedParams() {
