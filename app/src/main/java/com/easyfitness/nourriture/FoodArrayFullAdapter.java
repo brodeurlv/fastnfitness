@@ -51,6 +51,9 @@ public class FoodArrayFullAdapter extends ArrayAdapter<FoodRecord> {
         return convertView;
     }
 
-
+    public void setRecords(List<FoodRecord> foodListArray) {
+        this.clear();
+        this.addAll(foodListArray);
+    }
 }
 

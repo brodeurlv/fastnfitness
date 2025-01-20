@@ -61,10 +61,6 @@ public class SingleValueInputView extends LinearLayout {
         this.valueEditText.setOnKeyListener(l);
     }
 
-    public void setOnUnitSelectedListener(AdapterView.OnItemSelectedListener l) {
-        this.unitSpinner.setOnItemSelectedListener(l);
-    }
-
     protected void init(Context context, AttributeSet attrs) {
 
         rootView = inflate(context, R.layout.singlevalueinput_view, this);
@@ -128,7 +124,7 @@ public class SingleValueInputView extends LinearLayout {
         requestLayout();
     }
 
-    public boolean isShowComment() {
+    public boolean isShowingComment() {
         return mShowComment;
     }
 

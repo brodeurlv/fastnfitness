@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -167,7 +168,9 @@ public class NourritureFragment extends Fragment {
 
         saveSharedParams();
     };
-    private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentFoodName(((FoodRecord) foodNameEdit.getAdapter().getItem(position)).getFoodName());
+    private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> {
+        setCurrentFoodName(((FoodRecord) foodNameEdit.getAdapter().getItem(position)).getFoodName());
+    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -340,6 +343,7 @@ public class NourritureFragment extends Fragment {
     }
 
     private void setCurrentFoodName(String foodStr) {
+        foodStr = foodStr.trim();
         if (foodStr.isEmpty()) {
             foodInputView.setRatioLock(false);
             return;
@@ -347,6 +351,7 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
+            System.err.println("lFood is null!");
             foodInputView.setRatioLock(false);
             // This is a new food, or user is still typing
             return;
@@ -375,6 +380,7 @@ public class NourritureFragment extends Fragment {
                 recordAdapter.setRecords(records);
             }
         }
+        recordAdapter.notifyDataSetChanged();
     }
 
     private void refreshData() {
@@ -383,12 +389,16 @@ public class NourritureFragment extends Fragment {
             return;
         }
 
+        List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile(), true);
         if (foodEditAdapter == null) {
-            List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile(), true);
             foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
             foodNameEdit.setAdapter(foodEditAdapter);
+        }
+        else {
+            foodEditAdapter.setRecords(foodListArray);
             foodEditAdapter.notifyDataSetChanged();
         }
+        foodEditAdapter.notifyDataSetChanged();
         updateRecordTable();
     }
 

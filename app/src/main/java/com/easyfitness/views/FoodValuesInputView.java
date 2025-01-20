@@ -69,6 +69,9 @@ public class FoodValuesInputView extends LinearLayout {
 
         // If the ratio lock is enabled, then whenever the user changes the quantity, change the other values.
         quantityInputView.setOnKeyListener((v, keyCode, event) -> {
+            if(!event.isPrintingKey() || event.isCanceled()) {
+                return false;
+            }
             if (!lockRatio) {
                 return false;
             }
@@ -88,16 +91,17 @@ public class FoodValuesInputView extends LinearLayout {
         // If the ratio lock is on, but the user begins editing values other than quantity, then cancel the ratio lock
         for (SingleValueInputView v : new SingleValueInputView[]{carbsInputView, caloriesInputView, fatsInputView, proteinInputView}) {
             v.setOnKeyListener((v1, keyCode, event) -> {
+
+                if(!event.isPrintingKey() || event.isCanceled()) {
+                    return false;
+                }
                 if (lockRatio) {
                     lockRatio = false;
                 }
                 return false;
             });
+
         }
-
-        // If the ratio lock is on, but the user changes the units of the quantity, then cancel the lock
-        quantityInputView.setOnUnitSelectedListener(new UnitListener());
-
     }
 
     public boolean isRatioLocked() {
@@ -196,18 +200,5 @@ public class FoodValuesInputView extends LinearLayout {
         setCarbs(record.getCarbs());
         setProtein(record.getProtein());
         setQuantity(record.getQuantity(), record.getQuantityUnit());
-    }
-
-    private class UnitListener implements AdapterView.OnItemSelectedListener {
-        public void onItemSelected(AdapterView<?> parent, View view,
-        int pos, long id) {
-            if (lockRatio) {
-                lockRatio = false;
-            }
-        }
-
-        public void onNothingSelected(AdapterView<?> parent) {
-            // Do nothing
-        }
     }
 }
