@@ -46,6 +46,7 @@ public class FoodRecordEditorDialogbox extends Dialog implements View.OnClickLis
         mFoodValuesInput = findViewById(R.id.EditorFoodValuesInput);
 
         mFoodValuesInput.setRecord(mRecord);
+        mFoodValuesInput.setRatioLock(true);
 
         updateButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
