@@ -55,7 +55,6 @@ public class DAOFoodRecord extends DAOBase {
             + ");";
 
     protected Profile mProfile = null;
-    protected Cursor mCursor = null;
     protected Context mContext;
 
     public DAOFoodRecord(Context context) {
@@ -127,9 +126,9 @@ public class DAOFoodRecord extends DAOBase {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
         Cursor c = getRecordsListCursor(db, selectQuery);
-        if (mCursor.moveToFirst()) {
+        if (c.moveToFirst()) {
             //Get Date
-            FoodRecord r = fromCursor(mCursor);
+            FoodRecord r = fromCursor(c);
             c.close();
             return r;
         } else {
@@ -201,7 +200,7 @@ public class DAOFoodRecord extends DAOBase {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 FoodRecord record = fromCursor(cursor);
-                if (record != null) valueList.add(record);
+                valueList.add(record);
             } while (cursor.moveToNext());
         }
         return valueList;
@@ -276,7 +275,6 @@ public class DAOFoodRecord extends DAOBase {
             selectQuery += " GROUP BY " + FOOD_NAME;
         }
         selectQuery += " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
-
         // Return value list
         return getRecordsListCursor(selectQuery);
     }
@@ -295,8 +293,6 @@ public class DAOFoodRecord extends DAOBase {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        mCursor = null;
-
         // Select All dates of food entries
         String selectQuery = "SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME;
         if (foodName != null) {
@@ -309,20 +305,20 @@ public class DAOFoodRecord extends DAOBase {
         }
         selectQuery += " ORDER BY " + DATE_TIME + " DESC";
 
-        mCursor = db.rawQuery(selectQuery, null);
-        int size = mCursor.getCount();
+        Cursor c = db.rawQuery(selectQuery, null);
+        int size = c.getCount();
 
         List<String> valueList = new ArrayList<>(size);
 
         // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
+        if (c.moveToFirst()) {
             do {
-                Date date = DateConverter.DBDateStrToDate(mCursor.getString(0));
+                Date date = DateConverter.DBDateStrToDate(c.getString(0));
                 valueList.add(DateConverter.dateToLocalDateStr(date, mContext));
-            } while (mCursor.moveToNext());
+            } while (c.moveToNext());
         }
 
-        close();
+        c.close();
 
         // return value list
         return valueList;
@@ -373,7 +369,6 @@ public class DAOFoodRecord extends DAOBase {
     public FoodRecord getMostRecentFoodRecord(Profile pProfile, String foodName) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         FoodRecord lReturn = null;
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME
@@ -382,20 +377,19 @@ public class DAOFoodRecord extends DAOBase {
             selectQuery += " AND " + PROFILE_KEY + "=" + pProfile.getId();
         }
         selectQuery += " ORDER BY " + DATE_TIME + " DESC LIMIT 1";
-        mCursor = db.rawQuery(selectQuery, null);
+        Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
+        if (c.moveToFirst()) {
             try {
-                long value = mCursor.getLong(0);
+                long value = c.getLong(0);
                 lReturn = this.getRecord(value);
             } catch (NumberFormatException e) {
                 lReturn = null; // Return une valeur
             }
         }
 
-        mCursor.close();
-        close();
+        c.close();
 
         // return value list
         return lReturn;
@@ -422,10 +416,8 @@ public class DAOFoodRecord extends DAOBase {
 
     // Getting All Records
     private List<FoodRecord> getRecordsList(String pRequest, SQLiteDatabase db) {
-        List<FoodRecord> valueList = new ArrayList<>();
         // Select All Query
-
-
+        List<FoodRecord> valueList = new ArrayList<>();
         Cursor c = db.rawQuery(pRequest, null);
 
         // looping through all rows and adding to list
@@ -470,9 +462,5 @@ public class DAOFoodRecord extends DAOBase {
         // updating row
         return db.update(TABLE_NAME, value, KEY + " = ?",
                 new String[]{String.valueOf(record.getId())});
-    }
-
-    public void closeCursor() {
-        if (mCursor != null) mCursor.close();
     }
 }

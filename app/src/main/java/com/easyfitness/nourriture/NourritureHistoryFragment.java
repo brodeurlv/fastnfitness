@@ -116,7 +116,6 @@ public class NourritureHistoryFragment extends Fragment {
                 mFoodArray);
         mAdapaterFood.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         foodList.setAdapter(mAdapaterFood);
-        mDbRecord.closeCursor();
 
         mDateArray = new ArrayList<>();
         mDateArray.add(getContext().getResources().getText(R.string.all).toString());
@@ -216,7 +215,6 @@ public class NourritureHistoryFragment extends Fragment {
                     dateList.setSelection(1);
                 }
                 mAdapterDate.notifyDataSetChanged();
-                mDbRecord.closeCursor();
             }
         }
     }

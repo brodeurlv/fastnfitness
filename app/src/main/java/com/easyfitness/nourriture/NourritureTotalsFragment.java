@@ -5,11 +5,9 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -21,7 +19,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,9 +29,6 @@ import androidx.preference.PreferenceManager;
 
 import com.easyfitness.AppViMo;
 import com.easyfitness.DAO.Profile;
-import com.easyfitness.DAO.bodymeasures.BodyPart;
-import com.easyfitness.DAO.bodymeasures.DAOBodyMeasure;
-import com.easyfitness.DAO.bodymeasures.DAOBodyPart;
 import com.easyfitness.DAO.macros.DAOFoodRecord;
 import com.easyfitness.DAO.macros.FoodRecord;
 import com.easyfitness.DatePickerDialogFragment;
@@ -57,12 +51,7 @@ public class NourritureTotalsFragment extends Fragment {
 
     private FoodRecord selectedDateTotals;
     private SharedPreferences sp;
-    private DAOBodyMeasure bodyMeasureDAO = null;
 
-    private DAOFoodRecord foodDAO = null;
-    private DAOBodyPart bodyPartDAO = null;
-    private BodyPart weightBodyPart = null;
-    private BodyPart heightBodyPart = null;
     MainActivity mActivity = null;
 
     private DatePickerDialogFragment mDateFrag = null;
@@ -77,7 +66,6 @@ public class NourritureTotalsFragment extends Fragment {
     private TextView totalProtein;
     private TextView totalFats;
     private TextView goalsInstructions;
-
     private Date selectedDate;
     private AppViMo appViMo;
     private float caloriesGoal;
@@ -345,23 +333,12 @@ public class NourritureTotalsFragment extends Fragment {
 
         Context c = fragmentView.getContext();
 
-        if (bodyMeasureDAO == null) {
-            bodyMeasureDAO = new DAOBodyMeasure(c);
-        }
-
-        if (bodyPartDAO == null) {
-            bodyPartDAO = new DAOBodyPart(c);
-        }
-
-        if (foodDAO == null) {
-            foodDAO = new DAOFoodRecord(c);
-        }
-
         // Get the total macros for the currently selected day
+        DAOFoodRecord foodDAO = new DAOFoodRecord(c);
         selectedDateTotals = foodDAO.getMacroTotalsForDate(selectedDate,getProfile());
+        foodDAO.close();
 
         caloriesGoal = sp.getFloat("daily_caloric_intake_goal", 0.0f);
-
         carbsGoal = sp.getFloat("daily_carbs_intake_goal", 0.0f);
         proteinGoal = sp.getFloat("daily_protein_intake_goal", 0.0f);
         fatsGoal = sp.getFloat("daily_fats_intake_goal", 0.0f);
@@ -420,7 +397,6 @@ public class NourritureTotalsFragment extends Fragment {
         populateProgressCardView(carbsPieChart,totalCarbs, carbsGoal, selectedDateTotals.getCarbs());
         populateProgressCardView(proteinPieChart,totalProtein, proteinGoal, selectedDateTotals.getProtein());
         populateProgressCardView(fatsPieChart,totalFats, fatsGoal, selectedDateTotals.getFats());
-
     }
 
 

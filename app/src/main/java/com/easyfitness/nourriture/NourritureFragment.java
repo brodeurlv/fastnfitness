@@ -3,7 +3,6 @@ package com.easyfitness.nourriture;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,39 +12,30 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethod;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.easyfitness.AppViMo;
-import com.easyfitness.BtnClickListener;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.DAO.macros.DAOFoodRecord;
 import com.easyfitness.DAO.macros.FoodRecord;
-import com.easyfitness.DAO.record.DAORecord;
 import com.easyfitness.DatePickerDialogFragment;
 import com.easyfitness.MainActivity;
 import com.easyfitness.R;
 import com.easyfitness.TimePickerDialogFragment;
-import com.easyfitness.machines.MachineArrayFullAdapter;
 import com.easyfitness.utils.DateConverter;
 import com.easyfitness.utils.ExpandedListView;
 import com.easyfitness.utils.Keyboard;
@@ -106,14 +96,6 @@ public class NourritureFragment extends Fragment {
         detailsLayout.setVisibility(detailsLayout.isShown() ? View.GONE : View.VISIBLE);
         detailsExpandArrow.setImageResource(detailsLayout.isShown() ? R.drawable.ic_expand_less : R.drawable.ic_expand_more);
         saveSharedParams();
-    };
-    private final BtnClickListener itemClickCopyRecord = v -> {
-        FoodRecord r = mDbRecord.getRecord((long) v.getTag());
-        if (r == null) {
-            return;
-        }
-        // Copy values above
-        KToast.infoToast(getMainActivity(), getString(R.string.recordcopied), Gravity.BOTTOM, KToast.LENGTH_SHORT);
     };
     private final OnItemLongClickListener itemlongclickDeleteRecord = (listView, view, position, id) -> {
         showRecordListMenu(id);
@@ -178,7 +160,6 @@ public class NourritureFragment extends Fragment {
      */
     public static NourritureFragment newInstance(int displayType, long templateId) {
         NourritureFragment f = new NourritureFragment();
-
         return f;
     }
 
@@ -212,7 +193,6 @@ public class NourritureFragment extends Fragment {
         recordList.setOnItemLongClickListener(itemlongclickDeleteRecord);
         detailsExpandArrow.setOnClickListener(collapseDetailsClick);
 
-        mDbRecord = new DAOFoodRecord(getContext());
         foodInputView.reset();
         restoreSharedParams();
 
@@ -234,6 +214,12 @@ public class NourritureFragment extends Fragment {
         refreshData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -241,12 +227,17 @@ public class NourritureFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    public String getName() {
-        return getArguments().getString("name");
+    @Override
+    public void onStop() {
+        if (this.mDbRecord != null) {
+            this.mDbRecord.close();
+            this.mDbRecord = null;
+        }
+        super.onStop();
     }
 
-    public MainActivity getMainActivity() {
-        return (MainActivity) this.getActivity();
+    public String getName() {
+        return getArguments().getString("name");
     }
 
     private void showRecordListMenu(final long id) {
@@ -351,9 +342,8 @@ public class NourritureFragment extends Fragment {
 
         FoodRecord lFood = mDbRecord.getMostRecentFoodRecord(getProfile(), foodStr);
         if (lFood == null) {
-            System.err.println("lFood is null!");
-            foodInputView.setRatioLock(false);
             // This is a new food, or user is still typing
+            foodInputView.setRatioLock(false);
             return;
         }
 
@@ -365,20 +355,14 @@ public class NourritureFragment extends Fragment {
     private void updateRecordTable() {
 
         Cursor c = mDbRecord.getAllRecordsByProfile(getProfile(), -1, false);
-
         List<FoodRecord> records = mDbRecord.fromCursorToList(c);
         c.close();
 
-        if (records.isEmpty()) {
-            recordList.setAdapter(null);
+        if (recordAdapter == null) {
+            recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
+            recordList.setAdapter(recordAdapter);
         } else {
-            if (recordAdapter == null) {
-                recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records);
-
-                recordList.setAdapter(recordAdapter);
-            } else {
-                recordAdapter.setRecords(records);
-            }
+            recordAdapter.setRecords(records);
         }
         recordAdapter.notifyDataSetChanged();
     }
@@ -388,7 +372,10 @@ public class NourritureFragment extends Fragment {
         if (fragmentView == null || getProfile() == null) {
             return;
         }
-
+        if (mDbRecord == null) {
+            mDbRecord = new DAOFoodRecord(getContext());
+            mDbRecord.setProfile(getProfile());
+        }
         List<FoodRecord> foodListArray = mDbRecord.getAllRecordsByProfileList(getProfile(), true);
         if (foodEditAdapter == null) {
             foodEditAdapter = new FoodArrayFullAdapter(getContext(), foodListArray);
@@ -396,7 +383,6 @@ public class NourritureFragment extends Fragment {
         }
         else {
             foodEditAdapter.setRecords(foodListArray);
-            foodEditAdapter.notifyDataSetChanged();
         }
         foodEditAdapter.notifyDataSetChanged();
         updateRecordTable();
