@@ -839,7 +839,7 @@ public class WeightFragment extends Fragment {
         return (10 * weight) + (6.25 * size) - (5 * age) - 161;
     }
 
-    private double calculateBmrKatch(float bodyFat, float weight) {
+    public static double calculateBmrKatch(float bodyFat, float weight) {
         /**
          * Katch-McArdle Formula: BMR = 370 + 21.6(1 - F)W
          **/

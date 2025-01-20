@@ -61,22 +61,18 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class NourritureFragment extends Fragment {
 
     private int lTableColor = 1;
-    private long mProgramId;
-    private MainActivity mActivity = null;
     private AutoCompleteTextView foodNameEdit = null;
     private FoodValuesInputView foodInputView = null;
     private FoodArrayFullAdapter foodEditAdapter = null;
     private ImageButton detailsExpandArrow = null;
     private LinearLayout detailsLayout = null;
-    private CardView detailsCardView = null;
     private CheckBox autoTimeCheckBox = null;
     private TextView dateEdit = null;
     private DAOFoodRecord mDbRecord = null;
     private AppViMo appViMo;
     private TextView timeEdit = null;
     private ExpandedListView recordList = null;
-    private AlertDialog foodListDialog;
-    private AlertDialog foodFilterDialog;
+    private FoodRecordArrayAdapter recordAdapter = null;
     private DatePickerDialogFragment mDateFrag = null;
     private TimePickerDialogFragment mTimeFrag = null;
     private final DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> {
@@ -171,90 +167,7 @@ public class NourritureFragment extends Fragment {
 
         saveSharedParams();
     };
-    private final OnClickListener onClickFoodListWithIcons = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Cursor oldCursor;
-
-            // In case the dialog is already open
-            if (foodListDialog != null && foodListDialog.isShowing()) {
-                return;
-            }
-
-//            ListView machineList = new ListView(v.getContext());
-//
-//            // Version avec table Machine
-//            Cursor c = mDbMachine.getAllMachines(selectedTypes);
-//
-//            if (c == null || c.getCount() == 0) {
-//                if (selectedTypes.size() == 0) {
-//                    KToast.warningToast(getActivity(), getResources().getText(R.string.selectExerciseTypeFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-//                } else {
-//                    //Toast.makeText(getActivity(), R.string.createExerciseFirst, Toast.LENGTH_SHORT).show();
-//                    KToast.warningToast(getActivity(), getResources().getText(R.string.createExerciseFirst).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-//                }
-//                machineList.setAdapter(null);
-//            } else {
-//                if (machineList.getAdapter() == null) {
-//                    MachineCursorAdapter mTableAdapter = new MachineCursorAdapter(getActivity(), c, 0, mDbMachine);
-//                    //MachineArrayFullAdapter lAdapter = new MachineArrayFullAdapter(v.getContext(),records);
-//                    machineList.setAdapter(mTableAdapter);
-//                } else {
-//                    MachineCursorAdapter mTableAdapter = (MachineCursorAdapter) machineList.getAdapter();
-//                    oldCursor = mTableAdapter.swapCursor(c);
-//                    if (oldCursor != null) oldCursor.close();
-//                }
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-//                View customLayout = getLayoutInflater().inflate(R.layout.tab_machine, null);
-//                Button addButton = customLayout.findViewById(R.id.addExercise);
-//                addButton.setVisibility(View.GONE);
-//
-//                AutoCompleteTextView textFilter = customLayout.findViewById(R.id.searchField);
-//                textFilter.setVisibility(View.GONE);
-//
-//                TextView textViewFilterExplanation = customLayout.findViewById(R.id.textViewFilterByTypes);
-//                textViewFilterExplanation.setVisibility(View.VISIBLE);
-//
-//                ImageButton filterButton = customLayout.findViewById(R.id.buttonFilterListMachine);
-//                filterButton.setOnClickListener(clickFilterButton);
-//                ListView listView = customLayout.findViewById(R.id.listMachine);
-//                listView.setAdapter(machineList.getAdapter());
-//                listView.setOnItemClickListener((parent, view, position, id) -> {
-//                    TextView textView = view.findViewById(R.id.LIST_MACHINE_ID);
-//                    long machineID = Long.parseLong(textView.getText().toString());
-//                    DAOMachine lMachineDb = new DAOMachine(getContext());
-//                    Machine lMachine = lMachineDb.getMachine(machineID);
-//
-//                    setCurrentMachine(lMachine.getName());
-//
-//                    getMainActivity().findViewById(R.id.drawer_layout).requestFocus();
-//                    Keyboard.hide(getContext(), getMainActivity().findViewById(R.id.drawer_layout));
-//
-//                    if (foodListDialog.isShowing()) {
-//                        foodListDialog.dismiss();
-//                    }
-//                });
-//                builder.setTitle(R.string.selectMachineDialogLabel);
-//                builder.setView(customLayout);
-//                foodListDialog = builder.create();
-//                foodListDialog.show();
-//            }
-        }
-    };
     private final OnItemClickListener onItemClickFilterList = (parent, view, position, id) -> setCurrentFoodName(((FoodRecord) foodNameEdit.getAdapter().getItem(position)).getFoodName());
-    private final OnFocusChangeListener touchRazEdit = (v, hasFocus) -> {
-        if (hasFocus) {
-
-
-            v.post(() -> {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
-            });
-        } else {
-            setCurrentFoodName(foodNameEdit.getText().toString());
-        }
-    };
 
     /**
      * Create a new instance of DetailsFragment, initialized to
@@ -276,7 +189,6 @@ public class NourritureFragment extends Fragment {
         foodInputView = view.findViewById(R.id.FoodValuesInput);
         Button addButton = view.findViewById(R.id.addperff);
 
-        detailsCardView = view.findViewById(R.id.detailsCardView);
         detailsLayout = view.findViewById(R.id.notesLayout);
         detailsExpandArrow = view.findViewById(R.id.buttonExpandArrow);
 
@@ -316,7 +228,6 @@ public class NourritureFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        this.mActivity = (MainActivity) this.getActivity();
         dateEdit.setText(DateConverter.currentDate(getContext()));
         timeEdit.setText(DateConverter.currentTime(getContext()));
         refreshData();
@@ -373,6 +284,8 @@ public class NourritureFragment extends Fragment {
                 .showCancelButton(true)
                 .setConfirmClickListener(sDialog -> {
                     mDbRecord.deleteRecord(idToDelete);
+
+
 
                     updateRecordTable(foodNameEdit.getText().toString());
 
@@ -505,11 +418,12 @@ public class NourritureFragment extends Fragment {
             if (records.isEmpty()) {
                 recordList.setAdapter(null);
             } else {
-                if (recordList.getAdapter() == null) {
-                    FoodRecordArrayAdapter mTableAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records, itemClickCopyRecord);
+                if (recordAdapter == null) {
+                    recordAdapter = new FoodRecordArrayAdapter(getActivity(), getContext(), records, itemClickCopyRecord);
 
-                    recordList.setAdapter(mTableAdapter);
+                    recordList.setAdapter(recordAdapter);
                 } else {
+
                     ((FoodRecordArrayAdapter) recordList.getAdapter()).setRecords(records);
                 }
 
