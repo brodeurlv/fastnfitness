@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public static String PROFILE = "Profile";
     public static String BODYTRACKING = "BodyTracking";
 
-    public static String MACROTRACKING = "MacroTracking";
 
     public static String PROGRESSIMAGES = "ProgressImages";
     public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
@@ -316,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(this.getResources().getString(R.string.ProgramListLabel), R.drawable.ic_exam, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.weightMenuLabel), R.drawable.ic_bathroom_scale, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.bodytracking), R.drawable.ic_ruler, true));
-        dataList.add(new DrawerItem(this.getResources().getString(R.string.macros_track), R.drawable.ic_ruler, true));
+        dataList.add(new DrawerItem(this.getResources().getString(R.string.macros_track), R.drawable.ic_carrot, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.progress_images), R.drawable.ic_drawer_photo_camera, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.SettingLabel), R.drawable.ic_settings, true));
         dataList.add(new DrawerItem(this.getResources().getString(R.string.AboutLabel), R.drawable.ic_info_outline, true));
@@ -851,7 +850,6 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
         }
         else if (pFragmentName.equals(NOURRITUREPAGER)) {
-            /// TODO: Add getNourriturePagerFragment()
             ft.replace(R.id.fragment_container, getNourriturePagerFragment(), NOURRITUREPAGER);
         }
         currentFragmentName = pFragmentName;
@@ -949,15 +947,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private WeightFragment getWeightFragment() {
-        if (mpWeightFrag == null)
-            mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
-        if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
-
-        return mpWeightFrag;
-    }
-
-    private WeightFragment getMacroTrackingFragment() {
-        // TODO: Actually implement this
         if (mpWeightFrag == null)
             mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
         if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
@@ -1175,7 +1164,6 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
-                    // TODO: Add macro tracker fragment
                     showFragment(NOURRITUREPAGER);
                     setTitle(getResources().getText(R.string.macros_track));
                     break;
