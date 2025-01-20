@@ -1,5 +1,7 @@
 package com.easyfitness.nourriture;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
@@ -10,14 +12,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
@@ -149,7 +157,38 @@ public class NourritureTotalsFragment extends Fragment {
 
         Dialog d = new Dialog(context);
         d.setTitle(title);
-        d.setContentView(goalEdit);
+
+        CardView card = new CardView(context);
+        card.setContentPadding(120, 120, 120, 120);
+        card.setRadius(60.0f);
+
+        TextView titleLabel = new TextView(context);
+        titleLabel.setText(title);
+        titleLabel.setTextSize(24.0f);
+        titleLabel.setMaxLines(1);
+
+        goalEdit.setTextSize(24.0f);
+        goalEdit.setMinEms(16);
+        goalEdit.setMaxLines(1);
+        goalEdit.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == IME_ACTION_DONE) {
+                d.dismiss();
+            }
+            return false;
+        });
+
+        goalEdit.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        LinearLayout l = new LinearLayout(context);
+        FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        l.setLayoutParams(p);
+        l.setOrientation(LinearLayout.VERTICAL);
+        l.setGravity(Gravity.START);
+        l.addView(titleLabel);
+
+        l.addView(goalEdit);
+        card.addView(l);
+        d.setContentView(card);
         d.setCancelable(true);
         d.setOnShowListener(dialog -> {
             goalEdit.setText(String.format(Locale.getDefault(), "%.1f", getGoal.getGoalValue()));
