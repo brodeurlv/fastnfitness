@@ -126,8 +126,12 @@ public class ProgramRunnerFragment extends Fragment {
                 .setCancelText(getContext().getString(R.string.global_no))
                 .setHideKeyBoardOnDismiss(true)
                 .setConfirmClickListener(sDialog -> {
+                    if(mProgramRecordsList.getAdapter() instanceof RecordArrayAdapter adapter) {
+                        adapter.tryDismissCountdown();
+                    }
                     stopProgram();
                     sDialog.dismiss();
+
                 });
         dialog.show();
     };

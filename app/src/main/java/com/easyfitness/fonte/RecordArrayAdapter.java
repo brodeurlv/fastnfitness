@@ -43,6 +43,7 @@ import com.easyfitness.utils.OnCustomEventListener;
 import com.easyfitness.utils.UnitConverter;
 import com.onurkaganaldemir.ktoastlib.KToast;
 
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -62,6 +63,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
     private BtnClickListener mAction2ClickListener = null;
     private OnCustomEventListener mProgramCompletedListener;
 
+    private WeakReference<CountdownDialogbox> lastCountdownDialogCache = null; //cache timer dialogue for early dismissal
     public RecordArrayAdapter(Activity activity, Context context, List<Record> objects, DisplayType displayType, BtnClickListener clickAction2) {
         super(context, R.layout.row_fonte, objects);
         mActivity = activity;
@@ -402,6 +404,15 @@ public class RecordArrayAdapter extends ArrayAdapter {
         viewHolder.TemplateThirdColValue.setVisibility(visibility);
     }
 
+    public void tryDismissCountdown() {
+        if(lastCountdownDialogCache != null) {
+            CountdownDialogbox countdown = lastCountdownDialogCache.get();
+            if(countdown != null) {
+                countdown.dismiss();
+            }
+        }
+    }
+
     private void showEditorDialog(Record record, int position, ViewHolder viewHolder) {
         RecordEditorDialogbox recordEditorDialogbox = new RecordEditorDialogbox(mActivity, record, mDisplayType == DisplayType.PROGRAM_EDIT_DISPLAY);
         recordEditorDialogbox.setOnCancelListener(dialog -> {
@@ -566,6 +577,7 @@ public class RecordArrayAdapter extends ArrayAdapter {
                 cdd.setTotalWeightSession(iTotalWeightSession);
             }
             cdd.show();
+            lastCountdownDialogCache = new WeakReference<>(cdd);
         }
     }
 
