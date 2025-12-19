@@ -3,6 +3,7 @@ package com.easyfitness.DAO.record;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
 import com.easyfitness.enums.DistanceUnit;
@@ -58,7 +59,7 @@ public class DAOCardio extends DAORecord {
                                               int pFunction) {
         String pMachineSanitized = null;
         if(pMachine != null) {
-            pMachineSanitized = pMachine.replace("'", "''");
+            pMachineSanitized = DAOUtils.sanitizeStringForSqlValue(pMachine);
         }
 
         boolean lfilterMachine = true;

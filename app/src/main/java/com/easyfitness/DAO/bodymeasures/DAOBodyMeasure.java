@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.easyfitness.DAO.DAOBase;
+import com.easyfitness.DAO.DAOUtils;
 import com.easyfitness.DAO.Profile;
 import com.easyfitness.enums.Unit;
 import com.easyfitness.utils.DateConverter;
@@ -235,7 +236,7 @@ public class DAOBodyMeasure extends DAOBase {
         String dateString = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "='" + DAOUtils.sanitizeStringForSqlValue(dateString) + "' AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
 
         List<BodyMeasure> array = getMeasuresList(db, selectQuery);
         if (array.size() <= 0) {

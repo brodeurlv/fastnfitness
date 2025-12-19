@@ -237,7 +237,7 @@ public class DAOMachine extends DAOBase {
         // like '%"+inputText+"%'";
         String requiredTypes = getSelectedTypesAsString(selectedTypes);
 
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' "
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + DAOUtils.sanitizeStringForSqlLike(filterString.toString()) + "%' "
                 + " AND " + TYPE + " IN " + requiredTypes + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
         // return value list
         return getMachineListCursor(selectQuery);
