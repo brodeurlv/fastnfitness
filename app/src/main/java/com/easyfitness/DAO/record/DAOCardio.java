@@ -56,18 +56,22 @@ public class DAOCardio extends DAORecord {
     // Getting Function records
     public List<GraphData> getFunctionRecords(Profile pProfile, String pMachine,
                                               int pFunction) {
+        String pMachineSanitized = null;
+        if(pMachine != null) {
+            pMachineSanitized = pMachine.replace("'", "''");
+        }
 
         boolean lfilterMachine = true;
         boolean lfilterFunction = true;
         String selectQuery = null;
 
-        if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString())) {
+        if (pMachineSanitized == null || pMachineSanitized.isEmpty() || pMachineSanitized.equals(mContext.getResources().getText(R.string.all).toString())) {
             lfilterMachine = false;
         }
 
         if (pFunction == DAOCardio.DISTANCE_FCT) {
             selectQuery = "SELECT SUM(" + DISTANCE + "), " + LOCAL_DATE + " FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
@@ -76,7 +80,7 @@ public class DAOCardio extends DAORecord {
         } else if (pFunction == DAOCardio.DURATION_FCT) {
             selectQuery = "SELECT SUM(" + DURATION + ") , " + LOCAL_DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
@@ -85,7 +89,7 @@ public class DAOCardio extends DAORecord {
         } else if (pFunction == DAOCardio.SPEED_FCT) {
             selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + LOCAL_DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
@@ -94,7 +98,7 @@ public class DAOCardio extends DAORecord {
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
             selectQuery = "SELECT MAX(" + DISTANCE + ") , " + LOCAL_DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
@@ -102,8 +106,8 @@ public class DAOCardio extends DAORecord {
                     + " ORDER BY " + DATE_TIME + " ASC";
         }
         // case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
-        // "*" + WEIGHT +") FROM " + TABLE_NAME + " WHERE " + EXERCISE + "=\"" +
-        // pMachine + "\" AND " + DATE + "=\"" + pDate + "\" ORDER BY " + KEY +
+        // "*" + WEIGHT +") FROM " + TABLE_NAME + " WHERE " + EXERCISE + "='" +
+        // pMachineSanitized + "' AND " + DATE + "='" + pDate + "' ORDER BY " + KEY +
         // " DESC";
         // break;
 

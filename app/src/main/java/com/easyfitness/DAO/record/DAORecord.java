@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.Nullable;
+
 import com.easyfitness.DAO.DAOBase;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
@@ -376,7 +378,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + EXERCISE + "='" + pMachines + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -529,13 +531,19 @@ public class DAORecord extends DAOBase {
     }
 
     // Getting Filtered records
-    public Cursor getFilteredRecords(Profile pProfile, String pMachine, String pDate) {
+    public Cursor getFilteredRecords(Profile pProfile, @Nullable String pMachine, @Nullable String pDate) {
+
+        String pMachineSanitized = null;
+        if(pMachine != null) {
+            pMachineSanitized = pMachine.replace("'", "''");
+        }
+
 
         boolean lfilterMachine = true;
         boolean lfilterDate = true;
         String selectQuery;
 
-        if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString())) {
+        if (pMachineSanitized == null || pMachineSanitized.isEmpty() || pMachineSanitized.equals(mContext.getResources().getText(R.string.all).toString())) {
             lfilterMachine = false;
         }
 
@@ -545,22 +553,22 @@ public class DAORecord extends DAOBase {
 
         if (lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine
-                    + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
+                    + "AND " + LOCAL_DATE + "='" + pDate + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (!lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + LOCAL_DATE + "='" + pDate + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
         } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "='" + pMachineSanitized + "'"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
@@ -576,6 +584,8 @@ public class DAORecord extends DAOBase {
         // return value list
         return getRecordsListCursor(selectQuery);
     }
+
+
 
     /**
      * @return the last record for a profile p
@@ -656,7 +666,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + EXERCISE + "='" + pMachines + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
@@ -671,7 +681,7 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=\"" + pMachineId + "\""
+                + " WHERE " + EXERCISE_KEY + "='" + pMachineId + "'"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
