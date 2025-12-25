@@ -17,6 +17,9 @@ import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.utils.DateConverter;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -276,7 +279,8 @@ public class DAORecord extends DAOBase {
     public Record getRecord(SQLiteDatabase db, long id) {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + "=" + id;
 
-        mCursor = getRecordsListCursor(db, selectQuery);
+        mCursor = getRecordsListCursor(db, selectQuery, null);
+
         if (mCursor.moveToFirst()) {
             //Get Date
             return fromCursor(mCursor);
@@ -361,7 +365,7 @@ public class DAORecord extends DAOBase {
                 + " ORDER BY " + KEY + " DESC";
 
         // return value list
-        return getRecordsList(selectQuery, sqLiteDatabase);
+        return getRecordsList(selectQuery, sqLiteDatabase, null);
     }
 
     // Get all record for one Machine
@@ -376,12 +380,12 @@ public class DAORecord extends DAOBase {
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + EXERCISE + " = ?"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, new String[]{pMachines});
     }
 
     // Getting All Records
@@ -402,8 +406,10 @@ public class DAORecord extends DAOBase {
      */
     public Cursor getAllRecordsByProfile(Profile pProfile, int pNbRecords) {
         String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
+        if (pNbRecords == -1)
+            mTop = "";
+        else
+            mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME +
@@ -411,16 +417,16 @@ public class DAORecord extends DAOBase {
                 " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // Return value list
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, null);
     }
 
     // Getting All Records
-    private Cursor getRecordsListCursor(SQLiteDatabase db, String pRequest) {
-        return db.rawQuery(pRequest, null);
+    private Cursor getRecordsListCursor(SQLiteDatabase db, String pRequest, @Nullable String[] selectionArgs) {
+        return db.rawQuery(pRequest, selectionArgs);
     }
 
-    private Cursor getRecordsListCursor(String pRequest) {
-        return getRecordsListCursor(this.getReadableDatabase(), pRequest);
+    private Cursor getRecordsListCursor(String pRequest, @Nullable String[] selectionArgs) {
+        return getRecordsListCursor(this.getReadableDatabase(), pRequest, selectionArgs);
     }
 
     // Getting All Machines
@@ -508,7 +514,7 @@ public class DAORecord extends DAOBase {
                 + " AND " + PROGRAM_KEY + "=-1"
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
 
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, null);
     }
 
     public Cursor getProgramTemplateRecords(long mProgramId) {
@@ -517,7 +523,7 @@ public class DAORecord extends DAOBase {
                 + " AND " + RECORD_TYPE + "=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                 + " ORDER BY " + TEMPLATE_ORDER + " ASC";
 
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, null);
     }
 
     public Cursor getProgramWorkoutRecords(long mProgramSessionId) {
@@ -525,7 +531,7 @@ public class DAORecord extends DAOBase {
                 + " WHERE " + PROGRAM_SESSION_KEY + "=" + mProgramSessionId
                 + " ORDER BY " + TEMPLATE_ORDER + " ASC";
 
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, null);
     }
 
     // Getting Filtered records
@@ -534,6 +540,7 @@ public class DAORecord extends DAOBase {
         boolean lfilterMachine = true;
         boolean lfilterDate = true;
         String selectQuery;
+        String[] selectionArgs = null;
 
         if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString())) {
             lfilterMachine = false;
@@ -545,26 +552,29 @@ public class DAORecord extends DAOBase {
 
         if (lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine
-                    + "\" AND " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + EXERCISE + "= ?"
+                    + " AND " + LOCAL_DATE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+            selectionArgs = new String[]{pMachine, pDate};
         } else if (!lfilterMachine && lfilterDate) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + LOCAL_DATE + "=\"" + pDate + "\""
+                    + " WHERE " + LOCAL_DATE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+            selectionArgs = new String[]{pDate};
         } else if (lfilterMachine) {
             selectQuery = "SELECT * FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC";
+            selectionArgs = new String[]{pMachine};
         } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME
                     + " WHERE " + PROFILE_KEY + "=" + pProfile.getId()
@@ -574,7 +584,7 @@ public class DAORecord extends DAOBase {
         }
 
         // return value list
-        return getRecordsListCursor(selectQuery);
+        return getRecordsListCursor(selectQuery, selectionArgs);
     }
 
     /**
@@ -649,34 +659,36 @@ public class DAORecord extends DAOBase {
         return getAllRecordByMachineStrArray(pProfile, pMachines, -1);
     }
 
-    public List<Record> getAllRecordByMachineStrArray(Profile pProfile, String pMachines, int pNbRecords) {
+    public List<Record> getAllRecordByMachineStrArray(Profile pProfile, String pMachine, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE + "=\"" + pMachines + "\""
+                + " WHERE " + EXERCISE + " = ?"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
-        return getRecordsList(selectQuery);
+        return getRecordsList(selectQuery, new String[]{pMachine});
     }
 
     public List<Record> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId, int pNbRecords) {
         String mTop;
-        if (pNbRecords == -1) mTop = "";
-        else mTop = " LIMIT " + pNbRecords;
+        if (pNbRecords == -1)
+            mTop = "";
+        else
+            mTop = " LIMIT " + pNbRecords;
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + EXERCISE_KEY + "=\"" + pMachineId + "\""
+                + " WHERE " + EXERCISE_KEY + " = " + pMachineId
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
-        return getRecordsList(selectQuery);
+        return getRecordsList(selectQuery, null);
     }
 
     // Get all record for one Machine
@@ -692,20 +704,20 @@ public class DAORecord extends DAOBase {
                 + " AND " + RECORD_TYPE + "=" + RecordType.PROGRAM_TEMPLATE.ordinal();
 
         // return value list
-        return getRecordsList(selectQuery);
+        return getRecordsList(selectQuery, null);
     }
 
-    private List<Record> getRecordsList(String pRequest) {
-        return getRecordsList(pRequest, this.getReadableDatabase());
+    private List<Record> getRecordsList(String pRequest, @Nullable String[] selectionArgs) {
+        return getRecordsList(pRequest, this.getReadableDatabase(), selectionArgs);
     }
 
     // Getting All Records
-    private List<Record> getRecordsList(String pRequest, SQLiteDatabase db) {
+    private List<Record> getRecordsList(String pRequest, @NotNull SQLiteDatabase db, String[] selectionArgs) {
         List<Record> valueList = new ArrayList<>();
         // Select All Query
 
         mCursor = null;
-        mCursor = db.rawQuery(pRequest, null);
+        mCursor = db.rawQuery(pRequest, selectionArgs);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
