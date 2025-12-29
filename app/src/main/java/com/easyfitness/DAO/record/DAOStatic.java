@@ -2,7 +2,9 @@ package com.easyfitness.DAO.record;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.easyfitness.BuildConfig;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
@@ -14,6 +16,8 @@ import com.easyfitness.enums.RecordType;
 import com.easyfitness.enums.WeightUnit;
 import com.easyfitness.graph.GraphData;
 import com.easyfitness.utils.DateConverter;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,39 +51,44 @@ public class DAOStatic extends DAORecord {
     }
 
     // Getting Function records
+    @Nullable
     public List<GraphData> getStaticFunctionRecords(Profile pProfile, String pMachine,
                                                     int pFunction) {
 
         String selectQuery = null;
+        String[] selectionArgs = null;
 
         // TODO attention aux units de poids. Elles ne sont pas encore prise en compte ici.
         if (pFunction == DAOStatic.MAX_FCT) {
             selectQuery = "SELECT MAX(" + WEIGHT + ") , " + SECONDS + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + SECONDS
                     + " ORDER BY " + SECONDS + " ASC";
+            selectionArgs = new String[]{pMachine};
         } else if (pFunction == DAOStatic.MAX_LENGTH) {
             selectQuery = "SELECT MAX(" + SECONDS + ") , " + LOCAL_DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectionArgs = new String[]{pMachine};
         } else if (pFunction == DAOStatic.NBSERIE_FCT) {
             selectQuery = "SELECT count(" + KEY + ") , " + LOCAL_DATE + " FROM "
                     + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectionArgs = new String[]{pMachine};
         } else {
             return null;
         }
@@ -89,7 +98,7 @@ public class DAOStatic extends DAORecord {
         SQLiteDatabase db = this.getReadableDatabase();
 
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(selectQuery, selectionArgs);
 
         double i = 0;
 
@@ -136,11 +145,12 @@ public class DAOStatic extends DAORecord {
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
-                + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
+                + " WHERE " + LOCAL_DATE + " = ?"
+                + " AND " + EXERCISE_KEY + " = " + machine_key
+                + " AND " + PROFILE_KEY + " = " + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
         // looping through all rows and adding to list
         mCursor.moveToFirst();
@@ -174,11 +184,12 @@ public class DAOStatic extends DAORecord {
         mCursor = null;
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
-                + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\" AND " + EXERCISE_KEY + "=" + machine_key
+                + " WHERE " + LOCAL_DATE + "= ?"
+                + " AND " + EXERCISE_KEY + "=" + machine_key
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -202,18 +213,18 @@ public class DAOStatic extends DAORecord {
     public float getTotalWeightSession(Date pDate, Profile pProfile) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         float lReturn = 0;
 
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
-                + " WHERE " + LOCAL_DATE + "=\"" + lDate + "\""
+                + " WHERE " + LOCAL_DATE + "= ?"
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor.close();
+        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -236,12 +247,18 @@ public class DAOStatic extends DAORecord {
     public Weight getMax(Profile p, Machine m) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
+        if(mCursor.isClosed()) {
+            Log.println(Log.WARN, BuildConfig.APPLICATION_ID, "mCursor is already closed.");
+        } else {
+            Log.println(Log.WARN, BuildConfig.APPLICATION_ID, "mCursor needs to be closed");
+            mCursor.close();
+        }
         Weight w = null;
 
         // Select All Machines
         String selectQuery = "SELECT MAX(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
-                + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
+                + " WHERE " + PROFILE_KEY + "=" + p.getId()
+                + " AND " + EXERCISE_KEY + "=" + m.getId()
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
@@ -263,12 +280,13 @@ public class DAOStatic extends DAORecord {
     public Weight getMin(Profile p, Machine m) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
+        mCursor.close();
         Weight w = null;
 
         // Select All Machines
         String selectQuery = "SELECT MIN(" + WEIGHT + "), " + WEIGHT_UNIT + " FROM " + TABLE_NAME
-                + " WHERE " + PROFILE_KEY + "=" + p.getId() + " AND " + EXERCISE_KEY + "=" + m.getId()
+                + " WHERE " + PROFILE_KEY + "=" + p.getId()
+                + " AND " + EXERCISE_KEY + "=" + m.getId()
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();

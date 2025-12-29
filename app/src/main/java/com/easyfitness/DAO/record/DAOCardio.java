@@ -57,61 +57,56 @@ public class DAOCardio extends DAORecord {
     public List<GraphData> getFunctionRecords(Profile pProfile, String pMachine,
                                               int pFunction) {
 
-        boolean lfilterMachine = true;
-        boolean lfilterFunction = true;
         String selectQuery = null;
-
-        if (pMachine == null || pMachine.isEmpty() || pMachine.equals(mContext.getResources().getText(R.string.all).toString())) {
-            lfilterMachine = false;
-        }
+        String[] selectArgs = null;
 
         if (pFunction == DAOCardio.DISTANCE_FCT) {
-            selectQuery = "SELECT SUM(" + DISTANCE + "), " + LOCAL_DATE + " FROM " + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT SUM(" + DISTANCE + "), " + LOCAL_DATE
+                    + " FROM " + TABLE_NAME
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectArgs = new String[]{pMachine};
         } else if (pFunction == DAOCardio.DURATION_FCT) {
-            selectQuery = "SELECT SUM(" + DURATION + ") , " + LOCAL_DATE + " FROM "
-                    + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT SUM(" + DURATION + ") , " + LOCAL_DATE
+                    + " FROM " + TABLE_NAME
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectArgs = new String[]{pMachine};
         } else if (pFunction == DAOCardio.SPEED_FCT) {
-            selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + LOCAL_DATE + " FROM "
-                    + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT SUM(" + DISTANCE + ") / SUM(" + DURATION + ")," + LOCAL_DATE
+                    + " FROM " + TABLE_NAME
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectArgs = new String[]{pMachine};
         } else if (pFunction == DAOCardio.MAXDISTANCE_FCT) {
-            selectQuery = "SELECT MAX(" + DISTANCE + ") , " + LOCAL_DATE + " FROM "
-                    + TABLE_NAME
-                    + " WHERE " + EXERCISE + "=\"" + pMachine + "\""
+            selectQuery = "SELECT MAX(" + DISTANCE + ") , " + LOCAL_DATE
+                    + " FROM " + TABLE_NAME
+                    + " WHERE " + EXERCISE + "= ?"
                     + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                     + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                     + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal()
                     + " GROUP BY " + LOCAL_DATE
                     + " ORDER BY " + DATE_TIME + " ASC";
+            selectArgs = new String[]{pMachine};
         }
-        // case "MEAN" : selectQuery = "SELECT SUM("+ SERIE + "*" + REPETITION +
-        // "*" + WEIGHT +") FROM " + TABLE_NAME + " WHERE " + EXERCISE + "=\"" +
-        // pMachine + "\" AND " + DATE + "=\"" + pDate + "\" ORDER BY " + KEY +
-        // " DESC";
-        // break;
 
-        // Formation de tableau de valeur
         List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
+
         mCursor = null;
-        mCursor = db.rawQuery(selectQuery, null);
+        mCursor = db.rawQuery(selectQuery, selectArgs);
 
         double i = 0;
 

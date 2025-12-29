@@ -117,12 +117,12 @@ public class DAOBodyMeasure extends DAOBase {
     }
 
     // Getting All Measures
-    public List<BodyMeasure> getMeasuresList(SQLiteDatabase db, String pRequest) {
+    public List<BodyMeasure> getMeasuresList(SQLiteDatabase db, String pRequest, String[] selectionArgs) {
         List<BodyMeasure> valueList = new ArrayList<>();
         // Select All Query
 
         mCursor = null;
-        mCursor = db.rawQuery(pRequest, null);
+        mCursor = db.rawQuery(pRequest, selectionArgs);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -168,7 +168,7 @@ public class DAOBodyMeasure extends DAOBase {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
 
         // return value list
-        return getMeasuresList(getReadableDatabase(), selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery, null);
     }
 
     /**
@@ -181,7 +181,7 @@ public class DAOBodyMeasure extends DAOBase {
     public List<BodyMeasure> getBodyPartMeasuresListTop4(long pBodyPartID, Profile pProfile) {
         if (pProfile == null) return null;
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC LIMIT 4;";
-        return getMeasuresList(getReadableDatabase(), selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery, null);
     }
 
     /**
@@ -193,7 +193,7 @@ public class DAOBodyMeasure extends DAOBase {
     public List<BodyMeasure> getBodyMeasuresList(Profile pProfile) {
         if (pProfile == null) return null;
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC";
-        return getMeasuresList(getReadableDatabase(), selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery, null);
     }
 
     /**
@@ -203,7 +203,7 @@ public class DAOBodyMeasure extends DAOBase {
      */
     public List<BodyMeasure> getAllBodyMeasures() {
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY date(" + DATE + ") DESC";
-        return getMeasuresList(getReadableDatabase(), selectQuery);
+        return getMeasuresList(getReadableDatabase(), selectQuery, null);
     }
 
     /**
@@ -216,7 +216,7 @@ public class DAOBodyMeasure extends DAOBase {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + PROFIL_KEY + "=" + pProfile.getId() + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
 
-        List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery);
+        List<BodyMeasure> array = getMeasuresList(getReadableDatabase(), selectQuery, null);
         if (array.size() <= 0) {
             return null;
         }
@@ -235,9 +235,13 @@ public class DAOBodyMeasure extends DAOBase {
         String dateString = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BODYPART_ID + "=" + pBodyPartID + " AND " + DATE + "=\"" + dateString + "\" AND " + PROFIL_KEY + "=" + pProfileId + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
-
-        List<BodyMeasure> array = getMeasuresList(db, selectQuery);
+        String selectQuery = "SELECT * FROM " + TABLE_NAME
+                + " WHERE " + BODYPART_ID + "=" + pBodyPartID
+                + " AND " + DATE + " = ?"
+                + " AND " + PROFIL_KEY + "=" + pProfileId
+                + " ORDER BY date(" + DATE + ") DESC LIMIT 1";
+        String[] selectionArgs = new String[]{dateString};
+        List<BodyMeasure> array = getMeasuresList(db, selectQuery, selectionArgs);
         if (array.size() <= 0) {
             return null;
         }

@@ -327,7 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void upgradeBodyMeasureUnits(SQLiteDatabase db) {
         DAOBodyMeasure daoBodyMeasure = new DAOBodyMeasure(mContext);
         String selectQuery = "SELECT * FROM " + DAOBodyMeasure.TABLE_NAME + " ORDER BY date(" + DAOBodyMeasure.DATE + ") DESC";
-        List<BodyMeasure> valueList = daoBodyMeasure.getMeasuresList(db, selectQuery);
+        List<BodyMeasure> valueList = daoBodyMeasure.getMeasuresList(db, selectQuery, null);
 
         for (BodyMeasure bodyMeasure : valueList) {
             Value oldValue = bodyMeasure.getBodyMeasure();

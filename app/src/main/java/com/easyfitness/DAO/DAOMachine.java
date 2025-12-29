@@ -130,12 +130,12 @@ public class DAOMachine extends DAOBase {
         return mCursor.getCount() != 0;
     }
 
-    private ArrayList<Machine> getMachineListUsingDb(String pRequest, SQLiteDatabase db) {
+    private ArrayList<Machine> getMachineListUsingDb(String pRequest, SQLiteDatabase db, String[] selectionArgs) {
         ArrayList<Machine> valueList = new ArrayList<>();
         // Select All Query
 
         mCursor = null;
-        mCursor = db.rawQuery(pRequest, null);
+        mCursor = db.rawQuery(pRequest, selectionArgs);
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
@@ -159,17 +159,17 @@ public class DAOMachine extends DAOBase {
     }
 
     // Getting All Machines
-    private List<Machine> getMachineList(String pRequest) {
-        return getMachineListUsingDb(pRequest, getReadableDatabase());
+    private List<Machine> getMachineList(String pRequest, String[] selectionArgs) {
+        return getMachineListUsingDb(pRequest, getReadableDatabase(), selectionArgs);
     }
 
     // Getting All Machines
-    private Cursor getMachineListCursor(String pRequest) {
+    private Cursor getMachineListCursor(String pRequest, String[] selectionArgs) {
         ArrayList<Machine> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         // Select All Query
 
-        return db.rawQuery(pRequest, null);
+        return db.rawQuery(pRequest, selectionArgs);
     }
 
     public Cursor getCursor() {
@@ -189,7 +189,7 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineList(selectQuery);
+        return getMachineList(selectQuery, null);
     }
 
     /**
@@ -201,7 +201,7 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineListCursor(selectQuery);
+        return getMachineListCursor(selectQuery, null);
     }
 
     /**
@@ -213,7 +213,7 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineListCursor(selectQuery);
+        return getMachineListCursor(selectQuery, null);
     }
 
     /**
@@ -226,21 +226,25 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineListCursor(selectQuery);
+        return getMachineListCursor(selectQuery, null);
     }
 
     /**
-     * @return List of Machine object ordered by Favorite and Name
+     * @return List of Machine objects ordered by Favorite and Name
      */
-    public Cursor getFilteredMachines(CharSequence filterString, ArrayList<ExerciseType> selectedTypes) {
+    public Cursor getFilteredMachines(CharSequence containedString, ArrayList<ExerciseType> selectedTypes) {
         // Select All Query
-        // like '%"+inputText+"%'";
+        //this doesn't work with filter strings containing _ or % though
+        //TODO maybe add escape for _ and %
+        String filterString = "%" + containedString + "%";
         String requiredTypes = getSelectedTypesAsString(selectedTypes);
 
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + "'%" + filterString + "%' "
-                + " AND " + TYPE + " IN " + requiredTypes + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME
+                + " WHERE " + NAME + " LIKE " + "?"
+                + " AND " + TYPE + " IN " + requiredTypes
+                + " ORDER BY " + FAVORITES + " DESC," + NAME + " ASC";
         // return value list
-        return getMachineListCursor(selectQuery);
+        return getMachineListCursor(selectQuery, new String[]{filterString});
     }
 
 
@@ -261,7 +265,7 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineListUsingDb(selectQuery, db);
+        return getMachineListUsingDb(selectQuery, db, null);
     }
 
     /**
@@ -281,7 +285,7 @@ public class DAOMachine extends DAOBase {
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineList(selectQuery);
+        return getMachineList(selectQuery, null);
     }
 
     /**
@@ -295,11 +299,11 @@ public class DAOMachine extends DAOBase {
         ids = ids.replace(']', ')');
 
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " in " + ids + " ORDER BY "
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY + " IN " + ids + " ORDER BY "
                 + FAVORITES + " DESC," + NAME + " COLLATE NOCASE ASC";
 
         // return value list
-        return getMachineList(selectQuery);
+        return getMachineList(selectQuery, null);
     }
 
     // Getting All Machines
