@@ -674,7 +674,7 @@ public class DAORecord extends DAOBase {
         return getRecordsList(selectQuery, new String[]{pMachine});
     }
 
-    public List<Record> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId, int pNbRecords) {
+    public List<Record> getAllRecordByMachineIdArray(long pMachineId, int pNbRecords) {
         String mTop;
         if (pNbRecords == -1)
             mTop = "";
@@ -684,7 +684,6 @@ public class DAORecord extends DAOBase {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + EXERCISE_KEY + " = " + pMachineId
-                + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " ORDER BY " + DATE_TIME + " DESC," + KEY + " DESC" + mTop;
 
         // return value list
@@ -692,8 +691,8 @@ public class DAORecord extends DAOBase {
     }
 
     // Get all record for one Machine
-    public List<Record> getAllRecordByMachineIdArray(Profile pProfile, long pMachineId) {
-        return getAllRecordByMachineIdArray(pProfile, pMachineId, -1);
+    public List<Record> getAllRecordByMachineIdArray(long pMachineId) {
+        return getAllRecordByMachineIdArray(pMachineId, -1);
     }
 
 

@@ -429,7 +429,7 @@ public class MachineDetailsFragment extends Fragment {
                 DAOProfile mDbProfil = new DAOProfile(getContext());
                 Profile lProfile = mDbProfil.getProfile(machineProfilIdArg);
                 // Recupere tous les records de la machine courante
-                List<Record> listRecords = lDbRecord.getAllRecordByMachineIdArray(lProfile, initialMachine.getId());
+                List<Record> listRecords = lDbRecord.getAllRecordByMachineIdArray(initialMachine.getId());
                 for (Record record : listRecords) {
                     record.setExercise(lMachineName); // Change avec le nouveau nom (DEPRECATED)
                     lDbRecord.updateRecord(record); // met a jour
