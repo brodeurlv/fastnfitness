@@ -145,6 +145,8 @@ public class ProgramRunnerFragment extends Fragment {
                 long workoutHistoryId = mDbWorkoutHistory.add(programHistory);
                 mRunningProgramHistory = mDbWorkoutHistory.get(workoutHistoryId);
                 mProgramsSpinner.setEnabled(false);
+                mNewButton.setEnabled(false);
+                mEditButton.setEnabled(false);
                 mStartStopButton.setText(R.string.finish_program);
 
                 // add all template records with status "Pending"
@@ -243,6 +245,8 @@ public class ProgramRunnerFragment extends Fragment {
         mRunningProgram = null;
         mRunningProgramHistory = null;
         mProgramsSpinner.setEnabled(true);
+        mNewButton.setEnabled(true);
+        mEditButton.setEnabled(true);
         mStartStopButton.setText(R.string.start_program);
         refreshData();
     }
@@ -333,6 +337,8 @@ public class ProgramRunnerFragment extends Fragment {
                     mIsProgramRunning = true;
                     mProgramsSpinner.setSelection(position);
                     mProgramsSpinner.setEnabled(false);
+                    mNewButton.setEnabled(false);
+                    mEditButton.setEnabled(false);
                     mStartStopButton.setText(R.string.finish_program);
                     mProgramRecordsListTitle.setText(R.string.program_ongoing);
                     break;
