@@ -1,6 +1,5 @@
 package com.easyfitness.intro;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 
@@ -87,13 +86,12 @@ public class MainIntroActivity extends AppIntro {
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        if(wasProfileCreated()) {
-            super.onDonePressed(currentFragment);
-            // Handle finish action
-            finishOk();
-        } else {
-            KToast.errorToast(this, "You must create a profile.", Gravity.TOP, 5);
+        if(currentFragment instanceof NewProfileFragment newProFrag && !newProFrag.tryCreateProfile()) {
+            return;
         }
+
+        super.onDonePressed(currentFragment);
+        finishOk();
     }
 
     public void finishOk() {

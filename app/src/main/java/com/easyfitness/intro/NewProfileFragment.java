@@ -31,11 +31,9 @@ public class NewProfileFragment extends Fragment {
     private MainIntroActivity mMainIntroActivity;
     private EditText mName;
     private TextView mBirthday;
-    private Button mBtCreate;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
     private RadioButton mRbOtherGender;
-    private boolean mProfileCreated = false;
 
     public NewProfileFragment(MainIntroActivity mainIntroActivity) {
         // Required empty public constructor
@@ -54,14 +52,11 @@ public class NewProfileFragment extends Fragment {
 
         mName = view.findViewById(R.id.profileName);
         mBirthday = view.findViewById(R.id.profileBirthday);
-        mBtCreate = view.findViewById(R.id.create_newprofil);
         mRbMale = view.findViewById(R.id.radioButtonMale);
         mRbFemale = view.findViewById(R.id.radioButtonFemale);
         mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
 
         mBirthday.setOnClickListener(v -> showDatePickerFragment());
-
-        mBtCreate.setOnClickListener(v -> createProfile());
 
         return view;
     }
@@ -80,11 +75,12 @@ public class NewProfileFragment extends Fragment {
         datePicker.show(getParentFragmentManager(), "DATE_PICKER");
     }
 
-    private void createProfile() {
+    public boolean tryCreateProfile() {
         DAOProfile mDbProfiles = new DAOProfile(getContext());
 
         if (mName.getText().toString().isEmpty()) {
             KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.TOP, KToast.LENGTH_SHORT);
+            return false;
         } else {
             int gender = Gender.UNKNOWN;
             if (mRbMale.isChecked()) {
@@ -98,20 +94,8 @@ public class NewProfileFragment extends Fragment {
             Profile p = new Profile(mName.getText().toString(), 0, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getActivity()), gender);
             mDbProfiles.addProfile(p);
 
-            /*
-            new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(p.getName())
-                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                    .setConfirmClickListener(sDialog -> {
-                        // Profile created, enable the next button and proceed
-                        mMainIntroActivity.onNextPressed(this);  // Transition to the next slide
-                    })
-                    .show();
-            */
-            mProfileCreated = true;
-
-            mMainIntroActivity.finishOk();
         }
+        return true;
     }
 
 }

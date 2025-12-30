@@ -119,17 +119,6 @@
                 android:clickable="true"
                 android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/create_newprofil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:minHeight="48dp"
-                android:background="@drawable/round_corner_button"
-                android:text="@string/create"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"/>
-
         </LinearLayout>
     </ScrollView>
 </layout>
