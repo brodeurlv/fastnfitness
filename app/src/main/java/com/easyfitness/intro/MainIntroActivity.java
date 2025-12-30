@@ -90,10 +90,14 @@ public class MainIntroActivity extends AppIntro {
         if(wasProfileCreated()) {
             super.onDonePressed(currentFragment);
             // Handle finish action
-            setResult(RESULT_OK);
-            finish();
+            finishOk();
         } else {
             KToast.errorToast(this, "You must create a profile.", Gravity.TOP, 5);
         }
+    }
+
+    public void finishOk() {
+        setResult(RESULT_OK);
+        finish();
     }
 }

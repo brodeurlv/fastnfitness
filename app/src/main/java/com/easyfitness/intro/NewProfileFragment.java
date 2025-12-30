@@ -98,6 +98,7 @@ public class NewProfileFragment extends Fragment {
             Profile p = new Profile(mName.getText().toString(), 0, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getActivity()), gender);
             mDbProfiles.addProfile(p);
 
+            /*
             new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText(p.getName())
                     .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
@@ -106,8 +107,10 @@ public class NewProfileFragment extends Fragment {
                         mMainIntroActivity.onNextPressed(this);  // Transition to the next slide
                     })
                     .show();
-
+            */
             mProfileCreated = true;
+
+            mMainIntroActivity.finishOk();
         }
     }
 
