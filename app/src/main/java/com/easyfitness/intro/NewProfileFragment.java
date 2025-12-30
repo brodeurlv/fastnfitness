@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOProfile;
@@ -75,27 +76,32 @@ public class NewProfileFragment extends Fragment {
         datePicker.show(getParentFragmentManager(), "DATE_PICKER");
     }
 
-    public boolean tryCreateProfile() {
-        DAOProfile mDbProfiles = new DAOProfile(getContext());
+    @Nullable
+    public Profile gatherLooseProfileFromUI() {
 
         if (mName.getText().toString().isEmpty()) {
-            KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.TOP, KToast.LENGTH_SHORT);
-            return false;
-        } else {
-            int gender = Gender.UNKNOWN;
-            if (mRbMale.isChecked()) {
-                gender = Gender.MALE;
-            } else if (mRbFemale.isChecked()) {
-                gender = Gender.FEMALE;
-            } else if (mRbOtherGender.isChecked()) {
-                gender = Gender.OTHER;
-            }
-
-            Profile p = new Profile(mName.getText().toString(), 0, DateConverter.localDateStrToDate(mBirthday.getText().toString(), getActivity()), gender);
-            mDbProfiles.addProfile(p);
-
+            return null;
         }
-        return true;
+
+        int gender = Gender.UNKNOWN;
+        if (mRbMale.isChecked()) {
+            gender = Gender.MALE;
+        } else if (mRbFemale.isChecked()) {
+            gender = Gender.FEMALE;
+        } else if (mRbOtherGender.isChecked()) {
+            gender = Gender.OTHER;
+        }
+
+        String birthdayString = mBirthday.getText().toString();
+        Date birthdayDate = null;
+        if (!birthdayString.isEmpty()) {
+            birthdayDate = DateConverter.localDateStrToDate(birthdayString, getActivity());
+        } else {
+            //the database code cannot handle null birthdays for now
+            birthdayDate = new Date(0);
+        }
+
+        return new Profile(mName.getText().toString(), 0, birthdayDate, gender);
     }
 
 }

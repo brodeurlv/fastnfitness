@@ -6,10 +6,12 @@ import android.view.Gravity;
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
 import com.github.appintro.AppIntro;
 import com.github.appintro.AppIntroFragment;
 import com.onurkaganaldemir.ktoastlib.KToast;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainIntroActivity extends AppIntro {
 
@@ -86,11 +88,30 @@ public class MainIntroActivity extends AppIntro {
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        if(currentFragment instanceof NewProfileFragment newProFrag && !newProFrag.tryCreateProfile()) {
+        super.onDonePressed(currentFragment);
+
+        if(currentFragment instanceof NewProfileFragment newProFrag) {
+            Profile looseProfile = newProFrag.gatherLooseProfileFromUI();
+            if(looseProfile == null) {
+                KToast.warningToast(this, getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                return;
+            }
+
+            final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText("Create profile " + looseProfile.getName() + "?")
+                    .setConfirmText("Confirm")
+                    .setCancelText("Cancel")
+                    .setConfirmClickListener((dialog) -> {
+                            DAOProfile mDbProfiles = new DAOProfile(MainIntroActivity.this);
+                            mDbProfiles.addProfile(looseProfile);
+                            dialog.dismiss();
+                            finishOk();
+                    });
+            disabledBtnDialog.show();
             return;
         }
 
-        super.onDonePressed(currentFragment);
+
         finishOk();
     }
 
