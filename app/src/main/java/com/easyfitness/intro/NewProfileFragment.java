@@ -84,7 +84,7 @@ public class NewProfileFragment extends Fragment {
         DAOProfile mDbProfiles = new DAOProfile(getContext());
 
         if (mName.getText().toString().isEmpty()) {
-            KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.TOP, KToast.LENGTH_SHORT);
         } else {
             int gender = Gender.UNKNOWN;
             if (mRbMale.isChecked()) {
