@@ -645,6 +645,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     mIntro014Launched = false; // redisplay the intro
+                    savePreferences(); // saving immediatly to prevent a race condition with another instance of this activity
 
                     dialog.dismiss(); // Close the dialog
                     finish(); // Close app
@@ -846,6 +847,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
+        //This shouldn't be relied on. When this condition is finishing another activity can read the preferences before this saves the final state.
+        //TODO search and remove code that still relies on this saving the preferences
         savePreferences();
     }
 
