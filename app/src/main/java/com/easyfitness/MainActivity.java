@@ -95,11 +95,23 @@ public class MainActivity extends AppCompatActivity {
         WORKOUTPAGER("WorkoutPager");
 
         public final String id;
+
         Fragments(String id) {
             this.id = id;
         }
+
+        public static boolean isValidFragment(String id) {
+            for (Fragments fragment : values()) {
+                if (fragment.id.equals(id)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
+    private final String CURRENT_FRAGMENT_INSTANCE_STATE_KEY = "currentFragment";
     public static String PREFS_NAME = "prefsfile";
     private final int REQUEST_CODE_INTRO = 111;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
@@ -299,9 +311,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null) { //by default open the fontespager
             showFragment(Fragments.FONTESPAGER.id); // Create fragment, do not add to backstack
             currentFragmentName = Fragments.FONTESPAGER.id;
+        } else { //restoring active main fragment
+            String fragmentId = savedInstanceState.getString(CURRENT_FRAGMENT_INSTANCE_STATE_KEY);
+            if(fragmentId == null || !Fragments.isValidFragment(fragmentId)) {
+                fragmentId = Fragments.FONTESPAGER.id;
+            }
+            showFragment(fragmentId);
+            currentFragmentName = fragmentId;
         }
 
         dataList = new ArrayList<>();
@@ -444,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
         if (getWorkoutListFragment().isAdded())
             getSupportFragmentManager().putFragment(outState, Fragments.WORKOUTS.id, mpWorkoutListFrag);
 
-        outState.putString(CURRENT_FRAGMENT_INSTANCE_STATE_ID, currentFragmentName);
+        outState.putString(CURRENT_FRAGMENT_INSTANCE_STATE_KEY, currentFragmentName);
     }
 
     @Override
