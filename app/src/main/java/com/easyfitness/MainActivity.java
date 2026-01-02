@@ -56,6 +56,7 @@ import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Debug;
 import com.easyfitness.utils.FileNameUtil;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
@@ -80,24 +81,47 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
 
-    public static String FONTESPAGER = "FontePager";
-    public static String WEIGHT = "Weight";
-    public static String PROFILE = "Profile";
-    public static String BODYTRACKING = "BodyTracking";
+    /* New fragments can be added to default fragment setting in "@array/defaultfragment" and
+     * "@array/defaultfragment_display".
+     */
+    public enum Fragments {
+        FONTESPAGER("FontePager"),
+        WEIGHT("Weight"),
+        PROFILE("Profile"),
+        BODYTRACKING("BodyTracking"),
+        PROGRESSIMAGES("ProgressImages"),
+        BODYTRACKINGDETAILS("BodyTrackingDetail"),
+        ABOUT("About"),
+        SETTINGS("Settings"),
+        MACHINES("Machines"),
+        MACHINESDETAILS("MachinesDetails"),
+        WORKOUTS("Workouts"),
+        WORKOUTPAGER("WorkoutPager");
 
-    public static String PROGRESSIMAGES = "ProgressImages";
-    public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
-    public static String ABOUT = "About";
-    public static String SETTINGS = "Settings";
-    public static String MACHINES = "Machines";
-    public static String MACHINESDETAILS = "MachinesDetails";
-    public static String WORKOUTS = "Workouts";
-    public static String WORKOUTPAGER = "WorkoutPager";
+        public final String id;
+
+        Fragments(String id) {
+            this.id = id;
+        }
+
+        public static boolean isValidFragment(String id) {
+            for (Fragments fragment : values()) {
+                if (fragment.id.equals(id)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    private final String CURRENT_FRAGMENT_INSTANCE_STATE_KEY = "currentFragment";
     public static String PREFS_NAME = "prefsfile";
     private final int REQUEST_CODE_INTRO = 111;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_EXPORT = 1001;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_FOR_IMPORT = 1002;
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
+
 
 
     private static final int IMPORT_DATABASE = 2;
@@ -116,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
     private ProgramListFragment mpWorkoutListFrag;
-    private String currentFragmentName = "";
+    private String currentFragmentName = null;
+    private String startFragment = null;
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
@@ -174,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 getActivity().renameProfile();
                 return true;
         } else if (id == R.id.param_profil) {
-                showFragment(PROFILE);
+                showFragment(Fragments.PROFILE.id);
                 return true;
         }
 
@@ -223,25 +248,25 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             if (mpFontesPagerFrag == null)
-                mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
-            if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
-            if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
-            if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
-            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 4);
-            if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
+                mpFontesPagerFrag = FontesPagerFragment.newInstance(Fragments.FONTESPAGER.id, 6);
+            if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(Fragments.WEIGHT.id, 5);
+            if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(Fragments.PROFILE.id, 10);
+            if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(Fragments.SETTINGS.id, 8);
+            if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(Fragments.ABOUT.id, 4);
+            if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(Fragments.MACHINES.id, 7);
             if (mpBodyPartListFrag == null)
-                mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
+                mpBodyPartListFrag = BodyPartListFragment.newInstance(Fragments.BODYTRACKING.id, 9);
             if (mpWorkoutListFrag == null)
-                mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 11);
+                mpWorkoutListFrag = ProgramListFragment.newInstance(Fragments.WORKOUTS.id, 11);
         } else {
-            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, FONTESPAGER);
-            mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, WEIGHT);
-            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, PROFILE);
-            mpSettingFrag = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, SETTINGS);
-            mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, ABOUT);
-            mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, MACHINES);
-            mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, BODYTRACKING);
-            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().getFragment(savedInstanceState, WORKOUTS);
+            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.FONTESPAGER.id);
+            mpWeightFrag = (WeightFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.WEIGHT.id);
+            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.PROFILE.id);
+            mpSettingFrag = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.SETTINGS.id);
+            mpAboutFrag = (AboutFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.ABOUT.id);
+            mpMachineFrag = (MachineFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.MACHINES.id);
+            mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.BODYTRACKING.id);
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().getFragment(savedInstanceState, Fragments.WORKOUTS.id);
         }
 
         appViMo = new ViewModelProvider(this).get(AppViMo.class);
@@ -289,11 +314,22 @@ public class MainActivity extends AppCompatActivity {
             savePreferences();
         }
 
+        //load fragment from last instance state
+        if (savedInstanceState != null) {
+            String fragmentId = savedInstanceState.getString(CURRENT_FRAGMENT_INSTANCE_STATE_KEY);
+            if(fragmentId != null && Fragments.isValidFragment(fragmentId)) {
+                startFragment = fragmentId;
+            }
+        }
 
-
-        if (savedInstanceState == null) {
-            showFragment(FONTESPAGER); // Create fragment, do not add to backstack
-            currentFragmentName = FONTESPAGER;
+        if(startFragment == null) {
+            var prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String fragId = prefs.getString("defaultfragment", "");
+            if(Fragments.isValidFragment(fragId)) {
+                startFragment = fragId;
+            } else {
+                startFragment = Fragments.FONTESPAGER.id;
+            }
         }
 
         dataList = new ArrayList<>();
@@ -420,21 +456,23 @@ public class MainActivity extends AppCompatActivity {
 
         //Save the fragment's instance
         if (getFontesPagerFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, FONTESPAGER, mpFontesPagerFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.FONTESPAGER.id, mpFontesPagerFrag);
         if (getWeightFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, WEIGHT, mpWeightFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.WEIGHT.id, mpWeightFrag);
         if (getProfileFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, PROFILE, mpProfileFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.PROFILE.id, mpProfileFrag);
         if (getMachineFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, MACHINES, mpMachineFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.MACHINES.id, mpMachineFrag);
         if (getAboutFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, ABOUT, mpAboutFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.ABOUT.id, mpAboutFrag);
         if (getSettingsFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, SETTINGS, mpSettingFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.SETTINGS.id, mpSettingFrag);
         if (getBodyPartFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, BODYTRACKING, mpBodyPartListFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.BODYTRACKING.id, mpBodyPartListFrag);
         if (getWorkoutListFragment().isAdded())
-            getSupportFragmentManager().putFragment(outState, WORKOUTS, mpWorkoutListFrag);
+            getSupportFragmentManager().putFragment(outState, Fragments.WORKOUTS.id, mpWorkoutListFrag);
+
+        outState.putString(CURRENT_FRAGMENT_INSTANCE_STATE_KEY, currentFragmentName);
     }
 
     @Override
@@ -645,6 +683,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     mIntro014Launched = false; // redisplay the intro
+                    savePreferences(); // saving immediatly to prevent a race condition with another instance of this activity
 
                     dialog.dismiss(); // Close the dialog
                     finish(); // Close app
@@ -661,7 +700,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_apropos:
                 // Display the fragment as the main content.
-                showFragment(ABOUT);
+                showFragment(Fragments.ABOUT.id);
                 //getAboutFragment().setHasOptionsMenu(true);
                 return true;
             //case android.R.id.home:
@@ -812,31 +851,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void showFragment(String pFragmentName) {
 
-        if (currentFragmentName.equals(pFragmentName))
+        if (currentFragmentName != null && currentFragmentName.equals(pFragmentName))
             return; // If this is already the current fragment, do no replace.
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
         // Then show the fragments
-        if (pFragmentName.equals(FONTESPAGER)) {
-            ft.replace(R.id.fragment_container, getFontesPagerFragment(), FONTESPAGER);
-        } else if (pFragmentName.equals(WEIGHT)) {
-            ft.replace(R.id.fragment_container, getWeightFragment(), WEIGHT);
-        } else if (pFragmentName.equals(SETTINGS)) {
-            ft.replace(R.id.fragment_container, getSettingsFragment(), SETTINGS);
-        } else if (pFragmentName.equals(MACHINES)) {
-            ft.replace(R.id.fragment_container, getMachineFragment(), MACHINES);
-        } else if (pFragmentName.equals(WORKOUTS)) {
-            ft.replace(R.id.fragment_container, getWorkoutListFragment(), WORKOUTS);
-        } else if (pFragmentName.equals(ABOUT)) {
-            ft.replace(R.id.fragment_container, getAboutFragment(), ABOUT);
-        } else if (pFragmentName.equals(BODYTRACKING)) {
-            ft.replace(R.id.fragment_container, getBodyPartFragment(), BODYTRACKING);
-        } else if (pFragmentName.equals(PROFILE)) {
-            ft.replace(R.id.fragment_container, getProfileFragment(), PROFILE);
-        } else if (pFragmentName.equals(PROGRESSIMAGES)) {
-            ft.replace(R.id.fragment_container, getProgressImagesFragment(), PROGRESSIMAGES);
+        if (pFragmentName.equals(Fragments.FONTESPAGER.id)) {
+            ft.replace(R.id.fragment_container, getFontesPagerFragment(), Fragments.FONTESPAGER.id);
+        } else if (pFragmentName.equals(Fragments.WEIGHT.id)) {
+            ft.replace(R.id.fragment_container, getWeightFragment(), Fragments.WEIGHT.id);
+        } else if (pFragmentName.equals(Fragments.SETTINGS.id)) {
+            ft.replace(R.id.fragment_container, getSettingsFragment(), Fragments.SETTINGS.id);
+        } else if (pFragmentName.equals(Fragments.MACHINES.id)) {
+            ft.replace(R.id.fragment_container, getMachineFragment(), Fragments.MACHINES.id);
+        } else if (pFragmentName.equals(Fragments.WORKOUTS.id)) {
+            ft.replace(R.id.fragment_container, getWorkoutListFragment(), Fragments.WORKOUTS.id);
+        } else if (pFragmentName.equals(Fragments.ABOUT.id)) {
+            ft.replace(R.id.fragment_container, getAboutFragment(), Fragments.ABOUT.id);
+        } else if (pFragmentName.equals(Fragments.BODYTRACKING.id)) {
+            ft.replace(R.id.fragment_container, getBodyPartFragment(), Fragments.BODYTRACKING.id);
+        } else if (pFragmentName.equals(Fragments.PROFILE.id)) {
+            ft.replace(R.id.fragment_container, getProfileFragment(), Fragments.PROFILE.id);
+        } else if (pFragmentName.equals(Fragments.PROGRESSIMAGES.id)) {
+            ft.replace(R.id.fragment_container, getProgressImagesFragment(), Fragments.PROGRESSIMAGES.id);
         }
         currentFragmentName = pFragmentName;
         ft.commit();
@@ -846,6 +885,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
+        //This shouldn't be relied on. When this condition is finishing another activity can read the preferences before this saves the final state.
+        //TODO search and remove code that still relies on this saving the preferences
         savePreferences();
     }
 
@@ -915,17 +957,17 @@ public class MainActivity extends AppCompatActivity {
 
     private FontesPagerFragment getFontesPagerFragment() {
         if (mpFontesPagerFrag == null)
-            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(FONTESPAGER);
+            mpFontesPagerFrag = (FontesPagerFragment) getSupportFragmentManager().findFragmentByTag(Fragments.FONTESPAGER.id);
         if (mpFontesPagerFrag == null)
-            mpFontesPagerFrag = FontesPagerFragment.newInstance(FONTESPAGER, 6);
+            mpFontesPagerFrag = FontesPagerFragment.newInstance(Fragments.FONTESPAGER.id, 6);
 
         return mpFontesPagerFrag;
     }
 
     private WeightFragment getWeightFragment() {
         if (mpWeightFrag == null)
-            mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(WEIGHT);
-        if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(WEIGHT, 5);
+            mpWeightFrag = (WeightFragment) getSupportFragmentManager().findFragmentByTag(Fragments.WEIGHT.id);
+        if (mpWeightFrag == null) mpWeightFrag = WeightFragment.newInstance(Fragments.WEIGHT.id, 5);
 
         return mpWeightFrag;
     }
@@ -933,40 +975,40 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressImagesFragment getProgressImagesFragment() {
         if (mpProgressImageFrag == null)
-            mpProgressImageFrag = (ProgressImagesFragment) getSupportFragmentManager().findFragmentByTag(PROGRESSIMAGES);
-        if (mpProgressImageFrag == null) mpProgressImageFrag = ProgressImagesFragment.newInstance(PROGRESSIMAGES, 12);
+            mpProgressImageFrag = (ProgressImagesFragment) getSupportFragmentManager().findFragmentByTag(Fragments.PROGRESSIMAGES.id);
+        if (mpProgressImageFrag == null) mpProgressImageFrag = ProgressImagesFragment.newInstance(Fragments.PROGRESSIMAGES.id, 12);
 
         return mpProgressImageFrag;
     }
 
     private ProfileFragment getProfileFragment() {
         if (mpProfileFrag == null)
-            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(PROFILE);
-        if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(PROFILE, 10);
+            mpProfileFrag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(Fragments.PROFILE.id);
+        if (mpProfileFrag == null) mpProfileFrag = ProfileFragment.newInstance(Fragments.PROFILE.id, 10);
 
         return mpProfileFrag;
     }
 
     private MachineFragment getMachineFragment() {
         if (mpMachineFrag == null)
-            mpMachineFrag = (MachineFragment) getSupportFragmentManager().findFragmentByTag(MACHINES);
-        if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(MACHINES, 7);
+            mpMachineFrag = (MachineFragment) getSupportFragmentManager().findFragmentByTag(Fragments.MACHINES.id);
+        if (mpMachineFrag == null) mpMachineFrag = MachineFragment.newInstance(Fragments.MACHINES.id, 7);
         return mpMachineFrag;
     }
 
     private AboutFragment getAboutFragment() {
         if (mpAboutFrag == null)
-            mpAboutFrag = (AboutFragment) getSupportFragmentManager().findFragmentByTag(ABOUT);
-        if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(ABOUT, 6);
+            mpAboutFrag = (AboutFragment) getSupportFragmentManager().findFragmentByTag(Fragments.ABOUT.id);
+        if (mpAboutFrag == null) mpAboutFrag = AboutFragment.newInstance(Fragments.ABOUT.id, 6);
 
         return mpAboutFrag;
     }
 
     private BodyPartListFragment getBodyPartFragment() {
         if (mpBodyPartListFrag == null)
-            mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().findFragmentByTag(BODYTRACKING);
+            mpBodyPartListFrag = (BodyPartListFragment) getSupportFragmentManager().findFragmentByTag(Fragments.BODYTRACKING.id);
         if (mpBodyPartListFrag == null)
-            mpBodyPartListFrag = BodyPartListFragment.newInstance(BODYTRACKING, 9);
+            mpBodyPartListFrag = BodyPartListFragment.newInstance(Fragments.BODYTRACKING.id, 9);
 
         return mpBodyPartListFrag;
     }
@@ -974,17 +1016,17 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgramListFragment getWorkoutListFragment() {
         if (mpWorkoutListFrag == null)
-            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().findFragmentByTag(WORKOUTS);
+            mpWorkoutListFrag = (ProgramListFragment) getSupportFragmentManager().findFragmentByTag(Fragments.WORKOUTS.id);
         if (mpWorkoutListFrag == null)
-            mpWorkoutListFrag = ProgramListFragment.newInstance(WORKOUTS, 10);
+            mpWorkoutListFrag = ProgramListFragment.newInstance(Fragments.WORKOUTS.id, 10);
 
         return mpWorkoutListFrag;
     }
 
     private SettingsFragment getSettingsFragment() {
         if (mpSettingFrag == null)
-            mpSettingFrag = (SettingsFragment) getSupportFragmentManager().findFragmentByTag(SETTINGS);
-        if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(SETTINGS, 8);
+            mpSettingFrag = (SettingsFragment) getSupportFragmentManager().findFragmentByTag(Fragments.SETTINGS.id);
+        if (mpSettingFrag == null) mpSettingFrag = SettingsFragment.newInstance(Fragments.SETTINGS.id, 8);
 
         return mpSettingFrag;
     }
@@ -1106,6 +1148,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCurrentProfile != null) setCurrentProfile(mCurrentProfile.getName());
 
+        //showing initial fragment (some fragments need a profile loaded)
+        showFragment(startFragment);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -1117,43 +1161,43 @@ public class MainActivity extends AppCompatActivity {
             // Insert the fragment by replacing any existing fragment
             switch (position) {
                 case 0:
-                    showFragment(PROFILE);
+                    showFragment(Fragments.PROFILE.id);
                     setTitle(getString(R.string.ProfileLabel));
                     break;
                 case 1:
-                    showFragment(FONTESPAGER);
+                    showFragment(Fragments.FONTESPAGER.id);
                     setTitle(getResources().getText(R.string.menu_Workout));
                     break;
                 case 2:
-                    showFragment(MACHINES);
+                    showFragment(Fragments.MACHINES.id);
                     setTitle(getResources().getText(R.string.MachinesLabel));
                     break;
                 case 3:
-                    showFragment(WORKOUTS);
+                    showFragment(Fragments.WORKOUTS.id);
                     setTitle(getString(R.string.workout_list_menu_item));
                     break;
                 case 4:
-                    showFragment(WEIGHT);
+                    showFragment(Fragments.WEIGHT.id);
                     setTitle(getResources().getText(R.string.weightMenuLabel));
                     break;
                 case 5:
-                    showFragment(BODYTRACKING);
+                    showFragment(Fragments.BODYTRACKING.id);
                     setTitle(getResources().getText(R.string.bodytracking));
                     break;
                 case 6:
-                    showFragment(PROGRESSIMAGES);
+                    showFragment(Fragments.PROGRESSIMAGES.id);
                     setTitle(getResources().getText(R.string.progress_images));
                     break;
                 case 7:
-                    showFragment(SETTINGS);
+                    showFragment(Fragments.SETTINGS.id);
                     setTitle(getResources().getText(R.string.SettingLabel));
                     break;
                 case 8:
-                    showFragment(ABOUT);
+                    showFragment(Fragments.ABOUT.id);
                     setTitle(getResources().getText(R.string.AboutLabel));
                     break;
                 default:
-                    showFragment(FONTESPAGER);
+                    showFragment(Fragments.FONTESPAGER.id);
                     setTitle(getResources().getText(R.string.FonteLabel));
             }
         }
