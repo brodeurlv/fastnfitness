@@ -56,6 +56,7 @@ import com.easyfitness.intro.MainIntroActivity;
 import com.easyfitness.machines.MachineFragment;
 import com.easyfitness.programs.ProgramListFragment;
 import com.easyfitness.utils.DateConverter;
+import com.easyfitness.utils.Debug;
 import com.easyfitness.utils.FileNameUtil;
 import com.easyfitness.utils.ImageUtil;
 import com.easyfitness.utils.MusicController;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
 
+    /* New fragments can be added to default fragment setting in "@array/defaultfragment" and
+     * "@array/defaultfragment_display".
+     */
     public enum Fragments {
         FONTESPAGER("FontePager"),
         WEIGHT("Weight"),
@@ -136,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
     private AboutFragment mpAboutFrag = null;
     private BodyPartListFragment mpBodyPartListFrag = null;
     private ProgramListFragment mpWorkoutListFrag;
-    private String currentFragmentName = "";
+    private String currentFragmentName = null;
+    private String startFragment = null;
     private DAOProfile mDbProfils = null;
     private Profile mCurrentProfile = null;
     private long mCurrentProfilID = -1;
@@ -309,18 +314,22 @@ public class MainActivity extends AppCompatActivity {
             savePreferences();
         }
 
-
-
-        if (savedInstanceState == null) { //by default open the fontespager
-            showFragment(Fragments.FONTESPAGER.id); // Create fragment, do not add to backstack
-            currentFragmentName = Fragments.FONTESPAGER.id;
-        } else { //restoring active main fragment
+        //load fragment from last instance state
+        if (savedInstanceState != null) {
             String fragmentId = savedInstanceState.getString(CURRENT_FRAGMENT_INSTANCE_STATE_KEY);
-            if(fragmentId == null || !Fragments.isValidFragment(fragmentId)) {
-                fragmentId = Fragments.FONTESPAGER.id;
+            if(fragmentId != null && Fragments.isValidFragment(fragmentId)) {
+                startFragment = fragmentId;
             }
-            showFragment(fragmentId);
-            currentFragmentName = fragmentId;
+        }
+
+        if(startFragment == null) {
+            var prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String fragId = prefs.getString("defaultfragment", "");
+            if(Fragments.isValidFragment(fragId)) {
+                startFragment = fragId;
+            } else {
+                startFragment = Fragments.FONTESPAGER.id;
+            }
         }
 
         dataList = new ArrayList<>();
@@ -842,7 +851,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showFragment(String pFragmentName) {
 
-        if (currentFragmentName.equals(pFragmentName))
+        if (currentFragmentName != null && currentFragmentName.equals(pFragmentName))
             return; // If this is already the current fragment, do no replace.
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -1139,6 +1148,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCurrentProfile != null) setCurrentProfile(mCurrentProfile.getName());
 
+        //showing initial fragment (some fragments need a profile loaded)
+        showFragment(startFragment);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
