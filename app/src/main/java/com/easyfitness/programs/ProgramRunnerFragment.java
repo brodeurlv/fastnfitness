@@ -74,7 +74,7 @@ public class ProgramRunnerFragment extends Fragment {
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     // Replace whatever is in the fragment_container view with this fragment,
                     // and add the transaction to the back stack so the user can navigate back
-                    transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
+                    transaction.replace(R.id.fragment_container, fragment, MainActivity.Fragments.WORKOUTPAGER.id);
                     transaction.addToBackStack(null);
                     // Commit the transaction
                     transaction.commit();
@@ -102,7 +102,7 @@ public class ProgramRunnerFragment extends Fragment {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, fragment, MainActivity.WORKOUTPAGER);
+        transaction.replace(R.id.fragment_container, fragment, MainActivity.Fragments.WORKOUTPAGER.id);
         transaction.addToBackStack(null);
 
         // Commit the transaction
