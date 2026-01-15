@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <ScrollView
+        android:background="@color/launcher_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -116,17 +118,6 @@
                 android:focusable="false"
                 android:clickable="true"
                 android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/create_newprofil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:minHeight="48dp"
-                android:background="@drawable/round_corner_button"
-                android:text="@string/create"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"/>
 
         </LinearLayout>
     </ScrollView>
