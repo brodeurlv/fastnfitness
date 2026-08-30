@@ -550,6 +550,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openExportDatabaseDialog(String autoExportMessage) {
+        if (getCurrentProfile() == null) return;
+
         AlertDialog.Builder exportDbBuilder = new AlertDialog.Builder(this);
 
         exportDbBuilder.setTitle(getActivity().getResources().getText(R.string.export_database));
@@ -558,12 +560,12 @@ public class MainActivity extends AppCompatActivity {
             CVSManager cvsMan = new CVSManager(getActivity().getBaseContext());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_H_m_s", Locale.getDefault());
             Date date = new Date();
-            String folderName = Environment.DIRECTORY_DOWNLOADS + "/FastnFitness/export/" +  dateFormat.format(date);
-            if (cvsMan.exportDatabase(getCurrentProfile(),folderName)) {
+            String folderName = Environment.DIRECTORY_DOWNLOADS + "/FastnFitness/export/" + dateFormat.format(date);
+            if (cvsMan.exportDatabase(getCurrentProfile(), folderName)) {
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 long currentTime = System.currentTimeMillis();
                 SP.edit().putLong("prefLastTimeBackupUTCTime", currentTime).apply();
-                if (mpSettingFrag.getContext() != null) {
+                if (mpSettingFrag != null && mpSettingFrag.getContext() != null) {
                     mpSettingFrag.updateLastBackupSummary(SP, currentTime);
                 }
                 KToast.successToast(getActivity(), getCurrentProfile().getName() + ": " + getActivity().getResources().getText(R.string.export_success) + " - " + folderName, Gravity.BOTTOM, KToast.LENGTH_LONG);

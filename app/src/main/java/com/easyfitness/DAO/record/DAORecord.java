@@ -374,6 +374,7 @@ public class DAORecord extends DAOBase {
     }
 
     public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
+        if (pProfile == null) return null;
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;
@@ -405,6 +406,7 @@ public class DAORecord extends DAOBase {
      * @return pNbRecords number of records for a specified pProfile
      */
     public Cursor getAllRecordsByProfile(Profile pProfile, int pNbRecords) {
+        if (pProfile == null) return null;
         String mTop;
         if (pNbRecords == -1)
             mTop = "";
@@ -536,6 +538,9 @@ public class DAORecord extends DAOBase {
 
     // Getting Filtered records
     public Cursor getFilteredRecords(Profile pProfile, String pMachine, String pDate) {
+        if (pProfile == null) {
+            return null;
+        }
 
         boolean lfilterMachine = true;
         boolean lfilterDate = true;
@@ -591,6 +596,7 @@ public class DAORecord extends DAOBase {
      * @return the last record for a profile p
      */
     public Record getLastRecord(Profile pProfile) {
+        if (pProfile == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
         mCursor = null;
@@ -660,6 +666,7 @@ public class DAORecord extends DAOBase {
     }
 
     public List<Record> getAllRecordByMachineStrArray(Profile pProfile, String pMachine, int pNbRecords) {
+        if (pProfile == null) return null;
         String mTop;
         if (pNbRecords == -1) mTop = "";
         else mTop = " LIMIT " + pNbRecords;

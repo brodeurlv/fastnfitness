@@ -61,6 +61,7 @@ public class DAOFonte extends DAORecord {
     // Getting Function records
     public List<GraphData> getBodyBuildingFunctionRecords(Profile pProfile, String pMachine,
                                                           int pFunction) {
+        if (pProfile == null) return null;
 
         String selectQuery = null;
         String[] selectionArgs = null;
