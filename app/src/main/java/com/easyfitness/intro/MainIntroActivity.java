@@ -59,7 +59,7 @@ public class MainIntroActivity extends AppIntro {
         ));
 
         if(!wasProfileCreated()) {
-            addSlide(NewProfileFragment.newInstance(this));
+            addSlide(NewProfileFragment.newInstance());
         }
 
         // Disable the Skip button
