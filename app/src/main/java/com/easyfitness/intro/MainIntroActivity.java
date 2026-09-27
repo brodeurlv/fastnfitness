@@ -1,13 +1,17 @@
 package com.easyfitness.intro;
 
 import android.os.Bundle;
+import android.view.Gravity;
 
 import androidx.fragment.app.Fragment;
 
 import com.easyfitness.DAO.DAOProfile;
+import com.easyfitness.DAO.Profile;
 import com.easyfitness.R;
 import com.github.appintro.AppIntro;
 import com.github.appintro.AppIntroFragment;
+import com.onurkaganaldemir.ktoastlib.KToast;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainIntroActivity extends AppIntro {
 
@@ -54,16 +58,20 @@ public class MainIntroActivity extends AppIntro {
                 getResources().getColor(R.color.launcher_background)
         ));
 
-        // Initialize the DB and add a profile slide if needed
-        DAOProfile mDbProfils = new DAOProfile(this.getApplicationContext());
-
-        // Check if there is any profile in the DB, if not show the profile creation screen
-        if (mDbProfils.getCount() == 0) {
-            addSlide(NewProfileFragment.newInstance());
+        if(!wasProfileCreated()) {
+            addSlide(NewProfileFragment.newInstance(this));
         }
 
         // Disable the Skip button
         setSkipButtonEnabled(false);
+    }
+
+    protected boolean wasProfileCreated() {
+        // Initialize the DB and add a profile slide if needed
+        DAOProfile mDbProfils = new DAOProfile(this.getApplicationContext());
+
+        // Check if there is any profile in the DB, if not show the profile creation screen
+        return mDbProfils.getCount() > 0;
     }
 
     protected void onNextPressed(Fragment currentFragment) {
@@ -80,14 +88,35 @@ public class MainIntroActivity extends AppIntro {
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        if (currentFragment instanceof NewProfileFragment newProfileFragment) {
-            if (newProfileFragment.createProfile()) {
-                setResult(RESULT_OK);
-                finish();
+        super.onDonePressed(currentFragment);
+
+        if(currentFragment instanceof NewProfileFragment newProFrag) {
+            Profile looseProfile = newProFrag.gatherLooseProfileFromUI();
+            if(looseProfile == null) {
+                KToast.warningToast(this, getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                return;
             }
-        } else {
-            setResult(RESULT_OK);
-            finish();
+
+            final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText("Create profile " + looseProfile.getName() + "?")
+                    .setConfirmText("Confirm")
+                    .setCancelText("Cancel")
+                    .setConfirmClickListener((dialog) -> {
+                            DAOProfile mDbProfiles = new DAOProfile(MainIntroActivity.this);
+                            mDbProfiles.addProfile(looseProfile);
+                            dialog.dismiss();
+                            finishOk();
+                    });
+            disabledBtnDialog.show();
+            return;
         }
+
+
+        finishOk();
+    }
+
+    public void finishOk() {
+        setResult(RESULT_OK);
+        finish();
     }
 }
