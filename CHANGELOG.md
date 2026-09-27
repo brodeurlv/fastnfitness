@@ -1,7 +1,19 @@
 ## Change Log
 
-### 0.21: August 30, 2026
-- Enhancement: Upgraded android API
+### 0.21: September 27, 2026
+- Enhancement: Added default startup menu setting (#276) (Thanks to @dotpluto)
+- Enhancement: Exercise rename now also updates program records (#265) (Thanks to @dotpluto)
+- Enhancement: Made SQL queries parameterized (Thanks to @dotpluto)
+- Enhancement: Migrated to API 34 and updated translations
+- Enhancement: Added checkbox to hide or show graph label values (Thanks to @FirstWithThisName)
+- Enhancement: Made progress photo date editable (Thanks to @FirstWithThisName)
+- Enhancement: Added GitHub Actions CI pipeline (Thanks to @tsengia)
+- Bug: Fixed activity race condition and fragment state saving (Thanks to @dotpluto)
+- Bug: Fixed inputType not showing DatePicker
+- Bug: Fixed UI inconsistency in program runner (Thanks to @dotpluto)
+- Bug: Dismiss rest timer when program is completed (Thanks to @dotpluto)
+- Bug: Fixed typo in progress_images string (Thanks to @MarkFarkas)
+- Bug: Fixed spelling of "strength" (Thanks to @nitianabhigyan)
 
 ### 0.20.6.2: April 11, 2024
 - Enhancement: Updated libs to increase stability
