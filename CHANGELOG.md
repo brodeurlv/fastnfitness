@@ -1,5 +1,19 @@
 ## Change Log
 
+### 0.20.7: September 27, 2026
+- Enhancement: Added default startup menu setting (#276)
+- Enhancement: Exercise rename now also updates program records (#265)
+- Enhancement: Made SQL queries parameterized for safety
+- Enhancement: Migrated to API 34 and updated translations
+- Enhancement: Added checkbox to hide or show graph label values
+- Enhancement: Made progress photo date editable
+- Enhancement: Added GitHub Actions CI pipeline
+- Bug: Fixed activity race condition and fragment state saving
+- Bug: Fixed inputType not showing DatePicker
+- Bug: Fixed UI inconsistency in program runner
+- Bug: Dismiss rest timer when program is completed
+- Bug: Fixed typo in progress_images string
+
 ### 0.20.6.2: April 11, 2024
 - Enhancement: Updated libs to increase stability
 
