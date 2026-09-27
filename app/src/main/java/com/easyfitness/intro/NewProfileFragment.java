@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -25,25 +24,21 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 import java.text.DateFormat;
 import java.util.Date;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class NewProfileFragment extends Fragment {
 
-    private MainIntroActivity mMainIntroActivity;
     private EditText mName;
     private TextView mBirthday;
     private RadioButton mRbMale;
     private RadioButton mRbFemale;
     private RadioButton mRbOtherGender;
 
-    public NewProfileFragment(MainIntroActivity mainIntroActivity) {
+    public NewProfileFragment() {
         // Required empty public constructor
-        mMainIntroActivity = mainIntroActivity;
     }
 
-    public static NewProfileFragment newInstance(MainIntroActivity mainIntroActivity) {
+    public static NewProfileFragment newInstance() {
 
-        return new NewProfileFragment(mainIntroActivity);
+        return new NewProfileFragment();
 
     }
 

@@ -1,5 +1,8 @@
 ## Change Log
 
+### 0.21: August 30, 2026
+- Enhancement: Upgraded android API
+
 ### 0.20.6.2: April 11, 2024
 - Enhancement: Updated libs to increase stability
 

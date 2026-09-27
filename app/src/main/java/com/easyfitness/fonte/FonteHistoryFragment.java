@@ -191,6 +191,7 @@ public class FonteHistoryFragment extends Fragment {
 
     /*  */
     private void FillRecordTable(String pMachine, String pDate) {
+        if (getProfile() == null) return;
 
         // Retransform date filter value in SQLLite date format
         if (!pDate.equals(getContext().getResources().getText(R.string.all).toString())) {

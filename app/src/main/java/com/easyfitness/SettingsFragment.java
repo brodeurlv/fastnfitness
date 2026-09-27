@@ -153,6 +153,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         });
+
+        Preference defaultStartupMenu = findPreference("defaultfragment");
+        defaultStartupMenu.setOnPreferenceChangeListener((preference, newValue) -> {
+            ListPreference listPreference = (ListPreference) preference;
+            if (newValue instanceof String) {
+                updateSummary(listPreference, (String) newValue, "");
+            }
+
+            return true;
+        });
     }
 
     private String getDate(long milliSeconds) {
@@ -188,9 +198,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         ListPreference dayNightModePref = (ListPreference) findPreference("dayNightAuto");
         String dayNightValue = sharedPreferences.getString("dayNightAuto", "2");
         updateSummary(dayNightModePref, dayNightValue, "");
+
+        ListPreference defaultFragmentPref = (ListPreference) findPreference("defaultfragment");
+        String defaultFragmentValue = sharedPreferences.getString("defaultfragment", getResources().getString(R.string.FonteLabel));
+        updateSummary(defaultFragmentPref, defaultFragmentValue, "");
     }
 
     public void updateLastBackupSummary(SharedPreferences sharedPreferences, long lastBackupUTCTime) {
+
+
+
+
+
+
         ListPreference myPref5 = (ListPreference) findPreference(SettingsFragment.FREQUENCY_BACKUP_PARAM);
         String boolVal5 = sharedPreferences.getString(SettingsFragment.FREQUENCY_BACKUP_PARAM, "0");
         int prefIndex = myPref5.findIndexOfValue(boolVal5);
