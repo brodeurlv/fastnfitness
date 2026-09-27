@@ -404,6 +404,20 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="defaultfragment" translatable="false">
+        <item>FontePager</item>
+        <item>Weight</item>
+        <item>BodyTracking</item>
+        <item>ProgressImages</item>
+    </string-array>
+
+    <string-array name="defaultfragment_display">
+        <item>@string/menu_Workout</item>
+        <item>@string/weightMenuLabel</item>
+        <item>@string/bodytracking</item>
+        <item>@string/progress_images</item>
+    </string-array>
+
     <string name="light_mode">Light</string>
     <string name="dark_mode">Dark</string>
     <string name="autoui_mode">Auto</string>
