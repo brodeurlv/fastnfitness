@@ -1,6 +1,6 @@
 ## Change Log
 
-### 0.20.7: September 27, 2026
+### 0.21: September 27, 2026
 - Enhancement: Added default startup menu setting (#276) (Thanks to @dotpluto)
 - Enhancement: Exercise rename now also updates program records (#265) (Thanks to @dotpluto)
 - Enhancement: Made SQL queries parameterized (Thanks to @dotpluto)

@@ -38,8 +38,8 @@ public class DAOFonte extends DAORecord {
     /**
      * @param pDate       Date
      * @param pExercise   Machine name
-     * @param pWeightUnit
-     * @param pProfileId
+     * @param pWeightUnit Weight unit : KG or LBS
+     * @param pProfileId  Profile id
      */
     public long addStrengthRecordToFreeWorkout(Date pDate, String pExercise, int pSets, int pReps, float pWeight, WeightUnit pWeightUnit, String pNote, long pProfileId) {
         return addRecordToFreeWorkout(pDate, pExercise, ExerciseType.STRENGTH, pSets, pReps, pWeight, pWeightUnit, 0, 0, DistanceUnit.KM, 0, pNote, pProfileId);
@@ -51,16 +51,10 @@ public class DAOFonte extends DAORecord {
                 restTime, templateOrder);
     }
 
-    /**
-     * @param fonteList List of Fonte records
-     */
-    public void addBodyBuildingList(List<Record> fonteList) {
-        addList(fonteList);
-    }
-
     // Getting Function records
     public List<GraphData> getBodyBuildingFunctionRecords(Profile pProfile, String pMachine,
                                                           int pFunction) {
+        if (pProfile == null) return null;
 
         String selectQuery = null;
         String[] selectionArgs = null;
@@ -149,8 +143,6 @@ public class DAOFonte extends DAORecord {
         mCursor = null;
         mCursor = db.rawQuery(selectQuery, selectionArgs);
 
-        double i = 0;
-
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
             do {
@@ -198,8 +190,7 @@ public class DAOFonte extends DAORecord {
         try {
             lReturn = mCursor.getInt(0);
         } catch (NumberFormatException e) {
-            //Date date = new Date();
-            lReturn = 0; // Return une valeur
+            lReturn = 0;
         }
 
         close();
@@ -269,11 +260,9 @@ public class DAOFonte extends DAORecord {
 
         // looping through all rows and adding to list
         if (mCursor.moveToFirst()) {
-            int i = 0;
             do {
                 float value = mCursor.getInt(0) * mCursor.getFloat(1) * mCursor.getInt(2);
                 lReturn += value;
-                i++;
             } while (mCursor.moveToNext());
         }
         close();

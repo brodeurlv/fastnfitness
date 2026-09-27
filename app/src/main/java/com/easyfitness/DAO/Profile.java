@@ -1,8 +1,5 @@
 package com.easyfitness.DAO;
 
-import com.easyfitness.enums.SizeUnit;
-import com.easyfitness.enums.Gender;
-
 import java.util.Date;
 
 
@@ -11,12 +8,11 @@ public class Profile {
 
     private long id;
     private Date mCreationDate = null;
-    private Date mBirthday = null;
-    private String mName = "";
-    private int mSize = 0;
-    private int mGender = Gender.MALE;
+    private Date mBirthday;
+    private String mName;
+    private int mSize;
+    private int mGender;
     private String mPhoto = "";
-    private SizeUnit mSizeUnit = SizeUnit.CM;
 
     public Profile(long mId, Date mDate, String pName, int pSize, Date pBirthday, String pPhoto, int pGender) {
         //super();
@@ -45,10 +41,6 @@ public class Profile {
         this.id = id;
     }
 
-    public Date getCreationDate() {
-        return mCreationDate;
-    }
-
     public Date getBirthday() {
         return mBirthday;
     }
@@ -61,7 +53,7 @@ public class Profile {
      * @return size in centimeter
      * @deprecated
      */
-    public int getSize() {
+    @Deprecated public int getSize() {
         return mSize;
     } /*OBSOLETE, Only used for migration*/
 
@@ -93,9 +85,9 @@ public class Profile {
         boolean birthdayEquals = false;
         if (p == null) return false;
         if (mBirthday == null && p.mBirthday == null) birthdayEquals = true;
-        else if (mBirthday == null && p.getBirthday() != null) birthdayEquals = false;
-        else if (mBirthday != null && p.getBirthday() == null) birthdayEquals = false;
-        else if (!p.mBirthday.equals(mBirthday)) birthdayEquals = false;
+        //else if (mBirthday == null && p.getBirthday() != null) birthdayEquals = false;
+        //else if (mBirthday != null && p.getBirthday() == null) birthdayEquals = false;
+        //else if (!p.mBirthday.equals(mBirthday)) birthdayEquals = false;
 
         return birthdayEquals && p.mName.equals(mName) && p.mGender == mGender && p.mPhoto.equals(mPhoto);
     }

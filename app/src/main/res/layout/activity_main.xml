@@ -231,6 +231,7 @@
         android:layout_gravity="start"
         android:background="#111"
         android:choiceMode="none"
+        android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
 
