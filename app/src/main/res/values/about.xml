@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_version" translatable="false">0.21</string>
     <string name="database_version_label" translatable="false">Database version: </string>
-    <string name="copyright" translatable="false">Copyright(c) 2024 - Charles Combes - All rights reserved.</string>
+    <string name="copyright" translatable="false">Copyright(c) 2026 - Charles Combes - All rights reserved.</string>
     <string name="bsd3" translatable="false">BSD 3</string>
     <string name="author" translatable="false">Charles Combes</string>
     <string name="opensource_label" translatable="false">Open-source URL: </string>
@@ -11,8 +11,20 @@
     <string name="email_url" translatable="false">fastnfitnessapp@gmail.com</string>
     <string name="revision_history_label" translatable="false">Revision History:</string>
     <string name="revision_history" translatable="false">\n
-0.21: August 30, 2026\n
-\t- Enhancement: Upgraded Android API\n
+0.21: Sept 27, 2026\n
+\t- Enhancement: Added default startup menu setting (#276) (Thanks to @dotpluto)\n
+\t- Enhancement: Exercise rename now also updates program records (#265) (Thanks to @dotpluto)\n
+\t- Enhancement: Made SQL queries parameterized (Thanks to @dotpluto)\n
+\t- Enhancement: Migrated to API 34 and updated translations\n
+\t- Enhancement: Added checkbox to hide or show graph label values (Thanks to @FirstWithThisName)\n
+\t- Enhancement: Made progress photo date editable (Thanks to @FirstWithThisName)\n
+\t- Enhancement: Added GitHub Actions CI pipeline (Thanks to @tsengia)\n
+\t- Bug: Fixed activity race condition and fragment state saving (Thanks to @dotpluto)\n
+\t- Bug: Fixed inputType not showing DatePicker\n
+\t- Bug: Fixed UI inconsistency in program runner (Thanks to @dotpluto)\n
+\t- Bug: Dismiss rest timer when program is completed (Thanks to @dotpluto)\n
+\t- Bug: Fixed typo in progress_images string (Thanks to @MarkFarkas)\n
+\t- Bug: Fixed spelling of "strength" (Thanks to @nitianabhigyan)\n
     </string>
     <string name="thanks_label" translatable="false">Libraries used in this app: </string>
     <string name="MPAndroidChart_content" translatable="false">MPAndroidChart (Apache 2.0)</string>
