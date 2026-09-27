@@ -20,13 +20,18 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -211,9 +216,58 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        EdgeToEdge.enable(this);
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            View topToolbar = findViewById(R.id.actionToolbar);
+            if (topToolbar != null) {
+                topToolbar.setPadding(insets.left, insets.top, insets.right, 0);
+            }
+
+            View bottomToolbar = findViewById(R.id.musicToolbar);
+            if (bottomToolbar != null) {
+                bottomToolbar.setPadding(insets.left, 0, insets.right, insets.bottom);
+            }
+
+            View fragmentContainer = findViewById(R.id.fragment_container);
+            if (fragmentContainer != null) {
+                // If the music toolbar is hidden, the fragment container should have bottom padding
+                // to avoid overlapping with the navigation bar.
+                int bottomPadding = (bottomToolbar == null || bottomToolbar.getVisibility() == View.GONE) ? insets.bottom : 0;
+                fragmentContainer.setPadding(0, 0, 0, bottomPadding);
+            }
+
+            View drawer = findViewById(R.id.left_drawer);
+            if (drawer != null) {
+                drawer.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+            }
+
+            return windowInsets;
+        });
+
+        getSupportFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+            @Override
+            public void onFragmentViewCreated(@NonNull FragmentManager fm, @NonNull Fragment f, @NonNull View v, Bundle savedInstanceState) {
+                super.onFragmentViewCreated(fm, f, v, savedInstanceState);
+                View toolbar = v.findViewById(R.id.actionToolbarMachine);
+                if (toolbar == null) toolbar = v.findViewById(R.id.bodyTrackingDetailsToolbar);
+                if (toolbar == null) toolbar = v.findViewById(R.id.toolbar);
+
+                if (toolbar != null) {
+                    ViewCompat.setOnApplyWindowInsetsListener(toolbar, (view, insets) -> {
+                        Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                        view.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+                        return insets;
+                    });
+                }
+            }
+        }, true);
 
         loadPreferences();
 
@@ -1002,6 +1056,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mp3toolbar.setVisibility(View.VISIBLE);
         }
+        ViewCompat.requestApplyInsets(findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -1095,7 +1150,8 @@ public class MainActivity extends AppCompatActivity {
         // Initialisation des objets DB
         mDbProfils = new DAOProfile(this.getApplicationContext());
 
-        // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
+        // Pour la base de donnee profil, il faut touj
+        // ours qu'il y ai au moins un profil
         mCurrentProfile = mDbProfils.getProfile(mCurrentProfilID);
         if (mCurrentProfile == null) { // au cas ou il y aurait un probleme de synchro
             try {

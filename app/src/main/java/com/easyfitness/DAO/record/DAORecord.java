@@ -368,11 +368,6 @@ public class DAORecord extends DAOBase {
         return getRecordsList(selectQuery, sqLiteDatabase, null);
     }
 
-    // Get all record for one Machine
-    public Cursor getAllRecordByMachines(Profile pProfile, String pMachines) {
-        return getAllRecordByMachines(pProfile, pMachines, -1);
-    }
-
     public Cursor getAllRecordByMachines(Profile pProfile, String pMachines, int pNbRecords) {
         if (pProfile == null) return null;
         String mTop;

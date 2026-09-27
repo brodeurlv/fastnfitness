@@ -1,6 +1,5 @@
 package com.easyfitness.intro;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -60,7 +59,7 @@ public class MainIntroActivity extends AppIntro {
 
         // Check if there is any profile in the DB, if not show the profile creation screen
         if (mDbProfils.getCount() == 0) {
-            addSlide(NewProfileFragment.newInstance(this));
+            addSlide(NewProfileFragment.newInstance());
         }
 
         // Disable the Skip button
@@ -81,9 +80,14 @@ public class MainIntroActivity extends AppIntro {
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        super.onDonePressed(currentFragment);
-        // Handle finish action
-        setResult(RESULT_OK);
-        finish();
+        if (currentFragment instanceof NewProfileFragment newProfileFragment) {
+            if (newProfileFragment.createProfile()) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        } else {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }
