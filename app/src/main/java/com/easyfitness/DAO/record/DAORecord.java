@@ -434,7 +434,6 @@ public class DAORecord extends DAOBase {
     // Getting All Machines
     public List<String> getAllMachinesStrList(Profile pProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         String selectQuery;
         if (pProfile == null) {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
@@ -443,19 +442,18 @@ public class DAORecord extends DAOBase {
             selectQuery = "SELECT DISTINCT " + EXERCISE + " FROM "
                     + TABLE_NAME + "  WHERE " + PROFILE_KEY + "=" + pProfile.getId() + " ORDER BY " + EXERCISE + " ASC";
         }
-        mCursor = db.rawQuery(selectQuery, null);
 
-        int size = mCursor.getCount();
-
-        List<String> valueList = new ArrayList<>(size);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                valueList.add(mCursor.getString(0));
-            } while (mCursor.moveToNext());
+        List<String> valueList = new ArrayList<>();
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    valueList.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-        close();
+
         // return value list
         return valueList;
     }
@@ -464,8 +462,6 @@ public class DAORecord extends DAOBase {
     public List<String> getAllDatesList(Profile pProfile, Machine pMachine) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-
-        mCursor = null;
 
         // Select All Machines
         String selectQuery = "SELECT DISTINCT " + LOCAL_DATE + " FROM " + TABLE_NAME;
@@ -481,20 +477,17 @@ public class DAORecord extends DAOBase {
                      + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                      + " ORDER BY " + DATE_TIME + " DESC";
 
-        mCursor = db.rawQuery(selectQuery, null);
-        int size = mCursor.getCount();
-
-        List<String> valueList = new ArrayList<>(size);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                Date date = DateConverter.DBDateStrToDate(mCursor.getString(0));
-                valueList.add(DateConverter.dateToLocalDateStr(date, mContext));
-            } while (mCursor.moveToNext());
+        List<String> valueList = new ArrayList<>();
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Date date = DateConverter.DBDateStrToDate(cursor.getString(0));
+                    valueList.add(DateConverter.dateToLocalDateStr(date, mContext));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-
-        close();
 
         // return value list
         return valueList;
@@ -594,25 +587,24 @@ public class DAORecord extends DAOBase {
         if (pProfile == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         Record lReturn = null;
 
         // Select last record
         String selectQuery = "SELECT MAX(" + KEY + ") FROM " + TABLE_NAME
                 + " WHERE " + PROFILE_KEY + "=" + pProfile.getId();
-        mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
-            try {
-                long value = mCursor.getLong(0);
-                lReturn = getRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    long value = cursor.getLong(0);
+                    lReturn = getRecord(value);
+                } catch (NumberFormatException e) {
+                    lReturn = null;
+                }
             }
+        } finally {
+            close();
         }
-
-        close();
 
         // return value list
         return lReturn;
@@ -625,7 +617,6 @@ public class DAORecord extends DAOBase {
     public Record getLastExerciseRecord(long machineID, Profile p) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         Record lReturn = null;
 
         String selectQuery;
@@ -637,19 +628,19 @@ public class DAORecord extends DAOBase {
                     + " WHERE " + EXERCISE_KEY + "=" + machineID +
                     " AND " + PROFILE_KEY + "=" + p.getId();
         }
-        mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through only the first rows.
-        if (mCursor.moveToFirst()) {
-            try {
-                long value = mCursor.getLong(0);
-                lReturn = this.getRecord(value);
-            } catch (NumberFormatException e) {
-                lReturn = null; // Return une valeur
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    long value = cursor.getLong(0);
+                    lReturn = this.getRecord(value);
+                } catch (NumberFormatException e) {
+                    lReturn = null;
+                }
             }
+        } finally {
+            close();
         }
-
-        close();
 
         // return value list
         return lReturn;
@@ -715,21 +706,19 @@ public class DAORecord extends DAOBase {
     // Getting All Records
     private List<Record> getRecordsList(String pRequest, @NotNull SQLiteDatabase db, String[] selectionArgs) {
         List<Record> valueList = new ArrayList<>();
-        // Select All Query
 
-        mCursor = null;
-        mCursor = db.rawQuery(pRequest, selectionArgs);
+        try (Cursor cursor = db.rawQuery(pRequest, selectionArgs)) {
+            if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
+                do {
+                    Record value = fromCursor(cursor);
+                    value.setId(cursor.getLong(cursor.getColumnIndex(DAORecord.KEY)));
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst() && mCursor.getCount() > 0) {
-            do {
-                Record value = fromCursor(mCursor);
-                value.setId(mCursor.getLong(mCursor.getColumnIndex(DAORecord.KEY)));
-
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
+                    // Adding value to list
+                    valueList.add(value);
+                } while (cursor.moveToNext());
+            }
         }
+
         // return value list
         return valueList;
     }
@@ -782,11 +771,16 @@ public class DAORecord extends DAOBase {
     }
 
     public void closeCursor() {
-        if (mCursor != null) mCursor.close();
+        if (mCursor != null) {
+            if (!mCursor.isClosed()) {
+                mCursor.close();
+            }
+            mCursor = null;
+        }
     }
 
     public void closeAll() {
-        if (mCursor != null) mCursor.close();
+        closeCursor();
         close();
     }
 

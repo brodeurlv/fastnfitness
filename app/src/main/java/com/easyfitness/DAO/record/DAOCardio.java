@@ -1,6 +1,7 @@
 package com.easyfitness.DAO.record;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.Profile;
@@ -105,22 +106,16 @@ public class DAOCardio extends DAORecord {
         List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        mCursor = null;
-        mCursor = db.rawQuery(selectQuery, selectArgs);
-
-        double i = 0;
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
-
-                GraphData value = new GraphData(DateConverter.nbDays(date),
-                        mCursor.getDouble(0));
-
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, selectArgs)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Date date = DateConverter.DBDateStrToDate(cursor.getString(1));
+                    GraphData value = new GraphData(DateConverter.nbDays(date), cursor.getDouble(0));
+                    valueList.add(value);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
 
         // return value list

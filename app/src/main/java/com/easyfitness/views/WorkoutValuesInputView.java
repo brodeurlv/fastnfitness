@@ -184,7 +184,11 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public int getSets() {
-        return Integer.parseInt(setsInputView.getValue());
+        try {
+            return Integer.parseInt(setsInputView.getValue());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void setSets(int sets) {
@@ -252,7 +256,11 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public float getDistanceValue() {
-        return Float.parseFloat(distanceInputView.getValue().replaceAll(",", "."));
+        try {
+            return Float.parseFloat(distanceInputView.getValue().replaceAll(",", "."));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public DistanceUnit getDistanceUnit() {
@@ -321,10 +329,15 @@ public class WorkoutValuesInputView extends LinearLayout {
     }
 
     public int getRestTime() {
-        if (isRestTimeActivated())
-            return Integer.parseInt(restTimeEditText.getText().toString());
-        else
+        if (isRestTimeActivated()) {
+            try {
+                return Integer.parseInt(restTimeEditText.getText().toString());
+            } catch (Exception e) {
+                return 0;
+            }
+        } else {
             return 0;
+        }
     }
 
     public void setRestTime(int unit) {

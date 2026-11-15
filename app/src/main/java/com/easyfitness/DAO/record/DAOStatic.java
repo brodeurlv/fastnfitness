@@ -1,10 +1,9 @@
 package com.easyfitness.DAO.record;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.easyfitness.BuildConfig;
 import com.easyfitness.DAO.DAOMachine;
 import com.easyfitness.DAO.Machine;
 import com.easyfitness.DAO.Profile;
@@ -97,31 +96,27 @@ public class DAOStatic extends DAORecord {
         List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        mCursor = null;
-        mCursor = db.rawQuery(selectQuery, selectionArgs);
-
-        double i = 0;
-
-        // looping through all rows and adding to list
-        if (pFunction == DAOStatic.NBSERIE_FCT || pFunction == DAOStatic.MAX_LENGTH) {
-            if (mCursor.moveToFirst()) {
-                do {
-
-                    Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
-                    GraphData value = new GraphData(DateConverter.nbDays(date), mCursor.getDouble(0));
-
-                    // Adding value to list
-                    valueList.add(value);
-                } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, selectionArgs)) {
+            if (cursor != null) {
+                if (pFunction == DAOStatic.NBSERIE_FCT || pFunction == DAOStatic.MAX_LENGTH) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            Date date = DateConverter.DBDateStrToDate(cursor.getString(1));
+                            GraphData value = new GraphData(DateConverter.nbDays(date), cursor.getDouble(0));
+                            valueList.add(value);
+                        } while (cursor.moveToNext());
+                    }
+                } else if (pFunction == DAOStatic.MAX_FCT) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            GraphData value = new GraphData(cursor.getDouble(1), cursor.getDouble(0));
+                            valueList.add(value);
+                        } while (cursor.moveToNext());
+                    }
+                }
             }
-        } else if (pFunction == DAOStatic.MAX_FCT) {
-            if (mCursor.moveToFirst()) {
-                do {
-                    GraphData value = new GraphData(mCursor.getDouble(1), mCursor.getDouble(0));
-                    valueList.add(value);
-                } while (mCursor.moveToNext());
-            }
-
+        } finally {
+            close();
         }
 
         // return value list
@@ -132,6 +127,7 @@ public class DAOStatic extends DAORecord {
      * @return the number of series for this machine for this day
      */
     public int getSets(Date pDate, String pMachine, Profile pProfile) {
+        if (pProfile == null) return 0;
         int lReturn = 0;
 
         //Test is Machine exists. If not create it.
@@ -141,7 +137,6 @@ public class DAOStatic extends DAORecord {
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
@@ -150,18 +145,18 @@ public class DAOStatic extends DAORecord {
                 + " AND " + PROFILE_KEY + " = " + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        mCursor.moveToFirst();
-        try {
-            lReturn = mCursor.getInt(0);
-        } catch (NumberFormatException e) {
-            //Date date = new Date();
-            lReturn = 0; // Return une valeur
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    lReturn = cursor.getInt(0);
+                } catch (NumberFormatException e) {
+                    lReturn = 0;
+                }
+            }
+        } finally {
+            close();
         }
-
-        close();
 
         // return value
         return lReturn;
@@ -181,7 +176,7 @@ public class DAOStatic extends DAORecord {
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
+
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + " FROM " + TABLE_NAME
                 + " WHERE " + LOCAL_DATE + "= ?"
@@ -189,18 +184,17 @@ public class DAOStatic extends DAORecord {
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            int i = 0;
-            do {
-                float value = mCursor.getInt(0) * mCursor.getFloat(1);
-                lReturn += value;
-                i++;
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    float value = cursor.getInt(0) * cursor.getFloat(1);
+                    lReturn += value;
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return lReturn;
@@ -211,10 +205,10 @@ public class DAOStatic extends DAORecord {
      * @return the total weight for this day
      */
     public float getTotalWeightSession(Date pDate, Profile pProfile) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
+        if (pProfile == null) return 0;
         float lReturn = 0;
 
+        SQLiteDatabase db = this.getReadableDatabase();
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         // Select All Machines
@@ -223,19 +217,17 @@ public class DAOStatic extends DAORecord {
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor.close();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            int i = 0;
-            do {
-                float value = mCursor.getInt(0) * mCursor.getFloat(1);
-                lReturn += value;
-                i++;
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    float value = cursor.getInt(0) * cursor.getFloat(1);
+                    lReturn += value;
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return lReturn;
@@ -245,14 +237,9 @@ public class DAOStatic extends DAORecord {
      * @return Max weight for a profile p and a machine m
      */
     public Weight getMax(Profile p, Machine m) {
+        if (p == null || m == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        if(mCursor.isClosed()) {
-            Log.println(Log.WARN, BuildConfig.APPLICATION_ID, "mCursor is already closed.");
-        } else {
-            Log.println(Log.WARN, BuildConfig.APPLICATION_ID, "mCursor needs to be closed");
-            mCursor.close();
-        }
         Weight w = null;
 
         // Select All Machines
@@ -262,13 +249,14 @@ public class DAOStatic extends DAORecord {
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                w = new Weight(cursor.getFloat(0), WeightUnit.fromInteger(cursor.getInt(1)));
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return w;
@@ -278,9 +266,9 @@ public class DAOStatic extends DAORecord {
      * @return Min weight for a profile p and a machine m
      */
     public Weight getMin(Profile p, Machine m) {
+        if (p == null || m == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor.close();
         Weight w = null;
 
         // Select All Machines
@@ -290,13 +278,14 @@ public class DAOStatic extends DAORecord {
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                w = new Weight(cursor.getFloat(0), WeightUnit.fromInteger(cursor.getInt(1)));
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return w;

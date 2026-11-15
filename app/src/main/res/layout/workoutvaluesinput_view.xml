@@ -218,7 +218,7 @@
                 android:ems="4"
                 android:gravity="center"
                 android:imeOptions="actionDone"
-                android:inputType="numberDecimal|numberSigned"
+                android:inputType="number"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:text="60" />

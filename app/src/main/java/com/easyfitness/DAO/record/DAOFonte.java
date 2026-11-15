@@ -1,6 +1,7 @@
 package com.easyfitness.DAO.record;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.easyfitness.DAO.DAOMachine;
@@ -140,19 +141,16 @@ public class DAOFonte extends DAORecord {
         List<GraphData> valueList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        mCursor = null;
-        mCursor = db.rawQuery(selectQuery, selectionArgs);
-
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                Date date = DateConverter.DBDateStrToDate(mCursor.getString(1));
-
-                GraphData value = new GraphData(DateConverter.nbDays(date), mCursor.getDouble(0));
-
-                // Adding value to list
-                valueList.add(value);
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, selectionArgs)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Date date = DateConverter.DBDateStrToDate(cursor.getString(1));
+                    GraphData value = new GraphData(DateConverter.nbDays(date), cursor.getDouble(0));
+                    valueList.add(value);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
 
         // return value list
@@ -163,7 +161,6 @@ public class DAOFonte extends DAORecord {
      * @return the number of sets for this machine for this day
      */
     public int getSets(Date pDate, String pMachine, Profile pProfile) {
-
         if (pProfile == null) return 0;
         int lReturn = 0;
 
@@ -174,7 +171,6 @@ public class DAOFonte extends DAORecord {
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
 
         // Select All Machines
         String selectQuery = "SELECT SUM(" + SETS + ") FROM " + TABLE_NAME
@@ -183,17 +179,18 @@ public class DAOFonte extends DAORecord {
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        mCursor.moveToFirst();
-        try {
-            lReturn = mCursor.getInt(0);
-        } catch (NumberFormatException e) {
-            lReturn = 0;
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    lReturn = cursor.getInt(0);
+                } catch (NumberFormatException e) {
+                    lReturn = 0;
+                }
+            }
+        } finally {
+            close();
         }
-
-        close();
 
         // return value
         return lReturn;
@@ -213,7 +210,7 @@ public class DAOFonte extends DAORecord {
         String lDate = DateConverter.dateToDBDateStr(pDate);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
+
         // Select All Machines
         String selectQuery = "SELECT " + SETS + ", " + WEIGHT + ", " + REPS + " FROM " + TABLE_NAME
                 + " WHERE " + LOCAL_DATE + "= ?"
@@ -221,18 +218,17 @@ public class DAOFonte extends DAORecord {
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "!=" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            int i = 0;
-            do {
-                float value = mCursor.getInt(0) * mCursor.getFloat(1) * mCursor.getInt(2);
-                lReturn += value;
-                i++;
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    float value = cursor.getInt(0) * cursor.getFloat(1) * cursor.getInt(2);
+                    lReturn += value;
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return lReturn;
@@ -243,9 +239,9 @@ public class DAOFonte extends DAORecord {
      * @return the total weight for this day
      */
     public float getTotalWeightSession(Date pDate, Profile pProfile) {
+        if (pProfile == null) return 0;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         float lReturn = 0;
 
         String lDate = DateConverter.dateToDBDateStr(pDate);
@@ -256,16 +252,17 @@ public class DAOFonte extends DAORecord {
                 + " AND " + PROFILE_KEY + "=" + pProfile.getId()
                 + " AND " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.PENDING.ordinal()
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, new String[]{lDate});
 
-        // looping through all rows and adding to list
-        if (mCursor.moveToFirst()) {
-            do {
-                float value = mCursor.getInt(0) * mCursor.getFloat(1) * mCursor.getInt(2);
-                lReturn += value;
-            } while (mCursor.moveToNext());
+        try (Cursor cursor = db.rawQuery(selectQuery, new String[]{lDate})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    float value = cursor.getInt(0) * cursor.getFloat(1) * cursor.getInt(2);
+                    lReturn += value;
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return lReturn;
@@ -275,9 +272,9 @@ public class DAOFonte extends DAORecord {
      * @return Max weight for a profile p and a machine m
      */
     public Weight getMax(Profile p, Machine m) {
+        if (p == null || m == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         Weight w = null;
 
         // Select All Machines
@@ -286,12 +283,14 @@ public class DAOFonte extends DAORecord {
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
 
-        if (mCursor.moveToFirst()) {
-            w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                w = new Weight(cursor.getFloat(0), WeightUnit.fromInteger(cursor.getInt(1)));
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return w;
@@ -301,9 +300,9 @@ public class DAOFonte extends DAORecord {
      * @return Min weight for a profile p and a machine m
      */
     public Weight getMin(Profile p, Machine m) {
+        if (p == null || m == null) return null;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        mCursor = null;
         Weight w = null;
 
         // Select All Machines
@@ -312,12 +311,14 @@ public class DAOFonte extends DAORecord {
                 + " AND ( " + TEMPLATE_RECORD_STATUS + "<" + ProgramRecordStatus.SUCCESS.ordinal()
                 + " OR "+ TEMPLATE_RECORD_STATUS + "=" + ProgramRecordStatus.NONE.ordinal() + ")"
                 + " AND " + RECORD_TYPE + "!=" + RecordType.PROGRAM_TEMPLATE.ordinal();
-        mCursor = db.rawQuery(selectQuery, null);
 
-        if (mCursor.moveToFirst()) {
-           w = new Weight(mCursor.getFloat(0), WeightUnit.fromInteger(mCursor.getInt(1)));
+        try (Cursor cursor = db.rawQuery(selectQuery, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                w = new Weight(cursor.getFloat(0), WeightUnit.fromInteger(cursor.getInt(1)));
+            }
+        } finally {
+            close();
         }
-        close();
 
         // return value
         return w;
