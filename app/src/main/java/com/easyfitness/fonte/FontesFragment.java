@@ -182,16 +182,15 @@ public class FontesFragment extends Fragment {
     };
     private final TextWatcher exerciseTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
+            if (mDbMachine == null) return;
             String exerciseName = s.toString();
-            MachineArrayFullAdapter adapter = (MachineArrayFullAdapter) machineEdit.getAdapter();
-            if (adapter != null) {
-                boolean exerciseExists = adapter.containsExercise(exerciseName);
-                if (!exerciseExists) {
-                    workoutValuesInputView.setShowExerciseTypeSelector(true);
-                    updateMachineImage();
-                } else {
-                    setCurrentMachine(exerciseName);
-                }
+            // Check the database and not the adapter list: the adapter is not always
+            // initialized and its content is modified by the autocomplete filter.
+            if (!mDbMachine.machineExists(exerciseName)) {
+                workoutValuesInputView.setShowExerciseTypeSelector(true);
+                updateMachineImage();
+            } else {
+                setCurrentMachine(exerciseName);
             }
         }
 

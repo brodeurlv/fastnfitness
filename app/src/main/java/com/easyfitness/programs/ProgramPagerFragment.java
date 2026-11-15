@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
@@ -107,6 +110,11 @@ public class ProgramPagerFragment extends Fragment {
         Toolbar top_toolbar = view.findViewById(R.id.toolbar);
         top_toolbar.setNavigationIcon(R.drawable.ic_back);
         top_toolbar.setNavigationOnClickListener(onClickToolbarItem);
+        ViewCompat.setOnApplyWindowInsetsListener(top_toolbar, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(insets.left, insets.top, insets.right, 0);
+            return windowInsets;
+        });
 
         ImageButton deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);

@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -234,6 +237,11 @@ public class BodyPartDetailsFragment extends Fragment implements DatePickerDialo
         nameEdit.setText(mInitialBodyPart.getName(getContext()));
         bodyToolbar.setNavigationIcon(R.drawable.ic_back);
         bodyToolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        ViewCompat.setOnApplyWindowInsetsListener(bodyToolbar, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(insets.left, insets.top, insets.right, 0);
+            return windowInsets;
+        });
 
         deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(onClickToolbarItem);
